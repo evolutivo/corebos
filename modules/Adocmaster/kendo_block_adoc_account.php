@@ -1,5 +1,5 @@
 <?php  
- /*************************************************************************************************
+/*************************************************************************************************
  * Copyright 2014 Opencubed -- This file is a part of TSOLUCIO coreBOS customizations.
  * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
  * Vizsage Public License (the "License"). You may not use this file except in compliance with the
