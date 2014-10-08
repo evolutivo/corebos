@@ -141,4 +141,11 @@
 	<classname>convertVendorPhoneToCorrectType</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>drivalda</author>
+	<description>import global settings module </description>
+	<filename>build/changeSets/globalsettingsimport.php</filename>
+	<classname>GlobalSettingsImport</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
