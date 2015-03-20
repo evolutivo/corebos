@@ -79,10 +79,12 @@ class EmailTemplate {
 			}
 			$tableList = array_keys($tableList);
 			$defaultTableList = $meta->getEntityDefaultTableList();
-			foreach ($defaultTableList as $defaultTable) {
-				if(!in_array($defaultTable,$tableList)){
-					$tableList[] = $defaultTable;
-				}
+			$tableList = array_merge($tableList,$defaultTableList);
+			$leadtables = array('vtiger_leadsubdetails','vtiger_leadaddress','vtiger_leadscf');
+			$leadmerge = array_intersect($tableList,$leadtables);
+			if (count($leadmerge)>0 and !in_array('vtiger_leaddetails', $tableList)) {
+				// we need this one because the where condition for Leads uses the converted column from the main table
+				$tableList[] = 'vtiger_leaddetails';
 			}
 
 			// right now this is will be limited to module type, entities.
@@ -103,7 +105,7 @@ class EmailTemplate {
 				$sql .= ' WHERE';
 				$deleteQuery = $meta->getEntityDeletedQuery();
 				if(!empty($deleteQuery)){
-					$sql .= ' '.$meta->getEntityDeletedQuery().' AND';
+					$sql .= " $deleteQuery AND";
 				}
 				$sql .= ' '.$tableList[0].'.'.$moduleTableIndexList[$tableList[0]].'=?';
 				$params = array($this->recordId);
@@ -156,8 +158,7 @@ class EmailTemplate {
 				}
 				foreach ($columnList as $column) {
 					$needle = '$'.strtolower($this->module)."-$column$";
-					$this->processedDescription = str_replace($needle,
-						$values[$column],$this->processedDescription);
+					$this->processedDescription = str_replace($needle,$values[$column],$this->processedDescription);
 				}
 			}
 		}

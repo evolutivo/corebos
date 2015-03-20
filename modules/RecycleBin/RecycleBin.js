@@ -7,9 +7,6 @@
  * All Rights Reserved.
  *********************************************************************************/
 
-document.write("<script type='text/javascript' src='include/js/Merge.js'></"+"script>");
-document.write("<script type='text/javascript' src='modules/RecycleBin/language/en_us.lang.js'></"+"script>");
-
 function callRBSearch(searchtype)
 {
 	for(i=1;i<=26;i++)
@@ -25,7 +22,7 @@ function callRBSearch(searchtype)
 	{
 		urlstring = 'search_field='+search_fld_val+'&searchtype=BasicSearch&search_text='+search_txt_val+'&';
 	}
-	var selectedmodule = $('select_module').options[$('select_module').selectedIndex].value 
+	var selectedmodule = $('select_module').options[$('select_module').selectedIndex].value;
 	urlstring += 'selected_module='+selectedmodule;
         	new Ajax.Request(
 		'index.php',
@@ -83,7 +80,7 @@ function massRestore()
 		}
 	} else {
 		var x = select_options.split(";");
-		var count=x.length
+		var count=x.length;
 		if (count > 1)
 		{
 			document.getElementById('idlist').value=select_options;
@@ -158,7 +155,6 @@ function getListViewEntries_js(module,url)
 	$("status").show();
 	var selected_module = $("select_module").value;
 	var urlstring = "&selected_module=" + selected_module;
-	<!-- Ticket 6330 -->
 	if($('search_url').value!='')
 		urlstring = $('search_url').value+"&selected_module="+selected_module;
 
@@ -201,7 +197,7 @@ function alphabetic(module,url,dataid)
                 getObj(data_td_id).className = 'searchAlph';
 
         }
-	var selectedmodule = $('select_module').options[$('select_module').selectedIndex].value 
+	var selectedmodule = $('select_module').options[$('select_module').selectedIndex].value;
 	url += '&selected_module='+selectedmodule;
 	getObj(dataid).className = 'searchAlphselected';
 	$("status").style.display="inline";
@@ -219,27 +215,86 @@ function alphabetic(module,url,dataid)
 	);
 }
 
-function callEmptyRecyclebin() {
-	document.getElementById('rb_empty_conf_id').style.display = 'block';
-}
-
 function emptyRecyclebin(id) {
 	if($(id)) $(id).hide();
 	VtigerJS_DialogBox.progress();
-	var pickmodule = $('select_module');
-	var module=pickmodule.options[pickmodule.options.selectedIndex].value;
 	new Ajax.Request(
 		'index.php',
 		{queue: {position: 'end', scope: 'command'},
-			method: 'post',
-            postBody:"module=RecycleBin&action=RecycleBinAjax&file=EmptyRecyclebin&mode=ajax&ajax=true&selected_module="+module,
-			onComplete: function(response) {
-                $("status").style.display="none";
-               	$("modules_datas").innerHTML= response.responseText;
-				$("searchAcc").innerHTML = $("search_ajax").innerHTML; 
-				$("search_ajax").innerHTML = '';
-				VtigerJS_DialogBox.hideprogress();
-			}
+		method: 'post',
+		postBody:"module=RecycleBin&action=RecycleBinAjax&file=EmptyRecyclebin&mode=ajax&ajax=true&selected_module=&allrec=1",
+		onComplete: function(response) {
+			$("status").style.display="none";
+			$("modules_datas").innerHTML= response.responseText;
+			$("searchAcc").innerHTML = $("search_ajax").innerHTML; 
+			$("search_ajax").innerHTML = '';
+			VtigerJS_DialogBox.hideprogress();
 		}
-	);	
+	});
+}
+
+function callEmptyRecyclebin() {
+	var excludedRecords = document.getElementById('excludedRecords').value;
+	var select_options  =  document.getElementById('allselectedboxes').value;
+	var recbutton  =  document.getElementById('selectCurrentPageRec');
+	var allrec;
+	var searchurl = document.getElementById('search_url').value;
+	var numOfRows = document.getElementById('numOfRows').value;
+	var idstring = "";
+	if(recbutton.checked){
+		allrec=1;
+	}
+	else allrec=0;
+	
+	if(select_options == "all"){
+		idstring = select_options;
+		var skiprecords = excludedRecords.split(";");
+		var count = skiprecords.length;
+		if(count > 1){
+			count = numOfRows - count + 1;
+		}
+		else{
+			count = numOfRows;
+		}
+	} else {
+		var x = select_options.split(";");
+		var count=x.length;
+		if (count > 1){
+			document.getElementById('idlist').value=select_options;
+			idstring = select_options;
+		} else{
+			alert(mod_alert_arr.SELECT_ATLEAST_ONE_ENTITY);
+			return false;
+		}
+		count = count-1;
+	}
+	if(count > getMaxMassOperationLimit()) {
+		var confirm_str = alert_arr.MORE_THAN_500;
+		if(confirm(confirm_str)) var confirm_status = true;
+		else return false;
+	}
+	else confirm_status = true;
+	if(confirm_status){
+		var selectmodule = $('selected_module').value;
+		var selectmoduletranslated =  $('selected_module_translated').value;
+		if(confirm(mod_alert_arr.MSG_EMPTY_CONFIRMATION + " " + count + " " + selectmoduletranslated + "?")) {
+			$("status").style.display="inline";
+			new Ajax.Request(
+				'index.php',
+				{
+					queue: {
+						position: 'end',
+						scope: 'command'
+					},
+					method: 'post',
+					postBody: 'action=RecycleBinAjax&module=RecycleBin&ajax=true&file=EmptyRecyclebin&idlist='+idstring+'&selectmodule='+selectmodule+'&excludedRecords='+excludedRecords+'&allrec='+allrec,
+					onComplete: function(response) {
+						$("status").style.display="none";
+						$("modules_datas").innerHTML=response.responseText;
+						$("search_ajax").innerHTML = '';
+					}
+				}
+				);
+ 			}
+ 		}
 }

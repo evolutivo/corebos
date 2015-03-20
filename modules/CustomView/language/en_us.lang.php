@@ -219,7 +219,7 @@ following values "Call","Meeting" or "Task".',
  
 'Serial No'=>'Serial No', 
 'Product Sheet'=>'Product Sheet', 
-'GL Account'=>'GL Organization',
+'GL Account'=>'GL Account',
  
 //Strings added for Price book module fields 
 'Price Book Name'=>'Price Book Name', 
@@ -229,7 +229,7 @@ following values "Call","Meeting" or "Task".',
 'Start Date & Time'=>'Start Date & Time', 
  
 //error message 
-'Missing required fields'=>'Missing required vtiger_fields', 
+'Missing required fields'=>'Missing required fields', 
 //Strings added for campaigns 
 'Campaign Name'=>'Campaign Name', 
 'Campaign Type'=>'Campaign Type', 
