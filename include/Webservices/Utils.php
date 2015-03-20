@@ -9,6 +9,7 @@
  *************************************************************************************/
 
 require_once('include/database/PearDatabase.php');
+require_once 'include/utils/utils.php';
 require_once("modules/Users/Users.php");
 require_once 'include/Webservices/WebserviceField.php';
 require_once 'include/Webservices/EntityMeta.php';
@@ -17,7 +18,6 @@ require_once("include/Webservices/VtigerCRMObject.php");
 require_once("include/Webservices/VtigerCRMObjectMeta.php");
 require_once("include/Webservices/DataTransform.php");
 require_once("include/Webservices/WebServiceError.php");
-require_once 'include/utils/utils.php';
 require_once 'include/utils/UserInfoUtil.php';
 require_once 'include/Webservices/ModuleTypes.php';
 require_once 'include/utils/VtlibUtils.php';
@@ -801,7 +801,7 @@ function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType) {
  * @param $setype - related module(Accounts/Contacts)
  */
 function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType) {
-
+	global $adb;
 	if(empty($leadId) || empty($relatedId) || empty($seType)){
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED,
 			"Failed to move related Records");
@@ -828,6 +828,8 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType) {
 			"Failed to move Records to the ".$seType);
 	}
 	vtws_transferComments($leadId, $relatedId);
+	// Tags
+	$adb->pquery('update vtiger_freetagged_objects set object_id=?,module=? where object_id=?',array($relatedId,$seType,$leadId));
 }
 
 function vtws_transferComments($sourceRecordId, $destinationRecordId) {

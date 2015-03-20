@@ -49,7 +49,7 @@ class QueryGenerator {
 	private $whereClause;
 	private $query;
 	private $groupInfo;
-	private $conditionInstanceCount;
+	public $conditionInstanceCount;
 	private $conditionalWhere;
 	public static $AND = 'AND';
 	public static $OR = 'OR';
@@ -121,6 +121,10 @@ class QueryGenerator {
 
 	public function getWhereFields() {
 		return $this->whereFields;
+	}
+
+	public function addWhereField($fieldName) {
+		$this->whereFields[] = $fieldName;
 	}
 
 	public function getOwnerFieldList() {
@@ -576,6 +580,9 @@ class QueryGenerator {
 			$fieldSqlList[$index] = $fieldSql;
 		}
 
+		// This is needed as there can be condition in different order and there is an assumption in makeGroupSqlReplacements API
+		// that it expects the array in an order and then replaces the sql with its the corresponding place
+		ksort($fieldSqlList);
 		$groupSql = $this->makeGroupSqlReplacements($fieldSqlList, $groupSql);
 		if($this->conditionInstanceCount > 0) {
 			$this->conditionalWhere = $groupSql;
@@ -650,8 +657,7 @@ class QueryGenerator {
 					return $sql;
 				}
 			} elseif($field->getFieldDataType()=='picklist' || $field->getFieldDataType()=='multipicklist') {
-				global $currentModule;
-				$value = getTranslationKeyFromTranslatedValue($currentModule, $value);
+				$value = getTranslationKeyFromTranslatedValue($this->module, $value);
 			}
 
 			if($field->getFieldName() == 'birthday' && !$this->isRelativeSearchOperators(
@@ -749,10 +755,10 @@ class QueryGenerator {
 		return ($type == 'date' || $type == 'datetime');
 	}
 
-	private function fixDateTimeValue($name, $value, $first = true) {
+	public function fixDateTimeValue($name, $value, $first = true) {
 		$moduleFields = $this->meta->getModuleFields();
 		$field = $moduleFields[$name];
-		$type = $field->getFieldDataType();
+		$type = $field ? $field->getFieldDataType() : false;
 		if($type == 'datetime') {
 			if(strrpos($value, ' ') === false) {
 				if($first) {
@@ -765,14 +771,15 @@ class QueryGenerator {
 		return $value;
 	}
 
-	public function addCondition($fieldname,$value,$operator,$glue= null,$newGroup = false,
-			$newGroupType = null) {
+	public function addCondition($fieldname,$value,$operator,$glue= null,$newGroup = false,$newGroupType = null) {
 		$conditionNumber = $this->conditionInstanceCount++;
+		if($glue != null && $conditionNumber > 0)
+			$this->addConditionGlue ($glue);
+
 		$this->groupInfo .= "$conditionNumber ";
 		$this->whereFields[] = $fieldname;
 		$this->reset();
-		$this->conditionals[$conditionNumber] = $this->getConditionalArray($fieldname,
-				$value, $operator);
+		$this->conditionals[$conditionNumber] = $this->getConditionalArray($fieldname, $value, $operator);
 	}
 
 	public function addRelatedModuleCondition($relatedModule,$column, $value, $SQLOperator) {

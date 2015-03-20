@@ -13,6 +13,18 @@
  */
 class VTCacheUtils {
 	
+	/** Generic information caching */
+	static $_cbcacheinfo_cache = array();
+	static function lookupCachedInformation($key) {
+		if(isset(self::$_cbcacheinfo_cache[$key])) {
+			return array(self::$_cbcacheinfo_cache[$key],true);
+		}
+		return array(false,false);
+	}
+	static function updateCachedInformation($key,$value) {
+		self::$_cbcacheinfo_cache[$key] = $value;
+	}
+
 	/** Tab information caching */
 	static $_tabidinfo_cache = array();
 	static function lookupTabid($module) {
@@ -149,7 +161,6 @@ class VTCacheUtils {
 		);
 	}
 	
-	
 	/** ProfileId information caching */
 	static $_userprofileid_cache = array();
 	static function updateUserProfileId($userid, $profileid) {
@@ -233,7 +244,7 @@ class VTCacheUtils {
 				'reportname'      => $reportname,
 				'description'     => $description,
 				'folderid'        => $folderid,
-				'owner'           => $owner			
+				'owner'           => $owner
 			);
 		}
 	}
@@ -275,6 +286,18 @@ class VTCacheUtils {
 				'scheduledTime'			=> $scheduledTime,
 			);
 		}
+	}
+
+	/** Role Related Users information */
+	static $_role_related_users_cache = array();
+	static function lookupRole_RelatedUsers($roleid) {
+		if(isset(self::$_role_related_users_cache[$roleid])) {
+			return self::$_role_related_users_cache[$roleid];
+		}
+		return false;
+	}
+	static function updateRole_RelatedUsers($roleid, $users) {
+		self::$_role_related_users_cache[$roleid] = $users;
 	}
 }
 

@@ -20,7 +20,7 @@
 
 $delfields = array(
 	'Users.defaulteventstatus', 'Users.defaultactivitytype','Users.hidecompletedevents','Users.is_owner',
-	'Accounts.isconvertedfromlead', 'Contacts.isconvertedfromlead','Leads.isconvertedfromlead',
+	'Accounts.isconvertedfromlead', 'Contacts.isconvertedfromlead','Leads.isconvertedfromlead','Potentials.isconvertedfromlead',
 	'Users.phone_crm_extension'
 );
 
@@ -28,7 +28,10 @@ foreach ($delfields as $fqfn) {
 	list($module,$field) = explode('.', $fqfn);
 	$mod = Vtiger_Module::getInstance($module);
 	$fld = Vtiger_Field::getInstance($field,$mod);
-	if ($fld) $fld->delete();
+	if ($fld) {
+		$fld->delete();
+		ExecuteQuery('ALTER TABLE '.$mod->basetable.' DROP '.$field);
+	}
 }
 
 $dropflds = array(
