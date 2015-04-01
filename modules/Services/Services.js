@@ -310,10 +310,9 @@ function fnAddServiceRow(module,image_path){
 
 function servicePickList(currObj,module, row_no) {
 	var trObj=currObj.parentNode.parentNode;
-	
 	var rowId = row_no;
 	var currentRowId = parseInt(currObj.id.match(/([0-9]+)$/)[1]);
-	
+
 	// If we have mismatching rowId and currentRowId, it is due swapping of rows
 	if(rowId != currentRowId) {
 		rowId = currentRowId;
@@ -323,10 +322,9 @@ function servicePickList(currObj,module, row_no) {
 
 	popuptype = 'inventory_service';
 	var record_id = '';
-	if(document.getElementsByName("account_id").length != 0)
-		record_id= document.EditView.account_id.value;
+	var additionalinfo = getInventoryModuleTaxRelatedInformation();
 	if(record_id != '')
-		window.open("index.php?module=Services&action=Popup&html=Popup_picker&select=enable&form=HelpDeskEditView&popuptype="+popuptype+"&curr_row="+rowId+"&relmod_id="+record_id+"&parent_module=Accounts&return_module="+module+"&currencyid="+currencyid,"productWin","width=640,height=600,resizable=0,scrollbars=0,status=1,top=150,left=200");
+		window.open("index.php?module=Services&action=Popup&html=Popup_picker&select=enable&form=HelpDeskEditView&popuptype="+popuptype+"&curr_row="+rowId+"&relmod_id="+record_id+"&parent_module=Accounts&return_module="+module+"&currencyid="+currencyid+additionalinfo,"productWin","width=640,height=600,resizable=0,scrollbars=0,status=1,top=150,left=200");
 	else
-		window.open("index.php?module=Services&action=Popup&html=Popup_picker&select=enable&form=HelpDeskEditView&popuptype="+popuptype+"&curr_row="+rowId+"&return_module="+module+"&currencyid="+currencyid,"productWin","width=640,height=600,resizable=0,scrollbars=0,status=1,top=150,left=200");
+		window.open("index.php?module=Services&action=Popup&html=Popup_picker&select=enable&form=HelpDeskEditView&popuptype="+popuptype+"&curr_row="+rowId+"&return_module="+module+"&currencyid="+currencyid+additionalinfo,"productWin","width=640,height=600,resizable=0,scrollbars=0,status=1,top=150,left=200");
 }
