@@ -12,16 +12,27 @@
  * either express or implied. See the License for the specific language governing
  * permissions and limitations under the License. You may obtain a copy of the License
  * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
+ *************************************************************************************************
+ *  Module       : Group Tax Calculation
+ *  Version      : 1.0
+ *  Author       : JPL TSolucio, S. L.
  *************************************************************************************************/
-require_once('Smarty_setup.php');
-global $app_strings,$mod_strings,$current_user,$theme,$adb;
-$image_path = 'themes/'.$theme.'/images/';
-$smarty = new vtigerCRM_Smarty;
-$smarty->assign('MOD', $mod_strings);
-$smarty->assign('APP', $app_strings);
-$smarty->assign('THEME', $theme);
-$smarty->assign('IMAGE_PATH',$image_path);
-$smarty->assign('BillAddressChecked',GlobalVariable::getVariable('Billing_Address_Checked', 'false'));
-$smarty->assign('ShipAddressChecked',GlobalVariable::getVariable('Shipping_Address_Checked', 'true'));
-$smarty->display('modules/Contacts/SetReturnAddress.tpl');
+require_once ('Smarty_setup.php');
+
+global $mod_strings, $app_strings;
+
+$smarty = new vtigerCRM_Smarty();
+$smarty->assign("MOD", $mod_strings);
+$smarty->assign("APP", $app_strings);
+
+$editmode = vtlib_purify($_REQUEST['editmode']);
+if ($editmode != 'edit') {
+	$tax_details = getAllTaxes('available');
+} else {
+	$invid = vtlib_purify($_REQUEST['invid']);
+	$tax_details = getAllTaxes('available', '', $editmode, $invid);
+}
+
+$smarty->assign("GROUP_TAXES", $tax_details);
+$smarty->display('Inventory/GroupTax.tpl');
 ?>
