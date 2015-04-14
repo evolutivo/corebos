@@ -124,7 +124,7 @@ function AddressSync(Addform,id)
 			   </tr>
 			   <tr>
 				<td valign=top align=left >
-					<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace">
+					<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace" ng-controller="editViewng">
 					   <tr>
 
 						<td align=left>

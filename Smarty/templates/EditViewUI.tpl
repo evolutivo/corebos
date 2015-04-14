@@ -79,7 +79,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 			</td>
 		{* END *}
 		{elseif $uitype eq 2}
-			<td  width=20% class="dvtCellLabel" align=right>
+			<td ng-show ="show_logic('{$fldname}')" width=20% class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small">{/if}
 			</td>
 			<td ng-show ="show_logic('{$fldname}')" width=30% align=left class="dvtCellInfo">
