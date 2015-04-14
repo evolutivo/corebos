@@ -683,6 +683,37 @@ function getMapFieldDependecy(){
            return $target_fields;
         }
         
+function getMapPermissionActions  (){
+          $map=htmlspecialchars_decode($this->column_fields['content']);
+            $x = new crXml();
+            $x->loadXML($map);
+            $target_actions=array();
+            $target_actions==array();
+            $index=0;
+            foreach($x->map->fields->field->Orgfields[0] as $k=>$v) {
+               
+                if($k=='ResponsibleProfile'){
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_profiles[]=  (string)$v1;
+                        }
+                    }
+                }
+                
+                if($k=='Actions'){
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_actions[]=  (string)$v1;
+                        }
+                    }
+                }
+              }
+           $target_fields['target_profiles'] = $target_profiles;
+           
+           $target_fields['target_actions']=  $target_actions;
+                
+           return $target_fields;
+}
          function getMapMessageMailer(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();

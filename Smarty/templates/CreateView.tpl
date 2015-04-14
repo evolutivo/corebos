@@ -133,7 +133,7 @@ function sensex_info()
 			    <!-- Basic Information Tab Opened -->
 			    <div id="basicTab">
 
-				<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace">
+				<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace" ng-controller="editViewng">
 				   <tr>
 					<td align=left>
 					<!-- content cache -->
