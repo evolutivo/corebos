@@ -6,9 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
  *********************************************************************************/
-
 
 /**
  * Description of ListViewController
@@ -119,13 +117,16 @@ class ListViewController {
 	function getListViewEntries($focus, $module,$result,$navigationInfo,$skipActions=false) {
 
 		require('user_privileges/user_privileges_'.$this->user->id.'.php');
-		global $listview_max_textlength, $theme,$default_charset;
+		global $listview_max_textlength, $theme,$default_charset,$current_user;
 		$fields = $this->queryGenerator->getFields();
 		$whereFields = $this->queryGenerator->getWhereFields();
 		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
 
 		$moduleFields = $meta->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
+		if($this->queryGenerator->getReferenceFieldInfoList()) {
+			$accessibleFieldList = array_merge($this->queryGenerator->getReferenceFieldNameList(),$accessibleFieldList);
+		}
 		$listViewFields = array_intersect($fields, $accessibleFieldList);
 
 		$referenceFieldList = $this->queryGenerator->getReferenceFieldList();
@@ -141,7 +142,12 @@ class ListViewController {
 		$ownerFieldList = $this->queryGenerator->getOwnerFieldList();
 		foreach ($ownerFieldList as $fieldName) {
 			if (in_array($fieldName, $listViewFields)) {
-				$field = $moduleFields[$fieldName];
+				if (!empty($moduleFields[$fieldName])) {
+					$field = $moduleFields[$fieldName];
+				} else {
+					$field = $this->queryGenerator->getReferenceField($fieldName,false);
+					if (is_null($field)) continue;
+				}
 				$idList = array();
 				for ($i = 0; $i < $rowCount; $i++) {
 					$id = $this->db->query_result($result, $i, $field->getColumnName());
@@ -165,7 +171,12 @@ class ListViewController {
 		}
 
 		foreach ($listViewFields as $fieldName) {
-			$field = $moduleFields[$fieldName];
+			if (!empty($moduleFields[$fieldName])) {
+				$field = $moduleFields[$fieldName];
+			} else {
+				$field = $this->queryGenerator->getReferenceField($fieldName,false);
+				if (is_null($field)) continue;
+			}
 			if(!$is_admin && ($field->getFieldDataType() == 'picklist' ||
 					$field->getFieldDataType() == 'multipicklist')) {
 				$this->setupAccessiblePicklistValueList($fieldName);
@@ -190,7 +201,12 @@ class ListViewController {
 			$row = array();
 
 			foreach ($listViewFields as $fieldName) {
-				$field = $moduleFields[$fieldName];
+				if (!empty($moduleFields[$fieldName])) {
+					$field = $moduleFields[$fieldName];
+				} else {
+					$field = $this->queryGenerator->getReferenceField($fieldName,false);
+					if (is_null($field)) continue;
+				}
 				$uitype = $field->getUIType();
 				$rawValue = $this->db->query_result($result, $i, $field->getColumnName());
 				if($module == 'Calendar') {
@@ -566,10 +582,8 @@ class ListViewController {
 		return $link;
 	}
 
-	public function getListViewHeader($focus, $module,$sort_qry='',$sorder='',$orderBy='',
-			$skipActions=false) {
-		global $log, $singlepane_view;
-		global $theme;
+	public function getListViewHeader($focus, $module,$sort_qry='',$sorder='',$orderBy='',$skipActions=false) {
+		global $log, $singlepane_view, $theme, $current_user;
 
 		$arrow='';
 		$qry = getURLstring($focus);
@@ -580,7 +594,6 @@ class ListViewController {
 		//Get the vtiger_tabid of the module
 		$tabid = getTabid($module);
 		$tabname = getParentTab();
-		global $current_user;
 
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$fields = $this->queryGenerator->getFields();
@@ -589,13 +602,21 @@ class ListViewController {
 
 		$moduleFields = $meta->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
+		if($this->queryGenerator->getReferenceFieldInfoList()) {
+			$accessibleFieldList = array_merge($this->queryGenerator->getReferenceFieldNameList(),$accessibleFieldList);
+		}
 		$listViewFields = array_intersect($fields, $accessibleFieldList);
 		//Added on 14-12-2005 to avoid if and else check for every list
 		//vtiger_field for arrow image and change order
 		$change_sorder = array('ASC'=>'DESC','DESC'=>'ASC');
 		$arrow_gif = array('ASC'=>'arrow_down.gif','DESC'=>'arrow_up.gif');
 		foreach($listViewFields as $fieldName) {
-			$field = $moduleFields[$fieldName];
+			if (!empty($moduleFields[$fieldName])) {
+				$field = $moduleFields[$fieldName];
+			} else {
+				$field = $this->queryGenerator->getReferenceField($fieldName,false);
+				if (is_null($field)) continue;
+			}
 
 			if(in_array($field->getColumnName(),$focus->sortby_fields)) {
 				if($orderBy == $field->getColumnName()) {
@@ -705,17 +726,17 @@ class ListViewController {
 			$OPTION_SET[$blockName][$label] = "<option value=\'$optionvalue\' $selected>$label</option>";
 
 		}
-	   	// sort array on block label
-	    ksort($OPTION_SET, SORT_STRING);
+		// sort array on block label
+		ksort($OPTION_SET, SORT_STRING);
 
 		foreach ($OPTION_SET as $key=>$value) {
-	  		$shtml .= "<optgroup label='$key' class='select' style='border:none'>";
-	   		// sort array on field labels
-	   		ksort($value, SORT_STRING);
-	  		$shtml .= implode('',$value);
-	  	}
+			$shtml .= "<optgroup label='$key' class='select' style='border:none'>";
+			// sort array on field labels
+			ksort($value, SORT_STRING);
+			$shtml .= implode('',$value);
+		}
 
-	    return $shtml;
+		return $shtml;
 	}
 
 }
