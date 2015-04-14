@@ -33,6 +33,9 @@ uasort($qc_modules, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0
 $smarty->assign("QCMODULE", $qc_modules);
 $smarty->assign("APP", $app_strings);
 
+$check_button = Button_Check('Home');
+$smarty->assign("QCreateAction", $check_button);
+
 $cnt = count($qc_modules);
 $smarty->assign("CNT", $cnt);
 

@@ -22,6 +22,7 @@
 </span>
 
 <div id="convertleaddiv" style="display:block;position:absolute;left:225px;top:150px;"></div>
+{include file='DetailViewFieldDependency.tpl'}
 <script>
 var gVTModule = '{$smarty.request.module|@vtlib_purify}';
 {literal}
@@ -271,11 +272,12 @@ function sendfile_email()
 													<tr valign=top>
 														<td style="padding:5px">
 															<!-- Command Buttons -->
-															<table border=0 cellspacing=0 cellpadding=0 width=100%>
+															<table border=0 cellspacing=0 cellpadding=0 width=100%  ng-controller="detailViewng">
 																<!-- NOTE: We should avoid form-inside-form condition, which could happen when
 																   Singlepane view is enabled. -->
 																<form action="index.php" method="post" name="DetailView" id="form">
 																	{include file='DetailViewHidden.tpl'}
+                                                                                                                                </form>
 
 																	<!-- Start of File Include by SAKTI on 10th Apr, 2008 -->
 																	{include_php file="include/DetailViewBlockStatus.php"}
@@ -424,7 +426,7 @@ function sendfile_email()
 																		{$ASSOCIATED_PRODUCTS}
 																	</tr>
 
-																</form>
+																
 																<!-- End the form related to detail view -->
 
 																{if $SinglePane_View eq 'true' && $IS_REL_LIST|@count > 0}

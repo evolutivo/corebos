@@ -132,7 +132,7 @@
 
 										   {if $label ne ''}
 										   <td class="dvtCellLabel" align=right width=25%><input type="hidden" id="hdtxt_IsAdmin" value={$keyadmin}></input>{$label}</td>
-											{include file="DetailViewUI.tpl"}
+                                                                                       {include file="DetailViewUIUser.tpl"}
 										   {else}
 										   <td class="dvtCellLabel" align=right>&nbsp;</td>
 										   <td class="dvtCellInfo" align=left >&nbsp;</td>
@@ -247,7 +247,7 @@
 							</table>
 
 						</form>
-
+						
 					</td>
 				</tr>
 				</table>
