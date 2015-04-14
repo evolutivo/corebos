@@ -38,7 +38,7 @@
 }
 </style>
 {/literal}
-
+{include file='salesEditViewFieldDependency.tpl'}
 <script type="text/javascript">
 var gVTModule = '{$smarty.request.module|@vtlib_purify}';
 function sensex_info()
