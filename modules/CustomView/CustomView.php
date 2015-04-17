@@ -415,6 +415,7 @@ class CustomView extends CRMEntity {
 		$reffields = $meta->getReferenceFieldDetails();
 		foreach ($reffields as $fld => $mods) {
 			foreach ($mods as $mod) {
+				if (!vtlib_isEntityModule($mod)) continue; // reference to a module without fields
 				if (isset($ret_module_list[$mod])) continue;  // we already have this one
 				$module_info = $this->getCustomViewModuleInfo($mod);
 				foreach ($this->module_list[$mod] as $key => $value) {
@@ -1754,38 +1755,12 @@ class CustomView extends CRMEntity {
 				$query .= ' and ' . $advfiltersql;
 			}
 		}
-
 		return $query;
-	}
-
-	/** to get the custom action details for the given customview
-	 * @param $viewid (custom view id):: type Integer
-	 * @returns  $calist array in the following format
-	 * $calist = Array ('subject'=>$subject,
-	  'module'=>$module,
-	  'content'=>$content,
-	  'cvid'=>$custom view id)
-	 */
-	function getCustomActionDetails($cvid) {
-		global $adb;
-
-		$sSQL = "select vtiger_customaction.* from vtiger_customaction inner join vtiger_customview on vtiger_customaction.cvid = vtiger_customview.cvid";
-		$sSQL .= " where vtiger_customaction.cvid=?";
-		$result = $adb->pquery($sSQL, array($cvid));
-
-		while ($carow = $adb->fetch_array($result)) {
-			$calist["subject"] = $carow["subject"];
-			$calist["module"] = $carow["module"];
-			$calist["content"] = $carow["content"];
-			$calist["cvid"] = $carow["cvid"];
-		}
-		return $calist;
 	}
 
 	/* This function sets the block information for the given module to the class variable module_list
 	 * and return the array
 	 */
-
 	function getCustomViewModuleInfo($module) {
 		global $adb;
 		global $current_language;

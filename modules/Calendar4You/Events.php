@@ -27,15 +27,16 @@ $save = $_REQUEST["save"];
 $full_calendar_view = $_REQUEST["view"];
 if (isset($_REQUEST["record"]) && $_REQUEST["record"] != "") $record = $_REQUEST["record"];
 
-if ($_REQUEST["usersids"] != "") {
+if (!empty($_REQUEST["usersids"])) {
 	$all_users = true;
 	$Users_Ids = explode(",",$_REQUEST["usersids"]);
 } else {
 	$all_users = false;
 	if ($user_view_type != "all")
 		$Users_Ids = array($user_view_type);
-	else
-		$Users_Ids = array($current_user->id);
+	else{
+		echo "[]";die();
+	}
 }
 
 $Load_Event_Status = array();
@@ -107,6 +108,7 @@ $start_date = date("Y-m-d",$start_time);
 $end_date = date("Y-m-d",$end_time);
 
 $tasklabel = getAllModulesWithDateFields();
+$timeModules = getAllModulesWithDateTimeFields();
 uasort($tasklabel, function($a,$b) {return (strtolower(getTranslatedString($a,$a)) < strtolower(getTranslatedString($b,$b))) ? -1 : 1;});
 
 $Event_Status = array();
@@ -161,6 +163,8 @@ foreach($Users_Ids AS $userid) {
 			$stfields = getModuleCalendarFields($activitytypeid);
 			$queryFields = array('id',$subject,$stfields['start'],'assigned_user_id'); // we force the users module with assigned_user_id
 			if ($stfields['start']!=$stfields['end']) $queryFields[] = $stfields['end'];
+			if (!empty($stfields['stime'])) $queryFields[] = $stfields['stime'];
+			if (!empty($stfields['etime'])) $queryFields[] = $stfields['etime'];
 			if (isset($stfields['subject'])) {
 				$descflds = explode(',', $stfields['subject']);
 				foreach ($descflds as $dfld) {
@@ -176,7 +180,12 @@ foreach($Users_Ids AS $userid) {
 				foreach ($dtflds as $field) {
 					$queryGenerator->addCondition($field,array(0=>$start_date,1=>$end_date),'bw',$queryGenerator::$OR);
 				}
+					$queryGenerator->startGroup('OR');
+					$queryGenerator->addCondition($stfields['start'],$start_date,'b');
+					$queryGenerator->addCondition($stfields['end'],$end_date,'a',$queryGenerator::$AND);
+					$queryGenerator->endGroup();
 				$queryGenerator->endGroup();
+				$queryGenerator->addCondition('assigned_user_id',getUserFullName($userid),'e',$queryGenerator::$AND);
 				if (count($Event_Status) > 0) {
 					$evuniq = array_diff(array('Held','Not Held','Planned'),array_unique($Event_Status));
 					$encompas_group = false;
@@ -190,7 +199,7 @@ foreach($Users_Ids AS $userid) {
 								$queryGenerator->startGroup('OR');
 							}
 							foreach ($Module_Status_Fields[$evstat] as $condition) {
-								$queryGenerator->addCondition($condition['field'],$condition['value'],$condition['operator'],$condition['join']);
+								$queryGenerator->addCondition($condition['field'],$condition['value'],$condition['operator'],$condition['glue']);
 							}
 							$queryGenerator->endGroup();
 						}
@@ -308,6 +317,11 @@ foreach($Users_Ids AS $userid) {
 				if ($stfields['start']=='birthday') {  // we bring it up to the current calendar year
 					$stfst = date('Y',$start_time).'-'.substr($stfst, 6);
 					$stfed = date('Y',$start_time).'-'.substr($stfed, 6);
+				}
+				if (in_array($activitytypeid,$timeModules)) {
+					$stfst = $stfst . ' ' . $row[$stfields['stime']];
+					$stfed = $stfed . ' ' . $row[$stfields['etime']];
+					$allDay = false;
 				}
 				$convert_date_start = DateTimeField::convertToUserTimeZone($stfst);
 				$user_date_start = $convert_date_start->format('Y-m-d H:i');

@@ -543,8 +543,7 @@ function getAllModulesWithDateFields() {
 	$rsmwd = $adb->query('SELECT distinct cbfld.tabid,vtiger_tab.name
 		FROM vtiger_field as cbfld
 		INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
-		WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1 and uitype=5 and
-			not exists (select 1 from vtiger_field where vtiger_field.tabid = cbfld.tabid and uitype=14)');
+		WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1 and uitype=5');
 	$modswithdates = array();
 	while ($mod = $adb->fetch_array($rsmwd)) {
 		$modswithdates[$mod['tabid']] = $mod['name'];
@@ -570,8 +569,7 @@ function getDateFieldsOfModule($tabid) {
 	global $adb,$log;
 	$rsmwd = $adb->query("SELECT distinct fieldname
 		FROM vtiger_field as cbfld
-		WHERE tabid = $tabid and uitype=5 and not exists (select 1 from vtiger_field
-			where vtiger_field.tabid = cbfld.tabid and uitype=14)");
+		WHERE tabid = $tabid and uitype=5");
 	$datefields = array();
 	while ($fld = $adb->fetch_array($rsmwd)) {
 		$datefields[] = $fld['fieldname'];
@@ -592,61 +590,45 @@ function getDateAndTimeFieldsOfModule($tabid) {
 }
 
 function getModuleCalendarFields($module) {
-	$Module_StartEnd_Fields = array(
-		'Project' => array('start'=>'startdate','end'=>'targetenddate','subject'=>'progress,projecttype'),
-		'ProjectTask' => array('start'=>'startdate','end'=>'enddate','subject'=>'Project.projectname,projecttaskname,projecttaskprogress'),
-		'SalesOrder' => array('start'=>'duedate','end'=>'duedate'),
-	);
-	return (isset($Module_StartEnd_Fields[$module]) ? $Module_StartEnd_Fields[$module] : array());
+	global $adb,$log,$current_user;
+	$rscalflds = $adb->pquery('select * from its4you_calendar_modulefields where module=? and (userid=? or userid=1) order by userid desc',
+		array($module,$current_user->id));
+	if ($rscalflds and $adb->num_rows($rscalflds)>0) {
+		$calflds = $adb->fetch_row($rscalflds);
+		$Module_StartEnd_Fields = array(
+			'start'   => $calflds['start_field'],
+			'end'     => $calflds['end_field'],
+			'stime'   => $calflds['start_time'],
+			'etime'   => $calflds['end_time'],
+			'subject' => $calflds['subject_fields'],
+			'color' => $calflds['color'],
+		);
+	} else {
+		$Module_StartEnd_Fields = array();
+	}
+	return $Module_StartEnd_Fields;
 }
 
 function getModuleStatusFields($module) {
-	$Module_Status_Fields = array(
-		'Project' => array(
-			'Planned' => array(
-				array(
-					'field'=>'projectstatus',
-					'value'=>'completed',
-					'operator'=>'n',
-					'join'=>''
-				),
-				array(
-					'field'=>'projectstatus',
-					'value'=>'delivered',
-					'operator'=>'n',
-					'join'=>'AND'
-				),
-				array(
-					'field'=>'projectstatus',
-					'value'=>'in progress',
-					'operator'=>'n',
-					'join'=>'AND'
-				),
-			),
-			'Held' => array(
-				array(
-					'field'=>'projectstatus',
-					'value'=>'completed',
-					'operator'=>'e',
-					'join'=>''
-				),
-				array(
-					'field'=>'projectstatus',
-					'value'=>'delivered',
-					'operator'=>'e',
-					'join'=>'OR'
-				)
-			),
-			'Not Held' => array(
-				array(
-					'field'=>'projectstatus',
-					'value'=>'in progress',
-					'operator'=>'e',
-					'join'=>'AND'
-				),
-			)
-		)
-	);
-	return (isset($Module_Status_Fields[$module]) ? $Module_Status_Fields[$module] : array());
+	global $adb,$log,$current_user;
+	$rscalflds = $adb->pquery('select * from its4you_calendar_modulestatus where module=? order by status,glue',array($module));
+	if ($rscalflds and $adb->num_rows($rscalflds)>0) {
+		$currentstatus = '';
+		while ($calflds = $adb->fetch_row($rscalflds)) {
+			if ($currentstatus != $calflds['status']) {
+				$currentstatus = $calflds['status'];
+				$Module_Status_Fields[$currentstatus] = array();
+			}
+			$Module_Status_Fields[$currentstatus][] = array(
+				'field'    => $calflds['field'],
+				'value'    => $calflds['value'],
+				'operator' => $calflds['operator'],
+				'glue'     => $calflds['glue'],
+			);
+		}
+	} else {
+		$Module_Status_Fields = array();
+	}
+	return $Module_Status_Fields;
 }
 ?> 
