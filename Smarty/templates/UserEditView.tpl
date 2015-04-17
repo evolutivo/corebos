@@ -177,7 +177,7 @@ function check_duplicate()
                                 		</table>
 		                                <table border="0" cellpadding="5" cellspacing="0" width="100%">
 						<!-- Handle the ui types display -->
-							{include file="DisplayFields.tpl"}
+							{include file="DisplayFieldsUser.tpl"}
 						</table>
 						{assign var=list_numbering value=$smarty.foreach.blockforeach.iteration}
 					   {/foreach}

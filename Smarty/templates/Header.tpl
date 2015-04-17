@@ -39,7 +39,7 @@
 {/literal}
 	<!-- End -->
 </head>
-	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small>
+	
 	<a name="top"></a>
 	<!-- header -->
 	<!-- header-vtiger crm name & RSS -->
@@ -60,7 +60,8 @@
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 	<script type="text/javascript" src="jscalendar/lang/calendar-{$APP.LBL_JSCALENDAR_LANG}.js"></script>
-	<script type="text/javascript" src="include/jquery/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="Smarty/angular/angular.js"></script>
+        <script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>
    	<script type="text/javascript">
 		jQuery.noConflict();
 	</script>
@@ -72,7 +73,20 @@
 	</script>
 {/if}
     <!-- END -->
-
+{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' }   
+        <script  src="Smarty/angular/ng-table.js"></script>
+        <script src="Smarty/angular/angular-multi-select.js"></script>  
+        <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
+        <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
+        <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.min.css" />
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.min.js"></script>
+        <!-- xeditable   -->
+        <link href="Smarty/angular/xeditable.css" rel="stylesheet">
+        <script src="Smarty/angular/xeditable.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+{/if}
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
 {if $HEADERSCRIPTS}
 	<!-- Custom Header Script -->
@@ -82,7 +96,15 @@
 	<!-- END -->
 {/if}
 {* END *}
-
+    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings'}   
+        <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
+            <script>
+                angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
+                                            'ngTagsInput']);
+            </script>
+    {else}
+	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small >
+    {/if}
 	{* PREFECTHING IMAGE FOR BLOCKING SCREEN USING VtigerJS_DialogBox API *}
     <img src="{'layerPopupBg.gif'|@vtiger_imageurl:$THEME}" style="display: none;"/>
     {* END *}
@@ -285,19 +307,19 @@
 					{/if}
 				{/foreach}
 				<td style="padding-left:10px" nowrap>
-				{if $CNT eq 1}
+				{if $CNT eq 1 && $QCreateAction.QuickCreate eq 'yes'}
 					<select class=small id="qccombo" style="width:110px"  onclick="QCreate(this);">
 						<option value="none">{$APP.LBL_QUICK_CREATE}...</option>
 							{foreach  item=detail from=$QCMODULE}
 								<option value="{$detail.1}">{$APP.NEW}&nbsp;{$detail.0}</option>
 							{/foreach}
 					</select>
-				{else}
+				{elseif $QCreateAction.QuickCreate eq 'yes'}
 					<select class=small id="qccombo" style="width:110px"  onchange="QCreate(this);">
-						<option value="none">{$APP.LBL_QUICK_CREATE}...</option>
-						{foreach  item=detail from=$QCMODULE}
-							<option value="{$detail.1}">{$APP.NEW}&nbsp;{$detail.0}</option>
-						{/foreach}
+                                                <option value="none">{$APP.LBL_QUICK_CREATE}...</option>
+                                                    {foreach  item=detail from=$QCMODULE}
+                                                            <option value="{$detail.1}">{$APP.NEW}&nbsp;{$detail.0}</option>
+                                                    {/foreach}
 					</select>
 				{/if}
 				</td>

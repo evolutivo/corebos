@@ -33,7 +33,7 @@
 			<td>
 				<table border=0 cellspacing=0 cellpadding=5>
 				<tr>
-					{if $CHECK.EditView eq 'yes' && $MODULE neq 'Emails' && $MODULE neq 'Webmails'}
+					{if $CHECK.CreateView eq 'yes' && $MODULE neq 'Emails' && $MODULE neq 'Webmails'}
 			        		{if $MODULE eq 'Calendar'}
 		                      	        	<td style="padding-right:0px;padding-left:10px;"><img src="{'btnL3Add-Faded.gif'|@vtiger_imageurl:$THEME}" border=0></td>
                 	   			 {else}

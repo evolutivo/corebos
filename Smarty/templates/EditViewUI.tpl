@@ -79,11 +79,16 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 			</td>
 		{* END *}
 		{elseif $uitype eq 2}
-			<td width=20% class="dvtCellLabel" align=right>
+			<td ng-show ="show_logic('{$fldname}')" width=20% class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small">{/if}
 			</td>
-			<td width=30% align=left class="dvtCellInfo">
-				<input type="text" name="{$fldname}" tabindex="{$vt_tab}" value="{$fldvalue}" tabindex="{$vt_tab}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'">
+			<td ng-show ="show_logic('{$fldname}')" width=30% align=left class="dvtCellInfo">
+				<input type="text" name="{$fldname}" tabindex="{$vt_tab}" 
+                                       value="{$fldvalue}" tabindex="{$vt_tab}" 
+                                       class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'"
+                                       ng-disabled ="!editable_logic('{$fldname}','{$usefldlabel}')" 
+                                       ng-model="{$fldname}" ><br/>
+                                {literal}{{{/literal}{$fldname}_length{literal}}}{/literal}
 			</td>
 		{elseif $uitype eq 3 || $uitype eq 4}<!-- Non Editable field, only configured value will be loaded -->
 				<td width=20% class="dvtCellLabel" align=right><font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small">{/if}</td>
@@ -128,11 +133,11 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				<textarea value="{$fldvalue}" name="{$fldname}" tabindex="{$vt_tab}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" rows=2>{$fldvalue}</textarea>
 			</td>
 		{elseif $uitype eq 15 || $uitype eq 16  || $uitype eq '31' || $uitype eq '32'}
-			<td width="20%" class="dvtCellLabel" align=right>
+			<td ng-show ="show_logic('{$fldname}')" width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>
 				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
-			<td width="30%" align=left class="dvtCellInfo">
+			<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 				{if $MODULE eq 'Calendar'}
 					<select name="{$fldname}" tabindex="{$vt_tab}" class="small" style="width:160px;">
 				{else}

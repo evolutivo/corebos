@@ -734,7 +734,38 @@ function getProfileDescription($profileid)
         return $profileDescription;
 }
 
-
+function isPermittedBusinessRule($module,$actionname)
+{
+    global $current_user,$adb;
+    $userProfileArr = getUserProfile($current_user->id);
+    //check Button Control for current module 
+    $q_business_rule="Select businessrule,linktomap"
+                    ." from vtiger_businessrules"
+                    ." join vtiger_map on vtiger_businessrules.linktomap=vtiger_map.mapid"
+                    ." where module_rules=?"
+                    ." and maptype ='Divide EditCreate'";
+    $profiles = array();
+    $buttons = array();
+    $res_business_rule = $adb->pquery($q_business_rule,array($module));
+        if($adb->num_rows($res_business_rule)>0){
+            $linktomap = $adb->query_result($res_business_rule,$m,'linktomap');  
+            if(!empty($linktomap)) {
+                $mapfocus =  CRMEntity::getInstance("Map");
+                $mapfocus->retrieve_entity_info($linktomap,"Map");
+                $mapButtonControl = $mapfocus->getMapPermissionActions();
+                $profiles = $mapButtonControl['target_profiles']; 
+                $buttons = $mapButtonControl['target_actions'];
+                //we have a business rule for this user 
+                if(count(array_intersect($profiles ,$userProfileArr)) != 0)
+                { 
+                    if(in_array($actionname,$buttons)){
+                      return false;
+                    }
+                }   
+            }
+        }
+        return true;
+}
 /** Function to check if the currently logged in user is permitted to perform the specified action
   * @param $module -- Module Name:: Type varchar
   * @param $actionname -- Action Name:: Type varchar
@@ -754,6 +785,10 @@ function isPermitted($module,$actionname,$record_id='')
 	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	$parenttab = empty($_REQUEST['parenttab']) ? '' : vtlib_purify($_REQUEST['parenttab']);
 	$permission = "no";
+        $BrPermission=isPermittedBusinessRule($module,$actionname);
+        if(!$BrPermission){
+            return $permission;
+        }
 	if(($module == 'Users' || $module == 'Home' || $module == 'uploads') && $parenttab != 'Settings')
 	{
 		//These modules dont have security right now

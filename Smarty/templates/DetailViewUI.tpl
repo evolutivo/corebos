@@ -14,7 +14,7 @@
 
 <!-- This file is used to display the fields based on the ui type in detailview -->
 		{if $keyid eq '1' || $keyid eq 2 || $keyid eq '11' || $keyid eq '7' || $keyid eq '9' || $keyid eq '55' || $keyid eq '71' || $keyid eq '72' || $keyid eq '103' || $keyid eq '255' || $keyid eq '14'} <!--TextBox-->
-			<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">
+			<td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
 				{if $keyid eq '55' || $keyid eq '255'}<!--SalutationSymbol-->
 					{if $keyaccess eq $APP.LBL_NOT_ACCESSIBLE}
 						<font color='red'>{$APP.LBL_NOT_ACCESSIBLE}</font>
@@ -26,7 +26,8 @@
 				{if $keyid eq 11 && $USE_ASTERISK eq 'true'}
                     &nbsp;&nbsp;<span id="dtlview_{$label}"><a href='javascript:;' onclick='startCall("{$keyval}", "{$ID}")'>{$keyval}</a></span>
 				{else}
-					&nbsp;&nbsp;<span id="dtlview_{$label}">{$keyval}</span>
+					<a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
+                                        <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-textarea="{$keyfldname}" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">{literal}{{showValue('{/literal}{$keyfldname}{literal}')}}{/literal}</a>
 				{/if}
                 <div id="editarea_{$label}" style="display:none;">
                 	<input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$label}" name="{$keyfldname}" maxlength='100' value="{$keyval}"></input>
