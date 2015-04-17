@@ -83,6 +83,8 @@ echo "&nbsp;'g'&nbsp;= &gt; value  (greater than)<br>";
 echo "&nbsp;'a'&nbsp;= &gt; value  (after, only for dates)<br>";
 echo "&nbsp;'m'&nbsp;= &lt;= value  (less or equal)<br>";
 echo "&nbsp;'h'&nbsp;= &gt;= value  (greater or equal)<br>";
+echo "&nbsp;'y' or 'empty'&nbsp;= NULL or ''  (null or empty)<br>";
+echo "&nbsp;'ny'&nbsp;= NOT NULL nor ''  (not null nor empty)<br>";
 echo "&nbsp;'bw'&nbsp;= BETWEEN value1 and value2  (between two dates)<br>";
 echo "&nbsp;There is special support for empty fields and for the Birthday field in Contacts<br><br><br>";
 
@@ -91,14 +93,24 @@ $queryGenerator->setFields(array('id','cf_681','accountname'));
 $queryGenerator->addCondition('accountname','EDFG','c');
 $query = $queryGenerator->getQuery();
 testquery($query);
-echo "$query<br><b>**INCORRECT:**&nbsp;</b>";
+echo "$query<br>";
+
 $queryGenerator = new QueryGenerator($moduleName, $current_user);
 $queryGenerator->setFields(array('id','cf_681','accountname'));
 $queryGenerator->addCondition('accountname','EDFG','c');
 $queryGenerator->addCondition('employees','4','g','or');
 $query = $queryGenerator->getQuery();
+echo "<b>**INCORRECT:**&nbsp;This next query is incorrect because the parenthesis is not enclosing the OR so it returns not expected results, although it is syntactically correct. The next query is the correct version.</b><br>$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator('Project', $current_user);
+$queryGenerator->setFields(array('id','projectname','startdate','targetenddate'));
+$queryGenerator->addCondition('startdate','2015-04-16','b');
+$queryGenerator->addCondition('targetenddate','2015-06-16','a','OR');
+$query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);
+
 $queryGenerator = new QueryGenerator($moduleName, $current_user);
 $queryGenerator->setFields(array('id','cf_681','accountname'));
 $queryGenerator->startGroup();  // parenthesis to enclose our OR condition between the two groups
@@ -113,6 +125,20 @@ $queryGenerator->endGroup();  // end second groupd
 $queryGenerator->endGroup();  // end enclosing parenthesis
 $query = $queryGenerator->getQuery();
 echo "$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator($moduleName, $current_user);
+$queryGenerator->setFields(array('id','cf_681','accountname'));
+$queryGenerator->addCondition('employees','','y');
+$query = $queryGenerator->getQuery();
+echo "<b>** EMPTY **</b><br> $query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator($moduleName, $current_user);
+$queryGenerator->setFields(array('id','cf_681','accountname'));
+$queryGenerator->addCondition('employees','','ny');
+$query = $queryGenerator->getQuery();
+echo "<b>** NOT EMPTY **</b><br> $query<br>";
 testquery($query);
 
 $queryGenerator = new QueryGenerator('SalesOrder', $current_user);
@@ -161,6 +187,13 @@ testquery($query);
 echo "<h2>User Queries</h2>";
 $queryGenerator = new QueryGenerator('Users', $current_user);
 $queryGenerator->setFields(array('id','username','first_name'));
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator('Users', $current_user);
+$queryGenerator->setFields(array('id','username','first_name'));
+$queryGenerator->addCondition('id','1','e');
 $query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);
@@ -241,6 +274,13 @@ $query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);
 
+$queryGenerator = new QueryGenerator('Contacts', $current_user);
+$queryGenerator->setFields(array('id','firstname'));
+$queryGenerator->addCondition('assigned_user_id','Administrator','e');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
 echo "<h2>exists condition</h2>";
 $queryGenerator = new QueryGenerator('Contacts', $current_user);
 $queryGenerator->setFields(array('id','accountname','firstname'));
@@ -249,6 +289,14 @@ $query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);
 
+echo "<h2>Query with smownerid of rel module</h2>";
+$queryGenerator = new QueryGenerator("Contacts", $current_user);
+$queryGenerator->setFields(array('id','accountname','Accounts.assigned_user_id'));
+$queryGenerator->addReferenceModuleFieldCondition('Accounts', 'account_id', 'accountname', 'EDFG Group Limited', 'exists');
+
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
 //error_reporting(E_ALL);ini_set("display_errors", "on");
 // echo "<h2>Query with custom field</h2>";
 // $queryGenerator = new QueryGenerator($moduleName, $current_user);
