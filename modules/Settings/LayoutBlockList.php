@@ -42,7 +42,7 @@ elseif($subMode == 'movehiddenfields' || $subMode == 'showhiddenfields')
 	show_move_hiddenfields($subMode);
 elseif($subMode == 'changeRelatedInfoOrder')
 	changeRelatedListOrder();
-$smarty->assign("user", $current_user->user_name);
+$smarty->assign("user", $current_user->superadmincheck);
 $module_array=getCustomFieldSupportedModules();
 
 $cfimagecombo = Array(
