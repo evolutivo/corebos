@@ -14,34 +14,18 @@
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
 
-class DefineGlobalVariables extends cbupdaterWorker {
+class milestonedatetodate extends cbupdaterWorker {
 	
 	function applyChange() {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$global_variables = array(
-				'product_service_default',
-				'Debug_Record_Not_Found',
-				'Product_Default_Units',
-				'Service_Default_Units',
-				'Maximum_Scheduled_Workflows',
-				'Billing_Address_Checked',
-				'Shipping_Address_Checked',
-				'Tax_Type_Default'
-			);
-			
-			$moduleInstance = Vtiger_Module::getInstance('GlobalVariable');
-			$field = Vtiger_Field::getInstance('gvname',$moduleInstance);
-			if ($field) {
-				$field->setPicklistValues($global_variables);
-			}
-			
+			$this->ExecuteQuery('ALTER TABLE vtiger_projectmilestone CHANGE projectmilestonedate projectmilestonedate DATE NULL DEFAULT NULL');
 			$this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
 		}
 		$this->finishExecution();
 	}
-	
+
 }
