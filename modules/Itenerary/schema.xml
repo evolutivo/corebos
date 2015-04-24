@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_itenerary</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_itenerary` (
+  `iteneraryid` int(11) DEFAULT NULL,
+  `iteneraryname` varchar(255) DEFAULT NULL,
+  `itenerarynumber` varchar(100) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_itenerarycf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_itenerarycf` (
+  `iteneraryid` int(11) NOT NULL,
+  PRIMARY KEY (`iteneraryid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>
