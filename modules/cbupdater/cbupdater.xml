@@ -324,6 +324,7 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+<<<<<<< HEAD
 	<author>loridacito</author>
 	<description>Add superadmin checkbox</description>
 	<filename>build/changeSets/addsuperadmincheck.php</filename>
@@ -335,6 +336,13 @@
 	<description>Add Map Module</description>
 	<filename>build/changeSets/addmodulemap.php</filename>
 	<classname>addmodulemap</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Change milestonedate to date</description>
+	<filename>build/changeSets/milestonedatetodate.php</filename>
+	<classname>milestonedatetodate</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>
