@@ -324,7 +324,6 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
 	<author>loridacito</author>
 	<description>Add superadmin checkbox</description>
 	<filename>build/changeSets/addsuperadmincheck.php</filename>
