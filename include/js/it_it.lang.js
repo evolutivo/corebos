@@ -365,7 +365,5 @@ var alert_arr = {
 	'LBL_CLOSE_DATE':'Data Chiusura',
 	'LBL_EMAIL':'Email',
 	'MORE_THAN_500' :'Hai selezionato piu di 500 record. Questa operazione richiedera tempo. Sei sicuro di voler procedere?',
-	'LBL_MAPPEDALERT':'Campo gi\u00E0 mappato'
-
-
+	'LBL_EXISTS' : 'exists',
 };

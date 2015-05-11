@@ -6,9 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- *
  *********************************************************************************/
-
 
 /**
  * Description of ListViewController
@@ -29,6 +27,7 @@ class ListViewController {
 	private $nameList;
 	private $typeList;
 	private $ownerNameList;
+        private $ownerNameListrel;
 	private $user;
 	private $picklistValueMap;
 	private $picklistRoleMap;
@@ -61,14 +60,18 @@ class ListViewController {
 		}
 	}
 
-	public function fetchNameList($field, $result) {
+	public function fetchNameList($field, $result,$rel=null) {
 		$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
 		$fieldName = $field->getFieldName();
 		$rowCount = $this->db->num_rows($result);
 
 		$idList = array();
 		for ($i = 0; $i < $rowCount; $i++) {
-			$id = $this->db->query_result($result, $i, $field->getColumnName());
+                   if($rel==1) {
+                   $modrel=getTabModuleName($field->getTabId());
+                   $colname=strtolower($modrel).$field->getColumnName();}
+                   else {$colname=$field->getColumnName();}
+		   $id = $this->db->query_result($result, $i, $colname);
 			if (!isset($this->nameList[$fieldName][$id])) {
 				$idList[$id] = $id;
 			}
@@ -119,13 +122,16 @@ class ListViewController {
 	function getListViewEntries($focus, $module,$result,$navigationInfo,$skipActions=false) {
 
 		require('user_privileges/user_privileges_'.$this->user->id.'.php');
-		global $listview_max_textlength, $theme,$default_charset;
+		global $listview_max_textlength, $theme,$default_charset,$current_user;
 		$fields = $this->queryGenerator->getFields();
 		$whereFields = $this->queryGenerator->getWhereFields();
 		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
 
 		$moduleFields = $meta->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
+		if($this->queryGenerator->getReferenceFieldInfoList()) {
+			$accessibleFieldList = array_merge($this->queryGenerator->getReferenceFieldNameList(),$accessibleFieldList);
+		}
 		$listViewFields = array_intersect($fields, $accessibleFieldList);
 
 		$referenceFieldList = $this->queryGenerator->getReferenceFieldList();
@@ -141,7 +147,12 @@ class ListViewController {
 		$ownerFieldList = $this->queryGenerator->getOwnerFieldList();
 		foreach ($ownerFieldList as $fieldName) {
 			if (in_array($fieldName, $listViewFields)) {
-				$field = $moduleFields[$fieldName];
+				if (!empty($moduleFields[$fieldName])) {
+					$field = $moduleFields[$fieldName];
+				} else {
+					$field = $this->queryGenerator->getReferenceField($fieldName,false);
+					if (is_null($field)) continue;
+				}
 				$idList = array();
 				for ($i = 0; $i < $rowCount; $i++) {
 					$id = $this->db->query_result($result, $i, $field->getColumnName());
@@ -165,11 +176,43 @@ class ListViewController {
 		}
 
 		foreach ($listViewFields as $fieldName) {
-			$field = $moduleFields[$fieldName];
+			if (!empty($moduleFields[$fieldName])) {
+				$field = $moduleFields[$fieldName];
+			} else {
+				$field = $this->queryGenerator->getReferenceField($fieldName,false);
+				if (is_null($field)) continue;
+			}
 			if(!$is_admin && ($field->getFieldDataType() == 'picklist' ||
 					$field->getFieldDataType() == 'multipicklist')) {
 				$this->setupAccessiblePicklistValueList($fieldName);
 			}
+                       $idList=array();
+                       global $currentModule;
+                       if($fieldName!='assigned_user_id' && strstr($fieldName,".assigned_user_id")){
+                       $modrel=getTabModuleName($field->getTabId());
+                       $j=$rowCount*$k;
+                       $k++;
+                       for ($i = 0; $i < $rowCount; $i++) {
+                       $id = $this->db->query_result($result, $i, "smowner".strtolower($modrel));
+                       if (!isset($this->ownerNameListrel[$fieldName][$id])) {
+	               $idList[$j] = $id;
+                       $j++;
+		      }
+                      }
+                      }
+                      else if(getTabid($currentModule)!=$field->getTabId() && $field->getFieldDataType()=='reference'){
+                      $this->fetchNameList($field, $result,1);
+                      }
+                      if(count($idList) > 0) {
+                           if(!is_array($this->ownerNameListrel[$fieldName])) {
+                           $this->ownerNameListrel[$fieldName] = getOwnerNameList($idList);
+                           } else {
+                           $newOwnerList = getOwnerNameList($idList);
+                           foreach ($newOwnerList as $id => $name) {
+                           $this->ownerNameListrel[$fieldName][$id] = $name;
+                           }
+                      }
+                      }
 		}
 
 		$useAsterisk = get_use_asterisk($this->user->id);
@@ -190,10 +233,24 @@ class ListViewController {
 			$row = array();
 
 			foreach ($listViewFields as $fieldName) {
-				$field = $moduleFields[$fieldName];
+				if (!empty($moduleFields[$fieldName])) {
+					$field = $moduleFields[$fieldName];
+				} else {
+					$field = $this->queryGenerator->getReferenceField($fieldName,false);
+					if (is_null($field)) continue;
+				}
 				$uitype = $field->getUIType();
-				$rawValue = $this->db->query_result($result, $i, $field->getColumnName());
-				if($module == 'Calendar') {
+                                global $currentModule; 
+                                if($fieldName!='assigned_user_id' && strstr($fieldName,".assigned_user_id")){
+                                $modrel=getTabModuleName($field->getTabId());
+                                $rawValue = $this->db->query_result($result, $i, "smowner".strtolower($modrel));
+                                }
+                                else if(getTabid($currentModule)!=$field->getTabId()){
+                                $modrel=getTabModuleName($field->getTabId());
+                                $rawValue = $this->db->query_result($result, $i, strtolower($modrel).$field->getColumnName());
+                                }
+				else $rawValue = $this->db->query_result($result, $i, $field->getColumnName());				
+                                if($module == 'Calendar') {
 					$activityType = $this->db->query_result($result, $i, 'activitytype');
 				}
 
@@ -407,7 +464,11 @@ class ListViewController {
 					}
 				} elseif($field->getFieldDataType() == 'reference') {
 					$referenceFieldInfoList = $this->queryGenerator->getReferenceFieldInfoList();
-					$moduleList = $referenceFieldInfoList[$fieldName];
+					global $currentModule;
+                                        if(getTabid($currentModule)!=$field->getTabId()){
+                                        $modrel=getTabModuleName($field->getTabId());
+                                        $fieldName=str_replace($modrel.'.',"",$fieldName); }
+                                        $moduleList = $referenceFieldInfoList[$fieldName];
 					if(count($moduleList) == 1) {
 						$parentModule = $moduleList[0];
 					} else {
@@ -424,7 +485,10 @@ class ListViewController {
 						$value = '--';
 					}
 				} elseif($field->getFieldDataType() == 'owner') {
-					$value = textlength_check($this->ownerNameList[$fieldName][$value]);
+                                        if($fieldName!='assigned_user_id' && strstr($fieldName,".assigned_user_id"))
+                                        {$value = textlength_check($this->ownerNameListrel[$fieldName][$value]);}
+                                        else{
+                                        $value = textlength_check($this->ownerNameList[$fieldName][$value]);}
 				} elseif ($field->getUIType() == 25) {
 					//TODO clean request object reference.
 					$contactId=$_REQUEST['record'];
@@ -566,10 +630,8 @@ class ListViewController {
 		return $link;
 	}
 
-	public function getListViewHeader($focus, $module,$sort_qry='',$sorder='',$orderBy='',
-			$skipActions=false) {
-		global $log, $singlepane_view;
-		global $theme;
+	public function getListViewHeader($focus, $module,$sort_qry='',$sorder='',$orderBy='',$skipActions=false) {
+		global $log, $singlepane_view, $theme, $current_user;
 
 		$arrow='';
 		$qry = getURLstring($focus);
@@ -580,7 +642,6 @@ class ListViewController {
 		//Get the vtiger_tabid of the module
 		$tabid = getTabid($module);
 		$tabname = getParentTab();
-		global $current_user;
 
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$fields = $this->queryGenerator->getFields();
@@ -589,13 +650,21 @@ class ListViewController {
 
 		$moduleFields = $meta->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
+		if($this->queryGenerator->getReferenceFieldInfoList()) {
+			$accessibleFieldList = array_merge($this->queryGenerator->getReferenceFieldNameList(),$accessibleFieldList);
+		}
 		$listViewFields = array_intersect($fields, $accessibleFieldList);
 		//Added on 14-12-2005 to avoid if and else check for every list
 		//vtiger_field for arrow image and change order
 		$change_sorder = array('ASC'=>'DESC','DESC'=>'ASC');
 		$arrow_gif = array('ASC'=>'arrow_down.gif','DESC'=>'arrow_up.gif');
 		foreach($listViewFields as $fieldName) {
-			$field = $moduleFields[$fieldName];
+			if (!empty($moduleFields[$fieldName])) {
+				$field = $moduleFields[$fieldName];
+			} else {
+				$field = $this->queryGenerator->getReferenceField($fieldName,false);
+				if (is_null($field)) continue;
+			}
 
 			if(in_array($field->getColumnName(),$focus->sortby_fields)) {
 				if($orderBy == $field->getColumnName()) {
@@ -705,17 +774,17 @@ class ListViewController {
 			$OPTION_SET[$blockName][$label] = "<option value=\'$optionvalue\' $selected>$label</option>";
 
 		}
-	   	// sort array on block label
-	    ksort($OPTION_SET, SORT_STRING);
+		// sort array on block label
+		ksort($OPTION_SET, SORT_STRING);
 
 		foreach ($OPTION_SET as $key=>$value) {
-	  		$shtml .= "<optgroup label='$key' class='select' style='border:none'>";
-	   		// sort array on field labels
-	   		ksort($value, SORT_STRING);
-	  		$shtml .= implode('',$value);
-	  	}
+			$shtml .= "<optgroup label='$key' class='select' style='border:none'>";
+			// sort array on field labels
+			ksort($value, SORT_STRING);
+			$shtml .= implode('',$value);
+		}
 
-	    return $shtml;
+		return $shtml;
 	}
 
 }

@@ -309,4 +309,39 @@
 	<classname>installinventorydetails</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Create configuration tables for Modules on Calendar</description>
+	<filename>build/changeSets/ModulesOnCalendar.php</filename>
+	<classname>ModulesOnCalendar</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Eliminate CustomAction Table</description>
+	<filename>build/changeSets/delCustomActionTable.php</filename>
+	<classname>delCustomActionTable</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add superadmin checkbox</description>
+	<filename>build/changeSets/addsuperadmincheck.php</filename>
+	<classname>addsuperadmincheck</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add Map Module</description>
+	<filename>build/changeSets/addmodulemap.php</filename>
+	<classname>addmodulemap</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Change milestonedate to date</description>
+	<filename>build/changeSets/milestonedatetodate.php</filename>
+	<classname>milestonedatetodate</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

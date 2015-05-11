@@ -6,9 +6,7 @@
 * The Initial Developer of the Original Code is vtiger.
 * Portions created by vtiger are Copyright (C) vtiger.
 * All Rights Reserved.
-*
 ********************************************************************************/
-
 require_once('modules/Portal/Portal.php');
 
 global $default_charset,$adb;
@@ -28,13 +26,16 @@ if(isset($_REQUEST['check']) && $_REQUEST['check'] =='true')
 }	
 if($portlname != '' && $portlurl != '')
 {
+	if (strtolower(substr($portlurl, 0, 4))!='http') {
+		$portlurl = 'http://' . $portlurl;
+	}
 	if(isset($_REQUEST['record']) && $_REQUEST['record'] !='')
 	{
-		$result=UpdatePortal($portlname,"http://".str_replace("#$#$#","&",$portlurl),$_REQUEST['record']);
+		$result=UpdatePortal($portlname,str_replace("#$#$#","&",$portlurl),$_REQUEST['record']);
 	}
 	else
 	{
-		$result=SavePortal($portlname,"http://".str_replace("#$#$#","&",$portlurl));
+		$result=SavePortal($portlname,str_replace("#$#$#","&",$portlurl));
 	}
 	header("Location: index.php?action=PortalAjax&module=Portal&file=ListView&mode=ajax&datamode=manage");
 }else

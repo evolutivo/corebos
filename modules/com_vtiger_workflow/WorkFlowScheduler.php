@@ -133,7 +133,8 @@ class WorkFlowScheduler {
 			'starts with' => 's',
 			'ends with' => 'ew',
 			'is not' => 'n',
-			'is not empty' => 'n',
+			'is empty' => 'y',
+			'is not empty' => 'ny',
 			'before' => 'l',
 			'after' => 'g',
 			'between' => 'bw',
@@ -148,6 +149,7 @@ class WorkFlowScheduler {
 			'more than hours before' => 'l',
 			'more than hours later' => 'g',
 			'is today' => 'e',
+			'exists' => 'exists',
 		);
 		$noOfConditions = count($conditions);
 		//Algorithm :

@@ -7,10 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ********************************************************************************/
-global $calpath;
-global $app_strings,$mod_strings;
-global $theme;
-global $log;
+global $app_strings,$mod_strings, $theme, $log;
 
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
@@ -20,8 +17,7 @@ require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
 require_once("vtlib/Vtiger/Module.php");
 
-class ReportRun extends CRMEntity
-{
+class ReportRun extends CRMEntity {
 
 	var $primarymodule;
 	var $secondarymodule;
@@ -1630,6 +1626,7 @@ class ReportRun extends CRMEntity
 				left join vtiger_salesorder as vtiger_salesorderRelCalendar on vtiger_salesorderRelCalendar.salesorderid = vtiger_crmentityRelCalendar.crmid
 				left join vtiger_troubletickets as vtiger_troubleticketsRelCalendar on vtiger_troubleticketsRelCalendar.ticketid = vtiger_crmentityRelCalendar.crmid
 				left join vtiger_campaign as vtiger_campaignRelCalendar on vtiger_campaignRelCalendar.campaignid = vtiger_crmentityRelCalendar.crmid
+				left join vtiger_vendor as vtiger_vendorRelCalendar on vtiger_vendorRelCalendar.vendorid = vtiger_crmentityRelCalendar.crmid
                 left join vtiger_users as vtiger_lastModifiedByCalendar on vtiger_lastModifiedByCalendar.id = vtiger_crmentity.modifiedby
 				".$this->getRelatedModulesQuery($module,$this->secondarymodule).
 						getNonAdminAccessControlQuery($this->primarymodule,$current_user)."
@@ -3378,6 +3375,8 @@ class ReportRun extends CRMEntity
 					$referenceTableName = 'vtiger_troubleticketsRelCalendar';
 				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Campaigns') {
 					$referenceTableName = 'vtiger_campaignRelCalendar';
+				} elseif ($moduleName == 'Calendar' && $referenceModule == 'Vendors') {
+					$referenceTableName = 'vtiger_vendorRelCalendar';
 				} elseif ($moduleName == 'Contacts' && $referenceModule == 'Accounts') {
 					$referenceTableName = 'vtiger_accountContacts';
 				} elseif ($moduleName == 'Contacts' && $referenceModule == 'Contacts') {
@@ -3421,7 +3420,8 @@ class ReportRun extends CRMEntity
 				} elseif ($moduleName == 'Potentials' && $referenceModule == 'Accounts') {
 					$referenceTableName = 'vtiger_accountPotentials';
 				} elseif (in_array($referenceModule, $reportSecondaryModules) and $moduleName != 'Timecontrol') {
-					$referenceTableName = "{$entityTableName}Rel$referenceModule";
+                                    if($fieldInstance->getFieldId() != '') $referenceTableName = "{$entityTableName}Rel{$moduleName}{$fieldInstance->getFieldId()}";
+				    else $referenceTableName = "{$entityTableName}Rel$referenceModule";
 				} elseif (in_array($moduleName, $reportSecondaryModules) and $moduleName != 'Timecontrol') {
 					$referenceTableName = "{$entityTableName}Rel$moduleName";
 				} else {
