@@ -14,14 +14,14 @@
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
 
-class addmodulemap extends cbupdaterWorker {
+class addNgBlock extends cbupdaterWorker {
 	
 	function applyChange() {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$toinstall = array('Map');
+			$toinstall = array('NgBlock');
 			foreach ($toinstall as $module) {
 				if ($this->isModuleInstalled($module)) {
 					vtlib_toggleModuleAccess($module,true);
@@ -39,8 +39,8 @@ class addmodulemap extends cbupdaterWorker {
 	function undoChange() {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
-			vtlib_toggleModuleAccess('Map',false);
-			$this->sendMsg('Map deactivated!');
+			vtlib_toggleModuleAccess('NgBlock',false);
+			$this->sendMsg('NgBlock deactivated!');
 			$this->markUndone(false);
 			$this->sendMsg('Changeset '.get_class($this).' undone!');
 		} else {
