@@ -17,6 +17,7 @@
 <span id="crmspanid" style="display:none;position:absolute;"  onmouseover="show('crmspanid');">
    <a class="link"  align="right" href="javascript:;">{$APP.LBL_EDIT_BUTTON}</a>
 </span>
+{include file='DetailViewFieldDependency.tpl'}
 <script>
 function tagvalidate()
 {ldelim}
@@ -200,10 +201,11 @@ function getListOfRecords(obj, sModule, iId,sParentTab)
 						<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace" style="border-bottom:0px;">
 						   <tr valign=top>
 
-							<td align=left style="padding:10px;">
+							<td align=left style="padding:10px;"   ng-controller="detailViewng">
 							<!-- content cache -->
-								<form action="index.php" method="post" name="DetailView" id="form" onsubmit="VtigerJS_DialogBox.block();">
+								<form editable-form name="DetailView" id="form" >
 								{include file='DetailViewHidden.tpl'}
+                                                                </form>
 						
 								<!-- Entity informations display - starts -->
 								<table border=0 cellspacing=0 cellpadding=0 width=100%>
@@ -319,7 +321,7 @@ function getListOfRecords(obj, sModule, iId,sParentTab)
 
 										<!-- Product Details informations -->
 										{$ASSOCIATED_PRODUCTS}
-										</form>
+										
 									</td>
 <!-- The following table is used to display the buttons -->
 								<table border=0 cellspacing=0 cellpadding=0 width=100%>

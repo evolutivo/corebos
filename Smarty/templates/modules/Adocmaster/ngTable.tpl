@@ -25,7 +25,7 @@
 </tr>
 
 </table>
-<div ng-controller="DemoCtrl" ng-app="demoApp">
+<div ng-controller="DemoCtrl" >
 <!--{literal}{{getTotal()}}{/literal}
 {literal}{{getTax()}}{/literal}
 {literal}{{getTotal2()}}{/literal}-->
@@ -216,7 +216,7 @@ $smarty->assign('prodiri',$prodname);
 	// alert(prova7);
 	var record=document.getElementsByName('record').item(0).value;
 	//alert(record);
-	var app = angular.module('demoApp', ['ngTable']).
+	var app = angular.module('demoApp').
 	controller('DemoCtrl', function($scope, $filter,$http,ngTableParams,$sce) {
        { 
              //var names = ["john", "bill", "charlie", "robert", "alban", "oscar", "marie", "celine", "brad", "drew", "rebecca", "michel", "francis", "jean", "paul", "pierre", "nicolas", "alfred", "gerard", "louis", "albert", "edouard", "benoit", "guillaume", "nicolas", "joseph"];

@@ -396,7 +396,7 @@ function sendfile_email()
 																					{/if}
 																			</td>
 																		</tr>
-																	{/foreach}
+																	
 	
  
 					
@@ -417,6 +417,7 @@ function sendfile_email()
 																			{/if}
 																		{/foreach}
 																	{/if}
+                                                                                                                                            {/foreach}
 																	{* END *}
 																
 																	{*-- End of Blocks--*}
