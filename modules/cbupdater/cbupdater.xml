@@ -344,4 +344,11 @@
 	<classname>milestonedatetodate</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add NgBlock Module</description>
+	<filename>build/changeSets/addNgBlock.php</filename>
+	<classname>addNgBlock</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
