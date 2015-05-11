@@ -132,7 +132,7 @@
 </style>
 <script>
 {literal}
-angular.module('demoApp')
+angular.module('demoApp') 
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal, ngTableParams) {
     $scope.user={};
             
