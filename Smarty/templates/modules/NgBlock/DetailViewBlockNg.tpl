@@ -34,13 +34,19 @@
                 {math equation="x+1" x=$FIELD_LABEL|@count assign="nr_col"} 
                 <td colspan="{$nr_col}">
                     <img width="20" height="20" ng-click="open(user,'create')" src="themes/softed/images/btnL3Add.gif" />
+                    {if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
+                        <a ng-click="open(user,'create')">Crea Nota</a> 
+                    {else}
                         <a ng-click="open(user,'create')">Add New {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                    {/if}
                 </td> 
             </tr>
             {/if}
             <tr class="dvtCellLabel">
                 {foreach key=index item=fieldlabel from=$FIELD_LABEL} 
+                    {if $COLUMN_NAME.$index neq 'bodymessage_msg'}
                     <td> <b>{$fieldlabel}</b> </td> 
+                    {/if}
                 {/foreach} 
                 <td> </td> 
             </tr>
@@ -126,7 +132,7 @@
 </style>
 <script>
 {literal}
-angular.module('cbApp')
+angular.module('demoApp')
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal, ngTableParams) {
     $scope.user={};
             

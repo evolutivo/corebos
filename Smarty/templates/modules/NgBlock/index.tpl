@@ -6,7 +6,7 @@
 <script src="Smarty/angular/angular-multi-select.js"></script>  
 <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
 
-<table  width="100%" width=98% align=center border="0" ng-app="cbApp">
+<table  width="100%" width=98% align=center border="0" ng-app="demoApp">
     <tr><td style="height:2px"><br/><br/></td></tr>
     <tr>
         <td style="padding-left:20px;padding-right:50px" class="moduleName" nowrap colspan="2">
@@ -51,6 +51,14 @@
                                     Edit Record
                                 </th><th style="text-align: center">
                                     Delete Record
+                                </th><th style="text-align: center">
+                                    Sequence
+                                </th>
+                                <th style="text-align: center">
+                                    Destination
+                                </th>
+                                <th style="text-align: center">
+                                    Type
                                 </th>
                             </tr>    
                             <tr ng-repeat="user in $data" >
@@ -111,6 +119,15 @@
                                   <img ng-if="user.delete_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.delete_record!=1" width="20" height="20" src="themes/images/no.gif" />
                               </td> 
+                              <td  data-title="'Sequence'" width="40%"> 
+                                  {literal}  {{user.sequence_ngblock}}{/literal}
+                              </td> 
+                              <td  data-title="'Destination'" width="40%"> 
+                                  {literal}  {{user.destination}}{/literal}
+                              </td> 
+                              <td  data-title="'Type'" width="40%"> 
+                                  {literal}  {{user.type}}{/literal}
+                              </td> 
                               
                             </tr>
                         </table>                               
@@ -122,7 +139,7 @@
 
 <script>
 {literal}
-angular.module('cbApp',['ngTable','ui.bootstrap','multi-select']) 
+angular.module('demoApp',['ngTable','ui.bootstrap','multi-select']) 
 .controller('ng_Block', function($scope, $http, $modal, ngTableParams) {
 
             $scope.new_user={"id":"","id_hidden":"","name":"","module_name":"",
@@ -132,7 +149,7 @@ angular.module('cbApp',['ngTable','ui.bootstrap','multi-select'])
                 "pointing_field_name_trans":"","columns":"","cond":"",
                 "paginate":"","nr_page":"","add_record":"",
                 "sort":" ","edit_record":"","delete_record":""};
-            
+                     
             $scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
                 count: 5  // count per page
@@ -199,7 +216,7 @@ angular.module('cbApp',['ngTable','ui.bootstrap','multi-select'])
         });
         
         
-angular.module('cbApp')
+angular.module('demoApp')
 .controller('ModalInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
 
       $scope.user = user;
@@ -228,7 +245,13 @@ angular.module('cbApp')
                     success(function(data, status) {
                       $scope.pointing_field = data;
       });
-     
+      
+      $scope.destination_opt=['DETAILVIEWWIDGET','PORTALDV','PORTALSV','PORTALLV'];
+      $scope.type_opt=['Table','Graph','Text'];  
+            
+      $scope.myFilter = function(value) {
+       return ($scope.filterValues.indexOf(value.id) !== -1);
+      };
       // edit selected record
       $scope.setEditId =  function(user) {
             user =JSON.stringify(user);
@@ -288,7 +311,7 @@ angular.module('cbApp')
         $modalInstance.dismiss('cancel');
       };
 });
-angular.module('cbApp')
+angular.module('demoApp')
     .filter('filter_blocks', function() {
           return function(blocks,user) {
             var filterEvent = [];
@@ -301,7 +324,7 @@ angular.module('cbApp')
         }
     }
     );
-angular.module('cbApp')
+angular.module('demoApp')
 .filter('filter_pointing_fields', function() {
       return function(pointing_field,user) {
         var filterEvent = [];

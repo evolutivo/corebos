@@ -67,6 +67,7 @@
                 Condition
             </td>
             <td>
+                <br/>
                 <table width="100%" border="0">
                     <tr>
                     <td>
@@ -90,35 +91,25 @@
         </tr>
         <tr>
             <td> 
-                Paginate
+               Nr Page
+               
             </td> 
             <td> 
-                <input type="checkbox"  ng-model="user.paginate"  />
-            </td> 
-        </tr>
-        <tr>
-            <td> 
-                Nr Page
-            </td>
-            <td> 
-                <input class="form-control" type="text" ng-model="user.nr_page"/>
+                <input class="form-control" type="text" ng-model="user.nr_page" style="width:20px"/>
+                &nbsp;Paginate<input type="checkbox"  ng-model="user.paginate"  />
+                &nbsp;Add Record <input type="checkbox"  ng-model="user.add_record" />
+                &nbsp;Edit Record <input type="checkbox"  ng-model="user.edit_record"  />
+                &nbsp;Delete Record <input type="checkbox" ng-model="user.delete_record" />
             </td> 
         </tr>
+        
         <tr>
             <td> 
-                Add Record
+                Sorting Records
             </td> 
             <td> 
-                <input type="checkbox"  ng-model="user.add_record" />
-            </td> 
-        </tr>
-        <tr>
-            <td> 
-                Sort
-            </td> 
-            <td> 
-                <select name="sort" id="sort"  ng-model="opt1" ng-options="opt1 as opt1.fieldlabel for opt1  in selected_values track by opt1.columnname"></select>
-                <select id="order" ng-change="fill_sort(opt1.columnname,order)" ng-model="order" >
+                <select name="sort" id="sort"  ng-model="opt1" ng-options="opt1 as opt1.fieldlabel for opt1  in selected_values track by opt1.columnname" style="width:170px"></select>
+                <select id="order" ng-change="fill_sort(opt1.columnname,order)" ng-model="order" style="width:50px">
                     <option value="Asc">Asc</option>
                     <option value="Desc">Desc</option>
                     <option value="None">None</option>
@@ -128,20 +119,33 @@
         </tr>
         <tr>
             <td> 
-                Edit Record
+                Sequence of NgRelatedBlock
             </td> 
             <td> 
-                <input type="checkbox"  ng-model="user.edit_record"  />
-            </td>
+                <input class="form-control" type="text" ng-model="user.sequence_ngblock" style="width:20px"/>
+            </td> 
         </tr>
         <tr>
             <td> 
-                Delete Record
-            </td>
+                Destination
+            </td> 
             <td> 
-                <input type="checkbox" ng-model="user.delete_record" />
-            </td>
+                <select id="destination"  ng-model="user.destination" style="width:170px"
+                        ng-options="opt for opt in destination_opt">
+                </select>
+            </td> 
         </tr>
+        <tr>
+            <td> 
+                Type
+            </td> 
+            <td> 
+                <select id="type"  ng-model="user.type" style="width:170px"
+                        ng-options="opt for opt in type_opt">
+                </select>
+            </td> 
+        </tr>
+        
     </table>
 </div>
 <div class="modal-footer">
