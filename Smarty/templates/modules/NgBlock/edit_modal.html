@@ -1,0 +1,150 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{Action}} NgBlock {{user.name}}</h3>
+</div>
+<div class="modal-body">    
+    <table>
+        <tr>
+            <td> 
+                Name
+            </td> 
+            <td> 
+                <input class="form-control" type="text" ng-model="user.name"/>
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Module Name
+            </td>
+            <td>
+              <select class="form-control" ng-click="user.module_name=mod_sel.tablabel" ng-model="mod_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
+            </td>
+        </tr>
+        <tr>
+            <td> 
+                Pointing Block
+            </td> 
+            <td> 
+                <select class="form-control" ng-click="user.pointing_block_name=pointing_block_name_sel.label" ng-model="pointing_block_name_sel" ng-options="opt.label2 for opt  in  blocks | filter_blocks:user  track by opt.label"></select>
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Pointing Module
+            </td> 
+            <td> 
+               <select class="form-control" ng-click="user.pointing_module_name=pointing_module_name_sel.tablabel;refresh_columns();" ng-model="pointing_module_name_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Pointing Field
+            </td> 
+            <td> 
+                <select class="form-control" ng-click="user.pointing_field_name=pointing_field_name_sel.columnname" ng-model="pointing_field_name_sel" ng-options="opt.fieldlabel for opt  in  pointing_field | filter_pointing_fields:user track by opt.columnname"></select>
+             </td> 
+        </tr>
+        <tr>
+            <td> 
+                Columns
+            </td> 
+            <td> 
+                <!--<input type="time" id="exampleInput" name="input" ng-model="value"
+       placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required /> -->
+                <multi-select   
+                    input-model="columns" 
+                    output-model="selected_values"
+                    button-label="fieldlabel"
+                    item-label="fieldlabel"
+                    tick-property="ticked" 
+                    on-item-click="functionClick( data )">
+                </multi-select>
+
+                <input class="form-control" type="hidden" ng-model="user.columns" />
+             </td>
+        </tr>
+        <tr>
+            <td> 
+                Condition
+            </td>
+            <td>
+                <table width="100%" border="0">
+                    <tr>
+                    <td>
+                        <select class="form-control"  ng-model="opt" ng-options="opt as opt.fieldlabel for opt  in ( columns| filter:{ tabid : pointing_module_name_sel.tabid }:true) track by opt.columnname"></select>
+                        <select id="operator" width="100px;" ng-change="fill_condition(opt.columnname,operator)" ng-model="operator">
+                            <option value="Like">Like</option>
+                            <option value="Not Like">Not Like</option>
+                            <option value="<"><</option>
+                            <option value=">">></option>
+                        </select>
+                    </td></tr>
+                    <tr>
+                        <td colspan="5">
+                            <textarea cols="100" rows="5" name="val_cond" id="val_cond" ng-model="user.cond">
+                           
+                            </textarea>
+                        </td>
+                    </tr>
+                </table> 
+            </td>
+        </tr>
+        <tr>
+            <td> 
+                Paginate
+            </td> 
+            <td> 
+                <input type="checkbox"  ng-model="user.paginate"  />
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Nr Page
+            </td>
+            <td> 
+                <input class="form-control" type="text" ng-model="user.nr_page"/>
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Add Record
+            </td> 
+            <td> 
+                <input type="checkbox"  ng-model="user.add_record" />
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Sort
+            </td> 
+            <td> 
+                <select name="sort" id="sort"  ng-model="opt1" ng-options="opt1 as opt1.fieldlabel for opt1  in selected_values track by opt1.columnname"></select>
+                <select id="order" ng-change="fill_sort(opt1.columnname,order)" ng-model="order" >
+                    <option value="Asc">Asc</option>
+                    <option value="Desc">Desc</option>
+                    <option value="None">None</option>
+                </select>
+                <input class="form-control" type="hidden" ng-model="user.sort"/>
+            </td> 
+        </tr>
+        <tr>
+            <td> 
+                Edit Record
+            </td> 
+            <td> 
+                <input type="checkbox"  ng-model="user.edit_record"  />
+            </td>
+        </tr>
+        <tr>
+            <td> 
+                Delete Record
+            </td>
+            <td> 
+                <input type="checkbox" ng-model="user.delete_record" />
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="setEditId(user)">Save</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
