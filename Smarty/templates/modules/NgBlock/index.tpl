@@ -247,7 +247,7 @@ angular.module('demoApp')
       });
       
       $scope.destination_opt=['DETAILVIEWWIDGET','PORTALDV','PORTALSV','PORTALLV'];
-      $scope.type_opt=['Table','Graph','Text'];  
+      $scope.type_opt=['Table','Graph','Text','Json'];  
             
       $scope.myFilter = function(value) {
        return ($scope.filterValues.indexOf(value.id) !== -1);

@@ -107,6 +107,7 @@ class NgBlock_DetailViewBlockNgWidget {
                 $delete_record=$adb->query_result($result,0,'delete_record');
                 $add_record=$adb->query_result($result,0,'add_record');
                 $columns=$adb->query_result($result,0,'columns');
+                $type=$adb->query_result($result,0,'type');
                 $col= explode(",",$columns);
                 $options= Array();
                 for($j=0;$j<sizeof($col);$j++)
@@ -143,8 +144,8 @@ class NgBlock_DetailViewBlockNgWidget {
                 $blockURL="module=".$pointing_module_name."&action=".$pointing_module_name."Ajax";
                 $blockURL.="&file=ng_block_".$pointing_field_name."&id=".$sourceRecordId;
                 $blockURL.="&ng_block_id=".$this->id;                
-                
-		$viewer = $this->getViewer();
+
+                $viewer = $this->getViewer();
 		$viewer->assign('RECORD_ID', $sourceRecordId);
                 $viewer->assign('NG_BLOCK_NAME', $name);
                 $viewer->assign('NG_BLOCK_ID', $this->id);
@@ -164,8 +165,20 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign('ADD_RECORD', $add_record);
                 $viewer->assign('REL_MODULE', $relmodule);
                 $viewer->assign("blockURL",$blockURL);
-                                        
-		return $viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNg.tpl"));
+
+                if($type=='Graph'){
+                    $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNgGraph.tpl"));                    
+                }
+                elseif($type=='Text'){
+                    $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNgText.tpl"));                    
+                }
+                elseif($type=='Json'){
+                    $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNgJson.tpl"));                    
+                }
+                else{
+                    $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNg.tpl"));
+                }
+		return $ret_temp;
 	}
 	
 }
