@@ -3144,7 +3144,7 @@ function getAccessPickListValues($module)
 function getTranslationKeyFromTranslatedValue($module, $translated) {
 	global $current_language, $app_strings;
 	static $purified_cache = array();
-
+	if ($module=='Events') $module='Calendar';
 	if (array_key_exists($module.$translated, $purified_cache)) {
 		return $purified_cache[$module.$translated];
 	}
@@ -5111,17 +5111,17 @@ function dateDiffAsString($d1, $d2) {
 	$seconds = $dateDiff['seconds'];
 
 	if($years > 0) {
-		$diffString = "$years ".getTranslatedString('LBL_YEARS',$currentModule);
+		$diffString = "$years ".getTranslatedString('LBL_YEARS_AGO',$currentModule);
 	} elseif($months > 0) {
-		$diffString = "$months ".getTranslatedString('LBL_MONTHS',$currentModule);
+		$diffString = "$months ".getTranslatedString('LBL_MONTHS_AGO',$currentModule);
 	} elseif($days > 0) {
-		$diffString = "$days ".getTranslatedString('LBL_DAYS',$currentModule);
+		$diffString = "$days ".getTranslatedString('LBL_DAYS_AGO',$currentModule);
 	} elseif($hours > 0) {
-		$diffString = "$hours ".getTranslatedString('LBL_HOURS',$currentModule);
+		$diffString = "$hours ".getTranslatedString('LBL_HOURS_AGO',$currentModule);
 	} elseif($minutes > 0) {
-		$diffString = "$minutes ".getTranslatedString('LBL_MINUTES',$currentModule);
+		$diffString = "$minutes ".getTranslatedString('LBL_MINUTES_AGO',$currentModule);
 	} else {
-		$diffString = "$seconds ".getTranslatedString('LBL_SECONDS',$currentModule);
+		$diffString = "$seconds ".getTranslatedString('LBL_SECONDS_AGO',$currentModule);
 	}
 	return $diffString;
 }

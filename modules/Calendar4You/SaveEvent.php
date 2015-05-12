@@ -225,7 +225,7 @@ if((isset($_REQUEST['change_status']) && $_REQUEST['change_status']) && ($_REQUE
 	/* For Followup START -- by Minnie */
 	if(isset($_REQUEST['followup']) && $_REQUEST['followup'] == 'on' && $activity_mode == 'Events' && isset($_REQUEST['followup_time_start']) &&  $_REQUEST['followup_time_start'] != '') {
 		$heldevent_id = $focus->id;
-		$focus->column_fields['subject'] = '[Followup] '.$focus->column_fields['subject'];
+		$focus->column_fields['subject'] = '['.getTranslatedString('LBL_FOLLOWUP','Calendar').'] '.$focus->column_fields['subject'];
 		$startDate = new DateTimeField($_REQUEST['followup_date'].' '.
 				$_REQUEST['followup_time_start']);
 		$endDate = new DateTimeField($_REQUEST['followup_due_date'].' '.
@@ -402,7 +402,7 @@ if($_REQUEST['recurringcheck']) {
 $date = new DateTimeField($_REQUEST["date_start"]);
 echo $date->getDBInsertDateValue();
 
-echo "-".$mod_strings["LBL_SUCCESSFULY_CREATED"];
+echo "-".getTranslatedString("LBL_SUCCESSFULY_CREATED","Calendar4You");
 
 exit;
 ?> 

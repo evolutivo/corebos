@@ -39,7 +39,12 @@
 {/literal}
 	<!-- End -->
 </head>
-	
+<script>
+var gVTModule = '{$smarty.request.module|@vtlib_purify}';
+var gVTTheme  = '{$THEME}';
+var gVTUserID = '{$CURRENT_USER_ID}';
+</script>
+	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small>
 	<a name="top"></a>
 	<!-- header -->
 	<!-- header-vtiger crm name & RSS -->
@@ -395,8 +400,6 @@ function UnifiedSearch_SelectModuleSave() {
 <!-- End -->
 
 <script>
-var gVTModule = '{$smarty.request.module|@vtlib_purify}';
-var gVTTheme  = '{$THEME}';
 function fetch_clock()
 {ldelim}
 	new Ajax.Request(
@@ -404,14 +407,12 @@ function fetch_clock()
 		{ldelim}queue: {ldelim}position: 'end', scope: 'command'{rdelim},
 			method: 'post',
 			postBody: 'module=Utilities&action=UtilitiesAjax&file=Clock',
-			onComplete: function(response)
-				    {ldelim}
-					$("clock_cont").innerHTML=response.responseText;
-					execJS($('clock_cont'));
-				    {rdelim}
+			onComplete: function(response) {ldelim}
+				$("clock_cont").innerHTML=response.responseText;
+				execJS($('clock_cont'));
+			{rdelim}
 		{rdelim}
 	);
-
 {rdelim}
 
 function fetch_calc()
