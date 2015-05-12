@@ -1,4 +1,4 @@
-
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <table border=0 cellspacing=0 cellpadding=0 width=100% class="small">
 <tr>
         <td>&nbsp;</td>
@@ -92,7 +92,7 @@
 <script>
 {literal}
 angular.module('demoApp')
-.controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal) {
+.controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal,ngTableParams) {
            
      $scope.tableParams = new ngTableParams({
         page: 1,            // show first page
