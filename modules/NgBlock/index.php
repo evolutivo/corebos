@@ -281,7 +281,7 @@ elseif($kaction=='add'){
                      {\$query_cond= \" and  \$cond \";}
                      
                     \$entity_field_arr=getEntityFieldNames(\$pointing_module);
-                      \$entity_field=\$entity_field_arr[\"fieldname\"];//var_dump($entity_field);
+                      \$entity_field=\$entity_field_arr[\"fieldname\"];
                       if (is_array(\$entity_field)) {
                         \$entityname=implode(\",\$pointing_module_table.\",\$entity_field);
                       } 
@@ -433,11 +433,13 @@ elseif($kaction=='add'){
                                              }
                             \$fieldlabel = getTranslatedString(\$adb->query_result(\$res, 0, 0));
                             \$lines[] = \$moduleName .\" changed value of '\". \$fieldlabel.\"' FROM \". \$oldvl .\"  TO  \". \$newvl;
-                          }
+                            \$entries[] = array(implode('<br>', \$lines),
+                                                utf8_encode(strftime('%c', strtotime(\$update_date))),
+                                                \$user);}
 
                     }
                 }
-                echo json_encode(\$lines);
+                echo json_encode(\$entries);
             }
                 elseif(\$kaction=='create'){
                     require_once('modules/'.\$pointing_module.'/'.\$pointing_module.'.php');
