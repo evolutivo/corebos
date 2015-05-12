@@ -44,22 +44,10 @@
                     <b>{literal}{{header}}{/literal}</b> </td> 
                 <td> </td> 
             </tr>
-            <tr ng-repeat="user in $data"  class="dvtCellInfo">
-                {foreach key=index item=fieldname from=$COLUMN_NAME} 
-                      {if $index eq 0}
-                          <td >
-                             <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}{literal}}}{/literal}</a>
-                          </td> 
-                      {else}
-                          <td > 
-                              {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
-                                  {literal}  {{user.{/literal}{$fieldname}_display{literal}}}{/literal}
-                              {else}
-                                  {literal}  {{user.{/literal}{$fieldname}{literal}}}{/literal}
-                              {/if}
-                          </td>
-                      {/if}
-                {/foreach} 
+            <tr ng-repeat="users in $data"  class="dvtCellInfo">
+                <td ng-repeat="user in users"> 
+                      {literal}{{users.user}}{/literal}
+                </td>
                 <td  width="80" >
                 <table>
                       <tr>

@@ -433,9 +433,9 @@ elseif($kaction=='add'){
                                              }
                             \$fieldlabel = getTranslatedString(\$adb->query_result(\$res, 0, 0));
                             \$lines[] = \$moduleName .\" changed value of '\". \$fieldlabel.\"' FROM \". \$oldvl .\"  TO  \". \$newvl;
-                            \$entries[] = array(implode('<br>', \$lines),
-                                                utf8_encode(strftime('%c', strtotime(\$update_date))),
-                                                \$user);}
+                            \$entries[] = array('line'=>implode('<br>', \$lines),
+                                                'date'=>utf8_encode(strftime('%c', strtotime(\$update_date))),
+                                                'user'=>\$user);}
 
                     }
                 }
