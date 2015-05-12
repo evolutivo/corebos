@@ -373,6 +373,72 @@ elseif($kaction=='add'){
                           }
                 echo json_encode(\$content);
             }
+            elseif(\$kaction=='retrieve_json'){
+                
+                \$header=Array();
+                \$header[0] =\"\".getTranslatedString('LBL_ACTION');
+                \$header[1] =\"\".getTranslatedString('LBL_DATE');
+                \$header[2] =\"\".getTranslatedString('LBL_USER');
+               // \$header[3] =\"\".getTranslatedString('LBL_RESTORE');
+                \$entries=Array();
+                \$tabid=  getTabid('Adocdetail');
+                global \$dbconfig;
+                \$ip=\$dbconfig['ip_server'];
+                \$endpointUrl = \"http://\$ip:9200/adocmasterdetail/details/_search?pretty&size=100\";
+                \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)));
+                \$channel1 = curl_init();
+                curl_setopt(\$channel1, CURLOPT_URL, \$endpointUrl);
+                curl_setopt(\$channel1, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt(\$channel1, CURLOPT_POST, true);
+                //curl_setopt(\$channel1, CURLOPT_CUSTOMREQUEST, \"PUT\");
+                curl_setopt(\$channel1, CURLOPT_POSTFIELDS, json_encode(\$fields1));
+                curl_setopt(\$channel1, CURLOPT_CONNECTTIMEOUT, 100);
+                curl_setopt(\$channel1, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt(\$channel1, CURLOPT_TIMEOUT, 1000);
+                \$response1 = json_decode(curl_exec(\$channel1));
+                foreach (\$response1->hits->hits as \$row) {
+                  \$user = getUserName(\$row->_source->userchange);
+                  \$update_log = explode(\";\",\$row->_source->changedvalues);
+                //  echo \$row->_source->changedvalues.' ';
+                  \$update_date = \$row->_source->modifiedtime;
+                  \$lines = array();
+                     if(\$row->_source->changedvalues!='' && \$row->_source->changedvalues!=null){
+                  foreach(\$update_log as \$d){
+                      if(stristr(\$d,'fieldname='))
+                        \$fldname=substr(\$d,strpos(\$d,'fieldname=')+10);
+                      if(stristr(\$d,'oldvalue='))
+                         \$oldvl=substr(\$d,strpos(\$d,'oldvalue=')+9);
+                      if(stristr(\$d,'newvalue'))
+                        \$newvl=substr(\$d,strpos(\$d,'newvalue=')+9);
+                          }
+                          if(\$fldname!=''){
+                           \$query = \"select fieldlabel,uitype from vtiger_field where tabid={\$tabid} and fieldname='{\$fldname}'\";
+                            \$res = \$adb->query(\$query);
+                            \$uitype=\$adb->query_result(\$res,0,1);
+                               if (in_array(\$uitype,array(10)))
+                                        {
+                                       \$relatedModule1=\$adb->query_result(\$adb->pquery(\"Select setype from vtiger_crmentity where crmid=?\",array(\$oldvl)),0,0);
+                            if(\$oldvl!='')
+                                \$oldvl1=  getEntityName(\$relatedModule1, \$oldvl);
+                            if(\$newvl!='')
+                                \$newvl1=  getEntityName(\$relatedModule1, \$newvl);
+                            if(count(\$oldvl1)!=0) 
+                                \$oldvl=\$oldvl1[\$oldvl];
+                            else
+                                \$oldvl=\$oldvl1;
+                            if(count(\$newvl1)!=0) 
+                                \$newvl=\$newvl1[\$newvl];
+                            else
+                                \$newvl=\$newvl1;
+                                             }
+                            \$fieldlabel = getTranslatedString(\$adb->query_result(\$res, 0, 0));
+                            \$lines[] = \$moduleName .\" changed value of '\". \$fieldlabel.\"' FROM \". \$oldvl .\"  TO  \". \$newvl;
+                          }
+
+                    }
+                }
+                echo json_encode(\$lines);
+            }
                 elseif(\$kaction=='create'){
                     require_once('modules/'.\$pointing_module.'/'.\$pointing_module.'.php');
                      \$models=\$_REQUEST['models'];
