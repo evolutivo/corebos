@@ -44,9 +44,15 @@
                     <b>{literal}{{header}}{/literal}</b> </td> 
                 <td> </td> 
             </tr>
-            <tr ng-repeat="users in $data"  class="dvtCellInfo">
-                <td ng-repeat="user in users"> 
-                      {literal}{{users.user}}{/literal}
+            <tr ng-repeat="user in $data"  class="dvtCellInfo">
+                <td > 
+                      {literal}{{user.line}}{/literal}
+                </td>
+                <td > 
+                      {literal}{{user.date}}{/literal}
+                </td>
+                <td > 
+                      {literal}{{user.user}}{/literal}
                 </td>
                 <td  width="80" >
                 <table>
