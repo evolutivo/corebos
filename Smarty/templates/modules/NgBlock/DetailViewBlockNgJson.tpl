@@ -25,9 +25,59 @@
 </table>
 
 <div style="width:auto;display:none;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
-    <div ng-controller="block_{$NG_BLOCK_ID}">
-            {literal}{{data}}{/literal}
-    </div>
+        <table ng-controller="block_{$NG_BLOCK_ID}"  ng-table="tableParams" class="table  table-bordered table-responsive">
+            {if $ADD_RECORD eq 1 }
+            <tr class="dvtCellLabel">
+                {math equation="x+1" x=$FIELD_LABEL|@count assign="nr_col"} 
+                <td colspan="{$nr_col}">
+                    <img width="20" height="20" ng-click="open(user,'create')" src="themes/softed/images/btnL3Add.gif" />
+                    {if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
+                        <a ng-click="open(user,'create')">Crea Nota</a> 
+                    {else}
+                        <a ng-click="open(user,'create')">Add New {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                    {/if}
+                </td> 
+            </tr>
+            {/if}
+            <tr class="dvtCellLabel">
+                <td ng-repeat="header in headers" > 
+                    <b>{literal}{{header}}{/literal}</b> </td> 
+                <td> </td> 
+            </tr>
+            <tr ng-repeat="user in $data"  class="dvtCellInfo">
+                {foreach key=index item=fieldname from=$COLUMN_NAME} 
+                      {if $index eq 0}
+                          <td >
+                             <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}{literal}}}{/literal}</a>
+                          </td> 
+                      {else}
+                          <td > 
+                              {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
+                                  {literal}  {{user.{/literal}{$fieldname}_display{literal}}}{/literal}
+                              {else}
+                                  {literal}  {{user.{/literal}{$fieldname}{literal}}}{/literal}
+                              {/if}
+                          </td>
+                      {/if}
+                {/foreach} 
+                <td  width="80" >
+                <table>
+                      <tr>
+                          {if $EDIT_RECORD eq 1}
+                          <td>
+                              <img ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'edit')" src="themes/images/editfield.gif" /> 
+                          </td>
+                          {/if}
+                          {if $DELETE_RECORD eq 1}
+                          <td>
+                              <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record(user)" src="themes/images/delete.gif" />
+                          </td> 
+                          {/if}
+                      </tr>             
+                 </table>   
+                </td>
+            </tr>
+        </table>
 </div>
 
 <style>
@@ -44,13 +94,22 @@
 angular.module('demoApp')
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal) {
            
-          $http.post('index.php?{/literal}{$blockURL}{literal}&kaction=retrieve_json'
-                )
-                .success(function(data) {
-                     $scope.data=data;
-                     
-                    
-                 });       
+     $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+        $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=retrieve_json').
+            success(function(data, status) {
+              var orderedData = data.values;
+              $scope.headers=data.headers;
+              params.total(orderedData.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+        })
+            }
+    });
         
 });
 {/literal}

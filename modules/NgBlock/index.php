@@ -439,7 +439,8 @@ elseif($kaction=='add'){
 
                     }
                 }
-                echo json_encode(\$entries);
+                \$return_arr=array('headers'=>\$header,'values'=>\$entries):
+                echo json_encode(\$return_arr);
             }
                 elseif(\$kaction=='create'){
                     require_once('modules/'.\$pointing_module.'/'.\$pointing_module.'.php');
