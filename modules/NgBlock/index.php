@@ -397,8 +397,8 @@ elseif($kaction=='add'){
                 curl_setopt(\$channel1, CURLOPT_TIMEOUT, 1000);
                 \$response1 = json_decode(curl_exec(\$channel1));
                 \$tot=\$response1->hits->total;
-                echo (\$tot);
-                \$endpointUrl = \"http://\$ip:9200/adocmasterdetail/details/_search?pretty&size=\$tot\";
+
+\$endpointUrl = \"http://\$ip:9200/adocmasterdetail/details/_search?pretty&size=\$tot\";
                 \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)));
                 \$channel1 = curl_init();
                 curl_setopt(\$channel1, CURLOPT_URL, \$endpointUrl);
