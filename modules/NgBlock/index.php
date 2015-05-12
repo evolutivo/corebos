@@ -439,7 +439,7 @@ elseif($kaction=='add'){
 
                     }
                 }
-                \$return_arr=array('headers'=>\$header,'values'=>\$entries):
+                \$return_arr=array('headers'=>\$header,'values'=>\$entries);
                 echo json_encode(\$return_arr);
             }
                 elseif(\$kaction=='create'){
