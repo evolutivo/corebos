@@ -17,8 +17,9 @@ $current_user = Users::getActiveAdminUser();
 
 function testquery($query) {
 	global $adb;
+	$invalidcondition = (stripos($query,'or 0') || stripos($query,'and 0'));
 	$rs = $adb->query($query);
-	if ($rs) {
+	if ($rs and !$invalidcondition) {
 		echo '<span style="color:green">Query OK</span><br>';
 	} else {
 		echo '<span style="color:red">Query NOK</span><br>';
@@ -86,14 +87,29 @@ echo "&nbsp;'h'&nbsp;= &gt;= value  (greater or equal)<br>";
 echo "&nbsp;'y' or 'empty'&nbsp;= NULL or ''  (null or empty)<br>";
 echo "&nbsp;'ny'&nbsp;= NOT NULL nor ''  (not null nor empty)<br>";
 echo "&nbsp;'bw'&nbsp;= BETWEEN value1 and value2  (between two dates)<br>";
+echo "&nbsp;'i' or 'in'&nbsp;= IN value1,...,valuen  (in set of values)<br>";
+echo "&nbsp;'ni' or 'nin'&nbsp;= NOT IN value1,...,valuen  (not in set of values)<br>";
 echo "&nbsp;There is special support for empty fields and for the Birthday field in Contacts<br><br><br>";
+
+$queryGenerator = new QueryGenerator($moduleName, $current_user);
+$queryGenerator->setFields(array('id','website','accountname'));
+$queryGenerator->addCondition('website',array('www.edfggrouplimited.com','www.gooduivtiger.com'),'i');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+$queryGenerator = new QueryGenerator($moduleName, $current_user);
+$queryGenerator->setFields(array('id','website','accountname'));
+$queryGenerator->addCondition('website',array('www.edfggrouplimited.com','www.gooduivtiger.com'),'ni');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
 
 $queryGenerator = new QueryGenerator($moduleName, $current_user);
 $queryGenerator->setFields(array('id','cf_681','accountname'));
 $queryGenerator->addCondition('accountname','EDFG','c');
 $query = $queryGenerator->getQuery();
-testquery($query);
 echo "$query<br>";
+testquery($query);
 
 $queryGenerator = new QueryGenerator($moduleName, $current_user);
 $queryGenerator->setFields(array('id','cf_681','accountname'));
@@ -156,6 +172,13 @@ $query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);
 
+$queryGenerator = new QueryGenerator('Contacts', $current_user);
+$queryGenerator->setFields(array('id','cf_681','firstname','Accounts.accountname','Accounts.id'));
+$queryGenerator->addReferenceModuleFieldCondition('Accounts', 'account_id', 'id', '1047', 'e');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
 echo "<h2>Calendar Queries</h2>";
 $queryGenerator = new QueryGenerator('Calendar', $current_user);
 $queryGenerator->setFields(array('id','subject','activitytype','date_start','due_date','taskstatus'));
@@ -194,6 +217,30 @@ testquery($query);
 $queryGenerator = new QueryGenerator('Users', $current_user);
 $queryGenerator->setFields(array('id','username','first_name'));
 $queryGenerator->addCondition('id','1','e');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator('accounts', $current_user);
+$queryGenerator->setFields(array('id','account_no','accountname','accounts.accountname'));
+$queryGenerator->addCondition('assigned_user_id','20x21199','e');
+$queryGenerator->addCondition('cf_938','Activo','e','and');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator('accounts', $current_user);
+$queryGenerator->setFields(array('id','account_no','accountname','accounts.accountname'));
+$queryGenerator->addReferenceModuleFieldCondition('Users', 'assigned_user_id', 'email1', 'myemail@mydomain.tld', 'e');
+$queryGenerator->addCondition('cf_938','Activo','e','and');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator('accounts', $current_user);
+$queryGenerator->setFields(array('id','account_no','accountname','accounts.accountname'));
+$queryGenerator->addReferenceModuleFieldCondition('Users', 'assigned_user_id', 'id', '20x21199', 'e');
+$queryGenerator->addCondition('cf_938','Activo','e','and');
 $query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);
@@ -302,7 +349,31 @@ echo "<h2>Query with subject of Invoice and SO and account_id of rel module</h2>
 $queryGenerator = new QueryGenerator("Invoice", $current_user);
 $queryGenerator->setFields(array('id','subject','Accounts.assigned_user_id','SalesOrder.subject','SalesOrder.account_id'));
 //$queryGenerator->addReferenceModuleFieldCondition('Accounts', 'account_id', 'accountname', 'EDFG Group Limited', 'exists');
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
 
+echo "<h2>Query for modules with relation on themselves</h2>";
+$queryGenerator = new QueryGenerator('Accounts', $current_user);
+$queryGenerator->setFields(array('id','accountname','website','Accounts.accountname','Accounts.website'));
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+$queryGenerator = new QueryGenerator('Contacts', $current_user);
+$queryGenerator->setFields(array('id','firstname','lastname','Contacts.firstname','Contacts.lastname'));
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
+echo "<h2>Query for HelpDesk</h2>";
+$queryGenerator = new QueryGenerator('HelpDesk', $current_user);
+$queryGenerator->setFields(array('id','ticket_title','ticketstatus'));
+$query = $queryGenerator->getQuery();
+echo "$query<br>";
+testquery($query);
+
+$queryGenerator = new QueryGenerator('HelpDesk', $current_user);
+$queryGenerator->setFields(array('id','ticket_title','ticketstatus','Accounts.accountname','Contacts.firstname'));
 $query = $queryGenerator->getQuery();
 echo "$query<br>";
 testquery($query);

@@ -1,4 +1,25 @@
 <?php
+/*********************************************************************************
+ * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
+ * ("License"); You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
+ * Software distributed under the License is distributed on an  "AS IS"  basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+ * the specific apmt_locationuage governing rights and limitations under the License.
+ * The Original Code is:  SugarCRM Open Source
+ * The Initial Developer of the Original Code is SugarCRM, Inc.
+ * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________.
+ ********************************************************************************/
+/*********************************************************************************
+ * $Header$
+ * Description:  Defines the English pack for Calendar Module
+ * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
+ * All Rights Reserved.
+ * Contributor(s): ______________________________________..
+ ********************************************************************************/
+
 $mod_strings = array (
   'LBL_MODULE_NAME' => 'Calendario',
   'LBL_MODULE_TITLE' => 'Calendario: Home',
@@ -18,6 +39,7 @@ $mod_strings = array (
   'LBL_CALSTART' => 'Inizia il mio calendario alle',
   'LBL_TIMESETTINGS' => 'Impostazioni Orario',
   'LBL_HOLDFOLLOWUP' => 'Ferma in attesa di',
+  'LBL_FOLLOWUP' => 'Follow up',
   'LBL_CALL' => 'Chiamata',
   'LBL_MEET' => 'Riunione',
   'LBL_APPNT' => 'Appuntamento',
@@ -423,4 +445,5 @@ $mod_strings = array (
 'LBL_ARE_YOU_SURE'=>'Sei sicuro?',
 'Calendar ID' => 'ID Calendario',
 );
+
 ?>
