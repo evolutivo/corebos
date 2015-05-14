@@ -2685,5 +2685,47 @@ function get_log_history($entityid,$tabid)
 		$log->debug("Exiting from get_log_history($entityid,$tabid method ...");
 		return $return_value;
 	}
+        function get_log_historynorm($entityid,$tabid)
+	{
+		global $log, $adb,$current_user;
+		
+		$moduleName = getTabModuleName($tabid);
+                $log->debug("Entering into get_log_history($entityid,$tabid) method ...");
+              //  if($moduleName!='Adocdetail'){
+               
+                 $header=Array();
+                $header[0] ="".getTranslatedString('LBL_ACTION');
+//                $header[1] ="".getTranslatedString('LBL_DATE');
+//                $header[2] ="".getTranslatedString('LBL_USER');
+               // $header[3] ="".getTranslatedString('LBL_RESTORE');
+                $entries=Array();
+                global $dbconfig;
+                $ip=$dbconfig['ip_server'];
+$endpointUrl = "http://$ip:9200/adocmasterdetail/detailsnorm/_search?pretty&size=100"; 
+$fields1 =array('query'=>array("term"=>array("adocdetailid"=>$entityid)));
+$channel1 = curl_init();
+curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($channel1, CURLOPT_POST, true);
+//curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+$response1 = json_decode(curl_exec($channel1));
+
+                foreach ($response1->hits->hits as $row) {
+//                  $user = getUserName($row->_source->userchange);
+                  $update_log[] = json_encode($row->_source);
+                  }
+//                
+                  $entries[] = array(implode(" ",$update_log));
+
+               // }    
+//                }
+		$return_value = Array('header'=>$header,'entries'=>$entries);
+		$log->debug("Exiting from get_log_history($entityid,$tabid method ...");
+		return $return_value;
+	}
 }
 ?>
