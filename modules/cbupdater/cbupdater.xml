@@ -351,4 +351,11 @@
 	<classname>addNgBlock</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>add field to loggingconf</description>
+	<filename>build/changeSets/addfieldtologging.php</filename>
+	<classname>addfieldtologging</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

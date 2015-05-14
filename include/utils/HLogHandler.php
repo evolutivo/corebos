@@ -32,6 +32,7 @@ class HistoryLogHandler extends VTEventHandler {
     if (!isset($this->modulesRegistered[$moduleName])) {
       return;
     }
+    $type=explode(",",$this->getEntitylogtype($moduleName));
     //This block of code needs to be adapted : table_name, tableid, name, and fields you wish to be considered for logging
     $table = $this->modulesRegistered[$moduleName]['tablename'];
     $tableid = $table.'.'.$this->modulesRegistered[$moduleName]['primarykey'];
@@ -76,18 +77,17 @@ class HistoryLogHandler extends VTEventHandler {
       $act = "";
       $act1='';
       $log->debug('unepo '.count($fields));
-      for ($i=0;$i<count($fields);$i++)
-       {
-        if($news[$i]!=$entityData->old[$i]) {         
+     for ($i=0;$i<count($fields);$i++)
+       {  if($news[$i]!=$entityData->old[$i]) {         
           $act='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
-             
-        
+          
        
         
       
      // $log->debug('drivalda2 '.$act);
       $dt=date("Y-m-d H:i:s");     
-      if(!empty($act)) {         
+      if(!empty($act)) { 
+           if(in_array('entitylog',$type)){
           require_once('modules/Entitylog/Entitylog.php');
         require_once("data/CRMEntity.php" );
           $focus=new Entitylog();
@@ -105,15 +105,60 @@ class HistoryLogHandler extends VTEventHandler {
 //             $focus->column_fields['locatorto']=$news[$index];
 //             $log->debug('ketu jemi '.$index." ".$entityData->old[$index]." ".$news[$index]);
 //          }
-          $focus->saveentity("Entitylog");
+          $focus->saveentity("Entitylog");}
+         if(in_array('denormalized',$type)) {
+             global $dbconfig;
+             $ip= $dbconfig['ip_server'];
+//$endpointUrl = "http://$ip:9200/adocmasterdetail/details/_search?pretty"; 
+//$channel1 = curl_init();
+//curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+//curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+//curl_setopt($channel1, CURLOPT_POST, true);
+////curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+////curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+//curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+//curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+//curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+//$response1 = json_decode(curl_exec($channel1));
+//if(strstr($response1->error,'IndexMissingException'))
+//{$ij=1;
+//} 
+//else {$ij=$response1->hits->total+2+$i;}
+$endpointUrl2 = "http://$ip:9200/adocmasterdetail/details";
+$fields1=$adb->pquery("select * from vtiger_adocmaster 
+join vtiger_adocdetail on adocmasterid=adoctomaster join vtiger_crmentity cdetail on cdetail.crmid=adocdetailid
+ where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
+$fields1->fields['changedvalues']=$act;
+$fields1->fields['userchange']=$userid;
+$channel11 = curl_init();
+//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
+curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($channel11, CURLOPT_POST, true);
+//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
+curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
+curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+$response2 = curl_exec($channel11);
+
       }
       }
-      }
+       }}
       $log->debug("Exit aftersave event...");
     }
     $log->debug("Exiting Handler for module...".$moduleName);
   }
-
+function getEntitylogtype($module=''){
+    include_once('modules/LoggingConf/LoggingUtils.php');
+   require_once('include/utils/UserInfoUtil.php');
+   require_once('include/utils/utils.php');
+   global $log;
+   $tabid=getTabid($module);
+   $type=getEntitylogtype($tabid);
+           
+  return $type;
+}
   function getModulesFieldMap($module='')
   {
    include_once('modules/LoggingConf/LoggingUtils.php');

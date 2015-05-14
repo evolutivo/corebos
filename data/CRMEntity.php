@@ -2540,8 +2540,8 @@ function get_log_history($entityid,$tabid)
 		global $log, $adb,$current_user;
 		
 		$moduleName = getTabModuleName($tabid);
-		$log->debug("Entering into get_log_history($entityid,$tabid) method ...");
-
+                $log->debug("Entering into get_log_history($entityid,$tabid) method ...");
+              //  if($moduleName!='Adocdetail'){
                 $query="SELECT u.user_name, h.finalstate, c.createdtime,h.relatedto,h.entitylogid,h.entitylogname
                 FROM vtiger_entitylog h
                 JOIN vtiger_users u ON h.user = u.id 
@@ -2590,11 +2590,97 @@ function get_log_history($entityid,$tabid)
                   }
                   $entries[] = array(
                       '<a href="index.php?module=Entitylog&action=DetailView&record='.$entitylogid.'">'.$entitylogname.'</a>',
-                    //implode('<br>', $lines),
+                  //  implode('<br>', $lines),
                     utf8_encode(strftime('%c', strtotime($update_date))),
                     $user,
                     $restore_link);
                 }
+             //                     }
+//                else {
+//                 $header=Array();
+//                $header[0] ="".getTranslatedString('LBL_ACTION');
+//                $header[1] ="".getTranslatedString('LBL_DATE');
+//                $header[2] ="".getTranslatedString('LBL_USER');
+//               // $header[3] ="".getTranslatedString('LBL_RESTORE');
+//                $entries=Array();
+//                global $dbconfig;
+//                $ip=$dbconfig['ip_server'];
+//$endpointUrl = "http://$ip:9200/adocmasterdetail/details/_search?pretty&size=100"; 
+//$fields1 =array('query'=>array("term"=>array("adocdetailid"=>$entityid)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+//$channel1 = curl_init();
+//curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+//curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+//curl_setopt($channel1, CURLOPT_POST, true);
+////curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+//curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+//curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+//curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+//curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+//$response1 = json_decode(curl_exec($channel1));
+//                foreach ($response1->hits->hits as $row) {
+//                  $user = getUserName($row->_source->userchange);
+//                  $update_log = explode(";",$row->_source->changedvalues);
+//                //  echo $row->_source->changedvalues.' ';
+//                  $update_date = $row->_source->modifiedtime;
+//                  $lines = array();
+//                     if($row->_source->changedvalues!='' && $row->_source->changedvalues!=null){
+//                  foreach($update_log as $d){
+//              if(stristr($d,'fieldname='))
+//                $fldname=substr($d,strpos($d,'fieldname=')+10);
+//              if(stristr($d,'oldvalue='))
+//                 $oldvl=substr($d,strpos($d,'oldvalue=')+9);
+//              if(stristr($d,'newvalue'))
+//                $newvl=substr($d,strpos($d,'newvalue=')+9);
+//                  }   
+//                  if($fldname!=''){
+//                   $query = "select fieldlabel,uitype from vtiger_field where tabid={$tabid} and fieldname='{$fldname}'";
+//        $res = $adb->query($query);
+//        $uitype=$adb->query_result($res,0,1);
+//           if (in_array($uitype,array(10)))
+//                    {                     
+//                   $relatedModule1=$adb->query_result($adb->pquery("Select setype from vtiger_crmentity where crmid=?",array($oldvl)),0,0);
+// if($oldvl!='')                    
+//$oldvl1=  getEntityName($relatedModule1, $oldvl);
+// if($newvl!='')
+//                    $newvl1=  getEntityName($relatedModule1, $newvl);
+//if(count($oldvl1)!=0) $oldvl=$oldvl1[$oldvl];
+//else
+//                    $oldvl=$oldvl1;
+//if(count($newvl1)!=0) $newvl=$newvl1[$newvl];
+//else
+//                    $newvl=$newvl1;
+//                         }
+//        $fieldlabel = getTranslatedString($adb->query_result($res, 0, 0));
+//        $lines[] = $moduleName ." changed value of '". $fieldlabel."' FROM ". $oldvl ."  TO  ". $newvl;
+//                  }}
+//   
+////                  foreach($update_log as $data) {
+////
+////                    $query = "select fieldlabel,uitype,columnname,fieldid from vtiger_field where tabid={$tabid} and fieldname='{$data['fieldname']}'";
+////                    $res = $adb->query($query);
+////                    $fieldlabel = $adb->query_result($res, 0, 0);
+////                    $uitype = $adb->query_result($res, 0, 1);
+////                   if (in_array($uitype,array(10)))
+////                    {                     
+////                         $idold=$data['oldvalue'];
+////                         $relatedModule1=$adb->query_result($adb->pquery("Select setype from vtiger_crmentity where crmid=?",array($idold)),0,0);
+////                         $data['oldvalue']=  getEntityName($relatedModule1, $idold);
+////                         $data['oldvalue']=$data['oldvalue'][$idold];
+////
+////                         $idnew= $data['newvalue'];
+////                         $relatedModule2=$adb->query_result($adb->pquery("Select setype from vtiger_crmentity where crmid=?",array($idnew)),0,0);
+////                         $data['newvalue']=getEntityName($relatedModule2, $idnew);
+////                         $data['newvalue']=$data['newvalue'][$idnew]; 
+////                     
+////                    }
+////                    $lines[] = sprintf(getTranslatedString('HISTORY_LOG_CHANGED_VALUE_MSG'), getTranslatedString($moduleName, $moduleName), getTranslatedString($fieldlabel, $moduleName), $data['oldvalue'], $data['newvalue']);
+////                  }
+//                
+//                  $entries[] = array(implode('<br>', $lines),
+//                    utf8_encode(strftime('%c', strtotime($update_date))),
+//                    $user);
+//                }    
+//                }
 		$return_value = Array('header'=>$header,'entries'=>$entries);
 		$log->debug("Exiting from get_log_history($entityid,$tabid method ...");
 		return $return_value;

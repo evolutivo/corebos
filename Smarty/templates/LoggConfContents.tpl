@@ -106,6 +106,7 @@
 				{/if}
 			{/foreach}
 			</select>
+                       
 		    	</td>
 	                <td align="right">&nbsp;</td>
                 </tr>
@@ -116,6 +117,9 @@
 			{assign var="MODULELABEL" value=$APP.$module}
 		{/if}
 		{if $module eq $DEF_MODULE}
+                    {$MOD.entitylog}: <input type='checkbox' {$elog} name="entitylog{$module}" id="entitylog{$module}" >
+                    {$MOD.denorm}: <input type='checkbox' {$denorm} name="denorm{$module}" id="denorm{$module}" >
+                    {$MOD.norm}: <input type='checkbox' {$norm} name="norm{$module}" id="norm{$module}" >
 			<div id="{$module}_fields" style="display:block">
 		{else}
 			<div id="{$module}_fields" style="display:none">

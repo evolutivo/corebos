@@ -25,6 +25,9 @@ $mod_strings = Array(
  'LBL_VIEW_LOGGING_MAP'=>'View Logging Configuration Map',
  
  'LBL_EDIT_BUTTON'=>'Edit', 
+ 'entitylog'=>'Entitylog',
+ 'denorm'=>'Denormalization',
+ 'norm'=>'Normalization',
  'LBL_DEL'=>'Delete',
  'LBL_SAVE'=>'Save',
  'LBL_CANCEL'=>'Cancel', 

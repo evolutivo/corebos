@@ -54,11 +54,15 @@ new Ajax.Request(
               j++;
             }                
         }
+        var elog=document.getElementById("entitylog"+moduleval).checked;
+        var denorm=document.getElementById("denorm"+moduleval).checked;
+        var norm=document.getElementById("norm"+moduleval).checked;
+       
 	new Ajax.Request(
 		'index.php',
 		{queue: {position: 'end', scope: 'command'},
 			method: 'post',
-			postBody: 'module=LoggingConf&action=LoggingConfAjax&file=UpdateLoggingConfiguration&Screen='+moduleval+'&fieldstobeloggedModule='+serialize(values),
+			postBody: 'module=LoggingConf&action=LoggingConfAjax&file=UpdateLoggingConfiguration&Screen='+moduleval+'&fieldstobeloggedModule='+serialize(values)+"&elog="+elog+"&denorm="+denorm+"&norm="+norm,
 			onComplete: function(response) {                           
 				
                                 window.location="index.php?action=index&module=LoggingConf&fld_module="+moduleval;

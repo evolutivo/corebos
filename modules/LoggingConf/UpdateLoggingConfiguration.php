@@ -18,12 +18,21 @@
  *************************************************************************************************/
 
 require_once('include/utils/CommonUtils.php');
-global $adb;
+global $adb,$log;
 $tab_id= getTabid(vtlib_purify($_REQUEST['Screen']));
 $fieldsarray=$_REQUEST['fieldstobeloggedModule'];
-
-        //Updating the database
-$update_query = "update vtiger_loggingconfiguration set fields=? where tabid=?";
+$elog=$_REQUEST['elog'];
+$denorm=$_REQUEST['denorm'];
+$norm=$_REQUEST['norm'];
+if($elog=='true')
+$type[]='entitylog';
+if($denorm=='true')
+$type[]='denormalized';
+if($norm=='true')
+$type[]='normalized';
+$type1=implode(",",$type);
+    //Updating the database
+$update_query = "update vtiger_loggingconfiguration set fields=? , type='$type1' where tabid=?";
 $update_params = array($fieldsarray, $tab_id);
 $query=$adb->pquery($update_query, $update_params);
 echo $query;

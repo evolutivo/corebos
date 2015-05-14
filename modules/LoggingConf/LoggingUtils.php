@@ -41,6 +41,12 @@ $query=$adb->pquery("Select count(tabid) from vtiger_loggingconfiguration where 
 $number=$adb->query_result($query,0);
 return $number;  
 }
+function getEntitylogtype($tabid){
+global $adb;
+$query=$adb->pquery("Select type from vtiger_loggingconfiguration where tabid=?",array($tabid));
+$number=$adb->query_result($query,0);
+return $number;  
+}
 function getModuleLogFieldList($tabid)
 {
 require_once('include/utils/UserInfoUtil.php');
