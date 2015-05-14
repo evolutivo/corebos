@@ -167,7 +167,7 @@ if($ij!='' && $ij!=null){
 $endpointUrl2 = "http://$ip:9200/adocmasterdetail/detailsnorm/$ij";
 $fields1=$adb->pquery("select * from vtiger_adocmaster 
 join vtiger_adocdetail on adocmasterid=adoctomaster join vtiger_crmentity cdetail on cdetail.crmid=adocdetailid
- where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
+join vtiger_products on productid=adoc_product where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
 $channel11 = curl_init();
@@ -187,7 +187,7 @@ else {
     $endpointUrl2 = "http://$ip:9200/adocmasterdetail/detailsnorm";
 $fields1=$adb->pquery("select * from vtiger_adocmaster 
 join vtiger_adocdetail on adocmasterid=adoctomaster join vtiger_crmentity cdetail on cdetail.crmid=adocdetailid
- where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
+join vtiger_products on productid=adoc_product where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
 $channel11 = curl_init();
