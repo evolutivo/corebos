@@ -32,6 +32,9 @@ if($norm=='true')
 $type[]='normalized';
 $type1=implode(",",$type);
     //Updating the database
+if($elog=='undefined' && $denorm=='undefined' && $norm=='undefined')
+    break;
+else
 $update_query = "update vtiger_loggingconfiguration set fields=? , type='$type1' where tabid=?";
 $update_params = array($fieldsarray, $tab_id);
 $query=$adb->pquery($update_query, $update_params);
