@@ -385,7 +385,7 @@ elseif($kaction=='add'){
                 global \$dbconfig;
                 \$ip=\$dbconfig['ip_server'];
                 \$endpointUrl = \"http://\$ip:9200/adocmasterdetail/details/_search?pretty\";
-                \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)));
+                \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
                 \$channel1 = curl_init();
                 curl_setopt(\$channel1, CURLOPT_URL, \$endpointUrl);
                 curl_setopt(\$channel1, CURLOPT_RETURNTRANSFER, true);
