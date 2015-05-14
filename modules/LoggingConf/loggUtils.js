@@ -54,10 +54,11 @@ new Ajax.Request(
               j++;
             }                
         }
+if(document.getElementById("entitylog"+moduleval)!=null){
         var elog=document.getElementById("entitylog"+moduleval).checked;
         var denorm=document.getElementById("denorm"+moduleval).checked;
         var norm=document.getElementById("norm"+moduleval).checked;
-       
+       }
 	new Ajax.Request(
 		'index.php',
 		{queue: {position: 'end', scope: 'command'},
