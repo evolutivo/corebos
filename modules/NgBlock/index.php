@@ -399,7 +399,7 @@ elseif($kaction=='add'){
                 \$tot=\$response1->hits->total;
 
 \$endpointUrl = \"http://\$ip:9200/adocmasterdetail/details/_search?pretty&size=\$tot\";
-                \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)));
+                \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
                 \$channel1 = curl_init();
                 curl_setopt(\$channel1, CURLOPT_URL, \$endpointUrl);
                 curl_setopt(\$channel1, CURLOPT_RETURNTRANSFER, true);
@@ -431,16 +431,19 @@ elseif($kaction=='add'){
                             \$uitype=\$adb->query_result(\$res,0,1);
                                if (in_array(\$uitype,array(10)))
                                         {
-                                       \$relatedModule1=\$adb->query_result(\$adb->pquery(\"Select setype from vtiger_crmentity where crmid=?\",array(\$oldvl)),0,0);
+                                        if(\$oldvl!='' && \$oldvl!=null && \$oldvl!=0)     
+                                           \$relatedModule1=\$adb->query_result(\$adb->pquery(\"Select setype from vtiger_crmentity where crmid=?\",array(\$oldvl)),0,0);
+                                       else if(\$newvl!='' && \$newvl!=null && \$newvl!=0)     
+                                           \$relatedModule1=\$adb->query_result(\$adb->pquery(\"Select setype from vtiger_crmentity where crmid=?\",array(\$newvl)),0,0);
                             if(\$oldvl!='')
                                 \$oldvl1=  getEntityName(\$relatedModule1, \$oldvl);
                             if(\$newvl!='')
                                 \$newvl1=  getEntityName(\$relatedModule1, \$newvl);
-                            if(count(\$oldvl1)!=0) 
+                             if(count(\$oldvl1)!=0 || \$oldvl1[\$oldvl]=='' )
                                 \$oldvl=\$oldvl1[\$oldvl];
                             else
                                 \$oldvl=\$oldvl1;
-                            if(count(\$newvl1)!=0) 
+                            if(count(\$newvl1)!=0 || \$newvl1[\$newvl]=='')
                                 \$newvl=\$newvl1[\$newvl];
                             else
                                 \$newvl=\$newvl1;
