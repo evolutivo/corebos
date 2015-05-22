@@ -45,6 +45,7 @@ foreach($field_module as $fld_module)
 if($_REQUEST['fld_module'] != '')
 {$smarty->assign("DEF_MODULE",vtlib_purify($_REQUEST['fld_module']));
 $type=getEntitylogtype(getTabId(vtlib_purify($_REQUEST['fld_module'])));
+$indextype=getEntitylogindextype(getTabId(vtlib_purify($_REQUEST['fld_module'])));
 $type=explode(",",$type);
 if(in_array('denormalized',$type))
         $denorm='checked';
@@ -55,6 +56,7 @@ if(in_array('entitylog',$type))
 $smarty->assign("denorm",$denorm);
 $smarty->assign("norm",$norm);
 $smarty->assign("elog",$elog);
+$smarty->assign("indextype",$indextype);
 }
 else
 	$smarty->assign("DEF_MODULE",'Movement');
@@ -77,6 +79,10 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 	{
 		$fieldname = $adb->query_result($fieldListResult,$i,"fieldname");
 		$uitype = $adb->query_result($fieldListResult,$i,"uitype");
+                if($uitype=='10'){
+                $modulerel=  $adb->query_result($fieldListResult,$i,"relmodule");  
+                }
+                else $modulerel='';
 		$displaytype = $adb->query_result($fieldListResult,$i,"displaytype");
 		$fieldlabel = $adb->query_result($fieldListResult,$i,"fieldlabel");
                 $tabid=$adb->query_result($fieldListResult,$i,"tabid");
@@ -85,18 +91,37 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 			$standCustFld []= $mandatory.' '.$lang_strings[$fieldlabel];
 		else
 			$standCustFld []= $mandatory.' '.$fieldlabel;
-		if(isLogged($adb->query_result($fieldListResult,$i,"fieldid") ,$tabid))
+                $logged=isLogged($adb->query_result($fieldListResult,$i,"fieldid") ,$tabid);
+		if($logged[0])
 		{
 			$visible = "checked";
 		}		
 		else
 		{
 			$visible = "";
-		}	
+		}
+                if($logged[1])
+		{
+			$visible1 = "checked";
+		}		
+		else
+		{
+			$visible1 = "";
+		}
 		$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldstobelogged'.$moduleName.'[]"'.$visible .'>';
-		
+	$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldselastic'.$moduleName.'[]"'.$visible1 .'>';
+if($uitype=='10') 
+{
+    $relmodule=explode(";",getEntitylogrelmodule(getTabId($moduleName)));
+
+ if(in_array($modulerel,$relmodule)) $selected='selected';
+ else $selected='';
+$modname="modulerel".$moduleName.$adb->query_result($fieldListResult,$i,"fieldid").'[]';
+$standCustFld []='<select id="'.$modname.'" ><option value="Nessuno">Nessuno</option><option value='.$modulerel.' '.$selected.'>'.$modulerel.'</option></select>';
+}
+else $standCustFld []='';
 	}
-	$standCustFld=array_chunk($standCustFld,2);	
+	$standCustFld=array_chunk($standCustFld,4);	
 	$standCustFld=array_chunk($standCustFld,4);	
 	return $standCustFld;
 }

@@ -33,6 +33,8 @@ class HistoryLogHandler extends VTEventHandler {
       return;
     }
     $type=explode(",",$this->getEntitylogtype($moduleName));
+    $queryel=getqueryelastic(getTabId($moduleName));
+    $indextype=getEntitylogindextype(getTabId($moduleName));
     //This block of code needs to be adapted : table_name, tableid, name, and fields you wish to be considered for logging
     $table = $this->modulesRegistered[$moduleName]['tablename'];
     $tableid = $table.'.'.$this->modulesRegistered[$moduleName]['primarykey'];
@@ -77,12 +79,13 @@ class HistoryLogHandler extends VTEventHandler {
       $act = "";
       $act1='';
       $log->debug('unepo '.count($fields));
+$cr=false;
      for ($i=0;$i<count($fields);$i++)
        {  if($news[$i]!=$entityData->old[$i]) {         
           $act='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
           
        
-        
+       
       
      // $log->debug('drivalda2 '.$act);
       $dt=date("Y-m-d H:i:s");     
@@ -109,27 +112,17 @@ class HistoryLogHandler extends VTEventHandler {
          if(in_array('denormalized',$type)) {
              global $dbconfig;
              $ip= $dbconfig['ip_server'];
-//$endpointUrl = "http://$ip:9200/adocmasterdetail/details/_search?pretty"; 
-//$channel1 = curl_init();
-//curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-//curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($channel1, CURLOPT_POST, true);
-////curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-////curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-//curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-//curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-//curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-//$response1 = json_decode(curl_exec($channel1));
-//if(strstr($response1->error,'IndexMissingException'))
-//{$ij=1;
-//} 
-//else {$ij=$response1->hits->total+2+$i;}
-$endpointUrl2 = "http://$ip:9200/adocmasterdetail/details";
-$fields1=$adb->pquery("select * from vtiger_adocmaster 
-join vtiger_adocdetail on adocmasterid=adoctomaster join vtiger_crmentity cdetail on cdetail.crmid=adocdetailid
- where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
+
+$endpointUrl2 = "http://$ip:9200/$indextype/denorm";
+$fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
+unset($fields1->fields[0]);
+foreach($fields1->fields as $key => $value) {
+    if( floatval($key)) {
+         unset($fields1->fields[$key]);
+    }
+}
 $channel11 = curl_init();
 //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
@@ -146,11 +139,13 @@ $response2 = curl_exec($channel11);
        if(in_array('normalized',$type)) {
              global $dbconfig;
              $ip= $dbconfig['ip_server'];
-$endpointUrl = "http://$ip:9200/adocmasterdetail/detailsnorm/_search?pretty"; 
-$fields1 =array('query'=>array("term"=>array("adocdetailid"=>$entityData->getId())));
+$endpointUrl12 = "http://$ip:9200/$indextype/norm/_search?pretty"; 
+$mainfld=explode(".",$queryel[1]);
+$getid=$entityData->getId();
+$fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>"$getid")));
 
 $channel1 = curl_init();
-curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+curl_setopt($channel1, CURLOPT_URL, $endpointUrl12);
 curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($channel1, CURLOPT_POST, true);
 //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -159,17 +154,23 @@ curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
 curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
 $response1 = json_decode(curl_exec($channel1));
+
 //if(strstr($response1->error,'IndexMissingException'))
 //{$ij=1;
 //} 
 $ij=$response1->hits->hits[0]->_id;
-if($ij!='' && $ij!=null){
-$endpointUrl2 = "http://$ip:9200/adocmasterdetail/detailsnorm/$ij";
-$fields1=$adb->pquery("select * from vtiger_adocmaster 
-join vtiger_adocdetail on adocmasterid=adoctomaster join vtiger_crmentity cdetail on cdetail.crmid=adocdetailid
-join vtiger_products on productid=adoc_product where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
+
+if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
+$endpointUrl2 = "http://$ip:9200/$indextype/norm/$ij";
+$fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
+unset($fields1->fields[0]);
+foreach($fields1->fields as $key => $value) {
+    if(floatval($key)) {
+         unset($fields1->fields[$key]);
+    }
+}
 $channel11 = curl_init();
 //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
@@ -184,12 +185,18 @@ $response2 = curl_exec($channel11);
 
 }
 else {
-    $endpointUrl2 = "http://$ip:9200/adocmasterdetail/detailsnorm";
-$fields1=$adb->pquery("select * from vtiger_adocmaster 
-join vtiger_adocdetail on adocmasterid=adoctomaster join vtiger_crmentity cdetail on cdetail.crmid=adocdetailid
-join vtiger_products on productid=adoc_product where adocdetailid=? and cdetail.deleted=0",array($entityData->getId()));
+    if($cr !=true){
+          $cr=true;
+    $endpointUrl2 = "http://$ip:9200/$indextype/norm";
+$fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
+unset($fields1->fields[0]);
+foreach($fields1->fields as $key => $value) {
+    if(floatval($key)) {
+         unset($fields1->fields[$key]);
+    }
+}
 $channel11 = curl_init();
 //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
@@ -200,11 +207,15 @@ curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
 curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
 curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = curl_exec($channel11);
+    $response23 = curl_exec($channel11);
+  
+ 
+    }
 }
       }       
       }
-       }}
+       }
+    }
       $log->debug("Exit aftersave event...");
     }
     $log->debug("Exiting Handler for module...".$moduleName);
@@ -219,6 +230,7 @@ function getEntitylogtype($module=''){
            
   return $type;
 }
+
   function getModulesFieldMap($module='')
   {
    include_once('modules/LoggingConf/LoggingUtils.php');

@@ -358,4 +358,11 @@
 	<classname>addfieldtologging</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>add field to loggingconf2</description>
+	<filename>build/changeSets/addfieldtologging2.php</filename>
+	<classname>addfieldtologging2</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

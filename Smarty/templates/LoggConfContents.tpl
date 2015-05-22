@@ -117,6 +117,7 @@
 			{assign var="MODULELABEL" value=$APP.$module}
 		{/if}
 		{if $module eq $DEF_MODULE}
+                     <input type='hidden' name="indextype{$module}" id="indextype{$module}" value="{$indextype}">
                     {$MOD.entitylog}: <input type='checkbox' {$elog} name="entitylog{$module}" id="entitylog{$module}" >
                     {$MOD.denorm}: <input type='checkbox' {$denorm} name="denorm{$module}" id="denorm{$module}" >
                     {$MOD.norm}: <input type='checkbox' {$norm} name="norm{$module}" id="norm{$module}" >
@@ -145,6 +146,25 @@
                      	</table>
 			</td>
                 </tr>
+                <tr height=20><td></td></tr>
+                {if $denorm eq 'checked' or $norm eq 'checked'}
+                <th>Elastic fields</th>
+                
+                	<tr>
+                	<td valign=top width="25%" >
+		     	<table border=0 cellspacing=0 cellpadding=5 width=100% class=small>
+				{foreach item=elements name=groupfields from=$info}
+                        	<tr>
+					{foreach item=elementinfo name=curvalue from=$elements}
+                           		<td class="prvPrfTexture" style="width:20px">&nbsp;</td>
+                           		<td width="5%" id="{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}">{$elementinfo.2}</td>
+                           		<td width="30%" nowrap  onMouseOver="this.className='prvPrfHoverOn',$('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOn'" onMouseOut="this.className='prvPrfHoverOff',$('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOff'">{$elementinfo.0} &nbsp;&nbsp;{$elementinfo.3}</td>
+					{/foreach}
+                         	</tr>
+                         	{/foreach}
+                     	</table>
+			</td>
+                </tr>{/if}
                 </table>
 		</div>
 		{/foreach}
