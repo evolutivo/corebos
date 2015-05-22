@@ -93,7 +93,7 @@ for($j=0;$j<count($relmodule1);$j++){
     $tbl1=$ent1['tablename'];
     $id1=$ent1['entityid'];
     $relfield=getFieldFK($_REQUEST['Screen'],$relmodule1[$j]);
-    $join[$j1]=" join $tbl1 on $tbl1.$id1=$relfield[1].$relfield[0] join vtiger_crmentity crm$relmodule1[$j]$j on crm$relmodule1[$j]$j.crmid=$tbl1.$id1 ";
+    $join[$j1]=" join $tbl1 $tbl1$j on $tbl1$j.$id1=$relfield[1].$relfield[0] join vtiger_crmentity crm$relmodule1[$j]$j on crm$relmodule1[$j]$j.crmid=$tbl1$j.$id1 ";
     $where[$j1]=" and crm$relmodule1[$j]$j.deleted=0 ";
     $j1++;
 
@@ -116,7 +116,7 @@ foreach($fields2 as $field2)
     else {$coltype='string';
     $loggingFields[$col[0].$relmodule1[$j]]=array("type"=>$coltype);}
     if($col[2]=='vtiger_crmentity') $table="crm$relmodule1[$j]$j";
-    else $table=$col[2];
+    else $table=$col[2].$j;
     $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$relmodule1[$j];
     $k++;
     }
