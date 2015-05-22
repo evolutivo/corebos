@@ -2692,7 +2692,10 @@ function get_log_history($entityid,$tabid)
 		$moduleName = getTabModuleName($tabid);
                 $log->debug("Entering into get_log_history($entityid,$tabid) method ...");
               //  if($moduleName!='Adocdetail'){
-               
+                include_once('modules/LoggingConf/LoggingUtils.php');
+                $queryel=getqueryelastic($tabid);
+                $indextype=getEntitylogindextype($tabid);
+                $mainfld=explode(".",$queryel[1]);
                  $header=Array();
                 $header[0] ="".getTranslatedString('LBL_ACTION');
 //                $header[1] ="".getTranslatedString('LBL_DATE');
@@ -2701,8 +2704,8 @@ function get_log_history($entityid,$tabid)
                 $entries=Array();
                 global $dbconfig;
                 $ip=$dbconfig['ip_server'];
-$endpointUrl = "http://$ip:9200/adocmasterdetail/detailsnorm/_search?pretty&size=100"; 
-$fields1 =array('query'=>array("term"=>array("adocdetailid"=>$entityid)));
+$endpointUrl = "http://$ip:9200/$indextype/norm/_search?pretty&size=100"; 
+$fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>$entityid)));
 $channel1 = curl_init();
 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
 curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
