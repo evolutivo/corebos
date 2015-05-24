@@ -78,7 +78,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	</script>
 {/if}
     <!-- END -->
-{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' }   
+{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ElasticSearch' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' }   
         <script  src="Smarty/angular/ng-table.js"></script>
         <script src="Smarty/angular/angular-multi-select.js"></script>  
         <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
@@ -101,7 +101,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings'}   
+    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ElasticSearch' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
