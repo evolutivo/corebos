@@ -86,6 +86,7 @@ foreach($fields1 as $field)
      }
 }
 $relmodule1=explode(";",$relmodule);
+if ($relmodule!='' && $relmodule!=null){
 for($j=0;$j<count($relmodule1);$j++){
   if($relmodule1[$j]!='Nessuno'){
  $mod1=getTabid($relmodule1[$j]);
@@ -123,7 +124,7 @@ foreach($fields2 as $field2)
 }
 }
 }
-    
+ }    
 $ent=getEntityField(vtlib_purify($_REQUEST['Screen']));
 $tbl=$ent['tablename'];
 $id=$ent['entityid'];
