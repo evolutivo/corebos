@@ -2700,7 +2700,7 @@ function get_log_history($entityid,$tabid)
 		global $log, $adb,$current_user;
 		
 		$moduleName = getTabModuleName($tabid);
-                $log->debug("Entering into get_log_history($entityid,$tabid) method ...");
+                $log->debug("Entering into get_log_historynorm($entityid,$tabid) method ...");
               //  if($moduleName!='Adocdetail'){
                 include_once('modules/LoggingConf/LoggingUtils.php');
                 $queryel=getqueryelastic($tabid);
@@ -2714,7 +2714,7 @@ function get_log_history($entityid,$tabid)
                 $entries=Array();
                 global $dbconfig;
                 $ip=$dbconfig['ip_server'];
-$endpointUrl = "http://$ip:9200/$indextype/norm/_search?pretty&size=100"; 
+$endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=100"; 
 $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>$entityid)));
 $channel1 = curl_init();
 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -2737,7 +2737,7 @@ $response1 = json_decode(curl_exec($channel1));
                // }    
 //                }
 		$return_value = Array('header'=>$header,'entries'=>$entries);
-		$log->debug("Exiting from get_log_history($entityid,$tabid method ...");
+		$log->debug("Exiting from get_log_historynorm($entityid,$tabid method ...");
 		return $return_value;
 	}
 }
