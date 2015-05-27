@@ -1688,8 +1688,13 @@ class CRMEntity {
 		global $adb;
 		if (!is_array($with_crmid))
 			$with_crmid = Array($with_crmid);
+		$data = array();
+		$data['sourceModule'] = $module;
+		$data['sourceRecordId'] = $crmid;
+		$data['destinationModule'] = $with_module;
 		foreach ($with_crmid as $relcrmid) {
-
+			$data['destinationRecordId'] = $relcrmid;
+			cbEventHandler::do_action('corebos.entity.link.delete',$data);
 			if ($with_module == 'Documents') {
 				$adb->pquery("DELETE FROM vtiger_senotesrel WHERE crmid=? AND notesid=?", Array($crmid, $relcrmid));
 			} else {
@@ -2532,7 +2537,12 @@ class CRMEntity {
 		global $current_user;
 		$adb = PearDatabase::getInstance();
 		$currentTime = date('Y-m-d H:i:s');
-
+		$data = array();
+		$data['sourceModule'] = $module;
+		$data['sourceRecordId'] = $crmid;
+		$data['destinationModule'] = $with_module;
+		$data['destinationRecordId'] = $with_crmid;
+		cbEventHandler::do_action('corebos.entity.link.delete',$data);
 		$adb->pquery('UPDATE vtiger_crmentity SET modifiedtime = ?, modifiedby = ? WHERE crmid = ?', array($currentTime, $current_user->id, $crmid));
 	}
 function get_log_history($entityid,$tabid)
@@ -2690,7 +2700,7 @@ function get_log_history($entityid,$tabid)
 		global $log, $adb,$current_user;
 		
 		$moduleName = getTabModuleName($tabid);
-                $log->debug("Entering into get_log_history($entityid,$tabid) method ...");
+                $log->debug("Entering into get_log_historynorm($entityid,$tabid) method ...");
               //  if($moduleName!='Adocdetail'){
                 include_once('modules/LoggingConf/LoggingUtils.php');
                 $queryel=getqueryelastic($tabid);
@@ -2704,7 +2714,7 @@ function get_log_history($entityid,$tabid)
                 $entries=Array();
                 global $dbconfig;
                 $ip=$dbconfig['ip_server'];
-$endpointUrl = "http://$ip:9200/$indextype/norm/_search?pretty&size=100"; 
+$endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=100"; 
 $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>$entityid)));
 $channel1 = curl_init();
 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -2727,7 +2737,7 @@ $response1 = json_decode(curl_exec($channel1));
                // }    
 //                }
 		$return_value = Array('header'=>$header,'entries'=>$entries);
-		$log->debug("Exiting from get_log_history($entityid,$tabid method ...");
+		$log->debug("Exiting from get_log_historynorm($entityid,$tabid method ...");
 		return $return_value;
 	}
 }

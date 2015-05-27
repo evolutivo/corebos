@@ -109,11 +109,11 @@ $cr=false;
 //             $log->debug('ketu jemi '.$index." ".$entityData->old[$index]." ".$news[$index]);
 //          }
           $focus->saveentity("Entitylog");}
-         if(in_array('denormalized',$type)) {
+         if(in_array('normalized',$type)) {
              global $dbconfig;
              $ip= $dbconfig['ip_server'];
 
-$endpointUrl2 = "http://$ip:9200/$indextype/denorm";
+$endpointUrl2 = "http://$ip:9200/$indextype/norm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
@@ -136,10 +136,10 @@ curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
 $response2 = curl_exec($channel11);
 
       }
-       if(in_array('normalized',$type)) {
+       if(in_array('denormalized',$type)) {
              global $dbconfig;
              $ip= $dbconfig['ip_server'];
-$endpointUrl12 = "http://$ip:9200/$indextype/norm/_search?pretty"; 
+$endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty"; 
 $mainfld=explode(".",$queryel[1]);
 $getid=$entityData->getId();
 $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>"$getid")));
@@ -161,7 +161,7 @@ $response1 = json_decode(curl_exec($channel1));
 $ij=$response1->hits->hits[0]->_id;
 
 if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
-$endpointUrl2 = "http://$ip:9200/$indextype/norm/$ij";
+$endpointUrl2 = "http://$ip:9200/$indextype/denorm/$ij";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
@@ -187,7 +187,7 @@ $response2 = curl_exec($channel11);
 else {
     if($cr !=true){
           $cr=true;
-    $endpointUrl2 = "http://$ip:9200/$indextype/norm";
+    $endpointUrl2 = "http://$ip:9200/$indextype/denorm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
