@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>ESClient</title>
-
-		<script src="modules/ESClient/media/js/jquery.min.js"></script>
+                <script src="modules/ESClient/media/js/jquery.min.js"></script>
 		<script src="modules/ESClient/media/js/jquery-ui.min.js"></script>
 		<script src="modules/ESClient/media/js/ui/jquery.ui.core.js"></script>
 		<script src="modules/ESClient/media/js/jquery.themeswitcher.js"></script>
@@ -39,7 +33,7 @@ element.style {
 {
     position: absolute;
     right: 0;
-    top: 0;
+    top: 18%;
 }
 
 textarea
@@ -347,9 +341,8 @@ $(document).ready(function () {
  {/literal}
 </script>
 
-<body>
-<div id="header">
-<div id="switcher" class="topRight" style="position: absolute;"></div>
+<div id="header" style="margin-top:3%;">
+<div id="switcher" class="topRight"></div>
 <table width="70%" border="0">
 		<tr>
 			<td align="left">
@@ -713,6 +706,4 @@ $(document).ready(function () {
 		</div>
 	</div>
 </div>
-  </body>
-</html>
 	
