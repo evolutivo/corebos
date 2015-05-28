@@ -15,7 +15,7 @@
 		
 		<style type="text/css" title="currentStyle">
 			@import "modules/ESClient/media/css/jquery.multiselect.css";
-			@import "modules/ESClient/media/css/TableTools.css";
+			@import "modules/ESClient/media/css/dataTables.tableTools.css";
 			@import "modules/ESClient/media/css/jquery.multiselect.filter.css";
 			@import "modules/ESClient/media/css/jquery.switchButton.css";
 			@import "modules/ESClient/media/css/pretty-json.css";
@@ -341,7 +341,7 @@ $(document).ready(function () {
  {/literal}
 </script>
 
-<div id="header" style="margin-top:3%;">
+<div id="header" style="margin-top:3%;margin-left:2%;">
 <div id="switcher" class="topRight"></div>
 <table width="70%" border="0">
 		<tr>
@@ -361,7 +361,7 @@ $(document).ready(function () {
 </table>
 </div> <!-- /#header -->
 
-<div id="tabs">
+<div id="tabs" style="margin-left:2%;margin-right:2%;">
   <ul>
     <li><a href="#config-tab">Configuration</a></li>
     <li><a href="#search-tab">Search</a></li>
