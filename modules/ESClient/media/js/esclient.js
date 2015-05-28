@@ -136,8 +136,8 @@ function connectToES()
 					
 			 	});
 				// set the cluster name
-				$('#cluster').html('<span style="font-weight:900">Cluster: </span><span style="background-color:' + cluster_state +'; color:white; font-weight:900">' + data.cluster_name + '</span>'
-						+ '<span style="font-weight:900">  &nbsp;&nbsp;&nbsp;[Master: '+ masterNode.name + ']</span>');				
+				$('#cluster').html('<span style="font-weight:900">Cluster: </span><span style="background-color:' + cluster_state +'; color:white; font-weight:900">' + data.cluster_name + '</span>');
+						//+ '<span style="font-weight:900">  &nbsp;&nbsp;&nbsp;[Master: '+ masterNode.name + ']</span>');				
 				$('#index').multiselect("refresh");
 				$('#MappingIndex').multiselect("refresh");
 				$('#connect').addClass("ui-state-disabled").attr("disabled", true);
