@@ -115,8 +115,10 @@ $cr=false;
 
 $endpointUrl2 = "http://$ip:9200/$indextype/norm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
+$eid=$entityData->getId();
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
+$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
 unset($fields1->fields[0]);
 foreach($fields1->fields as $key => $value) {
     if( floatval($key)) {
@@ -163,8 +165,11 @@ $ij=$response1->hits->hits[0]->_id;
 if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
 $endpointUrl2 = "http://$ip:9200/$indextype/denorm/$ij";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
+$eid=$entityData->getId();
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
+$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+
 unset($fields1->fields[0]);
 foreach($fields1->fields as $key => $value) {
     if(floatval($key)) {
@@ -189,8 +194,11 @@ else {
           $cr=true;
     $endpointUrl2 = "http://$ip:9200/$indextype/denorm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
+$eid=$entityData->getId();
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
+$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+
 unset($fields1->fields[0]);
 foreach($fields1->fields as $key => $value) {
     if(floatval($key)) {
