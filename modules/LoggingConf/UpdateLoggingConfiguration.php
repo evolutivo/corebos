@@ -89,13 +89,16 @@ $relmodule1=explode(";",$relmodule);
 if ($relmodule!='' && $relmodule!=null){
 for($j=0;$j<count($relmodule1);$j++){
   if($relmodule1[$j]!='Nessuno'){
- $mod1=getTabid($relmodule1[$j]);
-     $ent1=getEntityField($relmodule1[$j]);
+  $relmodule2=explode(":",$relmodule1[$j]);
+ $mod1=getTabid($relmodule2[0]);
+     $ent1=getEntityField($relmodule2[0]);
     $tbl1=$ent1['tablename'];
     $id1=$ent1['entityid'];
-    $relfield=getFieldFK($_REQUEST['Screen'],$relmodule1[$j]);
-    $join[$j1]=" join $tbl1 $tbl1$j on $tbl1$j.$id1=$relfield[1].$relfield[0] join vtiger_crmentity crm$relmodule1[$j]$j on crm$relmodule1[$j]$j.crmid=$tbl1$j.$id1 ";
-    $where[$j1]=" and crm$relmodule1[$j]$j.deleted=0 ";
+    $uitype=$relmodule2[1];
+    $relfield=getFieldFK($_REQUEST['Screen'],$relmodule2[0],$uitype);
+
+    $join[$j1]=" left join $tbl1 $tbl1$j on $tbl1$j.$id1=$relfield[1].$relfield[0] left join vtiger_crmentity crm$relmodule2[0]$j on (crm$relmodule2[0]$j.crmid=$tbl1$j.$id1 and crm$relmodule2[0]$j.deleted=0) ";
+    $where[$j1]="";
     $j1++;
 
  $fields2=array();
@@ -109,16 +112,16 @@ foreach($fields2 as $field2)
     $col=getColumnname($field2);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-    $loggingFields[$col[0].$relmodule1[$j]]=array("type"=>$coltype);
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);
     }
     else if(substr($col[1],0,1)=='D')
     {$coltype='date';
-    $loggingFields[$col[0].$relmodule1[$j]]=array("type"=>$coltype,"format"=>"yyyy-MM-dd HH:mm:ss");}
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"yyyy-MM-dd HH:mm:ss");}
     else {$coltype='string';
-    $loggingFields[$col[0].$relmodule1[$j]]=array("type"=>$coltype);}
-    if($col[2]=='vtiger_crmentity') $table="crm$relmodule1[$j]$j";
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);}
+    if($col[2]=='vtiger_crmentity') $table="crm$relmodule2[0]$j";
     else $table=$col[2].$j;
-    $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$relmodule1[$j];
+    $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$relmodule2[0].$j;
     $k++;
     }
 }

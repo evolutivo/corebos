@@ -79,10 +79,44 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 	{
 		$fieldname = $adb->query_result($fieldListResult,$i,"fieldname");
 		$uitype = $adb->query_result($fieldListResult,$i,"uitype");
+
                 if($uitype=='10'){
                 $modulerel=  $adb->query_result($fieldListResult,$i,"relmodule");  
                 }
+                else if($uitype==51 || $uitype==50 || $uitype==73 || $uitype==68)
+                {$modulerel="Accounts";
+                //  if($uitype==68) $modul2='Contacts';
+                }
+                else if($uitype==57){
+                    $modulerel="Contacts";
+                                  }
+                    else if($uitype==59){
+                    $modulerel="Products";
+  
+                    }
+                        else if($uitype==58){
+                    $modulerel="Campaigns";
+    
+                        }
+                        else if($uitype==76){
+                    $modulerel="Potentials";
+
+                        }
+                        else if($uitype==75 || $uitype==81){
+                    $modulerel="Vendors";
+
+                    }
+                        else if($uitype==78){
+                    $modulerel="Quotes";
+
+                    }
+                        else if($uitype==80){
+                    $modulerel="SalesOrder";
+
+                        }
+  
                 else $modulerel='';
+            
 		$displaytype = $adb->query_result($fieldListResult,$i,"displaytype");
 		$fieldlabel = $adb->query_result($fieldListResult,$i,"fieldlabel");
                 $tabid=$adb->query_result($fieldListResult,$i,"tabid");
@@ -108,16 +142,18 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 		{
 			$visible1 = "";
 		}
+                
 		$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldstobelogged'.$moduleName.'[]"'.$visible .'>';
 	$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldselastic'.$moduleName.'[]"'.$visible1 .'>';
-if($uitype=='10') 
+   
+        if($uitype=='10' || $uitype=='51' || $uitype=='50' || $uitype=='73' || $uitype=='68' || $uitype=='57' || $uitype=='59'  || $uitype=='58'  || $uitype=='76'  || $uitype=='75'  || $uitype=='80' || $uitype=='78' || $uitype=='81') 
 {
     $relmodule=explode(";",getEntitylogrelmodule(getTabId($moduleName)));
 
- if(in_array($modulerel,$relmodule)) $selected='selected';
+ if(in_array($modulerel.':'.$uitype,$relmodule)) $selected='selected';
  else $selected='';
 $modname="modulerel".$moduleName.$adb->query_result($fieldListResult,$i,"fieldid").'[]';
-$standCustFld []='<select id="'.$modname.'" ><option value="Nessuno">Nessuno</option><option value='.$modulerel.' '.$selected.'>'.$modulerel.'</option></select>';
+$standCustFld []='<select id="'.$modname.'" ><option value="Nessuno">Nessuno</option><option value='.$modulerel.':'.$uitype.' '.$selected.'>'.$modulerel.'</option></select>';
 }
 else $standCustFld []='';
 	}
