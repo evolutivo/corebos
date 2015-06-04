@@ -57,18 +57,20 @@ new Ajax.Request(
             }                
         }
         
-     var chks1 = document.getElementsByName('fieldselastic'+moduleval+'[]');
      var selmod;
      var j1=0;
      var k=0;
-        for (var i = 0; i < chks1.length; i++)
+      var chks1;
+        for (var i = 0; i < chks.length; i++)
         { 
-     selmod = document.getElementById('modulerel'+moduleval+chks[i].value+'[]');
-    
-        if (chks1[i].checked)
+             chks1 = document.getElementsByName('fieldselastic'+moduleval+i);
+
+     selmod = document.getElementById('modulerel'+moduleval+chks[i].value+i+'[]');
+
+        if (chks1.item(0)!=null && chks1.item(0).checked)
             {
                  
-              values1[j1]=chks1[i].value;         
+              values1[j1]=chks1.item(0).value;         
               j1++;
             }
         if(selmod!=null)
