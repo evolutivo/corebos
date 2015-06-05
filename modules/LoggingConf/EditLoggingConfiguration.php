@@ -75,18 +75,54 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
         require_once('include/utils/utils.php');
 	$standCustFld = Array();
 	if(!isset($focus->mandatory_fields)) $focus->mandatory_fields = Array();
+        $loop=0;
 	for($i=0; $i<$noofrows; $i++)
-	{
+	{ 
 		$fieldname = $adb->query_result($fieldListResult,$i,"fieldname");
 		$uitype = $adb->query_result($fieldListResult,$i,"uitype");
+
                 if($uitype=='10'){
                 $modulerel=  $adb->query_result($fieldListResult,$i,"relmodule");  
                 }
+                else if($uitype==51 || $uitype==50 || $uitype==73 || $uitype==68)
+                {$modulerel="Accounts";
+              
+                }
+                else if($uitype==57){
+                    $modulerel="Contacts";
+                                  }
+                    else if($uitype==59){
+                    $modulerel="Products";
+  
+                    }
+                        else if($uitype==58){
+                    $modulerel="Campaigns";
+    
+                        }
+                        else if($uitype==76){
+                    $modulerel="Potentials";
+
+                        }
+                        else if($uitype==75 || $uitype==81){
+                    $modulerel="Vendors";
+
+                    }
+                        else if($uitype==78){
+                    $modulerel="Quotes";
+
+                    }
+                        else if($uitype==80){
+                    $modulerel="SalesOrder";
+
+                        }
+  
                 else $modulerel='';
+            
 		$displaytype = $adb->query_result($fieldListResult,$i,"displaytype");
 		$fieldlabel = $adb->query_result($fieldListResult,$i,"fieldlabel");
                 $tabid=$adb->query_result($fieldListResult,$i,"tabid");
                 $moduleName=getTabModuleName($tabid);
+              
 		if($lang_strings[$fieldlabel] !='')
 			$standCustFld []= $mandatory.' '.$lang_strings[$fieldlabel];
 		else
@@ -108,19 +144,30 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 		{
 			$visible1 = "";
 		}
+                
 		$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldstobelogged'.$moduleName.'[]"'.$visible .'>';
-	$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldselastic'.$moduleName.'[]"'.$visible1 .'>';
-if($uitype=='10') 
+	$standCustFld []= '<input type="checkbox" value="'.$adb->query_result($fieldListResult,$i,"fieldid").'" name="fieldselastic'.$moduleName.$loop.'"'.$visible1 .'>';
+    $fieldid=$adb->query_result($fieldListResult,$i,"fieldid");
+        if($uitype==68 && $u68!=1) {$u68=1;$i=$i-1;}
+                else if ($uitype==68 && $u68==1) $modulerel='Contacts';
+                else $u68='';
+        if($uitype=='10' || $uitype=='51' || $uitype=='50' || $uitype=='73' || $uitype=='68' || $uitype=='57' || $uitype=='59'  || $uitype=='58'  || $uitype=='76'  || $uitype=='75'  || $uitype=='80' || $uitype=='78' || $uitype=='81') 
 {
     $relmodule=explode(";",getEntitylogrelmodule(getTabId($moduleName)));
 
- if(in_array($modulerel,$relmodule)) $selected='selected';
+ if(in_array($modulerel.':'.$uitype,$relmodule)) $selected='selected';
  else $selected='';
-$modname="modulerel".$moduleName.$adb->query_result($fieldListResult,$i,"fieldid").'[]';
-$standCustFld []='<select id="'.$modname.'" ><option value="Nessuno">Nessuno</option><option value='.$modulerel.' '.$selected.'>'.$modulerel.'</option></select>';
+$modname="modulerel".$moduleName.$fieldid.$loop.'[]';
+//if($uitype=='68') {
+// if(in_array('Contacts:'.$uitype,$relmodule)) $selected2='selected';
+// else $selected2='';
+//    $opt2='<option value="Contacts:'.$uitype.'" '.$selected2.'>Contacts</option>';
+//}
+//else $opt2='';
+$standCustFld []='<select id="'.$modname.'" ><option value="Nessuno">Nessuno</option><option value='.$modulerel.':'.$uitype.' '.$selected.'>'.$modulerel.'</option>'.$opt2.'</select>';
 }
 else $standCustFld []='';
-	}
+$loop++;	}
 	$standCustFld=array_chunk($standCustFld,4);	
 	$standCustFld=array_chunk($standCustFld,4);	
 	return $standCustFld;

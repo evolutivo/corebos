@@ -1486,17 +1486,21 @@ function getDefOrgFieldList($fld_module)
 	$log->debug("Exiting getDefOrgFieldList method ...");
 	return $result;
 }
-function getfieldFK($fld_module,$rel_module)
+function getfieldFK($fld_module,$rel_module,$uitype)
 {
 	global $log;
 	$log->debug("Entering getDefOrgFieldList(".$fld_module.") method ...");
         $log->info("in getDefOrgFieldList ".$fld_module);
 
 	global $adb;
-	//$tabid = getTabid($fld_module);
-
-	$query = "select vtiger_field.columnname, tablename from  vtiger_field  join vtiger_fieldmodulerel on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid where vtiger_field.presence in (0,2) and module=? and relmodule=? and uitype=10";
-	$qparams = array($fld_module,$rel_module);
+	$tabid = getTabid($fld_module);
+if($uitype=='10')
+{$query = "select vtiger_field.columnname, tablename from  vtiger_field  left join vtiger_fieldmodulerel on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid where vtiger_field.presence in (0,2) and tabid=? and relmodule=? and uitype='10'";
+$qparams = array($tabid,$rel_module);}
+else {
+   $query = "select vtiger_field.columnname, tablename from  vtiger_field  left join vtiger_fieldmodulerel on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid where vtiger_field.presence in (0,2) and tabid=? and uitype='$uitype'";
+$qparams = array($tabid); 
+}
 	$result = $adb->pquery($query, $qparams);
 	$log->debug("Exiting getDefOrgFieldList method ...");
         $arr[0]=$adb->query_result($result,0,0);
