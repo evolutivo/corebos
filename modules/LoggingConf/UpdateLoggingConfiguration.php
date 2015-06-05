@@ -76,7 +76,9 @@ foreach($fields1 as $field)
     }
     else if(substr($col[1],0,1)=='D')
     { $coltype='date';
-    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"format"=>"yyyy-MM-dd HH:mm:ss");
+    if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
+    else $format='yyyy-MM-dd';
+    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"format"=>"$format");
     }
     else {$coltype='string';
     $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype);}
@@ -116,7 +118,9 @@ foreach($fields2 as $field2)
     }
     else if(substr($col[1],0,1)=='D')
     {$coltype='date';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"yyyy-MM-dd HH:mm:ss");}
+    if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
+    else $format='yyyy-MM-dd';
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"$format");}
     else {$coltype='string';
     $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);}
     if($col[2]=='vtiger_crmentity') $table="crm$relmodule2[0]$j";
