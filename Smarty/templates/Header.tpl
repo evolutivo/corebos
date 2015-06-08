@@ -70,7 +70,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
    	<script type="text/javascript">
 		jQuery.noConflict();
 	</script>
-    <!-- asterisk Integration -->
+    <!-- asterisk Integration -->\
 {if $USE_ASTERISK eq 'true'}
 	<script type="text/javascript" src="include/js/asterisk.js"></script>
 	<script type="text/javascript">
@@ -78,7 +78,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	</script>
 {/if}
     <!-- END -->
-{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' }   
+{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq  'ElasticSearch' }   
         <script  src="Smarty/angular/ng-table.js"></script>
         <script src="Smarty/angular/angular-multi-select.js"></script>  
         <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
@@ -101,7 +101,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings'}   
+    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq 'ElasticSearch'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
