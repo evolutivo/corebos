@@ -44,15 +44,14 @@ foreach($field_module as $fld_module=>$mod_name)
 	$fieldListResult = getDefOrgFieldList($fld_module);
 	$noofrows = $adb->num_rows($fieldListResult);
 	$language_strings = return_module_language($current_language,$fld_module);
-	$allfields[$fld_module] = getStdOutput($fieldListResult, $noofrows, $language_strings,$profileid);
+	$allfields[$fld_module] = getStdOutput($fieldListResult, $noofrows, $language_strings);
 }
 
-function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
+function getStdOutput($fieldListResult, $noofrows, $lang_strings)
 {
 	global $adb;
 	global $image_path,$theme;
-        require_once('modules/LoggingConf/LoggingUtils.php');
-	$standCustFld = Array();
+      	$standCustFld = Array();
 	for($i=0; $i<$noofrows; $i++)
 	{
 		$uitype = $adb->query_result($fieldListResult,$i,"uitype");
@@ -80,23 +79,9 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 	return $standCustFld;
 }
 if($_REQUEST['fld_module'] != '')
-{$smarty->assign("DEF_MODULE",vtlib_purify($_REQUEST['fld_module']));
-$type=getEntitylogtype(getTabId(vtlib_purify($_REQUEST['fld_module'])));
-$type=explode(",",$type);
-if(in_array('denormalized',$type))
-        $denorm='checked';
-if(in_array('normalized',$type))
-        $norm='checked';
-if(in_array('entitylog',$type))
-        $elog='checked';
-$smarty->assign("denorm",$denorm);
-$smarty->assign("norm",$norm);
-$smarty->assign("elog",$elog);
-
-
-}
+	$smarty->assign("DEF_MODULE",vtlib_purify($_REQUEST['fld_module']));
 else
-	$smarty->assign("DEF_MODULE",'Movement');
+	$smarty->assign("DEF_MODULE",reset($field_module));
 $smarty->assign("FIELD_INFO",$field_module);
 $smarty->assign("FIELD_LISTS",$allfields);
 $smarty->assign("MOD", return_module_language($current_language,'LoggingConf'));
@@ -105,6 +90,6 @@ $smarty->assign("IMAGE_PATH",$image_path);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("CMOD", $mod_strings);
 $smarty->assign("MODE",'view');
-$smarty->display("LoggConfContents.tpl");
+$smarty->display("modules/LoggingConfiguration/LoggConfContents.tpl");
 ?>
 

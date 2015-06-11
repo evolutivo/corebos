@@ -41,39 +41,6 @@ $query=$adb->pquery("Select count(tabid) from vtiger_loggingconfiguration where 
 $number=$adb->query_result($query,0);
 return $number;  
 }
-function getEntitylogtype($tabid){
-global $adb;
-$query=$adb->pquery("Select type from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
-return $number;  
-}
-function getqueryelastic($tabid){
-global $adb;
-$query=$adb->pquery("Select queryelastic from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=explode("##",$adb->query_result($query,0,0));
-
-return $number;  
-}
-function getEntitylogindextype($tabid){
-global $adb;
-$query=$adb->pquery("Select indextype from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
-return $number;  
-}
-function getEntitylogrelmodule($tabid){
-global $adb;
-$query=$adb->pquery("Select relmodules from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
-return $number;  
-}
-function getColumnname($fieldid)
-{global $adb;
-$q=$adb->pquery("select columnname,typeofdata,tablename from vtiger_field where fieldid=?",array($fieldid));
-$arr[0]=$adb->query_result($q,0,0);
-$arr[1]=$adb->query_result($q,0,1);
-$arr[2]=$adb->query_result($q,0,2);
-return $arr;
-}
 function getModuleLogFieldList($tabid)
 {
 require_once('include/utils/UserInfoUtil.php');
@@ -82,25 +49,6 @@ global $adb;
 $loggingFields=array();
 $fields=array();
 $query=$adb->pquery("Select fields from vtiger_loggingconfiguration where tabid=? and fields!=''",array($tabid));
-
-$fieldserialized=$adb->query_result($query,0);
-$fields=unserialize($fieldserialized);
-
-foreach($fields as $field)
-{
-    if(is_numeric($field))
-    $loggingFields[$field]=$field;
-}
-return $loggingFields;
-}
-function getModuleLogFieldListelastic($tabid)
-{
-require_once('include/utils/UserInfoUtil.php');
-require_once('include/utils/utils.php');
-global $adb;
-$loggingFields=array();
-$fields=array();
-$query=$adb->pquery("Select fieldselastic from vtiger_loggingconfiguration where tabid=? and fieldselastic!=''",array($tabid));
 
 $fieldserialized=$adb->query_result($query,0);
 $fields=unserialize($fieldserialized);
@@ -134,7 +82,7 @@ return $loggingFieldsNames;
 function isLogged($fieldid,$tabid)
 {
 $allLoggedFields=getModuleLogFieldList($tabid);
-$allLoggeddenormFields=getModuleLogFieldListelastic($tabid);
-return array(in_array($fieldid,$allLoggedFields),in_array($fieldid,$allLoggeddenormFields));
+return in_array($fieldid,$allLoggedFields);
 }
+
 ?>

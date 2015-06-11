@@ -54,13 +54,9 @@ foreach($interestModules as $module)
 }
 }
 else{
-//$result='<select>';
-foreach($loggingModules as $module)
-{
-    $result.="<option value=\"$module\" > $module</option>";    
-}
-//$result.='</select>';
-}
+foreach($loggingModules as $module){
+    $result.="<option value=\"$module\" > $module</option>";}
+    }
 echo $result;
 
 ?>

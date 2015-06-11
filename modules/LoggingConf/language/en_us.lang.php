@@ -23,7 +23,6 @@ $mod_strings = Array(
  'LoggingConf'=>'Logging Configuration',
  'LBL_MODIFY_LOGGING_MAP'=>'Modify Logging Configuration Map',
  'LBL_VIEW_LOGGING_MAP'=>'View Logging Configuration Map',
- 
  'LBL_EDIT_BUTTON'=>'Edit', 
  'entitylog'=>'Entitylog',
  'denorm'=>'Denormalization',

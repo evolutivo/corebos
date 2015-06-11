@@ -24,6 +24,7 @@ $mod_strings = Array(
  'LBL_MODIFY_LOGGING_MAP'=>'Modifica Mappa Configurazione di Log',
  'LBL_VIEW_LOGGING_MAP'=>'Mappa Configurazione di registrazione',
  'LBL_EDIT_BUTTON'=>'Modifica',
+ 'LBL_DEL'=>'Delete',
  'LBL_SAVE'=>'Salva',
  'LBL_CANCEL'=>'Anulla',
 );
