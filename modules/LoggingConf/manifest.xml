@@ -25,23 +25,8 @@
 <version>1.0</version>
 <dependencies>
 <vtiger_version>5.2.1</vtiger_version>
-<vtiger_max_version>5.*</vtiger_max_version>
 </dependencies>
-<migrations>
-	<migration version='1.0'>		
-	</migration>
-</migrations>
 <tables>
-<table>	
-<name>vtiger_loggingconfiguration</name>
-<sql><![CDATA[CREATE TABLE `vtiger_loggingconfiguration` (
-  `configurationid` int(19) NOT NULL AUTO_INCREMENT,
-  `tabid` int(19),
-  `fields` text,
-  PRIMARY KEY (configurationid)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8]]>
-</sql>
-</table>
 </tables>
 <sharingaccess>
 <default>private</default>
