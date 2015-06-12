@@ -345,6 +345,7 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+<<<<<<< HEAD
 	<author>albana</author>
 	<description>Add NgBlock Module</description>
 	<filename>build/changeSets/addNgBlock.php</filename>
@@ -364,5 +365,19 @@
 	<filename>build/changeSets/addfieldtologging2.php</filename>
 	<classname>addfieldtologging2</classname>
 	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>phpsysinfo tab not in use anymore: cleanup code and database</description>
+	<filename>build/changeSets/DeleteSystemServerInfoTab.php</filename>
+	<classname>DeleteSystemServerInfoTab</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Import coreBOS Updater changeset</description>
+	<filename>build/changeSets/cbupdater_importxml.php</filename>
+	<classname>cbupdater_importxml</classname>
+	<systemupdate>false</systemupdate>
 </changeSet>
 </updatesChangeLog>
