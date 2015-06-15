@@ -96,7 +96,7 @@ $smarty->assign("elog",$elog);
 
 }
 else
-	$smarty->assign("DEF_MODULE",'Movement');
+$smarty->assign("DEF_MODULE",reset($field_module));
 $smarty->assign("FIELD_INFO",$field_module);
 $smarty->assign("FIELD_LISTS",$allfields);
 $smarty->assign("MOD", return_module_language($current_language,'LoggingConf'));
