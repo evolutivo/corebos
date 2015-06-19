@@ -1349,7 +1349,7 @@ class ReportRun extends CRMEntity {
 				if(stripos($selectedfields[1],'cf_')==0 && stristr($selectedfields[1],'cf_')==true){
 					$sqlvalue = "".$adb->sql_escape_string(decode_html($selectedfields[2]))." ".$sortorder;
 				} else {
-					$sqlvalue = "".self::replaceSpecialChar($selectedfields[2])." ".$sortorder;
+					$sqlvalue = "`".self::replaceSpecialChar($selectedfields[2])."` ".$sortorder;
 				}
 				/************** MONOLITHIC phase 6 customization********************************/
 				if($selectedfields[4]=="D" && strtolower($reportsortrow["dategroupbycriteria"])!="none"){
@@ -1367,7 +1367,7 @@ class ReportRun extends CRMEntity {
 				$grouplist[$fieldcolname] = $sqlvalue;
 				$temp = explode("_",$selectedfields[2],2);
 				$module = $temp[0];
-				if(CheckFieldPermission($fieldname,$module) == 'true')
+				if((strpos($selectedfields[0],'vtiger_inventoryproductrel') !== false && ($selectedfields[1]=='productid' || $selectedfields[1]=='serviceid')) || CheckFieldPermission($fieldname,$module) == 'true')
 				{
 					$grouplist[$fieldcolname] = $sqlvalue;
 				} else {
@@ -1849,7 +1849,7 @@ class ReportRun extends CRMEntity {
 		if($advfiltersql != "") {
 			if($type == 'COLUMNSTOTOTAL')
 			{
-				if (strstr($advfiltersql,'vtiger_products'.$this->primarymodule))
+				if (strstr($advfiltersql,'vtiger_products'.$this->primarymodule) || strstr($advfiltersql,'vtiger_service'.$this->primarymodule))
 					$where_condition='add';
 			}
 			$wheresql .= " and ".$advfiltersql;
@@ -3293,7 +3293,7 @@ class ReportRun extends CRMEntity {
             $fieldcolname = $adb->query_result($sortFieldResult,0,'columnname');
             list($tablename,$colname,$module_field,$fieldname,$typeOfData) = explode(":",$fieldcolname);
 			list($modulename,$fieldlabel) = explode('_', $module_field, 2);
-            $groupByField = $module_field;
+            $groupByField = "`".$module_field."`";
             if($typeOfData == "D"){
                 $groupCriteria = $adb->query_result($sortFieldResult,0,'dategroupbycriteria');
                 if(strtolower($groupCriteria)!='none'){
@@ -3308,7 +3308,8 @@ class ReportRun extends CRMEntity {
                 }
 
             } elseif(CheckFieldPermission($fieldname,$modulename) != 'true') {
-				$groupByField = $tablename.".".$colname;
+            	if((strpos($tablename,'vtiger_inventoryproductrel') === false && ($colname != 'productid' || $colname != 'serviceid')))
+					$groupByField = $tablename.".".$colname;
 			}
         }
         return $groupByField;
