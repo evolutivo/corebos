@@ -345,8 +345,7 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
-	<author>albana</author>
+<author>albana</author>
 	<description>Add NgBlock Module</description>
 	<filename>build/changeSets/addNgBlock.php</filename>
 	<classname>addNgBlock</classname>
