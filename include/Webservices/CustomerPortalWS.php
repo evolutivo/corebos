@@ -87,9 +87,30 @@ function vtws_getPortalUserInfo($user) {
 	$retfields = array('date_format','first_name','last_name','email1');
 	foreach ($retfields as $fld) {
 		if (isset($user->column_fields[$fld]) and !empty($user->column_fields[$fld]))
-			$usrinfo[$fld] =  $user->column_fields[$fld];
+			$usrinfo[$fld] = $user->column_fields[$fld];
 	}
 	return $usrinfo;
+}
+function vtws_getAssignedUserList($module,$user) {
+	global $adb,$log,$current_user,$default_charset;
+	$log->debug("Entering getAssignedUserList function with parameter modulename: ".$module);
+	$hcuser = $current_user;
+	$current_user = $user;
+	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
+	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	$tabid=getTabid($module);
+	if(!is_admin($user) && $profileGlobalPermission[2] == 1 && ($defaultOrgSharingPermission[$tabid] == 3 or $defaultOrgSharingPermission[$tabid] == 0)) {
+		$users = get_user_array(FALSE, "Active", $user->id,'private');
+	} else {
+		$users = get_user_array(FALSE, "Active", $user->id);
+	}
+	$usrwsid = vtyiicpng_getWSEntityId('Users');
+	$usrinfo = array();
+	foreach ($users as $id => $usr) {
+		$usrinfo[] = array('userid' => $usrwsid.$id,'username'=> trim(html_entity_decode($usr,ENT_QUOTES,$default_charset)));
+	}
+	$current_user = $hcuser;
+	return json_encode($usrinfo);
 }
 function vtws_AuthenticateContact($email,$password)
 {   global $adb,$log;
@@ -130,7 +151,7 @@ function vtws_getPicklistValues($fld_module) {
     return serialize($res);
 }
 
-function vtws_getUItype($module) {
+function vtws_getUItype($module,$user) {
     global $adb,$log;
     $log->debug("Entering getUItype function with parameter modulename: ".$module);
     $tabid=getTabid($module);
