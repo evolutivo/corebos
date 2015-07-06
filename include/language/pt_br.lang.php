@@ -1264,7 +1264,7 @@ $app_strings = array (
 
 //Added for Sub Products
 'Parent Product' => 'Pacote Produto',
-
+'Sub Products' => 'Sub Products',
 //Added for Service Contracts
 'Service Contracts' => 'Contratos Serviço',
 'ServiceContracts' => 'Contratos Serviço',
