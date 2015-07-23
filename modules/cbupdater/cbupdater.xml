@@ -379,4 +379,18 @@
 	<classname>cbupdater_importxml</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add BusinessRules Module</description>
+	<filename>build/changeSets/addmodulebr.php</filename>
+	<classname>addmodulebr</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add BusinessRules WF</description>
+	<filename>build/changeSets/addmodulebrwf.php</filename>
+	<classname>addmodulebrwf</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
