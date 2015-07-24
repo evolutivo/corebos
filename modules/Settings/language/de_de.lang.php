@@ -483,7 +483,6 @@ $mod_strings = Array(
     'LBL_ENABLE_SINGLEPANE_VIEW'=>'zur kompakten Detailansicht wechseln',
 
     'LBL_CLEAR_DATA'=>'Daten löschen',
-    'LBL_ENABLE'=>'zulassen',
     'LBL_FAQ_FIELD_ACCESS'=>'Wissensbasis Feldzugang',
     'LBL_ADD_TAX_BUTTON'=>'Steuer hinzufügen',
     'LBL_NO_TAXES_AVAILABLE'=>'keine Steuern verfügbar',
@@ -665,8 +664,6 @@ $mod_strings = Array(
     'LBL_MAILSENDERROR'=>'Es wurde erfolglos versucht, eine E-Mail zu der Adresse Ihres CRM Administrators zu senden. Bitte prüfen Sie die zugewiesene E-Mail Adresse und Ihre Servereinstellungen.',
     'LBL_RECORD_NOEXIST'=>'Daten nicht vorhanden',
     'LBL_ENTER_PROFILE'=>'Profilenamen eingeben',
-    'LBL_ENABLE'=>'Aktivierung der',
-    'LBL_DISABLE'=>'Sperren',
     'Language' => 'Language',
     'AlwaysActive' => 'always active',
     'LBL_PROXY'=>'Proxy',
@@ -1016,7 +1013,7 @@ $mod_strings = Array(
     'Settings' => 'Einstellungen',
     'LBL_ERR_TAX_LABEL_ALREADY_EXISTS' => 'Diese Mwst. ist bereits vorhanden.',
     'LBL_ERR_SOME_TAX_LABELS_ALREADY_EXISTS' => 'Einige Mwst. Beschriftungen sind bereits vorhanden, deshalb kann es nicht gespeichert werden.',
-
+	'LBL_ERR_ADDTAX' => 'There may be some problem in adding the Tax type. Please try again',
     'LBL_EDIT_COMPANY_INFO' => "To edit company details, please click on
                 <span style='font-style:italic;color:blue;'>Settings Icon > On Demand Admin > Company </span>",
 

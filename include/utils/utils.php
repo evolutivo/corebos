@@ -10,9 +10,7 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
  ********************************************************************************/
-
 require_once('include/database/PearDatabase.php');
 require_once 'modules/GlobalVariable/GlobalVariable.php';
 require_once('include/ComboUtil.php'); //new
@@ -918,11 +916,11 @@ function array_csort() {
 
 /** Function to set default varibles on to the global variable
   * @param $defaults -- default values:: Type array
-       */
+*/
 function set_default_config(&$defaults)
 {
 	global $log;
-	$log->debug("Entering set_default_config(".$defaults.") method ...");
+	$log->debug('Entering set_default_config('.print_r($defaults,true).') method ...');
 
 	foreach ($defaults as $name=>$value)
 	{
@@ -931,7 +929,7 @@ function set_default_config(&$defaults)
 			$GLOBALS[$name] = $value;
 		}
 	}
-	$log->debug("Exiting set_default_config method ...");
+	$log->debug('Exiting set_default_config method ...');
 }
 
 //this is an optimisation of the to_html function, here we make the decision
@@ -1770,36 +1768,29 @@ function getInventoryTotal($return_module,$id)
 }
 
 /** Function to update product quantity
-  * @param $product_id -- product id :: Type integer
-  * @param $upd_qty -- quantity :: Type integer
-  */
-
-function updateProductQty($product_id, $upd_qty)
-{
-	global $log;
+ * @param $product_id -- product id :: Type integer
+ * @param $upd_qty -- quantity :: Type integer
+ */
+function updateProductQty($product_id, $upd_qty) {
+	global $log, $adb;
 	$log->debug("Entering updateProductQty(".$product_id.",". $upd_qty.") method ...");
-	global $adb;
 	$query= "update vtiger_products set qtyinstock=? where productid=?";
-    $adb->pquery($query, array($upd_qty, $product_id));
+	$adb->pquery($query, array($upd_qty, $product_id));
 	$log->debug("Exiting updateProductQty method ...");
-
 }
 
 /** Function to get account information
-  * @param $parent_id -- parent id :: Type integer
-  * @returns $accountid -- accountid:: Type integer
-  */
-
-function get_account_info($parent_id)
-{
-	global $log;
+ * @param $parent_id -- parent id :: Type integer
+ * @returns $accountid -- accountid:: Type integer
+ */
+function get_account_info($parent_id) {
+	global $log, $adb;
 	$log->debug("Entering get_account_info(".$parent_id.") method ...");
-        global $adb;
-        $query = "select related_to from vtiger_potential where potentialid=?";
-        $result = $adb->pquery($query, array($parent_id));
-        $accountid=$adb->query_result($result,0,'related_to');
+	$query = "select related_to from vtiger_potential where potentialid=?";
+	$result = $adb->pquery($query, array($parent_id));
+	$accountid=$adb->query_result($result,0,'related_to');
 	$log->debug("Exiting get_account_info method ...");
-        return $accountid;
+	return $accountid;
 }
 
 /** Function to get quick create form fields
@@ -3996,8 +3987,7 @@ function getFieldValues($module)
 }
 
 /** To get security parameter for a particular module -- By Pavani*/
-function getSecParameterforMerge($module)
-{
+function getSecParameterforMerge($module) {
 	global $current_user;
 	$tab_id = getTabid($module);
 	$sec_parameter="";
@@ -4005,43 +3995,34 @@ function getSecParameterforMerge($module)
 	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 	if($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tab_id] == 3)
 	{
-		if($module == "Vendors") {
-			$sec_parameter = "";
-		} else {
-			$sec_parameter=getListViewSecurityParameter($module);
-			if($module == "Accounts") {
-				$sec_parameter .= " AND (vtiger_crmentity.smownerid IN (".$current_user->id.")
-						OR vtiger_crmentity.smownerid IN (
-					 	SELECT vtiger_user2role.userid
-					 	FROM vtiger_user2role
-					 	INNER JOIN vtiger_users
-						ON vtiger_users.id = vtiger_user2role.userid
-						INNER JOIN vtiger_role
-						ON vtiger_role.roleid = vtiger_user2role.roleid
-					 	WHERE vtiger_role.parentrole LIKE '".$current_user_parent_role_seq."::%')
-						OR vtiger_crmentity.smownerid IN (
-						SELECT shareduserid
-						FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=".$current_user->id."
-						AND tabid=".$tab_id.")
-						OR (vtiger_crmentity.smownerid in (0)
-						AND (";
-
-				if(sizeof($current_user_groups) > 0) {
-					$sec_parameter .= " vtiger_groups.groupname IN (
-									SELECT groupname
-									FROM vtiger_groups
-									WHERE groupid IN (". implode(",", getCurrentUserGroupList()) ."))
-									OR ";
-				}
-				$sec_parameter .= " vtiger_groups.groupname IN (
-				 	SELECT vtiger_groups.groupname
-					FROM vtiger_tmp_read_group_sharing_per
-					INNER JOIN vtiger_groups
-						ON vtiger_groups.groupid = vtiger_tmp_read_group_sharing_per.sharedgroupid
+		$sec_parameter=getListViewSecurityParameter($module);
+		if($module == "Accounts") {
+			$sec_parameter .= " AND (vtiger_crmentity.smownerid IN (".$current_user->id.")
+					OR vtiger_crmentity.smownerid IN (
+					SELECT vtiger_user2role.userid
+					FROM vtiger_user2role
+					INNER JOIN vtiger_users ON vtiger_users.id = vtiger_user2role.userid
+					INNER JOIN vtiger_role ON vtiger_role.roleid = vtiger_user2role.roleid
+					WHERE vtiger_role.parentrole LIKE '".$current_user_parent_role_seq."::%')
+					OR vtiger_crmentity.smownerid IN (
+					SELECT shareduserid
+					FROM vtiger_tmp_read_user_sharing_per
 					WHERE userid=".$current_user->id."
-					AND tabid=".$tab_id.")))) ";
+					AND tabid=".$tab_id.")
+					OR (vtiger_crmentity.smownerid in (0)
+					AND (";
+
+			if(sizeof($current_user_groups) > 0) {
+				$sec_parameter .= " vtiger_groups.groupname IN (
+								SELECT groupname
+								FROM vtiger_groups
+								WHERE groupid IN (". implode(",", getCurrentUserGroupList()) .")) OR ";
 			}
+			$sec_parameter .= " vtiger_groups.groupname IN (
+				SELECT vtiger_groups.groupname
+				FROM vtiger_tmp_read_group_sharing_per
+				INNER JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_tmp_read_group_sharing_per.sharedgroupid
+				WHERE userid=".$current_user->id." AND tabid=".$tab_id.")))) ";
 		}
 	}
 	return $sec_parameter;
