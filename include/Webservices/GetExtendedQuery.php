@@ -210,10 +210,10 @@ function __FQNExtendedQueryAddCondition($queryGenerator,$condition,$glue,$mainMo
 	$op = strtolower(strtok(' '));
 	$secop = strtolower(strtok(' '));
 	if ($op == 'not' and strtolower($secop)=='like') {
-		$val = substr($condition,stripos('not like', $condition)+8);
+		$val = substr($condition,stripos($condition,'not like')+8);
 		$op = 'notlike';
 	} elseif ($op == 'not' and strtolower($secop)=='in') {
-		$val = substr($condition,stripos('not in', $condition)+6);
+		$val = substr($condition,stripos($condition,'not in')+6);
 		$op = 'notin';
 	} elseif ($op == 'is') {
 		if ($secop == 'not') {
@@ -292,6 +292,13 @@ function __FQNExtendedQueryAddCondition($queryGenerator,$condition,$glue,$mainMo
 
 	if (strpos($field, '.')>0) {  // FQN
 		list($fmod,$fname) = explode('.', $field);
+		$fromwebserviceObject = VtigerWebserviceObject::fromName($adb,$mainModule);
+		$fromhandlerPath = $fromwebserviceObject->getHandlerPath();
+		$fromhandlerClass = $fromwebserviceObject->getHandlerClass();
+		require_once $fromhandlerPath;
+		$fromhandler = new $fromhandlerClass($fromwebserviceObject,$user,$adb,$log);
+		$fromrelmeta = $fromhandler->getMeta();
+		$fromrfs = $fromrelmeta->getReferenceFieldDetails();
 		$webserviceObject = VtigerWebserviceObject::fromName($adb,$fmod);
 		$handlerPath = $webserviceObject->getHandlerPath();
 		$handlerClass = $webserviceObject->getHandlerClass();
@@ -299,16 +306,16 @@ function __FQNExtendedQueryAddCondition($queryGenerator,$condition,$glue,$mainMo
 		$handler = new $handlerClass($webserviceObject,$user,$adb,$log);
 		$relmeta = $handler->getMeta();
 		$fmod = $relmeta->getTabName();  // normalize module name
-		$rfs = $relmeta->getReferenceFieldDetails();
 		$found = false;
-		foreach ($rfs as $reffld => $mods) {
+		foreach ($fromrfs as $reffld => $mods) {
 			if (in_array($fmod, $mods)) {
 				$found = true;
 				if ($fname=='id') {
 					list($wsid,$val) = explode('x', $val);
 					$fname = $relmeta->getObectIndexColumn();
 				}
-				$queryGenerator->addReferenceModuleFieldCondition($fmod, $reffld, $fname, $val, $op, $glue);
+				$fmodreffld = __FQNExtendedQueryGetRefFieldForModule($fromrfs,$fmod,$reffld);
+				$queryGenerator->addReferenceModuleFieldCondition($fmod, $fmodreffld, $fname, $val, $op, $glue);
 				break;
 			}
 		}
@@ -326,6 +333,16 @@ function __FQNExtendedQueryAddCondition($queryGenerator,$condition,$glue,$mainMo
 	}
 }
 
+function __FQNExtendedQueryGetRefFieldForModule($fromrfs,$module,$reffld) {
+	foreach ($fromrfs as $freffld => $mods) {
+		if (in_array($module, $mods)) {
+			$reffld = $freffld;
+			break;
+		}
+	}
+	return $reffld;
+}
+
 function __FQNExtendedQueryField2Column($field,$mainModule,$maincolumnTable,$user) {
 	global $adb,$log;
 	$field = trim($field);
@@ -334,19 +351,30 @@ function __FQNExtendedQueryField2Column($field,$mainModule,$maincolumnTable,$use
 	}
 	if (strpos($field, '.')>0) {  // FQN
 		list($fmod,$fname) = explode('.', $field);
+		$fromwebserviceObject = VtigerWebserviceObject::fromName($adb,$mainModule);
+		$fromhandlerPath = $fromwebserviceObject->getHandlerPath();
+		$fromhandlerClass = $fromwebserviceObject->getHandlerClass();
+		require_once $fromhandlerPath;
+		$fromhandler = new $fromhandlerClass($fromwebserviceObject,$user,$adb,$log);
+		$fromrelmeta = $fromhandler->getMeta();
+		$fromrfs = $fromrelmeta->getReferenceFieldDetails();
+		$webserviceObject = VtigerWebserviceObject::fromName($adb,$fmod);
+		$handlerPath = $webserviceObject->getHandlerPath();
+		$handlerClass = $webserviceObject->getHandlerClass();
+		require_once $handlerPath;
+		$handler = new $handlerClass($webserviceObject,$user,$adb,$log);
+		$relmeta = $handler->getMeta();
+		$fieldcolumn = $relmeta->getFieldColumnMapping();
+		$fieldtable = $relmeta->getColumnTableMapping();
+		$fmod = $relmeta->getTabName();  // normalize module name
 		if ($fmod==$mainModule) {
-			return $fmod.'.'.$maincolumnTable[$fname];
+			return $fieldtable[$fname].'.'.$maincolumnTable[$fname];
 		} else {
-			$webserviceObject = VtigerWebserviceObject::fromName($adb,$fmod);
-			$handlerPath = $webserviceObject->getHandlerPath();
-			$handlerClass = $webserviceObject->getHandlerClass();
-			require_once $handlerPath;
-			$handler = new $handlerClass($webserviceObject,$user,$adb,$log);
-			$relmeta = $handler->getMeta();
-			$fieldcolumn = $relmeta->getFieldColumnMapping();
-			return $fmod.'.'.$fieldcolumn[$fname];
+			$fmodreffld = __FQNExtendedQueryGetRefFieldForModule($fromrfs,$fmod,$fname);
+			return $fieldtable[$fname].$fmodreffld.'.'.$fieldcolumn[$fname];
 		}
 	}
+	return $field;
 }
 
 function __FQNExtendedQueryProcessCondition($condition) {
@@ -358,12 +386,22 @@ function __FQNExtendedQueryProcessCondition($condition) {
 	while (!$foundop and $chrs < $condlen) {
 		$foundop = in_array($condition[$chrs],array('<','>','=','!'));
 		if ($foundop) {
-			$cond .= ' '.$condition[$chrs];
+			if ($condition[$chrs-1]!=' ') {
+				$cond .= ' '.$condition[$chrs];
+			} else {
+				$cond .= $condition[$chrs];
+			}
+			while ($condition[$chrs+1]==' ') $chrs++;
 			if ($condition[$chrs+1]=='=') {
-				$cond .= '= ';
+				$cond .= '=';
+				if ($condition[$chrs+2]!=' ') {
+					$cond .= ' ';
+				}
 				$chrs++;
 			} else {
-				$cond .= ' ';
+				if ($condition[$chrs+1]!=' ') {
+					$cond .= ' ';
+				}
 			}
 		} else {
 			$cond .= $condition[$chrs];
@@ -371,8 +409,6 @@ function __FQNExtendedQueryProcessCondition($condition) {
 		$chrs++;
 	}
 	$cond .= substr($condition,$chrs);
-	// eliminate duplicate spaces
-	$cond = preg_replace('/  +/', ' ', $cond);
 	return $cond;
 }
 
@@ -389,7 +425,7 @@ function __FQNExtendedQueryIsFQNQuery($q) {
 
 function __FQNExtendedQueryIsRelatedQuery($q) {
 	$cq = __FQNExtendedQueryCleanQuery($q);
-	$cq = substr($cq,stripos(' where '));
+	$cq = substr($cq,stripos($cq,' where '));
 	return (stripos($cq,'related.')>0);
 }
 
@@ -399,6 +435,8 @@ function __FQNExtendedQueryCleanQuery($q) {
 	$moduleRegex = "/ count\(.+\)/Us";  // eliminate COUNT operator
 	$r = preg_replace($moduleRegex, '', $r);
 	$moduleRegex = "/'.+'/Us";  // eliminate string literals
+	$r = preg_replace($moduleRegex, '', $r);
+	$moduleRegex = "/\(\s*\)/Us";  // eliminate empty parenthesis
 	$r = preg_replace($moduleRegex, '', $r);
 	return $r;
 }

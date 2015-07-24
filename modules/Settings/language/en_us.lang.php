@@ -1,46 +1,16 @@
 <?php
-
 /*********************************************************************************
-
  * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
-
  * ("License"); You may not use this file except in compliance with the
-
  * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
-
  * Software distributed under the License is distributed on an  "AS IS"  basis,
-
  * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
-
  * the specific language governing rights and limitations under the License.
-
  * The Original Code is:  SugarCRM Open Source
-
  * The Initial Developer of the Original Code is SugarCRM, Inc.
-
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
-
  * All Rights Reserved.
-
- * Contributor(s): ______________________________________.
-
  ********************************************************************************/
-
-/*********************************************************************************
-
- * $Header: /advent/projects/custprojects/vtigercrm/vtigersupport/vtiger_crm/modules/Settings/language/en_us.lang.php,v 1.2 2007/07/06 09:55:40 rajeshkannan Exp $
-
- * Description:  Defines the English language pack for Settings
-
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
-
- * All Rights Reserved.
-
- * Contributor(s): ______________________________________..
-
- ********************************************************************************/
-
-
 
 $mod_strings = Array(
 
@@ -712,7 +682,6 @@ $mod_strings = Array(
 'LBL_ENABLE_SINGLEPANE_VIEW'=>'Enable Singlepane View',
 
 'LBL_CLEAR_DATA'=>'Clear Data',
-'LBL_ENABLE'=>'Enable',
 'LBL_FAQ_FIELD_ACCESS'=>'Faq Field Access',
 'LBL_ADD_TAX_BUTTON'=>'Add Tax',
 'LBL_NO_TAXES_AVAILABLE'=>'No taxes available',
@@ -1243,6 +1212,7 @@ $mod_strings = Array(
 'Settings' => 'Settings',
 'LBL_ERR_TAX_LABEL_ALREADY_EXISTS' => 'This tax is already available.',
 'LBL_ERR_SOME_TAX_LABELS_ALREADY_EXISTS' => 'Some tax labels are already available, hence not saved.',
+'LBL_ERR_ADDTAX' => 'There may be some problem in adding the Tax type. Please try again',
 'LBL_EDIT_COMPANY_INFO' => "To edit company details, please click on
 			   <span style='font-style:italic;color:blue;'>Settings Icon > On Demand Admin > Company </span>",
 

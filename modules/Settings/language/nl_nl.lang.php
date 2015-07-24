@@ -484,7 +484,6 @@ $mod_strings = Array(
 'LBL_TYPEALERT_1'=>'Sorry, u kunt niet synchroniseren',
 'LBL_WITH'=>'met',
 'LBL_TYPEALERT_2'=>'Data type. Synchroniseer dezelfde data types.',
-'LBL_ENABLE'=>'Aanzetten',
 'LBL_FAQ_FIELD_ACCESS'=>'Toegang veld FAQ',
 'LBL_ADD_TAX_BUTTON'=>'BTW Toevoegen',
 'LBL_NO_TAXES_AVAILABLE'=>'Geen BTW beschikbaar',
@@ -665,8 +664,6 @@ $mod_strings = Array(
 'LBL_MAILSENDERROR'=>'E-mail kon niet verstuurd worden aan de admin gebruiker. aub Controleer het admin e-mailid',
 'LBL_RECORD_NOEXIST'=>'Veld niet aanwezig',
 'LBL_ENTER_PROFILE'=>'Geef profielnaam',
-'LBL_ENABLE'=>'Aanzetten',
-'LBL_DISABLE'=>'Uitzetten',
 'Language' => 'Language',
 'AlwaysActive' => 'always active',
 'LBL_PROXY'=>'proxy',
@@ -1024,7 +1021,7 @@ $mod_strings = Array(
 'Settings' => 'Instellingen',
 'LBL_ERR_TAX_LABEL_ALREADY_EXISTS' => 'Dit belastinglabel bestaat al.',
 'LBL_ERR_SOME_TAX_LABELS_ALREADY_EXISTS' => 'Sommige belastinglabels bestaan al, maar nog niet opgeslagen.',
-
+'LBL_ERR_ADDTAX' => 'There may be some problem in adding the Tax type. Please try again',
 'Configuration Editor' => 'Configuratie bewerker',
 'Update configuration file of the application' => 'Bewerk de configuratie van deze toepassing.',
 

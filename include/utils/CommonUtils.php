@@ -2407,6 +2407,7 @@ function getSingleFieldValue($tablename, $fieldname, $idname, $id) {
  */
 function get_announcements() {
 	global $adb;
+	$announcement = '';
 	$sql = " select * from vtiger_announcement inner join vtiger_users on vtiger_announcement.creatorid=vtiger_users.id";
 	$sql.=" AND vtiger_users.is_admin='on' AND vtiger_users.status='Active' AND vtiger_users.deleted = 0";
 	$result = $adb->pquery($sql, array());
@@ -3135,8 +3136,9 @@ function checkFileAccessForDeletion($filepath) {
 /** Function to check the file access is made within web root directory. */
 function checkFileAccess($filepath) {
 	if (!isFileAccessible($filepath)) {
+		global $default_charset;
 		echo "Sorry! Attempt to access restricted file.<br>";
-		echo "We are looking for this file path: $filepath<br>";
+		echo 'We are looking for this file path: '.htmlspecialchars($filepath, ENT_QUOTES, $default_charset).'<br>';
 		die();
 	}
 }
