@@ -27,7 +27,7 @@ jQuery.ajax
     cache: false,
     async:false,
     success: function(text)
-    {
+    {jQuery("#lstRecordLayout").append('<div id="dialog" title="Create Map"></div>');
      jQuery( "#dialog" ).html(text);
      jQuery( "#dialog" ).dialog( "open" );
     }

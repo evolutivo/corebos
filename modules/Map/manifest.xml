@@ -294,11 +294,11 @@
 </relatedlists>
 <customlinks>
 <customlink>
-<linktype></linktype>
-<linklabel></linklabel>
-<linkurl><![CDATA[]]></linkurl>
+<linktype>DETAILVIEWBASIC</linktype>
+<linklabel>Generate Map</linklabel>
+<linkurl><![CDATA[javascript:showMapWindow($RECORD$);]]></linkurl>
 <linkicon><![CDATA[]]></linkicon>
-<sequence></sequence>
+<sequence>0</sequence>
 <handler_path><![CDATA[]]></handler_path>
 <handler_class><![CDATA[]]></handler_class>
 <handler><![CDATA[]]></handler>
