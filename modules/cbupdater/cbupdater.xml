@@ -380,7 +380,6 @@
 	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
 	<author>loridacito</author>
 	<description>Add BusinessRules Module</description>
 	<filename>build/changeSets/addmodulebr.php</filename>
