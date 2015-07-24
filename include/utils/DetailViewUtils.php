@@ -10,16 +10,7 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
  ********************************************************************************/
-/*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/include/utils/DetailViewUtils.php,v 1.188 2005/04/29 05:5 * 4:39 rank Exp
- * Description:  Includes generic helper functions used throughout the application.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
- * Contributor(s): ______________________________________..
- ********************************************************************************/
-
 require_once('include/database/PearDatabase.php');
 require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
@@ -634,7 +625,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 			 where vtiger_crmentity.setype='$module $imageattachment'
 			  and vtiger_attachments.name = ?
 			  and vtiger_seattachmentsrel.crmid=?";
-			$image_res = $adb->pquery($sql, array($col_fields[$fieldname],$col_fields['record_id']));
+			$image_res = $adb->pquery($sql, array(str_replace(' ', '_', $col_fields[$fieldname]),$col_fields['record_id']));
 			$image_id = $adb->query_result($image_res, 0, 'attachmentsid');
 			$image_path = $adb->query_result($image_res, 0, 'path');
 
@@ -824,6 +815,14 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$vendor_name = $adb->query_result($result, 0, "vendorname");
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $vendor_name . '</a>';				
 			} //MSL -------------------------------------------
+			// vtlib customization: For listview javascript triggers
+			$modMetaInfo=getEntityFieldNames($parent_module);
+			$modEName=(is_array($modMetaInfo['fieldname']) ? $modMetaInfo['fieldname'][0] : $modMetaInfo['fieldname']);
+			$vtlib_metainfo = "<span type='vtlib_metainfo' vtrecordid='$value' vtfieldname=".
+					"'$modEName' vtmodule='$parent_module' style='display:none;'></span>";
+			// END
+                        $last_lbl_fld = count($label_fld) - 1;
+                        $label_fld[$last_lbl_fld] .= $vtlib_metainfo;
 		} else {
 			$label_fld[] = getTranslatedString($fieldlabel, $module);
 			$label_fld[] = $value;
@@ -1493,8 +1492,7 @@ function getDetailAssociatedProducts($module, $focus) {
 
 			$taxamount = ($netTotal - $finalDiscount) * $tax_value / 100;
 			$taxtotal = $taxtotal + $taxamount;
-			$tax_info_message .= "$tax_label : $tax_value % = ".
-									CurrencyField::convertToUserFormat($taxtotal, null, true) ." \\n";
+			$tax_info_message .= "$tax_label : $tax_value % = ". CurrencyField::convertToUserFormat($taxamount, null, true) ." \\n";
 		}
 		$tax_info_message .= "\\n " . $app_strings['LBL_TOTAL_TAX_AMOUNT'] . " = ". CurrencyField::convertToUserFormat($taxtotal, null, true);
 

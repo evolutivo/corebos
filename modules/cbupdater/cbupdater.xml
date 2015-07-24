@@ -380,6 +380,7 @@
 	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>
+<<<<<<< HEAD
 	<author>loridacito</author>
 	<description>Add BusinessRules Module</description>
 	<filename>build/changeSets/addmodulebr.php</filename>
@@ -391,6 +392,27 @@
 	<description>Add BusinessRules WF</description>
 	<filename>build/changeSets/addmodulebrwf.php</filename>
 	<classname>addmodulebrwf</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Product stock control functionality</description>
+	<filename>build/changeSets/inventoryproductstockcontrol.php</filename>
+	<classname>inventoryproductstockcontrol</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Import/Export support for inventory modules</description>
+	<filename>build/changeSets/importexport_inventorymodules.php</filename>
+	<classname>importexport_inventorymodules</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Make Vendors Shareable</description>
+	<filename>build/changeSets/makeVendorShareable.php</filename>
+	<classname>makeVendorShareable</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>
