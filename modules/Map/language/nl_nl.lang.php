@@ -9,15 +9,25 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Module Name',
-	'SINGLE_ModuleName' => 'Module Name',
-	'ModuleName ID' => 'Module Name ID',
+	'Map' => 'Map',
+	'SINGLE_Map' => 'Map',
+	'Map ID' => 'Map ID',
 
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Verkoopkans omschrijving',
+	'LBL_MAP_INFORMATION' => 'Map Information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 
 	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+        'LBL_CREATE_BUTTON_KEY'=>'Generate Map',
+	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
+        'LBL_Map_Creator' => 'Map Creator',
+        'LBL_Origin'=>'Origin',
+        'LBL_Target'=>'Target',
+        'LBL_CREATE'=>'Create Map',
+        'LBL_ADD'=>'Add',
+        'LBL_CREATEMAP'=>'Create Map',
+        'LBL_SELECT_MODULE'=>'Select Module',
+        'LBL_SELECT_BLOCK'=>'Select Block',
 );
 
 ?>

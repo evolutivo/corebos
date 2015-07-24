@@ -9,12 +9,12 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Nome Modulo',
-	'SINGLE_ModuleName' => 'Nome Modulo',
-	'ModuleName ID' => 'ID Nome Modulo',
+	'Map' => 'Map',
+	'SINGLE_Map' => 'Map',
+	'Map ID' => 'ID Map',
 
 	'LBL_CUSTOM_INFORMATION' => 'Informazione Personalizzata',
-	'LBL_MODULEBLOCK_INFORMATION' => 'Informazione Blocco del Modulo',
+	'LBL_MAP_INFORMATION' => 'Informazione Blocco Map',
         'LBL_CREATE_BUTTON_KEY'=>'Generate Map',
 	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
         'LBL_Map_Creator' => 'Map Creator',
