@@ -17,7 +17,12 @@ $mod_strings = Array(
 	'LBL_BUSINESSRULES_INFORMATION' => 'Business Rules Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+	'Business Rules Name' => 'Business Rules Name',
+	'Business Rules Number' => 'Business Rules Number',
+	'Business Rule' => 'Business Rule',
+	'Module' => 'Module',
+	'Map' => 'Map',
+	'Permitted Roles' => 'Permitted Roles',
 );
 
 ?>
