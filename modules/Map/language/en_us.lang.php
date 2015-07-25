@@ -9,7 +9,7 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'Map' => 'Map',
+	'Map' => 'Maps',
 	'SINGLE_Map' => 'Map',
 	'Map ID' => 'Map ID',
 
@@ -17,17 +17,18 @@ $mod_strings = Array(
 	'LBL_MAP_INFORMATION' => 'Map Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
-        'LBL_CREATE_BUTTON_KEY'=>'Generate Map',
-	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
-        'LBL_Map_Creator' => 'Map Creator',
-        'LBL_Origin'=>'Origin',
-        'LBL_Target'=>'Target',
-        'LBL_CREATE'=>'Create Map',
-        'LBL_ADD'=>'Add',
-        'LBL_CREATEMAP'=>'Create Map',
-        'LBL_SELECT_MODULE'=>'Select Module',
-        'LBL_SELECT_BLOCK'=>'Select Block',
+	'Map Name' => 'Map Name',
+	'Map Number' => 'Map Number',
+	'Map Type' => 'Map Type',
+	'Content' => 'Content',
+	'Blocks' => 'Blocks',
+	'Actions' => 'Actions',
+	'StockSettings' => 'Stock Settings',
+	'Generate Map' => 'Generate Map',
+	'Condition' => 'Condition',
+	'Mapping' => 'Mapping',
+	'SendMail' => 'Send Mail',
+	'Block Access' => 'Block Access',
 );
 
 ?>
