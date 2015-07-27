@@ -9,9 +9,9 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'Map' => 'Maps',
-	'SINGLE_Map' => 'Map',
-	'Map ID' => 'Map ID',
+	'cbMap' => 'Maps',
+	'SINGLE_cbMap' => 'Map',
+	'cbMap ID' => 'Map ID',
 
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_MAP_INFORMATION' => 'Map Information',

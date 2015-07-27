@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
- *  Module       : Map
+ *  Module       : cbMap
  *  Version      : 5.5.0
  *  Author       : OpenCubed.
  *************************************************************************************************/
 require_once('Smarty_setup.php');
-include_once('modules/Map/Map.php');
+include_once('modules/cbMap/cbMap.php');
 global $mod_strings, $app_strings, $adb, $log;
 $mapTemplate = new vtigerCRM_Smarty();
 $allModules = array();
 $mapid = $_REQUEST["mapid"];
-$mapInstance = CRMEntity::getInstance("Map");
+$mapInstance = CRMEntity::getInstance("cbMap");
 $allModules = $mapInstance->initListOfModules();
 $delimiters = array("",",",";","_","-");
-$getMapQuery = $adb->pquery("Select * from vtiger_map where mapid=?",array($mapid));
+$getMapQuery = $adb->pquery("Select * from vtiger_cbmap where cbmapid=?",array($mapid));
 $nr_row = $adb->num_rows($getMapQuery);
 if($nr_row != 0){
     $viewmode = "edit";
@@ -73,10 +73,10 @@ if(stristr($maptype,'Block Access')!='')
 $mapTemplate->assign('blocks',json_encode($mapInstance->module_list[$originname]));
 $mapTemplate->assign('blockid',$mapInstance->module_list[$originname]);
 $mapTemplate->assign("targetID",$blockids[0]);
-$mapTemplate->display('modules/Map/blockaccess.tpl');   
+$mapTemplate->display('modules/cbMap/blockaccess.tpl');   
 }
     else
-$mapTemplate->display('modules/Map/mapWindow.tpl');
+$mapTemplate->display('modules/cbMap/mapWindow.tpl');
 ?>
 
 

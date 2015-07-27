@@ -13,27 +13,29 @@
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
- *  Module       : Map
+ *  Module       : cbMap
  *  Version      : 5.5.0
  *  Author       : OpenCubed.
  *************************************************************************************************/
-global $log,$mod_strings, $app_strings,$adb;
-include_once('modules/Map/Map.php');
-require_once('data/CRMEntity.php');
-require_once('include/utils/utils.php');
-require_once('database/DatabaseConnection.php');
-require_once('include/database/PearDatabase.php');
-require_once('Smarty_setup.php');
-require_once('include/utils/utils.php');
-
-$mapInstance = CRMEntity::getInstance("Map");
+global $log;
+include_once('modules/cbMap/cbMap.php');
+global $mod_strings, $app_strings;
+$mapInstance = CRMEntity::getInstance("cbMap");
 $modtype = $_REQUEST['modtype'];
-$module_list[] = json_decode($_REQUEST['module_list']);
+$module_list = json_decode($_REQUEST['module_list']);
 $related_modules = json_decode($_REQUEST['related_modules']);
 $rel_fields = json_decode($_REQUEST['rel_fields']);
-$moduleid =  $_REQUEST['pmodule'];
-//$moduleName = getTabModuleName($moduleid);
+$pmodule =  $_REQUEST['pmodule'];
 
-$mapInstance->module_list=$module_list;
-$blockinfo=$mapInstance->getBlockInfo($moduleid);
-echo $mapInstance->getBlockHTML($blockinfo,$moduleid);
+VTCacheUtils::updateMap_ListofModuleInfos($module_list,$related_modules,$rel_fields);
+
+if($modtype == "target"){
+   $mapInstance->getPriModuleFieldsList($pmodule,$modtype);
+   echo $mapInstance->getPrimaryFieldHTML($pmodule,$modtype);   
+}
+else 
+{
+$mapInstance->getPriModuleFieldsList($pmodule,$modtype);
+echo $mapInstance->getPrimaryFieldHTML($pmodule,$modtype);
+}
+?>

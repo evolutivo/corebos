@@ -12,22 +12,22 @@
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
- *  Module       : Map
+ *  Module       : cbMap
  *  Version      : 5.5.0
  *  Author       : OpenCubed.
  *************************************************************************************************/
 -->*}
-<link type="text/css" href="modules/Map/styles/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="modules/Map/styles/jquery-multiselect.css"/>
-<script type="text/javascript" src="modules/Map/js/jquery-ui-1.9.2.custom.js"></script>
-<script type="text/javascript" src="modules/Map/js/jquery-multiselect.js"></script>
-<script type="text/javascript" src="modules/Map/js/jquery-multiselect-filter.js"></script>
-<script type="text/javascript" src="modules/Map/Map.js"></script>
-<script type="text/javascript" src="modules/Map/js/script.js"></script>
+<link type="text/css" href="modules/cbMap/styles/jquery-ui-1.9.2.custom.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="modules/cbMap/styles/jquery-multiselect.css"/>
+<script type="text/javascript" src="modules/cbMap/js/jquery-ui-1.9.2.custom.js"></script>
+<script type="text/javascript" src="modules/cbMap/js/jquery-multiselect.js"></script>
+<script type="text/javascript" src="modules/cbMap/js/jquery-multiselect-filter.js"></script>
+<script type="text/javascript" src="modules/cbMap/cbMap.js"></script>
+<script type="text/javascript" src="modules/cbMap/js/script.js"></script>
 
 <style>
 {literal}
-.ajax_loader {background: url("modules/Map/styles/images/spinner_squares_circle.gif") no-repeat center center transparent;width:100%;height:100%;}
+.ajax_loader {background: url("modules/cbMap/styles/images/spinner_squares_circle.gif") no-repeat center center transparent;width:100%;height:100%;}
 .blue-loader .ajax_loader {background: url("modules/MVCreator/styles/images/ajax-loader_blue.gif") no-repeat center center transparent;}
 .list {
     background-color: lightblue;

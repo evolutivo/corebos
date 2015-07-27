@@ -9,16 +9,16 @@
  ************************************************************************************/
 require_once('data/CRMEntity.php');
 require_once('data/Tracker.php');
-require_once('modules/Map/crXml.php');
+require_once('modules/cbMap/crXml.php');
 include_once('include/utils/VTCacheUtils.php');
-class Map extends CRMEntity {
+class cbMap extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
         var $module_list = Array();
         var $rel_fields = Array();
         var $primodule;
         var $secmodule;
-	var $table_name = 'vtiger_map';
-	var $table_index= 'mapid';
+	var $table_name = 'vtiger_cbmap';
+	var $table_index= 'cbmapid';
 	var $column_fields = Array();
 
 	/** Indicator if this is a custom module or standard module */
@@ -27,20 +27,20 @@ class Map extends CRMEntity {
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	var $customFieldTable = Array('vtiger_mapcf', 'mapid');
+	var $customFieldTable = Array('vtiger_cbmapcf', 'cbmapid');
 
 	/**
 	 * Mandatory for Saving, Include tables related to this module.
 	 */
-	var $tab_name = Array('vtiger_crmentity', 'vtiger_map', 'vtiger_mapcf');
+	var $tab_name = Array('vtiger_crmentity', 'vtiger_cbmap', 'vtiger_cbmapcf');
 
 	/**
 	 * Mandatory for Saving, Include tablename and tablekey columnname here.
 	 */
 	var $tab_name_index = Array(
 		'vtiger_crmentity' => 'crmid',
-		'vtiger_map'   => 'mapid',
-	    'vtiger_mapcf' => 'mapid');
+		'vtiger_cbmap'   => 'cbmapid',
+	    'vtiger_cbmapcf' => 'cbmapid');
 
 	/**
 	 * Mandatory for Listing (Related listview)
@@ -48,7 +48,7 @@ class Map extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Map Name'=> Array('map', 'mapname'),
+		'Map Name'=> Array('cbmap', 'mapname'),
 		'Assigned To' => Array('crmentity','smownerid')
 	);
 	var $list_fields_name = Array(
@@ -64,7 +64,7 @@ class Map extends CRMEntity {
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Map Name'=> Array('map', 'mapname')
+		'Map Name'=> Array('cbmap', 'mapname')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -1132,9 +1132,9 @@ function isXML($xml){
    return $message;
 }
 function ReadFromXmlContent($mapid){global $log,$adb;
-$query=$adb->pquery("select content from vtiger_map where mapid=?",array($mapid));
+$query=$adb->pquery("select content from vtiger_cbmap where cbmapid=?",array($mapid));
 $xmlcontent=html_entity_decode($adb->query_result($query,0,'content'));
-$map = CRMEntity::getInstance('Map');
+$map = CRMEntity::getInstance('cbMap');
 $blockinfo=array();
 if($map->isXML($xmlcontent)){
     $xml=simplexml_load_string($xmlcontent);

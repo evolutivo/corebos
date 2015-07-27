@@ -9,22 +9,22 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'Map' => 'Map',
-	'SINGLE_Map' => 'Map',
-	'Map ID' => 'ID Map',
+	'cbMap' => 'Mappe',
+	'SINGLE_cbMap' => 'Mappa',
+	'cbMap ID' => 'ID Mappa',
 
 	'LBL_CUSTOM_INFORMATION' => 'Informazione Personalizzata',
-	'LBL_MAP_INFORMATION' => 'Informazione Blocco Map',
-        'LBL_CREATE_BUTTON_KEY'=>'Generate Map',
+	'LBL_MAP_INFORMATION' => 'Informazione Blocco Mappa',
+        'LBL_CREATE_BUTTON_KEY'=>'Genera Mappa',
 	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
-        'LBL_Map_Creator' => 'Map Creator',
-        'LBL_Origin'=>'Origin',
+        'LBL_Map_Creator' => 'Creatore Mappa',
+        'LBL_Origin'=>'Origine',
         'LBL_Target'=>'Target',
-        'LBL_CREATE'=>'Create Map',
+        'LBL_CREATE'=>'Crea Mappa',
         'LBL_ADD'=>'Add',
-        'LBL_CREATEMAP'=>'Create Map',
-        'LBL_SELECT_MODULE'=>'Select Module',
-        'LBL_SELECT_BLOCK'=>'Select Block',
+        'LBL_CREATEMAP'=>'Crea Mappa',
+        'LBL_SELECT_MODULE'=>'Seleziona Modulo',
+        'LBL_SELECT_BLOCK'=>'Seleziona Blocco',
 );
 
 ?>

@@ -17,7 +17,7 @@ var column_index_array = [];
 var group_index_array = [];
 var advft_column_index_count =0;
 function showMapWindow(mapid){
-var url = "index.php?module=Map&action=MapAjax&file=getMap";
+var url = "index.php?module=cbMap&action=cbMapAjax&file=getMap";
 var stringData = "mapid="+mapid;
 jQuery.ajax
     ({
@@ -40,8 +40,8 @@ var related_modules = jQuery("#related_modules").val();
 var rel_fields= jQuery("#rel_fields").val();
 var columnIndex = advft_column_index_count+1;
 jQuery.post('index.php', {
-module:'Map',
-action:'MapAjax',
+module:'cbMap',
+action:'cbMapAjax',
 async:false,
 file:'getFields', ajax:'true',pmodule: moduleId,modtype:ref,module_list:module_list,related_modules:related_modules,rel_fields:rel_fields,
 },
@@ -86,8 +86,8 @@ var rel_fields= jQuery("#rel_fields").val();
 var columnIndex = advft_column_index_count+1;
 jQuery("#orgVal").val(moduleId);
 jQuery.post('index.php', {
-module:'Map',
-action:'MapAjax',
+module:'cbMap',
+action:'cbMapAjax',
 file:'getBlocks', ajax:'true',pmodule: moduleId,modtype:ref,module_list:module_list,
 },
 function(relresult){  
@@ -115,7 +115,7 @@ function block_access(){
  var box = new ajaxLoader(jQuery( "#dialog" ));
 jQuery.ajax({
         type:"POST",
-        url:"index.php?module=Map&action=MapAjax&file=BlockAccess",
+        url:"index.php?module=cbMap&action=cbMapAjax&file=BlockAccess",
         data:jQuery('#theForm').serialize(),
         success: function(response){console.log('test');console.log(box);
         if (box) box.remove();
@@ -165,7 +165,7 @@ function generate() {
 var box = new ajaxLoader(jQuery( "#dialog" ));
 jQuery.ajax({
         type:"POST",
-        url:"index.php?module=Map&action=MapAjax&file=generateXML",
+        url:"index.php?module=cbMap&action=cbMapAjax&file=generateXML",
         data:jQuery('#theForm').serialize(),
         success: function(response){
         if (box) box.remove();
@@ -316,16 +316,16 @@ function addNewConditionGroup(parentNodeId,mode,nrFields,origin,target,originFie
         var columnIndex = advft_column_index_count+1;
 
         jQuery.post('index.php', {
-        module:'Map',
-        action:'MapAjax',
+        module:'cbMap',
+        action:'cbMapAjax',
         file:'getFields', ajax:'true',pmodule: origin,modtype:"origin",module_list:module_list,related_modules:related_modules,rel_fields:rel_fields,
         async:false
         },
         function(relresult){  
                 node1Result = relresult;
        jQuery.post('index.php', {
-        module:'Map',
-        action:'MapAjax',
+        module:'cbMap',
+        action:'cbMapAjax',
         file:'getFields', ajax:'true',pmodule: target,modtype:"target",module_list:module_list,related_modules:related_modules,rel_fields:rel_fields,
         async:false
         },

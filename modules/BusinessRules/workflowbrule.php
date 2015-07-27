@@ -25,8 +25,8 @@ $orig_id = $orig_id[1];
 $q=$adb->pquery("select linktomap from vtiger_businessrules where businessrulesid=$orig_id");
 $mapid=$adb->query_result($q,0,0);
 if(!empty($mapid)){
-$mapfocus=  CRMEntity::getInstance("Map");
-$mapfocus->retrieve_entity_info($mapid,"Map");
+$mapfocus=  CRMEntity::getInstance("cbMap");
+$mapfocus->retrieve_entity_info($mapid,"cbMap");
 $condition=$mapfocus->getMapSQL(); 
 
 $adb->pquery('Update vtiger_actions'

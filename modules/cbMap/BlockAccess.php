@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
- *  Module       : Map
+ *  Module       : cbMap
  *  Version      : 5.5.0
  *  Author       : OpenCubed.
  *************************************************************************************************/
@@ -36,7 +36,7 @@ $orgVal = $_POST['orgVal'];
 $orgArr = explode(",",$orgVal);
 
 global $adb;
-$adb->pquery("Update vtiger_map set origin=?,originname=?,blocks=?  where mapid=?",
+$adb->pquery("Update vtiger_cbmap set origin=?,originname=?,blocks=?  where cbmapid=?",
               array($orgmodID,$orgmodName,$targetVal,$mapid));
 
 $xml = new DOMDocument("1.0");
@@ -89,11 +89,11 @@ $root->appendChild($blocks);
 $xml->formatOutput = true;
 
 echo $xml->saveXML();
-include_once('modules/Map/Map.php');
-$map_focus = new Map();
+include_once('modules/cbMap/cbMap.php');
+$map_focus = new cbMap();
 $map_focus->id = $mapid;
-$map_focus->retrieve_entity_info($mapid,"Map");
+$map_focus->retrieve_entity_info($mapid,"cbMap");
 $map_focus->column_fields['content']= $xml->saveXML();
 $map_focus->mode = "edit";
-$map_focus->save("Map");
+$map_focus->save("cbMap");
 ?>

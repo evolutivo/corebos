@@ -217,7 +217,7 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <relatedmodules>
-<relatedmodule>Map</relatedmodule>
+<relatedmodule>cbMap</relatedmodule>
 </relatedmodules>
 </field>
 <field>

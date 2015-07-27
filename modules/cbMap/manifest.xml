@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <module>
-<name>Map</name>
-<label>Map</label>
+<name>cbMap</name>
+<label>cbMap</label>
 <parent>Tools</parent>
 <dependencies>
 <vtiger_version>5.5.0</vtiger_version>
@@ -21,7 +21,7 @@
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
- *  Module       : Map
+ *  Module       : cbMap
  *  Version      : 1.0
  *  Author       : OpenCubed
  *************************************************************************************************
@@ -29,9 +29,9 @@
 </license>
 <tables>
 <table>
-<name>vtiger_map</name>
-<sql><![CDATA[CREATE TABLE `vtiger_map` (
-  `mapid` int(11) NOT NULL DEFAULT '0',
+<name>vtiger_cbmap</name>
+<sql><![CDATA[CREATE TABLE `vtiger_cbmap` (
+  `cbmapid` int(11) NOT NULL DEFAULT '0',
   `mapname` varchar(255) DEFAULT NULL,
   `mapnumber` varchar(100) DEFAULT NULL,
   `maptype` varchar(100) DEFAULT NULL,
@@ -44,14 +44,14 @@
   `field2` text NOT NULL,
   `delimiter` varchar(500) NOT NULL,
   `blocks` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`mapid`)
+  PRIMARY KEY (`cbmapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
-<name>vtiger_mapcf</name>
-<sql><![CDATA[CREATE TABLE `vtiger_mapcf` (
-  `mapid` int(11) NOT NULL,
-  PRIMARY KEY (`mapid`)
+<name>vtiger_cbmapcf</name>
+<sql><![CDATA[CREATE TABLE `vtiger_cbmapcf` (
+  `cbmapid` int(11) NOT NULL,
+  PRIMARY KEY (`cbmapid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
@@ -63,7 +63,7 @@
 <fieldname>mapname</fieldname>
 <uitype>2</uitype>
 <columnname>mapname</columnname>
-<tablename>vtiger_map</tablename>
+<tablename>vtiger_cbmap</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Map Name</fieldlabel>
 <readonly>1</readonly>
@@ -79,15 +79,15 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <entityidentifier>
-<entityidfield>mapid</entityidfield>
-<entityidcolumn>mapid</entityidcolumn>
+<entityidfield>cbmapid</entityidfield>
+<entityidcolumn>cbmapid</entityidcolumn>
 </entityidentifier>
 </field>
 <field>
 <fieldname>mapnumber</fieldname>
 <uitype>4</uitype>
 <columnname>mapnumber</columnname>
-<tablename>vtiger_map</tablename>
+<tablename>vtiger_cbmap</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Map Number</fieldlabel>
 <readonly>1</readonly>
@@ -107,7 +107,7 @@
 <fieldname>maptype</fieldname>
 <uitype>15</uitype>
 <columnname>maptype</columnname>
-<tablename>vtiger_map</tablename>
+<tablename>vtiger_cbmap</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Map Type</fieldlabel>
 <readonly>1</readonly>
@@ -153,7 +153,7 @@
 <fieldname>content</fieldname>
 <uitype>19</uitype>
 <columnname>content</columnname>
-<tablename>vtiger_map</tablename>
+<tablename>vtiger_cbmap</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Content</fieldlabel>
 <readonly>1</readonly>
@@ -193,7 +193,7 @@
 <fieldname>blocks</fieldname>
 <uitype>2</uitype>
 <columnname>blocks</columnname>
-<tablename>vtiger_map</tablename>
+<tablename>vtiger_cbmap</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Blocks</fieldlabel>
 <readonly>1</readonly>
@@ -316,16 +316,6 @@
 <action>ADD</action>
 </actions>
 <relatedmodule>Actions</relatedmodule>
-</relatedlist>
-<relatedlist>
-<function>get_dependents_list</function>
-<label>StockSettings</label>
-<sequence>2</sequence>
-<presence>0</presence>
-<actions>
-<action>ADD</action>
-</actions>
-<relatedmodule>StockSettings</relatedmodule>
 </relatedlist>
 </relatedlists>
 <customlinks>

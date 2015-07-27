@@ -21,7 +21,7 @@ class addmodulemap extends cbupdaterWorker {
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$toinstall = array('Map');
+			$toinstall = array('cbMap');
 			foreach ($toinstall as $module) {
 				if ($this->isModuleInstalled($module)) {
 					vtlib_toggleModuleAccess($module,true);
@@ -39,8 +39,8 @@ class addmodulemap extends cbupdaterWorker {
 	function undoChange() {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
-			vtlib_toggleModuleAccess('Map',false);
-			$this->sendMsg('Map deactivated!');
+			vtlib_toggleModuleAccess('cbMap',false);
+			$this->sendMsg('cbMap deactivated!');
 			$this->markUndone(false);
 			$this->sendMsg('Changeset '.get_class($this).' undone!');
 		} else {
