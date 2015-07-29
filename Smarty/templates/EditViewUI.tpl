@@ -963,7 +963,20 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 		</div>
                 <span id="limitmsg" style= "color:red; display:none;"> {'LBL_MAX_SIZE'|@getTranslatedString:$MODULE} {$UPLOADSIZE}{'LBL_FILESIZEIN_MB'|@getTranslatedString:$MODULE}</span>
 		</td>
-
+                {elseif $uitype eq 1024}
+			<td width="20%" class="dvtCellLabel" align=right>
+				<font color="red">{$mandatory_field}</font>{$usefldlabel} 
+			</td>
+                        {include_php file=modules/$MODULE/get_$fldname.php}
+			<td width="30%" align=left class="dvtCellInfo">
+			   <select MULTIPLE name="{$fldname}[]" size="4" style="width:160px;" tabindex="{$vt_tab}" class="small">
+				{foreach item=arr from=$fldvalue}
+					<option value="{$arr[1]}" {$arr[2]}>
+                                                {$arr[0]}
+                                        </option>
+				{/foreach}
+			   </select>
+			</td>
 		{elseif $uitype eq 83} <!-- Handle the Tax in Inventory -->
 			{foreach item=tax key=count from=$TAX_DETAILS}
 				{if $tax.check_value eq 1}

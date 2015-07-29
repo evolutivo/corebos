@@ -22,52 +22,23 @@ require_once('include/logging.php');
 require_once('include/database/PearDatabase.php');
 
 global $log,$adb;
-$id=$_REQUEST['record_id'];
-$sel=$_REQUEST['sel_values'];//selected values actual fieldvalue
-$query=$_REQUEST['query'];
-$ticked=false; 
-$content=array();
+$id=$this->get_template_vars('ID');
+$sel=$this->get_template_vars('fldvalue');
+$options=array();
 
-if(!isset($sel)) //query on click
-{
+$arr_evo=explode(',',$sel);
 $sql="Select profilename,profileid
-        from vtiger_profile
-        where profilename like '$query%'
-        ";
-        
-    $result=$adb->pquery($sql,array());
-    for($i=0;$i<$adb->num_rows($result);$i++)
-    {
-       $profileid=$adb->query_result($result,$i,'profileid');
-       $content[]=array('id'=>"$profileid",
-           'name'=>$adb->query_result($result,$i,'profilename'));
-    }
-    echo json_encode($content);
+    from vtiger_profile";
+$result=$adb->pquery($sql,$par);
+for($i=0;$i<$adb->num_rows($result);$i++)
+{
+   $currentValId=$adb->query_result($result,$i,'profileid');
+   $currentValName=$adb->query_result($result,$i,'profilename');
+   if(in_array(trim($currentValId),$arr_evo)){
+           $chk_val = "selected";
+   }else{
+           $chk_val = '';
+   }
+   $options[] = array($currentValName,$currentValId,$chk_val );
 }
-else{ //selected values actual fieldvalue
- 
-$evo_actions=$sel;
-if($evo_actions!='')
-{ 
-    $arr_evo_actions=explode(',',$evo_actions);
-
-    $sql="Select profilename,profileid
-        from vtiger_profile
-        where profileid in (".  generateQuestionMarks($arr_evo_actions).")
-            ORDER BY FIELD( profileid, ".  generateQuestionMarks($arr_evo_actions).") 
-        ";  
-
-       $content=array();
-        $par=array_merge($arr_evo_actions,$arr_evo_actions);
-        $result=$adb->pquery($sql,$par);
-        for($i=0;$i<$adb->num_rows($result);$i++)
-            {
-               $profileid=$adb->query_result($result,$i,'profileid');
-                   if($evo_actions!=''){
-                   $content[$i]['id']=$profileid;
-                   $content[$i]['name']=$adb->query_result($result,$i,'profilename');
-                }
-            }
-}
-echo json_encode($content);
-}
+$this->assign("fldvalue",$options);

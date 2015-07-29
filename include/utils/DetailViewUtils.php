@@ -167,6 +167,26 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 			}
 		}
 		$label_fld ["options"] = $options;
+	} elseif ($uitype == 1024 && $fieldname=='busrule_roles') {
+            $content=array();
+            $j=0;
+            if($col_fields[$fieldname]!=''){
+                $arr_evo_actions=explode(',',$col_fields[$fieldname]);
+                $sql="Select profilename,profileid
+                from vtiger_profile
+                where profileid in (".  generateQuestionMarks($arr_evo_actions).")
+                    ORDER BY FIELD( profileid, ".  generateQuestionMarks($arr_evo_actions)." ) 
+                ";
+                $par=array_merge($arr_evo_actions,$arr_evo_actions);
+                $result=$adb->pquery($sql,$par);
+                for($i=0;$i<$adb->num_rows($result);$i++)
+                    {
+                       $j=$i+1;
+                       $content[$i]=$j.') <a href="index.php?module=Settings&action=profilePrivileges&mode=view&parenttab=Settings&profileid='.$adb->query_result($result,$i,'profileid').'">'.$adb->query_result($result,$i,'profilename').'</a>';
+                    }
+            }
+		$label_fld[] = getTranslatedString($fieldlabel, $module);
+		$label_fld[] = implode('<br/>',$content);
 	} elseif ($uitype == 115) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = getTranslatedString($col_fields[$fieldname]);

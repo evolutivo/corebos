@@ -542,6 +542,13 @@ class CRMEntity {
 						$field_list = $this->column_fields[$fieldname];
 					}
 					$fldvalue = $field_list;
+				} elseif ($uitype == 1024) {
+					if (is_array($this->column_fields[$fieldname])) {
+						$field_list = implode(',', $this->column_fields[$fieldname]);
+					} else {
+						$field_list = $this->column_fields[$fieldname];
+					}
+					$fldvalue = $field_list;
 				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
 					//Added to avoid function call getDBInsertDateValue in ajax save
 					if (isset($current_user->date_format) && !$ajaxSave) {
