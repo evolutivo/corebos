@@ -172,17 +172,19 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
             $j=0;
             if($col_fields[$fieldname]!=''){
                 $arr_evo_actions=explode(',',$col_fields[$fieldname]);
-                $sql="Select profilename,profileid
-                from vtiger_profile
-                where profileid in (".  generateQuestionMarks($arr_evo_actions).")
-                    ORDER BY FIELD( profileid, ".  generateQuestionMarks($arr_evo_actions)." ) 
+                $sql="Select rolename,roleid
+                from vtiger_role
+                where roleid in (".  generateQuestionMarks($arr_evo_actions).")
+                    ORDER BY FIELD( roleid, ".  generateQuestionMarks($arr_evo_actions)." ) 
                 ";
                 $par=array_merge($arr_evo_actions,$arr_evo_actions);
                 $result=$adb->pquery($sql,$par);
                 for($i=0;$i<$adb->num_rows($result);$i++)
                     {
                        $j=$i+1;
-                       $content[$i]=$j.') <a href="index.php?module=Settings&action=profilePrivileges&mode=view&parenttab=Settings&profileid='.$adb->query_result($result,$i,'profileid').'">'.$adb->query_result($result,$i,'profilename').'</a>';
+                       $roleid=$adb->query_result($result,$i,'roleid');
+                       $rolename=$adb->query_result($result,$i,'rolename');
+                       $content[$i]=$j.') <a href="index.php?module=Settings&action=RoleDetailView&parenttab=Settings&roleid='.$roleid.'">'.$rolename.'</a>';
                     }
             }
 		$label_fld[] = getTranslatedString($fieldlabel, $module);

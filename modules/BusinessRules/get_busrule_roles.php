@@ -27,13 +27,14 @@ $sel=$this->get_template_vars('fldvalue');
 $options=array();
 
 $arr_evo=explode(',',$sel);
-$sql="Select profilename,profileid
-    from vtiger_profile";
+$sql="Select rolename,roleid
+    from vtiger_role";
 $result=$adb->pquery($sql,$par);
+$options[] = array('','','' );
 for($i=0;$i<$adb->num_rows($result);$i++)
 {
-   $currentValId=$adb->query_result($result,$i,'profileid');
-   $currentValName=$adb->query_result($result,$i,'profilename');
+   $currentValId=$adb->query_result($result,$i,'roleid');
+   $currentValName=$adb->query_result($result,$i,'rolename');
    if(in_array(trim($currentValId),$arr_evo)){
            $chk_val = "selected";
    }else{
