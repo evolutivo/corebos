@@ -222,7 +222,6 @@ class VTCacheUtils {
 	/** Report module information based on used. */
 	static $_reportmodule_infoperuser_cache = array();
 	static function lookupReport_Info($userid, $reportid) {
-		
 		if(isset(self::$_reportmodule_infoperuser_cache[$userid])) {
 			if(isset(self::$_reportmodule_infoperuser_cache[$userid][$reportid])) {
 				return self::$_reportmodule_infoperuser_cache[$userid][$reportid];
@@ -230,6 +229,7 @@ class VTCacheUtils {
 		}
 		return false;
 	}
+
         static $_map_listofmodules_cache = false;
         static function lookupMap_ListofModuleInfos() {
 		return self::$_map_listofmodules_cache;
