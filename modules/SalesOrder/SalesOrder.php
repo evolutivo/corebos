@@ -111,11 +111,13 @@ class SalesOrder extends CRMEntity {
 		global $updateInventoryProductRel_deduct_stock;
 		$updateInventoryProductRel_deduct_stock = true;
 		//Checking if quote_id is present and updating the quote status
-		if($this->column_fields["quote_id"] != '')
-		{
-        		$qt_id = $this->column_fields["quote_id"];
-        		$query1 = "update vtiger_quotes set quotestage='Accepted' where quoteid=?";
-        		$this->db->pquery($query1, array($qt_id));
+		if($this->column_fields['quote_id'] != '') {
+			$newStatus = GlobalVariable::getVariable('QuoteStatusOnSalesOrderSave', 'Accepted');
+			if ($newStatus!='DoNotChange') {
+				$qt_id = $this->column_fields['quote_id'];
+				$query1 = 'update vtiger_quotes set quotestage=? where quoteid=?';
+				$this->db->pquery($query1, array($newStatus, $qt_id));
+			}
 		}
 
 		//in ajax save we should not call this function, because this will delete all the existing product values
@@ -171,10 +173,10 @@ class SalesOrder extends CRMEntity {
 		$log->debug("Entering get_activities(".$id.") method ...");
 		$this_module = $currentModule;
 
-        $related_module = vtlib_getModuleNameById($rel_tab_id);
+		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/Activity.php");
 		$other = new Activity();
-        vtlib_setup_modulevars($related_module, $other);
+		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
@@ -232,19 +234,17 @@ class SalesOrder extends CRMEntity {
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
 				left join vtiger_cntactivityrel on vtiger_cntactivityrel.activityid= vtiger_activity.activityid
 				left join vtiger_contactdetails on vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid
-                                left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
+				left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
 				left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
 			where activitytype='Task'
 				and (vtiger_activity.status = 'Completed' or vtiger_activity.status = 'Deferred')
 				and vtiger_seactivityrel.crmid=".$id."
-                                and vtiger_crmentity.deleted = 0";
+				and vtiger_crmentity.deleted = 0";
 		//Don't add order by, because, for security, one more condition will be added with this query in include/RelatedListView.php
 
 		$log->debug("Exiting get_history method ...");
 		return getHistory('SalesOrder',$query,$id);
 	}
-
-
 
 	/** Function to get the invoices associated with the Sales Order
 	 *  This function accepts the id as arguments and execute the MySQL query using the id
@@ -340,8 +340,7 @@ class SalesOrder extends CRMEntity {
 
 		$return_data = Array('header'=>$header,'entries'=>$entries_list);
 
-	 	$log->debug("Exiting get_sostatushistory method ...");
-
+		$log->debug("Exiting get_sostatushistory method ...");
 		return $return_data;
 	}
 
@@ -371,7 +370,7 @@ class SalesOrder extends CRMEntity {
 			left join vtiger_invoice_recurring_info on vtiger_salesorder.salesorderid = vtiger_invoice_recurring_info.salesorderid
 			left join vtiger_quotes as vtiger_quotesSalesOrder on vtiger_salesorder.quoteid = vtiger_quotesSalesOrder.quoteid
 			left join vtiger_account as vtiger_accountSalesOrder on vtiger_accountSalesOrder.accountid = vtiger_salesorder.accountid
-            left join vtiger_users as vtiger_lastModifiedBySalesOrder on vtiger_lastModifiedBySalesOrder.id = vtiger_crmentitySalesOrder.modifiedby ";
+			left join vtiger_users as vtiger_lastModifiedBySalesOrder on vtiger_lastModifiedBySalesOrder.id = vtiger_crmentitySalesOrder.modifiedby ";
 
 		return $query;
 	}

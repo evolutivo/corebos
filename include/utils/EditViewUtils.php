@@ -10,16 +10,7 @@
  * The Initial Developer of the Original Code is SugarCRM, Inc.
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
- * Contributor(s): ______________________________________.
  ********************************************************************************/
-/*********************************************************************************
- * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/include/utils/EditViewUtils.php,v 1.188 2005/04/29 05:5 * 4:39 rank Exp
- * Description:  Includes generic helper functions used throughout the application.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
- * Contributor(s): ______________________________________..
- ********************************************************************************/
-
 require_once('include/database/PearDatabase.php');
 require_once('include/ComboUtil.php'); //new
 require_once('include/utils/CommonUtils.php'); //new
@@ -35,7 +26,6 @@ require_once 'modules/PickList/DependentPickListUtils.php';
   * Param $module_name - module name
   * Return type is an array
   */
-
 function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields,$generatedtype,$module_name,$mode='', $typeofdata=null)
 {
 	global $log,$app_strings;
@@ -217,10 +207,11 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			}
 			$pickListValue = to_html($pickListValue);
 			if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate')
-				$options[] = array(htmlentities(getTranslatedString($pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
+				$options[] = array(htmlentities(getTranslatedString($pickListValue, $module_name),ENT_QUOTES,$default_charset),$pickListValue,$chk_val);
 			else
-				$options[] = array(getTranslatedString($pickListValue),$pickListValue,$chk_val );
+				$options[] = array(getTranslatedString($pickListValue, $module_name),$pickListValue,$chk_val);
 		}
+		uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
 		$fieldvalue [] = $options;
 	}
 	elseif($uitype == 15 || $uitype == 33){
@@ -272,9 +263,9 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 					$chk_val = '';
 				}
 				if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate'){
-					$options[] = array(htmlentities(getTranslatedString($pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
+					$options[] = array(htmlentities(getTranslatedString($pickListValue, $module_name),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
 				}else{
-					$options[] = array(getTranslatedString($pickListValue),$pickListValue,$chk_val );
+					$options[] = array(getTranslatedString($pickListValue, $module_name),$pickListValue,$chk_val );
 				}
 			}
 
@@ -283,6 +274,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			}
 		}
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
+		uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
 		$fieldvalue [] = $options;
 	}
 	elseif($uitype == 17)
@@ -375,20 +367,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		}
 		if($result) $nameArray = $adb->fetch_array($result);
 
-		if($value != '' && $value != 0)
-			$assigned_user_id = $value;
-		else{
-			if($value=='0'){
-				if (isset($col_fields['assigned_group_info']) && $col_fields['assigned_group_info'] != '') {
-					$selected_groupname = $col_fields['assigned_group_info'];
-				} else {
-					$record = $col_fields["record_id"];
-					$module = $col_fields["record_module"];
-					$selected_groupname = getGroupName($record, $module);
-				}
-			}else
-				$assigned_user_id = $current_user->id;
-		}
+		$assigned_user_id = empty($value) ? $current_user->id : $value;
 
 		if($fieldname == 'assigned_user_id' && $is_admin==false && $profileGlobalPermission[2] == 1 && ($defaultOrgSharingPermission[getTabid($module_name)] == 3 or $defaultOrgSharingPermission[getTabid($module_name)] == 0))
 		{
@@ -583,7 +562,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 
 	elseif($uitype == 58)
 	{
-
 		if($value != '')
 		{
 			$campaign_name = getCampaignName($value);
@@ -599,7 +577,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 				$value = $_REQUEST['campaignid'];
 				$campaign_name = getCampaignName($value);
 			}
-
 		}
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$fieldvalue[]=$campaign_name;
@@ -808,29 +785,28 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			}
 		}
 		$editview_label[] = array($app_strings['COMBO_LEADS'],
-                                          $app_strings['COMBO_ACCOUNTS'],
-                                          $app_strings['COMBO_POTENTIALS'],
-                                          $app_strings['COMBO_PRODUCTS'],
-                                          $app_strings['COMBO_INVOICES'],
-                                          $app_strings['COMBO_PORDER'],
-                                          $app_strings['COMBO_SORDER'],
-					  $app_strings['COMBO_QUOTES'],
-					  $app_strings['COMBO_HELPDESK']
-                                         );
-                $editview_label[] = array($lead_selected,
-                                          $account_selected,
-					  $potential_selected,
-                                          $product_selected,
-                                          $invoice_selected,
-                                          $porder_selected,
-                                          $sorder_selected,
-					  $quote_selected,
-					  $ticket_selected
-                                         );
-                $editview_label[] = array("Leads&action=Popup","Accounts&action=Popup","Potentials&action=Popup","Products&action=Popup","Invoice&action=Popup","PurchaseOrder&action=Popup","SalesOrder&action=Popup","Quotes&action=Popup","HelpDesk&action=Popup");
+			$app_strings['COMBO_ACCOUNTS'],
+			$app_strings['COMBO_POTENTIALS'],
+			$app_strings['COMBO_PRODUCTS'],
+			$app_strings['COMBO_INVOICES'],
+			$app_strings['COMBO_PORDER'],
+			$app_strings['COMBO_SORDER'],
+			$app_strings['COMBO_QUOTES'],
+			$app_strings['COMBO_HELPDESK']
+		);
+		$editview_label[] = array($lead_selected,
+			$account_selected,
+			$potential_selected,
+			$product_selected,
+			$invoice_selected,
+			$porder_selected,
+			$sorder_selected,
+			$quote_selected,
+			$ticket_selected
+		);
+		$editview_label[] = array("Leads&action=Popup","Accounts&action=Popup","Potentials&action=Popup","Products&action=Popup","Invoice&action=Popup","PurchaseOrder&action=Popup","SalesOrder&action=Popup","Quotes&action=Popup","HelpDesk&action=Popup");
 		$fieldvalue[] =$parent_name;
 		$fieldvalue[] =$value;
-
 	}
 	elseif($uitype == 66)
 	{
@@ -1142,33 +1118,27 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 				$parent_name = "";
 				$value = "";
 			}
-
 		}
-		
+
 		$editview_label[0] = array();
-	        $editview_label[1] = array();
-	        $editview_label[2] = array();
-	                
-		if(vtlib_isModuleActive('Accounts'))
-	        {
-	            array_push($editview_label[0],$app_strings['COMBO_ACCOUNTS']);
-	            array_push($editview_label[1],$account_selected);
-	            array_push($editview_label[2],"Accounts");
-	        }
-	        
-	        if(vtlib_isModuleActive('Contacts'))
-	        {
-	            array_push($editview_label[0],$app_strings['COMBO_CONTACTS']);
-	            array_push($editview_label[1],$contact_selected);
-	            array_push($editview_label[2],"Contacts");
-	        }
-	        
+		$editview_label[1] = array();
+		$editview_label[2] = array();
+
+		if(vtlib_isModuleActive('Accounts')) {
+			array_push($editview_label[0],$app_strings['COMBO_ACCOUNTS']);
+			array_push($editview_label[1],$account_selected);
+			array_push($editview_label[2],"Accounts");
+		}
+		if(vtlib_isModuleActive('Contacts')) {
+			array_push($editview_label[0],$app_strings['COMBO_CONTACTS']);
+			array_push($editview_label[1],$contact_selected);
+			array_push($editview_label[2],"Contacts");
+		}
 		$fieldvalue[] = $parent_name;
 		$fieldvalue[] = $value;
 	}
 
 	elseif($uitype == 71 || $uitype == 72) {
-
 		$currencyField = new CurrencyField($value);
 		// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 		if($col_fields['record_id'] != '' && $uitype == 72) {
@@ -1280,7 +1250,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		$day_options = getReminderSelectOption(0,31,'remdays',$rem_days);
 		$hr_options = getReminderSelectOption(0,23,'remhrs',$rem_hrs);
 		$min_options = getReminderSelectOption(1,59,'remmin',$rem_min);
-		$fieldvalue[] = array(array(0,32,'remdays',getTranslatedString('LBL_DAYS'),$rem_days),array(0,24,'remhrs',getTranslatedString('LBL_HOURS'),$rem_hrs),array(1,60,'remmin',getTranslatedString('LBL_MINUTES').'&nbsp;&nbsp;'.getTranslatedString('LBL_BEFORE_EVENT'),$rem_min));
+		$fieldvalue[] = array(array(0,32,'remdays',getTranslatedString('LBL_DAYS','Calendar'),$rem_days),array(0,24,'remhrs',getTranslatedString('LBL_HOURS','Calendar'),$rem_hrs),array(1,60,'remmin',getTranslatedString('LBL_MINUTES','Calendar').'&nbsp;&nbsp;'.getTranslatedString('LBL_BEFORE_EVENT','Calendar'),$rem_min));
 		$fieldvalue[] = array($SET_REM,getTranslatedString('LBL_YES'),getTranslatedString('LBL_NO'));
 		$SET_REM = '';
 	}
@@ -1344,7 +1314,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	{
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$fieldvalue[]=$value;
-        	$fieldvalue[]=getRoleName($value);
+		$fieldvalue[]=getRoleName($value);
 		$fieldvalue[]=$is_admin;
 	}
 	elseif($uitype == 105)
@@ -1369,8 +1339,8 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	}elseif($uitype == 101)
 	{
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
-        $fieldvalue[] = getOwnerName($value);
-        $fieldvalue[] = $value;
+		$fieldvalue[] = getOwnerName($value);
+		$fieldvalue[] = $value;
 	}
 	elseif($uitype == 26){
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
@@ -1380,35 +1350,30 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		$foldername = $adb->query_result($res,0,'foldername');
 		if($foldername != '' && $folderid != ''){
 			$fldr_name[$folderid]=$foldername;
-			}
+		}
 		$sql="select foldername,folderid from vtiger_attachmentsfolder order by foldername";
 		$res=$adb->pquery($sql,array());
 		for($i=0;$i<$adb->num_rows($res);$i++)
-			{
-				$fid=$adb->query_result($res,$i,"folderid");
-				$fldr_name[$fid]=$adb->query_result($res,$i,"foldername");
-			}
+		{
+			$fid=$adb->query_result($res,$i,"folderid");
+			$fldr_name[$fid]=$adb->query_result($res,$i,"foldername");
+		}
 		$fieldvalue[] = $fldr_name;
 		}
 	elseif($uitype == 27){
-				if($value == 'E'){
-                    $external_selected = "selected";
-					$filename = $col_fields['filename'];
-				}
-				else{
-					$internal_selected = "selected";
-					$filename = $col_fields['filename'];
-				}
-				$editview_label[] = array(getTranslatedString('Internal'),
-                                        getTranslatedString('External')
-                                        );
-                $editview_label[] = array($internal_selected,
-                                        $external_selected
-                                        );
-                $editview_label[] = array("I","E");
-                $editview_label[] = getTranslatedString($fieldlabel, $module_name);
-                $fieldvalue[] = $value;
-                $fieldvalue[] = $filename;
+		if($value == 'E'){
+			$external_selected = "selected";
+			$filename = $col_fields['filename'];
+		} else {
+			$internal_selected = "selected";
+			$filename = $col_fields['filename'];
+		}
+		$editview_label[] = array(getTranslatedString('Internal'), getTranslatedString('External'));
+		$editview_label[] = array($internal_selected, $external_selected);
+		$editview_label[] = array("I","E");
+		$editview_label[] = getTranslatedString($fieldlabel, $module_name);
+		$fieldvalue[] = $value;
+		$fieldvalue[] = $filename;
 	} elseif($uitype == '31') {
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$options = array();
@@ -2163,11 +2128,10 @@ function getBlockInformation($module, $result, $col_fields,$tabid,$block_label,$
 * Param $validationData - array of vtiger_fieldnames with datatype
 * Return type array
 */
-
 function split_validationdataArray($validationData)
 {
 	global $log;
-	$log->debug("Entering split_validationdataArray(".$validationData.") method ...");
+	$log->debug("Entering split_validationdataArray(".print_r($validationData,true).") method ...");
 	$fieldName = '';
 	$fieldLabel = '';
 	$fldDataType = '';
@@ -2208,6 +2172,5 @@ function split_validationdataArray($validationData)
 	$log->debug("Exiting split_validationdataArray method ...");
 	return $data;
 }
-
 
 ?>

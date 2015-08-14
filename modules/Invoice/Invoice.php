@@ -11,7 +11,6 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
  ********************************************************************************/
-
 include_once('config.php');
 require_once('include/logging.php');
 require_once('include/utils/utils.php');
@@ -49,6 +48,7 @@ class Invoice extends CRMEntity {
 				'Sales Order'=>Array('invoice'=>'salesorderid'),
 				'Status'=>Array('invoice'=>'invoicestatus'),
 				'Total'=>Array('invoice'=>'total'),
+				'Account Name'=>Array('invoice'=>'account_id'),
 				'Assigned To'=>Array('crmentity'=>'smownerid')
 				);
 
@@ -58,6 +58,7 @@ class Invoice extends CRMEntity {
 				'Sales Order'=>'salesorder_id',
 				'Status'=>'invoicestatus',
 				'Total'=>'hdnGrandTotal',
+				'Account Name'=>'account_id',
 				'Assigned To'=>'assigned_user_id'
 				);
 	var $list_link_field= 'subject';
@@ -66,11 +67,13 @@ class Invoice extends CRMEntity {
 				//'Invoice No'=>Array('crmentity'=>'crmid'),
 				'Invoice No'=>Array('invoice'=>'invoice_no'),
 				'Subject'=>Array('purchaseorder'=>'subject'),
+				'Account Name'=>Array('invoice'=>'account_id'),
 				);
 
 	var $search_fields_name = Array(
-				'Invoice No'=>'',
+				'Invoice No'=>'invoice_no',
 				'Subject'=>'subject',
+				'Account Name'=>'account_id',
 				);
 
 	// This is the list of vtiger_fields that are required.
@@ -89,8 +92,7 @@ class Invoice extends CRMEntity {
 	// For Alphabetical search
 	var $def_basicsearch_col = 'subject';
 
-	/**	Constructor which will set the column_fields in this object
-	 */
+	/**	Constructor which will set the column_fields in this object */
 	function Invoice() {
 		$this->log =LoggerManager::getLogger('Invoice');
 		$this->log->debug("Entering Invoice() method ...");
@@ -165,18 +167,6 @@ class Invoice extends CRMEntity {
 		}
 		parent::trash($module, $recordId);
 	}
-
-	/**	function used to get the name of the current object
-	 *	@return string $this->name - name of the current object
-	 */
-	function get_summary_text()
-	{
-		global $log;
-		$log->debug("Entering get_summary_text() method ...");
-		$log->debug("Exiting get_summary_text method ...");
-		return $this->name;
-	}
-
 
 	/**	function used to get the list of activities which are related to the invoice
 	 *	@param int $id - invoice id
@@ -273,8 +263,6 @@ class Invoice extends CRMEntity {
 		return getHistory('Invoice',$query,$id);
 	}
 
-
-
 	/**	Function used to get the Status history of the Invoice
 	 *	@param $id - invoice id
 	 *	@return $return_data - array with header and the entries in format Array('header'=>$header,'entries'=>$entries_list) where as $header and $entries_list are arrays which contains header values and all column values of all entries
@@ -329,7 +317,7 @@ class Invoice extends CRMEntity {
 
 		$return_data = Array('header'=>$header,'entries'=>$entries_list);
 
-	 	$log->debug("Exiting get_invoicestatushistory method ...");
+		$log->debug("Exiting get_invoicestatushistory method ...");
 
 		return $return_data;
 	}
