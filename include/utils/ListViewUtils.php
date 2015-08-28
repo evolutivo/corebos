@@ -539,6 +539,12 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 		$ui_col_array[$field_name] = $tempArr;
 	}
 	//end
+	if (is_array($navigation_array) && isset($navigation_array['start']) && $navigation_array['start'] > 1 && $module != 'Emails')
+		$linkstart = '&start=' . $navigation_array['start'];
+	elseif (isset($_REQUEST['start']) && $_REQUEST['start'] > 1 && $module != 'Emails')
+		$linkstart = '&start=' . vtlib_purify($_REQUEST['start']);
+	else
+		$linkstart = '';
 	if ($navigation_array['start'] != 0)
 		for ($i = 1; $i <= $noofrows; $i++) {
 			$list_header = Array();
@@ -917,22 +923,18 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			}
 
 			//Added for Actions ie., edit and delete links in listview
-			$links_info = "";
+			$links_info = '';
 			if (!(is_array($selectedfields) && $selectedfields != '')) {
-				if (isPermitted($module, "EditView", "") == 'yes') {
+				if (isPermitted($module, 'EditView', '') == 'yes') {
 					$edit_link = getListViewEditLink($module, $entity_id, $relatedlist, $varreturnset, $list_result, $list_result_count);
-					if (isset($_REQUEST['start']) && $_REQUEST['start'] > 1 && $module != 'Emails')
-						$links_info .= "<a href=\"$edit_link&start=" . vtlib_purify($_REQUEST['start']) . "\">" . $app_strings["LNK_EDIT"] . "</a> ";
-					else
-						$links_info .= "<a href=\"$edit_link\">" . $app_strings["LNK_EDIT"] . "</a> ";
+					$links_info .= "<a href=\"$edit_link$linkstart\">" . $app_strings['LNK_EDIT'] . "</a> ";
 				}
 
-
-				if (isPermitted($module, "Delete", "") == 'yes') {
-					$del_link = getListViewDeleteLink($module, $entity_id, $relatedlist, $varreturnset);
-					if ($links_info != "" && $del_link != "")
-						$links_info .= " | ";
-					if ($del_link != "")
+				if (isPermitted($module, 'Delete', '') == 'yes') {
+					$del_link = getListViewDeleteLink($module, $entity_id, $relatedlist, $varreturnset, $linkstart);
+					if ($links_info != '' && $del_link != '')
+						$links_info .= ' | ';
+					if ($del_link != '')
 						$links_info .= "<a href='javascript:confirmdelete(\"" . addslashes(urlencode($del_link)) . "\")'>" . $app_strings["LNK_DELETE"] . "</a>";
 				}
 			}
@@ -2875,25 +2877,29 @@ function getReadEntityIds($module) {
 function AlphabeticalSearch($module, $action, $fieldname, $query, $type, $popuptype = '', $recordid = '', $return_module = '', $append_url = '', $viewid = '', $groupid = '') {
 	global $log;
 	$log->debug("Entering AlphabeticalSearch(" . $module . "," . $action . "," . $fieldname . "," . $query . "," . $type . "," . $popuptype . "," . $recordid . "," . $return_module . "," . $append_url . "," . $viewid . "," . $groupid . ") method ...");
-	if ($type == 'advanced')
+	if ($type == 'advanced') {
 		$flag = '&advanced=true';
+	} else {
+		$flag = '';
+	}
 
-	if ($popuptype != '')
+	if ($popuptype != '') {
 		$popuptypevalue = "&popuptype=" . $popuptype;
-
+	} else {
+		$popuptypevalue = '';
+	}
+	$returnvalue = '';
 	if ($recordid != '')
 		$returnvalue = '&recordid=' . $recordid;
 	if ($return_module != '')
 		$returnvalue .= '&return_module=' . $return_module;
 
 	// vtlib Customization : For uitype 10 popup during paging
-	if ($_REQUEST['form'] == 'vtlibPopupView') {
+	if (isset($_REQUEST['form']) and $_REQUEST['form'] == 'vtlibPopupView') {
 		$returnvalue .= '&form=vtlibPopupView&forfield=' . vtlib_purify($_REQUEST['forfield']) . '&srcmodule=' . vtlib_purify($_REQUEST['srcmodule']) . '&forrecord=' . vtlib_purify($_REQUEST['forrecord']);
 	}
-	// END
-
+	$list = '';
 	for ($var = 'A', $i = 1; $i <= 26; $i++, $var++)
-	// Mike Crowe Mod --------------------------------------------------------added groupid to url
 		$list .= '<td class="searchAlph" id="alpha_' . $i . '" align="center" onClick=\'alphabetic("' . $module . '","gname=' . $groupid . '&query=' . $query . '&search_field=' . $fieldname . '&searchtype=BasicSearch&operator=s&type=alpbt&search_text=' . $var . $flag . $popuptypevalue . $returnvalue . $append_url . '","alpha_' . $i . '")\'>' . $var . '</td>';
 
 	$log->debug("Exiting AlphabeticalSearch method ...");
@@ -3804,7 +3810,7 @@ function getListViewEditLink($module, $entity_id, $relatedlist, $returnset, $res
  * 	@param string 	$returnset 	- may be empty in case of ListView. For relatedlists, return_module, return_action and return_id values will be passed like &return_module=Accounts&return_action=CallRelatedList&return_id=10
  * 	return string	$del_link	- url string which cotains the editlink details (module, action, record, etc.,) like index.php?module=Accounts&action=Delete&record=10
  */
-function getListViewDeleteLink($module, $entity_id, $relatedlist, $returnset) {
+function getListViewDeleteLink($module, $entity_id, $relatedlist, $returnset, $linkstart) {
 	$tabname = getParentTab();
 	$current_module = vtlib_purify($_REQUEST['module']);
 	$viewname = $_SESSION['lvs'][$current_module]['viewname'];
@@ -3824,7 +3830,7 @@ function getListViewDeleteLink($module, $entity_id, $relatedlist, $returnset) {
 		return '';
 	}
 
-	$del_link = "index.php?module=$module&action=Delete&record=$entity_id";
+	$del_link = "index.php?module=$module&action=Delete&record=$entity_id$linkstart";
 
 	//This is added for relatedlist listview
 	if ($relatedlist == 'relatedlist') {
@@ -3994,9 +4000,10 @@ function getMergeFields($module, $str) {
 	$num_rows_org = $adb->num_rows($result_def_org);
 	$permitted_org_list = Array();
 	for ($i = 0; $i < $num_rows_org; $i++)
-		$permitted_org_list[$i] = $adb->query_result($result_def_org, $i, "fieldid");
+		$permitted_org_list[$i] = $adb->query_result($result_def_org, $i, 'fieldid');
 
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
+	$fields = '';
 	for ($i = 0; $i < $num_rows; $i++) {
 		$field_id = $adb->query_result($result, $i, "fieldid");
 		foreach ($permitted_list as $field => $data)
@@ -4072,8 +4079,7 @@ function VT_getSimpleNavigationValues($start, $size, $total) {
  * Returns an string value
  */
 function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '', $action_val = 'index', $viewid = '') {
-	global $log, $app_strings;
-	global $theme, $current_user;
+	global $log, $app_strings, $theme, $current_user;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 	if ($module == 'Documents') {
@@ -4082,14 +4088,13 @@ function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '
 		$output = '<td align="right" style="padding: 5px;">';
 	}
 	$tabname = getParentTab();
-	$search_tag = $_REQUEST['search_tag'];
+	$search_tag = isset($_REQUEST['search_tag']) ? $_REQUEST['search_tag'] : '';
 	$url_string = '';
 
 	// vtlib Customization : For uitype 10 popup during paging
-	if ($_REQUEST['form'] == 'vtlibPopupView') {
+	if (isset($_REQUEST['form']) and $_REQUEST['form'] == 'vtlibPopupView') {
 		$url_string .= '&form=vtlibPopupView&forfield=' . vtlib_purify($_REQUEST['forfield']) . '&srcmodule=' . vtlib_purify($_REQUEST['srcmodule']) . '&forrecord=' . vtlib_purify($_REQUEST['forrecord']);
 	}
-	// END
 
 	if ($module == 'Calendar' && $action_val == 'index') {
 		if ($_REQUEST['view'] == '') {

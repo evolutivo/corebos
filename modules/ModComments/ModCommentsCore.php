@@ -17,6 +17,9 @@ class ModCommentsCore extends CRMEntity {
 	var $table_name = 'vtiger_modcomments';
 	var $table_index= 'modcommentsid';
 
+	/** Indicator if this is a custom module or standard module */
+	var $IsCustomModule = false;
+	var $HasDirectImageField = false;
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
@@ -39,12 +42,12 @@ class ModCommentsCore extends CRMEntity {
 	 * Mandatory for Listing (Related listview)
 	 */
 	var $list_fields = Array (
-		/* Format: Field Label => Array(tablename, columnname) */
+		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Comment' => Array('modcomments', 'commentcontent'),
-		'Assigned To' => Array('crmentity','smownerid')
+		'Comment' => Array('modcomments' => 'commentcontent'),
+		'Assigned To' => Array('crmentity' => 'smownerid')
 	);
-	var $list_fields_name = Array (
+	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Comment' => 'commentcontent',
 		'Assigned To' => 'assigned_user_id'
@@ -55,9 +58,9 @@ class ModCommentsCore extends CRMEntity {
 
 	// For Popup listview and UI type support
 	var $search_fields = Array(
-		/* Format: Field Label => Array(tablename, columnname) */
+		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Comment' => Array('modcomments', 'commentcontent')
+		'Comment' => Array('modcomments' => 'commentcontent')
 	);
 	var $search_fields_name = Array (
 		/* Format: Field Label => fieldname */
@@ -85,7 +88,7 @@ class ModCommentsCore extends CRMEntity {
 	// Callback function list during Importing
 	var $special_functions = Array('set_import_assigned_user');
 
-	var $default_order_by = 'modcommentsid';
+	var $default_order_by = 'vtiger_modcomments.modcommentsid';
 	var $default_sort_order='DESC';
 
 	// Used when enabling/disabling the mandatory fields for the module.
@@ -144,7 +147,7 @@ class ModCommentsCore extends CRMEntity {
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
 	 */
-	function getQueryByModuleField($module, $fieldname, $srcrecord) {
+	function getQueryByModuleField($module, $fieldname, $srcrecord, $query='') {
 		// $srcrecord could be empty
 	}
 
@@ -170,7 +173,7 @@ class ModCommentsCore extends CRMEntity {
 		// Consider custom table join as well.
 		if(!empty($this->customFieldTable)) {
 			$query .= " INNER JOIN ".$this->customFieldTable[0]." ON ".$this->customFieldTable[0].'.'.$this->customFieldTable[1] .
-				      " = $this->table_name.$this->table_index";
+				" = $this->table_name.$this->table_index";
 			$joinedTables[] = $this->customFieldTable[0];
 		}
 		$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
@@ -189,7 +192,7 @@ class ModCommentsCore extends CRMEntity {
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other =  CRMEntity::getInstance($related_module);
+			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
 			if(!in_array($other->table_name, $joinedTables)) {
@@ -220,28 +223,27 @@ class ModCommentsCore extends CRMEntity {
 		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1
 			&& $defaultOrgSharingPermission[$tabid] == 3) {
 
-				$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN
+				$sec_query .= " AND (vtiger_crmentity.smownerid in($current_user->id) OR vtiger_crmentity.smownerid IN 
 					(
-						SELECT vtiger_user2role.userid FROM vtiger_user2role
-						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
-						INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid
+						SELECT vtiger_user2role.userid FROM vtiger_user2role 
+						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid 
+						INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid 
 						WHERE vtiger_role.parentrole LIKE '".$current_user_parent_role_seq."::%'
-					)
-					OR vtiger_crmentity.smownerid IN
+					) 
+					OR vtiger_crmentity.smownerid IN 
 					(
-						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
+						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per 
 						WHERE userid=".$current_user->id." AND tabid=".$tabid."
-					)
-					OR
-						(";
+					) 
+					OR (";
 
 					// Build the query based on the group association of current user.
 					if(sizeof($current_user_groups) > 0) {
 						$sec_query .= " vtiger_groups.groupid IN (". implode(",", $current_user_groups) .") OR ";
 					}
-					$sec_query .= " vtiger_groups.groupid IN
+					$sec_query .= " vtiger_groups.groupid IN 
 						(
-							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
+							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid 
 							FROM vtiger_tmp_read_group_sharing_per
 							WHERE userid=".$current_user->id." and tabid=".$tabid."
 						)";
@@ -266,12 +268,12 @@ class ModCommentsCore extends CRMEntity {
 
 		$fields_list = getFieldsListFromQuery($sql);
 
-		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
-					FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
+		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name 
+				FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
 
 		if(!empty($this->customFieldTable)) {
 			$query .= " INNER JOIN ".$this->customFieldTable[0]." ON ".$this->customFieldTable[0].'.'.$this->customFieldTable[1] .
-				      " = $this->table_name.$this->table_index";
+				" = $this->table_name.$this->table_index";
 		}
 
 		$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
@@ -282,6 +284,7 @@ class ModCommentsCore extends CRMEntity {
 				" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($thismodule));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
+		$rel_mods[$this->table_name] = 1;
 		for($i=0; $i<$linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
@@ -290,31 +293,98 @@ class ModCommentsCore extends CRMEntity {
 			$other = CRMEntity::getInstance($related_module);
 			vtlib_setup_modulevars($related_module, $other);
 
-			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
+			if($rel_mods[$other->table_name]) {
+				$rel_mods[$other->table_name] = $rel_mods[$other->table_name] + 1;
+				$alias = $other->table_name.$rel_mods[$other->table_name];
+				$query_append = "as $alias";
+			} else {
+				$alias = $other->table_name;
+				$query_append = '';
+				$rel_mods[$other->table_name] = 1;
+			}
+
+			$query .= " LEFT JOIN $other->table_name $query_append ON $alias.$other->table_index = $this->table_name.$columnname";
 		}
 
+		$query .= $this->getNonAdminAccessControlQuery($thismodule,$current_user);
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if($where != '') $query .= " WHERE ($where) AND $where_auto";
 		else $query .= " WHERE $where_auto";
 
-		require('user_privileges/user_privileges_'.$current_user->id.'.php');
-		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-
-		// Security Check for Field Access
-		if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3)
-		{
-			//Added security check to get the permitted records only
-			$query = $query." ".getListViewSecurityParameter($thismodule);
-		}
 		return $query;
 	}
 
 	/**
-	 * Transform the value while exporting (if required)
+	 * Initialize this instance for importing.
+	 */
+	function initImport($module) {
+		$this->db = PearDatabase::getInstance();
+		$this->initImportableFields($module);
+	}
+
+	/**
+	 * Create list query to be shown at the last step of the import.
+	 * Called From: modules/Import/UserLastImport.php
+	 */
+	function create_import_query($module) {
+		global $current_user;
+		$query = "SELECT vtiger_crmentity.crmid, case when (vtiger_users.user_name not like '') then vtiger_users.user_name else vtiger_groups.groupname end as user_name, $this->table_name.* FROM $this->table_name
+			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index
+			LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=vtiger_crmentity.crmid
+			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
+			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
+			WHERE vtiger_users_last_import.assigned_user_id='$current_user->id'
+			AND vtiger_users_last_import.bean_type='$module'
+			AND vtiger_users_last_import.deleted=0";
+		return $query;
+	}
+
+	/**
+	 * Delete the last imported records.
+	 */
+	function undo_import($module, $user_id) {
+		global $adb;
+		$count = 0;
+		$query1 = "select bean_id from vtiger_users_last_import where assigned_user_id=? AND bean_type='$module' AND deleted=0";
+		$result1 = $adb->pquery($query1, array($user_id)) or die("Error getting last import for undo: ".mysql_error());
+		while ( $row1 = $adb->fetchByAssoc($result1))
+		{
+			$query2 = "update vtiger_crmentity set deleted=1 where crmid=?";
+			$result2 = $adb->pquery($query2, array($row1['bean_id'])) or die("Error undoing last import: ".mysql_error());
+			$count++;
+		}
+		return $count;
+	}
+
+	/**
+	 * Transform the value while exporting
 	 */
 	function transform_export_value($key, $value) {
 		return parent::transform_export_value($key, $value);
+	}
+
+	/**
+	 * Function which will set the assigned user id for import record.
+	 */
+	function set_import_assigned_user()
+	{
+		global $current_user, $adb;
+		$record_user = $this->column_fields["assigned_user_id"];
+
+		if($record_user != $current_user->id){
+			$sqlresult = $adb->pquery("select id from vtiger_users where id = ? union select groupid as id from vtiger_groups where groupid = ?", array($record_user, $record_user));
+			if($this->db->num_rows($sqlresult)!= 1) {
+				$this->column_fields["assigned_user_id"] = $current_user->id;
+			} else {
+				$row = $adb->fetchByAssoc($sqlresult, -1, false);
+				if (isset($row['id']) && $row['id'] != -1) {
+					$this->column_fields["assigned_user_id"] = $row['id'];
+				} else {
+					$this->column_fields["assigned_user_id"] = $current_user->id;
+				}
+			}
+		}
 	}
 
 	/**
@@ -328,21 +398,21 @@ class ModCommentsCore extends CRMEntity {
 
 		$from_clause = " FROM $this->table_name";
 
-		$from_clause .= "	INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
+		$from_clause .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
 
 		// Consider custom table join as well.
 		if(isset($this->customFieldTable)) {
 			$from_clause .= " INNER JOIN ".$this->customFieldTable[0]." ON ".$this->customFieldTable[0].'.'.$this->customFieldTable[1] .
-				      " = $this->table_name.$this->table_index";
+				" = $this->table_name.$this->table_index";
 		}
 		$from_clause .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid
 						LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
-		$where_clause = "	WHERE vtiger_crmentity.deleted = 0";
+		$where_clause = " WHERE vtiger_crmentity.deleted = 0";
 		$where_clause .= $this->getListViewSecurityParameter($module);
 
 		if (isset($select_cols) && trim($select_cols) != '') {
-			$sub_query = "SELECT $select_cols FROM  $this->table_name AS t " .
+			$sub_query = "SELECT $select_cols FROM $this->table_name AS t " .
 				" INNER JOIN vtiger_crmentity AS crm ON crm.crmid = t.".$this->table_index;
 			// Consider custom table join as well.
 			if(isset($this->customFieldTable)) {
@@ -352,7 +422,6 @@ class ModCommentsCore extends CRMEntity {
 		} else {
 			$sub_query = "SELECT $table_cols $from_clause $where_clause GROUP BY $table_cols HAVING COUNT(*)>1";
 		}
-
 
 		$query = $select_clause . $from_clause .
 					" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name .".".$this->table_index .

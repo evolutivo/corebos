@@ -119,15 +119,12 @@ function findPosY(obj) {
 }
 
 function getPosition(element) {
-    var xPosition = 0;
-    var yPosition = 0;
-  
-    while(element) {
-        xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
-        yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
-        element = element.offsetParent;
+    //Get absolute position, using JQuery
+    var offset = jQuery(element).offset();
+    if(offset == undefined){
+        offset = {left: 0, top: 0};
     }
-    return { x: xPosition, y: yPosition };
+    return { x: offset.left, y: offset.top };
 }
 
 function clearTextSelection() {
