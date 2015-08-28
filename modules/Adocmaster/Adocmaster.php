@@ -36,10 +36,10 @@ var $tab_name_index = Array(
 'vtiger_adocmastercf' => 'adocmasterid');
 
 var $list_fields = Array (
-'AdocmasterNo'=> Array('adocmaster', 'adocmasterno'),
-'Adocmaster Name'=> Array('adocmaster', 'adocmastername'),
-'Doc Nr'=> Array('adocmaster', 'nrdoc'),
-'Assigned To' => Array('crmentity','smownerid'));
+'AdocmasterNo'=> Array('adocmaster'=> 'adocmasterno'),
+'Adocmaster Name'=> Array('adocmaster'=> 'adocmastername'),
+'Doc Nr'=> Array('adocmaster'=> 'nrdoc'),
+'Assigned To' => Array('crmentity'=> 'smownerid'));
 
 var $list_fields_name = Array(
 'AdocmasterNo'=> 'adocmasterno',
@@ -49,9 +49,9 @@ var $list_fields_name = Array(
 
 var $list_link_field = 'adocmasterno';
 var $search_fields = Array( 
-'AdocmasterNo'=> Array('adocmaster', 'adocmasterno'),
-'Adocmaster Name'=> Array('adocmaster', 'adocmastername'),
-'Doc Nr'=> Array('adocmaster', 'nrdoc'),
+'AdocmasterNo'=> Array('adocmaster'=> 'adocmasterno'),
+'Adocmaster Name'=> Array('adocmaster'=> 'adocmastername'),
+'Doc Nr'=> Array('adocmaster'=> 'nrdoc'),
 );
 var $search_fields_name = Array( 
 'AdocmasterNo'=> 'adocmasterno',

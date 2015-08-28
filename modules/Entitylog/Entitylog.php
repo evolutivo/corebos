@@ -53,12 +53,12 @@ class Entitylog extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Entitylog Name'=> Array('entitylog', 'entitylogname'),
-                'Related to'=>Array('entitylog','relatedto'),                
-                'User'=>Array('entitylog','user'),
-                'Related Module'=>Array('entitylog','tabid'),
-                'Changes Message'=>Array('entitylog','finalstate'),
-		'Assigned To' => Array('crmentity','smownerid')
+		'Entitylog Name'=> Array('entitylog'=> 'entitylogname'),
+                'Related to'=>Array('entitylog'=> 'relatedto'),                
+                'User'=>Array('entitylog'=> 'user'),
+                'Related Module'=>Array('entitylog'=> 'tabid'),
+                'Changes Message'=>Array('entitylog'=> 'finalstate'),
+		'Assigned To' => Array('crmentity'=> 'smownerid')
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -77,7 +77,7 @@ class Entitylog extends CRMEntity {
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Entitylog Name'=> Array('entitylog', 'entitylogname')
+		'Entitylog Name'=> Array('entitylog'=> 'entitylogname')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
