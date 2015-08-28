@@ -44,8 +44,8 @@ class BusinessRules extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'BusinessRules Name'=> Array('businessrules', 'businessrules_name'),
-		'Assigned To' => Array('crmentity','smownerid')
+		'BusinessRules Name'=> Array('businessrules'=> 'businessrules_name'),
+		'Assigned To' => Array('crmentity'=> 'smownerid')
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -60,7 +60,7 @@ class BusinessRules extends CRMEntity {
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'BusinessRules Name'=> Array('businessrules', 'businessrules_name')
+		'BusinessRules Name'=> Array('businessrules'=> 'businessrules_name')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */

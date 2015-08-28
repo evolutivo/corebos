@@ -48,8 +48,8 @@ class cbMap extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Map Name'=> Array('cbmap', 'mapname'),
-		'Assigned To' => Array('crmentity','smownerid')
+		'Map Name'=> Array('cbmap'=> 'mapname'),
+		'Assigned To' => Array('crmentity'=>'smownerid')
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -64,7 +64,7 @@ class cbMap extends CRMEntity {
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Map Name'=> Array('cbmap', 'mapname')
+		'Map Name'=> Array('cbmap'=> 'mapname')
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
