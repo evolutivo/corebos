@@ -36,12 +36,12 @@ var $tab_name_index = Array(
 'vtiger_adocdetailcf' => 'adocdetailid');
 
 var $list_fields = Array (
-'AdocdetailNo'=> Array('adocdetail', 'adocdetailno'),
-'Line Nr'=> Array('adocdetail', 'nrline'),
-'adoc_product'=> Array('adocdetail', 'adoc_product'),
-'Quantity'=> Array('adocdetail', 'adoc_quantity'),
-'Price'=> Array('adocdetail', 'adoc_price'),
-'Assigned To' => Array('crmentity','smownerid'));
+'AdocdetailNo'=> Array('adocdetail'=> 'adocdetailno'),
+'Line Nr'=> Array('adocdetail'=> 'nrline'),
+'adoc_product'=> Array('adocdetail'=> 'adoc_product'),
+'Quantity'=> Array('adocdetail'=> 'adoc_quantity'),
+'Price'=> Array('adocdetail'=> 'adoc_price'),
+'Assigned To' => Array('crmentity'=> 'smownerid'));
 
 var $list_fields_name = Array(
 'AdocdetailNo'=>'adocdetailno',
@@ -53,11 +53,11 @@ var $list_fields_name = Array(
 
 var $list_link_field = 'adocdetailno';
 var $search_fields = Array( 
-'AdocdetailNo'=> Array('adocdetail', 'adocdetailno'),
-'Line Nr'=> Array('adocdetail', 'nrline'),
-'adoc_product'=> Array('adocdetail', 'adoc_product'),
-'Quantity'=> Array('adocdetail', 'adoc_quantity'),
-'Price'=> Array('adocdetail', 'adoc_price'),
+'AdocdetailNo'=> Array('adocdetail'=> 'adocdetailno'),
+'Line Nr'=> Array('adocdetail'=> 'nrline'),
+'adoc_product'=> Array('adocdetail'=> 'adoc_product'),
+'Quantity'=> Array('adocdetail'=> 'adoc_quantity'),
+'Price'=> Array('adocdetail'=> 'adoc_price'),
  );
 var $search_fields_name = Array( 
 'AdocdetailNo'=>'adocdetailno',

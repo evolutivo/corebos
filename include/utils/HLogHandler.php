@@ -28,6 +28,8 @@ class HistoryLogHandler extends VTEventHandler {
     global $log, $adb,$current_user,$app_strings;
     $userid=$current_user->id;
     $moduleName = $entityData->getModuleName();    
+
+
     $this->setModulesRegistered($this->getModulesFieldMap($moduleName));
     if (!isset($this->modulesRegistered[$moduleName])) {
       return;
@@ -41,7 +43,9 @@ class HistoryLogHandler extends VTEventHandler {
     $fields = $this->modulesRegistered[$moduleName]['fields'];
     //end of block code to be adapted
     $Id = $entityData->getId();
-    $log->debug('unepotani1 '.$Id);
+    //getting the roles
+   
+ 
     $log->debug("Enter Handler for beforesave event...");
     
     if($eventName == 'vtiger.entity.beforesave')
@@ -64,9 +68,34 @@ class HistoryLogHandler extends VTEventHandler {
     if($eventName == 'vtiger.entity.aftersave') {
       
       $log->debug("Enter Handler for aftersave event...");
-      
+        global $dbconfig;
+        require_once("modules/Users/CreateUserPrivilegeFile.php");
+        require_once("include/utils/GetUserGroups.php");
+   //if($defaultOrgSharingPermission[getTabid("$moduleName")] == 3){
+  $q=$adb->pquery("select smownerid from vtiger_crmentity  where crmid=?",array($entityData->getId()));
+  $owner=$adb->query_result($q,0,"smownerid");
+  $role=$adb->query("select parentrole,vtiger_role.roleid from vtiger_user2role join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid  where vtiger_user2role.userid=$owner");
+    $current_user_roles=$adb->query_result($role,0,"roleid");
+    //$roleid=$adb->query_result($role,0,"parentrole");
+    $parrol=getParentRole($current_user_roles);
+    $roleid=implode("::",$parrol);
+    $userGroupFocus=new GetUserGroups();
+    $userGroupFocus->getAllUserGroups($owner);
+    $current_user_groups= $userGroupFocus->user_groups;
+    if(count($current_user_groups)!=0)
+    $grpid='::'.implode("::",$current_user_groups);
+    $def_org_share=getAllDefaultSharingAction();
+
+   $arr=getUserModuleSharingRoles($moduleName,$owner,$def_org_share ,$current_user_roles,$parrol,$current_user_groups);
+   $gr=$adb->pquery("select * from vtiger_groups where groupid=?",array($owner));
+   if($adb->num_rows($gr)==0){
+        if(count(array_keys($arr['read']['ROLE']))!=0)
+        $roleid.='::'.implode('::',array_keys($arr['read']['ROLE']));}
+   else $roleid.=implode('::',array_keys($arr['read']['GROUP']));
+
+   $roleid.=$grpid;
+
       $tabid =$adb->query_result($adb->pquery("SELECT tabid FROM vtiger_entityname where modulename= ?",array($moduleName)),0);
-	$log->debug('jamune'.$tabid);
       $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id)  ;
       $query=$adb->query($listquery);
       
@@ -78,16 +107,12 @@ class HistoryLogHandler extends VTEventHandler {
       }
       $act = "";
       $act1='';
-      $log->debug('unepo '.count($fields));
+
 $cr=false;
      for ($i=0;$i<count($fields);$i++)
        {  if($news[$i]!=$entityData->old[$i]) {         
           $act='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
           
-       
-       
-      
-     // $log->debug('drivalda2 '.$act);
       $dt=date("Y-m-d H:i:s");     
       if(!empty($act)) { 
            if(in_array('entitylog',$type)){
@@ -101,21 +126,15 @@ $cr=false;
           $log->debug('prapeune'.$tabid);
           $focus->column_fields['tabid']=$tabid;
           $focus->column_fields['finalstate']=$act;
-//          if($moduleName=='Stock'){
-//             $index= array_search("locationid", $fields);
-//           
-//             $focus->column_fields['locatorfrom']=$entityData->old[$index];
-//             $focus->column_fields['locatorto']=$news[$index];
-//             $log->debug('ketu jemi '.$index." ".$entityData->old[$index]." ".$news[$index]);
-//          }
           $focus->saveentity("Entitylog");}
-         if(in_array('normalized',$type)) {
-             global $dbconfig;
+
+  if(in_array('normalized',$type)) {
              $ip= $dbconfig['ip_server'];
 
 $endpointUrl2 = "http://$ip:9200/$indextype/norm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $eid=$entityData->getId();
+$fields1->fields['roles']=$roleid;
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
 $fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
@@ -166,6 +185,7 @@ if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
 $endpointUrl2 = "http://$ip:9200/$indextype/denorm/$ij";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $eid=$entityData->getId();
+$fields1->fields['roles']=$roleid;
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
 $fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
@@ -191,10 +211,11 @@ $response2 = curl_exec($channel11);
 }
 else {
     if($cr !=true){
-          $cr=true;
-    $endpointUrl2 = "http://$ip:9200/$indextype/denorm";
+    $cr=true;
+$endpointUrl2 = "http://$ip:9200/$indextype/denorm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $eid=$entityData->getId();
+$fields1->fields['roles']=$roleid;
 $fields1->fields['changedvalues']=$act;
 $fields1->fields['userchange']=$userid;
 $fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
@@ -215,7 +236,7 @@ curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
 curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
 curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-    $response23 = curl_exec($channel11);
+$response23 = curl_exec($channel11);
   
  
     }

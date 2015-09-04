@@ -454,6 +454,13 @@
 	<description>Add CyP No and PaymentDate de Payments (CobroPago)</description>
 	<filename>build/changeSets/addFieldsToCyP.php</filename>
 	<classname>addFieldsToCyP</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addpivottable</description>
+	<filename>build/changeSets/addPivot.php</filename>
+	<classname>addpivottable</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>
