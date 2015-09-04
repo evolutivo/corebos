@@ -39,7 +39,6 @@ $smarty->assign("QCreateAction", $check_button);
 $cnt = count($qc_modules);
 $smarty->assign("CNT", $cnt);
 
-$smarty->assign("PRINT_URL", "phprint.php?jt=".session_id().$GLOBALS['request_string']);
 $smarty->assign("MODULE_NAME", $currentModule);
 $date = new DateTimeField(null);
 $smarty->assign("DATE", $date->getDisplayDateTimeValue());
