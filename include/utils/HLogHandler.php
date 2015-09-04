@@ -93,7 +93,7 @@ class HistoryLogHandler extends VTEventHandler {
         $roleid.='::'.implode('::',array_keys($arr['read']['ROLE']));}
    else $roleid.=implode('::',array_keys($arr['read']['GROUP']));
 
-   $roleid.=$grpid;
+   $roleid.='::'.$owner;
 
       $tabid =$adb->query_result($adb->pquery("SELECT tabid FROM vtiger_entityname where modulename= ?",array($moduleName)),0);
       $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id)  ;
