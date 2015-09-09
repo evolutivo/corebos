@@ -1,8 +1,7 @@
 <?php
  function sqltojson($indextype,$rep) {
             global $adb;
-                    global $dbconfig;
-                $ip=$dbconfig['ip_server'];
+            $ip=GlobalVariable::getVariable('ip_elastic_server', '');
 $endpointUrl = "http://$ip:9200/$indextype/norm/_search?pretty&size=12"; 
 $channel1 = curl_init();
 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
