@@ -24,21 +24,15 @@ class entitylogimport extends cbupdaterWorker {
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$toinstall = array('EntityLog');
+			$toinstall = array('Entitylog');
 			foreach ($toinstall as $module) {
 				if ($this->isModuleInstalled($module)) {
 					vtlib_toggleModuleAccess($module,true);
 					$this->sendMsg("$module activated!");
 				} else {
-                        $toinstall = array('Entitylog');
-			foreach ($toinstall as $module) {
-				if ($this->isModuleInstalled($module)) {
-					vtlib_toggleModuleAccess($module,true);
-					$this->sendMsg("$module activated!");
-				} else {
+                  
 					$this->installManifestModule($module);
-				}
-			}
+			
 				}
 			}
 			$this->sendMsg('Changeset '.get_class($this).' applied!');
