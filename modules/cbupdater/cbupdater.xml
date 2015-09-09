@@ -52,21 +52,21 @@
 <changeSet>
 	<author>drivalda</author>
 	<description>import entitylog module </description>
-	<filename>build/changeSets/entitylogimport.php</filename>
+	<filename>build/changeSets/evolutivo/entitylogimport.php</filename>
 	<classname>entitylogimport</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
 	<author>drivalda</author>
 	<description>import loggingconf module </description>
-	<filename>build/changeSets/loggingconfimport.php</filename>
+	<filename>build/changeSets/evolutivo/loggingconfimport.php</filename>
 	<classname>loggingconfimport</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
 	<author>drivalda</author>
 	<description>add event </description>
-	<filename>build/changeSets/addmoduletolog.php</filename>
+	<filename>build/changeSets/evolutivo/addmoduletolog.php</filename>
 	<classname>addmoduletolog</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
@@ -108,14 +108,14 @@
 <changeSet>
 	<author>eri</author>
 	<description>import adocmaster module </description>
-	<filename>build/changeSets/adocmasterimport.php</filename>
+	<filename>build/changeSets/evolutivo/adocmasterimport.php</filename>
 	<classname>adocmasterimport</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
          <author>eri</author>
 	<description>import adocdetail module </description>
-	<filename>build/changeSets/adocdetailimport.php</filename>
+	<filename>build/changeSets/evolutivo/adocdetailimport.php</filename>
 	<classname>adocdetailimport</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
@@ -157,7 +157,7 @@
 <changeSet>
         <author>loridacito</author>
         <description>Add fields in calendar4you</description>
-        <filename>build/changeSets/addfieldstocal.php</filename>
+        <filename>build/changeSets/evolutivo/addfieldstocal.php</filename>
         <classname>addfieldstocal</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
@@ -185,7 +185,7 @@
 <changeSet>
 	<author>eri</author>
 	<description>Add EvvtApps Module</description>
-	<filename>build/changeSets/evvtappsimport.php</filename>
+	<filename>build/changeSets/evolutivo/evvtappsimport.php</filename>
 	<classname>evvtappsimport</classname>
 <systemupdate>true</systemupdate>
 </changeSet>
@@ -199,7 +199,7 @@
 <changeSet>
         <author>loridacito</author>
         <description>Add fields in calendar4you 2</description>
-        <filename>build/changeSets/addfieldstocaltwo.php</filename>
+        <filename>build/changeSets/evolutivo/addfieldstocaltwo.php</filename>
         <classname>addfieldstocaltwo</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
@@ -326,14 +326,14 @@
 <changeSet>
 	<author>loridacito</author>
 	<description>Add superadmin checkbox</description>
-	<filename>build/changeSets/addsuperadmincheck.php</filename>
+	<filename>build/changeSets/evolutivo/addsuperadmincheck.php</filename>
 	<classname>addsuperadmincheck</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
 	<author>loridacito</author>
 	<description>Add Map Module</description>
-	<filename>build/changeSets/addmodulemap.php</filename>
+	<filename>build/changeSets/evolutivo/addmodulemap.php</filename>
 	<classname>addmodulemap</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
@@ -347,21 +347,21 @@
 <changeSet>
 <author>albana</author>
 	<description>Add NgBlock Module</description>
-	<filename>build/changeSets/addNgBlock.php</filename>
+	<filename>build/changeSets/evolutivo/addNgBlock.php</filename>
 	<classname>addNgBlock</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
 	<author>loridacito</author>
 	<description>add field to loggingconf</description>
-	<filename>build/changeSets/addfieldtologging.php</filename>
+	<filename>build/changeSets/evolutivo/addfieldtologging.php</filename>
 	<classname>addfieldtologging</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
 	<author>loridacito</author>
 	<description>add field to loggingconf2</description>
-	<filename>build/changeSets/addfieldtologging2.php</filename>
+	<filename>build/changeSets/evolutivo/addfieldtologging2.php</filename>
 	<classname>addfieldtologging2</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
@@ -382,14 +382,14 @@
 <changeSet>
 	<author>loridacito</author>
 	<description>Add BusinessRules Module</description>
-	<filename>build/changeSets/addmodulebr.php</filename>
+	<filename>build/changeSets/evolutivo/addmodulebr.php</filename>
 	<classname>addmodulebr</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
 	<author>loridacito</author>
 	<description>Add BusinessRules WF</description>
-	<filename>build/changeSets/addmodulebrwf.php</filename>
+	<filename>build/changeSets/evolutivo/addmodulebrwf.php</filename>
 	<classname>addmodulebrwf</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
@@ -459,8 +459,15 @@
 <changeSet>
 	<author>loridacito</author>
 	<description>addpivottable</description>
-	<filename>build/changeSets/addPivot.php</filename>
+	<filename>build/changeSets/evolutivo/addPivot.php</filename>
 	<classname>addpivottable</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addparamtoglobalvar</description>
+	<filename>build/changeSets/evolutivo/addparamtoglobalvar.php</filename>
+	<classname>addparamtoglobalvar</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>

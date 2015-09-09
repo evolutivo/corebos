@@ -2688,7 +2688,7 @@ function get_log_history($entityid,$tabid)
 		$log->debug("Exiting from get_log_history($entityid,$tabid method ...");
 		return $return_value;
 	}
-        function get_log_historynorm($entityid,$tabid)
+        function get_log_historydenorm($entityid,$tabid)
 	{
 		global $log, $adb,$current_user;
 		
@@ -2701,12 +2701,8 @@ function get_log_history($entityid,$tabid)
                 $mainfld=explode(".",$queryel[1]);
                  $header=Array();
                 $header[0] ="".getTranslatedString('LBL_ACTION');
-//                $header[1] ="".getTranslatedString('LBL_DATE');
-//                $header[2] ="".getTranslatedString('LBL_USER');
-               // $header[3] ="".getTranslatedString('LBL_RESTORE');
                 $entries=Array();
-                global $dbconfig;
-                $ip=$dbconfig['ip_server'];
+                $ip=GlobalVariable::getVariable('ip_elastic_server', '');
 $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=100"; 
 $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>$entityid)));
 $channel1 = curl_init();

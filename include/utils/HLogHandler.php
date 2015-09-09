@@ -68,7 +68,6 @@ class HistoryLogHandler extends VTEventHandler {
     if($eventName == 'vtiger.entity.aftersave') {
       
       $log->debug("Enter Handler for aftersave event...");
-        global $dbconfig;
         require_once("modules/Users/CreateUserPrivilegeFile.php");
         require_once("include/utils/GetUserGroups.php");
    //if($defaultOrgSharingPermission[getTabid("$moduleName")] == 3){
@@ -129,8 +128,7 @@ $cr=false;
           $focus->saveentity("Entitylog");}
 
   if(in_array('normalized',$type)) {
-             $ip= $dbconfig['ip_server'];
-
+$ip=GlobalVariable::getVariable('ip_elastic_server', '');
 $endpointUrl2 = "http://$ip:9200/$indextype/norm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $eid=$entityData->getId();
@@ -158,8 +156,7 @@ $response2 = curl_exec($channel11);
 
       }
        if(in_array('denormalized',$type)) {
-             global $dbconfig;
-             $ip= $dbconfig['ip_server'];
+             $ip=GlobalVariable::getVariable('ip_elastic_server', '');
 $endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty"; 
 $mainfld=explode(".",$queryel[1]);
 $getid=$entityData->getId();
