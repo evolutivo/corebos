@@ -20,7 +20,6 @@ class NgBlock {
 	 * @param String Event Type (module.postinstall, module.disabled, module.enabled, module.preuninstall)
 	 */
 	function vtlib_handler($modulename, $event_type) {
-		parent::vtlib_handler($modulename, $event_type);
 	
 	}
 
