@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<module>
+<exporttime>2015-06-05 15:44:40</exporttime>
+<name>ESClient</name>
+<label>ESClient</label>
+<parent>Tools</parent>
+<type>extension</type>
+<dependencies>
+<vtiger_version>5.5.0</vtiger_version>
+</dependencies>
+<tables>
+</tables>
+<crons>
+</crons>
+</module>
