@@ -49,21 +49,16 @@ class evvtappsimport extends cbupdaterWorker {
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;");
                 
-			$Vtiger_Utils_Log = true;
 
-include_once('vtlib/Vtiger/Menu.php');
-include_once('vtlib/Vtiger/Module.php');
-
-// Create module instance and save it first
-$module = new Vtiger_Module();
-$module->name = 'evvtApps';
-$module->version = '1.0';
-$module->save();
-
-// Initialize all the tables required
-// Add the module to the Menu (entry point from UI)
-$menu = Vtiger_Menu::getInstance('Tools');
-$menu->addModule($module);
+	                $toinstall = array('evvtApps');
+			foreach ($toinstall as $module) {
+				if ($this->isModuleInstalled($module)) {
+					vtlib_toggleModuleAccess($module,true);
+					$this->sendMsg("$module activated!");
+				} else {
+					$this->installManifestModule($module);
+				}
+			}
 
 	}
           $this->sendMsg('Changeset '.get_class($this).' applied!');

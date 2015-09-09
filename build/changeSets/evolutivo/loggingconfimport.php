@@ -30,16 +30,7 @@ class loggingconfimport extends cbupdaterWorker {
 					vtlib_toggleModuleAccess($module,true);
 					$this->sendMsg("$module activated!");
 				} else {
-$Vtiger_Utils_Log = true;
-include_once('vtlib/Vtiger/Menu.php');
-include_once('vtlib/Vtiger/Module.php');
-// Create module instance and save it first
-$module = new Vtiger_Module();
-$module->name = 'LoggingConf';
-$module->save();
-$module->initWebservice();
-//// Initialize all the tables required
-$module->initTables();
+                                    $this->installManifestModule($module);
 require_once('include/database/PearDatabase.php');
 global $adb;
 $adb->query("create table  vtiger_loggingconfiguration(

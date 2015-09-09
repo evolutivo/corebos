@@ -17,24 +17,24 @@
  *************************************************************************************************/
 <?xml version='1.0'?>
 <module>
-<exporttime>2014-08-14 14:54:33</exporttime>
+<exporttime>2015-09-09 14:36:07</exporttime>
 <name>Entitylog</name>
 <label>Entitylog</label>
 <parent>Tools</parent>
-<version>1.0</version>
 <dependencies>
-<vtiger_version>5.2.1</vtiger_version>
+<vtiger_version>5.5.0</vtiger_version>
 </dependencies>
 <tables>
 <table>
 <name>vtiger_entitylog</name>
 <sql><![CDATA[CREATE TABLE `vtiger_entitylog` (
-  `entitylogid` int(11) DEFAULT NULL,
+  `entitylogid` int(11) NOT NULL,
   `entitylogname` varchar(255) DEFAULT NULL,
   `relatedto` varchar(100) DEFAULT NULL,
   `user` varchar(100) DEFAULT NULL,
   `tabid` int(11) DEFAULT NULL,
-  `finalstate` varchar(100) DEFAULT NULL
+  `finalstate` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`entitylogid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
@@ -93,14 +93,16 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <relatedmodules>
-<relatedmodule>Potentials</relatedmodule>
+<relatedmodule>Project</relatedmodule>
+<relatedmodule>HelpDesk</relatedmodule>
+<relatedmodule></relatedmodule>
 </relatedmodules>
 </field>
 <field>
 <fieldname>user</fieldname>
 <uitype>1</uitype>
 <columnname>user</columnname>
-<tablename>0</tablename>
+<tablename>vtiger_entitylog</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>User</fieldlabel>
 <readonly>1</readonly>
@@ -128,7 +130,7 @@
 <defaultvalue></defaultvalue>
 <sequence>4</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
+<typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
@@ -140,7 +142,7 @@
 <fieldname>finalstate</fieldname>
 <uitype>1</uitype>
 <columnname>finalstate</columnname>
-<tablename>0</tablename>
+<tablename>vtiger_entitylog</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Final State</fieldlabel>
 <readonly>1</readonly>
@@ -188,7 +190,7 @@
 <defaultvalue></defaultvalue>
 <sequence>7</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>T~O</typeofdata>
+<typeofdata>DT~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>2</displaytype>
@@ -208,51 +210,11 @@
 <defaultvalue></defaultvalue>
 <sequence>8</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>T~O</typeofdata>
+<typeofdata>DT~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>2</displaytype>
 <info_type>BAS</info_type>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-</field>
-<field>
-<fieldname>user</fieldname>
-<uitype>1</uitype>
-<columnname>user</columnname>
-<tablename>vtiger_entitylog</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>User</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>3</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type></info_type>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-</field>
-<field>
-<fieldname>finalstate</fieldname>
-<uitype>1</uitype>
-<columnname>finalstate</columnname>
-<tablename>vtiger_entitylog</tablename>
-<generatedtype>1</generatedtype>
-<fieldlabel>Final State</fieldlabel>
-<readonly>1</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>5</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>V~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type></info_type>
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 </field>
@@ -288,21 +250,6 @@
 </block>
 </blocks>
 <customviews>
-<customview>
-<viewname>All</viewname>
-<setdefault>true</setdefault>
-<setmetrics>false</setmetrics>
-<fields>
-<field>
-<fieldname>entitylogname</fieldname>
-<columnindex>0</columnindex>
-</field>
-<field>
-<fieldname>relatedto</fieldname>
-<columnindex>1</columnindex>
-</field>
-</fields>
-</customview>
 <customview>
 <viewname>All</viewname>
 <setdefault>true</setdefault>
