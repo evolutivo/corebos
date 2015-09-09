@@ -1,5 +1,5 @@
 var Config = {
-   'CLUSTER_URL':'http://localhost:9200', 
+   'CLUSTER_URL':'http://193.182.16.34:9200', 
    'THEME':'Pepper Grinder',
    'SEARCH_TYPE':'query_then_fetch',
    'FROM':0,
