@@ -1,0 +1,14 @@
+<img src="cache/images/vert_2212294583_recordsforuser_0.png" border="0" usemap="#cache/images/vert_2212294583_recordsforuser_0.png" />
+<map name="cache/images/vert_2212294583_recordsforuser_0.png" id="cache/images/vert_2212294583_recordsforuser_0.png">
+	<area shape="rect" coords="42,49,58,148" href="index.php?module=Accounts&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=4" alt="Organizations=%d" title="Organizations=%d" />
+	<area shape="rect" coords="90,49,106,148" href="index.php?module=Potentials&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=10" alt="Opportunities=%d" title="Opportunities=%d" />
+	<area shape="rect" coords="137,49,153,148" href="index.php?module=Contacts&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=7" alt="Contacts=%d" title="Contacts=%d" />
+	<area shape="rect" coords="185,49,201,148" href="index.php?module=Leads&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=1" alt="Leads=%d" title="Leads=%d" />
+	<area shape="rect" coords="233,98,248,148" href="index.php?module=Quotes&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=16" alt="Quotes=%d" title="Quotes=%d" />
+	<area shape="rect" coords="280,98,296,148" href="index.php?module=SalesOrder&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=26" alt="Sales Order=%d" title="Sales Order=%d" />
+	<area shape="rect" coords="328,98,343,148" href="index.php?module=PurchaseOrder&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=25" alt="Purchase Order=%d" title="Purchase Order=%d" />
+	<area shape="rect" coords="375,98,391,148" href="index.php?module=Invoice&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=21" alt="Invoice=%d" title="Invoice=%d" />
+	<area shape="rect" coords="423,108,439,148" href="index.php?module=HelpDesk&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=13" alt="Trouble Tickets=%d" title="Trouble Tickets=%d" />
+	<area shape="rect" coords="470,89,486,148" href="index.php?module=Calendar&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=19" alt="Tasks=%d" title="Tasks=%d" />
+	<area shape="rect" coords="518,118,534,148" href="index.php?module=Campaigns&action=ListView&from_homepagedb=true&type=dbrd&query=true&owner= Administrator&viewname=29" alt="Campaigns=%d" title="Campaigns=%d" />
+</map>
