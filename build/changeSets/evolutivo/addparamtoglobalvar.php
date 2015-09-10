@@ -25,7 +25,10 @@ class addparamtoglobalvar extends cbupdaterWorker {
 	        $module = Vtiger_Module::getInstance("GlobalVariable");
                 $fld_gvname = Vtiger_Field::getInstance('gvname', $module);
                 $fld_gvname->setPicklistValues(Array('ip_elastic_server'));
+                $this->sendMsg('Changeset '.get_class($this).' applied!');
+	        $this->markApplied();
 		}
+                
 		$this->finishExecution();
 	}
 	
