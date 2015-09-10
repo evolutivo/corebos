@@ -736,7 +736,7 @@ function isPermittedBusinessRule($module,$actionname)
     //check Button Control for current module 
     $q_business_rule="Select businessrule,linktomap"
                     ." from vtiger_businessrules"
-                    ." join vtiger_map on vtiger_businessrules.linktomap=vtiger_map.mapid"
+                    ." join vtiger_cbmap on vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid"
                     ." where module_rules=?"
                     ." and maptype ='Divide EditCreate'";
     $profiles = array();
