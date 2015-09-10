@@ -383,7 +383,7 @@ elseif($kaction=='add'){
                 \$entries=Array();
                 \$tabid=  getTabid('Adocdetail');
                 global \$dbconfig;
-                \$ip=\$dbconfig['ip_server'];
+                \$ip=\GlobalVariable::getVariable('ip_elastic_server', '');
                 \$endpointUrl = \"http://\$ip:9200/adocmasterdetail/details/_search?pretty\";
                 \$fields1 =array('query'=>array(\"term\"=>array(\"adocdetailid\"=>\$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
                 \$channel1 = curl_init();

@@ -44,8 +44,7 @@ if($indextype=='' || $indextype==null)
     $ind=$random;   
 }
 else $ind=$indextype;
-global $dbconfig;
-$ip= $dbconfig['ip_server'];
+ $ip=GlobalVariable::getVariable('ip_elastic_server', '');
 $create=1;
  if(in_array("denormalized",$type) || in_array("normalized",$type))  {
      $sqlFields=Array();
