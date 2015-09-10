@@ -48,7 +48,15 @@ class evvtappsimport extends cbupdaterWorker {
   KEY `appid` (`appid`),
   KEY `userid` (`userid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;");
-                
+$query3=$adb->query("INSERT INTO `vtiger_evvtapps` (`evvtappsid`, `appname`, `installdate`, `showhomepagepopup`, `vtappquery`, `istemplate`, `moduleid`, `deleted`, `letterformat`, `orientation`, `isactive`, `isdefault`) VALUES
+(1, 'Trash', '2011-12-16 00:18:00', '', '', 0, 0, 0, '', '', 0, 0),
+(2, 'Configuration', '2011-12-16 00:18:00', '', '', 0, 0, 0, '', '', 0, 0),
+(3, 'vtApps Store', '2011-12-16 00:23:00', '', '', 0, 0, 0, '', '', 0, 0);");
+$query4=$adb->query("INSERT INTO `vtiger_evvtappsuser` (`evvtappsuserid`, `appid`, `userid`, `sortorder`, `wtop`, `wleft`, `wwidth`, `wheight`, `wvisible`, `wenabled`, `canwrite`, `candelete`, `canhide`, `canshow`, `visits`, `widget`) VALUES
+(4, 2, 1, 1, 80, 230, 1100, 585, 0, 1, 1, 0, 1, 1, 1, 0),
+(7, 3, 1, 2, 100, 40, 400, 400, 0, 1, 1, 0, 1, 1, NULL, 0),
+(9, 1, 1, 8, 100, 40, 100, 100, 1, 1, 1, 1, 1, 1, NULL, 0);");
+
 
 	                $toinstall = array('evvtApps');
 			foreach ($toinstall as $module) {
