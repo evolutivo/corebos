@@ -18,9 +18,9 @@
   `sort` varchar(100) DEFAULT NULL,
   `edit_record` varchar(50) DEFAULT NULL,
   `delete_record` varchar(50) DEFAULT NULL,
-  'sequence_ngblock' varchar(50) DEFAULT NULL,
-  'destination' varchar(50) DEFAULT NULL,
-  'type' varchar(50) DEFAULT NULL,
+  `sequence_ngblock` varchar(50) DEFAULT NULL,
+  `destination` varchar(50) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8]]></sql>
 		</table>

@@ -35,7 +35,7 @@ include("modules/Reports/ReportRun.php");
 global $adb;
 global $adb,$current_user,$php_max_execution_time;
 
-$indextype='adocdetaile75e1b3';
+$indextype='adocdetailed82e71';
  $query=sqltojson($indextype,$reportid);
 //echo $query;
   createjson($query);
