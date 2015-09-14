@@ -78,19 +78,17 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	</script>
 {/if}
     <!-- END -->
-{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq  'ElasticSearch' }   
+{if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq  'ElasticSearch' }   
         <script  src="Smarty/angular/ng-table.js"></script>
         <script src="Smarty/angular/angular-multi-select.js"></script>  
         <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
-        <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
-        <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.min.css" />
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.min.js"></script>
+        <link rel="stylesheet" href="Smarty/angular/ng-table.css" />
+        <script src="Smarty/angular/ui-bootstrap-tpls-0.6.0.js"></script>
+        <link rel="stylesheet" href="Smarty/angular/ng-tags-input.min.css" />
+        <script src="Smarty/angular/ng-tags-input.min.js"></script>
         <!-- xeditable   -->
         <link href="Smarty/angular/xeditable.css" rel="stylesheet">
         <script src="Smarty/angular/xeditable.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 {/if}
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
 {if $HEADERSCRIPTS}
@@ -101,7 +99,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq 'ElasticSearch'}   
+    {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'ElasticSearch'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
