@@ -477,4 +477,11 @@
 	<classname>addesclient</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>addcbAppsTable</description>
+	<filename>build/changeSets/evolutivo/addcbAppsTable.php</filename>
+	<classname>addcbAppsTable</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
