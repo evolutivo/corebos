@@ -618,48 +618,7 @@ Problem in creation');
                         </li>
                         {/if}
                     </ul>
-                       <div class="weather" >
-                            <br/><br/>
-                            <div id="import_export">
-                                    <table border="0" width="100%">
-                                    <tr >
-                                        <td class="dvInnerHeader">
-                                            <b> Exporta tabelle</b>
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td class="dvtCellLabel">
-                                            <a href ="javascript:export_tables();">Export tables</a>
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td >
-                                          <br/><br/> 
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td class="dvInnerHeader">
-                                            <b> Importa tabelle e file</b> 
-                                        </td>
-                                    </tr>
-
-
-                                    <tr>
-                                        <td class="dvtCellLabel">
-                                            <br/><br/>
-                                            <form  name="import" enctype="multipart/form-data" method="Post" 
-                                                   action="modules/BiServer/import_files.php">
-                                            <input type="file" id="btn_import_files" name="btn_import_files" />
-                                            <input type="submit"  value="Import files" id="btn_import_files2" name="btn_import_files2" />
-
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    </table>
-                    
-                            </div> <br/><br/>
-                            </div>  
-                        
+                                              
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_server">
