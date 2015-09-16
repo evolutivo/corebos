@@ -8,7 +8,7 @@ include "$mypath/language/$current_language.lang.php";
 <link href="<?php echo $mypath; ?>/styles/style.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo $mypath; ?>/styles/evvtapps.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $mypath; ?>/styles/kendo.common.css" rel="stylesheet" type="text/css" />
-<link href="include/kendoui/styles/kendo.default.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo $mypath; ?>/styles/kendo.default.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $mypath; ?>/styles/tipsy.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $mypath; ?>/codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $mypath; ?>/codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css">
