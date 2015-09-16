@@ -1,0 +1,86 @@
+<?xml version='1.0'?>
+<module>
+<exporttime>2015-06-05 15:44:40</exporttime>
+<name>BiServer</name>
+<label>BiServer</label>
+<parent>Tools</parent>
+<type>extension</type>
+<dependencies>
+<vtiger_version>5.5.0</vtiger_version>
+</dependencies>
+<license>
+<inline><![CDATA[
+ *************************************************************************************************
+ * Copyright 2012-2013 OpenCubed  --  
+ * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+ * Vizsage Public License (the "License"). You may not use this file except in compliance with the
+ * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+ * and share improvements. However, for proper details please read the full License, available at
+ * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+ * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+ * applicable law or agreed to in writing, any software distributed under the License is distributed
+ * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the
+ * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+ *************************************************************************************************
+ *  Module       : BiServer
+ *  Version      : 1.8
+ *  Author       : OpenCubed
+ *************************************************************************************************
+]]></inline>
+</license>
+<tables>
+<table>
+<name>vtiger_scripts</name>
+<sql><![CDATA[CREATE TABLE IF NOT EXISTS `vtiger_scripts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `period` varchar(100) DEFAULT NULL,
+  `active` varchar(10) DEFAULT NULL,
+  `deleted_script` varchar(10) DEFAULT NULL,
+  `folder` varchar(50) DEFAULT NULL,
+  `fieldlabel` varchar(1000) NOT NULL,
+  `is_executing` varchar(10) NOT NULL,
+  `last_exec` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=386 ;]]></sql>
+</table>
+<table>
+<name>vtiger_scripts_security</name>
+<sql><![CDATA[CREATE TABLE IF NOT EXISTS `vtiger_scripts_security` (
+  `sec_id` int(11) NOT NULL AUTO_INCREMENT,
+  `scriptid` int(11) NOT NULL,
+  `roleid` varchar(11) NOT NULL,
+  `desc` int(11) DEFAULT NULL,
+  `export_scr` int(11) NOT NULL,
+  `delete_scr` int(11) NOT NULL,
+  `execute_scr` int(11) NOT NULL,
+  PRIMARY KEY (`sec_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=254 ;]]></sql>
+</table>
+<table>
+<name>vtiger_script_actions</name>
+<sql><![CDATA[CREATE TABLE IF NOT EXISTS `vtiger_script_actions` (
+  `actionid` int(11) NOT NULL AUTO_INCREMENT,
+  `scriptid` int(11) DEFAULT NULL,
+  `script_action` varchar(20) DEFAULT NULL,
+  `frecuency` varchar(50) DEFAULT NULL,
+  `users` varchar(50) DEFAULT NULL,
+  `columnname` varchar(50) DEFAULT NULL,
+  `execution_cron` varchar(10) DEFAULT NULL,
+  `last_execute` varchar(100) DEFAULT NULL,
+  `emails` varchar(200) DEFAULT NULL,
+  `subject` varchar(200) DEFAULT NULL,
+  `content` varchar(1000) DEFAULT NULL,
+  `time` varchar(100) DEFAULT NULL,
+  `zipped` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`actionid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;]]></sql>
+</table>
+</tables>
+<sharingaccess>
+<default>private</default>
+</sharingaccess>
+<crons>
+</crons>
+</module>
