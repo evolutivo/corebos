@@ -145,7 +145,7 @@ elseif($cbAction=='retrieveReport'){
             }
     }	
     $sqlfor1=$focus->sGetSQLforReport($reportid,$filtersql);
-    $sSQL = explode(" from ",$sqlfor1);
+    $sSQL = explode(" from ",$sqlfor1,2);
 //    var_dump($sSQL);
     $rows = array();
     $sSQL1=explode(",",str_replace("select DISTINCT","",$sSQL[0]));
