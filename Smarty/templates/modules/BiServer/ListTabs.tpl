@@ -80,8 +80,8 @@ var blockURL="module=BiServer&action=BiServerAjax&file=scripts";
 var blockURL_security="module=BiServer&action=BiServerAjax&file=scripts_security";
 var blockURL_email="module=BiServer&action=BiServerAjax&file=scripts_email";
 var is_superadmin='{/literal}{$is_superadmin}{literal}';
-var check_yes='themes/images/check_yes.png';
-var check_no='themes/images/check_no.png';
+var check_yes='modules/BiServer/check_yes.png';
+var check_no='modules/BiServer/check_no.png';
         
         
 jQuery(document).ready(function() {
