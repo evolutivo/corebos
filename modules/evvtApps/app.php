@@ -14,7 +14,7 @@ $b=explode(",",$g);
 $p=$b[0];
 $path=explode(":",$p);
 $path=explode("/",$path[0]);
-$nr=substr($path[9],3);
+$nr=substr($path[8],3);
 
 require('user_privileges/user_privileges_'.$current_user->id.'.php');
 require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
@@ -46,12 +46,12 @@ for($i=0;$i<$adb->num_rows($result_acc);$i++)
 }
 $acc_array2=json_encode($acc_array);
 echo '
-    <link href="Smarty/templates/kendoui/styles/kendo.common.min.css" rel="stylesheet">
-<link href="include/kendoui/styles/kendo.default.css" rel="stymodifiedtimelesheet">
-<script src="Smarty/templates/kendoui/js/kendo.web.min.js"></script>
-<script src="Smarty/templates/kendoui/js/consolemodified.js"></script>';
-echo '<div style="margin-top:-25px;overflow: hidden;">';
-if(($nr==9 || $nr==10 || $nr==27) && $is_admin===true)  {
+    <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet">
+<link href="kendoui/styles/kendo.default.css" rel="stymodifiedtimelesheet">
+<script src="kendoui/js/kendo.web.min.js"></script>
+<script src="kendoui/js/consolemodified.js"></script>';
+echo '<div style="overflow: hidden; height:10%">';
+if(($nr==10000) && $is_admin===true)  {
 echo '<img src="themes/images/edit.png" style="padding-left:20px;" alt="Edit" onclick="javascript:window.location.href=\'index.php?action=editvtapp&appname='.$tit.'&parenttab=Home&module=evvtApps&vtappid='.$nr.'\'" title="Edit">';
 echo '<form method="post" action="include/uploadify/uploadify.php" id="uploadfiles"><input id="file_upload" name="file_upload" type="file" multiple="true"><div id="queue"></div></form>
 	<script type="text/javascript">
@@ -65,8 +65,8 @@ echo '<form method="post" action="include/uploadify/uploadify.php" id="uploadfil
 	</script>';
 }
 echo '</div>';
-if($nr!=9 && $nr!=10){
-echo'<center><div style="margin-top:-25px;overflow: hidden;"><form method="POST" action=""></form></div></center><br><br>';
+if($nr!=10000 && $nr!=10000){
+echo'<center><form method="POST" action=""></form></center>';
 if(isset($_POST['submit'])){
     $_SESSION['dates']=$_POST['dates'];
     $_SESSION['datee']=$_POST['datee'];
@@ -78,7 +78,7 @@ if(isset($_POST['submit'])){
 
 <link href="<?php echo $mypath; ?>/styles/evvtapps.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $mypath; ?>/styles/kendo.common.css" rel="stylesheet" type="text/css" />
- <link href="include/kendoui/styles/kendo.default.css" rel="stylesheet" />
+ <link href="kendoui/styles/kendo.default.css" rel="stylesheet" />
 <link href="<?php echo $mypath; ?>/styles/tipsy.css" rel="stylesheet" type="text/css" />
 <link href="<?php echo $mypath; ?>/codebase/dhtmlxgrid.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $mypath; ?>/codebase/skins/dhtmlxgrid_dhx_skyblue.css" rel="stylesheet" type="text/css">
@@ -94,7 +94,7 @@ if(isset($_POST['submit'])){
 <script  src="<?php echo $mypath; ?>/codebase/ext/dhtmlxgrid_srnd.js"></script>
 <script  src="<?php echo $mypath; ?>/codebase/ext/dhtmlxgrid_group.js"></script>
 <script  src="<?php echo $mypath; ?>/dhtmlxDataProcessor/codebase/dhtmlxdataprocessor.js"></script>
-<?php if($nr==9 || $nr==10 || $nr==27){
+<?php if($nr==10000){
 echo '
 <script src="include/uploadify/jquery.uploadify.min.js" type="text/javascript"></script>';
 }
@@ -123,16 +123,16 @@ echo '
     makeGrid();
 </script>
 <?php if ($tit!='Sun Life') {
-if(($nr==9 || $nr==10 || $nr==27) && $is_admin===true)
+if(($nr==10000) && $is_admin===true)
 $marg='margin-top:-50px';
 
-echo '<div id="" style="font-size:16px;'.$marg.'" align="center" ><b>'.$tit.'</b>'; echo '<div style="font-size:12px">'.$desc."</div></div>";}?>
+echo '<div style="font-size:16px;" align="center" ><b>'.$tit.'</b>'; echo '<div style="font-size:12px">'.$desc."</div></div>";}?>
 
-<div style="background-color:#F9F9F9; border-top-style:ridge ;border-top-color:#000099; height:200px;">
+<div style="margin-top:2%;background-color:#F9F9F9; border-top-style:ridge ;border-top-color:#000099;">
 <?php    
-if(($nr==9 || $nr==10 || $nr==27) && $is_admin===true)   
+if(($nr==10000) && $is_admin===true)   
 echo '<div id="position1" align="center" style="margin-top:10px;overflow: hidden;"></div>';
-elseif(($nr==9 || $nr==10 || $nr==27)  && $is_admin!==true)
+elseif(($nr==10000)  && $is_admin!==true)
 echo '<div id="position1" align="center" style="margin-top:10px;overflow: hidden;"></div>';  
 else 
 echo '<div id="position1" align="center" ></div>';      
