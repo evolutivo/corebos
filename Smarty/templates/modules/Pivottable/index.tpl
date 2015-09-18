@@ -57,11 +57,14 @@ var j2=jQuery.noConflict();
                     <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
                         ng-if="isAdmin=='on'"  ng-click="open_addnew(reports);"/>
                     <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
+                    <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
                     <div id="inline_cbApps" ng-show="show_inline">
-                             <span style="padding:400px;text-align:center;"><b>{literal}{{name}}{/literal}</b></span>
+                        <div class="modal-header">
                              <button class="btn btn-warning" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
                              <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
+                             
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
+                        </div>
                              <div style="height:1100px" id="dyn_content">  
                                </div>
                     </div>
