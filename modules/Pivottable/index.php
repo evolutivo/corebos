@@ -304,7 +304,7 @@ function createReport($reportid,$cbAppid){
 
 function createMV($reportid,$cbAppid){
     
-    global $adb;
+    global $adb,$log;
     
     $query=$adb->pquery("SELECT *
                           from  vtiger_scripts
