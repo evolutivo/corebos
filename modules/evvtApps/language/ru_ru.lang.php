@@ -7,6 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
+/**
+ * Russian tranlsation by Mihail Alasheyev [mihail.alasheyev@gmail.com] 2009.11.27
+ * IMPORTANT: save file with UTF-8 without BOM!
+ **/
 $mod_strings = Array(
 'evvtApps' => 'vtApps',
 'SINGLE_evvtApps' => 'vtApps',

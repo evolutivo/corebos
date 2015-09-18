@@ -7,14 +7,11 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$mod_strings = Array(
-'evvtApps' => 'vtApps',
-'SINGLE_evvtApps' => 'vtApps',
-
-);
-$vtapps_js = Array(
-'ReallyDelete'=>'Do you really want to uninstall this vtApp?',
-'vtAppUninstalled'=>'vtApp uninstalled correctly.',
-'vtAppNotUninstalled'=>'vtApp could not be uninstalled correctly.',
+/**
+ * Russian tranlsation by Mihail Alasheyev [mihail.alasheyev@gmail.com] 2009.11.27
+ * IMPORTANT: save file with UTF-8 without BOM!
+ **/
+$mod_strings = array(
+'ESClient' => 'ElasticSearch Client',
 );
 ?>
