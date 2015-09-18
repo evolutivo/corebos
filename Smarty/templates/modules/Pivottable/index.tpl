@@ -60,7 +60,7 @@ var j2=jQuery.noConflict();
                     <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
                     <div id="inline_cbApps" ng-show="show_inline">
                         <div class="modal-header">
-                             <button class="btn btn-warning" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
+                             <button class="btn btn-warning" ng-show="pivot_type=='report'" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
                              <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
                              
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>

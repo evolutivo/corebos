@@ -17,9 +17,10 @@ if($cbAction=='retrieveMV'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-    if($recalc=='true'){ 
-        createMV($reportid,$cbAppid);
-    }
+    $recalc=$_REQUEST['recalc'];
+//    if($recalc=='true'){ 
+    createMV($reportid,$cbAppid);
+//    }
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -33,9 +34,10 @@ elseif($cbAction=='retrieveElastic'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-    if($recalc=='true'){
-        $d=createElastic($reportid,$cbAppid);
-    }
+    $recalc=$_REQUEST['recalc'];
+//    if($recalc=='true'){
+    $d=createElastic($reportid,$cbAppid);
+//    }
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
