@@ -17,36 +17,9 @@ if($cbAction=='retrieveMV'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-
-    $query=$adb->pquery("SELECT *
-                          from  vtiger_scripts
-                          where id = ?",array($reportid));
-    $nr_qry=$adb->num_rows($query);
-    $filename=$adb->query_result($query,0,'name');
-    $name='';
-   
-    $folder=$adb->query_result($query,0,'folder');   
-    if($folder !='Reports')
-    {
-        $f=substr($filename,0,strrpos($filename,'.'));
-        $tbl=strtolower($folder).'_'.$f;   
+    if($recalc=='true'){ 
+        createMV($reportid,$cbAppid);
     }
-    else
-    {
-        $f=substr($filename,0,strrpos($filename,'.'));
-        $arr=explode('_',$f);
-        for($t=2;$t<sizeof($arr);$t++){
-        $name.=$arr[$t].'_';
-        }
-        $log->debug('name '.$name);
-        $tbl='mv_'.substr($name,0,strlen($name)-1);
-    }
-    $log->debug('name2 '.$tbl);
-    $sSQL="SELECT * FROM $tbl ";   
-
-    $query=sqltojson_mv($sSQL,$reportid);
-    //echo $query;
-    createjson($query,$reportid); 
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -60,52 +33,9 @@ elseif($cbAction=='retrieveElastic'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-
-    $query=$adb->pquery("SELECT *
-                          from  vtiger_loggingconfiguration
-                          where configurationid = ?",array($reportid));
-    $nr_qry=$adb->num_rows($query);
-    $indextype=$adb->query_result($query,0,'indextype');
-
-    $entries=Array();
-    $tabid=  getTabid('Adocdetail');
-    global $dbconfig;
-    $ip='193.182.16.34';//$dbconfig['ip_server'];
-    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty";
-//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
-    $channel1 = curl_init();
-    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($channel1, CURLOPT_POST, true);
-    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-    //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-    $response1 = json_decode(curl_exec($channel1));
-    $tot=$response1->hits->total;
-    
-    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=$tot";
-//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
-    $channel1 = curl_init();
-    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($channel1, CURLOPT_POST, true);
-    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-//    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-    $response1 = json_decode(curl_exec($channel1));
-
-    foreach ($response1->hits->hits as $row) {
-      $user = getUserName($row->_source->userchange);
-      $update_log = explode(";",$row->_source->changedvalues);
-      $source[] = $row->_source;
+    if($recalc=='true'){
+        $d=createElastic($reportid,$cbAppid);
     }
-//    var_dump(json_encode($source));
-    createjson(json_encode((array) $source),$reportid); 
-//    var_dump( json_encode((array) $source));
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -119,49 +49,10 @@ elseif($cbAction=='retrieveReport'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-    $filtersql=false;
-    $focus=new ReportRun($reportid);
-    $modules_selected = array();
-    $modules_selected[] = $focus->primarymodule;
-    if(!empty($focus->secondarymodule)){
-            $sec_modules = explode(":",$focus->secondarymodule);
-            for($i=0;$i<count($sec_modules);$i++){
-                    $modules_selected[] = $sec_modules[$i];
-            }
+    $recalc=$_REQUEST['recalc'];
+    if($recalc=='true'){
+        $d=createReport($reportid,$cbAppid);
     }
-    // Update Reference fields list list
-    $referencefieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (10,101)", array());
-    if($referencefieldres) {
-            foreach($referencefieldres as $referencefieldrow) {
-                    $uiType = $referencefieldrow['uitype'];
-                    $modprefixedlabel = getTabModuleName($referencefieldrow['tabid']).' '.$referencefieldrow['fieldlabel'];
-                    $modprefixedlabel = str_replace(' ','_',$modprefixedlabel);
-
-                    if($uiType == 10 && !in_array($modprefixedlabel, $focus->ui10_fields)) {
-                            $focus->ui10_fields[] = $modprefixedlabel;
-                    } elseif($uiType == 101 && !in_array($modprefixedlabel, $focus->ui101_fields)) {
-                            $focus->ui101_fields[] = $modprefixedlabel;
-                    }
-            }
-    }	
-    $sqlfor1=$focus->sGetSQLforReport($reportid,$filtersql);
-    $sSQL = explode(" from ",$sqlfor1,2);
-//    var_dump($sSQL);
-    $rows = array();
-    $sSQL1=explode(",",str_replace("select DISTINCT","",$sSQL[0]));
-    for($i=0;$i<sizeof($sSQL1);$i++){
-    if(!strstr($sSQL1[$i],"vtiger_crmentity.crmid AS '"))
-    {$arr[$j]=$sSQL1[$i];
-    $j++;
-    }
-    }
-    $arr22=implode(",",$arr);
-
-    $sSQL="select DISTINCT $arr22 from ".$sSQL[1];
-
-    $query=sqltojson($sSQL,$reportid);
-    //echo $query;
-    createjson($query,$reportid); 
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -192,6 +83,7 @@ elseif($cbAction=='newReport'){
             . " values (".$reportid.",'Table','report')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
+    createReport($reportid,$cbAppsid);
   echo $cbAppsid;
 }
 elseif($cbAction=='newMV'){
@@ -201,6 +93,7 @@ elseif($cbAction=='newMV'){
             . " values (".$reportid.",'Table','mv')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
+    createMV($reportid,$cbAppsid);
   echo $cbAppsid;
 }
 elseif($cbAction=='newElastic'){
@@ -210,7 +103,24 @@ elseif($cbAction=='newElastic'){
             . " values (".$reportid.",'Table','elastic')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
+    createMV($reportid,$cbAppid);
   echo $cbAppsid;
+}
+elseif($cbAction=='exportReport'){
+    
+    $reportid=$_REQUEST['reportid'];
+    $cbAppsid=$_REQUEST['cbAppsid'];
+    $getFile = file_get_contents('report'.$cbAppsid.'.json');
+    $json_obj = json_decode($getFile,true);
+    $fp = fopen('file'.$cbAppsid.'.csv', 'w');
+    $header=  array_keys($json_obj[0]);
+    fputcsv($fp, $header);
+    foreach ($json_obj as $row) {
+        fputcsv($fp, $row);
+    }
+    fclose($fp);
+    
+  echo 'file'.$cbAppsid.'.csv';
 }
 elseif($cbAction=='deleteReport'){
     
@@ -342,4 +252,139 @@ else{
     $smarty->assign('isAdmin', $isadmin);
     $smarty->display('modules/Pivottable/index.tpl');
 }
-?>
+
+function createReport($reportid,$cbAppid){
+    
+    global $adb;
+    $filtersql=false;
+    $focus=new ReportRun($reportid);
+    $modules_selected = array();
+    $modules_selected[] = $focus->primarymodule;
+    if(!empty($focus->secondarymodule)){
+            $sec_modules = explode(":",$focus->secondarymodule);
+            for($i=0;$i<count($sec_modules);$i++){
+                    $modules_selected[] = $sec_modules[$i];
+            }
+    }
+    // Update Reference fields list list
+    $referencefieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (10,101)", array());
+    if($referencefieldres) {
+            foreach($referencefieldres as $referencefieldrow) {
+                    $uiType = $referencefieldrow['uitype'];
+                    $modprefixedlabel = getTabModuleName($referencefieldrow['tabid']).' '.$referencefieldrow['fieldlabel'];
+                    $modprefixedlabel = str_replace(' ','_',$modprefixedlabel);
+
+                    if($uiType == 10 && !in_array($modprefixedlabel, $focus->ui10_fields)) {
+                            $focus->ui10_fields[] = $modprefixedlabel;
+                    } elseif($uiType == 101 && !in_array($modprefixedlabel, $focus->ui101_fields)) {
+                            $focus->ui101_fields[] = $modprefixedlabel;
+                    }
+            }
+    }	
+    $sqlfor1=$focus->sGetSQLforReport($reportid,$filtersql);
+    $sSQL = explode(" from ",$sqlfor1,2);
+//    var_dump($sSQL);
+    $rows = array();
+    $sSQL1=explode(",",str_replace("select DISTINCT","",$sSQL[0]));
+    for($i=0;$i<sizeof($sSQL1);$i++){
+    if(!strstr($sSQL1[$i],"vtiger_crmentity.crmid AS '"))
+    {$arr[$j]=$sSQL1[$i];
+    $j++;
+    }
+    }
+    $arr22=implode(",",$arr);
+
+    $sSQL="select DISTINCT $arr22 from ".$sSQL[1];
+
+    $query=sqltojson($sSQL,$reportid);
+    //echo $query;
+    createjson($query,$cbAppid); 
+    return true;
+}
+
+function createMV($reportid,$cbAppid){
+    
+    global $adb,$log;
+    
+    $query=$adb->pquery("SELECT *
+                          from  vtiger_scripts
+                          where id = ?",array($reportid));
+    $nr_qry=$adb->num_rows($query);
+    $filename=$adb->query_result($query,0,'name');
+    $name='';
+   
+    $folder=$adb->query_result($query,0,'folder');   
+    if($folder !='Reports')
+    {
+        $f=substr($filename,0,strrpos($filename,'.'));
+        $tbl=strtolower($folder).'_'.$f;   
+    }
+    else
+    {
+        $f=substr($filename,0,strrpos($filename,'.'));
+        $arr=explode('_',$f);
+        for($t=2;$t<sizeof($arr);$t++){
+        $name.=$arr[$t].'_';
+        }
+        $log->debug('name '.$name);
+        $tbl='mv_'.substr($name,0,strlen($name)-1);
+    }
+    $log->debug('name2 '.$tbl);
+    $sSQL="SELECT * FROM $tbl ";   
+
+    $query=sqltojson_mv($sSQL,$reportid);
+    //echo $query;
+    createjson($query,$cbAppid);
+    
+}
+
+function createElastic($reportid,$cbAppid){
+    
+    global $adb;
+    
+    $query=$adb->pquery("SELECT *
+                          from  vtiger_loggingconfiguration
+                          where configurationid = ?",array($reportid));
+    $nr_qry=$adb->num_rows($query);
+    $indextype=$adb->query_result($query,0,'indextype');
+
+    $entries=Array();
+    $tabid=  getTabid('Adocdetail');
+    global $dbconfig;
+    $ip='193.182.16.34';//$dbconfig['ip_server'];
+    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty";
+//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+    $channel1 = curl_init();
+    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel1, CURLOPT_POST, true);
+    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+    //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+    $response1 = json_decode(curl_exec($channel1));
+    $tot=$response1->hits->total;
+    
+    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=$tot";
+//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+    $channel1 = curl_init();
+    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel1, CURLOPT_POST, true);
+    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+//    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+    $response1 = json_decode(curl_exec($channel1));
+
+    foreach ($response1->hits->hits as $row) {
+      $user = getUserName($row->_source->userchange);
+      $update_log = explode(";",$row->_source->changedvalues);
+      $source[] = $row->_source;
+    }
+//    var_dump(json_encode($source));
+    createjson(json_encode((array) $source),$cbAppid); 
+    
+}

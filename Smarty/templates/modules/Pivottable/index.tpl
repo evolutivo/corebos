@@ -56,10 +56,13 @@ var j2=jQuery.noConflict();
                 <tr><td style="height:2px"><br/><br/>
                     <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
                         ng-if="isAdmin=='on'"  ng-click="open_addnew(reports);"/>
+                    <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
+                    <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
                     <div id="inline_cbApps" ng-show="show_inline">
                         <div class="modal-header">
-                             <button class="btn btn-warning" ng-click="cancel()">List All Reports</button>
-                             <span style="padding:400px;text-align:center;"><b>{literal}{{name}}{/literal}</b></span>
+                             <button class="btn btn-warning" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
+                             <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
+                             
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
                         </div>
                              <div style="height:1100px" id="dyn_content">  
@@ -80,7 +83,7 @@ var j2=jQuery.noConflict();
                                      <b><span style="text-align:right;"  ng-click="open(report.cbAppsid,report.reportid,report.reportname,report.pivot_type)">Popup</span><b/>
                                  </p>
                              </div>
-                                 <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type);" style="width:100px;height:80px;" />
+                                 <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
                              <br/><b>{literal}{{report.reportname}}{/literal}</b>
                         </div>
                      </td>                
@@ -145,7 +148,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
             $scope.reports={/literal}{$reports}{literal};
             $scope.isAdmin='{/literal}{$isAdmin}{literal}';
             
-            $scope.put_inline =  function(cbAppid,repid,name,pivot_type) {
+            $scope.put_inline =  function(cbAppid,repid,name,pivot_type,recalculate) {
                 $scope.show_inline=true;
                 $scope.show_list=false;
                 $scope.repid=repid;
@@ -154,8 +157,10 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                 $scope.name = name;
                 $scope.pivot_type = pivot_type;
                 document.getElementById('dyn_content').innerHTML=
-                        '<div id="output'+$scope.repid+'" style="margin: 30px;"></div>';
+                        '<div id="output'+$scope.cbAppid+'" style="margin: 30px;"></div>';
+                
                 var url='';
+                var recalc='&recalc='+recalculate;
                 if($scope.pivot_type=='report'){
                     url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAppsid='+cbAppid+'&reportid='+repid+'&cbAction=retrieveReport';
                 }
@@ -167,25 +172,34 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                 }
                     
 
-                $http.get(url).
+                $http.get(url+recalc).
                     success(function(data, status) {
                         var resp_arr=data;
                         var derivers = j2.pivotUtilities.derivers;
-                        j2.getJSON("report"+$scope.repid+".json", function(mps) {
+                        j2.getJSON("report"+$scope.cbAppid+".json", function(mps) {
 
-                        j2("#output"+$scope.repid).pivotUI(mps, {
-                               renderers: j2.extend(
-                                j2.pivotUtilities.renderers, 
-                                j2.pivotUtilities.gchart_renderers, 
-                                j2.pivotUtilities.d3_renderers
-                                ),
-                            rows: resp_arr.selectedColumnsX,
-                            cols: resp_arr.selectedColumnsY,
-                            rendererName: resp_arr.type
+                        j2("#output"+$scope.cbAppid).pivotUI(mps, {
+                                   renderers: j2.extend(
+                                    j2.pivotUtilities.renderers, 
+                                    j2.pivotUtilities.gchart_renderers, 
+                                    j2.pivotUtilities.d3_renderers
+                                    ),
+                                rows: resp_arr.selectedColumnsX,
+                                cols: resp_arr.selectedColumnsY,
+                                rendererName: resp_arr.type
+                            });
                         });
                     });
-                  });
 
+            };
+                        
+            $scope.export =  function(cbAppid,repid,name,pivot_type) {
+                $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=exportReport&cbAppsid='+cbAppid).
+                    success(function(data, status) {
+                    alert('Successfully Exported');
+                    var resp_arr=data;
+                    window.open(resp_arr,'_blank');
+                  });
             };
             
             $scope.delete =  function(cbAppid) {
@@ -196,7 +210,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                             $scope.reports.splice(i,1);
                         }
                     }
-                    alert('Successfully deleted');
+                    alert('Successfully Deleted');
                   });
             };
             $scope.cancel = function () {
@@ -367,7 +381,7 @@ angular.module('demoApp')
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
-                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname});
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv});
                 $modalInstance.close();
 
       });
