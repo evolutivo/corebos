@@ -58,12 +58,10 @@ var j2=jQuery.noConflict();
                         ng-if="isAdmin=='on'"  ng-click="open_addnew(reports);"/>
                     <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
                     <div id="inline_cbApps" ng-show="show_inline">
-                        <div class="modal-header">
+                             <span style="padding:400px;text-align:center;"><b>{literal}{{name}}{/literal}</b></span>
                              <button class="btn btn-warning" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
                              <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
-                             <span style="padding:400px;text-align:center;"><b>{literal}{{name}}{/literal}</b></span>
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
-                        </div>
                              <div style="height:1100px" id="dyn_content">  
                                </div>
                     </div>
