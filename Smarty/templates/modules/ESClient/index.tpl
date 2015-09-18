@@ -1,4 +1,23 @@
-                <script src="modules/ESClient/media/js/jquery.min.js"></script>
+{*<!--
+ *************************************************************************************************
+ * Copyright 2015 OpenCubed -- This file is a part of OpenCubed coreBOS customizations.
+ * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+ * Vizsage Public License (the "License"). You may not use this file except in compliance with the
+ * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+ * and share improvements. However, for proper details please read the full License, available at
+ * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+ * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+ * applicable law or agreed to in writing, any software distributed under the License is distributed
+ * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the
+ * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+ *************************************************************************************************
+ *  Module       : ESClient
+ *  Version      : 5.5.0
+ *  Author       : OpenCubed.
+ *************************************************************************************************/
+-->*}
+<script src="modules/ESClient/media/js/jquery.min.js"></script>
 		<script src="modules/ESClient/media/js/jquery-ui.min.js"></script>
 		<script src="modules/ESClient/media/js/ui/jquery.ui.core.js"></script>
 		<script src="modules/ESClient/media/js/jquery.themeswitcher.js"></script>
@@ -67,6 +86,20 @@ h2
 </head>
 <script>
      {literal}
+         function uploadelastic(){
+           var sel=document.getElementById('files').value;
+             $.ajax({
+            type: "POST",
+            data: "&files="+sel,
+            url: "index.php?module=ESClient&action=ESClientAjax&file=uploadelastic",
+            success: function(result){
+            if(result=='1')
+                alert("File Successfully uploaded to Elastic");
+            else alert("Something went wrong");
+            }
+        });
+
+         }
 $(document).ready(function () {
  
    $("#tabs" ).tabs({ active: 0 });
@@ -365,7 +398,9 @@ $(document).ready(function () {
   <ul>
     <li><a href="#config-tab">Configuration</a></li>
     <li><a href="#search-tab">Search</a></li>
+    <li><a href="#upload-tab">Upload in ES</a></li>
   </ul>	
+    <div id='upload-tab'>Choose file: {$sel} &nbsp;&nbsp;<input type="button" name="button" value="Upload" onclick="uploadelastic()"></div>
 <div id="search-tab">
 <table width="70%" border="0">
 		<tr>
