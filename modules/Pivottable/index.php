@@ -33,52 +33,9 @@ elseif($cbAction=='retrieveElastic'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-
-    $query=$adb->pquery("SELECT *
-                          from  vtiger_loggingconfiguration
-                          where configurationid = ?",array($reportid));
-    $nr_qry=$adb->num_rows($query);
-    $indextype=$adb->query_result($query,0,'indextype');
-
-    $entries=Array();
-    $tabid=  getTabid('Adocdetail');
-    global $dbconfig;
-    $ip='193.182.16.34';//$dbconfig['ip_server'];
-    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty";
-//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
-    $channel1 = curl_init();
-    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($channel1, CURLOPT_POST, true);
-    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-    //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-    $response1 = json_decode(curl_exec($channel1));
-    $tot=$response1->hits->total;
-    
-    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=$tot";
-//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
-    $channel1 = curl_init();
-    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($channel1, CURLOPT_POST, true);
-    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-//    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-    $response1 = json_decode(curl_exec($channel1));
-
-    foreach ($response1->hits->hits as $row) {
-      $user = getUserName($row->_source->userchange);
-      $update_log = explode(";",$row->_source->changedvalues);
-      $source[] = $row->_source;
+    if($recalc=='true'){
+        $d=createElastic($reportid,$cbAppid);
     }
-//    var_dump(json_encode($source));
-    createjson(json_encode((array) $source),$reportid); 
-//    var_dump( json_encode((array) $source));
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -146,6 +103,7 @@ elseif($cbAction=='newElastic'){
             . " values (".$reportid.",'Table','elastic')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
+    createMV($reportid,$cbAppid);
   echo $cbAppsid;
 }
 elseif($cbAction=='exportReport'){
@@ -377,5 +335,56 @@ function createMV($reportid,$cbAppid){
     $query=sqltojson_mv($sSQL,$reportid);
     //echo $query;
     createjson($query,$cbAppid);
+    
+}
+
+function createElastic($reportid,$cbAppid){
+    
+    global $adb;
+    
+    $query=$adb->pquery("SELECT *
+                          from  vtiger_loggingconfiguration
+                          where configurationid = ?",array($reportid));
+    $nr_qry=$adb->num_rows($query);
+    $indextype=$adb->query_result($query,0,'indextype');
+
+    $entries=Array();
+    $tabid=  getTabid('Adocdetail');
+    global $dbconfig;
+    $ip='193.182.16.34';//$dbconfig['ip_server'];
+    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty";
+//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+    $channel1 = curl_init();
+    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel1, CURLOPT_POST, true);
+    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+    //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+    $response1 = json_decode(curl_exec($channel1));
+    $tot=$response1->hits->total;
+    
+    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=$tot";
+//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+    $channel1 = curl_init();
+    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel1, CURLOPT_POST, true);
+    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+//    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+    $response1 = json_decode(curl_exec($channel1));
+
+    foreach ($response1->hits->hits as $row) {
+      $user = getUserName($row->_source->userchange);
+      $update_log = explode(";",$row->_source->changedvalues);
+      $source[] = $row->_source;
+    }
+//    var_dump(json_encode($source));
+    createjson(json_encode((array) $source),$cbAppid); 
     
 }
