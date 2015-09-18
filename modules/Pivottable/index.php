@@ -17,36 +17,9 @@ if($cbAction=='retrieveMV'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-
-    $query=$adb->pquery("SELECT *
-                          from  vtiger_scripts
-                          where id = ?",array($reportid));
-    $nr_qry=$adb->num_rows($query);
-    $filename=$adb->query_result($query,0,'name');
-    $name='';
-   
-    $folder=$adb->query_result($query,0,'folder');   
-    if($folder !='Reports')
-    {
-        $f=substr($filename,0,strrpos($filename,'.'));
-        $tbl=strtolower($folder).'_'.$f;   
+    if($recalc=='true'){ 
+        createMV($reportid,$cbAppid);
     }
-    else
-    {
-        $f=substr($filename,0,strrpos($filename,'.'));
-        $arr=explode('_',$f);
-        for($t=2;$t<sizeof($arr);$t++){
-        $name.=$arr[$t].'_';
-        }
-        $log->debug('name '.$name);
-        $tbl='mv_'.substr($name,0,strlen($name)-1);
-    }
-    $log->debug('name2 '.$tbl);
-    $sSQL="SELECT * FROM $tbl ";   
-
-    $query=sqltojson_mv($sSQL,$reportid);
-    //echo $query;
-    createjson($query,$reportid); 
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -119,49 +92,10 @@ elseif($cbAction=='retrieveReport'){
   
     $cbAppid=$_REQUEST['cbAppsid'];
     $reportid=$_REQUEST['reportid'];
-    $filtersql=false;
-    $focus=new ReportRun($reportid);
-    $modules_selected = array();
-    $modules_selected[] = $focus->primarymodule;
-    if(!empty($focus->secondarymodule)){
-            $sec_modules = explode(":",$focus->secondarymodule);
-            for($i=0;$i<count($sec_modules);$i++){
-                    $modules_selected[] = $sec_modules[$i];
-            }
+    $recalc=$_REQUEST['recalc'];
+    if($recalc=='true'){
+        $d=createReport($reportid,$cbAppid);
     }
-    // Update Reference fields list list
-    $referencefieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (10,101)", array());
-    if($referencefieldres) {
-            foreach($referencefieldres as $referencefieldrow) {
-                    $uiType = $referencefieldrow['uitype'];
-                    $modprefixedlabel = getTabModuleName($referencefieldrow['tabid']).' '.$referencefieldrow['fieldlabel'];
-                    $modprefixedlabel = str_replace(' ','_',$modprefixedlabel);
-
-                    if($uiType == 10 && !in_array($modprefixedlabel, $focus->ui10_fields)) {
-                            $focus->ui10_fields[] = $modprefixedlabel;
-                    } elseif($uiType == 101 && !in_array($modprefixedlabel, $focus->ui101_fields)) {
-                            $focus->ui101_fields[] = $modprefixedlabel;
-                    }
-            }
-    }	
-    $sqlfor1=$focus->sGetSQLforReport($reportid,$filtersql);
-    $sSQL = explode(" from ",$sqlfor1,2);
-//    var_dump($sSQL);
-    $rows = array();
-    $sSQL1=explode(",",str_replace("select DISTINCT","",$sSQL[0]));
-    for($i=0;$i<sizeof($sSQL1);$i++){
-    if(!strstr($sSQL1[$i],"vtiger_crmentity.crmid AS '"))
-    {$arr[$j]=$sSQL1[$i];
-    $j++;
-    }
-    }
-    $arr22=implode(",",$arr);
-
-    $sSQL="select DISTINCT $arr22 from ".$sSQL[1];
-
-    $query=sqltojson($sSQL,$reportid);
-    //echo $query;
-    createjson($query,$reportid); 
     $result=$adb->pquery("Select *"
         . " from vtiger_cbApps "
         . " where cbappsid=?",array($cbAppid));
@@ -192,6 +126,7 @@ elseif($cbAction=='newReport'){
             . " values (".$reportid.",'Table','report')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
+    createReport($reportid,$cbAppsid);
   echo $cbAppsid;
 }
 elseif($cbAction=='newMV'){
@@ -201,6 +136,7 @@ elseif($cbAction=='newMV'){
             . " values (".$reportid.",'Table','mv')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
+    createMV($reportid,$cbAppsid);
   echo $cbAppsid;
 }
 elseif($cbAction=='newElastic'){
@@ -211,6 +147,22 @@ elseif($cbAction=='newElastic'){
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
   echo $cbAppsid;
+}
+elseif($cbAction=='exportReport'){
+    
+    $reportid=$_REQUEST['reportid'];
+    $cbAppsid=$_REQUEST['cbAppsid'];
+    $getFile = file_get_contents('report'.$cbAppsid.'.json');
+    $json_obj = json_decode($getFile,true);
+    $fp = fopen('file'.$cbAppsid.'.csv', 'w');
+    $header=  array_keys($json_obj[0]);
+    fputcsv($fp, $header);
+    foreach ($json_obj as $row) {
+        fputcsv($fp, $row);
+    }
+    fclose($fp);
+    
+  echo 'file'.$cbAppsid.'.csv';
 }
 elseif($cbAction=='deleteReport'){
     
@@ -342,4 +294,88 @@ else{
     $smarty->assign('isAdmin', $isadmin);
     $smarty->display('modules/Pivottable/index.tpl');
 }
-?>
+
+function createReport($reportid,$cbAppid){
+    
+    global $adb;
+    $filtersql=false;
+    $focus=new ReportRun($reportid);
+    $modules_selected = array();
+    $modules_selected[] = $focus->primarymodule;
+    if(!empty($focus->secondarymodule)){
+            $sec_modules = explode(":",$focus->secondarymodule);
+            for($i=0;$i<count($sec_modules);$i++){
+                    $modules_selected[] = $sec_modules[$i];
+            }
+    }
+    // Update Reference fields list list
+    $referencefieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (10,101)", array());
+    if($referencefieldres) {
+            foreach($referencefieldres as $referencefieldrow) {
+                    $uiType = $referencefieldrow['uitype'];
+                    $modprefixedlabel = getTabModuleName($referencefieldrow['tabid']).' '.$referencefieldrow['fieldlabel'];
+                    $modprefixedlabel = str_replace(' ','_',$modprefixedlabel);
+
+                    if($uiType == 10 && !in_array($modprefixedlabel, $focus->ui10_fields)) {
+                            $focus->ui10_fields[] = $modprefixedlabel;
+                    } elseif($uiType == 101 && !in_array($modprefixedlabel, $focus->ui101_fields)) {
+                            $focus->ui101_fields[] = $modprefixedlabel;
+                    }
+            }
+    }	
+    $sqlfor1=$focus->sGetSQLforReport($reportid,$filtersql);
+    $sSQL = explode(" from ",$sqlfor1,2);
+//    var_dump($sSQL);
+    $rows = array();
+    $sSQL1=explode(",",str_replace("select DISTINCT","",$sSQL[0]));
+    for($i=0;$i<sizeof($sSQL1);$i++){
+    if(!strstr($sSQL1[$i],"vtiger_crmentity.crmid AS '"))
+    {$arr[$j]=$sSQL1[$i];
+    $j++;
+    }
+    }
+    $arr22=implode(",",$arr);
+
+    $sSQL="select DISTINCT $arr22 from ".$sSQL[1];
+
+    $query=sqltojson($sSQL,$reportid);
+    //echo $query;
+    createjson($query,$cbAppid); 
+    return true;
+}
+
+function createMV($reportid,$cbAppid){
+    
+    global $adb;
+    
+    $query=$adb->pquery("SELECT *
+                          from  vtiger_scripts
+                          where id = ?",array($reportid));
+    $nr_qry=$adb->num_rows($query);
+    $filename=$adb->query_result($query,0,'name');
+    $name='';
+   
+    $folder=$adb->query_result($query,0,'folder');   
+    if($folder !='Reports')
+    {
+        $f=substr($filename,0,strrpos($filename,'.'));
+        $tbl=strtolower($folder).'_'.$f;   
+    }
+    else
+    {
+        $f=substr($filename,0,strrpos($filename,'.'));
+        $arr=explode('_',$f);
+        for($t=2;$t<sizeof($arr);$t++){
+        $name.=$arr[$t].'_';
+        }
+        $log->debug('name '.$name);
+        $tbl='mv_'.substr($name,0,strlen($name)-1);
+    }
+    $log->debug('name2 '.$tbl);
+    $sSQL="SELECT * FROM $tbl ";   
+
+    $query=sqltojson_mv($sSQL,$reportid);
+    //echo $query;
+    createjson($query,$cbAppid);
+    
+}
