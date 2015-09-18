@@ -484,4 +484,11 @@
 	<classname>addcbAppsTable</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addVtappsecurity</description>
+	<filename>build/changeSets/evolutivo/addVtappsecurity.php</filename>
+	<classname>addVtappsecurity</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

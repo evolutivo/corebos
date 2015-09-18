@@ -12,19 +12,11 @@
 * either express or implied. See the License for the specific language governing
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
- *  Module       : EntittyLog
+ *  Module       : ESCLIENT
  *  Version      : 5.4.0
  *  Author       : OpenCubed
  *************************************************************************************************/
-
-$mod_strings = Array(
-	'Entitylog' => 'Entity Log',
-
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_ENTITYLOG_INFORMATION' => 'Entity Log Information',
-        'LBLDESCRIPTIONINFORMATION'=>'Description',
-
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+$mod_strings = array(
+'ESClient' => 'ElasticSearch Client',
 );
-
 ?>
