@@ -17,7 +17,7 @@ if (($handle = fopen("storage/$file", "r")) !== FALSE) {
     {$coltype='double';
     $loggingFields[$datacol[$c]]=array("type"=>$coltype);
     }
-    else if(strtotime($dataval[$c])!=false)
+    else if(strtotime($dataval[$c])!=false && strlen($dataval[$c])=='10')
     {$coltype='date';
    // if(substr($col[1],0,2)=='DT') 
     $format='yyyy-MM-dd HH:mm:ss';
@@ -78,6 +78,7 @@ curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
 $response2 = json_decode(curl_exec($channel11));
 
 }
+
 if($response2->acknowledged==true)
 $create=1;
 else $create=0;
@@ -110,6 +111,7 @@ $response23 = json_decode(curl_exec($channel11));
 
     
 }
+
 echo $response23->created;
 
 ?>
