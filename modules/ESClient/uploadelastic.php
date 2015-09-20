@@ -17,7 +17,7 @@ if (($handle = fopen("storage/$file", "r")) !== FALSE) {
     {$coltype='double';
     $loggingFields[$datacol[$c]]=array("type"=>$coltype);
     }
-    else if(strtotime($dataval[$c])!=false && strlen($dataval[$c])=='10')
+    else if(strtotime($dataval[$c])!=false && strlen($dataval[$c])>='10')
     {$coltype='date';
    // if(substr($col[1],0,2)=='DT') 
     $format='yyyy-MM-dd HH:mm:ss';
