@@ -98,12 +98,14 @@ var j2=jQuery.noConflict();
                          <div class="widget" >
                              <div class="widget-header">
                                  <p>
-                                     <b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
-                                     <b><span style="text-align:right;"  ng-click="open(report.cbAppsid,report.reportid,report.reportname,report.pivot_type)">Popup</span><b/>
+                                     <b>{literal}{{report.reportname}}{/literal}</b>
+                                     
+                                     <!--<b><span style="text-align:right;"  ng-click="open(report.cbAppsid,report.reportid,report.reportname,report.pivot_type)">Popup</span><b/>-->
                                  </p>
                              </div>
                                  <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
-                             <br/><b>{literal}{{report.reportname}}{/literal}</b>
+                             <br/>{literal}{{report.desc_pivot}}{/literal}
+                             <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
                         </div>
                      </td>                
                  </tr>
@@ -139,10 +141,27 @@ var j2=jQuery.noConflict();
                 </select>
             </td>
         </tr>
+        <tr>
+            <td align="center">
+                <h3>Nome </h3>
+            </td>
+            <td align="center" colspan="2">
+                <input type="text" name="name_pivot" ng-model="name_pivot" >
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <h3>Descrizione </h3>
+            </td>
+            <td align="center" colspan="2">
+                <input type="text" name="desc_pivot" ng-model="desc_pivot" >
+            </td>
+        </tr>
+
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot)"  >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)"  >Add New Config</button> 
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
 </script>
@@ -371,7 +390,7 @@ angular.module('demoApp')
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
-    $scope.new_config = function (type_piv) {
+    $scope.new_config = function (type_piv,name_pivot,desc_pivot) {
        var repid=document.getElementById('report_opt').options[document.getElementById('report_opt').selectedIndex].value;
        var repname=document.getElementById('report_opt').options[document.getElementById('report_opt').selectedIndex].text;
        if(document.getElementById('mv_opt').selectedIndex!=-1){
@@ -396,7 +415,7 @@ angular.module('demoApp')
            repid=elasticid;
            repname=elasticname;
        }
-       url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid;
+       url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;

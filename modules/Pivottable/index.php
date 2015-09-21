@@ -98,8 +98,10 @@ elseif($cbAction=='updateReport'){
 elseif($cbAction=='newReport'){
     
     $reportid=$_REQUEST['reportid'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type)"
-            . " values (".$reportid.",'Table','report')",array());
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
+            . " values (".$reportid.",'Table','report','$reportname','$reportdesc')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createReport($reportid,$cbAppsid);
@@ -108,8 +110,10 @@ elseif($cbAction=='newReport'){
 elseif($cbAction=='newMV'){
     
     $reportid=$_REQUEST['reportid'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type)"
-            . " values (".$reportid.",'Table','mv')",array());
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
+            . " values (".$reportid.",'Table','mv','$reportname','$reportdesc')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createMV($reportid,$cbAppsid);
@@ -118,8 +122,10 @@ elseif($cbAction=='newMV'){
 elseif($cbAction=='newElastic'){
     
     $reportid=$_REQUEST['reportid'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type)"
-            . " values (".$reportid.",'Table','elastic')",array());
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
+            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createMV($reportid,$cbAppid);
@@ -168,7 +174,8 @@ else{
         $reports[]=array(
             'cbAppsid'=>$adb->query_result($result,$count_rep,'cbappsid'),
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
-            'reportname'=>$focus->reportname,
+            'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $focus->reportname),
+            'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
@@ -182,7 +189,8 @@ else{
         $reports[]=array(
             'cbAppsid'=>$adb->query_result($result,$count_rep,'cbappsid'),
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
-            'reportname'=>$adb->query_result($result,$count_rep,'name'),
+            'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'name')),
+            'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
@@ -196,7 +204,8 @@ else{
         $reports[]=array(
             'cbAppsid'=>$adb->query_result($result,$count_rep,'cbappsid'),
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
-            'reportname'=>$adb->query_result($result,$count_rep,'elasticname'),
+            'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'elasticname')),
+            'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
             'pivot_type'=>$adb->query_result($result,$count_rep,'pivot_type'));
     }
     $list_rep_res=$adb->query("Select *"
