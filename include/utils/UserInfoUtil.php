@@ -637,6 +637,7 @@ function isPermittedBusinessRule($module,$actionname)
             }
         }
         return true;
+
 }
 
 /** Function to check if the currently logged in user is permitted to perform the specified action
