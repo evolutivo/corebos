@@ -399,7 +399,7 @@ function createElastic($reportid,$cbAppid){
     $tabid=  getTabid('Adocdetail');
     global $dbconfig;
     $ip='193.182.16.34';//$dbconfig['ip_server'];
-    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty";
+    $endpointUrl = "http://$ip:9200/$indextype/import/_search?pretty";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -413,7 +413,7 @@ function createElastic($reportid,$cbAppid){
     $response1 = json_decode(curl_exec($channel1));
     $tot=$response1->hits->total;
     
-    $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=$tot";
+    $endpointUrl = "http://$ip:9200/$indextype/import/_search?pretty&size=$tot";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
