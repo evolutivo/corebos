@@ -187,7 +187,7 @@ else{
     }
     $result=$adb->pquery("Select *"
             . " from vtiger_cbApps "
-            . " join vtiger_loggingconfiguration on vtiger_loggingconfiguration.configurationid=vtiger_cbApps.reportid"
+            . " join vtiger_elastic_indexes on vtiger_elastic_indexes.elasticid=vtiger_cbApps.reportid"
             . " where pivot_type='elastic' "
             ,array());
     for($count_rep=0;$count_rep<$adb->num_rows($result);$count_rep++){
@@ -196,7 +196,7 @@ else{
         $reports[]=array(
             'cbAppsid'=>$adb->query_result($result,$count_rep,'cbappsid'),
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
-            'reportname'=>$adb->query_result($result,$count_rep,'indextype'),
+            'reportname'=>$adb->query_result($result,$count_rep,'elasticname'),
             'pivot_type'=>$adb->query_result($result,$count_rep,'pivot_type'));
     }
     $list_rep_res=$adb->query("Select *"
@@ -256,12 +256,31 @@ else{
 
 
         }
-    $list_elastic_res=$adb->query("Select *"
-            . " from vtiger_loggingconfiguration "
-            . " where queryelastic <> '' ");
-    $opt_elastic='';
-    for($i=0;$i<$adb->num_rows($list_elastic_res);$i++){
-        $opt_elastic.='<option value="'.$adb->query_result($list_elastic_res,$i,'configurationid').'">'.$adb->query_result($list_elastic_res,$i,'indextype').'</option>';
+        
+    $ip='193.182.16.34';//$dbconfig['ip_server'];
+    $endpointUrl = "http://$ip:9200/_cat/indices?v";
+    $channel1 = curl_init();
+    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel1, CURLOPT_POST, false);
+    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+//    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+    $response1 = curl_exec($channel1);
+    $arr=explode('
+',$response1);
+    $adb->query("delete from vtiger_elastic_indexes");
+    for($i_c=1;$i_c<sizeof($arr);$i_c++) {
+        $specific_arr=explode(' ',$arr[$i_c]);
+        if(!empty($specific_arr[4])){
+            $opt_elastic.='<option value="'.$i_c.'">'.$specific_arr[4].'</option>';
+            $adb->pquery("Insert into 
+                vtiger_elastic_indexes (elasticid,elasticname,status)
+                          values('".$i_c."','".$specific_arr[4]."','open')
+                          ",array());
+        }
     }
 
     $smarty->assign('reports', json_encode($reports));
@@ -362,10 +381,10 @@ function createElastic($reportid,$cbAppid){
     global $adb;
     
     $query=$adb->pquery("SELECT *
-                          from  vtiger_loggingconfiguration
-                          where configurationid = ?",array($reportid));
+                          from  vtiger_elastic_indexes
+                          where elasticid = ?",array($reportid));
     $nr_qry=$adb->num_rows($query);
-    $indextype=$adb->query_result($query,0,'indextype');
+    $indextype=$adb->query_result($query,0,'elasticname');
 
     $entries=Array();
     $tabid=  getTabid('Adocdetail');

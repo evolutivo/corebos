@@ -491,4 +491,11 @@
 	<classname>addVtappsecurity</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>addelastic_indexes</description>
+	<filename>build/changeSets/evolutivo/addelastic_indexes.php</filename>
+	<classname>addelastic_indexes</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
