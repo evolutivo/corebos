@@ -8,19 +8,12 @@
  * All Rights Reserved.
  ************************************************************************************
  *************************************************************************************
- * $Header:  \modules\evvtApps\language\hu_hu.lang.php - 14:52 2011.11.12. $
+ * $Header:  \modules\NgBlock\language\hu_hu.lang.php - 14:52 2011.11.12. $
  * Description:  Defines the Hungarian language pack for the Project module vtiger 5.3.x
  *
  * Contributor(s): Istvan Holbok,  e-mail: holbok@gmail.com , mobil: +3670-3420900 , Skype: holboki 
  ************************************************************************************/
 $mod_strings = Array(
-'evvtApps' => 'vtApps',
-'SINGLE_evvtApps' => 'vtApps',
-
-);
-$vtapps_js = Array(
-'ReallyDelete'=>'Do you really want to uninstall this vtApp?',
-'vtAppUninstalled'=>'vtApp uninstalled correctly.',
-'vtAppNotUninstalled'=>'vtApp could not be uninstalled correctly.',
+'NgBlock'=>'Ng Block'
 );
 ?>

@@ -1,0 +1,7 @@
+<div id="example">
+<div id="Pivot_contacts_by_accounts_pivot_customdfac4da3d5cf8015af96720e0def562e"></div>
+<br><iframe src="http://193.182.16.34:5601/#/visualize/edit/adocdettest?embed&_g=(time:(from:now%2Fy,mode:quick,to:now%2Fy))&_a=(filters:!((query:(match:(roles:(query:'H2 OR 1'))))),linked:!f,query:(query_string:(analyze_wildcard:!t,query:'*')),vis:(aggs:!((id:'1',params:(),schema:metric,type:count),(id:'2',params:(field:adocdetailnameAdocdetail,order:desc,orderBy:'1',size:15),schema:bucket,type:terms),(id:'3',params:(field:roles,order:desc,orderBy:'1',size:10),schema:bucket,type:terms)),listeners:(),params:(perPage:10,showMeticsAtAllLevels:!f,showPartialRows:!f),type:table))"  height="2000" width="100%"></iframe><br>
+
+<iframe src="http://193.182.16.34:5601/#/dashboard/commercialisti-brescia-bergamo?embed&_a=(filters:!((meta:(disabled:!f,index:commbs,key:city,negate:!t,value:brescia),query:(match:(city:(query:brescia,type:phrase)))),(meta:(apply:!t,disabled:!f,index:commbs,key:titolo,negate:!f,value:commercialista),query:(match:(titolo:(query:commercialista,type:phrase))))),panels:!((col:1,id:table-commbs,row:1,size_x:4,size_y:2,type:visualization),(col:5,id:city-titolo,row:1,size_x:5,size_y:4,type:visualization),(col:1,id:count-city-titolo,row:3,size_x:4,size_y:2,type:visualization)),query:(query_string:(analyze_wildcard:!t,query:'*')),title:'commercialisti%20brescia-bergamo')&_g=()" height="600" width="800"></iframe>
+
+</div>
