@@ -367,4 +367,7 @@ var alert_arr = {
 	'LBL_EMAIL':'Email',
 	'MORE_THAN_500' :'Hai selezionato piu di 500 record. Questa operazione richiedera tempo. Sei sicuro di voler procedere?',
 	'LBL_EXISTS' : 'exists',
+	'LBL_NEW_CONDITION' : 'New Condition',
+	'WF_UPDATE_MAP_ERROR' : '**ERROR**: This task uses a field that does not exist: ',
+	'WF_UPDATE_MAP_ERROR_INFO' : 'The task will load with INCORRECT settings to permit you to fix it. It is NOT CORRECT!!'
 };
