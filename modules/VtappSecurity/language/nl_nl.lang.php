@@ -26,7 +26,7 @@
  * Description	Dutch language pack for vtiger CRM version 5.3.x
  * @author	$Author: luuk $
  * @version 	$Revision: 1.4 $ $Date: 2011/11/14 17:07:26 $
- * @source	$Source: /var/lib/cvs/vtiger530/Dutch/modules/ProjectMilestone/language/nl_nl.lang.php,v $
+ * @source	$Source: /var/lib/cvs/vtiger530/Dutch/modules/Pivottable/language/nl_nl.lang.php,v $
  * @copyright	Copyright (c)2005-2011 Vicus eBusiness Solutions bv <info@vicus.nl>
  * @license	vtiger CRM Public License Version 1.0 (by definition)
  ********************************************************************************/

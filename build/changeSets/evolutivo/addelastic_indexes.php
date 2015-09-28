@@ -12,11 +12,29 @@
 * either express or implied. See the License for the specific language governing
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
- *  Module       : NgBlock
- *  Version      : 5.4.0
- *  Author       : OpenCubed
- *************************************************************************************************/
-$mod_strings = Array(
-'NgBlock'=>'Ng Block'
-);
-?>
+*************************************************************************************************/
+
+class addelastic_indexes extends cbupdaterWorker {
+	
+	function applyChange() {
+		if ($this->hasError()) $this->sendError();
+		if ($this->isApplied()) {
+			$this->sendMsg('Changeset '.get_class($this).' already applied!');
+		} else {
+                    global $adb;
+                        $adb->query(" CREATE TABLE IF NOT EXISTS vtiger_elastic_indexes (
+                                      id int(10) NOT NULL AUTO_INCREMENT,
+                                      elasticid int(10) NOT NULL,
+                                      elasticname varchar(50) NOT NULL,
+                                      status varchar(50) NOT NULL,
+                                      PRIMARY KEY (id),
+                                      UNIQUE KEY `id` (id)
+                                    ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
+                        
+			$this->sendMsg('Changeset '.get_class($this).' applied!');
+			$this->markApplied();
+		}
+		$this->finishExecution();
+	}
+	
+}

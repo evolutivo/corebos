@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************
  *************************************************************************************
- * $Header:  \modules\ProjectMilestone\language\hu_hu.lang.php - 14:52 2011.11.12. $
+ * $Header:  \modules\Pivottable\language\hu_hu.lang.php - 14:52 2011.11.12. $
  * Description:  Defines the Hungarian language pack for the Project module vtiger 5.3.x
  *
  * Contributor(s): Istvan Holbok,  e-mail: holbok@gmail.com , mobil: +3670-3420900 , Skype: holboki 

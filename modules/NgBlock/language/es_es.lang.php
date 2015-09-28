@@ -6,14 +6,16 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- ************************************************************************************
- *************************************************************************************
- * $Header:  \modules\Pivottable\language\hu_hu.lang.php - 14:52 2011.11.12. $
- * Description:  Defines the Hungarian language pack for the Project module vtiger 5.3.x
- *
- * Contributor(s): Istvan Holbok,  e-mail: holbok@gmail.com , mobil: +3670-3420900 , Skype: holboki 
+ * 
+ * ***********************************************************
+*  Module       : NgBlock
+*  Language     : ES Spanish
+*  Version      : vt5.4.0
+*  Created Date : 2012-02-27
+*  Author       : JPL TSolucio, S.L.
+*  License      : MPL 1.1
  ************************************************************************************/
 $mod_strings = Array(
-'VtappSecurity' => 'Vtapp Security',
+'NgBlock'=>'Ng Block'
 );
 ?>

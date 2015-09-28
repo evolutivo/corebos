@@ -12,11 +12,23 @@
 * either express or implied. See the License for the specific language governing
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
- *  Module       : NgBlock
- *  Version      : 5.4.0
- *  Author       : OpenCubed
- *************************************************************************************************/
-$mod_strings = Array(
-'NgBlock'=>'Ng Block'
-);
+*************************************************************************************************/
+
+class addfieldtocbapp extends cbupdaterWorker {
+	
+	function applyChange() {
+		if ($this->hasError()) $this->sendError();
+		if ($this->isApplied()) {
+			$this->sendMsg('Changeset '.get_class($this).' already applied!');
+		} else {
+		
+			$this->ExecuteQuery("ALTER TABLE  `vtiger_cbApps` ADD  `name_pivot` VARCHAR( 250 ) NOT NULL ,ADD  `desc_pivot` VARCHAR( 250 ) NOT NULL");
+			$this->sendMsg('Changeset '.get_class($this).' applied!');
+			$this->markApplied();
+		}
+		$this->finishExecution();
+	}
+	
+}
+
 ?>

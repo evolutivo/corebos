@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * 
  * ***********************************************************
-*  Module       : ProjectMilestone
+*  Module       : evvtApps
 *  Language     : ES Spanish
 *  Version      : vt5.4.0
 *  Created Date : 2012-02-27

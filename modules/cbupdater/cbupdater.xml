@@ -491,4 +491,18 @@
 	<classname>addVtappsecurity</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>addelastic_indexes</description>
+	<filename>build/changeSets/evolutivo/addelastic_indexes.php</filename>
+	<classname>addelastic_indexes</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addfieldtocbapp</description>
+	<filename>build/changeSets/evolutivo/addfieldtocbapp.php</filename>
+	<classname>addfieldtocbapp</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
