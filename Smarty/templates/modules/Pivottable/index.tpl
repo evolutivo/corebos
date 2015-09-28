@@ -17,7 +17,7 @@
  *  Author       : OpenCubed.
  *************************************************************************************************/
 -->*}
-<script src="Smarty/angular/angular.min.js"></script>
+<script src="Smarty/angular/angular.js"></script>
 <script  src="Smarty/angular/ng-table.js"></script>
 <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
@@ -66,7 +66,7 @@ var j2=jQuery.noConflict();
     </tr>
 </table>
 
-<table border=0 cellspacing=0 cellpadding=0 width=98% align=center ng-controller="Pivottable">
+<table border=0 cellspacing=0 cellpadding=0 width=98% align=center ng-controller="Pivottable" height=1300>
      <tr>
         <td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
     
