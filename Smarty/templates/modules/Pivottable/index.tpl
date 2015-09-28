@@ -66,7 +66,7 @@ var j2=jQuery.noConflict();
     </tr>
 </table>
 
-<table border=0 cellspacing=0 cellpadding=0 width=98% align=center ng-controller="Pivottable" height=1300>
+<table border=0 cellspacing=0 cellpadding=0 width=98% align=center ng-controller="Pivottable" height=5000>
      <tr>
         <td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
     
