@@ -44,7 +44,9 @@ if($cbAction=='retrieveMV'){
     $reports=array(
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
-        'type'=>$adb->query_result($result,0,'type'));
+        'type'=>$adb->query_result($result,0,'type'),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
 elseif($cbAction=='retrieveElastic'){
@@ -61,7 +63,9 @@ elseif($cbAction=='retrieveElastic'){
     $reports=array(
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
-        'type'=>$adb->query_result($result,0,'type'));
+        'type'=>$adb->query_result($result,0,'type'),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
 elseif($cbAction=='retrieveReport'){
@@ -78,7 +82,9 @@ elseif($cbAction=='retrieveReport'){
     $reports=array(
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
-        'type'=>$adb->query_result($result,0,'type'));
+        'type'=>$adb->query_result($result,0,'type'),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
 elseif($cbAction=='updateReport'){
@@ -87,12 +93,16 @@ elseif($cbAction=='updateReport'){
     $selectedX=$_REQUEST['selectedX'];
     $selectedY=$_REQUEST['selectedY'];
     $type=$_REQUEST['type'];
+    $aggr=$_REQUEST['aggr'];
+    $aggrdrop=$_REQUEST['aggrdrop'];
 
     $adb->pquery("Update vtiger_cbApps "
             . " set selectedColumnsX=?,"
             . " selectedColumnsY=?,"
-            . " type=?"
-            . " where cbappsid=?",array($selectedX,$selectedY,$type,$cbAppsid));
+            . " type=?,"
+            . " aggregatorName=?,"
+            . " vals=?"
+            . " where cbappsid=?",array($selectedX,$selectedY,$type,$aggr,$aggrdrop,$cbAppsid));
     
 }
 elseif($cbAction=='newReport'){

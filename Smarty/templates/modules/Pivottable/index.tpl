@@ -17,7 +17,7 @@
  *  Author       : OpenCubed.
  *************************************************************************************************/
 -->*}
-<script src="Smarty/angular/angular.js"></script>
+<script src="Smarty/angular/angular.min.js"></script>
 <script  src="Smarty/angular/ng-table.js"></script>
 <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
@@ -106,6 +106,7 @@ var j2=jQuery.noConflict();
                                  <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
                              <br/>{literal}{{report.desc_pivot}}{/literal}
                              <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
+                                 | <b><span style="text-align:left;" ng-click="edit_cbapp(report.cbAppsid)">Edit</span><b/>
                         </div>
                      </td>                
                  </tr>
@@ -121,7 +122,7 @@ var j2=jQuery.noConflict();
 </div>
 <div class="modal-body">    
     <table   width=68% align=center border="0" >
-        <tr>
+        <tr ng-if="edit_type=='edit'">
             <td align="center">
                 <input type="radio" name="type_pivot" value="report" ng-model="type_pivot">Report<br>
                 <select id="report_opt" ng-disabled="type_pivot!='report'">
@@ -143,7 +144,7 @@ var j2=jQuery.noConflict();
         </tr>
         <tr>
             <td align="center">
-                <h3>Nome </h3>
+                <h5>Nome </h5>
             </td>
             <td align="center" colspan="2">
                 <input type="text" name="name_pivot" ng-model="name_pivot" >
@@ -151,7 +152,7 @@ var j2=jQuery.noConflict();
         </tr>
         <tr>
             <td align="center">
-                <h3>Descrizione </h3>
+                <h5>Descrizione </h5>
             </td>
             <td align="center" colspan="2">
                 <input type="text" name="desc_pivot" ng-model="desc_pivot" >
@@ -224,7 +225,9 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                                     ),
                                 rows: resp_arr.selectedColumnsX,
                                 cols: resp_arr.selectedColumnsY,
-                                rendererName: resp_arr.type
+                                rendererName: resp_arr.type,
+                                aggregatorName: resp_arr.aggregatorName,
+                                vals: resp_arr.vals
                             });
                         });
                     });
@@ -277,16 +280,19 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                      j1++;
                      i1=i1+2;
                 }
-                //alert(horiz.join(","));
-                //alert(vert.join(","));
-                //alert(document.getElementById('typechart').value);
-                //alert(document.getElementById('aggr').value);
-                //if (document.getElementById('aggrdrop')!=undefined)
-                     //alert(document.getElementById('aggrdrop').value);
+                                
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
                 var typebar=document.getElementById('typechart').value;
-                $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReport&cbAppsid='+cbAppid+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar).
+                var aggr=document.getElementById('aggr').value;
+                var aggrdrop='';
+                var j1=0;
+                var agg_arr=Array();
+                if (document.getElementById('aggrdrop')!=undefined)
+                {
+                    aggrdrop=document.getElementById('aggrdrop').value;
+                }
+                $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReport&cbAppsid='+cbAppid+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar+'&aggr='+aggr+'&aggrdrop='+aggrdrop).
                     success(function(data, status) {
                         alert('Successfully saved');
               });
