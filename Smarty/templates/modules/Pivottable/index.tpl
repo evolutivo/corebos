@@ -74,7 +74,7 @@ var j2=jQuery.noConflict();
              <table   width=100% align=center border="0" >
                 <tr><td style="height:2px"><br/><br/>
                     <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
-                        ng-if="isAdmin=='on'"  ng-click="open_addnew(reports);"/>
+                        ng-if="isAdmin=='on'"  ng-click="open_addnew(reports,'create','');"/>
                     <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
                     <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
                     <div id="inline_cbApps" ng-show="show_inline">
@@ -106,7 +106,7 @@ var j2=jQuery.noConflict();
                                  <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
                              <br/>{literal}{{report.desc_pivot}}{/literal}
                              <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
-                                 | <b><span style="text-align:left;" ng-click="edit_cbapp(report.cbAppsid)">Edit</span><b/>
+                                 | <b><span style="text-align:left;" ng-click="open_addnew(reports,'edit',report.cbAppsid)">Edit</span><b/>
                         </div>
                      </td>                
                  </tr>
@@ -115,14 +115,14 @@ var j2=jQuery.noConflict();
          </td>
      </tr>
 </table>
-                        <script type="text/ng-template" id="open_addnew.html">
+<script type="text/ng-template" id="open_addnew.html">
 
 <div class="modal-header">
-    <h4 class="modal-title">Add new Pivot Configuration</h4>
+    <h4 class="modal-title">{literal}{{action}}{/literal} Pivot Configuration</h4>
 </div>
 <div class="modal-body">    
     <table   width=68% align=center border="0" >
-        <tr ng-if="edit_type=='edit'">
+        <tr ng-if="edit_type=='create'">
             <td align="center">
                 <input type="radio" name="type_pivot" value="report" ng-model="type_pivot">Report<br>
                 <select id="report_opt" ng-disabled="type_pivot!='report'">
@@ -146,7 +146,7 @@ var j2=jQuery.noConflict();
             <td align="center">
                 <h5>Nome </h5>
             </td>
-            <td align="center" colspan="2">
+            <td align="left" colspan="2">
                 <input type="text" name="name_pivot" ng-model="name_pivot" >
             </td>
         </tr>
@@ -154,7 +154,7 @@ var j2=jQuery.noConflict();
             <td align="center">
                 <h5>Descrizione </h5>
             </td>
-            <td align="center" colspan="2">
+            <td align="left" colspan="2">
                 <input type="text" name="desc_pivot" ng-model="desc_pivot" >
             </td>
         </tr>
@@ -162,7 +162,8 @@ var j2=jQuery.noConflict();
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)"  >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='edit'" >Edit Config</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
 </script>
@@ -325,13 +326,19 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                 });
               };
               
-              $scope.open_addnew = function (reports) {
+              $scope.open_addnew = function (reports,edit_type,cbAppsid) {
                 var modalInstance = $modal.open({
                   templateUrl: 'open_addnew.html',
                   controller: 'addnewReport',
                   resolve: {
                     reports :function () {
                       return reports;
+                    },
+                    edit_type :function () {
+                      return edit_type;
+                    },
+                    cbAppsid :function () {
+                      return cbAppsid;
                     }
                   }
                 });
@@ -390,9 +397,20 @@ angular.module('demoApp')
         $modalInstance.dismiss('cancel');
       };
 })
-.controller('addnewReport',function ($scope,$http,$modalInstance,reports) {
+.controller('addnewReport',function ($scope,$http,$modalInstance,reports,edit_type,cbAppsid) {
 
-    $scope.type_pivot='report';
+    $scope.name_pivot='';
+    $scope.desc_pivot='';
+    $scope.edit_type=edit_type;
+    $scope.cbAppsid=cbAppsid;
+    $scope.action=(edit_type=='edit' ? 'Edit' : 'Add');
+    
+    for(var i = reports.length - 1; i >= 0; i--){
+        if(reports[i].cbAppsid == $scope.cbAppsid){
+            $scope.name_pivot=reports[i]['reportname'];
+            $scope.desc_pivot=reports[i]['desc_pivot'];
+        }
+    }
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
@@ -425,7 +443,23 @@ angular.module('demoApp')
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
-                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv});
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv,'desc_pivot':desc_pivot});
+                $modalInstance.close();
+
+      });
+    }
+    
+    $scope.edit_config = function (name_pivot,desc_pivot) {
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
+       $http.get(url).
+            success(function(data, status) {
+                var lastid=data;
+                for(var i = reports.length - 1; i >= 0; i--){
+                    if(reports[i].cbAppsid == $scope.cbAppsid){
+                        reports[i]['reportname']=name_pivot;
+                        reports[i]['desc_pivot']=desc_pivot;
+                    }
+                }
                 $modalInstance.close();
 
       });

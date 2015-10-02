@@ -105,6 +105,18 @@ elseif($cbAction=='updateReport'){
             . " where cbappsid=?",array($selectedX,$selectedY,$type,$aggr,$aggrdrop,$cbAppsid));
     
 }
+elseif($cbAction=='updateReportName'){
+    
+    $cbAppsid=$_REQUEST['cbAppsid'];
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+
+    $adb->pquery("Update vtiger_cbApps "
+            . " set name_pivot=?,"
+            . " desc_pivot=?"
+            . " where cbappsid=?",array($reportname,$reportdesc,$cbAppsid));
+    
+}
 elseif($cbAction=='newReport'){
     
     $reportid=$_REQUEST['reportid'];
