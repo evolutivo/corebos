@@ -37,7 +37,78 @@ var j2=jQuery.noConflict();
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/pivot.js"></script>
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/gchart_renderers.js"></script>
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/d3_renderers.js"></script>
+<script type="text/javascript">
+    {literal}
+    var tableToExcel = (function() {            
+      var uri = 'data:application/vnd.ms-excel;base64,'
+        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">\n\
+<head><!--[if gte mso 9]>\n\
+<xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>\n\
+<x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>\n\
+</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook>\n\
+</xml><![endif]-->\n\
+<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>\n\
+</head><body><table>{table}</table></body></html>'
+        , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+        , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+      return function(table, name) {
+        if (!table.nodeType) table = document.getElementById(table)
+        alert(table.innerHTML);
+        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+        window.location.href = uri + base64(format(template, ctx))
+      }
+    })()
+    
+    function download(strData, strFileName, strMimeType) {
+    var D = document,
+        A = arguments,
+        a = D.createElement("a"),
+        d = A[0],
+        n = A[1],
+        t = A[2] || "text/plain";
 
+    //build download link:
+    a.href = "data:" + strMimeType + "," + escape(strData);
+
+
+    if (window.MSBlobBuilder) {
+        var bb = new MSBlobBuilder();
+        bb.append(strData);
+        return navigator.msSaveBlob(bb, strFileName);
+    } /* end if(window.MSBlobBuilder) */
+
+
+
+    if ('download' in a) {
+        a.setAttribute("download", n);
+        a.innerHTML = "downloading...";
+        D.body.appendChild(a);
+        setTimeout(function() {
+            var e = D.createEvent("MouseEvents");
+            e.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(e);
+            D.body.removeChild(a);
+        }, 66);
+        return true;
+    } /* end if('download' in a) */
+    ; //end if a[download]?
+
+    //do iframe dataURL download:
+    var f = D.createElement("iframe");
+    D.body.appendChild(f);
+    f.src = "data:" + (A[2] ? A[2] : "application/octet-stream") + (window.btoa ? ";base64" : "") + "," + (window.btoa ? window.btoa : escape)(strData);
+    setTimeout(function() {
+        D.body.removeChild(f);
+    }, 333);
+    return true;
+} /* end download library function () */
+
+function tableToExcel2 (table) {
+   if (!table.nodeType) table = document.getElementById(table);
+   download(table.outerHTML, "table.xls", "application/vnd.ms-excel");
+ }
+    {/literal}
+</script>
 <style>
 {literal}
 .widget {
@@ -81,6 +152,7 @@ var j2=jQuery.noConflict();
                         <div class="modal-header">
                              <button class="btn btn-warning" ng-show="pivot_type=='report'" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
                              <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
+                             <button class="btn btn-warning"  onclick="tableToExcel2('testTable')">Export Pivot to Excel</button>
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config_as(cbAppid,repid,reports)" >Save As</button>
                         </div>

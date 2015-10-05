@@ -644,6 +644,7 @@
       colKeys = pivotData.getColKeys();
       result = document.createElement("table");
       result.className = "pvtTable";
+      result.id = "testTable";
       spanSize = function(arr, i, j) {
         var len, noDraw, stop, x, _i, _j;
         if (i !== 0) {
@@ -848,7 +849,7 @@
     Pivot Table UI: calls Pivot Table core above with options set by user
      */
     $.fn.pivotUI = function(input, inputOpts, overwrite, locale) {
-      var a, aggregator, attrLength, axisValues, c, colList, defaults, e, existingOpts, i, initialRender, k, opts, pivotTable, refresh, refreshDelayed, renderer, rendererControl, shownAttributes, tblCols, tr1, tr2, uiTable, unusedAttrsVerticalAutoOverride, x, _fn, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _ref4;
+      var a, aggregator, attrLength, axisValues, c, colList, defaults, e, existingOpts,exportTableToCSV, i, initialRender, k, opts, pivotTable, refresh, refreshDelayed, renderer, rendererControl, shownAttributes, tblCols, tr1, tr2, uiTable, unusedAttrsVerticalAutoOverride, x, _fn, _i, _j, _k, _l, _len, _len1, _len2, _len3, _ref, _ref1, _ref2, _ref3, _ref4;
       if (overwrite == null) {
         overwrite = false;
       }
@@ -874,7 +875,8 @@
         filter: function() {
           return true;
         },
-        localeStrings: locales[locale].localeStrings
+        localeStrings: locales[locale].localeStrings,
+        exportCSV: null
       };
       existingOpts = this.data("pivotUIOptions");
       if ((existingOpts == null) || overwrite) {
