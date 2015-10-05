@@ -81,8 +81,8 @@ var j2=jQuery.noConflict();
                         <div class="modal-header">
                              <button class="btn btn-warning" ng-show="pivot_type=='report'" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
                              <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
-                             
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
+                             <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config_as(cbAppid,repid,reports)" >Save As</button>
                         </div>
                              <div style="height:1100px" id="dyn_content">  
                                </div>
@@ -164,6 +164,7 @@ var j2=jQuery.noConflict();
 <div class="modal-footer">
    <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
    <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='edit'" >Edit Config</button>
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
 </script>
@@ -299,6 +300,42 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
               });
             };
             
+            $scope.save_config_as = function (cbAppid,repid,reports) {
+                var j=0;
+                var horiz=Array();
+                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<span class=");
+                var i=1;
+                while(hz[i]!=undefined){
+                     //alert(hz[i]);
+                     horiz[j]=hz[i].replace('pvtAttr','').replace('"">','');
+                     j++;
+                     i=i+2;
+                }
+                var j1=0;
+                var vert=Array();
+                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<span class=");
+                var i1=1;
+                while(v[i1]!=undefined){
+                     //alert(hz[i]);
+                     vert[j1]=v[i1].replace('pvtAttr','').replace('"">','');
+                     j1++;
+                     i1=i1+2;
+                }
+                                
+                var selectedY =horiz.join(",");
+                var selectedX =vert.join(",");  
+                var typebar=document.getElementById('typechart').value;
+                var aggr=document.getElementById('aggr').value;
+                var aggrdrop='';
+                var j1=0;
+                var agg_arr=Array();
+                if (document.getElementById('aggrdrop')!=undefined)
+                {
+                    aggrdrop=document.getElementById('aggrdrop').value;
+                }
+                $scope.open_saveas(cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop);
+            };
+            
               $scope.open = function (cbAppid,repid,name,pivot_type) {
                 var modalInstance = $modal.open({
                   templateUrl: 'Smarty/templates/modules/Pivottable/cbAppTemplate.html',
@@ -349,10 +386,47 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                   //$log.info('Modal dismissed at: ' + new Date());
                 });
               };
+              
+              $scope.open_saveas = function (cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop) {
+                var modalInstance = $modal.open({
+                  templateUrl: 'open_addnew.html',
+                  controller: 'saveasReport',
+                  resolve: {
+                    cbAppid :function () {
+                      return cbAppid;
+                    },
+                    reports :function () {
+                      return reports;
+                    },
+                    repid :function () {
+                      return repid;
+                    },
+                    selectedX :function () {
+                      return selectedX;
+                    },
+                    selectedY :function () {
+                      return selectedY;
+                    },
+                    typebar :function () {
+                      return typebar;
+                    },
+                    aggr :function () {
+                      return aggr;
+                    },
+                    aggrdrop :function () {
+                      return aggrdrop;
+                    }
+                  }
+                });
+
+                modalInstance.result.then(function (selectedItem) {
+                  $scope.selected = selectedItem;
+                }, function () {
+                  //$log.info('Modal dismissed at: ' + new Date());
+                });
+              };
         
-        });
-        
-        
+});
 angular.module('demoApp')
 .controller('cbApp',function ($scope,$http,$modalInstance,cbAppid,repid,name,pivot_typ) {
 
@@ -401,6 +475,7 @@ angular.module('demoApp')
 
     $scope.name_pivot='';
     $scope.desc_pivot='';
+    $scope.type_pivot='report';
     $scope.edit_type=edit_type;
     $scope.cbAppsid=cbAppsid;
     $scope.action=(edit_type=='edit' ? 'Edit' : 'Add');
@@ -439,6 +514,7 @@ angular.module('demoApp')
            repid=elasticid;
            repname=elasticname;
        }
+       if(name_pivot!='')repname=name_pivot;
        url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
        $http.get(url).
             success(function(data, status) {
@@ -460,6 +536,44 @@ angular.module('demoApp')
                         reports[i]['desc_pivot']=desc_pivot;
                     }
                 }
+                $modalInstance.close();
+
+      });
+    }
+})
+.controller('saveasReport',function ($scope,$http,$modalInstance,cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop) {
+
+    $scope.name_pivot='';
+    $scope.desc_pivot='';
+    $scope.type_pivot='report';
+    $scope.reports=reports;
+    $scope.repid=repid;
+    $scope.selectedX=selectedX;
+    $scope.selectedY=selectedY;
+    $scope.typebar=typebar;
+    $scope.aggr=aggr;
+    $scope.aggrdrop=aggrdrop;
+    $scope.action='Save As';
+    $scope.edit_type='saveas';
+    
+    for(var i = reports.length - 1; i >= 0; i--){
+        if(reports[i].cbAppsid == cbAppid){
+            $scope.name_pivot=reports[i]['reportname'];
+            $scope.desc_pivot=reports[i]['desc_pivot'];
+        }
+    }
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    
+    $scope.edit_config = function (name_pivot,desc_pivot) {
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=saveasReport&cbAppsid='+cbAppid+'&reportid='+$scope.repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar+'&aggr='+aggr+'&aggrdrop='+aggrdrop;
+       $http.get(url).
+            success(function(data, status) {
+                var dt=data.split('@@');
+                var lastid=dt[0];
+                var typ=dt[1];
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':name_pivot,'pivot_type':typ,'desc_pivot':desc_pivot});
                 $modalInstance.close();
 
       });

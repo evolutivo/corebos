@@ -105,6 +105,33 @@ elseif($cbAction=='updateReport'){
             . " where cbappsid=?",array($selectedX,$selectedY,$type,$aggr,$aggrdrop,$cbAppsid));
     
 }
+elseif($cbAction=='saveasReport'){
+    
+    $cbAppsid=$_REQUEST['cbAppsid'];
+    $reportid=$_REQUEST['reportid'];
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+    $selectedX=$_REQUEST['selectedX'];
+    $selectedY=$_REQUEST['selectedY'];
+    $type=$_REQUEST['type'];
+    $aggr=$_REQUEST['aggr'];
+    $aggrdrop=$_REQUEST['aggrdrop'];
+    $piv_typ=$adb->pquery("Select pivot_type"
+            . " from vtiger_cbApps "
+            . "where cbappsid=?",array($cbAppsid));
+    $pivot_type=$adb->query_result($piv_typ,0,'pivot_type');
+
+    $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,selectedColumnsX,"
+            . " selectedColumnsY,aggregatorName,vals)"
+            . " values (".$reportid.",'$type','$pivot_type','$reportname','$reportdesc','$selectedX',"
+            . " '$selectedY','$aggr','$aggrdrop')",array());
+    $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
+            . " from vtiger_cbApps "),0,'lastid');
+    if($pivot_type=='report'){
+        createReport($reportid,$cbAppsid);
+    }
+    echo $cbAppsid.'@@'.$pivot_type;
+}
 elseif($cbAction=='updateReportName'){
     
     $cbAppsid=$_REQUEST['cbAppsid'];
