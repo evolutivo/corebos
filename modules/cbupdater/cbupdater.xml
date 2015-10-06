@@ -505,4 +505,11 @@
 	<classname>addfieldtocbapp</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>addparamstocbapp</description>
+	<filename>build/changeSets/evolutivo/addparamstocbapp.php</filename>
+	<classname>addparamstocbapp</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

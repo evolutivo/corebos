@@ -44,7 +44,9 @@ if($cbAction=='retrieveMV'){
     $reports=array(
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
-        'type'=>$adb->query_result($result,0,'type'));
+        'type'=>$adb->query_result($result,0,'type'),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
 elseif($cbAction=='retrieveElastic'){
@@ -61,7 +63,9 @@ elseif($cbAction=='retrieveElastic'){
     $reports=array(
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
-        'type'=>$adb->query_result($result,0,'type'));
+        'type'=>$adb->query_result($result,0,'type'),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
 elseif($cbAction=='retrieveReport'){
@@ -78,7 +82,9 @@ elseif($cbAction=='retrieveReport'){
     $reports=array(
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
-        'type'=>$adb->query_result($result,0,'type'));
+        'type'=>$adb->query_result($result,0,'type'),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
 elseif($cbAction=='updateReport'){
@@ -87,12 +93,55 @@ elseif($cbAction=='updateReport'){
     $selectedX=$_REQUEST['selectedX'];
     $selectedY=$_REQUEST['selectedY'];
     $type=$_REQUEST['type'];
+    $aggr=$_REQUEST['aggr'];
+    $aggrdrop=$_REQUEST['aggrdrop'];
 
     $adb->pquery("Update vtiger_cbApps "
             . " set selectedColumnsX=?,"
             . " selectedColumnsY=?,"
-            . " type=?"
-            . " where cbappsid=?",array($selectedX,$selectedY,$type,$cbAppsid));
+            . " type=?,"
+            . " aggregatorName=?,"
+            . " vals=?"
+            . " where cbappsid=?",array($selectedX,$selectedY,$type,$aggr,$aggrdrop,$cbAppsid));
+    
+}
+elseif($cbAction=='saveasReport'){
+    
+    $cbAppsid=$_REQUEST['cbAppsid'];
+    $reportid=$_REQUEST['reportid'];
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+    $selectedX=$_REQUEST['selectedX'];
+    $selectedY=$_REQUEST['selectedY'];
+    $type=$_REQUEST['type'];
+    $aggr=$_REQUEST['aggr'];
+    $aggrdrop=$_REQUEST['aggrdrop'];
+    $piv_typ=$adb->pquery("Select pivot_type"
+            . " from vtiger_cbApps "
+            . "where cbappsid=?",array($cbAppsid));
+    $pivot_type=$adb->query_result($piv_typ,0,'pivot_type');
+
+    $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,selectedColumnsX,"
+            . " selectedColumnsY,aggregatorName,vals)"
+            . " values (".$reportid.",'$type','$pivot_type','$reportname','$reportdesc','$selectedX',"
+            . " '$selectedY','$aggr','$aggrdrop')",array());
+    $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
+            . " from vtiger_cbApps "),0,'lastid');
+    if($pivot_type=='report'){
+        createReport($reportid,$cbAppsid);
+    }
+    echo $cbAppsid.'@@'.$pivot_type;
+}
+elseif($cbAction=='updateReportName'){
+    
+    $cbAppsid=$_REQUEST['cbAppsid'];
+    $reportname=$_REQUEST['reportname'];
+    $reportdesc=$_REQUEST['reportdesc'];
+
+    $adb->pquery("Update vtiger_cbApps "
+            . " set name_pivot=?,"
+            . " desc_pivot=?"
+            . " where cbappsid=?",array($reportname,$reportdesc,$cbAppsid));
     
 }
 elseif($cbAction=='newReport'){

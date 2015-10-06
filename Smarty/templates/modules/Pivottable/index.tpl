@@ -17,7 +17,7 @@
  *  Author       : OpenCubed.
  *************************************************************************************************/
 -->*}
-<script src="Smarty/angular/angular.js"></script>
+<script src="Smarty/angular/angular.min.js"></script>
 <script  src="Smarty/angular/ng-table.js"></script>
 <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
@@ -37,7 +37,78 @@ var j2=jQuery.noConflict();
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/pivot.js"></script>
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/gchart_renderers.js"></script>
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/d3_renderers.js"></script>
+<script type="text/javascript">
+    {literal}
+    var tableToExcel = (function() {            
+      var uri = 'data:application/vnd.ms-excel;base64,'
+        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">\n\
+<head><!--[if gte mso 9]>\n\
+<xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>\n\
+<x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/>\n\
+</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook>\n\
+</xml><![endif]-->\n\
+<meta http-equiv="content-type" content="text/plain; charset=UTF-8"/>\n\
+</head><body><table>{table}</table></body></html>'
+        , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+        , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+      return function(table, name) {
+        if (!table.nodeType) table = document.getElementById(table)
+        alert(table.innerHTML);
+        var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+        window.location.href = uri + base64(format(template, ctx))
+      }
+    })()
+    
+    function download(strData, strFileName, strMimeType) {
+    var D = document,
+        A = arguments,
+        a = D.createElement("a"),
+        d = A[0],
+        n = A[1],
+        t = A[2] || "text/plain";
 
+    //build download link:
+    a.href = "data:" + strMimeType + "," + escape(strData);
+
+
+    if (window.MSBlobBuilder) {
+        var bb = new MSBlobBuilder();
+        bb.append(strData);
+        return navigator.msSaveBlob(bb, strFileName);
+    } /* end if(window.MSBlobBuilder) */
+
+
+
+    if ('download' in a) {
+        a.setAttribute("download", n);
+        a.innerHTML = "downloading...";
+        D.body.appendChild(a);
+        setTimeout(function() {
+            var e = D.createEvent("MouseEvents");
+            e.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(e);
+            D.body.removeChild(a);
+        }, 66);
+        return true;
+    } /* end if('download' in a) */
+    ; //end if a[download]?
+
+    //do iframe dataURL download:
+    var f = D.createElement("iframe");
+    D.body.appendChild(f);
+    f.src = "data:" + (A[2] ? A[2] : "application/octet-stream") + (window.btoa ? ";base64" : "") + "," + (window.btoa ? window.btoa : escape)(strData);
+    setTimeout(function() {
+        D.body.removeChild(f);
+    }, 333);
+    return true;
+} /* end download library function () */
+
+function tableToExcel2 (table) {
+   if (!table.nodeType) table = document.getElementById(table);
+   download(table.outerHTML, "table.xls", "application/vnd.ms-excel");
+ }
+    {/literal}
+</script>
 <style>
 {literal}
 .widget {
@@ -74,15 +145,16 @@ var j2=jQuery.noConflict();
              <table   width=100% align=center border="0" >
                 <tr><td style="height:2px"><br/><br/>
                     <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
-                        ng-if="isAdmin=='on'"  ng-click="open_addnew(reports);"/>
+                        ng-if="isAdmin=='on'"  ng-click="open_addnew(reports,'create','');"/>
                     <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
                     <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
                     <div id="inline_cbApps" ng-show="show_inline">
                         <div class="modal-header">
                              <button class="btn btn-warning" ng-show="pivot_type=='report'" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
                              <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
-                             
+                             <button class="btn btn-warning"  onclick="tableToExcel2('testTable')">Export Pivot to Excel</button>
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
+                             <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config_as(cbAppid,repid,reports)" >Save As</button>
                         </div>
                              <div style="height:1100px" id="dyn_content">  
                                </div>
@@ -106,6 +178,7 @@ var j2=jQuery.noConflict();
                                  <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
                              <br/>{literal}{{report.desc_pivot}}{/literal}
                              <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
+                                 | <b><span style="text-align:left;" ng-click="open_addnew(reports,'edit',report.cbAppsid)">Edit</span><b/>
                         </div>
                      </td>                
                  </tr>
@@ -114,14 +187,14 @@ var j2=jQuery.noConflict();
          </td>
      </tr>
 </table>
-                        <script type="text/ng-template" id="open_addnew.html">
+<script type="text/ng-template" id="open_addnew.html">
 
 <div class="modal-header">
-    <h4 class="modal-title">Add new Pivot Configuration</h4>
+    <h4 class="modal-title">{literal}{{action}}{/literal} Pivot Configuration</h4>
 </div>
 <div class="modal-body">    
     <table   width=68% align=center border="0" >
-        <tr>
+        <tr ng-if="edit_type=='create'">
             <td align="center">
                 <input type="radio" name="type_pivot" value="report" ng-model="type_pivot">Report<br>
                 <select id="report_opt" ng-disabled="type_pivot!='report'">
@@ -143,17 +216,17 @@ var j2=jQuery.noConflict();
         </tr>
         <tr>
             <td align="center">
-                <h3>Nome </h3>
+                <h5>Nome </h5>
             </td>
-            <td align="center" colspan="2">
+            <td align="left" colspan="2">
                 <input type="text" name="name_pivot" ng-model="name_pivot" >
             </td>
         </tr>
         <tr>
             <td align="center">
-                <h3>Descrizione </h3>
+                <h5>Descrizione </h5>
             </td>
-            <td align="center" colspan="2">
+            <td align="left" colspan="2">
                 <input type="text" name="desc_pivot" ng-model="desc_pivot" >
             </td>
         </tr>
@@ -161,7 +234,9 @@ var j2=jQuery.noConflict();
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)"  >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='edit'" >Edit Config</button>
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
 </script>
@@ -224,7 +299,9 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                                     ),
                                 rows: resp_arr.selectedColumnsX,
                                 cols: resp_arr.selectedColumnsY,
-                                rendererName: resp_arr.type
+                                rendererName: resp_arr.type,
+                                aggregatorName: resp_arr.aggregatorName,
+                                vals: resp_arr.vals
                             });
                         });
                     });
@@ -277,19 +354,58 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                      j1++;
                      i1=i1+2;
                 }
-                //alert(horiz.join(","));
-                //alert(vert.join(","));
-                //alert(document.getElementById('typechart').value);
-                //alert(document.getElementById('aggr').value);
-                //if (document.getElementById('aggrdrop')!=undefined)
-                     //alert(document.getElementById('aggrdrop').value);
+                                
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
                 var typebar=document.getElementById('typechart').value;
-                $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReport&cbAppsid='+cbAppid+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar).
+                var aggr=document.getElementById('aggr').value;
+                var aggrdrop='';
+                var j1=0;
+                var agg_arr=Array();
+                if (document.getElementById('aggrdrop')!=undefined)
+                {
+                    aggrdrop=document.getElementById('aggrdrop').value;
+                }
+                $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReport&cbAppsid='+cbAppid+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar+'&aggr='+aggr+'&aggrdrop='+aggrdrop).
                     success(function(data, status) {
                         alert('Successfully saved');
               });
+            };
+            
+            $scope.save_config_as = function (cbAppid,repid,reports) {
+                var j=0;
+                var horiz=Array();
+                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<span class=");
+                var i=1;
+                while(hz[i]!=undefined){
+                     //alert(hz[i]);
+                     horiz[j]=hz[i].replace('pvtAttr','').replace('"">','');
+                     j++;
+                     i=i+2;
+                }
+                var j1=0;
+                var vert=Array();
+                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<span class=");
+                var i1=1;
+                while(v[i1]!=undefined){
+                     //alert(hz[i]);
+                     vert[j1]=v[i1].replace('pvtAttr','').replace('"">','');
+                     j1++;
+                     i1=i1+2;
+                }
+                                
+                var selectedY =horiz.join(",");
+                var selectedX =vert.join(",");  
+                var typebar=document.getElementById('typechart').value;
+                var aggr=document.getElementById('aggr').value;
+                var aggrdrop='';
+                var j1=0;
+                var agg_arr=Array();
+                if (document.getElementById('aggrdrop')!=undefined)
+                {
+                    aggrdrop=document.getElementById('aggrdrop').value;
+                }
+                $scope.open_saveas(cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop);
             };
             
               $scope.open = function (cbAppid,repid,name,pivot_type) {
@@ -319,13 +435,58 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                 });
               };
               
-              $scope.open_addnew = function (reports) {
+              $scope.open_addnew = function (reports,edit_type,cbAppsid) {
                 var modalInstance = $modal.open({
                   templateUrl: 'open_addnew.html',
                   controller: 'addnewReport',
                   resolve: {
                     reports :function () {
                       return reports;
+                    },
+                    edit_type :function () {
+                      return edit_type;
+                    },
+                    cbAppsid :function () {
+                      return cbAppsid;
+                    }
+                  }
+                });
+
+                modalInstance.result.then(function (selectedItem) {
+                  $scope.selected = selectedItem;
+                }, function () {
+                  //$log.info('Modal dismissed at: ' + new Date());
+                });
+              };
+              
+              $scope.open_saveas = function (cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop) {
+                var modalInstance = $modal.open({
+                  templateUrl: 'open_addnew.html',
+                  controller: 'saveasReport',
+                  resolve: {
+                    cbAppid :function () {
+                      return cbAppid;
+                    },
+                    reports :function () {
+                      return reports;
+                    },
+                    repid :function () {
+                      return repid;
+                    },
+                    selectedX :function () {
+                      return selectedX;
+                    },
+                    selectedY :function () {
+                      return selectedY;
+                    },
+                    typebar :function () {
+                      return typebar;
+                    },
+                    aggr :function () {
+                      return aggr;
+                    },
+                    aggrdrop :function () {
+                      return aggrdrop;
                     }
                   }
                 });
@@ -337,9 +498,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                 });
               };
         
-        });
-        
-        
+});
 angular.module('demoApp')
 .controller('cbApp',function ($scope,$http,$modalInstance,cbAppid,repid,name,pivot_typ) {
 
@@ -384,9 +543,21 @@ angular.module('demoApp')
         $modalInstance.dismiss('cancel');
       };
 })
-.controller('addnewReport',function ($scope,$http,$modalInstance,reports) {
+.controller('addnewReport',function ($scope,$http,$modalInstance,reports,edit_type,cbAppsid) {
 
+    $scope.name_pivot='';
+    $scope.desc_pivot='';
     $scope.type_pivot='report';
+    $scope.edit_type=edit_type;
+    $scope.cbAppsid=cbAppsid;
+    $scope.action=(edit_type=='edit' ? 'Edit' : 'Add');
+    
+    for(var i = reports.length - 1; i >= 0; i--){
+        if(reports[i].cbAppsid == $scope.cbAppsid){
+            $scope.name_pivot=reports[i]['reportname'];
+            $scope.desc_pivot=reports[i]['desc_pivot'];
+        }
+    }
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
@@ -415,11 +586,66 @@ angular.module('demoApp')
            repid=elasticid;
            repname=elasticname;
        }
+       if(name_pivot!='')repname=name_pivot;
        url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
-                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv});
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv,'desc_pivot':desc_pivot});
+                $modalInstance.close();
+
+      });
+    }
+    
+    $scope.edit_config = function (name_pivot,desc_pivot) {
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
+       $http.get(url).
+            success(function(data, status) {
+                var lastid=data;
+                for(var i = reports.length - 1; i >= 0; i--){
+                    if(reports[i].cbAppsid == $scope.cbAppsid){
+                        reports[i]['reportname']=name_pivot;
+                        reports[i]['desc_pivot']=desc_pivot;
+                    }
+                }
+                $modalInstance.close();
+
+      });
+    }
+})
+.controller('saveasReport',function ($scope,$http,$modalInstance,cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop) {
+
+    $scope.name_pivot='';
+    $scope.desc_pivot='';
+    $scope.type_pivot='report';
+    $scope.reports=reports;
+    $scope.repid=repid;
+    $scope.selectedX=selectedX;
+    $scope.selectedY=selectedY;
+    $scope.typebar=typebar;
+    $scope.aggr=aggr;
+    $scope.aggrdrop=aggrdrop;
+    $scope.action='Save As';
+    $scope.edit_type='saveas';
+    
+    for(var i = reports.length - 1; i >= 0; i--){
+        if(reports[i].cbAppsid == cbAppid){
+            $scope.name_pivot=reports[i]['reportname'];
+            $scope.desc_pivot=reports[i]['desc_pivot'];
+        }
+    }
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+    
+    $scope.edit_config = function (name_pivot,desc_pivot) {
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=saveasReport&cbAppsid='+cbAppid+'&reportid='+$scope.repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar+'&aggr='+aggr+'&aggrdrop='+aggrdrop;
+       $http.get(url).
+            success(function(data, status) {
+                var dt=data.split('@@');
+                var lastid=dt[0];
+                var typ=dt[1];
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':name_pivot,'pivot_type':typ,'desc_pivot':desc_pivot});
                 $modalInstance.close();
 
       });
