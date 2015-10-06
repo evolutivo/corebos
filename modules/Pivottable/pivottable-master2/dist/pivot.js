@@ -974,9 +974,9 @@
           hasExcludedItem = false;
           valueList = $("<div>").addClass('pvtFilterBox').hide();
           valueList.append($("<h4>").text("" + c + " (" + keys.length + ")"));
-          if (keys.length > opts.menuLimit) {
-            valueList.append($("<p>").html(opts.localeStrings.tooMany));
-          } else {
+//         if (keys.length > opts.menuLimit) {
+//            valueList.append($("<p>").html(opts.localeStrings.tooMany));
+//          } else {
             btns = $("<p>").appendTo(valueList);
             btns.append($("<button>", {
               type: "button"
@@ -1018,7 +1018,7 @@
               filterItem.append($("<span>").text(" (" + v + ")"));
               checkContainer.append($("<p>").append(filterItem));
             }
-          }
+          //}
           updateFilter = function() {
             var unselectedCount;
             unselectedCount = valueList.find("[type='checkbox']").length - valueList.find("[type='checkbox']:checked").length;
