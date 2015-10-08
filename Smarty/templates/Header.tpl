@@ -12,7 +12,7 @@
 <html>
 <head>
 	<title>{$USER} - {$MODULE_NAME|@getTranslatedString:$MODULE_NAME} - {$APP.LBL_BROWSER_TITLE}</title>
-	<link REL="SHORTCUT ICON" HREF="{php} $logo_login=fetch_logo(3); echo $logo_login;{/php}">
+	<link REL="SHORTCUT ICON" HREF="{$FAVICON}">
 	<meta http-equiv="X-FRAME-OPTIONS" content="DENY" />
 	<style type="text/css">@import url("themes/{$THEME}/style.css?v={$VERSION}");</style>
 	<link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">
