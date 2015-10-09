@@ -82,6 +82,7 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 if($_REQUEST['fld_module'] != '')
 {$smarty->assign("DEF_MODULE",vtlib_purify($_REQUEST['fld_module']));
 $type=getEntitylogtype(getTabId(vtlib_purify($_REQUEST['fld_module'])));
+$brelastic=getEntitylogbr(getTabId(vtlib_purify($_REQUEST['fld_module'])));
 $type=explode(",",$type);
 if(in_array('denormalized',$type))
         $denorm='checked';
@@ -90,6 +91,7 @@ if(in_array('normalized',$type))
 if(in_array('entitylog',$type))
         $elog='checked';
 $smarty->assign("denorm",$denorm);
+$smarty->assign("fldvalues",$brelastic);
 $smarty->assign("norm",$norm);
 $smarty->assign("elog",$elog);
 

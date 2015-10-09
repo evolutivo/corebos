@@ -37,6 +37,7 @@ class HistoryLogHandler extends VTEventHandler {
     $type=explode(",",$this->getEntitylogtype($moduleName));
     $queryel=getqueryelastic(getTabId($moduleName));
     $indextype=getEntitylogindextype(getTabId($moduleName));
+    $brelastic=getEntitylogbr(getTabId($moduleName));
     //This block of code needs to be adapted : table_name, tableid, name, and fields you wish to be considered for logging
     $table = $this->modulesRegistered[$moduleName]['tablename'];
     $tableid = $table.'.'.$this->modulesRegistered[$moduleName]['primarykey'];
@@ -129,6 +130,45 @@ $cr=false;
 
   if(in_array('normalized',$type)) {
 $ip=GlobalVariable::getVariable('ip_elastic_server', '');
+if($brelastic!='undefined') {
+ $ind1=explode(",",$indextype);
+ $br=explode(",",$brelastic);
+ for($i2=0;$i2<count($br);$i2++){
+ $endpointUrl2 = "http://$ip:9200/$ind1[$i2]/norm";
+ $brid=$br[$i2];
+ $map=$adb->query("select content,businessrules_name,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+   join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
+   where c.deleted=0 and businessrulesid=$brid");
+ $query=str_replace('"','',$adb->query_result($map,0,0));
+ $fields31=explode("FROM",$query);
+ $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
+ $tabfld=explode(" AS ",$fields3[count($fields3)-1]);
+ $fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
+$eid=$entityData->getId();
+$fields1->fields['roles']=$roleid;
+$fields1->fields['changedvalues']=$act;
+$fields1->fields['userchange']=$userid;
+$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+unset($fields1->fields[0]);
+foreach($fields1->fields as $key => $value) {
+    if( floatval($key)) {
+         unset($fields1->fields[$key]);
+    }
+}
+$channel11 = curl_init();
+//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
+curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($channel11, CURLOPT_POST, true);
+//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
+curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
+curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+$response2 = curl_exec($channel11);
+}
+ }
+else {
 $endpointUrl2 = "http://$ip:9200/$indextype/norm";
 $fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
 $eid=$entityData->getId();
@@ -154,10 +194,106 @@ curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
 $response2 = curl_exec($channel11);
 
-      }
+}  }
        if(in_array('denormalized',$type)) {
              $ip=GlobalVariable::getVariable('ip_elastic_server', '');
-$endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty"; 
+             if($brelastic!='undefined') {
+ $ind1=explode(",",$indextype);
+ $br=explode(",",$brelastic);
+ for($i2=0;$i2<count($br);$i2++)
+ {
+$endpointUrl12 = "http://$ip:9200/$ind1[$i2]/denorm/_search?pretty"; 
+ $brid=$br[$i2];
+ $map=$adb->query("select content,businessrules_name,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+   join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
+   where c.deleted=0 and businessrulesid=$brid");
+ $query=str_replace('"','',$adb->query_result($map,0,0));
+ $fields31=explode("FROM",$query);
+ $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
+ $tabfld=explode(" AS ",$fields3[count($fields3)-1]);
+ $tabfld2=explode(" AS ",str_replace(".","_",$fields3[count($fields3)-1]));
+$getid=$entityData->getId();
+$fields1 =array('query'=>array("term"=>array("$tabfld2[0]"=>"$getid")));
+
+$channel1 = curl_init();
+curl_setopt($channel1, CURLOPT_URL, $endpointUrl12);
+curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($channel1, CURLOPT_POST, true);
+//curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+$response1 = json_decode(curl_exec($channel1));
+//if(strstr($response1->error,'IndexMissingException'))
+//{$ij=1;
+//} 
+$ij=$response1->hits->hits[0]->_id;
+
+if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
+$endpointUrl2 = "http://$ip:9200/$ind1[$i2]/denorm/$ij";
+$fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
+$eid=$entityData->getId();
+$fields1->fields['roles']=$roleid;
+$fields1->fields['changedvalues']=$act;
+$fields1->fields['userchange']=$userid;
+$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+
+unset($fields1->fields[0]);
+foreach($fields1->fields as $key => $value) {
+    if(floatval($key)) {
+         unset($fields1->fields[$key]);
+    }
+}
+$channel11 = curl_init();
+//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
+curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
+//curl_setopt($channel11, CURLOPT_POST, true);
+curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
+curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
+curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+$response2 = curl_exec($channel11);
+
+}
+else {
+    if($cr !=true){
+   
+$endpointUrl2 = "http://$ip:9200/$ind1[$i2]/denorm";
+$fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
+$eid=$entityData->getId();
+$fields1->fields['roles']=$roleid;
+$fields1->fields['changedvalues']=$act;
+$fields1->fields['userchange']=$userid;
+$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+
+unset($fields1->fields[0]);
+foreach($fields1->fields as $key => $value) {
+    if(floatval($key)) {
+         unset($fields1->fields[$key]);
+    }
+}
+$channel11 = curl_init();
+//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
+curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($channel11, CURLOPT_POST, true);
+//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
+curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
+curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+$response23 = curl_exec($channel11);
+
+ 
+    }
+}
+ }
+  $cr=true;
+ }
+else{
 $mainfld=explode(".",$queryel[1]);
 $getid=$entityData->getId();
 $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>"$getid")));
@@ -238,6 +374,7 @@ $response23 = curl_exec($channel11);
  
     }
 }
+       }
       }       
       }
        }
