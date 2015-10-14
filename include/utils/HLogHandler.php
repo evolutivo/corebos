@@ -296,6 +296,7 @@ $response23 = curl_exec($channel11);
 else{
 $mainfld=explode(".",$queryel[1]);
 $getid=$entityData->getId();
+$endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty";
 $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>"$getid")));
 
 $channel1 = curl_init();

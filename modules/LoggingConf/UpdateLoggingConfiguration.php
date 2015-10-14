@@ -44,7 +44,9 @@ $type1=implode(",",$type);
 //{
      $pref=GlobalVariable::getVariable('ip_elastic_indexprefix', '');
 //    $random = strtolower(vtlib_purify($_REQUEST['Screen'])).substr( md5(rand()), 0, 7);
-     $ind=$pref.strtolower(vtlib_purify($_REQUEST['Screen']));   
+     if($brelastic=='undefined')
+     $ind=strtolower($pref.vtlib_purify($_REQUEST['Screen']));  
+     else $ind=strtolower($pref);
 //}
 //else $ind=$indextype;
  $ip=GlobalVariable::getVariable('ip_elastic_server', '');
@@ -200,13 +202,13 @@ else $create=0;
  $br=explode(",",$brelastic);
  for($i=0;$i<count($br);$i++){
  $brid=$br[$i];
- $map=$adb->query("select content,businessrules_name,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+ $map=$adb->query("select content,mapname,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
    join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
    where c.deleted=0 and businessrulesid=$brid");
  $query=str_replace('"','',$adb->query_result($map,0,0));
- $brname=$adb->query_result($map,0,1);
+ $mapname=$adb->query_result($map,0,1);
  $mapid=$adb->query_result($map,0,2);
- $ind1[$i]=$ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $brname);
+ $ind1[$i]=strtolower($ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
  $fields31=explode("FROM",$query);
  $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
  $sqlFields=array();
