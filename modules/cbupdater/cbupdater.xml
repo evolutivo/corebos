@@ -512,4 +512,25 @@
 	<classname>addparamstocbapp</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addbrelasticinlogging</description>
+	<filename>build/changeSets/evolutivo/addbrelasticinlogging.php</filename>
+	<classname>addbrelasticinlogging</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addparamtoglobalvar2</description>
+	<filename>build/changeSets/evolutivo/addparamtoglobalvar2.php</filename>
+	<classname>addparamtoglobalvar2</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>ModTracker: restore record change</description>
+	<filename>build/changeSets/ModTrackerRestoreRecord.php</filename>
+	<classname>ModTrackerRestoreRecord</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
