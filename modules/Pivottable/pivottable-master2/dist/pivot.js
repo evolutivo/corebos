@@ -1,5 +1,5 @@
-https://www.thinkful.com/learn/angularjs-tutorial-build-a-gmail-clone/Controllers#Controllers
-﻿(function() {
+https:
+(function() {
   var $, PivotData, addSeparators, aggregatorTemplates, aggregators, convertToArray, dayNames, deriveAttributes, derivers, forEachRecord, getPivotData, mthNames, naturalSort, numberFormat, pivotTableRenderer, renderers, spanSize, zeroPad,
     __slice = [].slice,
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
