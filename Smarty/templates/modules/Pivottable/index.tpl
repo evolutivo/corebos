@@ -302,20 +302,19 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
 				
 			}
 		});
-		
+		//,"Line Chart",Bar Chart,Stacked Bar Chart,Area Chart,Scatter Chart
 		var stdRendererNames = ["Table","Table Barchart","Heatmap","Row Heatmap","Col Heatmap"];
 		var wrappedRenderers = j2.extend( {}, j2.pivotUtilities.renderers);
 		j2.each(stdRendererNames, function() {
 			var rName = this;
 			wrappedRenderers[rName] = nrecoPivotExt.wrapTableRenderer(wrappedRenderers[rName]);
 		});
-                var tpl =          j2.pivotUtilities.aggregatorTemplates;
                         j2("#output"+$scope.cbAppid).pivotUI(mps, {
                                 renderers: wrappedRenderers,
                                 rows: resp_arr.selectedColumnsX,
                                 cols: resp_arr.selectedColumnsY,
-                                rendererName: resp_arr.type,
-                                aggregatorName: ['count','sum'],
+                                rendererName: resp_arr.type,//aggregatorKeys
+                                aggregatorName: resp_arr.aggregatorName,
                                 vals: resp_arr.vals
                             });
                         });
@@ -405,48 +404,55 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
             };
             
             $scope.save_config_as = function (cbAppid,repid,reports) {
-                var j=0;
                 var horiz=Array();
-                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<span class=");
-                var i=1;
-                while(hz[i]!=undefined){
-                     //alert(hz[i]);
-                     horiz[j]=hz[i].replace('pvtAttr','').replace('"">','');
-                     j++;
-                     i=i+2;
+                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<hz.length;j++){
+                    var pos=hz[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=hz[j].substr(0,pos);
+                        horiz[i]=str;//.replace('pvtAttr','').replace('"">','');
+                        i++;
+                    }                     
                 }
-                var j1=0;
                 var vert=Array();
-                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<span class=");
-                var i1=1;
-                while(v[i1]!=undefined){
-                     //alert(hz[i]);
-                     vert[j1]=v[i1].replace('pvtAttr','').replace('"">','');
-                     j1++;
-                     i1=i1+2;
+                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<v.length;j++){
+                    var pos=v[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=v[j].substr(0,pos);
+                        vert[i]=str;//.replace('pvtAttr','').replace('"">','');
+                        i++;
+                    }                     
                 }
-                                
+                var vals=Array();
+                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<a.length;j++){
+                    var pos=a[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=a[j].substr(0,pos);
+                        vals[i]=str;//.replace('pvtAttr','').replace('"">','');
+                        i++;
+                    }                     
+                }
+                var aggrcount=Array();
+                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split('<select class="');
+                var i=0;console.log(a);
+                for(j=1;j<a.length;j++){
+                    var pos=a[j].indexOf('"');
+                    var selectname=a[j].substr(0,pos);//alert(pos);alert(selectname);
+                    var t=document.getElementsByClassName(selectname).item(0).options[document.getElementsByClassName(selectname).item(0).selectedIndex].value;
+                    //alert(t);
+                    aggrcount[i]=t;
+                    i++;
+                }
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
                 var typebar=document.getElementById('typechart').value;
-                var j1=0;
-                var aggr=Array();
-                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<div class=");
-                var i1=1;
-                while(v[i1]!=undefined){
-                     //alert(hz[i]);
-                     vert[j1]=v[i1].replace('pvtAttr','').replace('"">','');
-                     j1++;
-                     i1=i1+2;
-                }
-                //var aggr=document.getElementById('aggr').value;
-                var aggrdrop='';
-                var j1=0;
-                var agg_arr=Array();
-                if (document.getElementById('aggrdrop')!=undefined)
-                {
-                    aggrdrop=document.getElementById('aggrdrop').value;
-                }
+                var aggrdrop=vals.join(",");
+                var aggr=aggrcount.join(",");
                 $scope.open_saveas(cbAppid,reports,repid,selectedX,selectedY,typebar,aggr,aggrdrop);
             };
             
