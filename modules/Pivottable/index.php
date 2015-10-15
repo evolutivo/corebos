@@ -45,7 +45,7 @@ if($cbAction=='retrieveMV'){
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
         'type'=>$adb->query_result($result,0,'type'),
-        'aggregatorName'=>explode(',',$adb->query_result($result,0,'aggregatorname')),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
         'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
@@ -64,7 +64,7 @@ elseif($cbAction=='retrieveElastic'){
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
         'type'=>$adb->query_result($result,0,'type'),
-        'aggregatorName'=>explode(',',$adb->query_result($result,0,'aggregatorname')),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
         'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
@@ -83,7 +83,7 @@ elseif($cbAction=='retrieveReport'){
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
         'type'=>$adb->query_result($result,0,'type'),
-        'aggregatorName'=>explode(',',$adb->query_result($result,0,'aggregatorname')),
+        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
         'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }

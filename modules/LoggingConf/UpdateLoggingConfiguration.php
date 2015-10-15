@@ -30,7 +30,6 @@ $elog=$_REQUEST['elog'];
 $relmodule=$_REQUEST['relmodule'];
 $denorm=$_REQUEST['denorm'];
 $indextype=$_REQUEST['indextype'];
-$brelastic=$_REQUEST['brelastic'];
 $norm=$_REQUEST['norm'];
 if($elog=='true')
 $type[]='entitylog';
@@ -40,24 +39,18 @@ if($norm=='true')
 $type[]='normalized';
 $type1=implode(",",$type);
 
-//if($indextype=='' || $indextype==null)
-//{
-     $pref=GlobalVariable::getVariable('ip_elastic_indexprefix', '');
-//    $random = strtolower(vtlib_purify($_REQUEST['Screen'])).substr( md5(rand()), 0, 7);
-     if($brelastic=='undefined')
-     $ind=strtolower($pref.vtlib_purify($_REQUEST['Screen']));  
-     else $ind=strtolower($pref);
-//}
-//else $ind=$indextype;
+if($indextype=='' || $indextype==null)
+{$random = strtolower(vtlib_purify($_REQUEST['Screen'])).substr( md5(rand()), 0, 7);
+    $ind=$random;   
+}
+else $ind=$indextype;
  $ip=GlobalVariable::getVariable('ip_elastic_server', '');
 $create=1;
  if(in_array("denormalized",$type) || in_array("normalized",$type))  {
-
- if($brelastic=='undefined'){
      $sqlFields=Array();
      $join=Array();
      $where=Array();
-$endpointUrl2 = "http://$ip:9200/$ind/_mapping/denorm";
+ $endpointUrl2 = "http://$ip:9200/$ind/_mapping/denorm";
 $channel11 = curl_init();
 //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
@@ -197,113 +190,8 @@ if($response2->acknowledged==true)
 $create=1;
 else $create=0;
 //}
- }
- else {
- $br=explode(",",$brelastic);
- for($i=0;$i<count($br);$i++){
- $brid=$br[$i];
- $map=$adb->query("select content,mapname,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
-   join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
-   where c.deleted=0 and businessrulesid=$brid");
- $query=str_replace('"','',$adb->query_result($map,0,0));
- $mapname=$adb->query_result($map,0,1);
- $mapid=$adb->query_result($map,0,2);
- $ind1[$i]=strtolower($ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
- $fields31=explode("FROM",$query);
- $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
- $sqlFields=array();
- $k1=0;
- foreach($fields3 as $field)
-{
-    $f=explode(".",$field);
-    $f2=explode(" AS ",$f[1]);
-    $tabname=trim(str_replace(range(0,9),'',$f[0]));
-    $clname=preg_replace("/\s+/", "",$f2[0]);
-    $col=getColumnname('',$clname,$tabname);
-    if(substr($col[1],0,1)=='N')
-    {$coltype='double';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);
-    }
-    else if(substr($col[1],0,1)=='D')
-    { $coltype='date';
-    if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
-    else $format='yyyy-MM-dd';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"format"=>"$format");
-    }
-    else {$coltype='string';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);}
-    $sqlFields[$k1]=trim($f[0]).'.'.$clname.' AS '.trim($f[0]).'_'.$clname;
-    $k1++;
-}
- $sqlfld=implode(",",$sqlFields);
- $query2="SELECT ".$sqlfld.' FROM '.$fields31[1];
- $adb->pquery("update vtiger_cbmap set content=? where cbmapid=?",array($query2,$mapid));
- //check if index exists for each br
- $endpointUrl2 = "http://$ip:9200/$ind1[$i]/_mapping/denorm";
-$channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($channel11, CURLOPT_POST, false);
-//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-//curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = json_decode(curl_exec($channel11));
-
-if(count($response2->$ind->mappings->denorm)!=0)
-{
-
-$fields1=array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
-$endpointUrl2 = "http://$ip:9200/$ind1[$i]/denorm/_mapping?ignore_conflicts=true";
- $channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($channel11, CURLOPT_POST, true);
-curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = json_decode(curl_exec($channel11));
-$fields111=array("norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
-$endpointUrl21 = "http://$ip:9200/$ind1[$i]/norm/_mapping?ignore_conflicts=true";
-$channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl21);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($channel11, CURLOPT_POST, true);
-curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields111));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = json_decode(curl_exec($channel11));
-}
-else{
-$fields1=array("mappings"=>array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'),"norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));   
-$endpointUrl2 = "http://$ip:9200/$ind1[$i]";
- $channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($channel11, CURLOPT_POST, true);
-curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = json_decode(curl_exec($channel11));
-}
-if($response2->acknowledged==true)
-$create=1;
-else $create=0;
- }    
- $ind=implode(",",$ind1);
- }
  }  
+   
  if(($create)<1)
  $ind='';
      
@@ -311,8 +199,8 @@ else $create=0;
 if($elog=='undefined' && $denorm=='undefined' && $norm=='undefined')
     break;
 else
-$update_query = "update vtiger_loggingconfiguration set fields=? ,fieldselastic=? ,type=?,relmodules=? , indextype='$ind',queryelastic=? , brelastic=? where tabid=?";
-$update_params = array($fieldsarray,$fieldselarray,$type1,$relmodule,$query1, $brelastic,$tab_id);
+$update_query = "update vtiger_loggingconfiguration set fields=? ,fieldselastic=? ,type=?,relmodules=? , indextype='$ind',queryelastic=? where tabid=?";
+$update_params = array($fieldsarray,$fieldselarray,$type1,$relmodule,$query1, $tab_id);
 $query=$adb->pquery($update_query, $update_params);
 echo $query;
 ?>

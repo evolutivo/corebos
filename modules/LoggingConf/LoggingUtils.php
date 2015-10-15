@@ -47,12 +47,6 @@ $query=$adb->pquery("Select type from vtiger_loggingconfiguration where tabid=?"
 $number=$adb->query_result($query,0);
 return $number;  
 }
-function getEntitylogbr($tabid){
-global $adb;
-$query=$adb->pquery("Select brelastic from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
-return $number;  
-}
 function getqueryelastic($tabid){
 global $adb;
 $query=$adb->pquery("Select queryelastic from vtiger_loggingconfiguration where tabid=?",array($tabid));
@@ -72,13 +66,9 @@ $query=$adb->pquery("Select relmodules from vtiger_loggingconfiguration where ta
 $number=$adb->query_result($query,0);
 return $number;  
 }
-function getColumnname($fieldid,$colname=null,$tablename=null)
+function getColumnname($fieldid)
 {global $adb;
-if($fieldid!=''){
 $q=$adb->pquery("select columnname,typeofdata,tablename from vtiger_field where fieldid=?",array($fieldid));
-}
-else 
-$q=$adb->pquery("select columnname,typeofdata,tablename from vtiger_field where columnname=? and tablename=?",array($colname,$tablename));
 $arr[0]=$adb->query_result($q,0,0);
 $arr[1]=$adb->query_result($q,0,1);
 $arr[2]=$adb->query_result($q,0,2);

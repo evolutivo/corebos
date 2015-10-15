@@ -133,17 +133,14 @@ class VTJsonCondition {
 			$value = $referredData[$value];
 		} elseif ($expressionType == 'expression') {
 			require_once 'modules/com_vtiger_workflow/expression_engine/include.inc';
-			if (trim($value)=='') {
-				$value = '';
+
+			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
+			$expression = $parser->expression();
+			$exprEvaluater = new VTFieldExpressionEvaluater($expression);
+			if ($referredEntityData != null) {
+				$value = $exprEvaluater->evaluate($referredEntityData);
 			} else {
-				$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($value)));
-				$expression = $parser->expression();
-				$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-				if ($referredEntityData != null) {
-					$value = $exprEvaluater->evaluate($referredEntityData);
-				} else {
-					$value = $exprEvaluater->evaluate($entityData);
-				}
+				$value = $exprEvaluater->evaluate($entityData);
 			}
 		} else {
 			if ($value=='true:boolean') $value = '1';

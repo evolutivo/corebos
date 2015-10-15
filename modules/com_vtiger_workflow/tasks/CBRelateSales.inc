@@ -55,10 +55,12 @@ class CBRelateSales extends VTTask{
 					$pdosrv = getSalesEntityType($srv['productid']);
 					if (($pdosrv == 'Products' and $this->relpdo) or (($pdosrv == 'Services' and $this->relsrv))) {
 						if ($this->withaccvnd and !empty($accid)) {
-							relateEntities($acc, $accmodule, $accid, $pdosrv, $srv['productid']);
+							$acc->save_related_module($accmodule, $accid, $pdosrv, $srv['productid']);
+							$acc->trackLinkedInfo($accmodule, $accid, $pdosrv, $srv['productid']);
 						}
 						if ($this->withcto and !empty($ctoid)) {
-							relateEntities($cto, 'Contacts', $ctoid, $pdosrv, $srv['productid']);
+							$cto->save_related_module('Contacts', $ctoid, $pdosrv, $srv['productid']);
+							$cto->trackLinkedInfo('Contacts', $ctoid, $pdosrv, $srv['productid']);
 						}
 					}
 				}

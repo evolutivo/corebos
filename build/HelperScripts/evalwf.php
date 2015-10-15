@@ -60,32 +60,20 @@ if (empty($workflowid_to_evaluate) or empty($crm_record_to_evaluate)) {
 global $currentModule, $adb;
 
 	function evalwfEmailTask($entityid,$task){
-		global $entityCache,$HELPDESK_SUPPORT_EMAIL_ID;
+		global $entityCache;
 		$util = new VTWorkflowUtils();
 		$admin = $util->adminUser();
 
-		$from_name = $from_email = '';
 		if(!empty($task->fromname)){
 			$fnt = new VTEmailRecipientsTemplate($task->fromname);
 			$from_name  = $fnt->render($entityCache,$entityid);
 		}
-		$fromname = $from_name;
 		if(!empty($task->fromemail)){
 			$fet = new VTEmailRecipientsTemplate($task->fromemail);
 			$from_email = $fet->render($entityCache,$entityid);
 		}
-		$fromemail = $from_email;
-		if (empty($from_name) and !empty($from_email)) {
-			$fromname = 'first and last name of user with email: '.$from_email;
-		}
-		if (!empty($from_name) and empty($from_email)) {
-			$fromname = 'first and last name of user with user_name: '.$from_name;
-			$fromemail = 'email of user with user_name: '.$from_name;
-		}
-		if (empty($from_name) and empty($from_email)) {
-			$fromemail = $HELPDESK_SUPPORT_EMAIL_ID;
-			$fromname = 'first and last name of user with user_name: '.$HELPDESK_SUPPORT_EMAIL_ID;
-		}
+		if (empty($from_name)) $from_name = $admin->column_fields['user_name'];
+		if (empty($from_email)) $from_email = $admin->column_fields['email1'];
 
 		$et = new VTEmailRecipientsTemplate($task->recepient);
 		$to_email = $et->render($entityCache, $entityid);
@@ -102,8 +90,7 @@ global $currentModule, $adb;
 		$content = $ct->render($entityCache, $entityid);
 		$util->revertUser();
 		return array(
-			'from_name' => $fromname,
-			'from_email' => $fromemail,
+			'from_email' => $from_email,
 			'to_email' => $to_email,
 			'cc' => $cc,
 			'bcc' => $bcc,

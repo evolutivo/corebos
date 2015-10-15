@@ -17,6 +17,7 @@
  *  Author       : OpenCubed.
  *************************************************************************************************/
 -->*}
+<script src="Smarty/angular/angular.min.js"></script>
 <script  src="Smarty/angular/ng-table.js"></script>
 <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
@@ -36,7 +37,6 @@ var j2=jQuery.noConflict();
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/pivot.js"></script>
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/gchart_renderers.js"></script>
 <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/d3_renderers.js"></script>
-<script src="modules/Pivottable/pivottable-master2/dist/nrecopivot.js"></script>		
 <script type="text/javascript">
     {literal}
     var tableToExcel = (function() {            
@@ -196,20 +196,20 @@ function tableToExcel2 (table) {
     <table   width=68% align=center border="0" >
         <tr ng-if="edit_type=='create'">
             <td align="center">
-                <input type="radio" name="type_pivot.name" value="report" ng-model="type_pivot.name">Report<br>
-                <select id="report_opt" ng-disabled="type_pivot.name!='report'">
+                <input type="radio" name="type_pivot" value="report" ng-model="type_pivot">Report<br>
+                <select id="report_opt" ng-disabled="type_pivot!='report'">
                     {$options}
                 </select>
             </td>
             <td align="center">
-                <input type="radio" name="type_pivot.name" value="mv" ng-model="type_pivot.name" >MV<br>
-                <select id="mv_opt" ng-disabled="type_pivot.name!='mv'">
+                <input type="radio" name="type_pivot" value="mv" ng-model="type_pivot" >MV<br>
+                <select id="mv_opt" ng-disabled="type_pivot!='mv'">
                     {$options_mv}
                 </select>
             </td>
             <td align="center">
-                <input type="radio" name="type_pivot.name" value="elastic" ng-model="type_pivot.name" >Elastic index<br>
-                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'">
+                <input type="radio" name="type_pivot" value="elastic" ng-model="type_pivot" >Elastic index<br>
+                <select id="elastic_opt" ng-disabled="type_pivot!='elastic'">
                     {$options_elastic}
                 </select>
             </td>
@@ -234,7 +234,7 @@ function tableToExcel2 (table) {
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="new_config(type_pivot,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
    <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='edit'" >Edit Config</button>
    <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
@@ -290,32 +290,17 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                         var resp_arr=data;
                         var derivers = j2.pivotUtilities.derivers;
                         j2.getJSON("report"+$scope.cbAppid+".json", function(mps) {
-                        var nrecoPivotExt = new NRecoPivotTableExtensions({
-			drillDownHandler: function (dataFilter) {
-				console.log(dataFilter);
-				
-				var filterParts = [];
-				for (var k in dataFilter) {
-					filterParts.push(k+"="+dataFilter[k]);
-				}
-				alert( filterParts.join(", "));	
-				
-			}
-		});
-		
-		var stdRendererNames = ["Table","Table Barchart","Heatmap","Row Heatmap","Col Heatmap"];
-		var wrappedRenderers = j2.extend( {}, j2.pivotUtilities.renderers);
-		j2.each(stdRendererNames, function() {
-			var rName = this;
-			wrappedRenderers[rName] = nrecoPivotExt.wrapTableRenderer(wrappedRenderers[rName]);
-		});
-                var tpl =          j2.pivotUtilities.aggregatorTemplates;
+
                         j2("#output"+$scope.cbAppid).pivotUI(mps, {
-                                renderers: wrappedRenderers,
+                                   renderers: j2.extend(
+                                    j2.pivotUtilities.renderers, 
+                                    j2.pivotUtilities.gchart_renderers, 
+                                    j2.pivotUtilities.d3_renderers
+                                    ),
                                 rows: resp_arr.selectedColumnsX,
                                 cols: resp_arr.selectedColumnsY,
                                 rendererName: resp_arr.type,
-                                aggregatorName: ['count','sum'],
+                                aggregatorName: resp_arr.aggregatorName,
                                 vals: resp_arr.vals
                             });
                         });
@@ -349,55 +334,38 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
             };
               
             $scope.save_config = function (cbAppid) {
+                var j=0;
                 var horiz=Array();
-                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<nobr>");
-                var i=0;
-                for(j=0;j<hz.length;j++){
-                    var pos=hz[j].indexOf('</nobr>');
-                    if(pos !==-1){
-                        var str=hz[j].substr(0,pos);
-                        horiz[i]=str;//.replace('pvtAttr','').replace('"">','');
-                        i++;
-                    }                     
+                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<span class=");
+                var i=1;
+                while(hz[i]!=undefined){
+                     //alert(hz[i]);
+                     horiz[j]=hz[i].replace('pvtAttr','').replace('"">','');
+                     j++;
+                     i=i+2;
                 }
+                var j1=0;
                 var vert=Array();
-                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<nobr>");
-                var i=0;
-                for(j=0;j<v.length;j++){
-                    var pos=v[j].indexOf('</nobr>');
-                    if(pos !==-1){
-                        var str=v[j].substr(0,pos);
-                        vert[i]=str;//.replace('pvtAttr','').replace('"">','');
-                        i++;
-                    }                     
+                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<span class=");
+                var i1=1;
+                while(v[i1]!=undefined){
+                     //alert(hz[i]);
+                     vert[j1]=v[i1].replace('pvtAttr','').replace('"">','');
+                     j1++;
+                     i1=i1+2;
                 }
-                var vals=Array();
-                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split("<nobr>");
-                var i=0;
-                for(j=0;j<a.length;j++){
-                    var pos=a[j].indexOf('</nobr>');
-                    if(pos !==-1){
-                        var str=a[j].substr(0,pos);
-                        vals[i]=str;//.replace('pvtAttr','').replace('"">','');
-                        i++;
-                    }                     
-                }
-                var aggrcount=Array();
-                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split('<select class="');
-                var i=0;console.log(a);
-                for(j=1;j<a.length;j++){
-                    var pos=a[j].indexOf('"');
-                    var selectname=a[j].substr(0,pos);//alert(pos);alert(selectname);
-                    var t=document.getElementsByClassName(selectname).item(0).options[document.getElementsByClassName(selectname).item(0).selectedIndex].value;
-                    //alert(t);
-                    aggrcount[i]=t;
-                    i++;
-                }
+                                
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
                 var typebar=document.getElementById('typechart').value;
-                var aggrdrop=vals.join(",");
-                var aggr=aggrcount.join(",");
+                var aggr=document.getElementById('aggr').value;
+                var aggrdrop='';
+                var j1=0;
+                var agg_arr=Array();
+                if (document.getElementById('aggrdrop')!=undefined)
+                {
+                    aggrdrop=document.getElementById('aggrdrop').value;
+                }
                 $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReport&cbAppsid='+cbAppid+'&selectedX='+selectedX+'&selectedY='+selectedY+'&type='+typebar+'&aggr='+aggr+'&aggrdrop='+aggrdrop).
                     success(function(data, status) {
                         alert('Successfully saved');
@@ -429,17 +397,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
                 var typebar=document.getElementById('typechart').value;
-                var j1=0;
-                var aggr=Array();
-                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<div class=");
-                var i1=1;
-                while(v[i1]!=undefined){
-                     //alert(hz[i]);
-                     vert[j1]=v[i1].replace('pvtAttr','').replace('"">','');
-                     j1++;
-                     i1=i1+2;
-                }
-                //var aggr=document.getElementById('aggr').value;
+                var aggr=document.getElementById('aggr').value;
                 var aggrdrop='';
                 var j1=0;
                 var agg_arr=Array();
@@ -556,27 +514,13 @@ angular.module('demoApp')
             var resp_arr=data;
             var derivers = j2.pivotUtilities.derivers;
             j2.getJSON("report"+repid+".json", function(mps) {
-            var nrecoPivotExt = new NRecoPivotTableExtensions({
-			drillDownHandler: function (dataFilter) {
-				console.log(dataFilter);
-				
-				var filterParts = [];
-				for (var k in dataFilter) {
-					filterParts.push(k+"="+dataFilter[k]);
-				}
-				alert( filterParts.join(", "));	
-				
-			}
-		});
-		
-		var stdRendererNames = ["Table","Table Barchart","Heatmap","Row Heatmap","Col Heatmap"];
-		var wrappedRenderers = $.extend( {}, $.pivotUtilities.renderers);
-		j2.each(stdRendererNames, function() {
-			var rName = this;
-			wrappedRenderers[rName] = nrecoPivotExt.wrapTableRenderer(wrappedRenderers[rName]);
-		});
+
             j2("#output").pivotUI(mps, {
-                renderers: wrappedRenderers,
+                   renderers: j2.extend(
+                    j2.pivotUtilities.renderers, 
+                    j2.pivotUtilities.gchart_renderers, 
+                    j2.pivotUtilities.d3_renderers
+                    ),
                 rows: resp_arr.selectedColumnsX,
                 cols: resp_arr.selectedColumnsY,
                 rendererName: resp_arr.type
@@ -603,7 +547,7 @@ angular.module('demoApp')
 
     $scope.name_pivot='';
     $scope.desc_pivot='';
-    $scope.type_pivot={name:'report'};
+    $scope.type_pivot='report';
     $scope.edit_type=edit_type;
     $scope.cbAppsid=cbAppsid;
     $scope.action=(edit_type=='edit' ? 'Edit' : 'Add');

@@ -254,7 +254,6 @@ $mod_strings = Array(
 'Contact Id' => 'Contact Nr',
 'Secondary Email'=>'Tweede E-mail',
 // END
-'Contacts ID'=>'ID Contact ID',
 );
 
 ?>

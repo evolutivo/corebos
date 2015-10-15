@@ -41,6 +41,7 @@ new Ajax.Request(
  function saveit(){
 	$("status").style.display="inline";
 	var moduleval=$('Screen').value;
+        
         var values=new Array();
         var values1=new Array();
         var relmodule=new Array();
@@ -84,14 +85,12 @@ if(document.getElementById("entitylog"+moduleval)!=null){
         var denorm=document.getElementById("denorm"+moduleval).checked;
         var norm=document.getElementById("norm"+moduleval).checked;
         var indextype=document.getElementById("indextype"+moduleval).value;
-        if(document.getElementsByName('brinlog').item(0)!=undefined)
-        var brelastic=document.getElementsByName('brinlog').item(0).value;
        }
 	new Ajax.Request(
 		'index.php',
 		{queue: {position: 'end', scope: 'command'},
 			method: 'post',
-			postBody: 'module=LoggingConf&action=LoggingConfAjax&file=UpdateLoggingConfiguration&Screen='+moduleval+'&fieldstobeloggedModule='+serialize(values)+"&elog="+elog+"&denorm="+denorm+"&norm="+norm+'&fieldselasticModule='+serialize(values1)+"&relmodule="+relmodule1+'&indextype='+indextype+'&brelastic='+brelastic,
+			postBody: 'module=LoggingConf&action=LoggingConfAjax&file=UpdateLoggingConfiguration&Screen='+moduleval+'&fieldstobeloggedModule='+serialize(values)+"&elog="+elog+"&denorm="+denorm+"&norm="+norm+'&fieldselasticModule='+serialize(values1)+"&relmodule="+relmodule1+'&indextype='+indextype,
 			onComplete: function(response) {                           
 				
                                 window.location="index.php?action=index&module=LoggingConf&fld_module="+moduleval;

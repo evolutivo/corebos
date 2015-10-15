@@ -249,7 +249,7 @@ class ReportRun extends CRMEntity {
 				}
 			}
 		}
-		$columnslist['vtiger_crmentity:crmid:LBL_ACTION:crmid:I'] = 'vtiger_crmentity.crmid AS "LBL_ACTION"' ;
+		if ($outputformat == "HTML") $columnslist['vtiger_crmentity:crmid:LBL_ACTION:crmid:I'] = 'vtiger_crmentity.crmid AS "LBL_ACTION"' ;
 		// Save the information
 		$this->_columnslist = $columnslist;
 
@@ -2190,7 +2190,7 @@ class ReportRun extends CRMEntity {
 				do
 				{
 					$arraylists = Array();
-					for ($i=0; $i<$y-1; $i++) //No tratamos la última columna por ser el ACTION con el CRMID.
+					for ($i=0; $i<$y; $i++)
 					{
 						$fld = $adb->field_name($result, $i);
 						$fld_type = $column_definitions[$i]->type;
@@ -3150,75 +3150,70 @@ class ReportRun extends CRMEntity {
 		return $pdf;
 	}
 
-	function writeReportToExcelFile($fileName, $filterlist='') {
+	function writeReportToExcelFile($fileName, $filterlist=false) {
+
 		global $currentModule, $current_language;
 		$mod_strings = return_module_language($current_language, $currentModule);
 
-		require_once("include/PHPExcel/PHPExcel.php");
+		require_once("include/php_writeexcel/class.writeexcel_workbook.inc.php");
+		require_once("include/php_writeexcel/class.writeexcel_worksheet.inc.php");
 
-		$workbook = new PHPExcel();
-		$worksheet = $workbook->setActiveSheetIndex(0);
+		$workbook = new writeexcel_workbook($fileName);
+		$worksheet =& $workbook->addworksheet();
 
-		$arr_val = $this->GenerateReport('PDF',$filterlist);
-		$totalxls = $this->GenerateReport('TOTALXLS',$filterlist);
+		# Set the column width for columns 1, 2, 3 and 4
+		$worksheet->set_column(0, 3, 25);
 
-		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb'=>'E1E0F7')),
-			'font' => array('bold' => true)
-		);
+		# Create a format for the column headings
+		$header =& $workbook->addformat();
+		$header->set_bold();
+		$header->set_size(12);
+		$header->set_color('blue');
+
+		$arr_val = $this->GenerateReport("PDF",$filterlist);
+		$totalxls = $this->GenerateReport("TOTALXLS",$filterlist);
 
 		if(isset($arr_val)) {
-			$count = 0;
-			$rowcount = 1;
-			//copy the first value details
-			$arrayFirstRowValues = $arr_val[0];
-			foreach($arrayFirstRowValues as $key=>$value) {
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $key, true);
-				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
-
-				// NOTE Performance overhead: http://stackoverflow.com/questions/9965476/phpexcel-column-size-issues
-				//$worksheet->getColumnDimensionByColumn($count)->setAutoSize(true);
-
+			foreach($arr_val[0] as $key=>$value) {
+				$worksheet->write(0, $count, utf8_decode($key), $header);
 				$count = $count + 1;
 			}
-
-			$rowcount++;
+			$rowcount=1;
 			foreach($arr_val as $key=>$array_value) {
-				$count = 0;
+				$dcount = 0;
 				foreach($array_value as $hdr=>$value) {
+					//$worksheet->write($key+1, $dcount, iconv("UTF-8", "ISO-8859-1", $value));
 					$value = decode_html($value);
-					// TODO Determine data-type based on field-type.
-					// String type helps having numbers prefixed with 0 intact.
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, PHPExcel_Cell_DataType::TYPE_STRING);
-					$count = $count + 1;
+					$worksheet->write($key+1, $dcount, iconv("UTF-8", "Windows-1252",$value));
+					$dcount = $dcount + 1;
 				}
 				$rowcount++;
 			}
 
-			// Summary Total
 			$rowcount++;
 			$count=0;
 			if(is_array($totalxls[0])) {
 				foreach($totalxls[0] as $key=>$value) {
 					$chdr=substr($key,-3,3);
 					$translated_str = in_array($chdr ,array_keys($mod_strings))?$mod_strings[$chdr]:$key;
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $translated_str);
-					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+					$worksheet->write($rowcount, $count, utf8_decode($translated_str));
 					$count = $count + 1;
 				}
 			}
 			$rowcount++;
 			foreach($totalxls as $key=>$array_value) {
-				$count = 0;
+				$dcount = 0;
 				foreach($array_value as $hdr=>$value) {
+					//$worksheet->write($key+1, $dcount, iconv("UTF-8", "ISO-8859-1", $value));
+					//if ($dcount==1)
+					//		$worksheet->write($key+$rowcount, 0, utf8_decode(substr($hdr,0,strlen($hdr)-4)));
 					$value = decode_html($value);
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $key+$rowcount, $value);
-					$count = $count + 1;
+					$worksheet->write($key+$rowcount, $dcount, iconv("UTF-8", "Windows-1252", $value));
+					$dcount = $dcount + 1;
 				}
 			}
 		}
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
-		$workbookWriter->save($fileName);
+		$workbook->close();
 	}
     
     function writeReportToCSVFile($fileName, $filterlist='') {
