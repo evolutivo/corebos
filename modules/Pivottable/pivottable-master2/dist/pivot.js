@@ -1075,11 +1075,12 @@ https://www.thinkful.com/learn/angularjs-tutorial-build-a-gmail-clone/Controller
           "text-align": "center",
           "font-weight": "bold"
         }).text("" + c + " (" + keys.length + ")"));
-        if (keys.length > opts.menuLimit) {
-          valueList.append($("<p>").css({
-            "text-align": "center"
-          }).text(opts.localeStrings.tooMany));
-        } else {
+//        if (keys.length > opts.menuLimit) {
+//          valueList.append($("<p>").css({
+//            "text-align": "center"
+//          }).text(opts.localeStrings.tooMany));
+//        } 
+//        else {
           btns = $("<p>").css({
             "text-align": "center"
           });
@@ -1101,7 +1102,7 @@ https://www.thinkful.com/learn/angularjs-tutorial-build-a-gmail-clone/Controller
             filterItem.append($("<span>").text("" + k + " (" + v + ")"));
             valueList.append($("<p>").append(filterItem));
           }
-        }
+       // }
         attrElem = $("<li class='label label-info axis_" + i + "'>").append($("<div class='div_axis_" + i + "'>").append($("<nobr>").text(c)));
         if (hasExcludedItem) {
           attrElem.addClass('pvtFilteredAttribute');
