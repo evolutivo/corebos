@@ -136,12 +136,12 @@ if($brelastic!='undefined') {
  for($i2=0;$i2<count($br);$i2++){
  $endpointUrl2 = "http://$ip:9200/$ind1[$i2]/norm";
  $brid=$br[$i2];
- $map=$adb->query("select content,businessrules_name,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+ $map=$adb->query("select content,businessrules_name,cbmapid,selected_fields from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
    join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
    where c.deleted=0 and businessrulesid=$brid");
  $query=str_replace('"','',$adb->query_result($map,0,0));
- $fields31=explode("FROM",$query);
- $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
+ $fields31=$adb->query_result($map,0,3);
+ $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
  $tabfld=explode(" AS ",$fields3[count($fields3)-1]);
  $fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
 $eid=$entityData->getId();
@@ -204,12 +204,12 @@ $response2 = curl_exec($channel11);
  {
 $endpointUrl12 = "http://$ip:9200/$ind1[$i2]/denorm/_search?pretty"; 
  $brid=$br[$i2];
- $map=$adb->query("select content,businessrules_name,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+ $map=$adb->query("select content,businessrules_name,cbmapid,selected_fields from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
    join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
    where c.deleted=0 and businessrulesid=$brid");
  $query=str_replace('"','',$adb->query_result($map,0,0));
- $fields31=explode("FROM",$query);
- $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
+ $fields31=$adb->query_result($map,0,3);
+ $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
  $tabfld=explode(" AS ",$fields3[count($fields3)-1]);
  $tabfld2=explode(" AS ",str_replace(".","_",$fields3[count($fields3)-1]));
 $getid=$entityData->getId();

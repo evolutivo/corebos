@@ -202,15 +202,16 @@ else $create=0;
  $br=explode(",",$brelastic);
  for($i=0;$i<count($br);$i++){
  $brid=$br[$i];
- $map=$adb->query("select content,mapname,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+ $map=$adb->query("select content,mapname,cbmapid,selected_fields from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
    join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
    where c.deleted=0 and businessrulesid=$brid");
  $query=str_replace('"','',$adb->query_result($map,0,0));
+ $fields31=$adb->query_result($map,0,3);
+ $fields32=explode("FROM",$query);
  $mapname=$adb->query_result($map,0,1);
  $mapid=$adb->query_result($map,0,2);
  $ind1[$i]=strtolower($ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
- $fields31=explode("FROM",$query);
- $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
+ $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
  $sqlFields=array();
  $k1=0;
  foreach($fields3 as $field)
@@ -236,7 +237,7 @@ else $create=0;
     $k1++;
 }
  $sqlfld=implode(",",$sqlFields);
- $query2="SELECT ".$sqlfld.' FROM '.$fields31[1];
+ $query2="SELECT ".$sqlfld.' FROM '.$fields32[1];
  $adb->pquery("update vtiger_cbmap set content=? where cbmapid=?",array($query2,$mapid));
  //check if index exists for each br
  $endpointUrl2 = "http://$ip:9200/$ind1[$i]/_mapping/denorm";
