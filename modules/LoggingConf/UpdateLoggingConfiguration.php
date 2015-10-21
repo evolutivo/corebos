@@ -77,17 +77,17 @@ foreach($fields1 as $field)
     $col=getColumnname($field);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-        $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype);
+        $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"index"=>"not_analyzed");
         
     }
     else if(substr($col[1],0,1)=='D')
     { $coltype='date';
     if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
     else $format='yyyy-MM-dd';
-    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"format"=>"$format");
+    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"format"=>"$format","index"=>"not_analyzed");
     }
     else {$coltype='string';
-    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype);}
+    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"index"=>"not_analyzed");}
     $table=$col[2];
     $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$_REQUEST['Screen'];
     $k++;
@@ -120,15 +120,15 @@ foreach($fields2 as $field2)
     $col=getColumnname($field2);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"index"=>"not_analyzed");
     }
     else if(substr($col[1],0,1)=='D')
     {$coltype='date';
     if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
     else $format='yyyy-MM-dd';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"$format");}
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"$format","index"=>"not_analyzed");}
     else {$coltype='string';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);}
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"index"=>"not_analyzed");}
     if($col[2]=='vtiger_crmentity') $table="crm$relmodule2[0]$j";
     else $table=$col[2].$j;
     $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$relmodule2[0].$j;
@@ -226,16 +226,16 @@ else $create=0;
     $col=getColumnname('',$clname,$tabname);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);
+    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"index"=>"not_analyzed");
     }
     else if(substr($col[1],0,1)=='D')
     { $coltype='date';
     if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
     else $format='yyyy-MM-dd';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"format"=>"$format");
+    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"format"=>"$format","index"=>"not_analyzed");
     }
     else {$coltype='string';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);}
+    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"index"=>"not_analyzed");}
     $sqlFields[$k1]=trim($fselect2[0]).' AS '.trim($f[0]).'_'.$clname;
     $k1++;
 }
