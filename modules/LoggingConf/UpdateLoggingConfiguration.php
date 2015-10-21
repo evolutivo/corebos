@@ -208,6 +208,7 @@ else $create=0;
  $query=str_replace('"','',$adb->query_result($map,0,0));
  $fields31=$adb->query_result($map,0,3);
  $fields32=explode("FROM",$query);
+ $fields322=explode(",",str_replace("SELECT","",$fields32[0]));
  $mapname=$adb->query_result($map,0,1);
  $mapid=$adb->query_result($map,0,2);
  $ind1[$i]=strtolower($ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
@@ -218,6 +219,8 @@ else $create=0;
 {
     $f=explode(".",$field);
     $f2=explode(" AS ",$f[1]);
+    $fselect=explode(" AS ",$fields322[$k1]);
+    $fselect2=explode(" as ",$fselect[0]);
     $tabname=trim(str_replace(range(0,9),'',$f[0]));
     $clname=preg_replace("/\s+/", "",$f2[0]);
     $col=getColumnname('',$clname,$tabname);
@@ -233,7 +236,7 @@ else $create=0;
     }
     else {$coltype='string';
     $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);}
-    $sqlFields[$k1]=trim($f[0]).'.'.$clname.' AS '.trim($f[0]).'_'.$clname;
+    $sqlFields[$k1]=trim($fselect2[0]).' AS '.trim($f[0]).'_'.$clname;
     $k1++;
 }
  $sqlfld=implode(",",$sqlFields);
