@@ -142,7 +142,7 @@ if($brelastic!='undefined') {
  $query=str_replace('"','',$adb->query_result($map,0,0));
  $fields31=$adb->query_result($map,0,3);
  $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
- $tabfld=explode(" AS ",$fields3[count($fields3)-1]);
+ $tabfld=explode(" AS ",$fields3[0]);
  $fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
 $eid=$entityData->getId();
 $fields1->fields['roles']=$roleid;
@@ -210,8 +210,8 @@ $endpointUrl12 = "http://$ip:9200/$ind1[$i2]/denorm/_search?pretty";
  $query=str_replace('"','',$adb->query_result($map,0,0));
  $fields31=$adb->query_result($map,0,3);
  $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
- $tabfld=explode(" AS ",$fields3[count($fields3)-1]);
- $tabfld2=explode(" AS ",str_replace(".","_",$fields3[count($fields3)-1]));
+ $tabfld=explode(" AS ",$fields3[0]);
+ $tabfld2=explode(" AS ",str_replace(".","_",$fields3[0]));
 $getid=$entityData->getId();
 $fields1 =array('query'=>array("term"=>array("$tabfld2[0]"=>"$getid")));
 
