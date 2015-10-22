@@ -235,7 +235,7 @@ function tableToExcel2 (table) {
                 <h5>Type Elastic</h5>
             </td>
             <td align="left" colspan="2">
-                <select id="elastic_types">
+                <select id="elastic_types" ng-model="elastic_type.name">
                     <option value="import">import</option>
                     <option value="norm">norm</option>
                     <option value="denorm">denorm</option>
@@ -247,7 +247,7 @@ function tableToExcel2 (table) {
 </div>
 <div class="modal-footer">
    <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
-   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='edit'" >Edit Config</button>
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type.name)" ng-if="edit_type=='edit'" >Edit Config</button>
    <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
@@ -621,6 +621,8 @@ angular.module('demoApp')
 
     $scope.name_pivot='';
     $scope.desc_pivot='';
+    $scope.elastic_type={name:''};
+    $scope.pivot_type='';
     $scope.type_pivot={name:'report'};
     $scope.edit_type=edit_type;
     $scope.cbAppsid=cbAppsid;
@@ -630,6 +632,11 @@ angular.module('demoApp')
         if(reports[i].cbAppsid == $scope.cbAppsid){
             $scope.name_pivot=reports[i]['reportname'];
             $scope.desc_pivot=reports[i]['desc_pivot'];
+            $scope.pivot_type=reports[i]['pivot_type'];
+            if($scope.pivot_type=='elastic'){
+                $scope.type_pivot={name:'elastic'};
+                $scope.elastic_type={name:reports[i]['elastic_type']};
+            }
         }
     }
     $scope.cancel = function () {
@@ -667,14 +674,14 @@ angular.module('demoApp')
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
-                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv,'desc_pivot':desc_pivot});
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv,'desc_pivot':desc_pivot,'elastic_type':elastic_p});
                 $modalInstance.close();
 
       });
     }
     
-    $scope.edit_config = function (name_pivot,desc_pivot) {
-       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
+    $scope.edit_config = function (name_pivot,desc_pivot,elastic_type) {
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+'&elastic_type='+elastic_type;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
@@ -682,6 +689,7 @@ angular.module('demoApp')
                     if(reports[i].cbAppsid == $scope.cbAppsid){
                         reports[i]['reportname']=name_pivot;
                         reports[i]['desc_pivot']=desc_pivot;
+                        reports[i]['elastic_type']=elastic_type;
                     }
                 }
                 $modalInstance.close();

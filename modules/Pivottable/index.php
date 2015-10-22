@@ -137,11 +137,13 @@ elseif($cbAction=='updateReportName'){
     $cbAppsid=$_REQUEST['cbAppsid'];
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
+    $elastic_type=$_REQUEST['elastic_type'];
 
     $adb->pquery("Update vtiger_cbApps "
             . " set name_pivot=?,"
-            . " desc_pivot=?"
-            . " where cbappsid=?",array($reportname,$reportdesc,$cbAppsid));
+            . " desc_pivot=?,"
+            . " elastic_type=?"
+            . " where cbappsid=?",array($reportname,$reportdesc,$elastic_type,$cbAppsid));
     
 }
 elseif($cbAction=='newReport'){
@@ -226,6 +228,7 @@ else{
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $focus->reportname),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
+            'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
@@ -241,6 +244,7 @@ else{
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'name')),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
+            'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
@@ -256,6 +260,7 @@ else{
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'elasticname')),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
+            'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
             'pivot_type'=>$adb->query_result($result,$count_rep,'pivot_type'));
     }
     $list_rep_res=$adb->query("Select *"
@@ -448,15 +453,15 @@ function createElastic($reportid,$cbAppid){
     $query_inde=$adb->pquery("SELECT *
                           from  vtiger_cbApps
                           where cbappsid = ?",array($cbAppid));
-    $pivot_type=$adb->query_result($query_inde,0,'pivot_type');
-    $temp=explode('@@',$pivot_type);
-    $typ=$temp[1];
+    $elastic_type=$adb->query_result($query_inde,0,'elastic_type');
+    $typ=$elastic_type;
 
     $entries=Array();
     $tabid=  getTabid('Adocdetail');
     global $dbconfig;
     $ip='193.182.16.34';//$dbconfig['ip_server'];
     $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
+    var_dump($endpointUrl);
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
