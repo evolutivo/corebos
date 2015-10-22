@@ -461,8 +461,7 @@ function createElastic($reportid,$cbAppid){
     global $dbconfig;
     $ip='193.182.16.34';//$dbconfig['ip_server'];
     $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
-    var_dump($endpointUrl);
-//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+    //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
     curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
