@@ -230,6 +230,18 @@ function tableToExcel2 (table) {
                 <input type="text" name="desc_pivot" ng-model="desc_pivot" >
             </td>
         </tr>
+        <tr ng-if="type_pivot.name=='elastic'">
+            <td align="center">
+                <h5>Type Elastic</h5>
+            </td>
+            <td align="left" colspan="2">
+                <select id="elastic_types">
+                    <option value="import">import</option>
+                    <option value="norm">norm</option>
+                    <option value="denorm">denorm</option>
+                </select>
+            </td>
+        </tr>
 
     </table>
 </div>
@@ -635,7 +647,7 @@ angular.module('demoApp')
            var elasticname=document.getElementById('elastic_opt').options[document.getElementById('elastic_opt').selectedIndex].text;
        }
        
-       var url='';var typ='';
+       var url='';var typ='';var elastic_params='';
        if(type_piv==='report')
            typ='newReport';
        else if(type_piv==='mv'){
@@ -647,9 +659,11 @@ angular.module('demoApp')
            typ='newElastic';
            repid=elasticid;
            repname=elasticname;
+           var elastic_p=document.getElementById('elastic_types').options[document.getElementById('elastic_types').selectedIndex].value;
+           elastic_params='&elastic_type='+elastic_p;
        }
        if(name_pivot!='')repname=name_pivot;
-       url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot;
+       url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+elastic_params;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;

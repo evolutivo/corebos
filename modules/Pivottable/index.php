@@ -173,8 +173,9 @@ elseif($cbAction=='newElastic'){
     $reportid=$_REQUEST['reportid'];
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
-            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc')",array());
+    $elastic_type=$_REQUEST['elastic_type'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,elastic_type)"
+            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc','$elastic_type')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createMV($reportid,$cbAppid);
@@ -443,12 +444,19 @@ function createElastic($reportid,$cbAppid){
                           where elasticid = ?",array($reportid));
     $nr_qry=$adb->num_rows($query);
     $indextype=$adb->query_result($query,0,'elasticname');
+    
+    $query_inde=$adb->pquery("SELECT *
+                          from  vtiger_cbApps
+                          where cbappsid = ?",array($cbAppid));
+    $pivot_type=$adb->query_result($query_inde,0,'pivot_type');
+    $temp=explode('@@',$pivot_type);
+    $typ=$temp[1];
 
     $entries=Array();
     $tabid=  getTabid('Adocdetail');
     global $dbconfig;
     $ip='193.182.16.34';//$dbconfig['ip_server'];
-    $endpointUrl = "http://$ip:9200/$indextype/import/_search?pretty";
+    $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -462,7 +470,7 @@ function createElastic($reportid,$cbAppid){
     $response1 = json_decode(curl_exec($channel1));
     $tot=$response1->hits->total;
     
-    $endpointUrl = "http://$ip:9200/$indextype/import/_search?pretty&size=$tot";
+    $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty&size=$tot";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
