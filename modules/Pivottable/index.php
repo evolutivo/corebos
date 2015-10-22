@@ -416,13 +416,13 @@ function createMV($reportid,$cbAppid){
     $name='';
    
     $folder=$adb->query_result($query,0,'folder');   
-    if($folder !='Reports')
-    {
-        $f=substr($filename,0,strrpos($filename,'.'));
-        $tbl=strtolower($folder).'_'.$f;   
-    }
-    else
-    {
+//    if($folder !='Reports')
+//    {
+//        $f=substr($filename,0,strrpos($filename,'.'));
+//        $tbl=strtolower($folder).'_'.$f;   
+//    }
+//    else
+//    {
         $f=substr($filename,0,strrpos($filename,'.'));
         $arr=explode('_',$f);
         for($t=2;$t<sizeof($arr);$t++){
@@ -430,7 +430,7 @@ function createMV($reportid,$cbAppid){
         }
         $log->debug('name '.$name);
         $tbl='mv_'.substr($name,0,strlen($name)-1);
-    }
+//    }
     $log->debug('name2 '.$tbl);
     $sSQL="SELECT * FROM $tbl ";   
 
@@ -461,7 +461,7 @@ function createElastic($reportid,$cbAppid){
     global $dbconfig;
     $ip='193.182.16.34';//$dbconfig['ip_server'];
     $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
-    //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+//    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
     curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
