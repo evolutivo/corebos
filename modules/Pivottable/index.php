@@ -45,7 +45,7 @@ if($cbAction=='retrieveMV'){
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
         'type'=>$adb->query_result($result,0,'type'),
-        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'aggregatorName'=>explode(',',$adb->query_result($result,0,'aggregatorname')),
         'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
@@ -64,7 +64,7 @@ elseif($cbAction=='retrieveElastic'){
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
         'type'=>$adb->query_result($result,0,'type'),
-        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'aggregatorName'=>explode(',',$adb->query_result($result,0,'aggregatorname')),
         'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
@@ -83,7 +83,7 @@ elseif($cbAction=='retrieveReport'){
         'selectedColumnsX'=>explode(',',$adb->query_result($result,0,'selectedcolumnsx')),
         'selectedColumnsY'=>explode(',',$adb->query_result($result,0,'selectedcolumnsy')),
         'type'=>$adb->query_result($result,0,'type'),
-        'aggregatorName'=>$adb->query_result($result,0,'aggregatorname'),
+        'aggregatorName'=>explode(',',$adb->query_result($result,0,'aggregatorname')),
         'vals'=>explode(',',$adb->query_result($result,0,'vals')));
     echo json_encode($reports);
 }
@@ -137,11 +137,13 @@ elseif($cbAction=='updateReportName'){
     $cbAppsid=$_REQUEST['cbAppsid'];
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
+    $elastic_type=$_REQUEST['elastic_type'];
 
     $adb->pquery("Update vtiger_cbApps "
             . " set name_pivot=?,"
-            . " desc_pivot=?"
-            . " where cbappsid=?",array($reportname,$reportdesc,$cbAppsid));
+            . " desc_pivot=?,"
+            . " elastic_type=?"
+            . " where cbappsid=?",array($reportname,$reportdesc,$elastic_type,$cbAppsid));
     
 }
 elseif($cbAction=='newReport'){
@@ -173,8 +175,9 @@ elseif($cbAction=='newElastic'){
     $reportid=$_REQUEST['reportid'];
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
-            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc')",array());
+    $elastic_type=$_REQUEST['elastic_type'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,elastic_type)"
+            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc','$elastic_type')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createMV($reportid,$cbAppid);
@@ -225,6 +228,7 @@ else{
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $focus->reportname),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
+            'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
@@ -240,6 +244,7 @@ else{
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'name')),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
+            'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
@@ -255,6 +260,7 @@ else{
             'reportid'=>$adb->query_result($result,$count_rep,'reportid'),
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'elasticname')),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
+            'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
             'pivot_type'=>$adb->query_result($result,$count_rep,'pivot_type'));
     }
     $list_rep_res=$adb->query("Select *"
@@ -410,13 +416,13 @@ function createMV($reportid,$cbAppid){
     $name='';
    
     $folder=$adb->query_result($query,0,'folder');   
-    if($folder !='Reports')
-    {
-        $f=substr($filename,0,strrpos($filename,'.'));
-        $tbl=strtolower($folder).'_'.$f;   
-    }
-    else
-    {
+//    if($folder !='Reports')
+//    {
+//        $f=substr($filename,0,strrpos($filename,'.'));
+//        $tbl=strtolower($folder).'_'.$f;   
+//    }
+//    else
+//    {
         $f=substr($filename,0,strrpos($filename,'.'));
         $arr=explode('_',$f);
         for($t=2;$t<sizeof($arr);$t++){
@@ -424,7 +430,7 @@ function createMV($reportid,$cbAppid){
         }
         $log->debug('name '.$name);
         $tbl='mv_'.substr($name,0,strlen($name)-1);
-    }
+//    }
     $log->debug('name2 '.$tbl);
     $sSQL="SELECT * FROM $tbl ";   
 
@@ -443,12 +449,18 @@ function createElastic($reportid,$cbAppid){
                           where elasticid = ?",array($reportid));
     $nr_qry=$adb->num_rows($query);
     $indextype=$adb->query_result($query,0,'elasticname');
+    
+    $query_inde=$adb->pquery("SELECT *
+                          from  vtiger_cbApps
+                          where cbappsid = ?",array($cbAppid));
+    $elastic_type=$adb->query_result($query_inde,0,'elastic_type');
+    $typ=$elastic_type;
 
     $entries=Array();
     $tabid=  getTabid('Adocdetail');
     global $dbconfig;
     $ip='193.182.16.34';//$dbconfig['ip_server'];
-    $endpointUrl = "http://$ip:9200/$indextype/import/_search?pretty";
+    $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -462,7 +474,7 @@ function createElastic($reportid,$cbAppid){
     $response1 = json_decode(curl_exec($channel1));
     $tot=$response1->hits->total;
     
-    $endpointUrl = "http://$ip:9200/$indextype/import/_search?pretty&size=$tot";
+    $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty&size=$tot";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);

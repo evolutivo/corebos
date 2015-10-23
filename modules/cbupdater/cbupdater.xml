@@ -533,4 +533,18 @@
 	<classname>ModTrackerRestoreRecord</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addfieldtomap</description>
+	<filename>build/changeSets/evolutivo/addfieldtomap.php</filename>
+	<classname>addfieldtomap</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>add_field_indextype_cbapps</description>
+	<filename>build/changeSets/evolutivo/addelastictype.php</filename>
+	<classname>addelastictype</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

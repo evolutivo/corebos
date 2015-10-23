@@ -44,7 +44,9 @@ $type1=implode(",",$type);
 //{
      $pref=GlobalVariable::getVariable('ip_elastic_indexprefix', '');
 //    $random = strtolower(vtlib_purify($_REQUEST['Screen'])).substr( md5(rand()), 0, 7);
-     $ind=$pref.strtolower(vtlib_purify($_REQUEST['Screen']));   
+     if($brelastic=='undefined')
+     $ind=strtolower($pref.vtlib_purify($_REQUEST['Screen']));  
+     else $ind=strtolower($pref);
 //}
 //else $ind=$indextype;
  $ip=GlobalVariable::getVariable('ip_elastic_server', '');
@@ -75,17 +77,17 @@ foreach($fields1 as $field)
     $col=getColumnname($field);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-        $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype);
+        $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"index"=>"not_analyzed");
         
     }
     else if(substr($col[1],0,1)=='D')
     { $coltype='date';
     if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
     else $format='yyyy-MM-dd';
-    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"format"=>"$format");
+    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"format"=>"$format","index"=>"not_analyzed");
     }
     else {$coltype='string';
-    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype);}
+    $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"index"=>"not_analyzed");}
     $table=$col[2];
     $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$_REQUEST['Screen'];
     $k++;
@@ -118,15 +120,15 @@ foreach($fields2 as $field2)
     $col=getColumnname($field2);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"index"=>"not_analyzed");
     }
     else if(substr($col[1],0,1)=='D')
     {$coltype='date';
     if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
     else $format='yyyy-MM-dd';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"$format");}
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"format"=>"$format","index"=>"not_analyzed");}
     else {$coltype='string';
-    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype);}
+    $loggingFields[$col[0].$relmodule2[0]]=array("type"=>$coltype,"index"=>"not_analyzed");}
     if($col[2]=='vtiger_crmentity') $table="crm$relmodule2[0]$j";
     else $table=$col[2].$j;
     $sqlFields[$k]=$table.'.'.$col[0].' as '.$col[0].$relmodule2[0].$j;
@@ -200,41 +202,45 @@ else $create=0;
  $br=explode(",",$brelastic);
  for($i=0;$i<count($br);$i++){
  $brid=$br[$i];
- $map=$adb->query("select content,businessrules_name,cbmapid from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
+ $map=$adb->query("select content,mapname,cbmapid,selected_fields from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
    join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
    where c.deleted=0 and businessrulesid=$brid");
  $query=str_replace('"','',$adb->query_result($map,0,0));
- $brname=$adb->query_result($map,0,1);
+ $fields31=$adb->query_result($map,0,3);
+ $fields32=explode("FROM",$query);
+ $fields322=explode(",",str_replace("SELECT","",$fields32[0]));
+ $mapname=$adb->query_result($map,0,1);
  $mapid=$adb->query_result($map,0,2);
- $ind1[$i]=$ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $brname);
- $fields31=explode("FROM",$query);
- $fields3=explode(",",str_replace("SELECT","",$fields31[0]));
+ $ind1[$i]=strtolower($ind.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
+ $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
  $sqlFields=array();
  $k1=0;
  foreach($fields3 as $field)
 {
     $f=explode(".",$field);
     $f2=explode(" AS ",$f[1]);
+    $fselect=explode(" AS ",$fields322[$k1]);
+    $fselect2=explode(" as ",$fselect[0]);
     $tabname=trim(str_replace(range(0,9),'',$f[0]));
     $clname=preg_replace("/\s+/", "",$f2[0]);
     $col=getColumnname('',$clname,$tabname);
     if(substr($col[1],0,1)=='N')
     {$coltype='double';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);
+    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"index"=>"not_analyzed");
     }
     else if(substr($col[1],0,1)=='D')
     { $coltype='date';
     if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
     else $format='yyyy-MM-dd';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"format"=>"$format");
+    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"format"=>"$format","index"=>"not_analyzed");
     }
     else {$coltype='string';
-    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype);}
-    $sqlFields[$k1]=trim($f[0]).'.'.$clname.' AS '.trim($f[0]).'_'.$clname;
+    $loggingFields[trim($f[0]).'_'.$clname]=array("type"=>$coltype,"index"=>"not_analyzed");}
+    $sqlFields[$k1]=trim($fselect2[0]).' AS '.trim($f[0]).'_'.$clname;
     $k1++;
 }
  $sqlfld=implode(",",$sqlFields);
- $query2="SELECT ".$sqlfld.' FROM '.$fields31[1];
+ $query2="SELECT ".$sqlfld.' FROM '.$fields32[1];
  $adb->pquery("update vtiger_cbmap set content=? where cbmapid=?",array($query2,$mapid));
  //check if index exists for each br
  $endpointUrl2 = "http://$ip:9200/$ind1[$i]/_mapping/denorm";
