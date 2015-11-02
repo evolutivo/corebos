@@ -31,7 +31,7 @@ jQuery.ajax
      jQuery( "#dialog" ).html(text);
      jQuery( "#dialog" ).dialog( "open" );
     }
-   });  
+   });
 }
 
 function getModuleFields(moduleId,ref){
@@ -45,7 +45,7 @@ action:'cbMapAjax',
 async:false,
 file:'getFields', ajax:'true',pmodule: moduleId,modtype:ref,module_list:module_list,related_modules:related_modules,rel_fields:rel_fields,
 },
-function(relresult){  
+function(relresult){
     row = '';
     i=1;
     if(ref === "origin") {
@@ -74,9 +74,9 @@ function(relresult){
            selectedList: 1
           });
     }
-    jQuery('#'+ref+'keyconfig'+i).html(relresult);    
+    jQuery('#'+ref+'keyconfig'+i).html(relresult);
     jQuery('#'+ref+'keyconfig'+i).multiselect('refresh');
-    });  
+    });
 }
 
 function getModuleBlocks(moduleId,ref){
@@ -90,10 +90,10 @@ module:'cbMap',
 action:'cbMapAjax',
 file:'getBlocks', ajax:'true',pmodule: moduleId,modtype:ref,module_list:module_list,
 },
-function(relresult){  
+function(relresult){
     row = '';
-    i=1;console.log(relresult);
-  
+    i=1;
+
         targetmodule = moduleId;
         node2Result = relresult;
         document.getElementById('targetblocks').innerHTML = "<select id='"+ref+"keyconfig"+i+"' name='"+ref+"keyconfig[]'"+ "multiple class='small multicombo'>"+
@@ -107,9 +107,9 @@ function(relresult){
            selectedList: 1
           });
          // operator="<option value='=' > equal </option><option value='like'>contain </option>";
-    jQuery('#'+ref+'keyconfig'+i).html(relresult);    
+    jQuery('#'+ref+'keyconfig'+i).html(relresult);
     jQuery('#'+ref+'keyconfig'+i).multiselect('refresh');
-    });  
+    });
 }
 function block_access(){
  var box = new ajaxLoader(jQuery( "#dialog" ));
@@ -117,11 +117,11 @@ jQuery.ajax({
         type:"POST",
         url:"index.php?module=cbMap&action=cbMapAjax&file=BlockAccess",
         data:jQuery('#theForm').serialize(),
-        success: function(response){console.log('test');console.log(box);
+        success: function(response){
         if (box) box.remove();
         jQuery("#dialog" ).dialog( "close" );
         location.reload(true);
-        }     
+        }
     });
 }
 function show_multiselect(moduleId,ref){i=1;
@@ -137,7 +137,7 @@ function show_multiselect(moduleId,ref){i=1;
            selectedList: 1
           });
          // operator="<option value='=' > equal </option><option value='like'>contain </option>";
-    jQuery('#'+ref+'keyconfig'+i).html(relresult);    
+    jQuery('#'+ref+'keyconfig'+i).html(relresult);
     jQuery('#'+ref+'keyconfig'+i).multiselect('refresh');
 }
 function find_order(){
@@ -148,8 +148,7 @@ var delimiter = new Array();
 jQuery("#conditiongrouptable_1  tr").each(function(){
      id = jQuery(this).attr('id');
      res = id.split("_");
-     console.log("Numri rendor="+res[2]);
-     if(typeof res[2] != "undefined"){  
+     if(typeof res[2] != "undefined"){
      origin.push(jQuery('#originkeyconfig'+res[2]).val());
      target.push(jQuery('#targetkeyconfig'+res[2]).val());
      delimiter.push(jQuery('#delimiter'+res[2]).val());
@@ -160,8 +159,7 @@ jQuery("#conditiongrouptable_1  tr").each(function(){
    jQuery("#targetVal").val(target.join("::"));
 }
 
-
-function generate() { 
+function generate() {
 var box = new ajaxLoader(jQuery( "#dialog" ));
 jQuery.ajax({
         type:"POST",
@@ -174,7 +172,6 @@ jQuery.ajax({
         }
     });
 }
-
 
 function addColumnConditionGlue(columnIndex) {
 
@@ -206,8 +203,8 @@ function addConditionRow(groupIndex,mode) {
 
 	var newNode = document.createElement('tr');
 	newNodeId = 'conditioncolumn_'+groupIndex+'_'+columnIndex;
-  	newNode.setAttribute('id',newNodeId);
-  	newNode.setAttribute('name','conditionColumn');
+	newNode.setAttribute('id',newNodeId);
+	newNode.setAttribute('name','conditionColumn');
 	nextNode.parentNode.insertBefore(newNode, nextNode);
 
 	node1 = document.createElement('td');
@@ -224,7 +221,7 @@ function addConditionRow(groupIndex,mode) {
         jQuery('#originkeyconfig'+columnIndex).selectedIndex = -1;
         if(columnIndex != 0 || mode == "create")
 	node2.innerHTML = '<select name="targetkeyconfig[]" id="targetkeyconfig'+columnIndex+'" multiple class="small multicombo">'+
-							 node2Result+
+							node2Result+
 						'</select>';
 
 	node3 = document.createElement('td');
@@ -256,7 +253,7 @@ function addConditionRow(groupIndex,mode) {
         noneSelectedText: "Select an Option",
         selectedList: 1
         }).multiselectfilter();
-        
+
         jQuery(".multicombo").multiselect().multiselectfilter();
         jQuery(".singlecombodefault").multiselect({
            multiple: false,
@@ -264,7 +261,6 @@ function addConditionRow(groupIndex,mode) {
            noneSelectedText: "Select an Option",
            selectedList: 1
           });
-
 }
 
 
@@ -284,9 +280,9 @@ function addConditionGroup(parentNodeId) {
 	var parentNode = document.getElementById(parentNodeId);
 	var newNode = document.createElement('div');
 	newNodeId = 'conditiongroup_'+groupIndex;
-  	newNode.setAttribute('id',newNodeId);
-  	newNode.setAttribute('name','conditionGroup');
-  	newNode.innerHTML = "<table class='small crmTable' border='0' cellpadding='5' cellspacing='1' width='100%' valign='top' id='conditiongrouptable_"+groupIndex+"'>"+
+	newNode.setAttribute('id',newNodeId);
+	newNode.setAttribute('name','conditionGroup');
+	newNode.innerHTML = "<table class='small crmTable' border='0' cellpadding='5' cellspacing='1' width='100%' valign='top' id='conditiongrouptable_"+groupIndex+"'>"+
 							"<tr id='groupfooter_"+groupIndex+"'>"+
 								"<td colspan='5' align='left'>"+
 									"<input type='button' class='crmbutton edit small' value='ADD' onclick='addConditionRow(\""+groupIndex+"\")' />"+
@@ -321,7 +317,7 @@ function addNewConditionGroup(parentNodeId,mode,nrFields,origin,target,originFie
         file:'getFields', ajax:'true',pmodule: origin,modtype:"origin",module_list:module_list,related_modules:related_modules,rel_fields:rel_fields,
         async:false
         },
-        function(relresult){  
+        function(relresult){
                 node1Result = relresult;
        jQuery.post('index.php', {
         module:'cbMap',
@@ -329,20 +325,20 @@ function addNewConditionGroup(parentNodeId,mode,nrFields,origin,target,originFie
         file:'getFields', ajax:'true',pmodule: target,modtype:"target",module_list:module_list,related_modules:related_modules,rel_fields:rel_fields,
         async:false
         },
-        function(relresult){  
+        function(relresult){
         node2Result = relresult;
         for(i=0;i<nrFields;i++)
         addConditionRow(advft_group_index_count,mode);
         setSelectedFields(originFieldsArr,targetFieldsArr,nrFields,selDelimiter);
         });
-        }); 
+        });
 
         }
 }
 
 function setSelectedFields(originFieldsArr,targetFields,nrFields,selDelimiter){
    orgFieldsArr = Array();
-   orgFieldsArr = originFieldsArr.split(","); 
+   orgFieldsArr = originFieldsArr.split(",");
    targetFieldsArr = Array();
    targetFieldsArr = targetFields.split("::");
    delimiterArr = Array();
@@ -351,7 +347,7 @@ function setSelectedFields(originFieldsArr,targetFields,nrFields,selDelimiter){
   jQuery("#conditiongrouptable_1  tr").each(function(){
      id = jQuery(this).attr('id');
      res = id.split("_");
-     if(typeof res[2] != "undefined"){ 
+     if(typeof res[2] != "undefined"){
         jQuery('#originkeyconfig'+res[2]).val(orgFieldsArr[counter]);
         jQuery('#originkeyconfig'+res[2]).multiselect('refresh');
         var array = targetFieldsArr[counter].split(',');
@@ -361,16 +357,16 @@ function setSelectedFields(originFieldsArr,targetFields,nrFields,selDelimiter){
         jQuery('#delimiter'+res[2]).multiselect('refresh');
        counter++;
      }
-});  
+});
 }
 
 function deleteColumnRow(groupIndex, columnIndex) {
 	removeElement('conditioncolumn_'+groupIndex+'_'+columnIndex);
-	
+
 	var groupColumns = column_index_array[groupIndex];
 	var keyOfTheColumn = groupColumns.indexOf(columnIndex);
 	var isLastElement = true;
-	
+
 	for(var i=keyOfTheColumn; i<groupColumns.length; ++i) {
 		var nextColumnIndex = groupColumns[i];
 		var nextColumnRowId = 'conditioncolumn_'+groupIndex+'_'+nextColumnIndex;
@@ -379,7 +375,7 @@ function deleteColumnRow(groupIndex, columnIndex) {
 			break;
 		}
 	}
-	
+
 	if(isLastElement) {
 		for(var i=keyOfTheColumn-1; i>=0; --i) {
 			var prevColumnIndex = groupColumns[i];
