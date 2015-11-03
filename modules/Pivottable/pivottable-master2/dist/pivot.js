@@ -1106,7 +1106,7 @@ https:
         agg_sel=$("");
         var k=i;
         var j=k++;
-        var aggreg=opts.aggregatorName[pos];alert(pos+' '+aggreg);
+        var aggreg=opts.aggregatorName[pos];
         if(type==''){
             agg_sel=$("");
         }
