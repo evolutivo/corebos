@@ -1,24 +1,23 @@
 {*<!--
 /*************************************************************************************************
- * Copyright 2014 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
-* Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
-* file except in compliance with the License. You can redistribute it and/or modify it
-* under the terms of the License. JPL TSolucio, S.L. reserves all rights not expressly
-* granted by the License. coreBOS distributed by JPL TSolucio S.L. is distributed in
-* the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Unless required by
-* applicable law or agreed to in writing, software distributed under the License is
-* distributed on an "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND,
-* either express or implied. See the License for the specific language governing
-* permissions and limitations under the License. You may obtain a copy of the License
-* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
-*************************************************************************************************
- *  Module       : LoggingConf
- *  Version      : 5.4.0
- *  Author       : OpenCubed
- *************************************************************************************************
+- * Copyright 2014 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
+-* Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
+-* file except in compliance with the License. You can redistribute it and/or modify it
+-* under the terms of the License. JPL TSolucio, S.L. reserves all rights not expressly
+-* granted by the License. coreBOS distributed by JPL TSolucio S.L. is distributed in
+-* the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+-* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Unless required by
+-* applicable law or agreed to in writing, software distributed under the License is
+-* distributed on an "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND,
+-* either express or implied. See the License for the specific language governing
+-* permissions and limitations under the License. You may obtain a copy of the License
+-* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
+-*************************************************************************************************
+- *  Module       : LoggingConf
+- *  Version      : 5.4.0
+- *  Author       : OpenCubed
+- *************************************************************************************************/
 -->*}
-
 <script language="JAVASCRIPT" type="text/javascript" src="include/js/smoothscroll.js"></script>
 <script language="JavaScript" type="text/javascript" src="include/js/menu.js"></script>
 <script language="JavaScript" type="text/javascript" src="modules/LoggingConf/loggUtils.js"></script>
@@ -118,7 +117,8 @@
 		{/if}
 		{if $module eq $DEF_MODULE}
                      <input type='hidden' name="indextype{$module}" id="indextype{$module}" value="{$indextype}">
-                    {if $MODE eq 'edit'}{$MOD.entitylog}: <input type='checkbox' {$elog} name="entitylog{$module}" id="entitylog{$module}" >
+                    {if $MODE eq 'edit'}
+                    {$MOD.entitylog}: <input type='checkbox' {$elog} name="entitylog{$module}" id="entitylog{$module}" >
                     {$MOD.denorm}: <input type='checkbox' {$denorm} name="denorm{$module}" id="denorm{$module}" >
                     {$MOD.norm}: <input type='checkbox' {$norm} name="norm{$module}" id="norm{$module}" >
 		    {/if}<div id="{$module}_fields" style="display:block">
@@ -146,73 +146,8 @@
                      	</table>
 			</td>
                 </tr>
-                <tr height=20><td></td></tr>
-                {if ($denorm eq 'checked' or $norm eq 'checked') && $MODE eq 'edit'}
-                <th>Elastic fields</th>
-                
-                	<tr>
-                	<td valign=top width="25%" >
-		     	<table border=0 cellspacing=0 cellpadding=5 width=100% class=small>
-				{foreach item=elements name=groupfields from=$info}
-                        	<tr>
-					{foreach item=elementinfo name=curvalue from=$elements}
-                           		<td class="prvPrfTexture" style="width:20px">&nbsp;</td>
-                           		<td width="5%" id="{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}">{$elementinfo.2}</td>
-                           		<td width="30%" nowrap  onMouseOver="this.className='prvPrfHoverOn',$('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOn'" onMouseOut="this.className='prvPrfHoverOff',$('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOff'">{$elementinfo.0} &nbsp;&nbsp;{$elementinfo.3}</td>
-					{/foreach}
-                         	</tr>
-                         	{/foreach}
-                     	</table>
-			</td>
-                </tr><th>Business Rules</th> 
-                <tr><td class="prvPrfTexture" colspan=3>    
-                        <div ng-controller="mainCtrl_brinlog"> 
-                        <input name="brinlog" id="brinlog" value="{$fldvalues}" type="hidden"  >  
-                        <tags-input ng-model="brinlog" 
-                                    display-property="name" 
-                                    on-tag-added="functionClick($tag)"
-                                    on-tag-removed="functionClick($tag)"
-                                    placeholder="Select " >
-                          <auto-complete source="loadTags($query)"
-                                         min-length="2"
-                                         max-results-to-show="20"
-                                         ></auto-complete>
-                        </tags-input>
-                    </div>
-                                        </td></tr>
-                {/if}
                 </table>
-                <script>
-                        {literal}
-                        angular.module('demoApp')
-                       .controller('mainCtrl_brinlog', function ($scope, $http) {
-                        
-                          
-                        $scope.brinlog=[];
-                          $scope.loadTags = function(query) {
-                                return $http.get('index.php?module=BusinessRules&action=BusinessRulesAjax&file=get_brinlog&query='+query).
-                            success(function(data, status) {
-                              });
-                          };
-                          $http.get('index.php?module=BusinessRules&action=BusinessRulesAjax&file=get_brinlog&sel_values={/literal}{$fldvalues}{literal}').
-                                success(function(data, status) {
-                                    $scope.brinlog=data;
-                          });                            
-                          $scope.functionClick= function(tag) {
-                              
-                               var arr = new Array();
-                             for(i=0;i<$scope.brinlog.length;i++)
-                               arr[i]=$scope.brinlog[i]['id'];
-                             document.getElementsByName('brinlog').item(0).value=arr.join(',');
-
-                           };
-                                               
-                          });
-                          
-                        {/literal}
-                    </script>
-
-		</div>
+                </div>
 		{/foreach}
 	</td>
 	</tr>
@@ -236,7 +171,7 @@
 </tbody>
 </table>
 <script>
-var def_field='{$DEF_MODULE}_fields';
+  var def_field='{$DEF_MODULE}_fields';
 {literal}
 function changemodules(selectmodule)
 {
@@ -248,4 +183,3 @@ function changemodules(selectmodule)
 }
 </script>
 {/literal}
-

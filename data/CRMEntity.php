@@ -2741,7 +2741,7 @@ class CRMEntity {
                 $header[3] ="".getTranslatedString('LBL_RESTORE');
                 $entries=Array();
                 $ip=GlobalVariable::getVariable('ip_elastic_server', '');
-                $endpointUrl = "http://$ip:9200/$indextype/oldlog/_search?pretty&size=100"; 
+                $endpointUrl = "http://$ip:9200/$indextype/oldlogs/_search?pretty&size=100"; 
                 $fields1 =array('query'=>array("term"=>array("$mainfld"=>$entityid)));
                 $channel1 = curl_init();
                 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);

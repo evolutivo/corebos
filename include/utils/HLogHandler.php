@@ -27,17 +27,15 @@ class HistoryLogHandler extends VTEventHandler {
   function handleEvent($eventName, $entityData) {
     global $log, $adb,$current_user,$app_strings;
     $userid=$current_user->id;
-    $moduleName = $entityData->getModuleName();    
-
-
+    $moduleName = $entityData->getModuleName(); 
+    $tabid=getTabid($moduleName);
     $this->setModulesRegistered($this->getModulesFieldMap($moduleName));
     if (!isset($this->modulesRegistered[$moduleName])) {
       return;
     }
     $type=explode(",",$this->getEntitylogtype($moduleName));
-    $queryel=getqueryelastic(getTabId($moduleName));
-    $indextype=getEntitylogindextype(getTabId($moduleName));
-    $brelastic=getEntitylogbr(getTabId($moduleName));
+    $queryel=getqueryelastic($tabid);
+    $indextype=getEntitylogindextype($tabid);
     //This block of code needs to be adapted : table_name, tableid, name, and fields you wish to be considered for logging
     $table = $this->modulesRegistered[$moduleName]['tablename'];
     $tableid = $table.'.'.$this->modulesRegistered[$moduleName]['primarykey'];
@@ -45,10 +43,7 @@ class HistoryLogHandler extends VTEventHandler {
     //end of block code to be adapted
     $Id = $entityData->getId();
     //getting the roles
-   
- 
-    $log->debug("Enter Handler for beforesave event...");
-    
+    $log->debug("Enter Handler for beforesave event...");    
     if($eventName == 'vtiger.entity.beforesave')
     {
       $log->debug("Enter Handler for beforesave event...");
@@ -66,192 +61,147 @@ class HistoryLogHandler extends VTEventHandler {
       }
       $log->debug("Exit Handler for beforesave event...");
     }
-    if($eventName == 'vtiger.entity.aftersave') {
-      
+    if($eventName == 'vtiger.entity.aftersave') {   
       $log->debug("Enter Handler for aftersave event...");
-        require_once("modules/Users/CreateUserPrivilegeFile.php");
-        require_once("include/utils/GetUserGroups.php");
+      require_once("modules/Users/CreateUserPrivilegeFile.php");
+      require_once("include/utils/GetUserGroups.php");
    //if($defaultOrgSharingPermission[getTabid("$moduleName")] == 3){
-  $q=$adb->pquery("select smownerid from vtiger_crmentity  where crmid=?",array($entityData->getId()));
-  $owner=$adb->query_result($q,0,"smownerid");
-  $role=$adb->query("select parentrole,vtiger_role.roleid from vtiger_user2role join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid  where vtiger_user2role.userid=$owner");
-    $current_user_roles=$adb->query_result($role,0,"roleid");
+      $q=$adb->pquery("select smownerid from vtiger_crmentity  where crmid=?",array($entityData->getId()));
+      $owner=$adb->query_result($q,0,"smownerid");
+      $role=$adb->query("select parentrole,vtiger_role.roleid from vtiger_user2role join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid  where vtiger_user2role.userid=$owner");
+      $current_user_roles=$adb->query_result($role,0,"roleid");
     //$roleid=$adb->query_result($role,0,"parentrole");
-    $parrol=getParentRole($current_user_roles);
-    $roleid=implode("::",$parrol);
-    $userGroupFocus=new GetUserGroups();
-    $userGroupFocus->getAllUserGroups($owner);
-    $current_user_groups= $userGroupFocus->user_groups;
-    if(count($current_user_groups)!=0)
-    $grpid='::'.implode("::",$current_user_groups);
-    $def_org_share=getAllDefaultSharingAction();
-
-   $arr=getUserModuleSharingRoles($moduleName,$owner,$def_org_share ,$current_user_roles,$parrol,$current_user_groups);
-   $gr=$adb->pquery("select * from vtiger_groups where groupid=?",array($owner));
-   if($adb->num_rows($gr)==0){
-        if(count(array_keys($arr['read']['ROLE']))!=0)
-        $roleid.='::'.implode('::',array_keys($arr['read']['ROLE']));}
-   else $roleid.=implode('::',array_keys($arr['read']['GROUP']));
-
-   $roleid.='::'.$owner;
-
-      $tabid =$adb->query_result($adb->pquery("SELECT tabid FROM vtiger_entityname where modulename= ?",array($moduleName)),0);
+        $parrol=getParentRole($current_user_roles);
+        $roleid=implode("::",$parrol);
+        $userGroupFocus=new GetUserGroups();
+        $userGroupFocus->getAllUserGroups($owner);
+        $current_user_groups= $userGroupFocus->user_groups;
+      if(count($current_user_groups)!=0)
+      $grpid='::'.implode("::",$current_user_groups);
+      $def_org_share=getAllDefaultSharingAction();
+      $arr=getUserModuleSharingRoles($moduleName,$owner,$def_org_share ,$current_user_roles,$parrol,$current_user_groups);
+      $gr=$adb->pquery("select * from vtiger_groups where groupid=?",array($owner));
+      if($adb->num_rows($gr)==0){
+      if(count(array_keys($arr['read']['ROLE']))!=0)
+      $roleid.='::'.implode('::',array_keys($arr['read']['ROLE']));}
+      else $roleid.=implode('::',array_keys($arr['read']['GROUP']));
+      $roleid.='::'.$owner;
       $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id)  ;
-      $query=$adb->query($listquery);
-      
+      $query=$adb->query($listquery); 
       if($adb->num_rows($query) > 0) {
         for  ($i=0;$i<count($fields);$i++)
         {
           $news[$i]=$adb->query_result($query,0,$fields[$i]);         
         }
       }
-      $act = "";
-      $act1='';
-
-$cr=false;
+     $act = "";
+     $act1='';
+     $cr=false;
      for ($i=0;$i<count($fields);$i++)
-       {  if($news[$i]!=$entityData->old[$i]) {         
-          $act='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
-          
-      $dt=date("Y-m-d H:i:s");     
-      if(!empty($act)) { 
-           if(in_array('entitylog',$type)){
-          require_once('modules/Entitylog/Entitylog.php');
-        require_once("data/CRMEntity.php" );
-          $focus=new Entitylog();
-          $focus->column_fields['entitylogname']=$app_strings['LBL_CHANGES_RECORD'].' '.$Id.' '.$app_strings['LBL_OF_MODULE'].' '.$moduleName.' '.$app_strings['LBL_AT'].' '.$dt;
-         // $focus->column_fields['assigned_user_id']=$userid;
-          $focus->column_fields['user']=$userid;
-          $focus->column_fields['relatedto']=$entityData->getId();
-          $log->debug('prapeune'.$tabid);
-          $focus->column_fields['tabid']=$tabid;
-          $focus->column_fields['finalstate']=$act;
-          $focus->saveentity("Entitylog");}
-
-  if(in_array('normalized',$type)) {
-$ip=GlobalVariable::getVariable('ip_elastic_server', '');
-if($brelastic!='undefined') {
- $ind1=explode(",",$indextype);
- $br=explode(",",$brelastic);
- for($i2=0;$i2<count($br);$i2++){
- $endpointUrl2 = "http://$ip:9200/$ind1[$i2]/norm";
- $brid=$br[$i2];
- $map=$adb->query("select content,businessrules_name,cbmapid,selected_fields from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
-   join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
-   where c.deleted=0 and businessrulesid=$brid");
- $query=str_replace('"','',$adb->query_result($map,0,0));
- $fields31=$adb->query_result($map,0,3);
- $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
- $tabfld=explode(" AS ",$fields3[0]);
- $fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
-$eid=$entityData->getId();
-$fields1->fields['roles']=$roleid;
-$fields1->fields['changedvalues']=$act;
-$fields1->fields['userchange']=$userid;
-$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
-unset($fields1->fields[0]);
-foreach($fields1->fields as $key => $value) {
-    if( floatval($key)) {
-         unset($fields1->fields[$key]);
+      {  if($news[$i]!=$entityData->old[$i]) {         
+      $act2='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
+      $act=array();
+          $act[] = array(
+            'fieldname' => $fields[$i],
+            'oldvalue' => $entityData->old[$i],
+            'newvalue' => $news[$i],
+            );       
+    $dt=date("Y-m-d H:i:s");  
+    if(!empty($act)) { 
+    $ip=GlobalVariable::getVariable('ip_elastic_server', '');
+    $fl=$adb->pquery("select fieldlabel from vtiger_elastic_indexes where elasticname='$indextype'");
+    if($adb->num_rows($fl)!=0)
+    $fldlabel1=explode(",", $adb->query_result($fl,0,0));
+    if(in_array('entitylog',$type)){
+    require_once('modules/Entitylog/Entitylog.php');
+    require_once("data/CRMEntity.php" );
+    $focus=new Entitylog();
+    $focus->column_fields['entitylogname']=$app_strings['LBL_CHANGES_RECORD'].' '.$Id.' '.$app_strings['LBL_OF_MODULE'].' '.$moduleName.' '.$app_strings['LBL_AT'].' '.$dt;
+   // $focus->column_fields['assigned_user_id']=$userid;
+    $focus->column_fields['user']=$userid;
+    $focus->column_fields['relatedto']=$entityData->getId();
+    $focus->column_fields['tabid']=$tabid;
+    $focus->column_fields['finalstate']=$act2;
+    $focus->saveentity("Entitylog");}
+    
+    if(in_array('normalized',$type)) {
+    $endpointUrl2 = "http://$ip:9200/$indextype/norm";
+    $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
+    $eid=$entityData->getId();
+    $fld=array();
+    $fld['roles']=$roleid;
+    $fld['changedvalues']=$act2;
+    $fld['userchange']=$userid;
+    $fld['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+    unset($fields1->fields[0]);
+    $in=0;
+    foreach($fields1->fields as $key => $value) {
+        if( floatval($key)) {
+             unset($fields1->fields[$key]);
+        }
+        else {
+        $fldlabel=$fldlabel1[$in];
+        $fld["$fldlabel"]=$value;
+        $in++;}
     }
-}
-$channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($channel11, CURLOPT_POST, true);
-//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = curl_exec($channel11);
-}
- }
-else {
-$endpointUrl2 = "http://$ip:9200/$indextype/norm";
-$fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
-$eid=$entityData->getId();
-$fields1->fields['roles']=$roleid;
-$fields1->fields['changedvalues']=$act;
-$fields1->fields['userchange']=$userid;
-$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
-unset($fields1->fields[0]);
-foreach($fields1->fields as $key => $value) {
-    if( floatval($key)) {
-         unset($fields1->fields[$key]);
+    $channel11 = curl_init();
+    //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
+    curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel11, CURLOPT_POST, true);
+    //curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fld));
+    curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+    $response2 = curl_exec($channel11);
+  }
+  if(in_array('denormalized',$type)) {
+    $getid=$entityData->getId();
+    $endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty";
+    $pk=$this->modulesRegistered[$moduleName]['primarykey'];
+    $fields1 =array('query'=>array("term"=>array("$pk"=>"$getid")));
+    $channel1 = curl_init();
+    curl_setopt($channel1, CURLOPT_URL, $endpointUrl12);
+    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel1, CURLOPT_POST, true);
+    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+    $response1 = json_decode(curl_exec($channel1));
+    //if(strstr($response1->error,'IndexMissingException'))
+    //{$ij=1;
+    //} 
+    $ij=$response1->hits->hits[0]->_id;
+    if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
+    $endpointUrl2 = "http://$ip:9200/$indextype/denorm/$ij";
+    $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
+    $eid=$entityData->getId();
+    $fld=array();
+    $fld['roles']=$roleid;
+    $fld['changedvalues']=$act2;
+    $fld['userchange']=$userid;
+    $fld['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+    unset($fields1->fields[0]);
+    $in=0;
+    foreach($fields1->fields as $key => $value) {
+        if( floatval($key)) {
+             unset($fields1->fields[$key]);
+        }
+        else {
+        $fldlabel=$fldlabel1[$in];
+        $fld["$fldlabel"]=$value;
+        $in++;}
     }
-}
-$channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($channel11, CURLOPT_POST, true);
-//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = curl_exec($channel11);
-
-}  }
-       if(in_array('denormalized',$type)) {
-             $ip=GlobalVariable::getVariable('ip_elastic_server', '');
-             if($brelastic!='undefined') {
- $ind1=explode(",",$indextype);
- $br=explode(",",$brelastic);
- for($i2=0;$i2<count($br);$i2++)
- {
-$endpointUrl12 = "http://$ip:9200/$ind1[$i2]/denorm/_search?pretty"; 
- $brid=$br[$i2];
- $map=$adb->query("select content,businessrules_name,cbmapid,selected_fields from vtiger_businessrules join vtiger_crmentity c on c.crmid=businessrulesid
-   join vtiger_cbmap on cbmapid=linktomap join vtiger_crmentity c1 on c1.crmid=cbmapid
-   where c.deleted=0 and businessrulesid=$brid");
- $query=str_replace('"','',$adb->query_result($map,0,0));
- $fields31=$adb->query_result($map,0,3);
- $fields3=explode(",",str_replace(Array('"','&quot;'),Array("",""),$fields31));
- $tabfld=explode(" AS ",$fields3[0]);
- $tabfld2=explode(" AS ",str_replace(".","_",$fields3[0]));
-$getid=$entityData->getId();
-$fields1 =array('query'=>array("term"=>array("$tabfld2[0]"=>"$getid")));
-
-$channel1 = curl_init();
-curl_setopt($channel1, CURLOPT_URL, $endpointUrl12);
-curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($channel1, CURLOPT_POST, true);
-//curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-$response1 = json_decode(curl_exec($channel1));
-//if(strstr($response1->error,'IndexMissingException'))
-//{$ij=1;
-//} 
-$ij=$response1->hits->hits[0]->_id;
-
-if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
-$endpointUrl2 = "http://$ip:9200/$ind1[$i2]/denorm/$ij";
-$fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
-$eid=$entityData->getId();
-$fields1->fields['roles']=$roleid;
-$fields1->fields['changedvalues']=$act;
-$fields1->fields['userchange']=$userid;
-$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
-
-unset($fields1->fields[0]);
-foreach($fields1->fields as $key => $value) {
-    if(floatval($key)) {
-         unset($fields1->fields[$key]);
-    }
-}
 $channel11 = curl_init();
 //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
 curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
 //curl_setopt($channel11, CURLOPT_POST, true);
 curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
+curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fld));
 curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
 curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
@@ -259,131 +209,48 @@ $response2 = curl_exec($channel11);
 
 }
 else {
-    if($cr !=true){
-   
-$endpointUrl2 = "http://$ip:9200/$ind1[$i2]/denorm";
-$fields1=$adb->pquery("$query and $tabfld[0]=?",array($entityData->getId()));
-$eid=$entityData->getId();
-$fields1->fields['roles']=$roleid;
-$fields1->fields['changedvalues']=$act;
-$fields1->fields['userchange']=$userid;
-$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
-
-unset($fields1->fields[0]);
-foreach($fields1->fields as $key => $value) {
-    if(floatval($key)) {
-         unset($fields1->fields[$key]);
+ if($cr !=true){
+ $cr=true;
+ $endpointUrl2 = "http://$ip:9200/$indextype/denorm";
+ $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
+    $eid=$entityData->getId();
+    $fld=array();
+    $fld['roles']=$roleid;
+    $fld['changedvalues']=$act2;
+    $fld['userchange']=$userid;
+    $fld['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
+    unset($fields1->fields[0]);
+    $in=0;
+    foreach($fields1->fields as $key => $value) {
+        if( floatval($key)) {
+             unset($fields1->fields[$key]);
+        }
+        else {
+        $fldlabel=$fldlabel1[$in];
+        $fld["$fldlabel"]=$value;
+        $in++;}
     }
-}
 $channel11 = curl_init();
 //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
 curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($channel11, CURLOPT_POST, true);
 //curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
+curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fld));
 curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
 curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response23 = curl_exec($channel11);
-
- 
-    }
+$response23 = curl_exec($channel11);  
 }
- }
-  $cr=true;
- }
-else{
-$mainfld=explode(".",$queryel[1]);
-$getid=$entityData->getId();
-$endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty";
-$fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>"$getid")));
-
-$channel1 = curl_init();
-curl_setopt($channel1, CURLOPT_URL, $endpointUrl12);
-curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($channel1, CURLOPT_POST, true);
-//curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-$response1 = json_decode(curl_exec($channel1));
-
-//if(strstr($response1->error,'IndexMissingException'))
-//{$ij=1;
-//} 
-$ij=$response1->hits->hits[0]->_id;
-
-if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
-$endpointUrl2 = "http://$ip:9200/$indextype/denorm/$ij";
-$fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
-$eid=$entityData->getId();
-$fields1->fields['roles']=$roleid;
-$fields1->fields['changedvalues']=$act;
-$fields1->fields['userchange']=$userid;
-$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
-
-unset($fields1->fields[0]);
-foreach($fields1->fields as $key => $value) {
-    if(floatval($key)) {
-         unset($fields1->fields[$key]);
-    }
 }
-$channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-//curl_setopt($channel11, CURLOPT_POST, true);
-curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response2 = curl_exec($channel11);
-
+}       
 }
-else {
-    if($cr !=true){
-    $cr=true;
-$endpointUrl2 = "http://$ip:9200/$indextype/denorm";
-$fields1=$adb->pquery("$queryel[0] and $queryel[1]=?",array($entityData->getId()));
-$eid=$entityData->getId();
-$fields1->fields['roles']=$roleid;
-$fields1->fields['changedvalues']=$act;
-$fields1->fields['userchange']=$userid;
-$fields1->fields['urlrecord']="<a href='index.php?module=$moduleName&action=DetailView&record=$eid'>Details</a>";
-
-unset($fields1->fields[0]);
-foreach($fields1->fields as $key => $value) {
-    if(floatval($key)) {
-         unset($fields1->fields[$key]);
     }
-}
-$channel11 = curl_init();
-//curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($channel11, CURLOPT_POST, true);
-//curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($fields1->fields));
-curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-$response23 = curl_exec($channel11);
-  
- 
     }
-}
-       }
-      }       
-      }
-       }
-    }
-      $log->debug("Exit aftersave event...");
+    $log->debug("Exit aftersave event...");
     }
     $log->debug("Exiting Handler for module...".$moduleName);
-  }
+}
 function getEntitylogtype($module=''){
     include_once('modules/LoggingConf/LoggingUtils.php');
    require_once('include/utils/UserInfoUtil.php');
