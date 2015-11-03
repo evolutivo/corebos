@@ -752,7 +752,7 @@ https:
     var aggregator, c, colAttrs, colKey, colKeys, col_colspan, col_rowspan, defaults, i, j, r, result, rowAttrs, rowKey, rowKeys, th, totalAggregator, tr, txt, v, vKey, val, valAttrs, valsCount, x, xx;
     defaults = {
       localeStrings: {
-        totals: "Totals"
+        totals: "Totale"
       }
     };
     opts = $.extend(defaults, opts);
@@ -1049,7 +1049,7 @@ https:
         }
         return _results;
       })();
-      _fn = function(c) {
+      _fn = function(c,type,pos) {
         var attrElem, btns, filterItem, filterItemExcluded, hasExcludedItem, keys, v, valueList, _k, _len2, _ref2;
         keys = (function() {
           var _results;
@@ -1103,7 +1103,26 @@ https:
             valueList.append($("<p>").append(filterItem));
           }
        // }
-        attrElem = $("<li class='label label-info axis_" + i + "'>").append($("<div class='div_axis_" + i + "'>").append($("<nobr>").text(c)));
+        agg_sel=$("");
+        var k=i;
+        var j=k++;
+        var aggreg=opts.aggregatorName[pos];
+        if(type==''){
+            agg_sel=$("");
+        }
+        else{
+            agg_sel=$("<select class='pvtAggregator" + j + "'>");
+            $.each(opts.aggregators, function(key, value) {
+              if (key==aggreg) {
+                return agg_sel.append($("<option>").val(key).text(key));
+              }
+            });
+        }       
+        
+        attrElem = $("<li class='label label-info axis_" + i + "'>").append($("<div class='div_axis_" + i + "'>"));
+        attrElem.append($("<nobr>").text(c));
+        attrElem.append(agg_sel);
+
         if (hasExcludedItem) {
           attrElem.addClass('pvtFilteredAttribute');
         }
@@ -1131,7 +1150,15 @@ https:
       };
       for (i in shownAttributes) {
         c = shownAttributes[i];
-        _fn(c);
+        type='';
+        var pos,j=0;
+        for (j in opts.vals) {
+            if(opts.vals[j]===c){
+                type='aggr';
+                pos=j;break;
+            }
+          }
+        _fn(c,type,pos);
       }
       aggregator = $("<select class='pvtAggregator'>").css("margin-bottom", "5px").bind("change", function() {
         return refresh();
@@ -1144,7 +1171,7 @@ https:
       selectCompareControl = $("<td>");
       selectCompare1 = $("<select class='toCompare1'>");
       selectCompare2 = $("<select class='toCompare2'>");
-      buttonCompare = $("<button class='toComparebtn'>").text("Agregar").bind("click", function() {
+      buttonCompare = $("<button class='toComparebtn'>").text("Agregate").bind("click", function() {
         var cantidadCampos, cuentaSelect, newVal, optionSelected1, optionSelected2, selectCompare;
         optionSelected1 = $(".toCompare1 option:selected");
       //  optionSelected2 = $(".toCompare2 option:selected");
@@ -1158,11 +1185,11 @@ https:
             return selectCompare.append($("<option>").val(key).text(key));
           }
         });
-        selectCompare.val("compareWith").attr("disabled", true);
+        //selectCompare.val("compareWith").attr("disabled", true);
         newVal = $("<li class='label label-info axis_" + cantidadCampos + "'>").append($("<div class='div_axis_" + cantidadCampos + "'>"));
         newVal.append($("<nobr>").text(optionSelected1.text()));
         newVal.append(selectCompare);
-        $(".pvtVals").append(newVal);
+        $(".pvtVals").append(newVal);//alert('drag3');
         return refresh();
       });
       for (i in shownAttributes) {
@@ -1170,7 +1197,7 @@ https:
         selectCompare1.append($("<option>").val(x).text(x));
        // selectCompare2.append($("<option>").val(x).text(x));
       }
-      selectCompareControl.append($("<nobr>").text("Campo 1")).append(selectCompare1);
+      selectCompareControl.append($("<nobr>").text("Campo")).append(selectCompare1);
       //selectCompareControl.append($("<nobr>").text("Campo 2")).append(selectCompare2);
       selectCompareControl.append(buttonCompare);
       tr2 = $("<tr>");
@@ -1292,7 +1319,7 @@ https:
         if (opts.onRefresh != null) {
           return opts.onRefresh();
         }
-      };
+      };//alert('drag4');
       refresh();
       this.find(".pvtAxisContainer").sortable({
         connectWith: this.find(".pvtAxisContainer"),
@@ -1321,7 +1348,7 @@ https:
                     $(this).remove();
                   }
                   return i++;
-                });
+                });//alert('drag');
                 newItemConSelect = $(this).parent().clone();
                 newSelect = newItemConSelect.children("select");
                 newSelect.find("option").remove();
@@ -1335,7 +1362,7 @@ https:
 //                  }
 //                });
                 newItemConSelect.appendTo($(this).parents("li").get(0));
-              }
+              }//alert('drag5');
               return refresh();
             });
             $.each(opts.aggregators, function(key, value) {
