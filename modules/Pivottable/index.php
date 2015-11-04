@@ -321,7 +321,7 @@ else{
 
         }
         
-    $ip='193.182.16.34';//$dbconfig['ip_server'];
+    $ip=GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
     $endpointUrl = "http://$ip:9200/_cat/indices?v";
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -335,16 +335,31 @@ else{
     $response1 = curl_exec($channel1);
     $arr=explode('
 ',$response1);
-    $adb->query("delete from vtiger_elastic_indexes");
+    $arr_el=array();
     for($i_c=1;$i_c<sizeof($arr);$i_c++) {
         $specific_arr=explode(' ',$arr[$i_c]);
         if(!empty($specific_arr[4])){
-            $opt_elastic.='<option value="'.$i_c.'">'.$specific_arr[4].'</option>';
-            $adb->pquery("Insert into 
-                vtiger_elastic_indexes (elasticid,elasticname,status)
+            $res=$adb->pquery("Select  * 
+                vtiger_elastic_indexes 
+                where elasticname=?",array($specific_arr[4]));
+            $arr_el[]=$specific_arr[4];
+            if($adb->num_rows($res)==0){
+                $adb->pquery("Insert into 
+                          vtiger_elastic_indexes (elasticid,elasticname,status)
                           values('".$i_c."','".$specific_arr[4]."','open')
                           ",array());
+            }           
         }
+    }
+    $adb->pquery("Delete from
+                vtiger_elastic_indexes
+                where elasticname not in (".  generateQuestionMarks($arr_el).")"
+            ,array($arr_el));
+    $res=$adb->pquery("Select  * 
+                vtiger_elastic_indexes",array());
+    for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
+        $elasticname=$adb->query_result($res,$i_c,'elasticname');
+        $opt_elastic.='<option value="'.$i_c.'">'.$elasticname.'</option>';
     }
 
     $smarty->assign('reports', json_encode($reports));
@@ -459,7 +474,7 @@ function createElastic($reportid,$cbAppid){
     $entries=Array();
     $tabid=  getTabid('Adocdetail');
     global $dbconfig;
-    $ip='193.182.16.34';//$dbconfig['ip_server'];
+    $ip=GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
     $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
 //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
     $channel1 = curl_init();
