@@ -23,6 +23,7 @@ class addNgBlockImprovements extends cbupdaterWorker {
 		} else {
 		
 			$this->ExecuteQuery("ALTER TABLE  vtiger_ng_block "
+                                . "ADD COLUMN  br_id VARCHAR( 250 )  NULL,"
                                 . "ADD COLUMN  elastic_id VARCHAR( 250 )  NULL,"
                                 . "ADD COLUMN elastic_type VARCHAR( 250 )  NULL");
 			$this->ExecuteQuery("CREATE TABLE IF NOT EXISTS vtiger_ng_block_tab_rl (

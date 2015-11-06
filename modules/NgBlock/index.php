@@ -10,7 +10,6 @@ if($kaction=='retrieve'){
       $query=$adb->query(" 
           SELECT DISTINCT *
               from  vtiger_ng_block
-              left join vtiger_businessactions on vtiger_businessactions.reference = vtiger_ng_block.id
               left join vtiger_ng_block_tab_rl on related_tab = vtiger_ng_block_tab_rl.tab_rl_id
           ");
       $count=$adb->num_rows($query);
@@ -43,7 +42,6 @@ if($kaction=='retrieve'){
       $content[$i]['related_tab_name']=$adb->query_result($query,$i,'tab_name');
       $content[$i]['custom_widget_path']=$adb->query_result($query,$i,'custom_widget_path');
       $content[$i]['br_id']=$adb->query_result($query,$i,'br_id');
-      $content[$i]['respective_act']=$adb->query_result($query,$i,'businessactionsid');
       $content[$i]['elastic_id']=$adb->query_result($query,$i,'elastic_id');
       $content[$i]['elastic_type']=$adb->query_result($query,$i,'elastic_type');
       }
