@@ -356,7 +356,7 @@ else{
                 where elasticname not in (".  generateQuestionMarks($arr_el).")"
             ,array($arr_el));
     $res=$adb->pquery("Select  * 
-                vtiger_elastic_indexes",array());
+                from vtiger_elastic_indexes",array());
     for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
         $elasticname=$adb->query_result($res,$i_c,'elasticname');
         $opt_elastic.='<option value="'.$i_c.'">'.$elasticname.'</option>';
