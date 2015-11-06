@@ -1,21 +1,13 @@
 <?php
-/*************************************************************************************************
- * Copyright 2012-2013 OpenCubed  --  
- * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
- * Vizsage Public License (the "License"). You may not use this file except in compliance with the
- * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
- * and share improvements. However, for proper details please read the full License, available at
- * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
- * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
- * applicable law or agreed to in writing, any software distributed under the License is distributed
- * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and limitations under the
- * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
- *************************************************************************************************
- *  Module       : NgBlock
- *  Version      : 1.8
- *  Author       : OpenCubed
- *************************************************************************************************/
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ ************************************************************************************/
+
 require_once 'include/utils/VtlibUtils.php';
 
 
@@ -46,9 +38,20 @@ class NgBlock {
 	 */
 	static function getWidget($id,$context) {
                 global $adb;
+		$result=$adb->pquery("Select id,pointing_block_name,module_name from vtiger_ng_block where id=?", array($id));
+                $nr=$adb->num_rows($result);
+                if ($nr>0) {
+                    $module_name=$adb->query_result($result,0,'module_name');
+                    $pointing_block_name=$adb->query_result($result,0,'pointing_block_name');
+                    $lbl_block_name=array_search($context['header'],$context['MOD']);
+
+                    if($lbl_block_name==$pointing_block_name || $context['header']==$pointing_block_name || 
+                            ($context['CUSTOM_LINKS']['RELATEDVIEWWIDGET'] && $context['CUSTOM_LINKS']['RELATEDVIEWWIDGET'][0]->linktype=='RELATEDVIEWWIDGET') ){
 			require_once dirname(__FILE__) . '/DetailViewBlockNg.php';
 			return (new NgBlock_DetailViewBlockNgWidget($id));
-                   
+	}
+		}
+		return false;
 	}
 
 	/**
@@ -115,6 +118,57 @@ class NgBlock {
 		$list_buttons = Array();
 		return $list_buttons;
 	}
+        
+        function createElastic($elasticid,$elastic_type){
+    
+            global $adb;
+
+            $query=$adb->pquery("SELECT *
+                                  from  vtiger_elastic_indexes
+                                  where elasticname = ?",array($elasticid));
+            $nr_qry=$adb->num_rows($query);
+            $indextype=$adb->query_result($query,0,'elasticname');            
+            $typ=$elastic_type;
+
+            $entries=Array();
+            $tabid=  getTabid('Adocdetail');
+            global $dbconfig;
+            $ip='193.182.16.34';//GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
+            $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
+        //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+            $channel1 = curl_init();
+            curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+            curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($channel1, CURLOPT_POST, true);
+            //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+            //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+            curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+            curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+            $response1 = json_decode(curl_exec($channel1));
+            $tot=$response1->hits->total;
+
+            $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty&size=$tot";
+        //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
+            $channel1 = curl_init();
+            curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+            curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($channel1, CURLOPT_POST, true);
+            //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+        //    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+            curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+            curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+            $response1 = json_decode(curl_exec($channel1));
+
+            foreach ($response1->hits->hits as $row) {
+              $user = getUserName($row->_source->userchange);
+              $update_log = explode(";",$row->_source->changedvalues);
+              $source[] = $row->_source;
+            }
+            return (array)$source;
+        }
+        
 
 }
 ?>

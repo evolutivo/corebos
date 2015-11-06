@@ -1,44 +1,35 @@
-{*<!--
- *************************************************************************************************
- * Copyright 2015 OpenCubed -- This file is a part of OpenCubed coreBOS customizations.
- * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
- * Vizsage Public License (the "License"). You may not use this file except in compliance with the
- * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
- * and share improvements. However, for proper details please read the full License, available at
- * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
- * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
- * applicable law or agreed to in writing, any software distributed under the License is distributed
- * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and limitations under the
- * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
- *************************************************************************************************
- *  Module       : NgBlock
- *  Version      : 5.5.0
- *  Author       : OpenCubed.
- *************************************************************************************************/
--->*}
+<link rel="stylesheet" href="Smarty/angular/material/angular-material.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+<script src="Smarty/angular/material/angular.min.js"></script>
+<script src="Smarty/angular/material/angular-animate.min.js"></script>
+<script src="Smarty/angular/material/angular-aria.min.js"></script>
+<script src="Smarty/angular/material/angular-material.min.js"></script>
+
 <script src="Smarty/angular/angular.min.js"></script>
 <script  src="Smarty/angular/ng-table.js"></script>
-<link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
-<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" href="Smarty/angular/ng-table.css" />
+<script src="Smarty/angular/ui-bootstrap-tpls-0.6.0.js"></script>
+<link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 <script src="Smarty/angular/angular-multi-select.js"></script>  
 <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
 
-<table  width="100%" width=98% align=center border="0" ng-app="demoApp">
+<table width=96% align=center border="0" ng-app="demoApp" style="padding:10px;">
     <tr><td style="height:2px"><br/><br/></td></tr>
     <tr>
         <td style="padding-left:20px;padding-right:50px" class="moduleName" nowrap colspan="2">
-            NgBlocks Creator</td>
+            Generic AngularJS component providing widgets functionality</td>
      </tr>
-     <tr>         
-         <td class="showPanelBg" style="margin-left:20px;">
-             <br/><br/>
-             <table width=100% style="padding-left:10px;margin-left:20px" border="0"><tr>
-                     <td   ng-controller="ng_Block">   
-                        <table  ng-table="tableParams" class="table  table-bordered table-responsive" width=100% >
+     <tr>  
+	<td class="showPanelBg" valign="top" style="padding:10px;" width=96%>
+              <div  layout="column" class="demo" >
+                <md-content class="md-padding">
+                    <md-tabs md-dynamic-height md-border-bottom>
+                      <md-tab label="NgBLocks">
+                        <md-content class="md-padding">
+                          <h5 >Manage NgBlocks</h5>
+                          <table ng-controller="ng_Block" ng-table="tableParams" class="table  table-bordered table-responsive" width=90% >
                             <tr >
-                                <td colspan="14">
+                                <td colspan="21">
                                     <button class="btn btn-primary" ng-click="open(new_user,'add')">Add new NgBlock</button>
                                 </td>
                         </tr>
@@ -78,6 +69,18 @@
                                 </th>
                                 <th style="text-align: center">
                                     Type
+                                </th>
+                                <th style="text-align: center">
+                                    Tab
+                                </th>
+                                <th style="text-align: center">
+                                    Custom Widget Path
+                                </th>
+                                <th style="text-align: center">
+                                    BR
+                                </th>
+                                <th style="text-align: center">
+                                    Respective Action
                                 </th>
                             </tr>    
                             <tr ng-repeat="user in $data" >
@@ -120,7 +123,7 @@
                                   <img ng-if="user.paginate==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.paginate!=1" width="20" height="20" src="themes/images/no.gif" />                                  
                               </td> 
-                              <td  data-title="'Nr Page'" width="40%"> 
+                              <td  data-title="'Nr Page'"> 
                                   {literal}  {{user.nr_page}}{/literal}
                               </td> 
                               <td  > 
@@ -138,119 +141,239 @@
                                   <img ng-if="user.delete_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.delete_record!=1" width="20" height="20" src="themes/images/no.gif" />
                               </td> 
-                              <td  data-title="'Sequence'" width="40%"> 
+                              <td  data-title="'Sequence'"> 
                                   {literal}  {{user.sequence_ngblock}}{/literal}
                               </td> 
-                              <td  data-title="'Destination'" width="40%"> 
+                              <td  data-title="'Destination'"> 
                                   {literal}  {{user.destination}}{/literal}
                               </td> 
-                              <td  data-title="'Type'" width="40%"> 
+                              <td  data-title="'Type'"> 
                                   {literal}  {{user.type}}{/literal}
+                              </td> 
+                              <td  data-title="'Tab'"> 
+                                  {literal}  {{user.related_tab_name}}{/literal}
+                              </td> 
+                              <td  data-title="'Custom Widget Path'" > 
+                                  {literal}  {{user.custom_widget_path}}{/literal}
+                              </td> 
+                              <td  data-title="'BR'" > 
+                                  {literal}  {{user.br_id}}{/literal}
+                              </td> 
+                              <td  data-title="'Action'" > 
+                                  <a href="index.php?module=BusinessActions&action=DetailView&record={literal}{{user.respective_act}}{/literal}">Action</a>
                               </td> 
                               
                             </tr>
-                        </table>                               
-            </td>
-          </tr>
-      </table>
- </td></tr>
+                        </table>
+                        </md-content>
+                      </md-tab>
+                      <md-tab label="RL Tabs">
+                        <md-content class="md-padding">
+                          <h5 class="md-display-5">Manage Tabs of Related Lists</h5>
+                            <table ng-controller="ng_Block" ng-table="tableParamsTabs" class="table  table-bordered table-responsive" width=100% >
+                                <tr >
+                                    <td colspan="4">
+                                         <button class="btn btn-primary" ng-click="open2(new_user,'add')">Add New Tab RL</button>
+                                    </td>
+                            </tr>
+                            <tr style="background-color:#c9dff0">
+                                <th style="align:center">
+                                </th> <th style="text-align: center">
+                                    Name
+                                </th>
+                                <th style="text-align: center">
+                                    Module
+                                </th>
+                                <th style="text-align: center">
+                                    Sequence
+                                </th>
+                            </tr> 
+                            <tr ng-repeat="user in $data" >
+                                  <td>                
+                                      <table>
+                                      <tr>
+                                          <th>
+                                              <img ng-if="!user.$edit" width="20" height="20" ng-click="open2(user,'edit')" src="themes/images/editfield.gif" /> 
+                                              <a ng-click="open2(user,'edit')">Edit</a> 
+                                          </th>
+                                          <th>
+                                              <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record2(user)" src="themes/images/delete.gif" />
+                                              <a ng-click="delete_record2(user)">Delete</a>
+                                          </th>   
+                                      </tr>             
+                                      </table>
+                                  </td>
+                                  <td > 
+                                      {literal}  {{user.name}}{/literal}                                                                   
+                                  </td> 
+                                  <td  > 
+                                      {literal}  {{user.modulename}}{/literal}
+                                  </td>
+                                  <td  > 
+                                      {literal}  {{user.sequence}}{/literal}
+                                  </td>
+                            </tr>
+                            </table>
+                        </md-content>
+                      </md-tab>
+                      <md-tab label="Manage UiType Evo">
+                        <md-content class="md-padding">
+                          <h5 class="md-display-5">Manage UiType Evo Fields</h5>
+                          {include file="modules/NgBlock/uiEvoConfig.html"}
+                        </md-content>
+                      </md-tab>
+                      <md-tab label="NgForm Creator">
+                        <md-content class="md-padding">
+                          <h5 class="md-display-5">Form Creator Parameter Setting</h5>
+                          {include file="modules/NgBlock/ngFormCreator.html"}
+                        </md-content>
+                      </md-tab>            
+                    </md-tabs>
+                  </md-content>
+                </div>
+             </td>
+            </tr>
 </table>
-
 <script>
 {literal}
-angular.module('demoApp',['ngTable','ui.bootstrap','multi-select']) 
+angular.module('demoApp',['ngTable','ui.bootstrap','multi-select','ngMaterial']) 
 .controller('ng_Block', function($scope, $http, $modal, ngTableParams) {
 
-            $scope.new_user={"id":"","id_hidden":"","name":"","module_name":"",
-                "module_name_trans":"","pointing_block_name":"",
-                "pointing_block_name_trans":"","pointing_module_name":"",
-                "pointing_module_name_trans":"","pointing_field_name":"",
-                "pointing_field_name_trans":"","columns":"","cond":"",
-                "paginate":"","nr_page":"","add_record":"",
-                "sort":" ","edit_record":"","delete_record":""};
-                     
-            $scope.tableParams = new ngTableParams({
-                page: 1,            // show first page
-                count: 5  // count per page
-                
-            }, {
-               counts: [5,15], 
-                getData: function($defer, params) {
-                $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=retrieve').
-                    success(function(data, status) {
-                      var orderedData = data;
-                      params.total(data.length);
-                      $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
-                })
-                    }
-            });
-            
-            // delete selected record
-            $scope.delete_record =  function(user) {
-             if(confirm('Are you sure you want to delete?'))
-             {
-                 var data_send =JSON.stringify(user);
-                 $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=delete&models='+data_send
-                )
-                .success(function(data, status) {
-                      $scope.tableParams.reload();
-                     
-                 });
-                }
-            }
-            
-              $scope.open = function (us,type) {
-                  if(type=='add'){
-                     us= {"id":"","id_hidden":"","name":"","module_name":"",
-                            "module_name_trans":"","pointing_block_name":"",
-                            "pointing_block_name_trans":"","pointing_module_name":"",
-                            "pointing_module_name_trans":"","pointing_field_name":"",
-                            "pointing_field_name_trans":"","columns":"","cond":"",
-                            "paginate":"","nr_page":"","add_record":"",
-                            "sort":" ","edit_record":"","delete_record":""};
-                  }
-                var modalInstance = $modal.open({
-                  templateUrl: 'Smarty/templates/modules/NgBlock/edit_modal.html',
-                  controller: 'ModalInstanceCtrl',
-                  resolve: {
-                    user :function () {
-                      return us;
-                    },
-                    type :function () {
-                      return type;
-                    },
-                    tbl :function () {
-                      return $scope.tableParams;
-                    }
-                  }
-                });
+    $scope.new_user={"id":"","id_hidden":"","name":"","module_name":"",
+        "module_name_trans":"","pointing_block_name":"",
+        "pointing_block_name_trans":"","pointing_module_name":"",
+        "pointing_module_name_trans":"","pointing_field_name":"",
+        "pointing_field_name_trans":"","columns":"","cond":"",
+        "paginate":"","nr_page":"","add_record":"",
+        "sort":" ","edit_record":"","delete_record":""
+        ,"br_id":""};
 
-                modalInstance.result.then(function (selectedItem) {
-                  $scope.selected = selectedItem;
-                }, function () {
-                  //$log.info('Modal dismissed at: ' + new Date());
-                });
-              };
-        
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+        $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=retrieve').
+            success(function(data, status) {
+              var orderedData = data;
+              params.total(data.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+        })
+            }
+    });
+    $scope.tableParamsTabs = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+        $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=get_tab').
+            success(function(data, status) {
+              var orderedData = data;
+              params.total(data.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+        })
+            }
+    });
+
+    // delete selected record
+    $scope.delete_record =  function(user) {
+     if(confirm('Are you sure you want to delete?'))
+     {
+         var data_send =JSON.stringify(user);
+         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=delete&models='+data_send
+        )
+        .success(function(data, status) {
+              $scope.tableParams.reload();
+
+         });
+        }
+    };
+        // delete selected record
+    $scope.delete_record2 =  function(user) {
+     if(confirm('Are you sure you want to delete?'))
+     {
+         var data_send =JSON.stringify(user);
+         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=deletetab&models='+data_send
+        )
+        .success(function(data, status) {
+              $scope.tableParamsTabs.reload();
+
+         });
+        }
+    }
+
+      $scope.open = function (us,type) {
+          
+        var modalInstance = $modal.open({
+          templateUrl: 'Smarty/templates/modules/NgBlock/edit_modal.html',
+          controller: 'ModalInstanceCtrl',
+          resolve: {
+            user :function () {
+              return us;
+            },
+            type :function () {
+              return type;
+            },
+            tbl :function () {
+              return $scope.tableParams;
+            }
+          }
         });
-        
-        
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          //$log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+
+    $scope.open2 = function (us,type) {
+        var modalInstance = $modal.open({
+          templateUrl: 'Smarty/templates/modules/NgBlock/add_ng_tab.html',
+          controller: 'TabInstanceCtrl',
+          resolve: {
+              user :function () {
+              return us;
+            },
+            type :function () {
+              return type;
+            },
+            tbl :function () {
+              return $scope.tableParamsTabs;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          //$log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+
+});
 angular.module('demoApp')
 .controller('ModalInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
 
-      $scope.user = user;
+      $scope.user = (type === 'add' ? {} : user);
       $scope.selected = {
         item: 0
       };
       $scope.Action = (type === 'add' ? 'Create' : 'Edit');
-      
+
       $scope.module_sel=[];
       $scope.blocks=[];
       $scope.pointing_field=[];
+      $scope.tab_rl_opt=[];
       $scope.mod_sel={'tablabel':$scope.user.module_name,'tabid':$scope.user.module_id};
       $scope.pointing_module_name_sel={'tablabel':$scope.user.pointing_module_name};
       $scope.pointing_block_name_sel={'label':$scope.user.pointing_block_name};
       $scope.pointing_field_name_sel={'columnname':$scope.user.pointing_field_name};
+      $scope.related_tab_sel={'id':$scope.user.related_tab};
       
       $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=relation&kaction=retrieve').
                     success(function(data, status) {
@@ -264,10 +387,17 @@ angular.module('demoApp')
                     success(function(data, status) {
                       $scope.pointing_field = data;
       });
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=get_tab').
+                    success(function(data, status) {
+                      $scope.tab_rl_opt = data;
+      });
       
-      $scope.destination_opt=['DETAILVIEWWIDGET','PORTALDV','PORTALSV','PORTALLV'];
-      $scope.type_opt=['Table','Graph','Text','Json'];  
-            
+      $scope.destination_opt=['DETAILVIEWWIDGET','RELATEDVIEWWIDGET','PORTALDV','PORTALSV','PORTALLV','DETAILVIEWWIDGET_PORTAL','CUSTOMERPORTAL'];
+      $scope.type_opt=['Table','Graph','Elastic','Text','Custom'];  
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=get_elastic_indexes').
+                    success(function(data, status) {
+                      $scope.get_elastic_indexes = data;
+      });
       $scope.myFilter = function(value) {
        return ($scope.filterValues.indexOf(value.id) !== -1);
       };
@@ -288,27 +418,48 @@ angular.module('demoApp')
                   });
        
        $scope.functionClick = function( data ) {
-           //alert(data.columnname);
-           if($scope.user.columns!='')
+           //alert($scope.user.columns);
+           if($scope.user.columns!=undefined)
                var arr = $scope.user.columns.split(',');
            else
                var arr = new Array();
-               var index =arr.indexOf(data.columnname);
-               if(index!==-1)
-               {
-                   arr.splice(index,1);
-               }
-               else
-               {
-                   arr.push(data.columnname);
-               }
-               $scope.user.columns=arr.join(',');
+           var index =arr.indexOf(data.columnname);
+           if(index!==-1)
+           {
+               arr.splice(index,1);
+           }
+           else
+           {
+               arr.push(data.columnname);
+           }
+           $scope.user.columns=arr.join(',');
        };
        
+        $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve_br&selected='+$scope.user.br_id+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.br_id=data;
+                  });
+       
+       $scope.functionClick_br = function( data ) {          
+           if ($scope.user.br_id===data.businessrulesid){
+               $scope.user.br_id='';
+           }
+           else{
+               $scope.user.br_id=data.businessrulesid;
+           }
+           
+       };
        $scope.refresh_columns = function(  ) {
            $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve&selected='+$scope.user.columns+'&pointing_module='+$scope.user.pointing_module_name).
                 success(function(data, status) {
                  $scope.columns=data;
+                  });
+       };
+       
+       $scope.refresh_br = function(  ) {
+           $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve_br&selected='+$scope.user.br_id+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.br_id=data;
                   });
        };
       
@@ -354,7 +505,49 @@ angular.module('demoApp')
         }
         return filterEvent;
     }
-}
-);
+});
+angular.module('demoApp')
+    .filter('filter_tab_rl', function() {
+          return function(tab_rl_opt,user) {
+            var filterEvent = [];
+            for (var i = 0;i < tab_rl_opt.length; i++){
+                if(tab_rl_opt[i]['moduleid']==user.module_name){
+                    filterEvent.push(tab_rl_opt[i]);
+                }
+            }
+            return filterEvent;
+        }
+    }
+    );
+angular.module('demoApp')
+.controller('TabInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
+
+      $scope.user = (type === 'add' ? {} : user);
+      $scope.selected = {
+        item: 0
+      };
+      $scope.Action = (type === 'add' ? 'Create' : 'Edit');
+      $scope.act = (type === 'add' ? 'addtab' : 'edittab');
+
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=relation&kaction=retrieve').
+                success(function(data, status) {
+                  $scope.modules = data;
+      });
+      $scope.module_sel=[];
+      $scope.mod_sel={'tablabel':$scope.user.moduleid,'tabid':$scope.user.moduleid};
+      
+      $scope.setEditId =  function(user) {
+            user =JSON.stringify(user);
+            $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction='+$scope.act+'&models='+user
+                )
+                .success(function(data, status) {
+                      tbl.reload();  
+                      $modalInstance.close($scope.selected.item);
+                 });
+            };
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+});
 {/literal}
 </script>

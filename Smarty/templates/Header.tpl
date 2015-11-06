@@ -65,12 +65,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 	<script type="text/javascript" src="jscalendar/lang/calendar-{$APP.LBL_JSCALENDAR_LANG}.js"></script>
-	<script type="text/javascript" src="Smarty/angular/angular.js"></script>
-        {if $MODULE_NAME neq 'VtappSecurity'}
-        <script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>
-   	<script type="text/javascript">
-		jQuery.noConflict();
-	</script>{/if}
+	
     <!-- asterisk Integration -->
 {if $USE_ASTERISK eq 'true'}
 	<script type="text/javascript" src="include/js/asterisk.js"></script>
@@ -80,6 +75,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 {/if}
     <!-- END -->
 {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq  'ElasticSearch' }   
+        <script type="text/javascript" src="Smarty/angular/angular.js"></script>
         <script  src="Smarty/angular/ng-table.js"></script>
         <script src="Smarty/angular/angular-multi-select.js"></script>  
         <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
@@ -90,6 +86,13 @@ var gVTUserID = '{$CURRENT_USER_ID}';
         <!-- xeditable   -->
         <link href="Smarty/angular/xeditable.css" rel="stylesheet">
         <script src="Smarty/angular/xeditable.js"></script>
+        <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
+{/if}
+{if $MODULE_NAME neq 'VtappSecurity'}
+        <script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>
+   	<script type="text/javascript">
+		jQuery.noConflict();
+	</script>
 {/if}
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
 {if $HEADERSCRIPTS}

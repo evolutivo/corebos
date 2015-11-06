@@ -32,7 +32,7 @@
                 Pointing Module
             </td> 
             <td> 
-               <select class="form-control" ng-click="user.pointing_module_name=pointing_module_name_sel.tablabel;refresh_columns();" ng-model="pointing_module_name_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
+               <select class="form-control" ng-click="user.pointing_module_name=pointing_module_name_sel.tablabel;refresh_columns();refresh_br();" ng-model="pointing_module_name_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
             </td> 
         </tr>
         <tr>
@@ -71,19 +71,19 @@
                 <table width="100%" border="0">
                     <tr>
                     <td>
-                        <select class="form-control"  ng-model="opt" ng-options="opt as opt.fieldlabel for opt  in ( columns| filter:{ tabid : pointing_module_name_sel.tabid }:true) track by opt.columnname"></select>
-                        <select id="operator" width="100px;" ng-change="fill_condition(opt.columnname,operator)" ng-model="operator">
-                            <option value="Like">Like</option>
-                            <option value="Not Like">Not Like</option>
-                            <option value="<"><</option>
-                            <option value=">">></option>
-                        </select>
+                        Choose the BusinessRule  for the Where Clause
                     </td></tr>
                     <tr>
                         <td colspan="5">
-                            <textarea cols="100" rows="5" name="val_cond" id="val_cond" ng-model="user.cond">
-                           
-                            </textarea>
+                            <input ng-model="user.br_id" type="hidden"  >  
+                            <multi-select   
+                                input-model="br_id" 
+                                output-model="selected_values_br"
+                                button-label="businessrules_name"
+                                item-label="businessrules_name"
+                                tick-property="ticked" 
+                                on-item-click="functionClick_br( data )">
+                            </multi-select>
                         </td>
                     </tr>
                 </table> 
@@ -95,7 +95,7 @@
                
             </td> 
             <td> 
-                <input class="form-control" type="text" ng-model="user.nr_page" style="width:20px"/>
+                <input type="text" ng-model="user.nr_page" style="width:50px"/>
                 &nbsp;Paginate<input type="checkbox"  ng-model="user.paginate"  />
                 &nbsp;Add Record <input type="checkbox"  ng-model="user.add_record" />
                 &nbsp;Edit Record <input type="checkbox"  ng-model="user.edit_record"  />
@@ -119,10 +119,10 @@
         </tr>
         <tr>
             <td> 
-                Sequence of NgRelatedBlock
+                Sequence
             </td> 
             <td> 
-                <input class="form-control" type="text" ng-model="user.sequence_ngblock" style="width:20px"/>
+                <input type="text" ng-model="user.sequence_ngblock" style="width:50px"/>
             </td> 
         </tr>
         <tr>
@@ -132,6 +132,9 @@
             <td> 
                 <select id="destination"  ng-model="user.destination" style="width:170px"
                         ng-options="opt for opt in destination_opt">
+                </select>
+                <select id="related_tab"  ng-model="related_tab_sel" ng-click="user.related_tab=related_tab_sel.id" style="width:100px"
+                        ng-if="user.destination=='RELATEDVIEWWIDGET'" ng-options="opt.name for opt  in  tab_rl_opt | filter_tab_rl:user track by opt.id">
                 </select>
             </td> 
         </tr>
@@ -143,6 +146,24 @@
                 <select id="type"  ng-model="user.type" style="width:170px"
                         ng-options="opt for opt in type_opt">
                 </select>
+                <input type="text" id="custom_widget_path"  ng-model="user.custom_widget_path" style="width:180px"
+                        ng-if="user.type=='Custom'" >
+                <table>
+                    <tr>
+                        <td>
+                            <select id="type"  ng-model="user.elastic_id" style="width:170px" ng-if="user.type=='Elastic'"
+                                    ng-options="opt for opt in get_elastic_indexes track by opt">
+                            </select>
+                        </td>
+                        <td>
+                            <select id="type"  ng-model="user.elastic_type" style="width:170px" ng-if="user.type=='Elastic'">
+                                <option value="import">import</option>
+                                <option value="norm">norm</option>
+                                <option value="denorm">denorm</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
             </td> 
         </tr>
         

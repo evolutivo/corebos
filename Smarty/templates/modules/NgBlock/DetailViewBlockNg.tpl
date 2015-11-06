@@ -1,23 +1,4 @@
-{*<!--
- *************************************************************************************************
- * Copyright 2015 OpenCubed -- This file is a part of OpenCubed coreBOS customizations.
- * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
- * Vizsage Public License (the "License"). You may not use this file except in compliance with the
- * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
- * and share improvements. However, for proper details please read the full License, available at
- * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
- * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
- * applicable law or agreed to in writing, any software distributed under the License is distributed
- * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and limitations under the
- * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
- *************************************************************************************************
- *  Module       : NgBlock
- *  Version      : 5.5.0
- *  Author       : OpenCubed.
- *************************************************************************************************/
--->*}
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 <table border=0 cellspacing=0 cellpadding=0 width=100% class="small">
 <tr>
         <td>&nbsp;</td>
@@ -37,56 +18,57 @@
             <div style="float:left;font-weight:bold;"><div style="float:left;"><a href="javascript:showHideStatus('tbl{$NG_BLOCK_NAME|replace:' ':''}','aid{$NG_BLOCK_NAME|replace:' ':''}','{$IMAGE_PATH}');">
                                     <img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'inactivate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;" alt="Display" title="Display"/>
                             </a></div><b>&nbsp;
-                            {$NG_BLOCK_NAME}
+                            {$MOD_NG.$NG_BLOCK_NAME}
                     </b></div>
     </td>{/strip}
 </tr>
 </table>
 
-<div style="width:auto;display:none;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
+<div style="width:auto;display:inline;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
 <table border=0 cellspacing=0 cellpadding=0 width="100%" class="small">
     <tr>
         <td>
             <table ng-controller="block_{$NG_BLOCK_ID}"  ng-table="tableParams" class="table  table-bordered table-responsive">
             {if $ADD_RECORD eq 1 }
             <tr class="dvtCellLabel">
-                {math equation="x+1" x=$FIELD_LABEL|@count assign="nr_col"} 
-                <td colspan="{$nr_col}">
+                {math equation="x" x=$FIELD_LABEL|@count assign="nr_col"} 
+                <td>
                     <img width="20" height="20" ng-click="open(user,'create')" src="themes/softed/images/btnL3Add.gif" />
                     {if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
                         <a ng-click="open(user,'create')">Crea Nota</a> 
                     {else}
-                        <a ng-click="open(user,'create')">Add New {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                        <a ng-click="open(user,'create')">Add New {$MOD_NG.$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
                     {/if}
                 </td> 
+                <td colspan="{$nr_col}">
+                    <a ng-click="open(user,'choose')">Choose {$MOD_NG.$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                </td>
             </tr>
             {/if}
             <tr class="dvtCellLabel">
                 {foreach key=index item=fieldlabel from=$FIELD_LABEL} 
-                    {if $COLUMN_NAME.$index neq 'bodymessage_msg'}
+                   {* {if $COLUMN_NAME.$index neq 'messagio'}*}
                     <td> <b>{$fieldlabel}</b> </td> 
-                    {/if}
+                   {* {/if} *}
                 {/foreach} 
                 <td> </td> 
             </tr>
             <tr ng-repeat="user in $data"  class="dvtCellInfo">
                 {foreach key=index item=fieldname from=$COLUMN_NAME} 
+                 {*  {if $fieldname neq 'messagio'}  *}
                       {if $index eq 0}
                           <td >
                              <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}{literal}}}{/literal}</a>
                           </td> 
                       {else}
                           <td > 
-                              {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
-                                  {literal}  {{user.{/literal}{$fieldname}_display{literal}}}{/literal}
-                              {else}
-                                  {literal}  {{user.{/literal}{$fieldname}{literal}}}{/literal}
-                              {/if}
+                              {literal}  {{user.{/literal}{$fieldname}{literal}}}{/literal}
                           </td>
                       {/if}
+                 {*  {/if} *}
                 {/foreach} 
                 <td  width="80" >
-                <table>
+                <table> 
                       <tr>
                           {if $EDIT_RECORD eq 1}
                           <td>
@@ -115,29 +97,90 @@
 </div>
 <div class="modal-body">    
     <table  >
-    {foreach key=index item=fieldname from=$COLUMN_NAME} 
+     <tr ng-if="type=='choose'">
+        <td style="height:300px;vertical-align:top">
+                <input ng-model="choosen_entity" type="hidden"  >  
+                <multi-select   
+                    input-model="choosen_entity1" 
+                    output-model="selected_values_choosen_entity"
+                    button-label="name"
+                    item-label="name"
+                    tick-property="ticked" 
+                    on-item-click="functionClick_en( data )">
+                </multi-select>
+        </td>
+    </tr>
+    {if $MODULE_NAME eq 'Cases' && $POINTING_MODULE eq 'Messages'}
+      {foreach key=index item=fieldname from=$COLUMN_NAME} 
+            <input type="hidden" ng-model="user.{$fieldname}"/>
+      {/foreach}
+    
       <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" >
           <td style="text-align:right;"> 
-              {$FIELD_LABEL.$index}
+              Subject
           </td>
           <td style="text-align:left;"> 
-          {if $FIELD_UITYPE.$index eq '15'}
-              <select class="form-control" ng-model="user.{$fieldname}"  ng-options="op for op  in opt.{$index}"></select>
-          {elseif in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )  }
+           <input class="form-control" style="width:350px;" type="text" ng-model="user.messagesname"/>
+          </td>
+      </tr>
+      <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" >
+          <td style="text-align:right;"> 
+              Message Type
+          </td>
+          <td style="text-align:left;"> 
+            <select class="form-control" ng-model="user.messagetype" ng-options="op for op  in opt.{$index}">
+            </select>
+          </td>
+      </tr>
+      <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" >
+          <td style="text-align:right;"> 
+              Description
+          </td>
+          <td style="text-align:left;"> 
+           <textarea class="form-control" rows="10" ng-model="user.description"></textarea>
+          </td>
+      </tr>
+    {else}
+    {foreach key=index item=fieldname from=$COLUMN_NAME} 
+        {if $FIELD_UITYPE.$index neq '53' && $FIELD_UITYPE.$index neq '70'}
+          <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" ng-if="type!='choose'">
+              <td style="text-align:right;"> 
+                  {$FIELD_LABEL.$index}
+              </td>
+              <td style="text-align:left;"> 
+              {if $FIELD_UITYPE.$index eq '15'}
+                  <select class="form-control" ng-model="user.{$fieldname}"  ng-options="op for op  in opt.{$index}"></select>
+              {elseif in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )  }
               <input class="form-control" style="width:250px;" type="hidden" id="{$fieldname}" ng-model="user.{$fieldname}" value="user.{$fieldname}"/>
               <input class="form-control" style="width:250px;" type="text" id="{$fieldname}_display" ng-model="user.{$fieldname}_display" value="user.{$fieldname}_display" onchange="alert(this.value);"/>
               <img src="{'select.gif'|@vtiger_imageurl:$THEME}"
-    alt="Select" title="Select" LANGUAGE=javascript  onclick='return window.open("index.php?module={$REL_MODULE.$index}&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield={$fieldname}&srcmodule={$POINTING_MODULE}&responseTo=ngBlockPopup","test","width=640,height=602,resizable=0,scrollbars=0,top=150,left=200");' align="absmiddle" style='cursor:hand;cursor:pointer'>
-          {else}
-              <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}"/>
-          {/if}
-           </td>
-      </tr>
+                alt="Select" title="Select" LANGUAGE=javascript  onclick='return window.open("index.php?module={$REL_MODULE.$index}&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield={$fieldname}&srcmodule={$POINTING_MODULE}&responseTo=ngBlockPopup","test","width=640,height=602,resizable=0,scrollbars=0,top=150,left=200");' align="absmiddle" style='cursor:hand;cursor:pointer'>
+              {elseif $FIELD_UITYPE.$index eq '5'}
+                  <input type="text" class="form-control" style="width:300px; " ng-model="user.{$fieldname}"/>
+                  <input type="date" class="form-control" style="width:50px; " ng-model="user1.{$fieldname}1"
+                          placeholder="yyyy-MM-dd" ng-change="put_date('{$fieldname}');"/>
+              {elseif $FIELD_UITYPE.$index eq '33'}
+                  <select multiple class="form-control" ng-model="user.{$fieldname}"  
+                          ng-options="op for op  in opt[{$index}]"></select>
+              {elseif $FIELD_UITYPE.$index eq '19'}
+                      <textarea class="form-control" rows="10" ng-model="user.{$fieldname}"></textarea>
+              {else}
+                  <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}"/>
+              {/if}
+               </td>
+          </tr>
+      {/if}
     {/foreach}
+    {/if}
     </table>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="setEditId(user)">Save</button>
+    {if $POINTING_MODULE neq 'Messages'}
+        <button class="btn btn-primary" ng-click="setEditId(user)" ng-if="type!='choose'">Save</button>
+    {else}
+        <button class="btn btn-primary" ng-click="setEditId(user)" ng-if="type!='choose'">Send</button>
+    {/if}
+    <button class="btn btn-primary" ng-click="setRelation(choosen_entity)" ng-if="type=='choose'">Set Relation</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
 </script>
@@ -151,7 +194,7 @@
 </style>
 <script>
 {literal}
-angular.module('demoApp') 
+angular.module('demoApp')
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal, ngTableParams) {
     $scope.user={};
             
@@ -216,28 +259,56 @@ angular.module('demoApp')
 
 .controller('ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',function ($scope,$http,$modalInstance,user,type,tbl) {
 
-      $scope.user = user;
+      $scope.user = (type === 'create' ? {} : user);
+      $scope.user1 = {};
+      $scope.choosen_entity='';
       $scope.selected = {
         item: 0
       };
+      $scope.type=type;
       $scope.Action = (type === 'create' ? 'Create' : 'Edit');
       $scope.opt={/literal}{$OPTIONS}{literal}; 
-      
+      $scope.user={
+          'messagetype':'Technician'
+      }
       // edit selected record
-      $scope.setEditId =  function(user) {
-      {/literal}
-      {foreach key=index item=fieldname from=$COLUMN_NAME} 
-          {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )  }
-              if(document.getElementById("{$fieldname}").value!='user.{$fieldname}')
-                  user.{$fieldname}=document.getElementById("{$fieldname}").value;
-              
-          {/if}
-      {/foreach}
-      {literal}
-            
+      
+      $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=select_entity').
+            success(function(data, status) {
+                 $scope.choosen_entity1=data;
+                  });
+       
+       $scope.functionClick_en = function( data ) {          
+           if($scope.choosen_entity!=undefined)
+               var arr = $scope.choosen_entity.split(',');
+           else
+               var arr = new Array();
+           var index =arr.indexOf(data.id);
+           if(index!==-1)
+           {
+               arr.splice(index,1);
+           }
+           else
+           {
+               arr.push(data.id);
+           }
+           $scope.choosen_entity=arr.join(',');
+       };
+       
+      $scope.setRelation =  function(choosen) {
             user.href='';
             user =JSON.stringify(user);
-            $http.post('index.php?{/literal}{$blockURL}{literal}&kaction='+type+'&models='+user
+            $http.post('index.php?{/literal}{$blockURL}{literal}&kaction=setRelation&relid='+choosen
+                )
+                .success(function(data, status) {
+                      tbl.reload();  
+                      $modalInstance.close($scope.selected.item);
+                 });
+      };
+      $scope.setEditId =  function(user) {
+            user.href='';
+            user =JSON.stringify(user);
+            $http.post('index.php?{/literal}{$blockURL}{literal}&kaction='+type+'&models='+encodeURIComponent(user)
                 )
                 .success(function(data, status) {
                       tbl.reload();  
