@@ -1,0 +1,75 @@
+<accordion class="accordion"  close-others="oneAtATime">
+    <accordion-group heading="General">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                       Name CbApp 
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" ng-model="user.name"/>
+                    </td>
+                    <td>
+                       Select Icon
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" ng-model="user.name"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </accordion-group>
+    <accordion-group heading="Define Modules">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                       Outside Module
+                    </td>
+                    <td>
+                        <select class="form-control" ng-click="user.module_name=mod_sel.tablabel" ng-model="mod_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
+                    </td>
+                    <td>
+                       Select Icon
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" ng-model="user.name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Name CbApp 
+                    </td>
+                    <td>
+                        <input class="form-control" type="text" ng-model="user.name"/>
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </accordion-group>
+    <accordion-group heading="Settings">
+        <div>
+        </div>
+    </accordion-group>
+    <accordion-group heading="On Save">
+        <div>
+        </div>
+    </accordion-group>
+    <accordion-group heading="Define Fields/Profile">
+        <div>
+        </div>
+    </accordion-group>
+    <accordion-group heading="Buttons">
+        <div>
+        </div>
+    </accordion-group>
+    <accordion-group heading="Templating">
+        <div>
+        </div>
+    </accordion-group>
+</accordion>
