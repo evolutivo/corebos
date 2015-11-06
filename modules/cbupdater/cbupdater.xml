@@ -554,4 +554,11 @@
 	<classname>UserHourStartFields</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add NgBlock Improvements</description>
+	<filename>build/changeSets/evolutivo/addNgBlockImprovements.php</filename>
+	<classname>addNgBlockImprovements</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
