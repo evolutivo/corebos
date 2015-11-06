@@ -613,7 +613,7 @@ function vtlib_process_widget($widgetLinkInfo, $context = false) {
 		}
 		if (class_exists($widgetControllerClass)) {
 			$widgetControllerInstance = new $widgetControllerClass;
-			$widgetInstance = $widgetControllerInstance->getWidget($widgetLinkInfo->linklabel);
+			$widgetInstance = $widgetControllerInstance->getWidget($widgetLinkInfo->linklabel,$context);
 			if ($widgetInstance) {
 				return $widgetInstance->process($context);
 			}

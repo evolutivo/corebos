@@ -561,4 +561,11 @@
 	<classname>addNgBlockImprovements</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add NgBlock Improvements2</description>
+	<filename>build/changeSets/evolutivo/addNgBlockImprov2.php</filename>
+	<classname>addNgBlockImprov2</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
