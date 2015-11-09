@@ -44,7 +44,7 @@
                     $so= explode(",",$sort);    
                     $sort_by=$so[0]; 
                     $order=$so[1];
-                    $query_sort= " order by $pointing_module_table.$sort_by  $order";
+                    $query_sort= " order by $sort_by  $order";
                 } 
                 $col2=implode(",",$col);
                  
