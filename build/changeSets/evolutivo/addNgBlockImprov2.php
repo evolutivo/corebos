@@ -23,8 +23,9 @@ class addNgBlockImprov2 extends cbupdaterWorker {
 		} else {
 		
 			$this->ExecuteQuery("ALTER TABLE  vtiger_ng_block "
-                                . "ADD COLUMN  related_tab VARCHAR( 250 )  NULL,"
-                                . "ADD COLUMN  custom_widget_path VARCHAR( 250 )  NULL");
+                                . " ADD COLUMN  related_tab VARCHAR( 250 )  NULL,"
+                                . " ADD COLUMN  br_id VARCHAR( 250 )  NULL,"
+                                . " ADD COLUMN  custom_widget_path VARCHAR( 250 )  NULL");
 			
                         $this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();

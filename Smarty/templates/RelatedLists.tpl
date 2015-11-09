@@ -49,10 +49,40 @@ function gotoUpdateListPrice(id,pbid,proid)
                         }
                 );
 }
+function showHideStatus(sId,anchorImgId,sImagePath)
+{
+	oObj = eval(document.getElementById(sId));
+	if(oObj.style.display == 'block')
+	{
+		oObj.style.display = 'none';
+		if(anchorImgId !=null){
+			eval(document.getElementById(anchorImgId)).src =  'themes/images/inactivate.gif';
+			eval(document.getElementById(anchorImgId)).alt = 'Display';
+			eval(document.getElementById(anchorImgId)).title = 'Display';
+		}
+	}
+	else
+	{
+		oObj.style.display = 'block';
+		if(anchorImgId !=null){
+			eval(document.getElementById(anchorImgId)).src = 'themes/images/activate.gif';
+			eval(document.getElementById(anchorImgId)).alt = 'Hide';
+			eval(document.getElementById(anchorImgId)).title = 'Hide';
+		}
+	}
+}
 {/literal}
 </script>
 	{include file='Buttons_List1.tpl'}
 <!-- Contents -->
+{php}
+if(!empty($_REQUEST['ng_tab'])) {
+        $this->assign("ng_tab", $_REQUEST['ng_tab']);
+}
+include_once('vtlib/Vtiger/Link.php');
+$customlink_params = Array('MODULE'=>$this->get_template_vars('MODULE'), 'RECORD'=>$this->get_template_vars('ID'), 'ACTION'=>vtlib_purify('DetailView'));
+$this->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($this->get_template_vars('MODULE')), Array('RELATEDVIEWWIDGET'), $customlink_params));
+{/php}
 <div id="editlistprice" style="position:absolute;width:300px;"></div>
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
 <tr>
@@ -86,8 +116,11 @@ function gotoUpdateListPrice(id,pbid,proid)
                 		                        <td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
                                 		        {/if}
 							<td class="dvtTabCache" style="width:10px">&nbsp;</td>
-							<td class="dvtSelectedCell" align=center nowrap>{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</td>
-							<td class="dvtTabCache" style="width:100%">&nbsp;</td>
+							<td {if empty($ng_tab)}class="dvtSelectedCell"{else}class="dvtUnSelectedCell"{/if} align=center nowrap>
+                                                            <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+                                                        </td>
+                                                        {include file='RelatedListNg.tpl'}
+                                                        <td class="dvtTabCache" style="width:100%">&nbsp;</td>
 						</tr>
 					</table>
 				</td>
@@ -103,9 +136,28 @@ function gotoUpdateListPrice(id,pbid,proid)
 										<td style="padding:10px">
 										   <!-- General details -->
 												{include file='RelatedListsHidden.tpl'}
-												<div id="RLContents">
-					                                                        {include file='RelatedListContents.tpl'}
+												{if empty($ng_tab)}
+                                                                                                    <div id="RLContents">
+                                                                                                    {include file='RelatedListContents.tpl'}
                                         						        </div>
+                                                                                                {/if}
+                                                                                                {if !empty($ng_tab)}
+                                                                                                    <div id="NGRLContents">
+                                                                                                    {if !empty($CUSTOM_LINKS.RELATEDVIEWWIDGET)}
+                                                                                                        {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.RELATEDVIEWWIDGET}
+                                                                                                            {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl)
+                                                                                                            && $CUSTOM_LINK_DETAILVIEWWIDGET->related_tab eq $ng_tab}
+                                                                                                                <tr>
+                                                                                                                    <td style="padding:5px;" >
+                                                                                                                        {php} echo vtlib_process_widget($this->_tpl_vars['CUSTOM_LINK_DETAILVIEWWIDGET'], $this->_tpl_vars); {/php}
+                                                                                                                        <br/>
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            {/if}
+                                                                                                        {/foreach}
+                                                                                                    {/if}
+                                                                                                    </div>
+                                                                                                {/if}
 												</form>
 										  {*-- End of Blocks--*}
 										</td>
@@ -132,8 +184,11 @@ function gotoUpdateListPrice(id,pbid,proid)
                 		                        <td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
                                 		        {/if}
 							<td class="dvtTabCacheBottom" style="width:10px">&nbsp;</td>
-							<td class="dvtSelectedCellBottom" align=center nowrap>{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</td>
-							<td class="dvtTabCacheBottom" style="width:100%">&nbsp;</td>
+							<td {if empty($ng_tab)}class="dvtSelectedCellBottom"{else}class="dvtUnSelectedCell"{/if} align=center nowrap>
+                                                            <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+                                                        </td>
+                                                        {include file='RelatedListNg.tpl'}
+                                                        <td class="dvtTabCacheBottom" style="width:100%">&nbsp;</td>
 						</tr>
 					</table>
 				</td>

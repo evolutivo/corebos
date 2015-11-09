@@ -18,13 +18,13 @@
             <div style="float:left;font-weight:bold;"><div style="float:left;"><a href="javascript:showHideStatus('tbl{$NG_BLOCK_NAME|replace:' ':''}','aid{$NG_BLOCK_NAME|replace:' ':''}','{$IMAGE_PATH}');">
                                     <img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'inactivate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;" alt="Display" title="Display"/>
                             </a></div><b>&nbsp;
-                            {$MOD_NG.$NG_BLOCK_NAME}
+                            {$NG_BLOCK_NAME}
                     </b></div>
     </td>{/strip}
 </tr>
 </table>
 
-<div style="width:auto;display:inline;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
+<div style="width:auto;display:none;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
 <table border=0 cellspacing=0 cellpadding=0 width="100%" class="small">
     <tr>
         <td>
@@ -37,11 +37,11 @@
                     {if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
                         <a ng-click="open(user,'create')">Crea Nota</a> 
                     {else}
-                        <a ng-click="open(user,'create')">Add New {$MOD_NG.$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                        <a ng-click="open(user,'create')">Add New {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
                     {/if}
                 </td> 
                 <td colspan="{$nr_col}">
-                    <a ng-click="open(user,'choose')">Choose {$MOD_NG.$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                    <a ng-click="open(user,'choose')">Choose {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
                 </td>
             </tr>
             {/if}
