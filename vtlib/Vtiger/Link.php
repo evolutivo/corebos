@@ -52,6 +52,7 @@ class Vtiger_Link {
 		$this->handler_path	=$valuemap['handler_path'];
 		$this->handler_class=$valuemap['handler_class'];
 		$this->handler		=$valuemap['handler'];
+                $this->related_tab=$valuemap['related_tab'];
 	}
 
 	/**
@@ -176,12 +177,20 @@ class Vtiger_Link {
 
 		$multitype = false;
 		$orderby = ' order by linktype,sequence'; //MSL
+                $join_str='';
+                $qry_ngblock="Select * from vtiger_ng_block";
+                $res_ngblock=$adb->query($qry_ngblock);
+                if($adb->num_rows($res_ngblock)>0){
+                    $join_str= ' left join vtiger_ng_block on vtiger_ng_block.id=vtiger_links.linklabel';
+                }
 		if($type) {
 			// Multiple link type selection?
 			if(is_array($type)) { 
 				$multitype = true;
 				if($tabid === self::IGNORE_MODULE) {
-					$sql = 'SELECT * FROM vtiger_links WHERE linktype IN ('.
+					$sql = 'SELECT * FROM vtiger_links '
+                                                . $join_str
+                                                . ' WHERE linktype IN ('.
 						Vtiger_Utils::implodestr('?', count($type), ',') .') ';
 					$params = $type;
 					$permittedTabIdList = getPermittedModuleIdList();
@@ -192,16 +201,22 @@ class Vtiger_Link {
 					}
 					$result = $adb->pquery($sql . $orderby, Array($adb->flatten_array($params)));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE tabid=? AND linktype IN ('.
+					$result = $adb->pquery('SELECT * FROM vtiger_links '
+                                                . $join_str
+                                                . ' WHERE tabid=? AND linktype IN ('.
 						Vtiger_Utils::implodestr('?', count($type), ',') .')' . $orderby,
 							Array($tabid, $adb->flatten_array($type)));
 				}
 			} else {
 				// Single link type selection
 				if($tabid === self::IGNORE_MODULE) {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE linktype=?' . $orderby, Array($type));
+					$result = $adb->pquery('SELECT * FROM vtiger_links '
+                                                . $join_str
+                                                . ' WHERE linktype=?' . $orderby, Array($type));
 				} else {
-					$result = $adb->pquery('SELECT * FROM vtiger_links WHERE tabid=? AND linktype=?' . $orderby, Array($tabid, $type));				
+					$result = $adb->pquery('SELECT * FROM vtiger_links '
+                                                . $join_str
+                                                . ' WHERE tabid=? AND linktype=?' . $orderby, Array($tabid, $type));				
 				}
 			}
 		} else {

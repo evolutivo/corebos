@@ -81,17 +81,17 @@ elseif($kaction=='edit'){
                                          $mv->br_id,$mv->elastic_id,$mv->elastic_type,
                                          $mv->id)
              ); 
-     $actionsid=$adb->query_result($adb->pquery("select businessactionsid from vtiger_businessactions "
-            . " where reference=?",array($mv->id)),0,'businessactionsid');
-     require_once('modules/BusinessActions/BusinessActions.php');
-     $action=CRMEntity::getInstance('BusinessActions');
-     $action->retrieve_entity_info($actionsid,"BusinessActions");
-     $action->id=$actionsid;
-     $action->mode = 'edit';
-     $action->column_fields['assigned_user_id'] = $action->column_fields['assigned_user_id'];
-     $action->column_fields['elementtype_action'] = $mv->destination;
-     $action->column_fields['actions_status'] = 'Active';
-     $action->save("BusinessActions"); 
+//     $actionsid=$adb->query_result($adb->pquery("select businessactionsid from vtiger_businessactions "
+//            . " where reference=?",array($mv->id)),0,'businessactionsid');
+//     require_once('modules/BusinessActions/BusinessActions.php');
+//     $action=CRMEntity::getInstance('BusinessActions');
+//     $action->retrieve_entity_info($actionsid,"BusinessActions");
+//     $action->id=$actionsid;
+//     $action->mode = 'edit';
+//     $action->column_fields['assigned_user_id'] = $action->column_fields['assigned_user_id'];
+//     $action->column_fields['elementtype_action'] = $mv->destination;
+//     $action->column_fields['actions_status'] = 'Active';
+//     $action->save("BusinessActions"); 
      
     }
 elseif($kaction=='delete'){
@@ -200,13 +200,14 @@ elseif($kaction=='add'){
              . " pointing_field_name,columns,cond,sort,"
              . " paginate,add_record,edit_record,"
              . " delete_record,nr_page,sequence_ngblock,destination,type,"
-             . " custom_widget_path,br_id,elastic_id,elastic_type)"
-             . " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";            
+             . " related_tab,custom_widget_path,br_id,elastic_id,elastic_type)"
+             . " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";            
      $result=$adb->pquery($query,array($mv->name,$mv->module_name,$mv->pointing_block_name,$mv->pointing_module_name,
                                          $mv->pointing_field_name,$mv->columns,$mv->cond,$mv->sort,
                                          $mv->paginate,$mv->add_record,$mv->edit_record,
                                          $mv->delete_record,$mv->nr_page,$mv->sequence_ngblock,
-                                         $mv->destination,$mv->type,$mv->custom_widget_path,$mv->br_id,
+                                         $mv->destination,$mv->type,
+                                         $mv->related_tab,$mv->custom_widget_path,$mv->br_id,
                                          $mv->elastic_id,$mv->elastic_type
                                      )); 
     $last_id=$adb->query_result($adb->query("select id from vtiger_ng_block order by id desc"),0,'id');
