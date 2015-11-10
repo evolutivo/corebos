@@ -336,25 +336,25 @@ else{
     $arr=explode('
 ',$response1);
     $arr_el=array();
-    for($i_c=1;$i_c<sizeof($arr);$i_c++) {
-        $specific_arr=explode(' ',$arr[$i_c]);
-        if(!empty($specific_arr[4])){
-            $res=$adb->pquery("Select  * 
-                vtiger_elastic_indexes 
-                where elasticname=?",array($specific_arr[4]));
-            $arr_el[]=$specific_arr[4];
-            if($adb->num_rows($res)==0){
-                $adb->pquery("Insert into 
-                          vtiger_elastic_indexes (elasticid,elasticname,status)
-                          values('".$i_c."','".$specific_arr[4]."','open')
-                          ",array());
-            }           
-        }
-    }
-    $adb->pquery("Delete from
-                vtiger_elastic_indexes
-                where elasticname not in (".  generateQuestionMarks($arr_el).")"
-            ,array($arr_el));
+//    for($i_c=1;$i_c<sizeof($arr);$i_c++) {
+//        $specific_arr=explode(' ',$arr[$i_c]);
+//        if(!empty($specific_arr[4])){
+//            $res=$adb->pquery("Select  * 
+//                vtiger_elastic_indexes 
+//                where elasticname=?",array($specific_arr[4]));
+//            $arr_el[]=$specific_arr[4];
+//            if($adb->num_rows($res)==0){
+//                $adb->pquery("Insert into 
+//                          vtiger_elastic_indexes (elasticid,elasticname,status)
+//                          values('".$i_c."','".$specific_arr[4]."','open')
+//                          ",array());
+//            }           
+//        }
+//    }
+//    $adb->pquery("Delete from
+//                vtiger_elastic_indexes
+//                where elasticname not in (".  generateQuestionMarks($arr_el).")"
+//            ,array($arr_el));
     $res=$adb->pquery("Select  * 
                 from vtiger_elastic_indexes",array());
     for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
