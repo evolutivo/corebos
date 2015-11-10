@@ -739,7 +739,7 @@ angular.module('demoApp')
       $scope.setEditId =  function(user) {
           var br=user.br_id;
             user =JSON.stringify(user);
-            if(br!==undefined){
+            if(br!==''){
                 $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction='+$scope.act+'&models='+user
                     )
                     .success(function(data, status) {
