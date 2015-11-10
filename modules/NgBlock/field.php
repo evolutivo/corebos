@@ -9,14 +9,16 @@
 
   $content=array();
 if($kaction=='retrieve'){
-    $qry="Select fieldid,uitype,fieldlabel,fieldname,columnname,block,tabid from vtiger_field ";
+    $qry="Select fieldid,uitype,fieldlabel,fieldname,columnname,block,vtiger_field.tabid,tablabel "
+            . " from vtiger_field "
+            . " join vtiger_tab on vtiger_field.tabid = vtiger_tab.tabid";
     if($pointing_module!='') //only the fields of the pointing module
     {
         $qry.="   where vtiger_field.tabid='$tabid' ";
     }
     $query=$adb->query($qry); 
     $count=$adb->num_rows($query);
-   for($i=0;$i<$count;$i++){
+    for($i=0;$i<$count;$i++){
       $content[$i]['fieldid']=$adb->query_result($query,$i,'fieldid');
       $content[$i]['uitype']=$adb->query_result($query,$i,'uitype');
       //echo "brisi".$adb->query_result($query,$i,'uitype');
@@ -25,6 +27,7 @@ if($kaction=='retrieve'){
       $content[$i]['columnname']=$adb->query_result($query,$i,'columnname');
       $content[$i]['block']=$adb->query_result($query,$i,'block');
       $content[$i]['tabid']=$adb->query_result($query,$i,'tabid');
+      $content[$i]['tablabel']=$adb->query_result($query,$i,'tablabel');
       if(strpos($selected,$content[$i]['columnname'])!==false)
       $content[$i]['ticked']=true;
  

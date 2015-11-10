@@ -219,13 +219,13 @@
                       <md-tab label="Manage UiType Evo">
                         <md-content class="md-padding">
                           <h5 class="md-display-5">Manage UiType Evo Fields</h5>
-                          {include file="modules/NgBlock/uiEvoConfig.html"}
+                          {include file="modules/NgBlock/uiEvo.tpl"}
                         </md-content>
                       </md-tab>
                       <md-tab label="NgForm Creator">
                         <md-content class="md-padding">
                           <h5 class="md-display-5">Form Creator Parameter Setting</h5>
-                          {include file="modules/NgBlock/ngFormCreator.html"}
+                          {include file="modules/NgBlock/ngFormCreator.tpl"}
                         </md-content>
                       </md-tab>            
                     </md-tabs>
@@ -520,6 +520,18 @@ angular.module('demoApp')
     }
     );
 angular.module('demoApp')
+.filter('filter_source_fields', function() {
+      return function(pointing_field,user) {
+        var filterEvent = [];
+        for (var i = 0;i < pointing_field.length; i++){
+            if(pointing_field[i]['tablabel']==user.module_name){
+                filterEvent.push(pointing_field[i]);
+            }
+        }
+        return filterEvent;
+    }
+});
+angular.module('demoApp')
 .controller('TabInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
 
       $scope.user = (type === 'add' ? {} : user);
@@ -545,6 +557,200 @@ angular.module('demoApp')
                       $modalInstance.close($scope.selected.item);
                  });
             };
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+});
+angular.module('demoApp') 
+.controller('ng_EvoFields', function($scope, $http, $modal, ngTableParams) {
+
+    $scope.new_user={};
+
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+        $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction=retrieve').
+            success(function(data, status) {
+              var orderedData = data;
+              params.total(data.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+        })
+            }
+    });
+    
+    // delete selected record
+    $scope.delete_record =  function(user) {
+     if(confirm('Are you sure you want to delete?'))
+     {
+         var data_send =JSON.stringify(user);
+         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction=delete&models='+data_send
+        )
+        .success(function(data, status) {
+              $scope.tableParams.reload();
+
+         });
+        }
+    };
+     
+      $scope.open2 = function (us,type) {
+          
+        var modalInstance = $modal.open({
+          templateUrl: 'Smarty/templates/modules/NgBlock/edit_evo_fields.html',
+          controller: 'ng_Evo_Edit',
+          resolve: {
+            user :function () {
+              return us;
+            },
+            type :function () {
+              return type;
+            },
+            tbl :function () {
+              return $scope.tableParams;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          //$log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+});
+angular.module('demoApp')
+.controller('ng_Evo_Edit',function ($scope,$http,$modalInstance,user,type,tbl) {
+
+      $scope.user = (type === 'add' ? {"fieldid":"","fieldname":"","module_name":"","pointing_block_name":"",
+        "columns_search":"","columns_shown":"",
+        "br_id":"","type":""
+        ,"existing":false} : user);
+      $scope.selected = {
+        item: 0
+      };
+      $scope.Action = (type === 'add' ? 'Create' : 'Edit');
+      $scope.act = (type === 'add' ? 'add_ng_field' : 'edit_ng_field');
+      $scope.blocks=[];
+
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=relation&kaction=retrieve').
+                success(function(data, status) {
+                  $scope.modules = data;
+      });
+      $scope.module_sel=[];
+      $scope.mod_sel={'tablabel':$scope.user.module_name,'tabid':$scope.user.module_id};
+      $scope.pointing_module_name_sel={'tablabel':$scope.user.pointing_module_name};
+      $scope.pointing_block_name_sel={'label':$scope.user.pointing_block_name};
+      $scope.pointing_field_name_sel={'columnname':$scope.user.fieldname};
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve').
+                    success(function(data, status) {
+                      $scope.pointing_field = data;
+      });
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=block&kaction=retrieve').
+                    success(function(data, status) {
+                      $scope.blocks = data;
+      });
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve&selected='+$scope.user.columns_search+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.columns_search=data;
+                  });
+      $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve&selected='+$scope.user.columns_shown+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.columns_shown=data;
+                  });            
+      $scope.functionClick_shown = function( data ) {
+           //alert($scope.user.columns_shown);
+           if($scope.user.columns_shown!='')
+               var arr = $scope.user.columns_shown.split(',');
+           else
+               var arr = new Array();
+           var index =arr.indexOf(data.columnname);
+           if(index!==-1)
+           {
+               arr.splice(index,1);
+           }
+           else
+           {
+               arr.push(data.columnname);
+           }
+           $scope.user.columns_shown=arr.join(',');
+       };
+       $scope.functionClick_search = function( data ) {
+           //alert($scope.user.columns_search);
+           if($scope.user.columns_search!='')
+               var arr = $scope.user.columns_search.split(',');
+           else
+               var arr = new Array();
+           var index =arr.indexOf(data.columnname);
+           if(index!==-1)
+           {
+               arr.splice(index,1);
+           }
+           else
+           {
+               arr.push(data.columnname);
+           }
+           $scope.user.columns_search=arr.join(',');
+       };
+       
+        $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve_br&selected='+$scope.user.br_id+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.br_id=data;
+                  });
+       
+       $scope.functionClick_br = function( data ) {          
+           if ($scope.user.br_id===data.businessrulesid){
+               $scope.user.br_id='';
+           }
+           else{
+               $scope.user.br_id=data.businessrulesid;
+           }
+           
+       };
+      $scope.refresh_columns_shown = function(  ) {
+           $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve&selected='+$scope.user.columns_shown+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.columns_shown=data;
+                  });
+       };
+       $scope.refresh_columns_search = function(  ) {
+           $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve&selected='+$scope.user.columns_search+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.columns_search=data;
+                  });
+       };
+       
+      $scope.refresh_br = function(  ) {
+           $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve_br&selected='+$scope.user.br_id+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.br_id=data;
+                  });
+      };
+      $scope.type_opt=[
+          {name:'Reference10 autocomplete(1021)',id:'1021'},
+          {name:'Picklist autocomplete(1022)',id:'1022'},
+          {name:'MultiPicklist autocomplete(1023)',id:'1023'},
+          {name:'MultiPicklist Role(1024)',id:'1024'},
+          {name:'Reference10 MultiSelect(1025)',id:'1025'},
+          {name:'Reference long description(1026)',id:'1026'}];  
+      $scope.type={'id':$scope.user.type};
+      $scope.setEditId =  function(user) {
+          var br=user.br_id;
+            user =JSON.stringify(user);
+            if(br!==undefined){
+                $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction='+$scope.act+'&models='+user
+                    )
+                    .success(function(data, status) {
+                          tbl.reload();  
+                          $modalInstance.close($scope.selected.item);
+                     });
+            }
+            else{
+                alert('Business Rule is mandatory');
+            }
+        };
       $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
