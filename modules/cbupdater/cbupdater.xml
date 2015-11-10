@@ -568,4 +568,11 @@
 	<classname>addNgBlockImprov2</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add Ng Evo Fields</description>
+	<filename>build/changeSets/evolutivo/addEvoFieldsColumns.php</filename>
+	<classname>addEvoFieldsColumns</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
