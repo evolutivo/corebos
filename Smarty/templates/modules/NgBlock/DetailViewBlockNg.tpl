@@ -110,37 +110,6 @@
                 </multi-select>
         </td>
     </tr>
-    {if $MODULE_NAME eq 'Cases' && $POINTING_MODULE eq 'Messages'}
-      {foreach key=index item=fieldname from=$COLUMN_NAME} 
-            <input type="hidden" ng-model="user.{$fieldname}"/>
-      {/foreach}
-    
-      <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" >
-          <td style="text-align:right;"> 
-              Subject
-          </td>
-          <td style="text-align:left;"> 
-           <input class="form-control" style="width:350px;" type="text" ng-model="user.messagesname"/>
-          </td>
-      </tr>
-      <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" >
-          <td style="text-align:right;"> 
-              Message Type
-          </td>
-          <td style="text-align:left;"> 
-            <select class="form-control" ng-model="user.messagetype" ng-options="op for op  in opt.{$index}">
-            </select>
-          </td>
-      </tr>
-      <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" >
-          <td style="text-align:right;"> 
-              Description
-          </td>
-          <td style="text-align:left;"> 
-           <textarea class="form-control" rows="10" ng-model="user.description"></textarea>
-          </td>
-      </tr>
-    {else}
     {foreach key=index item=fieldname from=$COLUMN_NAME} 
         {if $FIELD_UITYPE.$index neq '53' && $FIELD_UITYPE.$index neq '70'}
           <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" ng-if="type!='choose'">
@@ -149,7 +118,7 @@
               </td>
               <td style="text-align:left;"> 
               {if $FIELD_UITYPE.$index eq '15'}
-                  <select class="form-control" ng-model="user.{$fieldname}"  ng-options="op for op  in opt.{$index}"></select>
+                  <select class="form-control" ng-model="user.{$fieldname}"  ng-options="op for op  in opt.{$fieldname}"></select>
               {elseif in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )  }
               <input class="form-control" style="width:250px;" type="hidden" id="{$fieldname}" ng-model="user.{$fieldname}" value="user.{$fieldname}"/>
               <input class="form-control" style="width:250px;" type="text" id="{$fieldname}_display" ng-model="user.{$fieldname}_display" value="user.{$fieldname}_display" onchange="alert(this.value);"/>
@@ -171,7 +140,6 @@
           </tr>
       {/if}
     {/foreach}
-    {/if}
     </table>
 </div>
 <div class="modal-footer">

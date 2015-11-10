@@ -128,7 +128,7 @@ class NgBlock_DetailViewBlockNgWidget {
                         $res1=$adb->pquery("Select * from vtiger_$fieldname ",array());
                         for($count_options=0;$count_options<$adb->num_rows($res1);$count_options++)
                         {
-                            $options[$j][$count_options]=$adb->query_result($res1,$count_options,$fieldname);
+                            $options[$col[$j]][$count_options]=$adb->query_result($res1,$count_options,$fieldname);
                         }
                     
                     }
