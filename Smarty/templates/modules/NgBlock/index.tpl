@@ -423,14 +423,14 @@ angular.module('demoApp')
                var arr = $scope.user.columns.split(',');
            else
                var arr = new Array();
-           var index =arr.indexOf(data.columnname);
+           var index =arr.indexOf(data.fieldname);
            if(index!==-1)
            {
                arr.splice(index,1);
            }
            else
            {
-               arr.push(data.columnname);
+               arr.push(data.fieldname);
            }
            $scope.user.columns=arr.join(',');
        };

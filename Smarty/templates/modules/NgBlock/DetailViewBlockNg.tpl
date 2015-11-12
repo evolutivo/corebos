@@ -62,7 +62,13 @@
                           </td> 
                       {else}
                           <td > 
-                              {literal}  {{user.{/literal}{$fieldname}{literal}}}{/literal}
+                              {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
+                                  <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
+                              {elseif in_array($FIELD_UITYPE.$index,array(33) )}
+                                  <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
+                              {else}
+                                  <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
+                              {/if}
                           </td>
                       {/if}
                  {*  {/if} *}
@@ -163,6 +169,11 @@
 <script>
 {literal}
 angular.module('demoApp')
+.filter("sanitize", ['$sce', function($sce) {
+  return function(htmlCode){
+    return $sce.trustAsHtml(htmlCode);
+  }
+}])
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal, ngTableParams) {
     $scope.user={};
             
@@ -236,9 +247,7 @@ angular.module('demoApp')
       $scope.type=type;
       $scope.Action = (type === 'create' ? 'Create' : 'Edit');
       $scope.opt={/literal}{$OPTIONS}{literal}; 
-      $scope.user={
-          'messagetype':'Technician'
-      }
+      
       // edit selected record
       
       $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=select_entity').

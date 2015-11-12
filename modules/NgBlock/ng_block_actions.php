@@ -14,7 +14,7 @@
                                   from vtiger_ng_block where 
                                   id =?",array($ng_block_id));
                 $columns=$adb->query_result($a,0,'columns');
-                $columns=str_replace('smownerid', 'assigned_user_id', $columns);
+                //$columns=str_replace('smownerid', 'assigned_user_id', $columns);
                 $cond=$adb->query_result($a,0,'br_id');
                 $elastic_id=$adb->query_result($a,0,'elastic_id');
                 $elastic_type=$adb->query_result($a,0,'elastic_type');
@@ -113,19 +113,12 @@
                                   $fieldname=$adb->query_result($a,0,'fieldname');
                                   $col_fields[$fieldname]=$focus_pointing->column_fields["$col[$j]"];
                                   $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$pointing_module);
-                                      $ret_val=$block_info[1];
-                                      if(strpos($ret_val,'href')!==false) //if contains link remmove it because ng can't interpret it
-                                  {
-                                      $pos1=strpos($ret_val,'>');
-                                      $first_sub=substr($ret_val,$pos1+1);
-                                      $pos2=strpos($first_sub,'<');
-                                      $log->debug('ret_val'.$first_sub.' '.$pos2);
-                                      $sec_sub=substr($first_sub,0,$pos2);
-                                      $ret_val=$sec_sub;
-                                  }
+                                  $ret_val=$block_info[1];
+                                      
                                   if(in_array($uitype,array(10,51,50,73,68,57,59,58,76,75,81,78,80)))
                                   {
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
+                                      $content[$i][$col[$j].'_display']=$ret_val;
                                       $content[$i][$col[$j].'_display']=$ret_val;
                                   }
                                   else
@@ -304,8 +297,7 @@
                     $focus = CRMEntity::getInstance("$pointing_module");
                     $focus->retrieve_entity_info($mv->id,$pointing_module);
                     $focus->id=$mv->id;
-                    if(strpos($col,'description')!==false)
-                    {   array_push($col,'description');}
+                    
                      $focus->mode='edit';
                      for($j=0;$j<sizeof($col);$j++)
                      {
