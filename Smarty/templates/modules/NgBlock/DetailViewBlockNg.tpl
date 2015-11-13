@@ -64,8 +64,6 @@
                           <td > 
                               {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
                                   <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
-                              {elseif in_array($FIELD_UITYPE.$index,array(33) )}
-                                  <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
                               {else}
                                   <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
                               {/if}
@@ -138,7 +136,7 @@
                   <select multiple class="form-control" ng-model="user.{$fieldname}"  
                           ng-options="op for op  in opt[{$index}]"></select>
               {elseif $FIELD_UITYPE.$index eq '19'}
-                      <textarea class="form-control" rows="10" ng-model="user.{$fieldname}"></textarea>
+                      <div text-angular="text-angular" name="user.{$fieldname}" ng-model="user.{$fieldname}"></div>
               {else}
                   <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}"/>
               {/if}
@@ -164,6 +162,14 @@
     width: 500px;
     margin-left:-190px;
     }
+.ta-editor {
+    min-height: 100px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin:20px 0;
+}
 {/literal}
 </style>
 <script>

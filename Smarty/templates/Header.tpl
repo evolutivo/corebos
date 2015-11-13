@@ -86,6 +86,11 @@ var gVTUserID = '{$CURRENT_USER_ID}';
         <!-- xeditable   -->
         <link href="Smarty/angular/xeditable.css" rel="stylesheet">
         <script src="Smarty/angular/xeditable.js"></script>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+        <script src='Smarty/angular/textAngular-rangy.min.js'></script>
+        <script src='Smarty/angular/textAngular-sanitize.min.js'></script>
+        <script src='Smarty/angular/textAngular.min.js'></script>
         <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 {/if}
 {if $MODULE_NAME neq 'VtappSecurity'}
@@ -107,7 +112,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
-                                            'ngTagsInput']);
+                                            'ngTagsInput','textAngular']);
             </script>
     {else}
 	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small >
