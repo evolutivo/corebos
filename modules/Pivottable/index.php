@@ -249,7 +249,7 @@ else{
     }
     $result=$adb->pquery("Select *"
             . " from vtiger_cbApps "
-            . " join vtiger_elastic_indexes on vtiger_elastic_indexes.elasticid=vtiger_cbApps.reportid"
+            . " join vtiger_elastic_indexes on vtiger_elastic_indexes.id=vtiger_cbApps.reportid"
             . " where pivot_type='elastic' "
             ,array());
     for($count_rep=0;$count_rep<$adb->num_rows($result);$count_rep++){
@@ -359,7 +359,8 @@ else{
                 from vtiger_elastic_indexes",array());
     for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
         $elasticname=$adb->query_result($res,$i_c,'elasticname');
-        $opt_elastic.='<option value="'.$i_c.'">'.$elasticname.'</option>';
+        $id=$adb->query_result($res,$i_c,'id');
+        $opt_elastic.='<option value="'.$id.'">'.$elasticname.'</option>';
     }
 
     $smarty->assign('reports', json_encode($reports));
@@ -461,7 +462,7 @@ function createElastic($reportid,$cbAppid){
     
     $query=$adb->pquery("SELECT *
                           from  vtiger_elastic_indexes
-                          where elasticid = ?",array($reportid));
+                          where id = ?",array($reportid));
     $nr_qry=$adb->num_rows($query);
     $indextype=$adb->query_result($query,0,'elasticname');
     
