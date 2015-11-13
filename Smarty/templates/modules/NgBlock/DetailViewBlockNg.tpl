@@ -163,7 +163,7 @@
     margin-left:-190px;
     }
 .ta-editor {
-    min-height: 100px;
+    min-height: 50px;
     height: auto;
     overflow: auto;
     font-family: inherit;
