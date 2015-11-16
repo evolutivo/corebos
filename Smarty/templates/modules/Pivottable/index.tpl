@@ -209,9 +209,9 @@ function tableToExcel2 (table) {
             </td>
             <td align="center">
                 <input type="radio" name="type_pivot.name" value="elastic" ng-model="type_pivot.name" >Elastic index<br>
-                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'">
+                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'" ng-model="elastic_opt">
                     {$options_elastic}
-                </select>
+                </select>{literal}{{elastictypes}}{/literal}
             </td>
         </tr>
         <tr>
@@ -235,10 +235,7 @@ function tableToExcel2 (table) {
                 <h5>Type Elastic</h5>
             </td>
             <td align="left" colspan="2">
-                <select id="elastic_types" ng-model="elastic_type.name">
-                    <option value="import">import</option>
-                    <option value="norm">norm</option>
-                    <option value="denorm">denorm</option>
+                <select id="elastic_types" ng-model="elastic_type.name" ng-options="opt.typename for opt  in elastictypes | filter_elastic_type:elastic_opt ">
                 </select>
             </td>
         </tr>
@@ -266,6 +263,18 @@ function tableToExcel2 (table) {
 google.load("visualization", "1", {packages:["corechart", "charteditor"]});
     
 angular.module('demoApp',['ngTable','ui.bootstrap','multi-select']) 
+.filter('filter_elastic_type', function() {
+      return function(elastictypes,elastic_opt) {
+        var filterEvent = [];
+        for (var i = 0;i < elastictypes.length; i++){
+            if(elastictypes[i]['id']===elastic_opt){
+                filterEvent.push(elastictypes[i]);
+            }
+        }
+        return filterEvent;
+    }
+}
+)
 .controller('Pivottable', function($scope, $http, $modal) {
 
             $scope.show_inline=false;
@@ -639,6 +648,13 @@ angular.module('demoApp')
             }
         }
     }
+    
+    var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=index_types';
+    $http.get(url).
+        success(function(data, status) {
+            $scope.elastictypes=data;
+    });
+      
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
