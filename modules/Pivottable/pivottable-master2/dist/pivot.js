@@ -1150,15 +1150,17 @@ https:
       };
       for (i in shownAttributes) {
         c = shownAttributes[i];
-        type='';
-        var pos,j=0;
-        for (j in opts.vals) {
-            if(opts.vals[j]===c){
-                type='aggr';
-                pos=j;break;
-            }
-          }
-        _fn(c,type,pos);
+        if(c!==''){
+          type='';
+            var pos,j=0;
+            for (j in opts.vals) {
+                if(opts.vals[j]===c){
+                    type='aggr';
+                    pos=j;break;
+                }
+              }
+            _fn(c,type,pos);  
+        }
       }
       aggregator = $("<select class='pvtAggregator'>").css("margin-bottom", "5px").bind("change", function() {
         return refresh();
