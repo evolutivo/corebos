@@ -216,8 +216,8 @@ elseif($cbAction=='index_types'){
         $type=$adb->query_result($res,$i_c,'type');
         $t=explode(',',$type);
         for($j=0;$j<sizeof($t);$j++){
-            $opt_type_elastic[$j]['typename']=$t[$j];
-            $opt_type_elastic[$j]['id']=$id;
+            $opt_type_elastic[$i_c][$j]['typename']=$t[$j];
+            $opt_type_elastic[$i_c][$j]['id']=$id;
         }
     }
   echo json_encode($opt_type_elastic);

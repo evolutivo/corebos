@@ -209,9 +209,9 @@ function tableToExcel2 (table) {
             </td>
             <td align="center">
                 <input type="radio" name="type_pivot.name" value="elastic" ng-model="type_pivot.name" >Elastic index<br>
-                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'" ng-model="elastic_opt">
+                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'" ng-model="elastic_opt.id">
                     {$options_elastic}
-                </select>{literal}{{elastictypes}}{/literal}
+                </select>
             </td>
         </tr>
         <tr>
@@ -235,7 +235,7 @@ function tableToExcel2 (table) {
                 <h5>Type Elastic</h5>
             </td>
             <td align="left" colspan="2">
-                <select id="elastic_types" ng-model="elastic_type.name" ng-options="opt.typename for opt  in elastictypes | filter_elastic_type:elastic_opt ">
+                <select id="elastic_types" ng-model="elastic_type.name" ng-options="opt.typename for opt  in elastictypes | filter_elastic_type:elastic_opt track by opt.typename">
                 </select>
             </td>
         </tr>
@@ -243,8 +243,8 @@ function tableToExcel2 (table) {
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot)" ng-if="edit_type=='create'" >Add New Config</button> 
-   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type.name)" ng-if="edit_type=='edit'" >Edit Config</button>
+   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='create'" >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='edit'" >Edit Config</button>
    <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
@@ -267,8 +267,11 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
       return function(elastictypes,elastic_opt) {
         var filterEvent = [];
         for (var i = 0;i < elastictypes.length; i++){
-            if(elastictypes[i]['id']===elastic_opt){
-                filterEvent.push(elastictypes[i]);
+            var curr=elastictypes[i];
+            for (var j = 0;j < curr.length; j++){
+                if(curr[j]['id']===elastic_opt.id){
+                    filterEvent.push(curr[j]);
+                }
             }
         }
         return filterEvent;
@@ -631,11 +634,13 @@ angular.module('demoApp')
     $scope.name_pivot='';
     $scope.desc_pivot='';
     $scope.elastic_type={name:''};
+    $scope.elastic_opt={id:''};
     $scope.pivot_type='';
     $scope.type_pivot={name:'report'};
     $scope.edit_type=edit_type;
     $scope.cbAppsid=cbAppsid;
     $scope.action=(edit_type=='edit' ? 'Edit' : 'Add');
+    $scope.elastictypes={};
     
     for(var i = reports.length - 1; i >= 0; i--){
         if(reports[i].cbAppsid == $scope.cbAppsid){
@@ -644,7 +649,8 @@ angular.module('demoApp')
             $scope.pivot_type=reports[i]['pivot_type'];
             if($scope.pivot_type=='elastic'){
                 $scope.type_pivot={name:'elastic'};
-                $scope.elastic_type={name:reports[i]['elastic_type']};
+                $scope.elastic_type.name={typename:reports[i]['elastic_type'],id:reports[i]['reportid']};
+                $scope.elastic_opt={id:reports[i]['reportid']};
             }
         }
     }
@@ -658,7 +664,7 @@ angular.module('demoApp')
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
-    $scope.new_config = function (type_piv,name_pivot,desc_pivot) {
+    $scope.new_config = function (type_piv,name_pivot,desc_pivot,elastic_type) {
        var repid=document.getElementById('report_opt').options[document.getElementById('report_opt').selectedIndex].value;
        var repname=document.getElementById('report_opt').options[document.getElementById('report_opt').selectedIndex].text;
        if(document.getElementById('mv_opt').selectedIndex!=-1){
@@ -682,7 +688,7 @@ angular.module('demoApp')
            typ='newElastic';
            repid=elasticid;
            repname=elasticname;
-           var elastic_p=document.getElementById('elastic_types').options[document.getElementById('elastic_types').selectedIndex].value;
+           var elastic_p=elastic_type.name.typename;//document.getElementById('elastic_types').options[document.getElementById('elastic_types').selectedIndex].value;
            elastic_params='&elastic_type='+elastic_p;
        }
        if(name_pivot!='')repname=name_pivot;
@@ -697,7 +703,7 @@ angular.module('demoApp')
     }
     
     $scope.edit_config = function (name_pivot,desc_pivot,elastic_type) {
-       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+'&elastic_type='+elastic_type;
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+'&elastic_type='+elastic_type.name.typename;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
@@ -705,7 +711,7 @@ angular.module('demoApp')
                     if(reports[i].cbAppsid == $scope.cbAppsid){
                         reports[i]['reportname']=name_pivot;
                         reports[i]['desc_pivot']=desc_pivot;
-                        reports[i]['elastic_type']=elastic_type;
+                        reports[i]['elastic_type']=elastic_type.name.typename;
                     }
                 }
                 $modalInstance.close();
