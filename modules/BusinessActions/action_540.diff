@@ -1,0 +1,91 @@
+Index: Popup.php
+===================================================================
+--- Popup.php	(revisión: 1608)
++++ Popup.php	(copia de trabajo)
+@@ -321,6 +321,10 @@
+ 		$smarty->assign("RECORDID",vtlib_purify($_REQUEST['recordid']));
+ 	}
+ 	
++	if ($currentModule=='Actions') {
++	  $where_relquery .= " and vtiger_actions.actions_status='Active'";
++	}
++	
+ 	$query = getListQuery($currentModule,$where_relquery);
+ }
+ 
+Index: Smarty/templates/DetailView.tpl
+===================================================================
+--- Smarty/templates/DetailView.tpl	(revisión: 1608)
++++ Smarty/templates/DetailView.tpl	(copia de trabajo)
+@@ -407,6 +407,13 @@
+ 																		{/foreach}
+ 																	{/if}
+ 																	{* END *}
++																	{if $MODULE eq 'Actions'}
++																		<tr>
++																		<td colspan="4">
++																		{include file="modules/Actions/ViewTemplate.tpl"}
++																		</td>
++																		</tr>
++																	{/if}
+ 																	<!-- Inventory - Product Details informations -->
+ 																	<tr>
+ 																		{$ASSOCIATED_PRODUCTS}
+Index: Smarty/templates/salesEditView.tpl
+===================================================================
+--- Smarty/templates/salesEditView.tpl	(revisión: 1608)
++++ Smarty/templates/salesEditView.tpl	(copia de trabajo)
+@@ -216,6 +216,14 @@
+ 							   		   </tr>
+ 									   {/if}
+ 
++									  {if $MODULE eq 'Actions'}
++                    <tr>
++                     <td colspan="4">
++                     {include file="modules/Actions/EditTemplate.tpl"}
++                     </td>
++                    </tr>
++                    {/if}
++									   
+ 									   <tr>
+ 										<td  colspan=4 style="padding:5px">
+ 											<div align="center">
+Index: Smarty/templates/ComposeEmail.tpl
+===================================================================
+--- Smarty/templates/ComposeEmail.tpl	(revisión: 1608)
++++ Smarty/templates/ComposeEmail.tpl	(copia de trabajo)
+@@ -154,6 +154,7 @@
+    </tr>
+    <tr>
+ 	<td colspan="3" class="mailSubHeader" style="padding: 5px;" align="center">
++	  <input title="{'LBL_SELECTACTIONTEMPLATE_BUTTON_TITLE'|@getTranslatedString:'Messages'}" accessKey="{$APP.LBL_SELECTACTIONTEMPLATE_BUTTON_KEY}" class="crmbutton small edit" onclick="window.open('index.php?module=Actions&action=ActionsAjax&file=lookupactiontemplates','emailtemplate','top=100,left=200,height=400,width=500,resizable=yes,scrollbars=yes,menubar=no,addressbar=no,status=yes')" type="button" name="button" value=" {'LBL_SELECTACTIONTEMPLATE_BUTTON_TITLE'|@getTranslatedString:'Messages'} ">
+ 		 <input title="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_TITLE}" accessKey="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_KEY}" class="crmbutton small edit" onclick="window.open('index.php?module=Users&action=lookupemailtemplates','emailtemplate','top=100,left=200,height=400,width=500,resizable=yes,scrollbars=yes,menubar=no,addressbar=no,status=yes')" type="button" name="button" value=" {$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_LABEL}  ">
+ 		<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="return email_validate(this.form,'save');" type="button" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL} " >&nbsp;
+ 		<input name="{$MOD.LBL_SEND}" value=" {$APP.LBL_SEND} " class="crmbutton small save" type="button" onclick="return email_validate(this.form,'send');">&nbsp;
+@@ -179,6 +180,7 @@
+ 
+    <tr>
+ 	<td colspan="3" class="mailSubHeader" style="padding: 5px;" align="center">
++	  <input title="{'LBL_SELECTACTIONTEMPLATE_BUTTON_TITLE'|@getTranslatedString:'Messages'}" accessKey="{$APP.LBL_SELECTACTIONTEMPLATE_BUTTON_KEY}" class="crmbutton small edit" onclick="window.open('index.php?module=Actions&action=ActionsAjax&file=lookupactiontemplates','emailtemplate','top=100,left=200,height=400,width=500,resizable=yes,scrollbars=yes,menubar=no,addressbar=no,status=yes')" type="button" name="button" value=" {'LBL_SELECTACTIONTEMPLATE_BUTTON_TITLE'|@getTranslatedString:'Messages'} ">
+ 		 <input title="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_TITLE}" accessKey="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_KEY}" class="crmbutton small edit" onclick="window.open('index.php?module=Users&action=lookupemailtemplates','emailtemplate','top=100,left=200,height=400,width=500,menubar=no,addressbar=no,status=yes')" type="button" name="button" value=" {$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_LABEL}  ">
+ 		<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="return email_validate(this.form,'save');" type="button" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL} " >&nbsp;
+ 		<input name="{$MOD.LBL_SEND}" value=" {$APP.LBL_SEND} " class="crmbutton small save" type="button" onclick="return email_validate(this.form,'send');">&nbsp;
+Index: Smarty/templates/CreateView.tpl
+===================================================================
+--- Smarty/templates/CreateView.tpl	(revisión: 1608)
++++ Smarty/templates/CreateView.tpl	(copia de trabajo)
+@@ -187,6 +187,14 @@
+ 								   {include file="DisplayFields.tpl"}							
+ 								   <tr style="height:25px"><td>&nbsp;</td></tr>
+ 								   {/foreach}
++								   
++                  {if $MODULE eq 'Actions'}
++                  <tr>
++                  <td colspan="4">
++                  {include file="modules/Actions/EditTemplate.tpl"}
++                  </td>
++                  </tr>
++                  {/if}
+ 
+ 								   <tr>
+ 									<td  colspan=4 style="padding:5px">
