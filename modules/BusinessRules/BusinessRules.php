@@ -443,6 +443,19 @@ class BusinessRules extends CRMEntity {
         //}
         return $allowed;
     }
+      function apply_bussinessrules(){
+        global $adb,$log;
+        $mapid=$this->column_fields['linktomap'];
+        if($mapid!='' && $mapid!=0){
+            require_once ("modules/cbMap/cbMap.php");
+            $map_focus = CRMEntity::getInstance("cbMap");
+            $map_focus->retrieve_entity_info($mapid, "cbMap");
+            $result=$map_focus->read_map();
+
+            return $result;
+          
+        }
+}
 	/**
 	 * Handle saving related module information.
 	 * NOTE: This function has been added to CRMEntity (base class).

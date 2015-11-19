@@ -29,7 +29,7 @@ $mapfocus=  CRMEntity::getInstance("cbMap");
 $mapfocus->retrieve_entity_info($mapid,"cbMap");
 $condition=$mapfocus->getMapSQL(); 
 
-$adb->pquery('Update vtiger_actions'
+$adb->pquery('Update vtiger_businessactions'
         . ' set businessrules_action=?'
         . ' where linktobrules =?',array($condition,$orig_id));
 } 
