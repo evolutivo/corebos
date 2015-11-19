@@ -19,4 +19,3 @@ $mod_strings = array(
 'ESClient' => 'ElasticSearch Client',
 );
 ?>
-?>

@@ -12,9 +12,9 @@
 * either express or implied. See the License for the specific language governing
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
- *  Module       : EntittyLog
+ *  Module       : LoggingConf
  *  Version      : 5.4.0
- *  Author       : LoggingConf
+ *  Author       : OpenCubed
  *************************************************************************************************/
 
 require_once('include/utils/CommonUtils.php');

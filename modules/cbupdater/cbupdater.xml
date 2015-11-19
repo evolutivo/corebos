@@ -589,4 +589,11 @@
 	<classname>UserHourStartFieldsPL16</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add elastic fields and map</description>
+	<filename>build/changeSets/evolutivo/addelasticfieldsandmap.php</filename>
+	<classname>addelasticfieldsandmap</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
