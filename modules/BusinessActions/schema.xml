@@ -2,41 +2,23 @@
 <schema>
 	<tables>
 		<table>
-			<name>vtiger_businessactions</name>
-			<sql><![CDATA[CREATE TABLE `vtiger_businessactions` (
-  `businessactionsid` int(11) default NULL,
-  `businessactions_no` varchar(56) default NULL,
-  `businessactionsname` varchar(255) default NULL,
+			<name>vtiger_actions</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_actions` (
+  `actionsid` int(11) DEFAULT NULL,
   `reference` varchar(100) DEFAULT NULL,
   `actions_type` varchar(100) DEFAULT NULL,
   `actions_status` varchar(100) DEFAULT NULL,
+  `actions_language` varchar(100) DEFAULT NULL,
   `subject` text,
   `template` text,
-  `tags` text,
-  `moduleactions` varchar(200) DEFAULT NULL,
-  `businessrules_action` varchar(100) DEFAULT NULL,
-  `elementtype_action` varchar(200) DEFAULT NULL,
-  `actions_block` varchar(255) DEFAULT NULL,
-  `script_name` varchar(255) DEFAULT NULL,
-  `parameter1` varchar(255) DEFAULT NULL,
-  `linktomapmodule` varchar(100) DEFAULT NULL,
-  `linktobrules` varchar(100) DEFAULT NULL,
-  `causale` varchar(100) DEFAULT NULL,
-  `stockparameters` varchar(100) DEFAULT NULL,
-  `sequencers` varchar(100) DEFAULT NULL,
-  `output_type` varchar(100) DEFAULT NULL,
-  `threshold` varchar(250) DEFAULT '',
-  `budymessage` text,
-  `crontab` varchar(250) DEFAULT '',
-  `iomap` varchar(100) default null,
-  PRIMARY KEY (`businessactionsid`)
+  `tags` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>
 		<table>
-			<name>vtiger_businessactionscf</name>
-			<sql><![CDATA[CREATE TABLE `vtiger_businessactionscf` (
-  `businessactionsid` int(11) NOT NULL,
-  PRIMARY KEY (`businessactionsid`)
+			<name>vtiger_actionscf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_actionscf` (
+  `actionsid` int(11) NOT NULL,
+  PRIMARY KEY (`actionsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>
 	</tables>

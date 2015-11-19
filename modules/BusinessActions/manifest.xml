@@ -773,7 +773,7 @@
 <columnindex>7</columnindex>
 </field>
 <field>
-<fieldname>linktomap</fieldname>
+<fieldname>linktomapmodule</fieldname>
 <columnindex>8</columnindex>
 </field>
 </fields>
