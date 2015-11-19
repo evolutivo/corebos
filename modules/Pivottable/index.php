@@ -205,6 +205,23 @@ elseif($cbAction=='deleteReport'){
     $adb->pquery("Delete from vtiger_cbApps"
             . " where  cbappsid =?",array($cbAppsid));
 }
+elseif($cbAction=='index_types'){
+    
+    $opt_type_elastic=array();
+    $res=$adb->pquery("Select  * 
+                from vtiger_elastic_indexes",array());
+    for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
+        $elasticname=$adb->query_result($res,$i_c,'elasticname');
+        $id=$adb->query_result($res,$i_c,'id');
+        $type=$adb->query_result($res,$i_c,'type');
+        $t=explode(',',$type);
+        for($j=0;$j<sizeof($t);$j++){
+            $opt_type_elastic[$i_c][$j]['typename']=$t[$j];
+            $opt_type_elastic[$i_c][$j]['id']=$id;
+        }
+    }
+  echo json_encode($opt_type_elastic);
+}
 else{
     $res_admin=$adb->pquery("Select is_admin from vtiger_users"
             . " where id=?",array($current_user->id));
@@ -278,7 +295,8 @@ else{
     foreach($files as $folder) {
 
         if($folder == '.' || $folder == '..' || $folder == '.svn' ||
-                $folder == 'language' || $folder == 'Deleted_scripts' || $folder == 'CSV_files') continue;
+                $folder == 'language' || $folder == 'Deleted_scripts' || $folder == 'CSV_files'
+                 || $folder == 'INDEXES') continue;
 
         if(is_dir($root_directory.'modules/BiServer/'.$folder))
                 {

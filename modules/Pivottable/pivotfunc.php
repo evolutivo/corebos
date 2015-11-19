@@ -94,6 +94,14 @@ function sqltojson_mv($query,$rep) {
             //    make the error a js comment so that a javascript error will NOT be invoked
     $json_str = ""; //Init the JSON string.
 
+    $transLabel='';
+    $query1=$adb->pquery("SELECT fieldlabel from  vtiger_scripts
+          where id = ? ",array($rep));
+    $fieldlabel=$adb->query_result($query1,0,'fieldlabel');
+    if($fieldlabel!='')
+    {
+        $transLabel=explode(',',$fieldlabel);
+    }
     if($total = $adb->num_rows($data_sql)) { //See if there is anything in the query
         $json_str .= "[\n";
         $records_all=array();
@@ -101,44 +109,20 @@ function sqltojson_mv($query,$rep) {
         $row_count = 0;  
        // var_dump($adb->fetchByAssoc($data_sql));
         while($data=$adb->fetchByAssoc($data_sql)) {
-            if(count($data) > 1) 
-            {
-                $json_str .= "{\n";
-            }
             $count = 0;
             $record=array();
             foreach($data as $key => $value) {
-                //If it is an associative array we want it in the format of "key":"value"
-              
-            
-            $key2=$key;
-
-            //$value = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE',$value);
-	    $value = str_replace("\n", "", $value);
-            $value = str_replace("\r", "", $value);
-		 if(count($data) > 1) $json_str .= "\"$key2\":\"$value\"";
-                else $json_str .= "\"$value\"";
-
-                //Make sure that the last item don't have a ',' (comma)
-                $count++;
-                if($count < count($data)) $json_str .= ",\n";
+                $key2=$key;
+                if($transLabel!=''){
+                    $key2=$transLabel[$count];
+                }
+                $value = str_replace("\n", "", $value);
+                $value = str_replace("\r", "", $value);
                 $record[$key2]=$value;
-            }
-            $row_count++;
-            if(count($data) > 1) 
-            {
-                $json_str .= "}\n";
-            }
-
-            //Make sure that the last item don't have a ',' (comma)
-            if($row_count < $total) 
-            {
-                $json_str .= ",\n";
+                $count++;
             }
             $records_all[]=$record;
         }
-
-        $json_str .= "]\n";
     }
 
     //Replace the '\n's - make it faster - but at the price of bad redability.

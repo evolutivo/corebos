@@ -596,4 +596,11 @@
 	<classname>addelasticfieldsandmap</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add module BusinessActions</description>
+	<filename>build/changeSets/evolutivo/addBusinessActions.php</filename>
+	<classname>addBusinessActions</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
