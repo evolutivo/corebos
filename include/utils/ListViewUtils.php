@@ -2281,7 +2281,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
  * @param $where -- where:: Type string
  * @returns $query -- query:: Type query
  */
-function getListQuery($module, $where = '') {
+function getListQuery($module, $where = '',$loggingconf=false) {
 	global $log;
 	$log->debug("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
@@ -2742,7 +2742,10 @@ function getListQuery($module, $where = '') {
 			$query = $focus->getListQuery($module, $where);
 		// END
 	}
-
+        if($loggingconf==1){
+        $q=explode("FROM",$query);
+        $query="select * FROM ".$q[1];
+        }
 	if ($module != 'Users') {
 		$query = listQueryNonAdminChange($query, $module);
 	}

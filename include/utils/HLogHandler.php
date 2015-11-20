@@ -48,7 +48,7 @@ class HistoryLogHandler extends VTEventHandler {
     {
       $log->debug("Enter Handler for beforesave event...");
       if(!empty($Id)) {
-        $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id)  ;
+        $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id,1)  ;
      
         $query=$adb->query($listquery);
         if($adb->num_rows($query) > 0) {
@@ -86,7 +86,7 @@ class HistoryLogHandler extends VTEventHandler {
       $roleid.='::'.implode('::',array_keys($arr['read']['ROLE']));}
       else $roleid.=implode('::',array_keys($arr['read']['GROUP']));
       $roleid.='::'.$owner;
-      $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id)  ;
+      $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id,1)  ;
       $query=$adb->query($listquery); 
       if($adb->num_rows($query) > 0) {
         for  ($i=0;$i<count($fields);$i++)
