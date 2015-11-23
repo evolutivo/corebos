@@ -2694,12 +2694,13 @@ class CRMEntity {
                   $newvl=substr($d,strpos($d,'newvalue=')+9);
                   }   
                 if($fldname!=''){
-                $query = "select fieldlabel,uitype from vtiger_field where tabid={$tabid} and fieldname='{$fldname}'";
+                $query = "select fieldlabel,uitype from vtiger_field where tabid={$tabid} and columnname='{$fldname}'";
                 $res = $adb->query($query);
                 $uitype=$adb->query_result($res,0,1);
                 if (in_array($uitype,array(10)))
-                {                     
-                   $relatedModule1=$adb->query_result($adb->pquery("Select setype from vtiger_crmentity where crmid=?",array($oldvl)),0,0);
+                {  if($oldvl!='') $relid=$oldvl;
+                   else $relid=$newvl;                   
+                   $relatedModule1=$adb->query_result($adb->pquery("Select setype from vtiger_crmentity where crmid=?",array($relid)),0,0);
                      if($oldvl!='')                    
                      $oldvl1=  getEntityName($relatedModule1, $oldvl);
                      if($newvl!='')
@@ -2770,11 +2771,13 @@ class CRMEntity {
                   $newvl=substr($d,strpos($d,'newvalue=')+9);
                       }   
                 if($fldname!=''){
-                $query = "select fieldlabel,uitype from vtiger_field where tabid={$tabid} and fieldname='{$fldname}'";
+                $query = "select fieldlabel,uitype from vtiger_field where tabid={$tabid} and columnname='{$fldname}'";
                 $res = $adb->query($query);
                 $uitype=$adb->query_result($res,0,1);
                 if (in_array($uitype,array(10)))
-                {                     
+                { 
+                if($oldvl!='') $relid=$oldvl;
+                else $relid=$newvl;
                 $relatedModule1=$adb->query_result($adb->pquery("Select setype from vtiger_crmentity where crmid=?",array($oldvl)),0,0);
                 if($oldvl!='')                    
                 $oldvl1=  getEntityName($relatedModule1, $oldvl);
