@@ -2712,6 +2712,18 @@ class CRMEntity {
                      else
                      $newvl=$newvl1;
                }
+               if (in_array($uitype,array(53)))
+               {   if($oldvl!='')                    
+                    $oldvl1=  getUserName($oldvl);
+                    if($oldvl1=='')
+                    $oldvl1=  getGroupName($oldvl);
+                    if($newvl!='')
+                    $newvl1=  getUserName($newvl);
+                    if($newvl1=='')
+                    $newvl1=  getGroupName($newvl);
+                    $oldvl=$oldvl1[0];
+                    $newvl=$newvl1[0];
+               }
                 $fieldlabel = getTranslatedString($adb->query_result($res, 0, 0));
                 $lines[] = $moduleName ." changed value of '". $fieldlabel."' FROM ". $oldvl ."  TO  ". $newvl;
                           }
@@ -2789,6 +2801,18 @@ class CRMEntity {
                 if(count($newvl1)!=0) $newvl=$newvl1[$newvl];
                 else
                 $newvl=$newvl1;
+                }
+                if (in_array($uitype,array(53)))
+                {   if($oldvl!='')                    
+                    $oldvl1=  getUserName($oldvl);
+                    if($oldvl1=='')
+                    $oldvl1=  getGroupName($oldvl);
+                    if($newvl!='')
+                    $newvl1=  getUserName($newvl);
+                    if($newvl1=='')
+                    $newvl1=  getGroupName($newvl);
+                    $oldvl=$oldvl1[0];
+                    $newvl=$newvl1[0];
                 }
                 $fieldlabel = getTranslatedString($adb->query_result($res, 0, 0));
                 $lines[] = $moduleName ." changed value of '". $fieldlabel."' FROM ". $oldvl ."  TO  ". $newvl;
