@@ -8,9 +8,6 @@
 <link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/css/bootstrap.min.css">
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/css/bootstrap-theme.min.css">
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="modules/Adocmaster/angulareditable/js/angular.min.js"></script>
-<script src="modules/Adocmaster/angulareditable/ng-table.js"></script>
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/ng-table.css">
 
 <!--<h1>Table with pagination</h1>-->
