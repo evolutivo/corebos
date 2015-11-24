@@ -155,7 +155,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				{/foreach}
 				</select>
 			</td>
-		{elseif $uitype eq 33 || $uitype eq 3313 || $uitype eq 1024}
+                {elseif $uitype eq 33 || $uitype eq 3313 || $uitype eq 1024}
 			<td width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
@@ -964,7 +964,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                 {elseif $uitype eq 1024}
 			<td width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} 
-			</td>
+                    </td>
                         {include_php file=modules/$MODULE/get_$fldname.php}
 			<td width="30%" align=left class="dvtCellInfo">
 			   <select MULTIPLE name="{$fldname}[]" size="4" style="width:160px;" tabindex="{$vt_tab}" class="small">
@@ -974,7 +974,49 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                                         </option>
 				{/foreach}
 			   </select>
-			</td>
+                    </td>
+                {elseif $uitype eq 1021}
+		    <td width="20%" class="dvtCellLabel" align=right >
+                    {$fldlabel}                                  
+                    </td>
+                    <td width="30%" align=left class="dvtCellInfo"  >
+                     <script src="kendoui/js/jquery.min.js"></script>
+                    <script type="text/javascript" charset="utf-8">
+                    jQuery.noConflict();
+                    </script>
+                    <script src="kendoui/js/kendo.web.min.js"></script>
+                    <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+                    <link href="kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+                    
+                    <input name="{$fldname}" id="{$fldname}" type="text" value="{$fldvalue}" >  
+                    </td>
+                    <script>
+                       {literal}
+                           var value='';
+                        jQuery(document).ready(function () {
+                        //create AutoComplete UI component
+                              var input =jQuery("#{/literal}{$fldname}{literal}").kendoAutoComplete({
+                                minLength: 1,
+                                dataTextField:'name',
+                                //template: '${ data.str } ',
+                                filter: "startswith", 
+
+                                dataSource:{
+                                    transport:{
+                                        read:{
+                                            url:'index.php?module=BusinessActions&action=BusinessActionsAjax&file=get_status',
+                                            serverPaging:true,
+                                            pageSize:20,
+                                            contentType:'application/json; charset=utf-8',
+                                            type:'GET',
+                                            dataType:'json'
+                                        }
+                                    }
+                                }
+                                })
+                                 });
+                        {/literal}
+                            </script>
 		{elseif $uitype eq 83} <!-- Handle the Tax in Inventory -->
 			{foreach item=tax key=count from=$TAX_DETAILS}
 				{if $tax.check_value eq 1}

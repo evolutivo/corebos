@@ -292,12 +292,13 @@ function GlobalVariable_getVariable(gvname, gvdefault, gvmodule, gvuserid) {
 	});
 }
 
-function ExecuteFunctions(functiontocall,checkModule) {
+function ExecuteFunctions(functiontocall,checkModule,fldname,currentFieldVal,autocompleteVal) {
 	var baseurl = 'index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions';
 
 	// Return a new promise avoiding jquery and prototype
 	return new Promise(function(resolve, reject) {
 		var url = baseurl+'&functiontocall='+functiontocall+'&checkmodule='+checkModule;
+                url += '&fldname='+fldname+'&currentFieldVal='+currentFieldVal+'&autocompleteVal='+autocompleteVal;
 		var req = new XMLHttpRequest();
 		req.open('GET', url);
 

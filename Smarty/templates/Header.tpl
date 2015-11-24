@@ -94,10 +94,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
         <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 {/if}
 {if $MODULE_NAME neq 'VtappSecurity'}
-        <script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>
-   	<script type="text/javascript">
-		jQuery.noConflict();
-	</script>
+   	
 {/if}
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
 {if $HEADERSCRIPTS}
