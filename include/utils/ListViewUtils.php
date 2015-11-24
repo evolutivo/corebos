@@ -2200,7 +2200,9 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						$count = counterValue();
 						$value = '<a href="javascript:window.close();" onclick=\'set_return_todo("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 					} else {
-						$value = '<a href="javascript:window.close();" onclick=\'set_return("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'';
+                                                if($module=='Documents') $fldname=',"'.vtlib_purify($_REQUEST['forfield']).'"';
+                                                else $fldname='';
+						$value = '<a href="javascript:window.close();" onclick=\'set_return("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '" '.$fldname.');\'';
 						if (empty($_REQUEST['forfield']) && $focus->popup_type != 'detailview') {
 							$count = counterValue();
 							$value .= " id='$count' ";

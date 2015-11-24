@@ -603,4 +603,11 @@
 	<classname>addBusinessActions</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add module DocSettings</description>
+	<filename>build/changeSets/evolutivo/adddocsett.php</filename>
+	<classname>adddocsett</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

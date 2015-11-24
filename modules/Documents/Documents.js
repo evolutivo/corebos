@@ -327,3 +327,13 @@ function add_data_to_relatedlist(entity_id, recordid) {
 	opener.document.location.href = "index.php?module={RETURN_MODULE}&action=updateRelations&smodule={SMODULE}&destination_module=Products&entityid=" + entity_id + "&parentid=" + recordid;
 }
 
+function set_return(doc_id, doc_name,doc_field) {
+        var doc_field_name=doc_field+'_display';
+ 	if(document.getElementById('from_link').value != '') {
+		window.opener.document.getElementById(doc_field_name).value = doc_name;
+		window.opener.document.getElementById(doc_field).value = doc_id;
+	} else {
+		window.opener.document.getElementById(doc_field_name).value = doc_name;
+		window.opener.document.getElementById(doc_field).value = doc_id;
+	}
+}
