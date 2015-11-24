@@ -1,7 +1,23 @@
 <?php
+/*************************************************************************************************
+* Copyright 2012-2013 OpenCubed  --  This file is a part of vtMktDashboard.
+* You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+* Vizsage Public License (the "License"). You may not use this file except in compliance with the
+* License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+* and share improvements. However, for proper details please read the full License, available at
+* http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+* the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+* applicable law or agreed to in writing, any software distributed under the License is distributed
+* on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and limitations under the
+* License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+*************************************************************************************************
+*  Module       : BusinessActions
+*  Version      : 1.8
+*  Author       : OpenCubed
+*************************************************************************************************/
 include('include/fpdm/fpdm.php');
-
-class ActionsJSONExecution extends Actions {
+class ActionsJSONExecution extends BusinessActions {
     public  $cli_input;
     private $inputParameters;
     private $outputParameters;
@@ -10,8 +26,8 @@ class ActionsJSONExecution extends Actions {
         $this->log->debug("Initializing the inputs variables");
         $mapid = $this->column_fields['iomap'];
         //$mapid = 131931;
-        $mapfocus = CRMEntity::getInstance("Map");
-        $mapfocus->retrieve_entity_info($mapid, "Map");
+        $mapfocus = CRMEntity::getInstance("cbMap");
+        $mapfocus->retrieve_entity_info($mapid, "cbMap");
         $infields = $mapfocus->readInputFields();
         for ($j = 0; $j < count($infields); $j++) {
             $data[$infields[$j]] = "";
@@ -53,8 +69,8 @@ class ActionsJSONExecution extends Actions {
     function getActionOutput($data = array()) {
         $mapid=$this->column_fields['iomap'];
         //$mapid = 131931;
-        $mapfocus = CRMEntity::getInstance("Map");
-        $mapfocus->retrieve_entity_info($mapid, "Map");
+        $mapfocus = CRMEntity::getInstance("cbMap");
+        $mapfocus->retrieve_entity_info($mapid, "cbMap");
         $outfields = $mapfocus->readOutputFields();
         for ($el = 0; $el < count($outfields); $el++) {
             $response[$outfields[$el]] = $data[$outfields[$el]];

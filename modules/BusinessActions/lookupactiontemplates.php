@@ -12,11 +12,10 @@
 * See the License for the specific language governing permissions and limitations under the
 * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
 *************************************************************************************************
-*  Module       : Actions
+*  Module       : BusinessActions
 *  Version      : 1.8
 *  Author       : OpenCubed
 *************************************************************************************************/
-
 require_once('include/utils/utils.php');
 
 global $theme,$current_user;
@@ -41,18 +40,18 @@ $theme_path="themes/".$theme."/";
                 <th width="65%" class="lvtCol"><b><?php echo $mod_strings['LBL_DESCRIPTION']; ?></b></td>
                 </tr>
 <?php
-require_once('modules/Actions/Actions.php');
-$actions = new Actions();
-$secWhere = $actions->getListViewSecurityParameter('Actions');
+require_once('modules/BusinessActions/BusinessActions.php');
+$actions = new BusinessActions();
+$secWhere = $actions->getListViewSecurityParameter('BusinessActions');
 $sql = "select *
-from vtiger_actions
-join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_actions.actionsid and vtiger_crmentity.deleted=0
+from vtiger_businessactions
+join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_businessactions.businessactionsid and vtiger_crmentity.deleted=0
 LEFT JOIN vtiger_groups
 ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 LEFT JOIN vtiger_users
 ON vtiger_crmentity.smownerid = vtiger_users.id
 where actions_status='Active' {$secWhere}
-order by actionsid desc";
+order by businessactionsid desc";
 $result = $adb->query($sql);
 $temprow = $adb->fetch_array($result);
    
@@ -69,14 +68,14 @@ do
 		if($folderName != 'Personal')
 		{
 			printf("<tr class='lvtColData' onmouseover=\"this.className='lvtColDataHover'\" onmouseout=\"this.className='lvtColData'\" bgcolor='white'> <td height='25'>");
-			echo "<a href='javascript:submittemplate(".$temprow['actionsid'].");'>".$temprow["reference"]."</a></td>";
+			echo "<a href='javascript:submittemplate(".$temprow['businessactionsid'].");'>".$temprow["reference"]."</a></td>";
 			printf("<td height='25'>%s</td>",$temprow["description"]);
 		}
 	}
 	else
 	{
 		printf("<tr class='lvtColData' onmouseover=\"this.className='lvtColDataHover'\" onmouseout=\"this.className='lvtColData'\" bgcolor='white'> <td height='25'>");
-		echo "<a href='javascript:submittemplate(".$temprow['actionsid'].");'>".$temprow["reference"]."</a></td>";
+		echo "<a href='javascript:submittemplate(".$temprow['businessactionsid'].");'>".$temprow["reference"]."</a></td>";
 		printf("<td height='25'>%s</td>",$temprow["description"]);
 	}	
         $cnt++;
@@ -88,7 +87,7 @@ do
 <script>
 function submittemplate(actionId)
 {
-	window.document.location.href = 'index.php?module=Actions&action=ActionsAjax&file=TemplateMerge&action_id='+actionId;
+	window.document.location.href = 'index.php?module=BusinessActions&action=BusinessActionsAjax&file=TemplateMerge&action_id='+actionId;
 }
 </script>
 </html>

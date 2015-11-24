@@ -1,6 +1,6 @@
 <?php
 include_once('data/CRMEntity.php');
-include_once('modules/Actions/Actions.php');
+include_once('modules/BusinessActions/BusinessActions.php');
 include_once('modules/Sequencers/Sequencers.php');
 require_once('include/utils/utils.php');
 require_once('include/database/PearDatabase.php');
@@ -13,7 +13,7 @@ $recordid=$_REQUEST['recordid'];
 $outputType=$_REQUEST['outputType'];
 $confirmVal=$_REQUEST['confirmVal'];
 $module=  getSalesEntityType($actionid);
-if($module=='Actions')
+if($module=='BusinessActions')
     $methodCalled="executeAction";
 elseif($module=='Sequencers')
     $methodCalled="executeSequencer";

@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and limitations under the
 * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
 *************************************************************************************************
-*  Module       : Actions
+*  Module       : BusinessActions
 *  Version      : 1.8
 *  Author       : OpenCubed
 *************************************************************************************************/
@@ -20,7 +20,7 @@ require_once('include/utils/CommonUtils.php');
 global $default_charset;
 
 if(isset($_REQUEST['action_id']) && $_REQUEST['action_id'] !='') {
-  $query = "select * from vtiger_actions where actionsid={$_REQUEST['action_id']}";
+  $query = "select * from vtiger_businessactions where businessactionsid={$_REQUEST['action_id']}";
   $res = $adb->query($query);
   $subject = addslashes($adb->query_result($res, 0, 'subject'));
   $body = addcslashes(decode_html($adb->query_result($res, 0, 'template')), "'\r\n");

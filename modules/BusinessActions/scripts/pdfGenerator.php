@@ -1,17 +1,13 @@
 <?php
-ini_set('display_errors', 'On');
-ini_set('error_reporting', 'On');
+function pdfGenerator($request){
 include_once('data/CRMEntity.php');
-include_once('modules/Map/Map.php');
+include_once('modules/cbMap/cbMap.php');
 include_once('modules/Documents/Documents.php');
 require_once('include/utils/utils.php');
 require_once('include/database/PearDatabase.php');
 require_once('include/fpdm/fpdm.php');
-require_once('config.inc.php');
-
- 
+require_once('config.inc.php'); 
 global $adb,$log,$current_user,$site_URL;
-
 // $str= $argv[1];
 // $importantStuff = explode('recordid=', $str);
 //
@@ -20,17 +16,17 @@ global $adb,$log,$current_user,$site_URL;
 //$log = & LoggerManager::getLogger("index");
 $current_user = new Users();
 $result = $current_user->retrieveCurrentUserInfoFromFile(1);
-global $adb, $log, $current_user;
-$request = array();
-if (isset($argv) && !empty($argv)) {
-    for ($i = 1; $i < count($argv); $i++) {
-        list($key, $value) = explode("=", $argv[$i]);
-        $request[$key] = $value;
-    }
-}
+//$request = array();
+//if (isset($argv) && !empty($argv)) {
+//    for ($i = 1; $i < count($argv); $i++) {
+//        list($key, $value) = explode("=", $argv[$i]);
+//        $request[$key] = $value;
+//    }
+//}
 $recordid = $request['recordid'];
 $us=$request['confirm'];
-
+$log->debug("loro");
+$log->debug($request);
 //$mapid = $request['mapid'];
 $recid = explode(',', $recordid);
 
@@ -41,7 +37,7 @@ WHERE adoctomaster =$recid[0] and deleted=0";
 
  $count = $adb->query($match);  
  $num_rows = $adb->num_rows($count); 
- $b=$adb->query_result($count,0,'causaleadm');
+ $b=$adb->query_result($count,0,'doctype');
  
  $docSettings="select * from vtiger_docsettings where causale='$b' and SUBSTRING_INDEX(righedaa,'..',-1)>=$num_rows and SUBSTRING_INDEX(righedaa,'..',1)<=$num_rows";
  
@@ -74,8 +70,8 @@ if ($adb->num_rows($attachmentquery) > 0) {
 $upload_file_path = decideFilePath();
 $saveasfile=$upload_file_path."/$filename.pdf";
 
-     $focus1 = CRMEntity::getInstance("Map");
-     $focus1->retrieve_entity_info($mapIDadm, "Map");
+     $focus1 = CRMEntity::getInstance("cbMap");
+     $focus1->retrieve_entity_info($mapIDadm, "cbMap");
    
      $origin_module = $focus1->getMapOriginModule();
      
@@ -166,8 +162,8 @@ for ($j = 0; $j < $num_rows; $j++)
 if($tipo=='Master Detail'){      
 $recordidADD = $adb->query_result($count,$j,'adocdetailid');
   
-     $focus1 = CRMEntity::getInstance("Map");
-     $focus1->retrieve_entity_info($mapIDadd, "Map");
+     $focus1 = CRMEntity::getInstance("cbMap");
+     $focus1->retrieve_entity_info($mapIDadd, "cbMap");
      $origin_module = $focus1->getMapOriginModule();
      $target_module = $focus1->getMapTargetModule();   
      $target_fields = $focus1->readMappingType();
@@ -250,8 +246,8 @@ for ($t=0;$t<$num_rows;$t++)
      $recordid = $adb->query_result($count,0,'adocmasterid');
    
 
-     $focus1 = CRMEntity::getInstance("Map");
-     $focus1->retrieve_entity_info($mapIDadm, "Map");
+     $focus1 = CRMEntity::getInstance("cbMap");
+     $focus1->retrieve_entity_info($mapIDadm, "cbMap");
    
      $origin_module = $focus1->getMapOriginModule();
      
@@ -344,8 +340,8 @@ for ($j = 0; $j < count($recid); $j++)
 { 
     
      $recordid = $recid[$j];
-     $focus1 = CRMEntity::getInstance("Map");
-     $focus1->retrieve_entity_info($mapIDadd, "Map");
+     $focus1 = CRMEntity::getInstance("cbMap");
+     $focus1->retrieve_entity_info($mapIDadd, "cbMap");
    
      $origin_module = $focus1->getMapOriginModule();
      $target_module = $focus1->getMapTargetModule();
@@ -434,12 +430,11 @@ if($myfile)
 }
   
     $response1['pdfURL'] = $destPdf;  
-    header('Content-Type: text/plain' );
-    header("Content-Disposition: attachment;filename=$response1");
-    header("Location: http://$site_URL/$response1");
-    echo json_encode($response1,true);
+//    header('Content-Type: text/plain' );
+//    header("Content-Disposition: attachment;filename=$response1");
+//    header("Location: http://$site_URL/$response1");
+   return $response1;
  
   }
-
-
+}
 ?>

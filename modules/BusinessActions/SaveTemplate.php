@@ -12,7 +12,7 @@
 * See the License for the specific language governing permissions and limitations under the
 * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
 *************************************************************************************************
-*  Module       : Actions
+*  Module       : BusinessActions
 *  Version      : 1.8
 *  Author       : OpenCubed
 *************************************************************************************************/
@@ -21,7 +21,7 @@ $subject = $_REQUEST['subject'];
 $template = $_REQUEST['body'];
 $parenttab = $_REQUEST['parenttab'];
 
-$query = "update vtiger_actions set subject='{$subject}', template='{$template}' where actionsid={$actionId}";
+$query = "update vtiger_businessactions set subject='{$subject}', template='{$template}' where businessactionsid={$actionId}";
 $adb->query($query);
 
 $search = vtlib_purify($_REQUEST['search_url']);

@@ -681,7 +681,7 @@ function getMapPermissionActions  (){
                     }
                 }
                 
-                if($k=='Actions'){
+                if($k=='BusinessActions'){
                     foreach($v as $k1=>$v1) {
                         if($k1=='values'){
                             $target_actions[]=  (string)$v1;
