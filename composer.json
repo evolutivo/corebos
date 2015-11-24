@@ -5,14 +5,14 @@
 },
 {
 "type":"vcs",
-"url":"https://bitbucket.org/evolutivo/businessactions/"
+"url":"https://bitbucket.org/modulesrep/biserver/"
 },{
 "packagist":false
 }
 ],
 "require":{
 "evolutivo/composerinstall":"dev-master",
-"evolutivo/businessactions":"dev-master"
+"modulesrep/biserver":"dev-master"
 },
 "scripts":{
 "post-install-cmd":"evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",

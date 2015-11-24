@@ -32,7 +32,7 @@ class Vtiger_Field extends Vtiger_FieldBasic {
 	 * @internal Creates picklist base if it does not exists
 	 */
 	function setPicklistValues($values) {
-		global $adb,$default_charset,$log;
+		global $adb,$default_charset;
 
 		// Non-Role based picklist values
 		if($this->uitype == '16') {
