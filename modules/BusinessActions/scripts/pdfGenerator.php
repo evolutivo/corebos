@@ -234,7 +234,7 @@ $log->debug('before_$response');
 $response['pdfURL'] = "$site_URL/"."$upload_file_path"."$filename";
 $log->debug('after_$response ');
 $log->debug($response);
- echo json_encode($response, true);
+return $response;
  
   }
   //__________________________________________________________________________________
@@ -413,15 +413,17 @@ if($myfile)
  {
     fwrite($myfile,$vlera);   
  }
- $cod=substr(md5("DDT_".date('Y-m-d')),6);
+    $cod=substr(md5("DDT_".date('Y-m-d')),6);
     $destPdf="DDT_".date('Y-m-d').'_'.$cod.'.zip';
     $log->debug('before_$response');
     $response['pdfURL'] = "$site_URL"."$upload_file_path"."$filename";
 
     $zip = new ZipArchive;
-   $zip->open($destPdf,ZipArchive::CREATE);
+    $zip->open($destPdf,ZipArchive::CREATE);
     $zip->addFile("$upload_file_path/$filename","$filename");
-   $zip->close();
+    $zip->close();
+    return $response;
+ 
 //   global $root_directory;
 //  exec("cd $root_directory; rm -rf $destPdf");
    //$fields=array();
@@ -429,11 +431,10 @@ if($myfile)
    
 }
   
-    $response1['pdfURL'] = $destPdf;  
+   // $response1['pdfURL'] = $destPdf;  
 //    header('Content-Type: text/plain' );
 //    header("Content-Disposition: attachment;filename=$response1");
 //    header("Location: http://$site_URL/$response1");
-   return $response1;
  
   }
 }
