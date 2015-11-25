@@ -179,7 +179,7 @@ $recordidADD = $adb->query_result($count,$j,'adocdetailid');
          $foundValues = array();
 
          if (!empty($value['value'])) {
-             $key = $value['value'];
+            $fields[$key1] = $value['value'];
 
          } else {
              if (isset($value['listFields']) && !empty($value['listFields'])) {
@@ -265,7 +265,7 @@ for ($t=0;$t<$num_rows;$t++)
          $foundValues = array();
 
          if (!empty($value['value'])) {
-             $key = $value['value'];
+             $fields[$t][$key] = $value['value'];
 
          } else {
              if (isset($value['listFields']) && !empty($value['listFields'])) {
@@ -357,9 +357,9 @@ for ($j = 0; $j < count($recid); $j++)
 
      foreach ($target_fields as $key => $value) {
          $foundValues = array();
-
+         $key1=$key.'1';
          if (!empty($value['value'])) {
-             $key = $value['value'];
+         $fields[$t][$key1]  = $value['value'];
 
          } else {
              if (isset($value['listFields']) && !empty($value['listFields'])) {
@@ -389,7 +389,6 @@ for ($j = 0; $j < count($recid); $j++)
            
              }
    $log->debug('before $fields[key]');
-   $key1=$key.'1';
    $fields[$t][$key1] = implode($value['delimiter'], $foundValues); 
        
                   }

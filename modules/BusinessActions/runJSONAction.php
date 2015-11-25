@@ -20,6 +20,9 @@ if ($actionObject->column_fields['actions_type'] == 'Sequencer') {
 } else {
     $actionObject->cli_input = $arguments;
     $finalOutput = $actionObject->run();
+    $finalOutput=  json_decode($finalOutput,true);
+    $last_key = key( array_slice( $finalOutput, -1, 1, TRUE ) );
+    $finalOutput=$finalOutput[$last_key];
 }
 return $finalOutput;
 }
