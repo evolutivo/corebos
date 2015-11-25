@@ -610,4 +610,11 @@
 	<classname>adddocsett</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add module Messages</description>
+	<filename>build/changeSets/evolutivo/addmessages.php</filename>
+	<classname>adddocsett</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
