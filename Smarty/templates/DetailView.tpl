@@ -565,25 +565,71 @@ function sendfile_email()
 												{* vtlib customization: Custom links on the Detail view basic links *}
 												{if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEWBASIC}
 													<table width="100%" border="0" cellpadding="5" cellspacing="0">
-														{foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
-															<tr>
-																<td align="left" style="padding-left:10px;">
-																	{assign var="customlink_href" value=$CUSTOMLINK->linkurl}
-																	{assign var="customlink_label" value=$CUSTOMLINK->linklabel}
-																	{if $customlink_label eq ''}
-																		{assign var="customlink_label" value=$customlink_href}
-																	{else}
-																		{* Pickup the translated label provided by the module *}
-																		{assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
-																	{/if}
-																	{if $CUSTOMLINK->linkicon}
-																		<a class="webMnu" href="{$customlink_href}"><img hspace=5 align="absmiddle" border=0 src="{$CUSTOMLINK->linkicon}"></a>
-																		{/if}
-																	<a class="webMnu" href="{$customlink_href}">{$customlink_label}</a>
-																</td>
-															</tr>
-														{/foreach}
-													</table>
+														                                                                                                                    <tr>
+                                                                                                                    <td align="left" style="padding-left:-3px;">
+
+                                                                                                                    {foreach item=ACTIONBLOCK key=key from=$CUSTOM_LINKS.ActionBlock}
+                                                                                                                        {assign var="blockName" value=$ACTIONBLOCK}
+                                                                                                                        <table id ="{$blockName}" border=0 cellspacing=0 cellpadding=0 width=100% class="rightMailMerge">
+                                                                                                                        <tr>
+                                                                                                                                <td class="rightMailMergeHeader"><b>{$blockName}</b></td>
+                                                                                                                        </tr>
+                                                                                                                        {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
+                                                                                                                        {if $CUSTOMLINK->actions_block eq $blockName}
+
+                                                                                                                        <tr style="height:25px">
+                                                                                                                                    <td align="left" style="padding-left:10px;" class="rightMailMergeContent">
+                                                                                                                                            {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+                                                                                                                                            {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+                                                                                                                                            {if $customlink_label eq ''}
+                                                                                                                                                    {assign var="customlink_label" value=$customlink_href}
+                                                                                                                                            {else}
+                                                                                                                                                    {* Pickup the translated label provided by the module *}
+                                                                                                                                                    {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+                                                                                                                                            {/if}
+                                                                                                                                            {if $CUSTOMLINK->linkicon}
+                                                                                                                                                    <a class="webMnu" href="{$customlink_href}"><img hspace=5 align="absmiddle" border=0 src="{$CUSTOMLINK->linkicon}"></a>
+                                                                                                                                            {/if}
+                                                                                                                                                    <a class="webMnu" href="{$customlink_href}">{$CUSTOMLINK->linklabel}</a>
+                                                                                                                                    </td>
+                                                                                                                            </tr>
+                                                                                                                        {/if}
+                                                                                                                        {/foreach}
+                                                                                                                        </table><br/>
+                                                                                                                    {/foreach}                                                                                                                    
+                                                                                                                    {*Provide Block for Actions with empty Block*}
+                                                                                                                    <table id ="General" border=0 cellspacing=0 cellpadding=0 width=100% class="rightMailMerge">
+                                                                                                                        <tr>
+                                                                                                                                <td class="rightMailMergeHeader"><b>{$APP.GENERAL}</b></td>
+                                                                                                                        </tr>
+                                                                                                                        {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
+                                                                                                                        {if $CUSTOMLINK->actions_block eq ''}
+
+                                                                                                                        <tr style="height:25px">
+                                                                                                                                    <td align="left" style="padding-left:10px;" class="rightMailMergeContent">
+                                                                                                                                            {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+                                                                                                                                            {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+                                                                                                                                            {if $customlink_label eq ''}
+                                                                                                                                                    {assign var="customlink_label" value=$customlink_href}
+                                                                                                                                            {else}
+                                                                                                                                                    {* Pickup the translated label provided by the module *}
+                                                                                                                                                    {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+                                                                                                                                            {/if}
+                                                                                                                                            {if $customlink_href eq ''}
+                                                                                                                                                    {assign var="customlink_href" value=javascript:runAction("$RECORD$","$RECORD$","$RECORD$")}
+                                                                                                                                            {/if}
+                                                                                                                                            {if $CUSTOMLINK->linkicon}
+                                                                                                                                                    <a class="webMnu" href="{$customlink_href}"><img hspace=5 align="absmiddle" border=0 src="{$CUSTOMLINK->linkicon}"></a>
+                                                                                                                                            {/if}
+                                                                                                                                                    <a class="webMnu" href="{$customlink_href}">{$CUSTOMLINK->linklabel}</a>
+                                                                                                                                    </td>
+                                                                                                                            </tr>
+                                                                                                                        {/if}
+                                                                                                                        {/foreach}
+                                                                                                                        </table>
+                                                                                                                    </td>
+                                                                                                                    </tr>
+                                                                                                        </table>      
 												{/if}
 
 												{* vtlib customization: Custom links on the Detail view *}

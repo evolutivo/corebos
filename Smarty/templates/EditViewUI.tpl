@@ -975,6 +975,48 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				{/foreach}
 			   </select>
 			</td>
+                {elseif $uitype eq 1021}
+		    <td width="20%" class="dvtCellLabel" align=right >
+                    {$fldlabel}                                  
+                    </td>
+                    <td width="30%" align=left class="dvtCellInfo"  >
+                     <script src="kendoui/js/jquery.min.js"></script>
+                    <script type="text/javascript" charset="utf-8">
+                    jQuery.noConflict();
+                    </script>
+                    <script src="kendoui/js/kendo.web.min.js"></script>
+                    <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet" />
+                    <link href="kendoui/styles/kendo.default.min.css" rel="stylesheet" />
+                    
+                    <input name="{$fldname}" id="{$fldname}" type="text" value="{$fldvalue}" >  
+                    </td>
+                    <script>
+                       {literal}
+                           var value='';
+                        jQuery(document).ready(function () {
+                        //create AutoComplete UI component
+                              var input =jQuery("#{/literal}{$fldname}{literal}").kendoAutoComplete({
+                                minLength: 1,
+                                dataTextField:'name',
+                                //template: '${ data.str } ',
+                                filter: "startswith", 
+
+                                dataSource:{
+                                    transport:{
+                                        read:{
+                                            url:'index.php?module=BusinessActions&action=BusinessActionsAjax&file=get_status',
+                                            serverPaging:true,
+                                            pageSize:20,
+                                            contentType:'application/json; charset=utf-8',
+                                            type:'GET',
+                                            dataType:'json'
+                                        }
+                                    }
+                                }
+                                })
+                                 });
+                        {/literal}
+                            </script>
 		{elseif $uitype eq 83} <!-- Handle the Tax in Inventory -->
 			{foreach item=tax key=count from=$TAX_DETAILS}
 				{if $tax.check_value eq 1}

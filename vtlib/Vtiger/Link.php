@@ -54,6 +54,33 @@ class Vtiger_Link {
 		$this->handler		=$valuemap['handler'];
                 $this->related_tab=$valuemap['related_tab'];
 	}
+        
+        function initialize_BA($valuemap) {
+		$this->tabid  = getTabid($valuemap['moduleactions']);
+		$this->linkid = $valuemap['businessactionsid'];
+		$this->linktype=$valuemap['elementtype_action'];
+                $this->output_type =$valuemap['output_type'];
+		$this->linklabel=$valuemap['reference'];
+		$this->linkurl  =decode_html($valuemap['linkurl']);
+                if(empty($this->linkurl)){
+                    $this->linkurl="javascript:runJSONAction('".$this->linkid."','recordid=\$RECORD$','".$this->output_type."')";
+                }
+		$this->linkicon =decode_html($valuemap['linkicon']);
+		$this->sequence =$valuemap['sequence'];
+		$this->status   =$valuemap['actions_status'];
+		$this->handler_path= $valuemap['handler_path'];
+		$this->handler_class =$valuemap['handler_class'];
+		$this->businessrules_action =$valuemap['businessrules_action'];
+                $this->linktobrules =$valuemap['linktobrules'];
+                $this->linktomapmodule =$valuemap['linktomapmodule'];
+                $this->sequencers =$valuemap['sequencers'];
+                $this->actions_type=$valuemap['actions_type'];
+                $this->parameter1=$valuemap['parameter1'];
+                $this->businessactionsid=$valuemap['businessactionsid'];
+                $this->script_name=$valuemap['script_name'];
+                $this->actions_block=$valuemap['actions_block'];
+	}
+
 
 	/**
 	 * Get module name.
@@ -121,6 +148,18 @@ class Vtiger_Link {
 			}
 			$sql .= (') VALUES ('.generateQuestionMarks($params).')');
 			$adb->pquery($sql, $params);
+                        require_once('modules/BusinessActions/BusinessActions.php');
+                        $action=new BusinessActions();
+                        $action->column_fields['reference']=$label;
+                        $action->column_fields['linkurl']=$url;
+                        $action->column_fields['linkicon']=$iconpath;
+                        $action->column_fields['sequence']=$sequence;
+                        $action->column_fields['assigned_user_id'] = 1;
+                        $action->column_fields['moduleactions'] = getTabModuleName($tabid);
+                        $action->column_fields['elementtype_action'] = $type;
+                        $action->column_fields['actions_status'] = 'Active';
+                        $action->mode = '';
+                        $action->save("BusinessActions"); 
 			self::log("Adding Link ($type - $label) ... DONE");
 		}
 	}
@@ -171,7 +210,19 @@ class Vtiger_Link {
 	 * @param mixed String or List of types to select 
 	 * @param Map Key-Value pair to use for formating the link url
 	 */
-	static function getAllByType($tabid, $type=false, $parameters=false) {
+        static function getAllByType($tabid, $type=false, $parameters=false) {
+            global $adb;
+                $qry_actions="Select sequence from vtiger_businessactions";
+                $res_actions=$adb->query($qry_actions);
+                if($adb->num_rows($res_actions)>0){
+                    $instances=self::getAllByType_BA($tabid, $type, $parameters);
+                }
+                else{
+                    $instances=self::getAllByType_Link($tabid, $type, $parameters);
+                }
+                return $instances;
+        }
+	static function getAllByType_Link($tabid, $type=false, $parameters=false) {
 		global $adb, $current_user;
 		self::__initSchema();
 
@@ -226,7 +277,7 @@ class Vtiger_Link {
 		$strtemplate = new Vtiger_StringTemplate();
 		if($parameters) {
 			foreach($parameters as $key=>$value) $strtemplate->assign($key, $value);
-		}
+                        }
 
 		$instances = Array();
 		if($multitype) {
@@ -262,6 +313,137 @@ class Vtiger_Link {
 		return $instances;
 	}
 
+        static function getAllByType_BA($tabid, $type=false, $parameters=false) {
+		global $adb,$log;
+                self::__initSchema();
+                $module=  $parameters['MODULE'];
+
+		$multitype = false;
+                $orderby = ' order by elementtype_action,sequence'; //MSL
+                $join_str='';
+                $qry_ngblock="Select * from vtiger_ng_block";
+                $res_ngblock=$adb->query($qry_ngblock);
+                if($adb->num_rows($res_ngblock)>0){
+                    $join_str= ' left join vtiger_ng_block on vtiger_ng_block.id=reference';
+                }
+		if($type) {
+			// Multiple link type selection?
+			if(is_array($type)) { 
+				$multitype = true;
+				if($tabid === self::IGNORE_MODULE) {
+					$sql = 'SELECT * FROM vtiger_businessactions'
+                                                . ' INNER JOIN vtiger_crmentity ce ON ce.crmid=vtiger_businessactions.businessactionsid'
+                                                . $join_str
+                                                . ' where ce.deleted=0  and actions_status="Active"'
+                                                . ' and elementtype_action IN ('.
+						Vtiger_Utils::implodestr('?', count($type), ',') .') ';
+					$params = $type;
+					$permittedModuleList = getPermittedModuleNames();
+					if(count($permittedModuleList) > 0 && $current_user->is_admin !== 'on') {
+						$sql .= ' and moduleactions IN ('.
+							Vtiger_Utils::implodestr('?', count($permittedModuleList), ',').')';
+						$params[] = $permittedModuleList;
+					}
+					$result = $adb->pquery($sql . $orderby, Array($adb->flatten_array($params)));
+				} else {
+					$result = $adb->pquery('SELECT * FROM vtiger_businessactions'
+                                                . ' INNER JOIN vtiger_crmentity ce ON ce.crmid=vtiger_businessactions.businessactionsid'
+                                                . $join_str
+                                                . ' where ce.deleted=0  and actions_status="Active"'
+                                                . ' and moduleactions=? and elementtype_action IN ('.
+						Vtiger_Utils::implodestr('?', count($type), ',') .')' . $orderby,
+							Array($module, $adb->flatten_array($type)));
+				}
+			} else {
+				// Single link type selection
+				if($tabid === self::IGNORE_MODULE) {
+					$result = $adb->pquery('SELECT * FROM vtiger_businessactions'
+                                                . ' INNER JOIN vtiger_crmentity ce ON ce.crmid=vtiger_businessactions.businessactionsid'
+                                                . $join_str
+                                                . ' where ce.deleted=0  and actions_status="Active"'
+                                                . ' and elementtype_action =?' . $orderby, Array($type));
+				} else {
+					$result = $adb->pquery('SELECT * FROM vtiger_businessactions'
+                                                . ' INNER JOIN vtiger_crmentity ce ON ce.crmid=vtiger_businessactions.businessactionsid'
+                                                . $join_str
+                                                . ' where ce.deleted=0  and actions_status="Active"'
+                                                . ' and moduleactions=? and elementtype_action=? ' . $orderby , Array($module, $type));				
+				}
+			}
+		} else {
+			$result = $adb->pquery('SELECT * FROM vtiger_businessactions'
+                                                . $join_str
+                                                . ' INNER JOIN vtiger_crmentity ce ON ce.crmid=vtiger_businessactions.businessactionsid'
+                                                . ' where ce.deleted=0  and actions_status="Active"'
+                                                . ' and moduleactions=? ' . $orderby, Array($module));
+		}
+		$strtemplate = new Vtiger_StringTemplate();
+		if($parameters) {
+			foreach($parameters as $key=>$value) {
+                            $strtemplate->assign($key, $value);
+                        }
+		}
+
+		$instances = Array();
+                $instance_block = Array();
+		if($multitype) {
+			foreach($type as $t) $instances[$t] = Array();
+		}
+
+		while($row = $adb->fetch_array($result)){
+                        $return = cbEventHandler::do_filter('corebos.filter.link.show', array($row, $type, $parameters));
+			if($return == false) continue;
+			$instance = new self();
+			$instance->initialize_BA($row);
+			if(!empty($row['handler_path']) && isFileAccessible($row['handler_path'])) {
+				checkFileAccessForInclusion($row['handler_path']);
+				require_once $row['handler_path'];
+				$linkData = new Vtiger_LinkData($instance, $current_user);
+				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);
+				if(!$ignore) {
+					self::log("Ignoring Link ... ".var_export($row, true));
+					continue;
+				}
+			}
+			if($parameters) {
+				$instance->linkurl = $strtemplate->merge($instance->linkurl);
+				$instance->linkicon= $strtemplate->merge($instance->linkicon);
+			}
+                        $res_logic=false;
+                        include_once('modules/BusinessActions/BusinessActions.php');
+                        $actionfocus=CRMEntity::getInstance("BusinessActions");
+                        $actionfocus->retrieve_entity_info($instance->businessactionsid,"BusinessActions");                                
+                            if($instance->linktobrules!='')
+                            $res_logic=$actionfocus->runBusinessLogic(); 
+                            if($res_logic || $instance->linktobrules==''){ // temporarly condition for showing actions not related to BR
+                                if($multitype) {
+                                        $instances[$instance->linktype][] = $instance;
+                                } else {
+                                        $instances[] = $instance;
+                                }
+                                $instance_block[$instance->actions_block]++;
+                            }
+                           
+//                        }
+                        
+		}
+                if($tabid != self::IGNORE_MODULE) {
+                    $qry_block="select *  from  vtiger_actions_block "
+                            . " where module_id = ?";
+                    $res_block=$adb->pquery($qry_block,array($tabid));
+
+                    for($i=0;$i<$adb->num_rows($res_block);$i++)
+                    { 
+                        $block_name=$adb->query_result($res_block,$i,'block_name');
+                        if($instance_block[$block_name]!=0) {
+                            $block_instances[] = $block_name; 
+                        }
+                    }
+                    $instances['ActionBlock'] = $block_instances;
+                }
+                //var_dump($instances);
+		return $instances;
+	}
 	/**
 	 * Helper function to log messages
 	 * @param String Message to log
