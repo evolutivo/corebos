@@ -611,6 +611,7 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+<<<<<<< HEAD
 	<author>albana</author>
 	<description>Read BusinessActions as Links</description>
 	<filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
@@ -624,4 +625,12 @@
 	<classname>addmoduleBAwf</classname>
  	<systemupdate>true</systemupdate>
  </changeSet>
+=======
+	<author>loridacito</author>
+	<description>Add module Messages</description>
+	<filename>build/changeSets/evolutivo/addmessages.php</filename>
+	<classname>addmessages</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+>>>>>>> 7b6a619979e71f16fd78558ddc10ecd58daf9afb
 </updatesChangeLog>
