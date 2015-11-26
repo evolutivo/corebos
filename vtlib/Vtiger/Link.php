@@ -65,7 +65,11 @@ class Vtiger_Link {
                 if(empty($this->linkurl)){
                     $this->linkurl="javascript:runJSONAction('".$this->linkid."','recordid=\$RECORD$','".$this->output_type."')";
                 }
-		$this->linkicon =decode_html($valuemap['linkicon']);
+                $this->linkicon =decode_html($valuemap['linkicon']);
+                $newLinkicon=self::retrieveAttachment($this->linkid,$this->linkicon);
+                if($newLinkicon!==''){
+                    $this->linkicon=$newLinkicon;
+                }
 		$this->sequence =$valuemap['sequence'];
 		$this->status   =$valuemap['actions_status'];
 		$this->handler_path= $valuemap['handler_path'];
@@ -82,6 +86,25 @@ class Vtiger_Link {
 	}
 
 
+        /**
+	 * Get Attachment path.
+	 */
+	static function retrieveAttachment($linkid,$linkicon) {
+		global $adb;
+                $newLinkicon='';
+                $attachments = $adb->pquery('select vtiger_crmentity.crmid,vtiger_attachments.path
+                                from vtiger_seattachmentsrel
+				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid
+				inner join vtiger_attachments on vtiger_crmentity.crmid=vtiger_attachments.attachmentsid
+				where vtiger_seattachmentsrel.crmid=? and vtiger_attachments.name=?', array($linkid,$linkicon));
+		if($attachments && $adb->num_rows($attachments)>0){
+                    $attachmentid = $adb->query_result($attachments,0,'crmid');
+                    $path = $adb->query_result($attachments,0,'path');
+                    $newLinkicon =$path."/".$attachmentid."_".$linkicon;
+                }
+                return $newLinkicon;
+	}
+        
 	/**
 	 * Get module name.
 	 */
