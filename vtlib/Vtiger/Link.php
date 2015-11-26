@@ -341,7 +341,7 @@ class Vtiger_Link {
 	}
 
         static function getAllByType_BA($tabid, $type=false, $parameters=false) {
-		global $adb,$log;
+		global $adb,$log,$current_user;
                 self::__initSchema();
                 $module=  $parameters['MODULE'];
 
