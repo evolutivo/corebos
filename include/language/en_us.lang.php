@@ -542,6 +542,7 @@ $app_strings = array (
 'Expected Revenue' => 'Expected Revenue',
 'Expected Close Date' => 'Expected Close Date',
 'LBL_ACTIONS' => 'Actions',
+'GENERAL' => 'General',
 'LBL_SEND' => 'Send',
 'LBL_VAT' => 'VAT',
 'LBL_SALES' => 'Sales',
