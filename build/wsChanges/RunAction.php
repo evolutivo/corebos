@@ -18,7 +18,7 @@ $operationInfo = array(
 	 'include' => 'include/Webservices/RunAction.php',
 	 'handler' => 'vtws_RunAction',
 	 'prelogin'=> 0,
-	 'type'    => 'POST',
+	 'type'    => 'GET',
 	 'parameters' => array(
 	 	array('name' => 'argument','type' => 'encoded'),
 	 )
