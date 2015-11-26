@@ -635,7 +635,7 @@
 	<author>loridacito</author>
 	<description>Add module Sequencer</description>
 	<filename>build/changeSets/evolutivo/addsequencer.php</filename>
-	<classname>addsequencer.php</classname>
+	<classname>addsequencer</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>
