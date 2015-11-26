@@ -56,7 +56,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<!-- END -->
 	<script language="JavaScript" type="text/javascript" id="_current_language_" src="include/js/{php} echo $_SESSION['authenticated_user_language'];{/php}.lang.js?{php} echo $_SESSION['vtiger_version'];{/php}"></script>
 	<script language="JavaScript" type="text/javascript" src="include/js/QuickCreate.js"></script>
-{if $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity'}	<script language="javascript" type="text/javascript" src="include/scriptaculous/prototype.js"></script>
+{if $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'MarketingDashboard'}	<script language="javascript" type="text/javascript" src="include/scriptaculous/prototype.js"></script>
 {/if}	<script language="JavaScript" type="text/javascript" src="include/js/menu.js?v={$VERSION}"></script>
 	<script language="JavaScript" type="text/javascript" src="include/calculator/calc.js"></script>
 	<script language="JavaScript" type="text/javascript" src="modules/Calendar/script.js"></script>
@@ -65,13 +65,27 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 	<script type="text/javascript" src="jscalendar/lang/calendar-{$APP.LBL_JSCALENDAR_LANG}.js"></script>
-	
+	<script src="kendoui/js/jquery.min.js"></script>
+        {if $MODULE_NAME neq 'MarketingDashboard'}<script type="text/javascript" charset="utf-8">
+        jQuery.noConflict();
+        </script>{/if}
+        <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet"/>
+        <link href="kendoui/styles/kendo.uniform.min.css" rel="stylesheet"/>
+        <script src="kendoui/js/kendo.web.min.js"></script>
+        <script src="kendoui/js/kendo.pager.min.js"></script>
     <!-- asterisk Integration -->
 {if $USE_ASTERISK eq 'true'}
 	<script type="text/javascript" src="include/js/asterisk.js"></script>
 	<script type="text/javascript">
 	if(typeof(use_asterisk) == 'undefined') use_asterisk = true;
 	</script>
+{/if}
+{if $HEADERSCRIPTS}
+	<!-- Custom Header Script -->
+	{foreach item=HEADERSCRIPT from=$HEADERSCRIPTS}
+	<script type="text/javascript" src="{$HEADERSCRIPT->linkurl}"></script>
+	{/foreach}
+	<!-- END -->
 {/if}
     <!-- END -->
 {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq  'ElasticSearch' }   
@@ -100,13 +114,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	</script>
 {/if}
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
-{if $HEADERSCRIPTS}
-	<!-- Custom Header Script -->
-	{foreach item=HEADERSCRIPT from=$HEADERSCRIPTS}
-	<script type="text/javascript" src="{$HEADERSCRIPT->linkurl}"></script>
-	{/foreach}
-	<!-- END -->
-{/if}
+
 {* END *}
     {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'ElasticSearch'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 

@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_sequencers</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_sequencers` (
+  `sequencersid` int(11) default NULL,
+  `sequencers_no` varchar(56) default NULL,
+  `sequencersname` varchar(255) default NULL,
+  `reference` varchar(100) DEFAULT NULL,
+  `sequencers_status` varchar(100) DEFAULT NULL,
+  `datestart` date DEFAULT NULL,
+  `datestop` date DEFAULT NULL,
+  `tags` text,
+  `evo_actions` varchar(100) DEFAULT NULL,
+  `sequencer_type` varchar(100) DEFAULT NULL,
+  `crontab` varchar(250) DEFAULT '',
+  `threshold` varchar(250) DEFAULT '',
+  `elementtype` varchar(255) DEFAULT '',
+  PRIMARY KEY (`sequencersid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_sequencerscf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_sequencerscf` (
+  `sequencersid` int(11) NOT NULL,
+  PRIMARY KEY (`sequencersid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

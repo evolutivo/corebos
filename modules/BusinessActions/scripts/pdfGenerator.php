@@ -25,25 +25,10 @@ require_once('include/database/PearDatabase.php');
 require_once('include/fpdm/fpdm.php');
 require_once('config.inc.php'); 
 global $adb,$log,$current_user,$site_URL;
-// $str= $argv[1];
-// $importantStuff = explode('recordid=', $str);
-//
-// $record = $importantStuff[1];
-
-//$log = & LoggerManager::getLogger("index");
 $current_user = new Users();
 $result = $current_user->retrieveCurrentUserInfoFromFile(1);
-//$request = array();
-//if (isset($argv) && !empty($argv)) {
-//    for ($i = 1; $i < count($argv); $i++) {
-//        list($key, $value) = explode("=", $argv[$i]);
-//        $request[$key] = $value;
-//    }
-//}
 $recordid = $request['recordid'];
 $us=$request['confirm'];
-$log->debug("loro");
-$log->debug($request);
 //$mapid = $request['mapid'];
 $recid = explode(',', $recordid);
 
@@ -55,7 +40,7 @@ WHERE adoctomaster =$recid[0] and deleted=0";
  $count = $adb->query($match);  
  $num_rows = $adb->num_rows($count); 
  $b=$adb->query_result($count,0,'doctype');
- 
+ $adocno=$adb->query_result($count,0,'adocmasterno');
  $docSettings="select * from vtiger_docsettings where causale='$b' and SUBSTRING_INDEX(righedaa,'..',-1)>=$num_rows and SUBSTRING_INDEX(righedaa,'..',1)<=$num_rows";
  
  $count1 = $adb->query($docSettings);
@@ -83,7 +68,7 @@ if ($adb->num_rows($attachmentquery) > 0) {
       
      $recordid = $adb->query_result($count,0,'adocmasterid');
      //filename
-     $filename="DDT_".date('Y-m-d').".pdf";
+     $filename=$b."_".$adocno."_".date('Y-m-d').".pdf";
 $upload_file_path = decideFilePath();
 $saveasfile=$upload_file_path."/$filename.pdf";
 
@@ -315,7 +300,7 @@ for ($t=0;$t<$num_rows;$t++)
          }
     }
  $recordidDetail=$adb->query_result($count,$t,'adocdetailid'); 
- $filename="$t.DDT_".date('Y-m-d').".pdf";
+ $filename=$t.$b."_".$adocno."_".date('Y-m-d').".pdf";
  $upload_file_path = decideFilePath();
  $saveasfile=$upload_file_path."/$filename.pdf";
  if($attach=='Sempre' || ($attach=='Scelta Utente' && $us==1)){
@@ -419,7 +404,7 @@ for ($j = 0; $j < count($recid); $j++)
 $pdf=new FPDM($pdfName);
 $pdf->Load($fields[$t],true);
 $pdf->Merge();
-$filename=$att_id.'_'.$filename;
+//$filename=$att_id.'_'.$filename;
 $upload_file_path = decideFilePath();
 $saveasfile=$upload_file_path."/$filename.pdf";
 $vlera=$pdf->Output("$upload_file_path"."$filename","S");   
@@ -429,8 +414,8 @@ if($myfile)
  {
     fwrite($myfile,$vlera);   
  }
-    $cod=substr(md5("DDT_".date('Y-m-d')),6);
-    $destPdf="DDT_".date('Y-m-d').'_'.$cod.'.zip';
+    $cod=substr(md5("$b".date('Y-m-d')),6);
+    $destPdf="PDF_".date('Y-m-d').'_'.$cod.'.zip';
     $log->debug('before_$response');
     $response['pdfURL'] = "$site_URL"."$upload_file_path"."$filename";
 
@@ -439,18 +424,9 @@ if($myfile)
     $zip->addFile("$upload_file_path/$filename","$filename");
     $zip->close();
     return $response;
- 
-//   global $root_directory;
-//  exec("cd $root_directory; rm -rf $destPdf");
-   //$fields=array();
 
    
 }
-  
-   // $response1['pdfURL'] = $destPdf;  
-//    header('Content-Type: text/plain' );
-//    header("Content-Disposition: attachment;filename=$response1");
-//    header("Location: http://$site_URL/$response1");
  
   }
 }
