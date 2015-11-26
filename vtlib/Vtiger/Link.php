@@ -60,10 +60,14 @@ class Vtiger_Link {
 		$this->linkid = $valuemap['businessactionsid'];
 		$this->linktype=$valuemap['elementtype_action'];
                 $this->output_type =$valuemap['output_type'];
+                $this->isnode =$valuemap['isnode'];
 		$this->linklabel=$valuemap['reference'];
 		$this->linkurl  =decode_html($valuemap['linkurl']);
                 if(empty($this->linkurl)){
                     $this->linkurl="javascript:runJSONAction('".$this->linkid."','recordid=\$RECORD$','".$this->output_type."')";
+                }
+                if($this->isnode==true || $this->isnode==1 || $this->isnode=='1'){
+                    $this->linkurl="javascript:runNodeAction('".$this->linkid."','recordid=\$RECORD$','".$this->output_type."')";
                 }
                 $this->linkicon =decode_html($valuemap['linkicon']);
                 $newLinkicon=self::retrieveAttachment($this->linkid,$this->linkicon);
