@@ -222,7 +222,7 @@ $recordidADD = $adb->query_result($count,$j,'adocdetailid');
 $pdf=new FPDM($pdfName);
 $pdf->Load($fields,true);
 $pdf->Merge();
-$filename=$att_id.'_'.$filename;
+//$filename=$att_id.'_'.$filename;
 $vlera=$pdf->Output("$upload_file_path"."$filename","S");   
 $saveasfile="$upload_file_path"."$filename";
 
