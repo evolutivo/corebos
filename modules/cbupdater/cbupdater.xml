@@ -638,4 +638,11 @@
 	<classname>addsequencer</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete ModTracker and Proxy from Settings</description>
+	<filename>build/changeSets/delSettingsModTrackerProxy.php</filename>
+	<classname>delSettingsModTrackerProxy</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
