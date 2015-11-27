@@ -71,9 +71,10 @@ $smarty->assign("TRACINFO",$list);
 include_once('vtlib/Vtiger/Link.php');
 $hdrcustomlink_params = Array('MODULE'=>$currentModule);
 $COMMONHDRLINKS = Vtiger_Link::getAllByType(Vtiger_Link::IGNORE_MODULE, Array('HEADERLINK','HEADERSCRIPT', 'HEADERCSS','HEADERSCRIPTUP'), $hdrcustomlink_params);
+$COMMONHDRLINKSUP = Vtiger_Link::getAllByType($currentModule, Array('HEADERSCRIPTUP'), $hdrcustomlink_params);
 $smarty->assign('HEADERLINKS', $COMMONHDRLINKS['HEADERLINK']);
 $smarty->assign('HEADERSCRIPTS', $COMMONHDRLINKS['HEADERSCRIPT']);
-$smarty->assign('HEADERSCRIPTSUP', $COMMONHDRLINKS['HEADERSCRIPTUP']);
+$smarty->assign('HEADERSCRIPTSUP', $COMMONHDRLINKSUP['HEADERSCRIPTUP']);
 $smarty->assign('HEADERCSS', $COMMONHDRLINKS['HEADERCSS']);
 // END
 

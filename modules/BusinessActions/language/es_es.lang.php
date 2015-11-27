@@ -44,6 +44,15 @@ $mod_strings = Array(
 	'LBL_USER_FIELDS'=>'Campos de usuario',
 	'LBL_GENERAL_FIELDS'=>'Campos generales',
 	'LBL_SELECTACTIONTEMPLATE_BUTTON_TITLE' => 'Selecciona Acción Marketing',
+        'LISTVIEWBASIC' => 'List View Basic',
+	'LISTVIEW' => 'List View Drop Down',
+        'DETAILVIEW' => 'Detail View Drop Down',
+        'DETAILVIEWBASIC' => 'Detail View Link',
+        'DETAILVIEWWIDGET' => 'Detail View Widget',
+        'HEADERSCRIPT' => 'Header Script',
+        'HEADERCSS' => 'Header Css',
+        'HEADERLINK' => 'Header Link',
+        'HEADERSCRIPTUP' => 'Header Script Up',
 
 );
 

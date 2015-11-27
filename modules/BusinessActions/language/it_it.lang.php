@@ -59,6 +59,7 @@ $mod_strings = Array(
         'HEADERSCRIPT' => 'Header Script',
         'HEADERCSS' => 'Header Css',
         'HEADERLINK' => 'Header Link',
+        'HEADERSCRIPTUP' => 'Header Script Up',
 );
 
 ?>
