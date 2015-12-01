@@ -123,6 +123,8 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <picklistvalues>
+<picklistvalue>SQL</picklistvalue>
+<picklistvalue>IOMap</picklistvalue>
 <picklistvalue>Condition</picklistvalue>
 <picklistvalue>Mapping</picklistvalue>
 <picklistvalue>SendMail</picklistvalue>

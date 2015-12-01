@@ -1,6 +1,6 @@
 <?php
 /*************************************************************************************************
- * Copyright 2015 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
+ * Copyright 2014 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
 * Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
 * file except in compliance with the License. You can redistribute it and/or modify it
 * under the terms of the License. JPL TSolucio, S.L. reserves all rights not expressly
@@ -14,43 +14,21 @@
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
 
-class DefineGlobalVariables extends cbupdaterWorker {
+class addelementtypeaction extends cbupdaterWorker {
 	
 	function applyChange() {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$global_variables = array(
-				'product_service_default',
-				'Debug_Record_Not_Found',
-				'Debug_Report_Query',
-				'Product_Default_Units',
-				'Service_Default_Units',
-				'Maximum_Scheduled_Workflows',
-				'Billing_Address_Checked',
-				'Shipping_Address_Checked',
-				'Tax_Type_Default',
-				'calendar_call_default_duration',
-				'calendar_other_default_duration',
-				'calendar_sort_users_by',
-				'Debug_Send_VtigerCron_Error',
-				'Import_Full_CSV',
-				'Lead_Convert_TransferToAccount',
-				'Show_Copy_Adress_Header',
-				'SalesOrderStatusOnInvoiceSave',
-				'QuoteStatusOnSalesOrderSave',
-			);
-			
-			$moduleInstance = Vtiger_Module::getInstance('GlobalVariable');
-			$field = Vtiger_Field::getInstance('gvname',$moduleInstance);
-			if ($field) {
-				$field->setPicklistValues($global_variables);
-			}
-			
-			$this->sendMsg('Changeset '.get_class($this).' applied!');
-			$this->markApplied();
+                require_once("vtlib/Vtiger/Module.php");
+	        $module = Vtiger_Module::getInstance("BusinessActions");
+                $fld_gvname = Vtiger_Field::getInstance('elementtype_action', $module);
+                $fld_gvname->setPicklistValues(Array('HEADERSCRIPTUP'));
+                $this->sendMsg('Changeset '.get_class($this).' applied!');
+	        $this->markApplied();
 		}
+                
 		$this->finishExecution();
 	}
 	

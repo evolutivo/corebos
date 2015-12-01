@@ -80,10 +80,10 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	if(typeof(use_asterisk) == 'undefined') use_asterisk = true;
 	</script>
 {/if}
-{if $HEADERSCRIPTS}
+{if $HEADERSCRIPTSUP}
 	<!-- Custom Header Script -->
-	{foreach item=HEADERSCRIPT from=$HEADERSCRIPTS}
-	<script type="text/javascript" src="{$HEADERSCRIPT->linkurl}"></script>
+	{foreach item=HEADERSCRIPTUP from=$HEADERSCRIPTSUP}
+	<script type="text/javascript" src="{$HEADERSCRIPTUP->linkurl}"></script>
 	{/foreach}
 	<!-- END -->
 {/if}
@@ -114,7 +114,13 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	</script>
 {/if}
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
-
+{if $HEADERSCRIPTS}
+	<!-- Custom Header Script -->
+	{foreach item=HEADERSCRIPT from=$HEADERSCRIPTS}
+	<script type="text/javascript" src="{$HEADERSCRIPT->linkurl}"></script>
+	{/foreach}
+	<!-- END -->
+{/if}
 {* END *}
     {if $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'ElasticSearch'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
