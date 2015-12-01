@@ -89,8 +89,8 @@ function handleEdit(event)
 			getObj(globaltxtboxid).focus();
 	}
 	fnhide('crmspanid');
-	itsonview=true;
-	event.stopPropagation();
+//	itsonview=true;
+//	event.stopPropagation();
 	return false;
 }
 
