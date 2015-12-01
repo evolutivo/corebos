@@ -37,9 +37,24 @@
                     $pointing_module_tablecf=$pointing->table_name."cf";
                     $pointing_module_id=$pointing->table_index;
                 }
-                
 
                 $query_cond='';  
+                if($cond!='')
+                 {
+                    $businessrulesid = $cond;
+                    $res_buss = $adb->pquery("select * from vtiger_businessrules where businessrulesid=?", array($businessrulesid));
+                    $isRecordDeleted = $adb->query_result($res_buss, 0, "deleted");
+                    if ($isRecordDeleted == 0 || $isRecordDeleted == '0') {
+                        $br_focus = CRMEntity::getInstance("BusinessRules");
+                        $br_focus->retrieve_entity_info($businessrulesid, "BusinessRules");
+                        $mapid=$br_focus->column_fields['linktomap'];
+                        $mapfocus=  CRMEntity::getInstance("cbMap");
+                        $mapfocus->retrieve_entity_info($mapid,"cbMap");
+                        $mapfocus->id=$mapid;
+                        $businessrules_action=$mapfocus->getMapSQL(); 
+                        $query_cond= " and  $businessrules_action  ";
+                    }
+                 }
                 if(!empty($sort) && $sort!= null && $sort!= ' '){
                     $so= explode(",",$sort);    
                     $sort_by=$so[0]; 
@@ -50,23 +65,6 @@
                  
                 // retrieve record data     
                 if($kaction=='retrieve'){
-                     
-                     if($cond!='')
-                     {
-                        $businessrulesid = $cond;
-                        $res_buss = $adb->pquery("select * from vtiger_businessrules where businessrulesid=?", array($businessrulesid));
-			$isRecordDeleted = $adb->query_result($res_buss, 0, "deleted");
-			if ($isRecordDeleted == 0 || $isRecordDeleted == '0') {
-                            $br_focus = CRMEntity::getInstance("BusinessRules");
-                            $br_focus->retrieve_entity_info($businessrulesid, "BusinessRules");
-                            $mapid=$br_focus->column_fields['linktomap'];
-                            $mapfocus=  CRMEntity::getInstance("cbMap");
-                            $mapfocus->retrieve_entity_info($mapid,"cbMap");
-                            $mapfocus->id=$mapid;
-                            $businessrules_action=$mapfocus->getMapSQL(); 
-                            $query_cond= " and  $businessrules_action  ";
-                        }
-                     }
                      
                      $entity_field_arr=getEntityFieldNames($pointing_module);
                      $entity_field=$entity_field_arr["fieldname"];//var_dump($entity_field);
@@ -113,7 +111,7 @@
                                   $fieldname=$adb->query_result($a,0,'fieldname');
                                   $col_fields[$fieldname]=$focus_pointing->column_fields["$col[$j]"];
                                   $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$pointing_module);
-                                  $ret_val=$block_info[1];
+                                      $ret_val=$block_info[1];
                                       
                                   if(in_array($uitype,array(10,51,50,73,68,57,59,58,76,75,81,78,80)))
                                   {
@@ -268,22 +266,7 @@
                       //'Generated from '.getTranslatedString($ng_module,$ng_module);   //  the entityname field 
                     $log->debug('klm3 '.$pointing_field_name.' '.$id);
                     $focus->column_fields['assigned_user_id']=$current_user->id;
-                    if($pointing_module=='Messages' && $focus->column_fields['messagetype']=='Dealer'){
-                        $focusCase = CRMEntity::getInstance("Cases");
-                        $focusCase->id=$id;
-                        $focusCase->mode='edit';
-                        $focusCase->retrieve_entity_info($id, 'Cases');
-                        $focusCase->column_fields['cf_1015']='assigned';
-                        $focusCase->save('Cases');
-                    }
-                    elseif($pointing_module=='Messages' && $focus->column_fields['messagetype']=='Technician'){
-                        $focusCase = CRMEntity::getInstance("Cases");
-                        $focusCase->id=$id;
-                        $focusCase->mode='edit';
-                        $focusCase->retrieve_entity_info($id, 'Cases');
-                        $focusCase->column_fields['cf_1015']='wait_answer';
-                        $focusCase->save('Cases');
-                    }
+                    
                     $focus->save("$pointing_module"); 
     
                 } 
@@ -357,7 +340,8 @@
                           SELECT $entityname,$pointing_module_table.$pointing_module_id
                           FROM $pointing_module_table join vtiger_crmentity "
                             . " on crmid = $pointing_module_table.$pointing_module_id
-                          where deleted = 0 and $pointing_field_name<> $id",array());
+                          where deleted = 0 and $pointing_field_name<> $id "
+                            . " $query_cond",array());
                     $count=$adb->num_rows($query);
 
                     for($i=0;$i<$count;$i++){
