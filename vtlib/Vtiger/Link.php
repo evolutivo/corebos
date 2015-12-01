@@ -87,6 +87,7 @@ class Vtiger_Link {
                 $this->businessactionsid=$valuemap['businessactionsid'];
                 $this->script_name=$valuemap['script_name'];
                 $this->actions_block=$valuemap['actions_block'];
+                $this->related_tab=$valuemap['related_tab'];
 	}
 
 
