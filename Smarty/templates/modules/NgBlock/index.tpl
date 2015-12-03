@@ -96,9 +96,6 @@
                                     Custom Widget Path
                                 </th>
                                 <th style="text-align: center">
-                                    BR
-                                </th>
-                                <th style="text-align: center">
                                     Respective Action
                                 </th>
                             </tr>    
@@ -135,9 +132,9 @@
                               <td  > 
                                   {literal}  {{user.columns}}{/literal}
                               </td> 
-                              <td  > 
-                                  {literal}  {{user.cond}}{/literal}
-                              </td> 
+                              <td  data-title="'BR'" > 
+                                  <a href="index.php?module=BusinessRules&action=DetailView&record={literal}{{user.br_id}}{/literal}">BR</a>
+                              </td>
                               <td > 
                                   <img ng-if="user.paginate==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.paginate!=1" width="20" height="20" src="themes/images/no.gif" />                                  
@@ -174,9 +171,6 @@
                               </td> 
                               <td  data-title="'Custom Widget Path'" > 
                                   {literal}  {{user.custom_widget_path}}{/literal}
-                              </td> 
-                              <td  data-title="'BR'" > 
-                                  {literal}  {{user.br_id}}{/literal}
                               </td> 
                               <td  data-title="'Action'" > 
                                   <a href="index.php?module=BusinessActions&action=DetailView&record={literal}{{user.respective_act}}{/literal}">Action</a>
