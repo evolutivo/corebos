@@ -133,7 +133,7 @@
                                   {literal}  {{user.columns}}{/literal}
                               </td> 
                               <td  data-title="'BR'" > 
-                                  <a ng-if="user.br_id!=''" href="index.php?module=BusinessRules&action=DetailView&record={literal}{{user.br_id}}{/literal}">BR</a>
+                                  <a ng-if="user.br_id!=''&& user.br_id!=null && user.br_id!=undefined" href="index.php?module=BusinessRules&action=DetailView&record={literal}{{user.br_id}}{/literal}">BR</a>
                               </td>
                               <td > 
                                   <img ng-if="user.paginate==1" width="20" height="20" src="themes/images/yes.gif" />
