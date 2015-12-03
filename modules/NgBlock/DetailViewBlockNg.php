@@ -92,7 +92,7 @@ class NgBlock_DetailViewBlockNgWidget {
 	}
 	
 	function process($context = false) {
-            global $adb,$mod_strings, $app_strings,$default_language;
+            global $adb,$mod_strings, $app_strings,$default_language,$current_user;
 		$this->context = $context;
 		$sourceRecordId =  $this->getFromContext('ID', true);
 		
@@ -166,6 +166,9 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign("COLUMN_NAME", $columnName);
                 $viewer->assign("FIELD_LABEL", $fieldLabel);
                 $viewer->assign("FIELD_UITYPE", $fieldUitype);
+                $viewer->assign("Date_format", $current_user->date_format);
+                $viewer->assign("COLUMN_NAME_JSON", json_encode($columnName));
+                $viewer->assign("FIELD_UITYPE_JSON", json_encode($fieldUitype));
                 $viewer->assign("OPTIONS", json_encode($options));
                 $viewer->assign('ADD_RECORD', $add_record);
                 $viewer->assign('REL_MODULE', $relmodule);

@@ -83,6 +83,8 @@
                           <td > 
                               {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
                                   <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
+                              {elseif in_array($FIELD_UITYPE.$index,array(5,6,23) )}
+                                  <div ng-bind-html="user.{$fieldname}_display"></div> 
                               {else}
                                   <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
                               {/if}
@@ -147,10 +149,9 @@
               <input class="form-control" style="width:250px;" type="text" id="{$fieldname}_display" ng-model="user.{$fieldname}_display" value="user.{$fieldname}_display" onchange="alert(this.value);"/>
               <img src="{'select.gif'|@vtiger_imageurl:$THEME}"
                 alt="Select" title="Select" LANGUAGE=javascript  onclick='return window.open("index.php?module={$REL_MODULE.$index}&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield={$fieldname}&srcmodule={$POINTING_MODULE}&responseTo=ngBlockPopup","test","width=640,height=602,resizable=0,scrollbars=0,top=150,left=200");' align="absmiddle" style='cursor:hand;cursor:pointer'>
-              {elseif $FIELD_UITYPE.$index eq '5'}
-                  <input type="text" class="form-control" style="width:300px; " ng-model="user.{$fieldname}"/>
-                  <input type="date" class="form-control" style="width:50px; " ng-model="user1.{$fieldname}1"
-                          placeholder="yyyy-MM-dd" ng-change="put_date('{$fieldname}');"/>
+              {elseif in_array($FIELD_UITYPE.$index,array(5,6,23) )}
+                  <input type="hidden" ng-model="user.{$fieldname}"/>
+                  <input type="date" class="form-control" ng-model="user.{$fieldname}_display2" placeholder="yyyy-MM-dd" ng-change="put_date('{$fieldname}');"/>
               {elseif $FIELD_UITYPE.$index eq '33'}
                   <select multiple class="form-control" ng-model="user.{$fieldname}"  
                           ng-options="op for op  in opt[{$index}]"></select>
@@ -261,7 +262,7 @@ angular.module('demoApp')
 
 })
 
-.controller('ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',function ($scope,$http,$modalInstance,user,type,tbl) {
+.controller('ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',function ($scope,$http,$filter,$modalInstance,user,type,tbl) {
 
       $scope.user = (type === 'create' ? {} : user);
       $scope.user1 = {};
@@ -272,8 +273,19 @@ angular.module('demoApp')
       $scope.type=type;
       $scope.Action = (type === 'create' ? 'Create' : 'Edit');
       $scope.opt={/literal}{$OPTIONS}{literal}; 
-      
+      $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
+      $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
+      for(var i=0;i<$scope.col_json.length;i++){
+          if($scope.ui_json[i]=='5'){
+              $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.user[$scope.col_json[i]]);
+          }
+      }
       // edit selected record
+      
+      $scope.put_date =  function(fld) {
+              var name=fld+'_display2';
+              $scope.user[fld]=$filter('date')($scope.user[name], 'yyyy-MM-dd');
+      };
       
       $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=select_entity').
             success(function(data, status) {

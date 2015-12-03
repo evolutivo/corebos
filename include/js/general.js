@@ -4906,6 +4906,14 @@ function runNodeAction(actionid, parameters, outputType) {
 
 function runJSONAction(actionid, parameters, outputType) {
     console.log(actionid, outputType, parameters);
+    if (parameters === 'recordid=$RECORD$') {
+        var records = document.getElementById('allselectedboxes').value;  //ListView buttons
+        if (records == '') {
+            alert('Please select at least one record.');
+            return false;
+        }
+        parameters='recordid='+records;
+    }
     jQuery.ajax({
         type: 'POST',
         url: 'index.php',
