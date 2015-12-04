@@ -652,4 +652,11 @@
 	<classname>addelementtypeaction</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>kikojover</author>
+	<description>Add from_mailscanner field to HelpDesk and assign_to field to mailscanner rules</description>
+	<filename>build/changeSets/assignto_mailscanner.php</filename>
+	<classname>assignto_mailscanner</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
