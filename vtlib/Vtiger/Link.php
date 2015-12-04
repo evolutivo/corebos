@@ -176,7 +176,7 @@ class Vtiger_Link {
 			}
 			$sql .= (') VALUES ('.generateQuestionMarks($params).')');
 			$adb->pquery($sql, $params);
-                        if(!class_exists('BusinessActions')){
+                        if(vtlib_isModuleActive('BusinessActions')){
                             require_once('modules/BusinessActions/BusinessActions.php');
                             $action=new BusinessActions();
                             $action->column_fields['reference']=$label;
