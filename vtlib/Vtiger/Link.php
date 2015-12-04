@@ -176,18 +176,20 @@ class Vtiger_Link {
 			}
 			$sql .= (') VALUES ('.generateQuestionMarks($params).')');
 			$adb->pquery($sql, $params);
-                        require_once('modules/BusinessActions/BusinessActions.php');
-                        $action=new BusinessActions();
-                        $action->column_fields['reference']=$label;
-                        $action->column_fields['linkurl']=$url;
-                        $action->column_fields['linkicon']=$iconpath;
-                        $action->column_fields['sequence']=$sequence;
-                        $action->column_fields['assigned_user_id'] = 1;
-                        $action->column_fields['moduleactions'] = getTabModuleName($tabid);
-                        $action->column_fields['elementtype_action'] = $type;
-                        $action->column_fields['actions_status'] = 'Active';
-                        $action->mode = '';
-                        $action->save("BusinessActions"); 
+                        if(!class_exists('BusinessActions')){
+                            require_once('modules/BusinessActions/BusinessActions.php');
+                            $action=new BusinessActions();
+                            $action->column_fields['reference']=$label;
+                            $action->column_fields['linkurl']=$url;
+                            $action->column_fields['linkicon']=$iconpath;
+                            $action->column_fields['sequence']=$sequence;
+                            $action->column_fields['assigned_user_id'] = 1;
+                            $action->column_fields['moduleactions'] = getTabModuleName($tabid);
+                            $action->column_fields['elementtype_action'] = $type;
+                            $action->column_fields['actions_status'] = 'Active';
+                            $action->mode = '';
+                            $action->save("BusinessActions"); 
+                        }
 			self::log("Adding Link ($type - $label) ... DONE");
 		}
 	}
