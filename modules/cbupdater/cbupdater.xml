@@ -666,4 +666,11 @@
 	<classname>addtask</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add Employee</description>
+	<filename>build/changeSets/evolutivo/addemployee.php</filename>
+	<classname>addemployee</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
