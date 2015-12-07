@@ -100,8 +100,9 @@ $this->assign('CurrProfiles',$current_profiles);
                                 $scope[t].push({ldelim}"value":"{$arr[1]}", "text":"{$arr[0]}", "v":"{$arr[2]}"{rdelim});
                             {/if}
                 {/foreach}
-            {elseif $fldname neq "" && $fldname neq 'msgdescription' && $fldname neq 'content' && $fldname neq 'description' && $fldname neq 'bodymessage_msg' && $fldname neq 'budymessage'}
-              $scope.{$fldname}= "{$fldvalue}";                  
+            {elseif $uitype neq '22' &&  $uitype neq '19'  &&  $uitype neq '20' &&  $uitype neq '21' && $fldname neq "" && $fldname neq 'msgdescription' && $fldname neq 'content' && $fldname neq 'description' && $fldname neq 'bodymessage_msg' && $fldname neq 'budymessage'}
+              $scope.{$fldname}= "{$fldvalue|html_entity_decode:1:"UTF-8"|replace:'"':"'"|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'<br/>':""|replace:'
+':" "}";                 
              {/if}
         {/foreach}
 {/foreach} 

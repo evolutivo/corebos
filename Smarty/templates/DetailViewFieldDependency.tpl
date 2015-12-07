@@ -111,18 +111,10 @@ angular.module('demoApp').controller('detailViewng', function($scope,$filter) {l
                                 $scope[t].push({ldelim}value:"{$arr[1]}", text:"{$arr[0]}"{rdelim});
                             {/if}
                 {/foreach}
-            {elseif $keyfldname neq "" && $keyfldname neq 'msgdescription' && $keyfldname neq 'content' && $keyfldname neq 'description' && $keyfldname neq 'bodymessage_msg' && $keyfldname neq 'budymessage'}
-              $scope.{$keyfldname}= "{$keyval|html_entity_decode|replace:'"':"'"|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'<br/>':""|replace:'
-':" "}";   
-                {foreach key=mapid item=map from=$MAP_FIELD_DEPENDENCY}
-                   {foreach key=map_key item=map_item from=$map.targetfield}
-                       {if $keyfldname eq $map_item}
-                       var f_length= '{$keyfldname}'+'_length';
-                       $scope[f_length]={$map.fieldlength[$map_key]};
-                       {/if}
-                   {/foreach}
-                {/foreach}
-             {/if}
+            {elseif $keyid neq '22' &&  $keyid neq '19'  &&  $keyid neq '20' &&  $keyid neq '21' &&  $keyfldname neq "" && $keyfldname neq 'msgdescription' && $keyfldname neq 'content' && $keyfldname neq 'description' && $keyfldname neq 'bodymessage_msg' && $keyfldname neq 'budymessage'}
+              $scope.{$keyfldname}= "{$keyval|html_entity_decode:1:"UTF-8"|replace:'"':"'"|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'<br/>':""|replace:'
+':" "}";
+            {/if}
         {/foreach}
 {/foreach} 
 {/foreach}
