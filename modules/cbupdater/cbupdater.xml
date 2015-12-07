@@ -659,4 +659,11 @@
 	<classname>assignto_mailscanner</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add Task</description>
+	<filename>build/changeSets/evolutivo/addtask.php</filename>
+	<classname>addtask</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
