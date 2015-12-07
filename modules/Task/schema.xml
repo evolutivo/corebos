@@ -1,0 +1,36 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_task</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_task` (
+  `taskid` int(11) DEFAULT NULL,
+  `taskname` varchar(255) DEFAULT NULL,
+  `linktoentity` int(10) DEFAULT NULL,
+  `taskdescription` text,
+  `taskstate` varchar(255) DEFAULT '',
+  `taskpriority` varchar(255) DEFAULT '',
+  `taskstart` datetime DEFAULT NULL,
+  `taskstop` datetime DEFAULT NULL,
+  `linktopotential` varchar(100) DEFAULT NULL,
+  `time_start` varchar(100) DEFAULT NULL,
+  `time_end` varchar(100) DEFAULT NULL,
+  `date_start` date DEFAULT NULL,
+  `date_end` date DEFAULT NULL,
+  `event_type` varchar(255) DEFAULT '',
+  `eventtype` varchar(100) DEFAULT NULL,
+  `campaign` varchar(250) DEFAULT NULL,
+  `multius` varchar(250) DEFAULT NULL,
+  `multicont` varchar(250) DEFAULT NULL,
+  `linktolead` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_taskcf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_taskcf` (
+  `taskid` int(11) NOT NULL,
+  PRIMARY KEY (`taskid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>
