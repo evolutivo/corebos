@@ -71,8 +71,8 @@ angular.module('demoApp').run(function(editableOptions) {
              {/if}
      {/foreach}
 {/foreach} 
-{/foreach}              
-angular.module('demoApp').controller('detailViewng', function($scope,$filter) {ldelim}
+{/foreach}   
+angular.module('demoApp').controller('detailViewng', function($scope,$filter,$sce) {ldelim}
 
 {foreach key=header item=detail from=$BLOCKS}
 {foreach item=detail from=$detail}
@@ -111,9 +111,9 @@ angular.module('demoApp').controller('detailViewng', function($scope,$filter) {l
                                 $scope[t].push({ldelim}value:"{$arr[1]}", text:"{$arr[0]}"{rdelim});
                             {/if}
                 {/foreach}
-            {elseif $keyid neq '22' &&  $keyid neq '19'  &&  $keyid neq '20' &&  $keyid neq '21' &&  $keyfldname neq "" && $keyfldname neq 'msgdescription' && $keyfldname neq 'content' && $keyfldname neq 'description' && $keyfldname neq 'bodymessage_msg' && $keyfldname neq 'budymessage'}
-              $scope.{$keyfldname}= "{$keyval|html_entity_decode:1:"UTF-8"|replace:'"':"'"|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'<br/>':""|replace:'
-':" "}";
+            {elseif $keyid neq '22' &&  $keyid neq '19'  &&  $keyid neq '20' &&  $keyid neq '21' && $keyfldname neq "" && $keyfldname neq 'description' && $keyfldname neq 'msgdescription' && $keyfldname neq 'content'  && $keyfldname neq 'bodymessage_msg' && $keyfldname neq 'budymessage'}
+              $scope.{$keyfldname}= $sce.trustAsHtml("{$keyval|html_entity_decode:1:"UTF-8"|replace:'"':"'"|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'<br/>':""|replace:'
+':" "} ");
             {/if}
         {/foreach}
 {/foreach} 
@@ -121,7 +121,7 @@ angular.module('demoApp').controller('detailViewng', function($scope,$filter) {l
  {literal} 
     $scope.showValue = function(fld) {
         var ret='Empty';
-        if($scope[fld] != '')
+        if($scope[fld] != ' ')
             ret = $scope[fld];
         return ret;
   };
@@ -257,7 +257,7 @@ $scope.checkName = function(fieldLabel,fieldName,val_data,crmId,module,uitype) {
 
 
 	var data = "file=DetailViewAjax&module=" + module + "&action=" + module + "Ajax&record=" + crmId+"&recordid=" + crmId ;
-	data = data + "&fldName=" + fieldName + "&fieldValue=" + tagValue + "&ajxaction=DETAILVIEW";
+	data = data + "&fldName=" + fieldName + "&fieldValue=" + encodeURIComponent(tagValue) + "&ajxaction=DETAILVIEW";
 	if(module == 'Users') {
 		data += "&form_token=" + (document.getElementsByName('form_token')[0].value);
 	}
