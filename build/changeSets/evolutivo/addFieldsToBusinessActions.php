@@ -63,7 +63,9 @@ class addFieldsToBA extends cbupdaterWorker {
                     $current_user = new Users();
                     $current_user->retrieveCurrentUserInfoFromFile(1);
 
-                    $linksQuery = $adb->query("SELECT * FROM vtiger_links");
+                    $linksQuery = $adb->query("SELECT * FROM vtiger_links"
+                            . " order by sequence");
+                    $cnt=0;
                     while ($linksQuery && $row = $adb->fetch_array($linksQuery)) {
                         $tabid = $row['tabid'];
                         $linktype = $row['linktype'];
@@ -82,7 +84,13 @@ class addFieldsToBA extends cbupdaterWorker {
                             $focus->column_fields['script_name'] = '';
                             $focus->column_fields['linkurl'] = $linkurl;
                             $focus->column_fields['linkicon'] = $linkicon;
-                            $focus->column_fields['sequence'] = $sequence;
+                            if($linktype=='HEADERSCRIPT'){
+                                $focus->column_fields['sequence'] = $cnt;
+                                $cnt++;
+                            }
+                            else{
+                                $focus->column_fields['sequence'] = $sequence;
+                            }
                             $focus->column_fields['actions_status'] = 'Active';
                             $focus->column_fields['assigned_user_id'] = $current_user->id;
                             $focus->mode = "";
