@@ -673,4 +673,11 @@
 	<classname>addemployee</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Execute BActions from wf</description>
+	<filename>build/changeSets/evolutivo/add_workflow_BusinessActions.php</filename>
+	<classname>add_workflow_ExecBAction</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

@@ -16,7 +16,6 @@
 *  Version      : 1.8
 *  Author       : OpenCubed
 *************************************************************************************************/
-include('include/fpdm/fpdm.php');
 class ActionsJSONExecution extends BusinessActions {
     public  $cli_input;
     private $inputParameters;
