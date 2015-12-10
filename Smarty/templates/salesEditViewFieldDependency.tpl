@@ -101,9 +101,9 @@ angular.module('demoApp').controller('editViewng', function($scope,$http,$filter
                             {/if}
                 {/foreach}
             {elseif $uitype neq '22' &&  $uitype neq '19'  &&  $uitype neq '20' &&  $uitype neq '21' && $fldname neq "" && $fldname neq 'msgdescription' && $fldname neq 'content' && $fldname neq 'description' && $fldname neq 'bodymessage_msg' && $fldname neq 'budymessage'}
-              $scope.{$fldname}= $sce.trustAsHtml("{$fldvalue|html_entity_decode:1:"UTF-8"|replace:'"':"'"|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'<br/>':""|replace:'
-':" "}");                 
-             {/if}
+              $scope.{$fldname}= '{$fldvalue|html_entity_decode:1:"UTF-8"|replace:"'":'"'|replace:'&quot;':"'"|replace:'&amp;':"&"|replace:'\\':""}'; 
+             
+            {/if}
         {/foreach}
 {/foreach} 
 {/foreach}
