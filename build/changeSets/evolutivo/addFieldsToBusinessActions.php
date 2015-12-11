@@ -82,7 +82,7 @@ class addFieldsToBA extends cbupdaterWorker {
                             $focus->column_fields['elementtype_action'] = $linktype;
                             $focus->column_fields['image_action'] = $linkicon;
                             $focus->column_fields['script_name'] = '';
-                            $focus->column_fields['linkurl'] = $linkurl;
+                            $focus->column_fields['linkurl'] = html_entity_decode($linkurl);
                             $focus->column_fields['linkicon'] = $linkicon;
                             if($linktype=='HEADERSCRIPT'){
                                 $focus->column_fields['sequence'] = $cnt;

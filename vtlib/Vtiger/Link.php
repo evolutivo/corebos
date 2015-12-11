@@ -180,7 +180,7 @@ class Vtiger_Link {
                             require_once('modules/BusinessActions/BusinessActions.php');
                             $action=new BusinessActions();
                             $action->column_fields['reference']=$label;
-                            $action->column_fields['linkurl']=$url;
+                            $action->column_fields['linkurl']=html_entity_decode($url);
                             $action->column_fields['linkicon']=$iconpath;
                             $action->column_fields['sequence']=$sequence;
                             $action->column_fields['assigned_user_id'] = 1;
