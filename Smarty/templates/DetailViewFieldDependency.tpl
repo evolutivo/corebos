@@ -14,7 +14,7 @@ angular.module('demoApp').run(function(editableOptions) {
 {foreach key=label item=data from=$detail}
             {assign var=keyid value=$data.ui}
             {assign var=keyfldname value=$data.fldname}
-        {if $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32'} 
+        {if $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32' || $keyid eq '33'} 
                              
             angular.module('demoApp').filter('{$keyfldname}_filter', function() {ldelim}
               return function({$keyfldname}_values {$MAP_RESPONSIBILE_FIELDS2}) {ldelim}
@@ -38,7 +38,7 @@ angular.module('demoApp').run(function(editableOptions) {
                                     {ldelim}
                                       {foreach key=map_key item=map_item from=$map.target_picklist_values}
                                          {ldelim}
-                                             if ({$keyfldname}_values[i]['text']=='{$map_item}' )
+                                             if ({$keyfldname}_values[i]['value']=='{$map_item}' )
                                                 {ldelim}
                                                   filterEvent.push({$keyfldname}_values[i]);
                                                 {rdelim}
@@ -128,8 +128,25 @@ angular.module('demoApp').controller('detailViewng', function($scope,$filter,$sc
     $scope.showPicklist = function(fld) {
         var t= fld+'_values';
         var ret='Not Set';
-        var selected = $filter('filter')($scope[t], {value: $scope[fld]});
-        return ($scope[fld] && selected.length) ? selected[0].text : 'Not set';
+        angular.forEach($scope[t], function(value, key){ 
+            if(value.value==$scope[fld]){ 
+              ret=value.text;  
+            }
+        });
+        return ret;
+  };
+  
+  $scope.showPicklistMulti = function(fld) {
+        var t= fld+'_values';
+        var ret='';
+        angular.forEach($scope[t], function(value, key){ 
+            angular.forEach($scope[fld], function(valuefld, keyfld){ 
+                if(value.value==valuefld){ 
+                  ret+=(ret == '' ? value.text : ', '+value.text);  
+                }
+            });
+        });
+        return (ret == '' ? 'Not Set' : ret);
   };
   
     $scope.show_logic = function(fld) {
@@ -210,32 +227,10 @@ $scope.checkName = function(fieldLabel,fieldName,val_data,crmId,module,uitype) {
 	else if(uitype == 15 || uitype == 16)
 	{
             var tagValue= val_data;
-            //alert(val_data);
-         //var txtBox= "txtbox_"+ fieldLabel;
-         //var not_access =document.getElementById(txtBox);
-         //pickval = not_access.options[not_access.selectedIndex].value;
-         //       if(pickval == alert_arr.LBL_NOT_ACCESSIBLE)
-         //       {
-          //              document.getElementById(editArea).style.display='none';
-          //              document.getElementById(dtlView).style.display='block';
-          //              itsonview=false; //to show the edit link again after hiding the editdiv.
-          //              return false;
-          //      }
 	}
 	else if(globaluitype == 33)
 	{
-	  var txtBox= "txtbox_"+ fieldLabel;
-	  var oMulSelect = $(txtBox);
-	  var r = new Array();
-	  var notaccess_label = new Array();
-	  for (iter=0;iter < oMulSelect.options.length ; iter++)
-	  {
-      	      if (oMulSelect.options[iter].selected)
-		{
-			r[r.length] = oMulSelect.options[iter].value;
-			notaccess_label[notaccess_label.length] = oMulSelect.options[iter].text;
-		}
-      	  }
+	  tagValue = val_data.join(" |##| ");
 	}else
 	{
 		var tagValue= val_data;

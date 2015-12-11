@@ -109,34 +109,19 @@
                                               		   <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     							</div>
                							</td>
-                                          {elseif $keyid eq '33' || $keyid eq '3313'}<!--Multi Select Combo box-->
-						<!--code given by Neil start Ref:http://forums.vtiger.com/viewtopic.php?p=31096#31096-->
-						<!--{assign var="MULTISELECT_COMBO_BOX_ITEM_SEPARATOR_STRING" value=", "}  {* Separates Multi-Select Combo Box items *}
-						{assign var="DETAILVIEW_WORDWRAP_WIDTH" value="70"} {* No. of chars for word wrapping long lines of Multi-Select Combo Box items *}-->
-                                          <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;<span id="dtlview_{$label}">
-					{foreach item=sel_val from=$keyoptions }
-						{if $sel_val[2] eq 'selected'}
-							{if $selected_val neq ''}
-							{assign var=selected_val value=$selected_val|cat:', '}
-							{/if}
-							{assign var=selected_val value=$selected_val|cat:$sel_val[0]}
-						{/if}
-					{/foreach}
-						{$selected_val|replace:"\n":"<br>&nbsp;&nbsp;"}
-						<!-- commented to fix ticket4631 -using wordwrap will affect Not Accessible font color -->
-						<!--{$selected_val|replace:$MULTISELECT_COMBO_BOX_ITEM_SEPARATOR_STRING:"\x1"|replace:" ":"\x0"|replace:"\x1":$MULTISELECT_COMBO_BOX_ITEM_SEPARATOR_STRING|wordwrap:$DETAILVIEW_WORDWRAP_WIDTH:"<br>&nbsp;"|replace:"\x0":"&nbsp;"}-->
-						</span>
-						<!--code given by Neil End-->
-                                          <div id="editarea_{$label}" style="display:none;">
-                                          <select MULTIPLE id="txtbox_{$label}" name="{$keyfldname}" size="4" style="width:160px;" class="small">
-				                                    {foreach item=arr from=$keyoptions}
-										<option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
-				                                    {/foreach}
-			                                   </select>
-			                                   <br><input name="button_{$label}" type="button" class="crmbutton small save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');"/> {$APP.LBL_OR}
-                                              		   <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
-                    							</div>
-               							</td>
+                                                {elseif $keyid eq '33' || $keyid eq '3313'}<!--Multi Select Combo box-->
+                                                    <!--code given by Neil start Ref:http://forums.vtiger.com/viewtopic.php?p=31096#31096-->
+                                                    <!--{assign var="MULTISELECT_COMBO_BOX_ITEM_SEPARATOR_STRING" value=", "}  {* Separates Multi-Select Combo Box items *}
+                                                    {assign var="DETAILVIEW_WORDWRAP_WIDTH" value="70"} {* No. of chars for word wrapping long lines of Multi-Select Combo Box items *}-->
+                                                    <td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
+                                                            <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
+                                                            <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" 
+                                                                                            e-multiple
+                                                                                            editable-select="{$keyfldname}"  
+                                                                                            e-ng-options="s.value as s.text for s in {$keyfldname}_values | {$keyfldname}_filter {$MAP_RESPONSIBILE_FIELDS3} " onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')"
+                                                                                            >
+                                                            {literal} {{{/literal}showPicklistMulti('{$keyfldname}'){literal}}}{/literal}</a>
+                                                    </td>
 						{elseif $keyid eq '115'} <!--ComboBox Status edit only for admin Users-->
                							<td width=25% class="dvtCellInfo" align="left">{$keyval}</td>
 						{elseif $keyid eq '116' || $keyid eq '117'} <!--ComboBox currency id edit only for admin Users-->

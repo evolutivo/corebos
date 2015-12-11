@@ -88,7 +88,6 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                                        class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'"
                                        ng-disabled ="!editable_logic('{$fldname}','{$usefldlabel}')" 
                                        ng-model="{$fldname}" ><br/>
-                                {literal}{{{/literal}{$fldname}_length{literal}}}{/literal}
 			</td>
 		{elseif $uitype eq 3 || $uitype eq 4}<!-- Non Editable field, only configured value will be loaded -->
 				<td width=20% class="dvtCellLabel" align=right><font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small">{/if}</td>
