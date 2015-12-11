@@ -97,6 +97,20 @@ angular.module('demoApp').controller('detailViewng', function($scope,$filter,$sc
                  $scope.{$keyfldname}=true;
              {elseif $keyid eq '56' && $keyval eq 'no'}
                  $scope.{$keyfldname}=false;
+             {elseif $keyid eq '33'} 
+                 var t= '{$keyfldname}'+'_values';
+                 $scope[t] = [];
+                 $scope.{$keyfldname}=[];
+                 {foreach item=arr from=$keyoptions}
+                            {if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
+                                $scope[t].push({ldelim}value:"{$arr[1]}", text:"{$arr[0]}"{rdelim});
+                            {elseif $arr[2] eq 'selected'}
+                                $scope.{$keyfldname}.push("{$arr[1]}");
+                                $scope[t].push({ldelim}value:"{$arr[1]}", text:"{$arr[0]}", "v":"{$arr[2]}"{rdelim});
+                            {else}
+                                $scope[t].push({ldelim}value:"{$arr[1]}", text:"{$arr[0]}"{rdelim});
+                            {/if}
+                {/foreach}
              {elseif $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32'} 
                  
                  var t= '{$keyfldname}'+'_values';
