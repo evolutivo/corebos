@@ -73,7 +73,8 @@ elseif($kaction=='edit'){
              . " custom_widget_path=?,"
              . " br_id=?,"
              . " elastic_id=?,"
-             . " elastic_type=?";
+             . " elastic_type=?,"
+             . " pointing_field_name=?";
      $query.= "  where id=? ";
              
      $result=$adb->pquery($query,array($mv->name,$mv->module_name,$mv->pointing_block_name,$mv->columns,
@@ -81,6 +82,7 @@ elseif($kaction=='edit'){
                                          $mv->edit_record,$mv->delete_record,$mv->nr_page,$mv->sequence_ngblock,
                                          $mv->destination,$mv->type,$mv->related_tab,$mv->custom_widget_path,
                                          $mv->br_id,$mv->elastic_id,$mv->elastic_type,
+                                         $mv->pointing_field_name,
                                          $mv->id)
              ); 
      $actionsid=$adb->query_result($adb->pquery("select businessactionsid from vtiger_businessactions "
