@@ -1,21 +1,27 @@
-{"repositories":[
-{
-"type":"vcs",
-"url":"https://bitbucket.org/evolutivo/composerinstall/"
-},
-{
-"type":"vcs",
-"url":"https://bitbucket.org/modulesrep/biserver/"
-},{
-"packagist":false
-}
-],
-"require":{
-"evolutivo/composerinstall":"dev-master",
-"modulesrep/biserver":"dev-master"
-},
-"scripts":{
-"post-install-cmd":"evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
-"post-update-cmd":"evolutivo\\composerinstall\\ComposerInstall::postPackageUpdate"
-}
+{ "name": "evolutivo/evolutivocore",
+"description":"try to install query buider",
+"license": "MIT",
+ "repositories": [
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/composerinstall/"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/querybuilder"
+  },
+    
+  {
+            "packagist": false
+  }
+  ],
+
+  "require": {
+    "evolutivo/composerinstall": "dev-master",
+    "evolutivo/querybuilder": "dev-master"
+  },
+    "scripts": {
+    "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
+    "post-update-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageUpdate"
+  }
 }
