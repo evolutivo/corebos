@@ -586,27 +586,48 @@ function getMapFieldDependecy(){
             $target_profiles=array();
             $target_piclist_values=array();
             $target_mode='';
+            $mandatory=array();
+            $targetfield=array();
             $index=0;
             foreach($x->map->fields->field->Orgfields[0] as $k=>$v) {
                 
                 if($k=='Orgfield'){
-                $targetfield[]=  (string)$v->fieldname;
-                $action[]=  (string)$v->fieldaction;
-                $targetvalue[]=  (string)$v->fieldvalue;
-                if($v->fieldlength){
-                        $fieldlength[]=  (string)$v->fieldlength;
+                    $targetfield[]=  (string)$v->fieldname;
+                    $action[]=  (string)$v->fieldaction;
+                    $targetvalue[]=  (string)$v->fieldvalue;
+                    $ismand=false;
+    //                if($v->fieldlength){
+    //                        $fieldlength[]=  (string)$v->fieldlength;
+    //                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='mandatory'){
+                            $mandatory[]=  (string)$v_r;
+                            $ismand=true;
+                        }                    
                     }
+                    if(!$ismand){
+                        $mandatory[]='';
+                    }
+                                 
                 }
-                
+                                 
                 if($k=='Responsiblefield'){
                 $respfield[]=  (string)$v->fieldname;
-                $respvalue[]=  (string)$v->fieldvalue;
+                $r_values=array();
+                foreach($v as $k_r=>$v_r) {
+                    if($k_r=='fieldvalue')
+                        $r_values[]=  (string)$v_r;
+                }
+                $respvalue[]='"'. implode('","',$r_values).'"';;
+                $respvalue_portal[]=$r_values;
                 $comp=(string)$v->comparison;
                 $ret_comp='==';
                 if($comp=='equal')
                     $ret_comp='==';
                 elseif($comp=='notequal')
                     $ret_comp='!=';
+                elseif(!empty($comp))
+                    $ret_comp=$comp;
                 $respcomparison[]=  $ret_comp;
                 }
 
@@ -647,9 +668,11 @@ function getMapFieldDependecy(){
            $target_fields['action']=  $action;
            $target_fields['targetvalue']=  $targetvalue;
            $target_fields['fieldlength']=  $fieldlength;
+           $target_fields['mandatory']=  $mandatory;
            
            $target_fields['respfield']=  $respfield;
            $target_fields['respvalue']=  $respvalue;
+           $target_fields['respvalue_portal']=  $respvalue_portal;
            $target_fields['comparison']=  $respcomparison;
            
            $target_fields['target_picklist']=  $target_picklist;
