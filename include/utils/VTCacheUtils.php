@@ -243,6 +243,71 @@ class VTCacheUtils {
 			);
 		} 
         }
+       static $_modulesInfo=false;
+       static $_selected_fields=false;
+        static function lookupModulesInfo(){
+            return self::$_modulesInfo;
+        }
+       static function updateModulesList($fieldid,$module, $related_module) {
+		if(self::$_modulesInfo === false) {
+                    self::$_modulesInfo[$fieldid][] = array(
+				'module' => $module,
+				'related_module' => $related_module
+                                );
+
+		} else{
+                    if(array_key_exists($fieldid,self::$_modulesInfo))
+                        array_push( self::$_modulesInfo[$fieldid],array('module' => $module,'related_module' => $related_module));
+                    else
+                        self::$_modulesInfo[$fieldid][]=array('module' => $module,'related_module' => $related_module);
+             }
+        }
+        static function lookupSelectedFields(){
+            return  self::$_selected_fields;
+        }
+        static function updateSelectedFields($columns) {
+            if (!empty($columns))
+             self::$_selected_fields = $columns;
+            else
+              self::$_selected_fields = '*';
+     }
+
+    static $_where_conditions=false;
+        static function lookupWhereFields(){
+            return  self::$_where_conditions;
+        }
+        static function updateWhereFields($conditions){
+            if(self::$_where_conditions===false){
+                if(!empty($conditions))
+                    self::$_where_conditions=$conditions;
+            }
+        }
+        
+         static $_manyRelatedFields=false;
+        static function getRelatedFields(){
+            return  self::$_manyRelatedFields;
+        }
+        static function setRelatedFieldName($field){
+             if(!empty($field))
+                 if(empty(self::$_manyRelatedFields))
+                    self::$_manyRelatedFields[]=$field;
+                 else
+                   array_push( self::$_manyRelatedFields,$field);   
+    
+        }
+      /* static $_RefenceModules=false;
+        static function updateRefenceModules($modules){
+            self::$_RefenceModules=$modules;
+        }
+        static function getReferenceModules(){
+            return self::$_RefenceModules;
+        }*/
+        static function removeElement($element){
+            unset(self::$_manyRelatedFields[array_search($element,self::$_manyRelatedFields)]);
+            if(empty(self::$_manyRelatedFields))
+                self::$_manyRelatedFields='Done';
+                    }
+        
 	static function updateReport_Info($userid, $reportid, $primarymodule, $secondarymodules, $reporttype,
 	$reportname, $description, $folderid, $owner) {
 		if(!isset(self::$_reportmodule_infoperuser_cache[$userid])) {
@@ -301,7 +366,7 @@ class VTCacheUtils {
 		}
 	}
 
-	/** Role Related Users information */
+   	/** Role Related Users information */
 	static $_role_related_users_cache = array();
 	static function lookupRole_RelatedUsers($roleid) {
 		if(isset(self::$_role_related_users_cache[$roleid])) {
