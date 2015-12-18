@@ -1957,7 +1957,6 @@ class CRMEntity {
 			left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid";
 
 		$fields_query = $adb->pquery("SELECT vtiger_field.fieldname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid AND vtiger_field.uitype IN (10) and vtiger_field.presence in (0,2)", array($module));
-
 		if ($adb->num_rows($fields_query) > 0) {
 			for ($i = 0; $i < $adb->num_rows($fields_query); $i++) {
 				$field_name = $adb->query_result($fields_query, $i, 'fieldname');
@@ -1977,6 +1976,15 @@ class CRMEntity {
 						$query.= " left join $rel_tab_name as " . $rel_tab_name . "Rel$module$field_id on " . $rel_tab_name . "Rel$module$field_id.$rel_tab_index = vtiger_crmentityRel$module$field_id.crmid";
 					}
 				}
+			}
+		}
+		$fields_query = $adb->pquery('SELECT vtiger_field.columnname,vtiger_field.tablename,vtiger_field.fieldid from vtiger_field INNER JOIN vtiger_tab on vtiger_tab.name = ? WHERE vtiger_tab.tabid=vtiger_field.tabid AND vtiger_field.uitype = 101 and vtiger_field.presence in (0,2)', array($module));
+		if ($adb->num_rows($fields_query) > 0) {
+			for ($i = 0; $i < $adb->num_rows($fields_query); $i++) {
+				$col_name = $adb->query_result($fields_query, $i, 'columnname');
+				$field_id = $adb->query_result($fields_query, $i, 'fieldid');
+				$tab_name = $adb->query_result($fields_query, $i, 'tablename');
+				$query.= " left join vtiger_users as vtiger_usersRel$module$field_id on vtiger_usersRel$module$field_id.id = $tab_name.$col_name";
 			}
 		}
 		return $query;
@@ -2095,7 +2103,7 @@ class CRMEntity {
 			$fields[] = $value;
 		}
 		$pritablename = $tables[0];
-		$sectablename = $tables[1];
+		$sectablename = isset($tables[1])?$tables[1]:'';
 		$prifieldname = $fields[0][0];
 		$secfieldname = $fields[0][1];
 		$tmpname = $pritablename . 'tmp' . $secmodule;
@@ -2439,7 +2447,7 @@ class CRMEntity {
 		//as mysql query optimizer puts crmentity on the left side and considerably slow down
 		$query = preg_replace('/\s+/', ' ', $query);
 		if (strripos($query, ' WHERE ') !== false) {
-			vtlib_setup_modulevars($module, $this);
+			vtlib_setup_modulevars(get_class($this), $this);
 			$query = str_ireplace(' where ', " WHERE $this->table_name.$this->table_index > 0  AND ", $query);
 		}
 		return $query;

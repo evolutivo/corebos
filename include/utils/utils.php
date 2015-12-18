@@ -976,11 +976,11 @@ function getColumnFields($module) {
 				// Update information to cache for re-use
 				VTCacheUtils::updateFieldInfo(
 					$resultrow['tabid'], $resultrow['fieldname'], $resultrow['fieldid'],
-					$resultrow['fieldlabel'], $resultrow['columnname'], $resultrow['tablename'],
+					decode_html($resultrow['fieldlabel']), $resultrow['columnname'], $resultrow['tablename'],
 					$resultrow['uitype'], $resultrow['typeofdata'], $resultrow['presence']
 				);
 			}
-	}
+		}
 
 		// For consistency get information from cache
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
@@ -3800,20 +3800,18 @@ function getCallerInfo($number){
 	if(empty($number)){
 		return false;
 	}
-	$caller = "Unknown Number (Unknown)"; //declare caller as unknown in beginning
-
 	$params = array();
 	$name = array('Contacts', 'Accounts', 'Leads');
 	foreach ($name as $module) {
 		$focus = CRMEntity::getInstance($module);
 		$query = $focus->buildSearchQueryForFieldTypes(11, $number);
-		if(empty($query)) return;
+		if(empty($query)) return false;
 
 		$result = $adb->pquery($query, array());
 		if($adb->num_rows($result) > 0 ){
-			$callerName = $adb->query_result($result, 0, "name");
+			$callerName = $adb->query_result($result, 0, 'name');
 			$callerID = $adb->query_result($result,0,'id');
-			$data = array("name"=>$callerName, "module"=>$module, "id"=>$callerID);
+			$data = array('name'=>$callerName, 'module'=>$module, 'id'=>$callerID);
 			return $data;
 		}
 	}
@@ -4125,7 +4123,7 @@ function getRelationTables($module,$secmodule){
 			}
 		}
 	}else {
-		if(method_exists($primary_obj,setRelationTables)){
+		if(method_exists($primary_obj,'setRelationTables')){
 			$reltables = $primary_obj->setRelationTables($secmodule);
 		} else {
 			$reltables = '';
