@@ -1,17 +1,18 @@
 angular.module('demoApp').run(function(editableOptions) {
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 });
-angular.module('demoApp').controller('detailViewng', function($scope,$filter,$sce) {
+angular.module('demoApp').controller('editViewng', function($scope,$filter,$sce) {
+
 for(detail in blocks){
     for(var i=0;i<blocks[detail].length;i++){
         var data=blocks[detail][i];
-        for(datum in data ){
+        for(var datum=0;datum<data.length;datum++  ){
             var info=data[datum];
-            if (info==null) continue;
-            var keyid=info['ui'];
-            var keyval=info['value'];
-            var keyfldname=info['fldname'];
-            var keyoptions=info['options'];
+            if (info[0]==null || info[0]==undefined ) continue;
+            var keyid=info[0][0];
+            var keyval=info[3][0];
+            var keyfldname=info[2][0];
+            var keyoptions=info[3][0];
             if(keyid=='56' && keyval=='si'){
                 $scope[keyfldname]=true;
             }
@@ -23,7 +24,7 @@ for(detail in blocks){
                  $scope[t] = [];
                  $scope[keyfldname]=[];
                  for(var arr=0;arr< keyoptions.length;arr++){
-                     if(keyoptions[arr][2]=='selected'){
+                     if(keyoptions[arr][2]==='selected'){
                         $scope[keyfldname].push(arr[1]);
                         $scope[t].push({value:keyoptions[arr][1], text:keyoptions[arr][0], "v":keyoptions[arr][2]}); 
                      }

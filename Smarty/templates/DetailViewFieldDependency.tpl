@@ -1,8 +1,7 @@
-{include_php file="modules/Vtiger/DetailView.php"}
 <script>
 var blocks ={$BlocksJson};
 var mapFieldDep ={$MapFieldDep};
-var CurrRole ={$CurrRole};
+var CurrRole ='{$CurrRole}';
 var CurrProfiles ={$CurrProfiles};
 </script>
 <script type="text/javascript" src="include/js/ngAppFieldDep.js"></script>
@@ -20,7 +19,7 @@ angular.module('demoApp').run(function(editableOptions) {
         {if $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32' || $keyid eq '33'} 
                              
             angular.module('demoApp').filter('{$keyfldname}_filter', function() {ldelim}
-              return function({$keyfldname}_values {$MAP_RESPONSIBILE_FIELDS2}) {ldelim}
+              return function({$keyfldname}_values ,scope) {ldelim}
                 var filterEvent = [];
                 var count_false_condition=0;
                   for (var i = 0;i < {$keyfldname}_values.length; i++){ldelim}   
@@ -32,9 +31,9 @@ angular.module('demoApp').run(function(editableOptions) {
                           
                            {foreach key=map_key item=map_item from=$map.respfield}
                             {ldelim}
-                                
+                                var resp_values=new Array({$map.respvalue[$map_key]});
                                 if({$map_key} !=0) condition +=' && ';
-                                condition +=' {$map_item} == "{$map.respvalue[$map_key]}"  ';
+                                condition +=resp_values.indexOf(scope.{$map_item})!=-1   ;
                                 {rdelim}
                            {/foreach}
                                 if( eval(condition))

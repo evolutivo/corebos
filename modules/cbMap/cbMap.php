@@ -577,7 +577,7 @@ class cbMap extends CRMEntity {
            return $target_fields;
         }
 
-function getMapFieldDependecy(){
+ function getMapFieldDependecy(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();
             $x->loadXML($map);
@@ -588,6 +588,7 @@ function getMapFieldDependecy(){
             $target_mode='';
             $mandatory=array();
             $targetfield=array();
+            $respfield=array();
             $index=0;
             foreach($x->map->fields->field->Orgfields[0] as $k=>$v) {
                 

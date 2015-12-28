@@ -140,19 +140,12 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				{if $MODULE eq 'Calendar'}
 					<select name="{$fldname}" tabindex="{$vt_tab}" class="small" style="width:160px;">
 				{else}
-					<select name="{$fldname}" tabindex="{$vt_tab}" class="small" style="width:280px;">
+					<input name="{$fldname}" type="hidden"  value="{literal}{{{/literal}{$fldname}{literal}}}{/literal}" />
+                                        <select   tabindex="{$vt_tab}" class="small" style="z-index:1000000;"
+                                                ng-disabled="!editable_logic('{$fldname}')"
+                                                ng-model="{$fldname}"
+                                                ng-options="s.value as s.text for s in {$fldname}_values | {$fldname}_filter :this">
 				{/if}
-				{foreach item=arr from=$fldvalue}
-					{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
-					<option value="{$arr[0]}" {$arr[2]}>{$arr[0]}</option>
-					{else}
-					<option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
-					{/if}
-				{foreachelse}
-					<option value=""></option>
-					<option value="" style='color: #777777' disabled>{$APP.LBL_NONE}</option>
-				{/foreach}
-				</select>
 			</td>
 		{elseif $uitype eq 33 || $uitype eq 3313 || $uitype eq 1024}
 			<td width="20%" class="dvtCellLabel" align=right>
