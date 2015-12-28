@@ -91,8 +91,14 @@
                                                                 {assign var=fontval value=''}
 							{/if}
 						{/foreach}
-							<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');"><span id="dtlview_{$label}"><font color="{$fontval}">{if $APP.$keyval!=''}{$APP.$keyval}{elseif $MOD.$keyval!=''}{$MOD.$keyval}{else}{$keyval}{/if}</font></span>
-                                              		<div id="editarea_{$label}" style="display:none;">
+							<td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
+                                              		<a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}showPicklist('{$keyfldname}'){literal} || 'Empty' }}{/literal}</a>               
+                                                        <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" 
+                                                                                                                editable-select="{$keyfldname}"  
+                                                                                                                e-ng-options="s.value as s.text for s in {$keyfldname}_values | {$keyfldname}_filter :this" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')"
+                                                                                                                >
+                                                         {literal} {{{/literal}showPicklist('{$keyfldname}'){literal}}}{/literal}</a>
+                                                         <div id="editarea_{$label}" style="display:none;">
                     							   <select id="txtbox_{$label}" name="{$keyfldname}" class="small" style="width:280px;">
                     								{foreach item=arr from=$keyoptions}
 											{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
