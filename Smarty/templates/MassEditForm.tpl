@@ -59,13 +59,13 @@
 							    {if $smarty.foreach.block.index eq 0}
 								    <div id="massedit_div{$smarty.foreach.block.index}" style='display:block;'>
 									<table border=0 cellspacing=0 cellpadding=5 width=100% align=center bgcolor=white>
-										{include file="DisplayFields.tpl"}
+										{include file="DisplayFieldsMass.tpl"}
 									</table>
 									</div>
 							    {else}
 								    <div id="massedit_div{$smarty.foreach.block.index}" style='display:none;'>
 									<table border=0 cellspacing=0 cellpadding=5 width=100% align=center bgcolor=white>
-										{include file="DisplayFields.tpl"}
+										{include file="DisplayFieldsMass.tpl"}
 									</table>
 									</div>
 							    {/if}
