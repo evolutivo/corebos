@@ -652,7 +652,7 @@ angular.module('demoApp')
       $scope.user = (type === 'add' ? {"fieldid":"","fieldname":"","module_name":"","pointing_block_name":"",
         "columns_search":"","columns_shown":"",
         "br_id":"","type":""
-        ,"existing":false} : user);
+        ,"existing":false,source:[]} : user);
       $scope.selected = {
         item: 0
       };
@@ -788,7 +788,7 @@ angular.module('demoApp')
          $scope.source.push({"source_field_name":'',"dest_field_name":''});
       };
       $scope.removesourcedest=  function(ind) {
-          for(var i = $scope.source.length - 1; i >= 0; i--){
+          for(var i = 0; i <$scope.source.length; i++){
             if(i == ind){
                 $scope.source.splice(i,1);
             }

@@ -36,7 +36,7 @@ if($kaction=='retrieve'){
           $content[$i]['columns_shown']=$adb->query_result($query,$i,'fld_shown');
           $sourceflds  =   explode(',', $adb->query_result($query,$i,'fld_source'));
           $destflds  =   explode(',', $adb->query_result($query,$i,'fld_destination'));
-//          $source=array("source_field_name"=>"","dest_field_name"=>"");
+          $source=array();
           for($j=0;$j<sizeof($sourceflds);$j++)
             {
                 $source[]=array("source_field_name"=>array('columnname'=>$sourceflds[$j]),
