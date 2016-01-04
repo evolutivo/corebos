@@ -85,6 +85,8 @@ elseif($kaction=='edit'){
                                          $mv->pointing_field_name,
                                          $mv->id)
              ); 
+     $seq=$adb->query_result($adb->pquery("select sequence from vtiger_blocks "
+            . " where blocklabel=? and tabid=?",array($mv->pointing_block_name,getTabid($mv->module_name))),0,'sequence');
      $actionsid=$adb->query_result($adb->pquery("select businessactionsid from vtiger_businessactions "
             . " where reference=?",array($mv->id)),0,'businessactionsid');
      require_once('modules/BusinessActions/BusinessActions.php');
@@ -94,6 +96,7 @@ elseif($kaction=='edit'){
      $action->mode = 'edit';
      $action->column_fields['assigned_user_id'] = $action->column_fields['assigned_user_id'];
      $action->column_fields['elementtype_action'] = $mv->destination;
+     $action->column_fields['sequence'] = $seq;
      $action->column_fields['actions_status'] = 'Active';
      $action->save("BusinessActions"); 
      
