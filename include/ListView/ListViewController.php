@@ -505,7 +505,26 @@ class ListViewController {
 						$value = implode(', ', $tmpArray);
 						$value = textlength_check($value);
 					}
+				} elseif($field->getUIType() == 1021) {
+					$content='';
+					if ($value != '') {
+                                            require_once 'include/Webservices/CustomerPortalWS.php';
+                                            $ret = getEvoActualAutocomplete($value, '', '', '', $current_user,$field->getFieldName());
+                                            $content="<a href='index.php?module=".$ret[$i]['crmmodule']."&action=DetailView&record=".$value."'>".$ret[$i]['crmname']."</a>";
+					}
+					$value = ($content);
 				} elseif($field->getUIType() == 1024) {
+					$content=array();
+					if ($value != '') {
+						$arr_evo_actions=explode(' |##| ',$value);
+						for($fvalues=0;$fvalues<sizeof($arr_evo_actions);$fvalues++) {
+							$roleid=$arr_evo_actions[$fvalues];
+							$rolename=getRoleName($roleid);
+							$content[$fvalues]=$rolename;
+						}
+					}
+					$value = textlength_check(implode(', ',$content));
+				} elseif($field->getUIType() == 1025) {
 					$content=array();
 					if ($value != '') {
 						$arr_evo_actions=explode(' |##| ',$value);

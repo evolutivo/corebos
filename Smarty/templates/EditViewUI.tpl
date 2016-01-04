@@ -953,48 +953,62 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 		</div>
                 <span id="limitmsg" style= "color:red; display:none;"> {'LBL_MAX_SIZE'|@getTranslatedString:$MODULE} {$UPLOADSIZE}{'LBL_FILESIZEIN_MB'|@getTranslatedString:$MODULE}</span>
 		</td>
-                {elseif $uitype eq 1022}
+            {elseif $uitype eq 1022}
 		    <td width="20%" class="dvtCellLabel" align=right >
                     {$fldlabel}                                  
                     </td>
                     <td width="30%" align=left class="dvtCellInfo"  >
-                     <script src="kendoui/js/jquery.min.js"></script>
-                    <script type="text/javascript" charset="utf-8">
-                    jQuery.noConflict();
-                    </script>
-                    <script src="kendoui/js/kendo.web.min.js"></script>
-                    <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet" />
-                    <link href="kendoui/styles/kendo.default.min.css" rel="stylesheet" />
-                    
-                    <input name="{$fldname}" id="{$fldname}" type="text" value="{$fldvalue}" >  
+                    <div ng-controller="mainCtrl_{$fldname}"> 
+                        <input name="{$fldname}" id="{$fldname}" value="{$fldvalue}" type="hidden"  >  
+                        <input type="text" ng-model="{$fldname}" id="{$fldname}_display"
+                               placeholder="Select..." 
+                               typeahead="entity as entity.crmname for entity in loadTags($viewValue)" 
+                               typeahead-on-select="functionClick($item, $model, $label)"
+                               class="form-control">  
+                    </div>
                     </td>
                     <script>
-                       {literal}
-                           var value='';
-                        jQuery(document).ready(function () {
-                        //create AutoComplete UI component
-                              var input =jQuery("#{/literal}{$fldname}{literal}").kendoAutoComplete({
-                                minLength: 1,
-                                dataTextField:'name',
-                                //template: '${ data.str } ',
-                                filter: "startswith", 
-
-                                dataSource:{
-                                    transport:{
-                                        read:{
-                                            url:'index.php?module=BusinessActions&action=BusinessActionsAjax&file=get_status',
-                                            serverPaging:true,
-                                            pageSize:20,
-                                            contentType:'application/json; charset=utf-8',
-                                            type:'GET',
-                                            dataType:'json'
+                        {literal}
+                        angular.module('demoApp')
+                       .controller('mainCtrl_{/literal}{$fldname}{literal}', function ($scope, $http) {
+                            $scope.new_entry=false;
+                            $scope.loadTags = function(val) {
+                                return $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoReferenceAutocomplete&field={/literal}{$fldname}{literal}&term='+val)
+                                        .then(function(response){
+                                            if(response.data.length===0)
+                                                $scope.new_entry=true;
+                                            else 
+                                                $scope.new_entry=false;
+                                          return response.data;
+                                        });
+                            };
+                            $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoActualAutocomplete&field={/literal}{$fldname}{literal}&sel_values='+encodeURIComponent("{/literal}{$fldvalue}{literal}")).
+                                    success(function(data, status) {
+                                        $scope.{/literal}{$fldname}{literal}='{/literal}{$fldvalue}{literal}';
+                            }); 
+                            $scope.functionClick= function($item, $model, $label) {
+                                document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=$item.crmname;
+                                for(var c=0;c<$item.source_fld.length;c++){
+                                    var dst_fld=$item.dest_fld[c];
+                                    var src_fld=$item.source_fld[c];
+                                    if(document.getElementsByName(dst_fld['fldname']).item(0)!=undefined){
+                                        console.log(dst_fld);
+                                        if(dst_fld.ui=='1021'){
+                                            document.getElementsByName(dst_fld['fldname']).item(0).value=src_fld['id'];
+                                            document.getElementById(dst_fld['fldname']+'_display').value=src_fld['val'];
+                                        }
+                                        else{
+                                            document.getElementsByName(dst_fld['fldname']).item(0).value=src_fld['val'];
                                         }
                                     }
                                 }
-                                })
-                                 });
+                            };
+                                               
+                        });
+                          
                         {/literal}
-                            </script>
+                    </script>
+                    </td>
                 {elseif $uitype eq 1021 }
 		    <td width="20%" class="dvtCellLabel" align=right >
                     {$fldlabel}                                  
