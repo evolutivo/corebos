@@ -85,6 +85,8 @@
                                   <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
                               {elseif in_array($FIELD_UITYPE.$index,array(5,6,23) )}
                                   <div ng-bind-html="user.{$fieldname}_display"></div> 
+                              {elseif in_array($FIELD_UITYPE.$index,array(53) )}
+                                  <div ng-bind-html="user.{$fieldname}_display"></div> 
                               {else}
                                   <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
                               {/if}
@@ -136,7 +138,7 @@
         </td>
     </tr>
     {foreach key=index item=fieldname from=$COLUMN_NAME} 
-        {if $FIELD_UITYPE.$index neq '53' && $FIELD_UITYPE.$index neq '70'}
+        {if  $FIELD_UITYPE.$index neq '70'}
           <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" ng-if="type!='choose'">
               <td style="text-align:right;"> 
                   {$FIELD_LABEL.$index}
@@ -157,6 +159,10 @@
                           ng-options="op for op  in opt[{$index}]"></select>
               {elseif $FIELD_UITYPE.$index eq '19'}
                       <div text-angular="text-angular" name="user.{$fieldname}" ng-model="user.{$fieldname}"></div>
+              {elseif $FIELD_UITYPE.$index eq '53'}
+                  <input type="hidden" ng-model="user.{$fieldname}"/>
+                  <select class="form-control" ng-model="user.{$fieldname}_display2" ng-change="put_ass('{$fieldname}');"
+                          ng-options="op as op.crmname group by op.crmtype for op  in opt.{$fieldname} track by op.crmid"></select>
               {else}
                   <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}"/>
               {/if}
@@ -272,16 +278,22 @@ angular.module('demoApp')
       };
       $scope.type=type;
       $scope.Action = (type === 'create' ? 'Create' : 'Edit');
-      $scope.opt={/literal}{$OPTIONS}{literal}; 
+      $scope.opt={/literal}{$OPTIONS}{literal}; console.log($scope.opt);
       $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
       $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
       for(var i=0;i<$scope.col_json.length;i++){
           if($scope.ui_json[i]=='5'){
               $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.user[$scope.col_json[i]]);
           }
+          else if($scope.ui_json[i]=='53'){
+              $scope.user[$scope.col_json[i]+'_display2']={'crmid':$scope.user[$scope.col_json[i]]};
+          }
       }
       // edit selected record
-      
+      $scope.put_ass =  function(fld) {
+              var name=fld+'_display2';
+              $scope.user[fld]=$scope.user[name]['crmid'];
+      };
       $scope.put_date =  function(fld) {
               var name=fld+'_display2';
               $scope.user[fld]=$filter('date')($scope.user[name], 'yyyy-MM-dd');

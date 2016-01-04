@@ -132,6 +132,17 @@ class NgBlock_DetailViewBlockNgWidget {
                         }
                     
                     }
+                    elseif($uitype=='53'){
+                        $res1=$adb->pquery("Select id,concat(first_name,' ',last_name) as crmname,'User' as type from vtiger_users "
+                                . " Union"
+                                . " Select groupid as id,groupname as crmname,'Group' as type from vtiger_groups",array());
+                        while ($emp=$adb->fetch_array($res1))  {
+                               $options[$col[$j]][]=array('crmid'=>$emp['id'],
+                                                          'crmname'=>$emp['crmname'],
+                                                          'crmtype'=>$emp['type']);
+                        }
+                    
+                    }
                     elseif($uitype=='10'){
                         $relmodule[$j] = $adb->query_result($re,0,'relmodule');                   
                     }

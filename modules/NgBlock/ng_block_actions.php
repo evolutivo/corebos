@@ -123,6 +123,11 @@
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
                                       $content[$i][$col[$j].'_display']=$ret_val;
                                   }
+                                  elseif(in_array($uitype,array(53)))
+                                  {
+                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
+                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                  }
                                   else
                                       $content[$i][$col[$j]]=$ret_val;
                           }
@@ -239,7 +244,6 @@
                     require_once('modules/'.$pointing_module.'/'.$pointing_module.'.php');
                     $models=$_REQUEST['models'];
                     $mv=json_decode($models);
-                     
                     $focus = CRMEntity::getInstance("$pointing_module");
                     $focus->id='';
                     for($j=0;$j<sizeof($col);$j++)
@@ -248,7 +252,7 @@
                          {
                           $a=$adb->query("SELECT fieldname
                               from vtiger_field
-                              WHERE columnname='$col[$j]'
+                              WHERE (columnname='$col[$j]' or fieldname='$col[$j]')
                               and tabid = '$tabid' ");
                           $fieldname=$adb->query_result($a,0,'fieldname');
                           $focus->column_fields[$fieldname]=$mv->$col[$j];  // all chosen columns
@@ -265,10 +269,8 @@
 			$entityname=$entity_field[0];
 		    }
                     else {$entityname=$entity_field;}
-                    $log->debug('albana2 '.$entityname);
                     $focus->column_fields["$entityname"]=$mv->$col[0].' - '.$mv->$col[1];
-                      //'Generated from '.getTranslatedString($ng_module,$ng_module);   //  the entityname field 
-                    $log->debug('klm3 '.$pointing_field_name.' '.$id);
+                    if(empty($focus->column_fields['assigned_user_id']))
                     $focus->column_fields['assigned_user_id']=$current_user->id;
                     
                     $focus->save("$pointing_module"); 
@@ -292,7 +294,7 @@
                          {
                              $a=$adb->query("SELECT fieldname
                                   from vtiger_field
-                                  WHERE columnname='$col[$j]'
+                                  WHERE (columnname='$col[$j]' or fieldname='$col[$j]')
                                   and tabid = '$tabid' ");
                               $fieldname=$adb->query_result($a,0,'fieldname');
                              $focus->column_fields[$fieldname]=$mv->$col[$j];  // all chosen columns
@@ -305,9 +307,7 @@
 			$entityname=$entity_field[0];
 		      }
                       else {$entityname=$entity_field;}
-                      $log->debug('albana2 '.$entityname);
                       $focus->column_fields["$entityname"]=$focus->column_fields["$entityname"];   //  the entityname field 
-                      $log->debug('klm3 '.$pointing_field_name.' '.$id);
                      $focus->column_fields["assigned_user_id"]=$focus->column_fields["assigned_user_id"];
                      $focus->save("$pointing_module"); 
                 }              
