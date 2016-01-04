@@ -510,9 +510,9 @@ class ListViewController {
 					if ($value != '') {
                                             require_once 'include/Webservices/CustomerPortalWS.php';
                                             $ret = getEvoActualAutocomplete($value, '', '', '', $current_user,$field->getFieldName());
-                                            $content="<a href='index.php?module=".$ret[$i]['crmmodule']."&action=DetailView&record=".$value."'>".$ret[$i]['crmname']."</a>";
+                                            $content="<a href='index.php?module=".$ret[0]['crmmodule']."&action=DetailView&record=".$value."'>".$ret[0]['crmname']."</a>";
 					}
-					$value = ($content);
+					$value = $content;
 				} elseif($field->getUIType() == 1024) {
 					$content=array();
 					if ($value != '') {
