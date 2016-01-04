@@ -772,7 +772,7 @@ angular.module('demoApp')
           user['fld_destination']=dst;
           user =JSON.stringify(user);
             //if(br!==''){
-                $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction='+$scope.act+'&models='+user
+                $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction='+$scope.act+'&models='+encodeURIComponent(user)
                     )
                     .success(function(data, status) {
                           tbl.reload();  
