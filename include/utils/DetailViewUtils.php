@@ -206,7 +206,21 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		}
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = implode(', ',$content);
-	} elseif ($uitype == 115) {
+	}
+        elseif ($uitype == 1021) {
+		$content=array();
+		$j=0;
+                require_once 'include/Webservices/CustomerPortalWS.php';
+		if ($col_fields[$fieldname]!='') {
+                    $ret = getEvoActualAutocomplete($col_fields[$fieldname], '', '', '', $current_user,$fieldname);
+                    for($i=0;$i<sizeof($ret);$i++) {
+                        $content[$i]='<a href="index.php?module='.$ret[$i]['crmmodule'].'&action=DetailView&record='.$col_fields[$fieldname].'">'.$ret[$i]['crmname'].'</a>';
+                    }
+		}
+		$label_fld[] = getTranslatedString($fieldlabel, $module);
+		$label_fld[] = implode(', ',$content);
+	}
+        elseif ($uitype == 115) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = getTranslatedString($col_fields[$fieldname]);
 
