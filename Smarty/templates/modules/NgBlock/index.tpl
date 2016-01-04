@@ -545,6 +545,18 @@ angular.module('demoApp')
     }
 });
 angular.module('demoApp')
+.filter('filter_dest_fields', function() {
+      return function(columns_search,user) {
+        var filterEvent = [];
+        for (var i = 0;i < columns_search.length; i++){
+            if(columns_search[i]['tablabel']==user.pointing_module_name){
+                filterEvent.push(columns_search[i]);
+            }
+        }
+        return filterEvent;
+    }
+});
+angular.module('demoApp')
 .controller('TabInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
 
       $scope.user = (type === 'add' ? {} : user);
@@ -751,19 +763,37 @@ angular.module('demoApp')
       $scope.type={'id':$scope.user.type};
       $scope.setEditId =  function(user) {
           var br=user.br_id;
-            user =JSON.stringify(user);
-            if(br!==''){
+          var src='',dst='';
+          for(var i = 0; i <$scope.source.length; i++){
+            src+=(i==0 ? $scope.source[i]['source_field_name']['columnname'] : ','+$scope.source[i]['source_field_name']['columnname']);
+            dst+=(i==0 ? $scope.source[i]['dest_field_name']['columnname'] : ','+$scope.source[i]['dest_field_name']['columnname']);
+          }
+          user['fld_source']=src;
+          user['fld_destination']=dst;
+          user =JSON.stringify(user);
+            //if(br!==''){
                 $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=ng_fields&kaction='+$scope.act+'&models='+user
                     )
                     .success(function(data, status) {
                           tbl.reload();  
                           $modalInstance.close($scope.selected.item);
                      });
-            }
-            else{
-                alert('Business Rule is mandatory');
-            }
+            //}
+            //else{
+            //    alert('Business Rule is mandatory');
+            //}
         };
+      $scope.source=$scope.user.source;
+      $scope.addsourcedest=  function() {
+         $scope.source.push({"source_field_name":'',"dest_field_name":''});
+      };
+      $scope.removesourcedest=  function(ind) {
+          for(var i = $scope.source.length - 1; i >= 0; i--){
+            if(i == ind){
+                $scope.source.splice(i,1);
+            }
+          }
+      };
       $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };

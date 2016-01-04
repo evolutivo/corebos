@@ -687,4 +687,11 @@
 	<classname>PBXManagerAfterSaveCreateActivity</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Ng Evo Fields AutoFill Params</description>
+	<filename>build/changeSets/evolutivo/addEvoFieldsAutoFill.php</filename>
+	<classname>addEvoFieldsAutoFill</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>

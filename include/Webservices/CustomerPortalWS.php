@@ -988,4 +988,221 @@ function getFieldAutocomplete($term, $filter, $searchinmodule, $fields, $returnf
 	return $respuesta;
 }
 
+function getFieldConfig($fieldname) {
+	global $current_user,$log,$adb,$default_charset;
+	
+	$num_search_modules = count($searchin);
+        $eirs = $adb->pquery('select * '
+                . ' from vtiger_ng_fields '
+                . ' join vtiger_field on vtiger_field.fieldid=vtiger_ng_fields.field_id'
+                . ' where fieldname=?',array($fieldname));
+        $ei = $adb->fetch_array($eirs);
+        $module=  getTabModuleName($ei['moduleid']);
+        $fld_shown      =  $ei['fld_shown'];
+        $fld_search     =  $ei['fld_search'];
+        $br_id          =  $ei['br_id'];
+        $fld_source     =  $ei['fld_source'];
+        $fld_destination =  $ei['fld_destination'];
+        
+        $config =array('module'=>$module,'fld_shown'=>$fld_shown,'fld_search'=>$fld_search,
+                       'br_id'=>$br_id,'fld_source'=>$fld_source,'fld_destination'=>$fld_destination);
+	return $config;
+}
+
+function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $user,$field) {
+	global $current_user,$log,$adb,$default_charset;
+        $field_param=getFieldConfig($field);
+        $fld_search =   $field_param['fld_search'];
+        $fld_shown  =   $field_param['fld_shown'];
+        $fld_src  =   $field_param['fld_source'];
+        $fld_dest  =   $field_param['fld_destination'];
+        $flds2show  =   explode(',', $fld_shown);
+        $sourceflds  =   explode(',', $fld_src);
+        $destflds  =   explode(',', $fld_dest);
+
+	if (!empty($field_param['module'])) {
+		$searchin = explode(',', $field_param['module']);
+	} else {
+		$searchin = array('HelpDesk','Project','ProjectTask','Potentials','ProjectMilestone',
+		'Invoice','PurchaseOrder','Quotes','SalesOrder','ServiceContracts','Accounts','Contacts',);
+	}
+	if (empty($limit)) $limit = 30;  // hard coded default
+	$respuesta=array();
+        $term=  strtolower($term);
+        if (empty($term)) {
+		$term='%';
+		$op='like';
+	} else {
+		switch ($filter) {
+			case 'eq':
+				$op='=';
+				break;
+			case 'neq':
+				$op='!=';
+				break;
+			case 'startswith':
+				$term=$term.'%';
+				$op='like';
+				break;
+			case 'endswith':
+				$term='%'.$term;
+				$op='like';
+				break;
+			case 'contains':
+				$op='like';
+				$term='%'.$term.'%';
+				break;
+			default: $op='='; break;
+		}
+	}
+
+	$num_search_modules = count($searchin);
+	foreach ($searchin as $srchmod) {
+		if (!(vtlib_isModuleActive($srchmod) and isPermitted($srchmod,'DetailView'))) continue;
+		$tabid=  getTabid($srchmod);
+                require_once("modules/$srchmod/$srchmod.php");
+                $eirs = $adb->pquery('select tablename,entityidfield '
+                        . ' from vtiger_entityname'
+                        . ' where modulename=?',array($srchmod));
+		$ei = $adb->fetch_array($eirs);
+		$wherefield = $fld_search." $op '$term' ";
+		if (!(strpos($fld_search, ',') === false)) {
+			$fieldlists = explode(',', $fld_search);
+			$wherefield = implode(" $op '$term' or ", $fieldlists)." $op '$term' ";
+		}
+		$qry = "select crmid
+                            from {$ei['tablename']}
+                            inner join vtiger_crmentity on crmid = {$ei['entityidfield']}
+                            where deleted = 0 and ($wherefield)";
+		$rsemp=$adb->query($qry);
+		$trmod = getTranslatedString($srchmod,$srchmod);
+		$wsid = vtyiicpng_getWSEntityId($srchmod);
+		while ($emp=$adb->fetch_array($rsemp)) {
+                    $focus_pointing= CRMEntity::getInstance($srchmod);
+                    $focus_pointing->id=$emp['crmid'];
+                    $focus_pointing->mode = 'edit';
+                    $focus_pointing->retrieve_entity_info($emp['crmid'], $srchmod);
+                    $shown_val='';
+                    for($j=0;$j<sizeof($flds2show);$j++)
+                    {
+                        if($flds2show[$j]=='') continue;
+                        $a=$adb->query("SELECT *
+                              from vtiger_field
+                              WHERE ( columnname='$flds2show[$j]' OR fieldname='$flds2show[$j]' )"
+                              . " and tabid = '$tabid' ");
+                        $uitype=$adb->query_result($a,0,'uitype');
+                        $fieldname=$adb->query_result($a,0,'fieldname');
+                        $col_fields[$fieldname]=$focus_pointing->column_fields["$flds2show[$j]"];
+                        $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$srchmod);
+                        $shown_val.=$block_info[1].' ';
+                    }
+                    $src_values=array();
+                    for($j=0;$j<sizeof($sourceflds);$j++)
+                    {
+                        if($sourceflds[$j]=='') continue;
+                        $a=$adb->query("SELECT *
+                              from vtiger_field
+                              WHERE ( columnname='$sourceflds[$j]' OR fieldname='$sourceflds[$j]' )"
+                              . " and tabid = '$tabid' ");
+                        $uitype=$adb->query_result($a,0,'uitype');
+                        $fieldname=$adb->query_result($a,0,'fieldname');
+                        $col_fields[$fieldname]=$focus_pointing->column_fields["$sourceflds[$j]"];
+                        $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$srchmod);
+                        $src_values[]=$block_info[1].' ';
+                    }
+                    $respuesta[]=array(
+                                    'crmid'=>$wsid.$emp['crmid'],
+                                    'crmname'=>html_entity_decode($shown_val,ENT_QUOTES,$default_charset).($num_search_modules>1 ? " :: $trmod" : ''),
+                                    'crmmodule'=>$srchmod,
+                                    'source_fld'=>$src_values,
+                                    'dest_fld'=>$destflds,
+                    );
+                    if (count($respuesta)>=$limit) break;
+		}
+	}
+	return $respuesta;
+}
+
+function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $user,$field) {
+	global $current_user,$log,$adb,$default_charset;
+
+        $values = explode(' |##| ', $term);
+        $field_param=getFieldConfig($field);
+        $fld_search =   $field_param['fld_search'];
+        $fld_shown  =   $field_param['fld_shown'];
+        $flds2show  =   explode(',', $fld_shown);
+	
+        if (empty($limit)) $limit = 30;  // hard coded default
+        $respuesta=array();
+	foreach ($values as $val) {
+                $srchmod=  getSalesEntityType($val);
+                require_once("modules/$srchmod/$srchmod.php");
+                $tabid=  getTabid($srchmod);
+		if (!(vtlib_isModuleActive($srchmod) and isPermitted($srchmod,'DetailView'))) continue;
+		
+		$trmod = getTranslatedString($srchmod,$srchmod);
+		$wsid = vtyiicpng_getWSEntityId($srchmod);
+                $focus_pointing= CRMEntity::getInstance($srchmod);
+                $focus_pointing->id=$val;
+                $focus_pointing->mode = 'edit';
+                $focus_pointing->retrieve_entity_info($val, $srchmod);
+                $shown_val='';
+                for($j=0;$j<sizeof($flds2show);$j++)
+                {
+                    if($flds2show[$j]=='') continue;
+                    $a=$adb->query("SELECT *
+                          from vtiger_field
+                          WHERE ( columnname='$flds2show[$j]' OR fieldname='$flds2show[$j]' )"
+                          . " and tabid = '$tabid' ");
+                    $uitype=$adb->query_result($a,0,'uitype');
+                    $fieldname=$adb->query_result($a,0,'fieldname');
+                    $col_fields[$fieldname]=$focus_pointing->column_fields["$flds2show[$j]"];
+                    $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$srchmod);
+                    $shown_val.=$block_info[1].' ';
+                }
+                $respuesta[]=array(
+                                'crmid'=>$wsid.$val,
+                                'crmname'=>html_entity_decode($shown_val,ENT_QUOTES,$default_charset).($num_search_modules>1 ? " :: $trmod" : ''),
+                                'crmmodule'=>$srchmod,
+                );
+                if (count($respuesta)>=$limit) break;
+	}
+	return $respuesta;
+}
+
+function newEvoAutocomplete($term, $filter, $searchinmodules, $limit, $user,$field) {
+	global $current_user,$log,$adb,$default_charset;
+
+        $field_param=getFieldConfig($field);
+        $module     =    $field_param['module'];
+        $fld_search =   $field_param['fld_search'];
+        $fld_shown  =   $field_param['fld_shown'];
+        $flds2show  =   explode(',', $fld_shown);
+        
+        $focus_pointing= new $module();
+        $focus_pointing->mode = '';
+        $focus_pointing->column_fields['assigned_user_id'] = $current_user->id;
+        $eirs = $adb->pquery('select fieldname,tablename,entityidfield '
+                . ' from vtiger_entityname '
+                . ' where modulename=?',array($module));
+        $ei = $adb->fetch_array($eirs);
+        $fieldsname = $ei['fieldname'];
+        $focus_pointing->column_fields[$fieldsname] = $term;
+        if (!(strpos($fieldsname, ',') === false)) {
+            $fieldlists = explode(',', $fieldsname);
+            for($i=0;$i<sizeof($fieldlists);$i++){
+                $focus_pointing->column_fields[$fieldlists[$i]] = $term;
+            }
+        }
+        $focus_pointing->column_fields[$fld_shown] = $term;
+        if (!(strpos($fld_shown, ',') === false)) {
+            $fieldlists = explode(',', $fld_shown);
+            for($i=0;$i<sizeof($fieldlists);$i++){
+                $focus_pointing->column_fields[$fieldlists[$i]] = $term;
+            }
+        }
+        $focus_pointing->save($module);
+	return $focus_pointing->id;
+}
+
 ?>

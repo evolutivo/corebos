@@ -34,6 +34,15 @@ if($kaction=='retrieve'){
           $content[$i]['pointing_module_name_trans']=getTranslatedString(getTabname($adb->query_result($query,$i,'moduleid')));
           $content[$i]['columns_search']=$adb->query_result($query,$i,'fld_search');
           $content[$i]['columns_shown']=$adb->query_result($query,$i,'fld_shown');
+          $sourceflds  =   explode(',', $adb->query_result($query,$i,'fld_source'));
+          $destflds  =   explode(',', $adb->query_result($query,$i,'fld_destination'));
+//          $source=array("source_field_name"=>"","dest_field_name"=>"");
+          for($j=0;$j<sizeof($sourceflds);$j++)
+            {
+                $source[]=array("source_field_name"=>array('columnname'=>$sourceflds[$j]),
+                                "dest_field_name"=>array('columnname'=>$destflds[$j]));
+            }
+          $content[$i]['source']=$source;
           $content[$i]['br_id']=$adb->query_result($query,$i,'br_id');
           $content[$i]['type']=$adb->query_result($query,$i,'uitype');
           $content[$i]['existing']=true;
@@ -76,10 +85,11 @@ elseif($kaction=='add_ng_field'){
      $result2=$adb->pquery($query2,array($mv->pointing_field_name,preg_replace('/[^a-z0-9]/', '',strtolower($mv->fieldname)),getTabid($modname)));
      $fldid=$adb->query_result($result2,0,'fieldid');
      $query="Insert into vtiger_ng_fields "
-             . " (field_id,moduleid,br_id,fld_shown,fld_search)"
-             . " values(?,?,?,?,?)";            
+             . " (field_id,moduleid,br_id,fld_shown,fld_search,fld_source,fld_destination)"
+             . " values(?,?,?,?,?,?,?)";            
      $result=$adb->pquery($query,array($fldid,getTabid($pointing_module_name),$mv->br_id,
-                                         $mv->columns_shown,$mv->columns_search)); 
+                                         $mv->columns_shown,$mv->columns_search,
+                                         $mv->fld_source,$mv->fld_destination)); 
 }
 elseif($kaction=='edit_ng_field'){
      global $log,$adb;
@@ -107,10 +117,13 @@ elseif($kaction=='edit_ng_field'){
              . " set moduleid=?,"
              . " fld_shown=?,"
              . " fld_search=?,"
-             . " br_id=?"
+             . " br_id=?,"
+             . " fld_source=?,"
+             . " fld_destination=?"
              . " where evo_field_id=?";            
      $result=$adb->pquery($query,array(getTabid($mv->pointing_module_name),$mv->columns_shown
                                           ,$mv->columns_search,$mv->br_id,
+                                           $mv->fld_source,$mv->fld_destination,
                                              $mv->id)); 
 }
 elseif($kaction=='delete_ng_field'){

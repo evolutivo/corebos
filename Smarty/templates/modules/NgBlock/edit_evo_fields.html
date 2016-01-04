@@ -84,6 +84,40 @@
              </td>
         </tr>
         <tr>
+            <td colspan="2" style="background-color:  #428bca;text-align: center"> 
+                <input type="checkbox" ng-model="autofill"  />
+                AutoFill Destination Fields From Source Fields
+                <img  ng-click="addsourcedest()" ng-show="autofill" src="themes/softed/images/select.gif" alt="Add" title="Add" >
+            </td> 
+        </tr>
+        <tr>
+            <td colspan="2" ng-show="autofill">
+                <table width="100%">
+                    <tr>
+                        <td style="text-align: center"> 
+                        </td>
+                        <td style="text-align: center"> 
+                            <b>Source Field</b>
+                        </td> 
+                        <td style="text-align: center"> 
+                           <b> Destination Field</b>
+                        </td> 
+                    </tr>
+                    <tr ng-repeat="src in source">
+                        <td> 
+                            <img width="20" height="20" ng-click="removesourcedest($index)" src="themes/images/delete.gif" />
+                        </td>
+                        <td> 
+                            <select class="form-control" ng-model="src.source_field_name" ng-options="opt.fieldlabel for opt  in  columns_search | filter_dest_fields:user track by opt.columnname"></select>
+                        </td>
+                        <td> 
+                            <select class="form-control" ng-model="src.dest_field_name" ng-options="opt.fieldlabel for opt  in  pointing_field | filter_source_fields:user track by opt.columnname" ></select>
+                         </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
             <td> 
                 Condition
             </td>

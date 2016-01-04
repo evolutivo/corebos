@@ -953,21 +953,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 		</div>
                 <span id="limitmsg" style= "color:red; display:none;"> {'LBL_MAX_SIZE'|@getTranslatedString:$MODULE} {$UPLOADSIZE}{'LBL_FILESIZEIN_MB'|@getTranslatedString:$MODULE}</span>
 		</td>
-                {elseif $uitype eq 1024}
-			<td width="20%" class="dvtCellLabel" align=right>
-				<font color="red">{$mandatory_field}</font>{$usefldlabel} 
-			</td>
-                        {include_php file=modules/$MODULE/get_$fldname.php}
-			<td width="30%" align=left class="dvtCellInfo">
-			   <select MULTIPLE name="{$fldname}[]" size="4" style="width:160px;" tabindex="{$vt_tab}" class="small">
-				{foreach item=arr from=$fldvalue}
-					<option value="{$arr[1]}" {$arr[2]}>
-                                                {$arr[0]}
-                                        </option>
-				{/foreach}
-			   </select>
-			</td>
-                {elseif $uitype eq 1021}
+                {elseif $uitype eq 1022}
 		    <td width="20%" class="dvtCellLabel" align=right >
                     {$fldlabel}                                  
                     </td>
@@ -1009,6 +995,119 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                                  });
                         {/literal}
                             </script>
+                {elseif $uitype eq 1021 }
+		    <td width="20%" class="dvtCellLabel" align=right >
+                    {$fldlabel}                                  
+                    </td>
+                    <td width="30%" align=left class="dvtCellInfo"  >
+                    <div ng-controller="mainCtrl_{$fldname}"> 
+                        <input name="{$fldname}" id="{$fldname}" value="{$fldvalue}" type="hidden"  >  
+                        <input type="text" ng-model="{$fldname}" 
+                               placeholder="Select..." 
+                               typeahead="entity as entity.crmname for entity in loadTags($viewValue)" 
+                               typeahead-on-select="functionClick($item, $model, $label)"
+                               class="form-control">   
+                        <span ng-show="new_entry">Create New?</span>
+                        <input type="checkbox" ng-show="new_entry" ng-model="create_new" ng-change="functionNewEntry()"/>
+                    </div>
+                    </td>
+                    <script>
+                        {literal}
+                        angular.module('demoApp')
+                       .controller('mainCtrl_{/literal}{$fldname}{literal}', function ($scope, $http) {
+                            $scope.new_entry=false;
+                            $scope.loadTags = function(val) {
+                                return $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoReferenceAutocomplete&field={/literal}{$fldname}{literal}&term='+val)
+                                        .then(function(response){
+                                            if(response.data.length===0)
+                                                $scope.new_entry=true;
+                                            else 
+                                                $scope.new_entry=false;
+                                          return response.data;
+                                        });
+                            };
+                            $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoActualAutocomplete&field={/literal}{$fldname}{literal}&sel_values='+encodeURIComponent("{/literal}{$fldvalue}{literal}")).
+                                    success(function(data, status) {
+                                        $scope.{/literal}{$fldname}{literal}=data[0];
+                            }); 
+                            $scope.functionClick= function($item, $model, $label) {
+                                var val=$item.crmid.split('x');
+                                document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=val[1];
+                                for(var c=0;c<$item.source_fld.length;c++){
+                                    var dst_fld=$item.dest_fld[c];
+                                    var src_fld=$item.source_fld[c];
+                                    if(document.getElementsByName(dst_fld).item(0)!=undefined){
+                                        document.getElementsByName(dst_fld).item(0).value=src_fld;
+                                    }
+                                }
+                            };
+                            $scope.functionNewEntry= function() {
+                                var val=$scope.{/literal}{$fldname}{literal};
+                                console.log($scope.create_new);
+                                if($scope.new_entry==true){
+                                $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=newEvoAutocomplete&field={/literal}{$fldname}{literal}&new_value='+encodeURIComponent(val)).
+                                    success(function(data, status) {
+                                        document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=data;
+                                        $scope.new_entry=false;
+                                        $scope.create_new=false;
+                                    }); 
+                                }
+                            };
+                                               
+                        });
+                          
+                        {/literal}
+                    </script>
+                    </td>
+                {elseif $uitype eq 1025}
+		    <td width="20%" class="dvtCellLabel" align=right >
+                    {$fldlabel}                                  
+                    </td>
+                    <td width="30%" align=left class="dvtCellInfo"  >
+                    <div ng-controller="mainCtrl_{$fldname}"> 
+                        <input name="{$fldname}" id="{$fldname}" value="{$fldvalue}" type="hidden"  >  
+                        <tags-input ng-model="{$fldname}" 
+                                    display-property="crmname" 
+                                    on-tag-added="functionClick($tag)"
+                                    on-tag-removed="functionClick($tag)"
+                                    {if $uitype eq 1021}max-tags="1"{/if}
+                                    placeholder="Select " >
+                          <auto-complete source="loadTags($query)"
+                                         min-length="2"
+                                         max-results-to-show="20"
+                                         ></auto-complete>
+                        </tags-input>
+                    </div>
+                    </td>
+                    <script>
+                        {literal}
+                        angular.module('demoApp')
+                       .controller('mainCtrl_{/literal}{$fldname}{literal}', function ($scope, $http) {
+                            $scope.{/literal}{$fldname}{literal}=[];
+                            $scope.loadTags = function(query) {
+                                return $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoReferenceAutocomplete&field={/literal}{$fldname}{literal}&term='+query).
+                                    success(function(data, status) {
+                                });
+                            };
+                            $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoActualAutocomplete&field={/literal}{$fldname}{literal}&sel_values='+encodeURIComponent("{/literal}{$fldvalue}{literal}")).
+                                    success(function(data, status) {
+                                        $scope.{/literal}{$fldname}{literal}=data;
+                            });                            
+                            $scope.functionClick= function(tag) {
+                                var arr = new Array();
+                                for(i=0;i<$scope.{/literal}{$fldname}{literal}.length;i++)
+                                    {
+                                       var val=$scope.{/literal}{$fldname}{literal}[i]['crmid'].split('x');
+                                       arr[i]=val[1];
+                                    }
+                                document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=arr.join(' |##| ');
+                            };
+                                               
+                        });
+                          
+                        {/literal}
+                    </script>
+                    </td>
 		{elseif $uitype eq 83} <!-- Handle the Tax in Inventory -->
 			{foreach item=tax key=count from=$TAX_DETAILS}
 				{if $tax.check_value eq 1}

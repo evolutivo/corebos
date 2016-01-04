@@ -58,6 +58,59 @@ switch ($functiontocall) {
 		}
 		$ret = getReferenceAutocomplete($term, $op, $searchinmodule, $limit, $current_user);
 		break;
+        case 'getEvoReferenceAutocomplete':
+		include_once 'include/Webservices/CustomerPortalWS.php';
+		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);
+		$fields =           vtlib_purify($_REQUEST['fields']);
+		$returnfields =     vtlib_purify($_REQUEST['returnfields']);
+		$limit =            vtlib_purify($_REQUEST['limit']);
+		$filter =           vtlib_purify($_REQUEST['filter']);
+                $field =            vtlib_purify($_REQUEST['field']);
+		if (is_array($filter)) {
+			$term = $filter['filters'][0]['value'];
+			$op = 'contains';
+		} else {
+			$term = vtlib_purify($_REQUEST['term']);
+			$op = 'contains';
+		}
+		$ret = getEvoReferenceAutocomplete($term, $op, $searchinmodule, $limit, $current_user,$field);
+		break;
+        case 'getEvoActualAutocomplete':
+		include_once 'include/Webservices/CustomerPortalWS.php';
+		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);
+		$fields =           vtlib_purify($_REQUEST['fields']);
+		$returnfields =     vtlib_purify($_REQUEST['returnfields']);
+		$limit =            vtlib_purify($_REQUEST['limit']);
+		$filter =           vtlib_purify($_REQUEST['filter']);
+                $field =            vtlib_purify($_REQUEST['field']);
+                $sel_values =       vtlib_purify($_REQUEST['sel_values']);
+		if (is_array($filter)) {
+			$term = $filter['filters'][0]['value'];
+			$op = 'startswith';
+		} else {
+			$term = vtlib_purify($_REQUEST['term']);
+			$op = 'startswith';
+		}
+		$ret = getEvoActualAutocomplete($sel_values, $op, $searchinmodule, $limit, $current_user,$field);
+		break;
+        case 'newEvoAutocomplete':
+		include_once 'include/Webservices/CustomerPortalWS.php';
+		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);
+		$fields =           vtlib_purify($_REQUEST['fields']);
+		$returnfields =     vtlib_purify($_REQUEST['returnfields']);
+		$limit =            vtlib_purify($_REQUEST['limit']);
+		$filter =           vtlib_purify($_REQUEST['filter']);
+                $field =            vtlib_purify($_REQUEST['field']);
+                $new_value =       vtlib_purify($_REQUEST['new_value']);
+		if (is_array($filter)) {
+			$term = $filter['filters'][0]['value'];
+			$op = 'startswith';
+		} else {
+			$term = vtlib_purify($_REQUEST['term']);
+			$op = 'startswith';
+		}
+		$ret = newEvoAutocomplete($new_value, $op, $searchinmodule, $limit, $current_user,$field);
+		break;
 	case 'ismoduleactive':
 	default:
 		$mod = vtlib_purify($_REQUEST['checkmodule']);
