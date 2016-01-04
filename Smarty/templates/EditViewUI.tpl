@@ -1002,7 +1002,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                     <td width="30%" align=left class="dvtCellInfo"  >
                     <div ng-controller="mainCtrl_{$fldname}"> 
                         <input name="{$fldname}" id="{$fldname}" value="{$fldvalue}" type="hidden"  >  
-                        <input type="text" ng-model="{$fldname}" 
+                        <input type="text" ng-model="{$fldname}" id="{$fldname}_display"
                                placeholder="Select..." 
                                typeahead="entity as entity.crmname for entity in loadTags($viewValue)" 
                                typeahead-on-select="functionClick($item, $model, $label)"
@@ -1036,8 +1036,15 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                                 for(var c=0;c<$item.source_fld.length;c++){
                                     var dst_fld=$item.dest_fld[c];
                                     var src_fld=$item.source_fld[c];
-                                    if(document.getElementsByName(dst_fld).item(0)!=undefined){
-                                        document.getElementsByName(dst_fld).item(0).value=src_fld;
+                                    if(document.getElementsByName(dst_fld['fldname']).item(0)!=undefined){
+                                        console.log(dst_fld);
+                                        if(dst_fld.ui=='1021'){
+                                            document.getElementsByName(dst_fld['fldname']).item(0).value=src_fld['id'];
+                                            document.getElementById(dst_fld['fldname']+'_display').value=src_fld['val'];
+                                        }
+                                        else{
+                                            document.getElementsByName(dst_fld['fldname']).item(0).value=src_fld['val'];
+                                        }
                                     }
                                 }
                             };

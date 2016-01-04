@@ -1003,9 +1003,11 @@ function getFieldConfig($fieldname) {
         $br_id          =  $ei['br_id'];
         $fld_source     =  $ei['fld_source'];
         $fld_destination =  $ei['fld_destination'];
+        $startmodule =  getTabModuleName($ei['tabid']);
         
         $config =array('module'=>$module,'fld_shown'=>$fld_shown,'fld_search'=>$fld_search,
-                       'br_id'=>$br_id,'fld_source'=>$fld_source,'fld_destination'=>$fld_destination);
+                       'br_id'=>$br_id,'fld_source'=>$fld_source,'fld_destination'=>$fld_destination,
+                       'startmodule'=>$startmodule);
 	return $config;
 }
 
@@ -1019,6 +1021,7 @@ function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $
         $flds2show  =   explode(',', $fld_shown);
         $sourceflds  =   explode(',', $fld_src);
         $destflds  =   explode(',', $fld_dest);
+        $startmodule =  getTabid($field_param['startmodule']);
 
 	if (!empty($field_param['module'])) {
 		$searchin = explode(',', $field_param['module']);
@@ -1108,14 +1111,29 @@ function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $
                         $fieldname=$adb->query_result($a,0,'fieldname');
                         $col_fields[$fieldname]=$focus_pointing->column_fields["$sourceflds[$j]"];
                         $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$srchmod);
-                        $src_values[]=$block_info[1].' ';
+                        if($block_info[1]==$col_fields[$fieldname]) {
+                            $col_fields[$fieldname]=$emp['crmid'];
+                        }
+                        $src_values[]=array('val'=>$block_info[1],'id'=>$col_fields[$fieldname],
+                                            'ui'=>$uitype,'fldname'=>$sourceflds[$j]);
+                    }
+                    $dst_values=array();
+                    for($j=0;$j<sizeof($destflds);$j++)
+                    {
+                        if($destflds[$j]=='') continue;
+                        $a=$adb->query("SELECT *
+                              from vtiger_field
+                              WHERE ( columnname='$destflds[$j]' OR fieldname='$destflds[$j]' )"
+                              . " and tabid = '$startmodule' ");
+                        $uitype=$adb->query_result($a,0,'uitype');
+                        $dst_values[]=array('ui'=>$uitype,'fldname'=>$destflds[$j]);
                     }
                     $respuesta[]=array(
                                     'crmid'=>$wsid.$emp['crmid'],
                                     'crmname'=>html_entity_decode($shown_val,ENT_QUOTES,$default_charset).($num_search_modules>1 ? " :: $trmod" : ''),
                                     'crmmodule'=>$srchmod,
                                     'source_fld'=>$src_values,
-                                    'dest_fld'=>$destflds,
+                                    'dest_fld'=>$dst_values,
                     );
                     if (count($respuesta)>=$limit) break;
 		}
@@ -1136,10 +1154,10 @@ function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $use
         $respuesta=array();
 	foreach ($values as $val) {
                 $srchmod=  getSalesEntityType($val);
-                require_once("modules/$srchmod/$srchmod.php");
-                $tabid=  getTabid($srchmod);
 		if (!(vtlib_isModuleActive($srchmod) and isPermitted($srchmod,'DetailView'))) continue;
 		
+                require_once("modules/$srchmod/$srchmod.php");
+                $tabid=  getTabid($srchmod);
 		$trmod = getTranslatedString($srchmod,$srchmod);
 		$wsid = vtyiicpng_getWSEntityId($srchmod);
                 $focus_pointing= CRMEntity::getInstance($srchmod);

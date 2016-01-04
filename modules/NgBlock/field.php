@@ -22,7 +22,7 @@ if($kaction=='retrieve'){
       $content[$i]['fieldid']=$adb->query_result($query,$i,'fieldid');
       $content[$i]['uitype']=$adb->query_result($query,$i,'uitype');
       //echo "brisi".$adb->query_result($query,$i,'uitype');
-      $content[$i]['fieldlabel']=getTranslatedString($adb->query_result($query,$i,'fieldlabel'),$pointing_module);
+      $content[$i]['fieldlabel']=getTranslatedString($adb->query_result($query,$i,'fieldlabel'),$adb->query_result($query,$i,'tablabel'));
       $content[$i]['fieldname']=$adb->query_result($query,$i,'fieldname');
       $content[$i]['columnname']=$adb->query_result($query,$i,'columnname');
       $content[$i]['block']=$adb->query_result($query,$i,'block');
