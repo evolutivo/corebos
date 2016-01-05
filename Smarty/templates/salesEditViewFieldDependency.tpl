@@ -20,27 +20,31 @@ var CurrProfiles ={$CurrProfiles};
             angular.module('demoApp').filter('{$fldname}_filter', function() {ldelim}
               return function({$fldname}_values ,scope) {ldelim}
                 var filterEvent = [];
+                var filterEventTemp = [];
                 var count_false_condition=0;
                   for (var i = 0;i < {$fldname}_values.length; i++){ldelim}   
                   {if isset($MAP_PCKLIST_TARGET)} {* control to avoid errors for  modules not having BR*}
                   {if $fldname|in_array:$MAP_PCKLIST_TARGET}
                       {foreach key=mapid item=map from=$MAP_FIELD_DEPENDENCY}
                           {ldelim}
-                          var condition='';
-                          
-                           {foreach key=map_key item=map_item from=$map.respfield}
-                            {ldelim}
-                               var resp_values=new Array({$map.respvalue[$map_key]}); 
-                                if({$map_key} !=0) condition +=' && ';
-                                condition += resp_values.indexOf(scope.{$map_item})!=-1   ;
+                          {if $fldname|in_array:$map.target_picklist}
+                              var condition='';
+                               {foreach key=map_key item=map_item from=$map.respfield}
+                                {ldelim}
+                                    {if $map_item neq $fldname}
+                                        var resp_values=new Array({$map.respvalue[$map_key]}); 
+                                        if({$map_key} !=0) condition +=' && ';
+                                        condition += resp_values.indexOf(scope.{$map_item})!=-1   ;
+                                    {/if}
                                 {rdelim}
-                           {/foreach}
+                               {/foreach}
                                 if( eval(condition))
                                     {ldelim}
-                                      {foreach key=map_key item=map_item from=$map.target_picklist_values}
+                                      {foreach key=map_key item=map_item from=$map.target_picklist_values.$fldname}
                                          {ldelim}
-                                             if ({$fldname}_values[i]['value']=='{$map_item}' )
+                                             if ({$fldname}_values[i]['value']=='{$map_item}' && filterEventTemp.indexOf('{$map_item}') === -1)
                                                 {ldelim}
+                                                  filterEventTemp.push('{$map_item}');
                                                   filterEvent.push({$fldname}_values[i]);
                                                 {rdelim}
                                          {rdelim}
@@ -54,6 +58,7 @@ var CurrProfiles ={$CurrProfiles};
                                             //    filterEvent.push({$fldname}_values[i]);  
                                             //{rdelim}
                                     {rdelim}
+                            {/if}
                           {rdelim}  
                         {/foreach}
                       

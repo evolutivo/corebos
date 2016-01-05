@@ -51,6 +51,11 @@ $res_business_rule=$adb->pquery($q_business_rule,array($currentModule));
     $roleid=$current_user->roleid;
     $current_profiles=getUserProfile($current_user->id);
     $tempBlocks=$this->get_template_vars('BLOCKS');
+    if(empty($tempBlocks)){
+        $this->assign('BLOCKS',$this->get_template_vars('BASBLOCKS'));
+        $tempBlocks=$this->get_template_vars('BASBLOCKS');
+    }
+
     $tempMapFieldDep=$this->get_template_vars('MAP_FIELD_DEPENDENCY');
     $this->assign('CurrRole',$roleid);
     $this->assign('CurrProfiles',$current_profiles);

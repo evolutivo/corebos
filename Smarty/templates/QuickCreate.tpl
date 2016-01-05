@@ -30,7 +30,7 @@
 			{foreach item=subdata from=$QUICKCREATE}
 				<tr>
 					{foreach key=mainlabel item=maindata from=$subdata}
-						{include file='EditViewUI.tpl'}										
+						{include file='EditViewUIMass.tpl'}										
 					{/foreach}
 				</tr>
 			{/foreach}

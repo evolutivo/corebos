@@ -634,11 +634,13 @@ class cbMap extends CRMEntity {
 
                 if($k=='Picklist'){
                 $target_picklist[]=  (string)$v->fieldname;
+                $target_piclist_values_temp=array();
                     foreach($v as $k1=>$v1) {
                         if($k1=='values'){
-                            $target_piclist_values[]=  (string)$v1;
+                            $target_piclist_values_temp[]=  (string)$v1;
                         }
                     }
+                    $target_piclist_values[(string)$v->fieldname]=  $target_piclist_values_temp;
                 }
                 
                 if($k=='ResponsibleRole'){
