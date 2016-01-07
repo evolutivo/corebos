@@ -58,7 +58,7 @@ $res_business_rule=$adb->pquery($q_business_rule,array($currentModule));
 
     $tempMapFieldDep=$this->get_template_vars('MAP_FIELD_DEPENDENCY');
     $this->assign('CurrRole',$roleid);
-    $this->assign('CurrProfiles',$current_profiles);
+    $this->assign('CurrProfiles',json_encode($current_profiles));
     $this->assign('BlocksJson',json_encode($tempBlocks));
     $this->assign('MapFieldDep',json_encode($tempMapFieldDep));
 

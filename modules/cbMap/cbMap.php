@@ -683,7 +683,7 @@ class cbMap extends CRMEntity {
            
            $target_fields['target_roles'] = '"'. implode('","',$target_roles).'"';
            
-           $target_fields['target_profiles'] = '"'. implode('","',$target_profiles).'"';
+           $target_fields['target_profiles'] = $target_profiles;
            
            $target_fields['target_mode']=  $target_mode;
                 

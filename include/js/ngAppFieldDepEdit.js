@@ -143,7 +143,7 @@ $scope.showPicklist = function(fld) {
             var target_roles=new Array(map['target_roles']);
             var target_profiles=new Array(map['target_profiles']);
             var curr_prof_in_excluded=false;
-            for(prof_key in CurrProfiles){
+            for(var prof_key=0;prof_key<CurrProfiles.length;prof_key++){
                 var prof_item=CurrProfiles[prof_key];
                 if(target_profiles.indexOf(prof_item)!=-1)
                     curr_prof_in_excluded=true;
