@@ -171,7 +171,23 @@ if((!empty($_REQUEST['record'])&& $_REQUEST['send_mail']==false &&
 }
 $focus->save("Emails");
 $return_id = $focus->id;
-
+$relid=explode("@",vtlib_purify($_REQUEST['parent_id']));
+require_once('modules/Messages/Messages.php');
+if($_REQUEST['from_email']=='')
+$fromemail=$current_user->email1;
+else $fromemail=$_REQUEST['from_email'];
+$focus_messages = new Messages();
+$focus_messages->column_fields["assigned_user_id"]=$current_user->id;
+$focus_messages->column_fields["messagesname"]=$_REQUEST['subject'];
+$focus_messages->column_fields["description"]=$_REQUEST['description'];
+$focus_messages->column_fields["frommail"]=$fromemail;
+$focus_messages->column_fields["tomail"]=$_REQUEST['parent_name'];
+$focus_messages->column_fields["ccmail"]=$_REQUEST['ccmail'];
+$focus_messages->column_fields["bccmail"]=$_REQUEST['bccmail'];
+$focus_messages->column_fields["datainviomail"]=date("Y-m-d");
+$focus_messages->column_fields["messagestype"]='Email';
+$focus_messages->column_fields["messagesrelatedto"]=$relid[0];
+$focus_messages->save("Messages");
 require_once("modules/Emails/mail.php");
 if($current_user->column_fields['send_email_to_sender']=='1' && isset($_REQUEST['send_mail']) && $_REQUEST['send_mail'] && $_REQUEST['parent_id'] != '') {
 	$user_mail_status = send_mail('Emails',$current_user->column_fields['email1'],$current_user->user_name,'',$_REQUEST['subject'],$_REQUEST['description'],$_REQUEST['ccmail'],$_REQUEST['bccmail'],'all',$focus->id);

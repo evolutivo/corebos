@@ -122,7 +122,8 @@ class MailManager_MailController extends MailManager_Controller {
 						}
 						if(isset ($parentIds)){
 							break;
-						}
+				}                  
+
 					}
 					if($parentIds == ''){
 						if(count($relatedtos) > 0){
@@ -174,7 +175,9 @@ class MailManager_MailController extends MailManager_Controller {
 					$ccs = empty($cc_string)? array() : explode(',', $cc_string);
 					$bccs= empty($bcc_string)?array() : explode(',', $bcc_string);
 					$emailId = $request->get('emailid');
-		
+		                       // $em=explode("x",$emailId);
+                                        //$emailId='41x'.$em[1];
+
 					$attachments = $connector->getAttachmentDetails($emailId);
 					if($logo){
 					    $logo_attach = array(
@@ -216,12 +219,30 @@ class MailManager_MailController extends MailManager_Controller {
 				$email->column_fields['ccmail'] = $cc_string;
 				$email->column_fields['bccmail'] = $bcc_string;
 				$email->column_fields['email_flag'] = 'SENT';
+require_once('modules/Messages/Messages.php');
+$focus_messages = new Messages();
+$focus_messages->column_fields["assigned_user_id"]=$current_user->id;
+$focus_messages->column_fields["messagesname"]=$mailer->Subject;
+$focus_messages->column_fields["description"]=$mailer->Body;
+$focus_messages->column_fields["frommail"]=$mailer->From;
+$focus_messages->column_fields["tomail"]=$to_string;
+$focus_messages->column_fields["ccmail"]=$cc_string;
+$focus_messages->column_fields["bccmail"]=$bcc_string;
+$focus_messages->column_fields["messagestype"]='Email';
+$focus_messages->column_fields["datainviomail"]=date("Y-m-d");
+$focus_messages->column_fields["messagesrelatedto"]=$parentIds;
+
 				if(empty($emailId)) {
-					$email->save('Emails');
+					 $email->save('Emails');
+                                         $focus_messages->save('Messages');
+
 				} else {
-					$email->id = $emailId;
+					/*$email->id = $emailId;
 					$email->mode = 'edit';
-					$email->save('Emails');
+					$email->save('Emails');*/
+                                       $focus_messages->id = $emailId;
+                                       $focus_messages->mode = 'edit';
+                                       $focus_messages->saveentity('Messages');
 				}
 				$response->isJson(true);
 				$response->setResult( array('sent'=> true) );
