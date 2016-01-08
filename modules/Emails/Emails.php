@@ -135,7 +135,7 @@ class Emails extends CRMEntity {
 	}
 
 	function insertIntoAttachment($id, $module) {
-		global $log, $adb;
+		global $log, $adb,$current_user;
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -146,14 +146,52 @@ class Emails extends CRMEntity {
 		if (isset($_REQUEST['pdf_attachment']) && $_REQUEST['pdf_attachment'] != '') {
 			$file_saved = pdfAttach($this, $module, $pdfAttached, $id);
 		}
+$count=count($_FILES)-1;
+$arrdoc=array();
+$j=0;
+include_once("modules/Documents/Documents.php");
 
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
 				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
 				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
-			}
-		}
+}             }
+foreach ($_FILES as $fileindex => $files) {
+  if ($files['name'] != '' && $files['size'] > 0) {
+                                $files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+                              
+$document=new Documents();
+$document->column_fields["notes_title"]=$files['name'];
+$document->column_fields["filename"] =$files['name'];
+$document->column_fields["filetype"] =$files['type'];
+$document->column_fields["filelocationtype"]="I";
+$document->column_fields["fileversion"] = 1;
+$document->column_fields["filestatus"] = 1;
+$document->column_fields["filesize"]=169758;
+//$document->column_fields["date"]=$date;
+$document->column_fields["folderid"]=1;
+$document->column_fields["assigned_user_id"] = $current_user->id;
+$document->saveentity("Documents");
+$q=$adb->query("select * from vtiger_seattachmentsrel where crmid=$id");
+$attid=$adb->query_result($q,$j,"attachmentsid");
+$adb->pquery("Insert into vtiger_seattachmentsrel values (?,?)",array($document->id,$attid));
+
+//$file_saved1 = $this->uploadAndSaveFile($document->id, $module, $files,'',false,1);
+//$file_saved = $this->uploadAndSaveFile($id, $module, $files);
+$count1=$count-1;
+if($j==$count1)
+$recordid=$adb->getUniqueID("vtiger_crmentity")+2;
+$arrdoc[$j]=$document->id;
+$j++;}
+} 
+
+for($k=0;$k<count($arrdoc);$k++){
+$doc=$arrdoc[$k];
+$adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($doc));
+$adb->pquery("Insert into vtiger_senotesrel values (?,?)",array($recordid,$doc));
+}
+$recordid=$adb->getUniqueID("vtiger_crmentity")+1;
 		if ($module == 'Emails' && isset($_REQUEST['att_id_list']) && $_REQUEST['att_id_list'] != '') {
 			$att_lists = explode(";", $_REQUEST['att_id_list'], -1);
 			$id_cnt = count($att_lists);
@@ -161,6 +199,9 @@ class Emails extends CRMEntity {
 				for ($i = 0; $i < $id_cnt; $i++) {
 					$sql_rel = 'insert into vtiger_seattachmentsrel values(?,?)';
 					$adb->pquery($sql_rel, array($id, $att_lists[$i]));
+$adb->pquery("Insert into vtiger_senotesrel values (?,?)",array($recordid,$att_lists[$i]+1));
+$adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($att_lists[$i]+1));
+
 				}
 			}
 		}
@@ -172,6 +213,9 @@ class Emails extends CRMEntity {
 				$attachmentId = $adb->query_result($res, 0, 0);
 				$query = "insert into vtiger_seattachmentsrel values({$id}, {$attachmentId})";
 				$adb->query($query);
+$adb->pquery("Insert into vtiger_senotesrel values (?,?)",array($recordid,$attachmentId+1));
+$adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($attachmentId+1));
+
 			}
 		}
 		if ($_REQUEST['att_module'] == 'Webmails') {

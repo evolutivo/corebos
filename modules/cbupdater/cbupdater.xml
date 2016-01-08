@@ -694,4 +694,11 @@
 	<classname>addEvoFieldsAutoFill</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add document field message</description>
+	<filename>build/changeSets/evolutivo/adddocumentfieldmes.php</filename>
+	<classname>adddocumentfieldmes</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
