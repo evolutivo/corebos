@@ -224,7 +224,7 @@ class QueryGenerator {
 				}
 			}
 		} else {  // FQN
-              if (!empty(VTCacheUtils::getRelatedFields())) {
+              if (count(VTCacheUtils::getRelatedFields())>0) {
                 if (VTCacheUtils::getRelatedFields() == 'Done') {
                     return false;
                 }
@@ -1093,14 +1093,14 @@ class QueryGenerator {
 				$value = trim($value);
 			}
 			if ($operator == 'empty' || $operator == 'y') {
-                            if(!empty($this->getSQLColumn($field->getFieldName())))
+                            if(count($this->getSQLColumn($field->getFieldName()))>0)
                                 $sql[] = sprintf("IS NULL OR %s = ''", $this->getSQLColumn($field->getFieldName()));
                             else
                                 $sql[] = sprintf("NOT IN ('','0')");
 				continue;
 			}
 			if($operator == 'ny'){
-                             if(!empty($this->getSQLColumn($field->getFieldName())))
+                             if(count($this->getSQLColumn($field->getFieldName()))>0)
 				$sql[] = sprintf("IS NOT NULL AND %s != ''", $this->getSQLColumn($field->getFieldName()));
                              else
                                  $sql[] = sprintf("  IN ('','0')");
