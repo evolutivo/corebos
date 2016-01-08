@@ -343,7 +343,7 @@ class Import_Data_Controller {
 					$fieldValue = $fieldValueDetails[1];
 				}
 				if (count($fieldValueDetails) == 3) {
-					$user_qry='select vtiger_users.id from vtiger_users where '.$fieldValueDetails[2].' = ?';
+					$user_qry='select vtiger_users.id from vtiger_users where deleted = 0 and '.$fieldValueDetails[2].' = ?';
 					$res = $adb->pquery($user_qry, array($fieldValueDetails[1]));
 					$ownerId = 0;
 					if ($res and $adb->num_rows($res)>0) {
@@ -400,7 +400,7 @@ class Import_Data_Controller {
 							}
 						}
 					}
-					if ((empty($entityId) || $entityId == 0) && (!empty($referenceModuleName) and !in_array($referenceModuleName, getInventoryModules()))) {
+					if ((empty($entityId) || $entityId == 0) && (!empty($referenceModuleName) and !in_array($referenceModuleName, getInventoryModules()) and $referenceModuleName!='Users')) {
 						if(isPermitted($referenceModuleName, 'EditView') == 'yes') {
 							$wsEntityIdInfo = $this->createEntityRecord($referenceModuleName, $entityLabel);
 							$wsEntityId = $wsEntityIdInfo['id'];
