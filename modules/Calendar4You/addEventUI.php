@@ -833,7 +833,7 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 						</td>
 						<td align="left" valign="top">
 							<?php if(getFieldVisibilityPermission('Calendar',$current_user->id,'assigned_user_id', 'readwrite') == '0') {
-								echo getAssignedToHTML($taskassignedto,'task'); ?>
+								echo getAssignedToHTML($taskassignedto,'task');
 							}else{ ?>
 								<input name="task_assigned_user_id" value="<?php echo $current_user->id ?>" type="hidden">
 							<?php } ?>
@@ -973,7 +973,7 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 				</td>
 			</tr>
 			<?php } ?>
-			<?php if(getFieldVisibilityPermission('Calendar',$current_user->id,'contact_id', 'readwrite') == '0') { ?>
+			<?php if(getFieldVisibilityPermission('Calendar',$current_user->id,'contact_id', 'readwrite') == '0' && vtlib_isModuleActive('Contacts')) { ?>
 			<tr>
 			<td><b><?php echo $c_mod_strings['LBL_CONTACT_NAME'] ?></b></td>
 			<td colspan="2">
