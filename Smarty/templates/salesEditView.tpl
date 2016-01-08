@@ -247,7 +247,7 @@ function AddressSync(Addform,id)
 <input name='search_url' id="search_url" type='hidden' value='{$SEARCH}'>
 </form>
 
-{if ($MODULE eq 'Emails' || $MODULE eq 'Documents' || $MODULE eq 'Timecontrol') and ($USE_RTE eq 'true')}
+{if ($MODULE eq 'Emails' || $MODULE eq 'Documents' || $MODULE eq 'Timecontrol' || $MODULE eq 'Messages') and ($USE_RTE eq 'true')}
 	<script type="text/javascript" src="include/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" defer="1">
 	var textAreaName = null;
