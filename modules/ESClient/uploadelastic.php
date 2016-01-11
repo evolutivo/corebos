@@ -110,7 +110,9 @@ if($r!=1){
 
 for ($c1=0; $c1 < $num; $c1++) {
 $ctype= $loggingFields[$datacol[$c1]];
-if($ctype['type']=='string')
+if($data2[$c1]=='' || $data2[$c1]==' ')
+$fields11["$datacol[$c1]"]=null; 
+else if($ctype['type']=='string')
 $fields11["$datacol[$c1]"]=html_entity_decode(htmlentities(mb_convert_encoding($data2[$c1], 'UTF-8', 'ASCII'), ENT_SUBSTITUTE, "UTF-8")); 
 else if ($ctype['type']=='date') 
 $fields11["$datacol[$c1]"]=date("Y-m-d H:i:s",strtotime($data2[$c1]));
