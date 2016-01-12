@@ -345,7 +345,7 @@
                           FROM $pointing_module_table join vtiger_crmentity "
                             . " on crmid = $pointing_module_table.$pointing_module_id
                           where deleted = 0 and $pointing_field_name<> $id "
-                            . " $query_cond",array());
+                            . " $query_cond limit 0,10",array());
                     $count=$adb->num_rows($query);
 
                     for($i=0;$i<$count;$i++){
