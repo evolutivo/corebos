@@ -95,7 +95,12 @@ if($focus->mode == 'edit' || $isduplicate) {
 	$smarty->assign('NAME', $recordName);
 	$smarty->assign('UPDATEINFO',updateInfo($record));
 }
-
+if($currentModule=='Messages'){
+$USE_RTE = vt_hasRTE();
+if(getFieldVisibilityPermission('Messages',$current_user->id,'description') != '0')
+$USE_RTE = false;
+$smarty->assign('USE_RTE',$USE_RTE); 
+}
 if(isset($_REQUEST['return_module']))    $smarty->assign("RETURN_MODULE", vtlib_purify($_REQUEST['return_module']));
 if(isset($_REQUEST['return_action']))    $smarty->assign("RETURN_ACTION", vtlib_purify($_REQUEST['return_action']));
 if(isset($_REQUEST['return_id']))        $smarty->assign("RETURN_ID", vtlib_purify($_REQUEST['return_id']));

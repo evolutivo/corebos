@@ -14,50 +14,41 @@
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
 
-class DefineGlobalVariables extends cbupdaterWorker {
-	
+class contacts_hierarchylink extends cbupdaterWorker {
+	private $label = 'LBL_SHOW_CONTACT_HIERARCHY';
+	private $link_module = 'Contacts';
+	private $link_type = 'DETAILVIEWBASIC';
+	private $link_url = 'index.php?module=Contacts&action=ContactHierarchy&contactid=$RECORD$';
+	private $link_order = 5;
+	private $link_image = 'themes/images/hierarchy_color16.png';
 	function applyChange() {
+		global $adb;
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$global_variables = array(
-				'product_service_default',
-				'Debug_Record_Not_Found',
-				'Debug_Report_Query',
-				'Product_Default_Units',
-				'Service_Default_Units',
-				'Maximum_Scheduled_Workflows',
-				'Billing_Address_Checked',
-				'Shipping_Address_Checked',
-				'Tax_Type_Default',
-				'calendar_call_default_duration',
-				'calendar_other_default_duration',
-				'calendar_sort_users_by',
-				'Debug_Send_VtigerCron_Error',
-				'Import_Full_CSV',
-				'Lead_Convert_TransferToAccount',
-				'Show_Copy_Adress_Header',
-				'SalesOrderStatusOnInvoiceSave',
-				'QuoteStatusOnSalesOrderSave',
-				'GoogleCalendarSync_BaseUpdateMonths',
-				'GoogleCalendarSync_BaseCreateMonths',
-				'Report.Excel.Export.RowHeight',
-				'Calendar_Modules_Panel_Visible',
-				'Calendar_Default_Reminder_Minutes',
-				'Application_Global_Search_Binary',
-			);
-			
-			$moduleInstance = Vtiger_Module::getInstance('GlobalVariable');
-			$field = Vtiger_Field::getInstance('gvname',$moduleInstance);
-			if ($field) {
-				$field->setPicklistValues($global_variables);
-			}
-			
+			$moduleInstance = Vtiger_Module::getInstance($this->link_module);
+			$moduleInstance->addLink($this->link_type, $this->label, $this->link_url, $this->link_image,$this->link_order);
+			$this->ExecuteQuery("UPDATE vtiger_links SET linkicon='themes/images/hierarchy_color16.png' WHERE linklabel=? and linktype=? and tabid=6",
+				array('LBL_SHOW_ACCOUNT_HIERARCHY','DETAILVIEWBASIC'));
 			$this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
 		}
 		$this->finishExecution();
 	}
-	
+
+	function undoChange() {
+		if ($this->hasError()) $this->sendError();
+		if ($this->isApplied()) {
+			// undo your magic here
+			$moduleInstance = Vtiger_Module::getInstance($this->link_module);
+			$moduleInstance->deleteLink($this->link_type, $this->label, $this->link_url);
+			$this->sendMsg('Changeset '.get_class($this).' undone!');
+			$this->markUndone();
+		} else {
+			$this->sendMsg('Changeset '.get_class($this).' not applied!');
+		}
+		$this->finishExecution();
+	}
+
 }

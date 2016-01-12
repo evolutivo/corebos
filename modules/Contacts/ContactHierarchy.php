@@ -15,29 +15,29 @@ $smarty = new vtigerCRM_Smarty;
 if (!isset($where)) $where = "";
 
 $parent_tab=getParentTab();
-$smarty->assign("CATEGORY",$parent_tab);
+$smarty->assign('CATEGORY',$parent_tab);
 
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
 
-$smarty->assign("MOD", $mod_strings);
-$smarty->assign("APP", $app_strings);
-$smarty->assign("THEME", $theme);
-$smarty->assign("IMAGE_PATH",$image_path);
-$smarty->assign("MODULE",$currentModule);
+$smarty->assign('MOD', $mod_strings);
+$smarty->assign('APP', $app_strings);
+$smarty->assign('THEME', $theme);
+$smarty->assign('IMAGE_PATH',$image_path);
+$smarty->assign('MODULE',$currentModule);
 
 $check_button = Button_Check($currentModule);
 $check_button['Import'] = 'no';
 $check_button['Export'] = 'no';
 $check_button['DuplicatesHandling'] = 'no';
 $check_button['moduleSettings'] = 'no';
-$smarty->assign("CHECK", $check_button);
+$smarty->assign('CHECK', $check_button);
 
 $focus = CRMEntity::getInstance($currentModule);
-$accountid = vtlib_purify($_REQUEST['accountid']);
-if (!empty($accountid)) {
-	$hierarchy = $focus->getAccountHierarchy($accountid);
+$contactid = vtlib_purify($_REQUEST['contactid']);
+if (!empty($contactid)) {
+	$hierarchy = $focus->getContactHierarchy($contactid);
 }
-$smarty->assign("ACCOUNT_HIERARCHY",$hierarchy);
-$smarty->display("modules/Accounts/AccountHierarchy.tpl");
+$smarty->assign('CONTACT_HIERARCHY',$hierarchy);
+$smarty->display('modules/Contacts/ContactHierarchy.tpl');
 ?>
