@@ -462,7 +462,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				{/if}
 			</td>
 
-		{elseif $uitype eq 56}
+		{elseif $uitype eq 56 && ($fldname neq 'superadmincheck' || ($fldname eq 'superadmincheck' && $is_superadm_or_admin) )}
 			<td width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>

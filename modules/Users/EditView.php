@@ -48,6 +48,7 @@ if(isset($_REQUEST['record']) && isset($_REQUEST['record'])) {
 	$mode='create';
 }
 
+$smarty->assign("is_superadm_or_admin", (is_superadmin($current_user->id) || is_admin($current_user) ));
 if(isset($_REQUEST['isDuplicate']) && $_REQUEST['isDuplicate'] == 'true') {
 	$focus->id = "";
 	$focus->user_name = "";
