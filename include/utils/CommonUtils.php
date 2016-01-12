@@ -34,6 +34,24 @@ function is_admin($user) {
 }
 
 /**
+ * Check if user id belongs to a system superadmin.
+ */
+function is_superadmin($userid) {
+    global $adb,$log;
+    $log->debug("Entering is_superadmin(" . $userid . ") method ...");
+
+    if ($userid != '') {
+            $sql = "select superadmincheck from vtiger_users where id=?";
+            $result = $adb->pquery($sql, array($userid));
+            $superadmincheck = $adb->query_result($result, 0, "superadmincheck");
+            if ($superadmincheck == '1' || $superadmincheck == 1) {
+                    return true;
+            } else {
+                    return false;
+            }
+    }
+}
+/**
  * THIS FUNCTION IS DEPRECATED AND SHOULD NOT BE USED; USE get_select_options_with_id()
  * Create HTML to display select options in a dropdown list.  To be used inside
  * of a select statement in a form.

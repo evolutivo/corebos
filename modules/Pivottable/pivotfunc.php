@@ -39,46 +39,53 @@
             foreach($data as $key => $value) {
                 //If it is an associative array we want it in the format of "key":"value"
               
-            $q1=$adb->query("select * from vtiger_selectcolumn where queryid=$rep and columnname not like 'vtiger_crmentity:crm%' and columnname like '%$key%'");
-            $fl=explode(":",$adb->query_result($q1,0,'columnname'));
-            $key1=explode(" ",str_replace(array("_"),array(" "),$fl[2]),2);
-            $mod=$key1[0];
-            include("modules/$mod/language/it_it.lang.php");
-            $key2=$mod_strings["$key1[1]"];
-            if($key2==''){
-            $key22=str_replace(" ","_",$key1[1]);
-            $key2=$mod_strings["$key22"];
-            }
-            if($key2=='')
-            { $key2=$key1[1];
-            }
+                $q1=$adb->query("select * from vtiger_selectcolumn where queryid=$rep and columnname not like 'vtiger_crmentity:crm%' and columnname like '%$key%'");
+                $fl=explode(":",$adb->query_result($q1,0,'columnname'));
+                $key1=explode(" ",str_replace(array("_"),array(" "),$fl[2]),2);
+                $mod=$key1[0];
+                $modid=  getTabid($mod);
+                $fldname=$fl[1];
+                
+                include("modules/$mod/language/it_it.lang.php");
+                $key2=$mod_strings["$key1[1]"];
+                if($key2==''){
+                    $key22=str_replace(" ","_",$key1[1]);
+                    $key2=$mod_strings["$key22"];
+                }
+                if($key2=='')
+                { 
+                    $key2=$key1[1];
+                }
+                //$value = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE',$value);
+                $value = str_replace("\n", "", $value);
+                $value = str_replace("\r", "", $value);
+                $a=$adb->query("SELECT *
+                    from vtiger_field
+                    WHERE ( columnname='$fldname' OR fieldname='$fldname' )"
+                    . " and tabid = '$modid' ");
+                $uitype=$adb->query_result($a,0,'uitype');
+                $fieldname=$adb->query_result($a,0,'fieldname');
+                $col_fields[$fieldname]=$value;
+                $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$mod);
+                $ret_val=$block_info[1];
+                if(strpos($ret_val,'href')!==false) //if contains link remmove it because ng can't interpret it
+                {
+                  $pos1=strpos($ret_val,'>');
+                  $first_sub=substr($ret_val,$pos1+1);
+                  $pos2=strpos($first_sub,'<');
 
-            //$value = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE',$value);
-	    $value = str_replace("\n", "", $value);
-            $value = str_replace("\r", "", $value);
-		 if(count($data) > 1) $json_str .= "\"$key2\":\"$value\"";
-                else $json_str .= "\"$value\"";
-
-                //Make sure that the last item don't have a ',' (comma)
+                  $sec_sub=substr($first_sub,0,$pos2);
+                  $ret_val=$sec_sub;
+                }
+                $value=$ret_val;
+                
                 $count++;
-                if($count < count($data)) $json_str .= ",\n";
                 $record[$key2]=$value;
             }
             $row_count++;
-            if(count($data) > 1) 
-            {
-                $json_str .= "}\n";
-            }
-
-            //Make sure that the last item don't have a ',' (comma)
-            if($row_count < $total) 
-            {
-                $json_str .= ",\n";
-            }
             $records_all[]=$record;
         }
 
-        $json_str .= "]\n";
     }
 
     //Replace the '\n's - make it faster - but at the price of bad redability.
