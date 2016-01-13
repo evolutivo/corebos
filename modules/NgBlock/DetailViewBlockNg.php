@@ -137,8 +137,8 @@ class NgBlock_DetailViewBlockNgWidget {
                         for($count_options=0;$count_options<$adb->num_rows($res1);$count_options++)
                         {
                             $options[$col[$j]][$count_options]=array(
-                                'id'=>$adb->query_result($res1,$count_options,$fieldname),
-                                'name'=>$adb->query_result($res1,$count_options,$fieldname));
+                                'id'=>$adb->query_result($res1,$count_options,'folderid'),
+                                'name'=>$adb->query_result($res1,$count_options,'foldername'));
                         }
                     
                     }

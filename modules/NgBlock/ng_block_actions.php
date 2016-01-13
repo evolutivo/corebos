@@ -123,7 +123,7 @@
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
                                       $content[$i][$col[$j].'_display']=$ret_val;
                                   }
-                                  elseif(in_array($uitype,array(69,105,28)))
+                                  elseif(in_array($uitype,array(69,105,28,26)))//image fields & folderid
                                   {
                                       $content[$i]['preview']=retrieveAttachment($focus_pointing->id);
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
@@ -243,6 +243,7 @@
                           $focus->column_fields[$fieldname]=$mv->$col[$j];  // all chosen columns
                          }
                       } 
+                    $focus->column_fields['filelocationtype']='I';
                     $a=$adb->query("SELECT fieldname from vtiger_field
                              WHERE columnname='$pointing_field_name'");
                     $fieldname=$adb->query_result($a,0,"fieldname");
