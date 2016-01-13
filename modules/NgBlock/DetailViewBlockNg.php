@@ -124,11 +124,21 @@ class NgBlock_DetailViewBlockNgWidget {
                     $columnName[] = $col[$j];
                     $fieldLabel[] = $tmp1;
                     $fieldUitype [] = $uitype;
-                    if(in_array($uitype, array('15','16','55','33','26'))){
+                    if(in_array($uitype, array('15','16','55','33'))){
                         $res1=$adb->pquery("Select * from vtiger_$fieldname ",array());
                         for($count_options=0;$count_options<$adb->num_rows($res1);$count_options++)
                         {
                             $options[$col[$j]][$count_options]=$adb->query_result($res1,$count_options,$fieldname);
+                        }
+                    
+                    }
+                    elseif(in_array($uitype, array('26'))){
+                        $res1=$adb->pquery("Select * from vtiger_attachmentsfolder ",array());
+                        for($count_options=0;$count_options<$adb->num_rows($res1);$count_options++)
+                        {
+                            $options[$col[$j]][$count_options]=array(
+                                'id'=>$adb->query_result($res1,$count_options,$fieldname),
+                                'name'=>$adb->query_result($res1,$count_options,$fieldname));
                         }
                     
                     }

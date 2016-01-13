@@ -164,18 +164,7 @@
                           . $query_cond ."  $query_sort",array($id));
                           
                       $count=$adb->num_rows($query);
-                      
-                      if(strpos($columns,'smownerid')!==false)
-                       {   array_push($col,'smownerid');}
-                      if(strpos($columns,'createdtime')!==false)
-                       {   array_push($col,'createdtime');}
-                       if(strpos($columns,'modifiedtime')!==false)
-                       {   array_push($col,'modifiedtime');}
-                       if(strpos($columns,'description')!==false)
-                       {   array_push($col,'description');}
-
-                       // var_dump($col); 
-
+                      // var_dump($col); 
                     for($i=0;$i<$count;$i++){
                           $entityname_val='';
                           if (is_array($entity_field)) {
@@ -186,15 +175,6 @@
                           else{
                               $entityname_val=$adb->query_result($query,$i,$entityname);
                           }
-                              
-                           if(strpos($columns,'smownerid')!==false)
-                           {   array_push($col,'smownerid');}
-                           if(strpos($columns,'createdtime')!==false)
-                           {   array_push($col,'createdtime');}
-                           if(strpos($columns,'modifiedtime')!==false)
-                           {   array_push($col,'modifiedtime');}
-                           if(strpos($columns,'description')!==false)
-                           {   array_push($col,'description');}
                                
                           for($j=0;$j<sizeof($col);$j++)
                           {
@@ -285,9 +265,7 @@
                     require_once('modules/'.$pointing_module.'/'.$pointing_module.'.php');
                     $models=$_REQUEST['models'];
                     $mv=json_decode($models);
-
-                     if(strpos($col,'description')!==false)
-                    {   array_push($col,'description');} 
+                     
                     $focus = CRMEntity::getInstance("$pointing_module");
                     $focus->retrieve_entity_info($mv->id,$pointing_module);
                     $focus->id=$mv->id;
