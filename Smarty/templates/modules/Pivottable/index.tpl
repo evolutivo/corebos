@@ -356,7 +356,9 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
             };
             
             $scope.delete =  function(cbAppid) {
-                $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=deleteReport&cbAppsid='+cbAppid).
+                if(confirm('Are you sure you want to delete?'))
+                {
+                    $http.get('index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=deleteReport&cbAppsid='+cbAppid).
                     success(function(data, status) {
                     for(var i = $scope.reports.length - 1; i >= 0; i--){
                         if($scope.reports[i].cbAppsid == cbAppid){
@@ -365,6 +367,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                     }
                     alert('Successfully Deleted');
                   });
+                }
             };
             $scope.cancel = function () {
                 $scope.show_inline=false;
