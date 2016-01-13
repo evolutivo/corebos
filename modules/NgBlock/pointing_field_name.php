@@ -13,7 +13,7 @@
          join vtiger_tab on vtiger_field.tabid = vtiger_tab.tabid
             ";
     $tabid=  getTabid($pointing_module);
-    $qu1=$qu1." where uitype in (10,51,50,73,68,57,59,58,76,75,81,78,80)
+    $qu1=$qu1." where uitype in (10,51,50,73,68,57,59,58,76,75,81,78,80,1021,1025)
         ";   
     $query=$adb->query($qu1);
     $count=$adb->num_rows($query);
