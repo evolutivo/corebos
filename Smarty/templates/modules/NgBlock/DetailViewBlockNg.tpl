@@ -87,6 +87,8 @@
                                   <div ng-bind-html="user.{$fieldname}_display"></div> 
                               {elseif in_array($FIELD_UITYPE.$index,array(53) )}
                                   <div ng-bind-html="user.{$fieldname}_display"></div> 
+                              {elseif in_array($FIELD_UITYPE.$index,array(69,105,28) )}
+                                  <a ng-click="downloadfile(user.preview)"><b>{literal}{{{/literal}user.{$fieldname}{literal}}}{/literal}</b></a>
                               {else}
                                   <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
                               {/if}
@@ -163,6 +165,9 @@
                   <input type="hidden" ng-model="user.{$fieldname}"/>
                   <select class="form-control" ng-model="user.{$fieldname}_display2" ng-change="put_ass('{$fieldname}');"
                           ng-options="op as op.crmname group by op.crmtype for op  in opt.{$fieldname} track by op.crmid"></select>
+              {elseif in_array($FIELD_UITYPE.$index,array(69,105,28) )}
+                  <input type="file" file-upload />
+                        {literal}{{{/literal}user.{$fieldname}{literal}}}{/literal}
               {else}
                   <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}"/>
               {/if}
@@ -206,7 +211,7 @@ angular.module('demoApp')
     return $sce.trustAsHtml(htmlCode);
   }
 }])
-.controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal, ngTableParams) {
+.controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope,$window,$http, $modal, ngTableParams) {
     $scope.user={};
             
     $scope.tableParams = new ngTableParams({
@@ -238,7 +243,11 @@ angular.module('demoApp')
 
          });
         }
-    }
+    };
+    
+    $scope.downloadfile = function(path) {
+        $window.open(path, '_blank');
+    };
 
       $scope.open = function (user,type) {
         var modalInstance = $modal.open({
@@ -298,13 +307,13 @@ angular.module('demoApp')
               var name=fld+'_display2';
               $scope.user[fld]=$filter('date')($scope.user[name], 'yyyy-MM-dd');
       };
-      
-      $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=select_entity').
-            success(function(data, status) {
-                 $scope.choosen_entity1=data;
-                  });
+
+            $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=select_entity').
+                success(function(data, status) {
+                    $scope.choosen_entity1=data;
+                });
        
-       $scope.functionClick_en = function( data ) {          
+        $scope.functionClick_en = function( data ) {          
            if($scope.choosen_entity!=undefined)
                var arr = $scope.choosen_entity.split(',');
            else
@@ -331,12 +340,45 @@ angular.module('demoApp')
                       $modalInstance.close($scope.selected.item);
                  });
       };
+    //an array of files selected
+    $scope.files = [];
+    //listen for the file selected event
+    $scope.$on("fileSelected", function (event, args) {
+        $scope.$apply(function () {            
+            //add the file object to the scope's files collection
+            $scope.files.push(args.file);
+        });
+    });
+    
       $scope.setEditId =  function(user) {
+            {/literal}
+            {foreach key=index item=fieldname from=$COLUMN_NAME} 
+              {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,8,57,59,58,76,75,81,78,80))}
+                  if(document.getElementById("{$fieldname}").value!='user.{$fieldname}')
+                      user.{$fieldname}=document.getElementById("{$fieldname}").value;
+              {elseif in_array($FIELD_UITYPE.$index,array(69,105,28))}
+                  if($scope.files.length>0){ldelim}
+                      user.{$fieldname}=$scope.files[0].name;
+                    {rdelim}
+              {/if}
+            {/foreach}
+            {literal}
             user.href='';
             user =JSON.stringify(user);
-            $http.post('index.php?{/literal}{$blockURL}{literal}&kaction='+type+'&models='+encodeURIComponent(user)
-                )
-                .success(function(data, status) {
+            $http({
+                method: 'POST',
+                url: 'index.php?{/literal}{$blockURL}{literal}&kaction='+type+'&models='+encodeURIComponent(user),
+                headers: { 'Content-Type': undefined },
+                transformRequest: function (data) {
+                    var formData = new FormData();
+                    for (var i = 0; i < data.files.length; i++) {
+                        formData.append("filename" , data.files[i]);
+                    }
+                    return formData;
+                },
+                data: { files: $scope.files}
+            })
+                .success(function(data, status, headers, config) {
                       tbl.reload();  
                       $modalInstance.close($scope.selected.item);
                  });
@@ -345,6 +387,21 @@ angular.module('demoApp')
       $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
+})
+.directive('fileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("fileSelected", { file: files[i] });
+                }                                       
+            });
+        }
+    };
 });
 {/literal}
 </script>

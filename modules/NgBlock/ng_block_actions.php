@@ -123,6 +123,11 @@
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
                                       $content[$i][$col[$j].'_display']=$ret_val;
                                   }
+                                  elseif(in_array($uitype,array(69,105,28)))
+                                  {
+                                      $content[$i]['preview']=retrieveAttachment($focus_pointing->id);
+                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
+                                  }
                                   elseif(in_array($uitype,array(53)))
                                   {
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
@@ -280,8 +285,8 @@
                     require_once('modules/'.$pointing_module.'/'.$pointing_module.'.php');
                     $models=$_REQUEST['models'];
                     $mv=json_decode($models);
-                     
-                    if(strpos($col,'description')!==false)
+
+                     if(strpos($col,'description')!==false)
                     {   array_push($col,'description');} 
                     $focus = CRMEntity::getInstance("$pointing_module");
                     $focus->retrieve_entity_info($mv->id,$pointing_module);
@@ -367,4 +372,21 @@
                             ,array($arr_ids));
                     
                 }
+                
+function retrieveAttachment($id) {
+        global $adb;
+        $newLinkicon='';
+        $attachments = $adb->pquery('select vtiger_crmentity.crmid,vtiger_attachments.path,name
+                        from vtiger_seattachmentsrel
+                        inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.attachmentsid
+                        inner join vtiger_attachments on vtiger_crmentity.crmid=vtiger_attachments.attachmentsid
+                        where vtiger_seattachmentsrel.crmid=? ', array($id));
+        if($attachments && $adb->num_rows($attachments)>0){
+            $attachmentid = $adb->query_result($attachments,0,'crmid');
+            $path = $adb->query_result($attachments,0,'path');
+            $name = $adb->query_result($attachments,0,'name');
+            $newLinkicon =$path.$attachmentid."_".$name;
+        }
+        return $newLinkicon;
+}
 ?> 
