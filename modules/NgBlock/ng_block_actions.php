@@ -127,6 +127,7 @@
                                   {
                                       $content[$i]['preview']=retrieveAttachment($focus_pointing->id);
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
+                                      $content[$i][$col[$j].'_display']=$ret_val;
                                   }
                                   elseif(in_array($uitype,array(53)))
                                   {

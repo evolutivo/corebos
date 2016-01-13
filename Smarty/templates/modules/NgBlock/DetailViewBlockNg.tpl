@@ -83,7 +83,7 @@
                           <td > 
                               {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
                                   <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
-                              {elseif in_array($FIELD_UITYPE.$index,array(5,6,23) )}
+                              {elseif in_array($FIELD_UITYPE.$index,array(5,6,23,26) )}
                                   <div ng-bind-html="user.{$fieldname}_display"></div> 
                               {elseif in_array($FIELD_UITYPE.$index,array(53) )}
                                   <div ng-bind-html="user.{$fieldname}_display"></div> 
