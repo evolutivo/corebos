@@ -146,7 +146,9 @@
                   {$FIELD_LABEL.$index}
               </td>
               <td style="text-align:left;"> 
-              {if $FIELD_UITYPE.$index eq '15'}
+              {if in_array($FIELD_UITYPE.$index,array(15,16))}
+                  <select class="form-control" ng-model="user.{$fieldname}"  ng-options="op for op  in opt.{$fieldname}"></select>
+              {elseif in_array($FIELD_UITYPE.$index,array(55)) && $fieldname eq 'salutationtype'}
                   <select class="form-control" ng-model="user.{$fieldname}"  ng-options="op for op  in opt.{$fieldname}"></select>
               {elseif in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )  }
               <input class="form-control" style="width:250px;" type="hidden" id="{$fieldname}" ng-model="user.{$fieldname}" value="user.{$fieldname}"/>
