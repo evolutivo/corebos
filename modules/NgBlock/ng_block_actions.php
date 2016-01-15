@@ -74,8 +74,8 @@
                       $query=$adb->pquery(" 
                           SELECT $pointing_module_table.$pointing_module_id
                           FROM $ng_module_table t1
-                          $join_cf
                           join $pointing_module_table on t1.$ng_module_id = $pointing_module_table.$pointing_module_field
+                          $join_cf
                           join vtiger_crmentity on crmid = $pointing_module_table.$pointing_module_id
                           where deleted = 0 and t1.$ng_module_id=? "
                           . $query_cond ."  $query_sort",array($id));
