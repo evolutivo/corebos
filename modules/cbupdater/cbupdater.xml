@@ -708,4 +708,25 @@
 	<classname>contacts_hierarchylink</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add BiServer</description>
+	<filename>build/changeSets/evolutivo/addbiserver.php</filename>
+	<classname>addbiserver</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add Query Generator</description>
+	<filename>build/changeSets/evolutivo/addquerygen.php</filename>
+	<classname>addquerygen</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add workflow type tables</description>
+	<filename>build/changeSets/evolutivo/addwftypes.php</filename>
+	<classname>addwftypes</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

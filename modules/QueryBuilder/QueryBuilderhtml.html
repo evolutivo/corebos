@@ -1,0 +1,168 @@
+<!--
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ ************************************************************************************/
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>CoreBOS Generate query</title>
+
+    <script src="modules/QueryBuilder/jquery-1.10.2.js"></script>
+    <script src="modules/QueryBuilder/jquery-ui.js"></script>
+    <link href="modules/QueryBuilder/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="modules/QueryBuilder/jsapi.js"></script>
+
+    <link href="modules/QueryBuilder/easyquery.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="modules/QueryBuilder/eqview.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body, p, td, th, div {
+            font-family: Trebuchet MS, Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script type="text/javascript">
+        window.easyQuerySettings = {
+			loadModelUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=getModel",
+			buildQueryUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=buildQuery",
+			syncQueryUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=syncQuery",
+			executeQueryUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=executeQuery",
+			loadQueryUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=loadQuery",
+			saveQueryUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=saveQuery",
+			listRequestUrl: "index.php?module=QueryBuilder&action=QueryBuilderAjax&file=QueryBuilder&query_action=listRequest",
+                      
+            modelName: "NWind",
+            listRequestHandler: 'myListRequestHandler',
+            entitiesPanel: { showCheckboxes: true },
+			columnsPanel: { allowAggrColumns: true, attrElementFormat: "{entity} {attr}", showColumnCaptions: true, adjustEntitiesMenuHeight: false },
+			queryPanel: {alwaysShowButtonsInPredicates: false, adjustEntitiesMenuHeight: false }
+        };
+
+    </script>
+    
+</head>
+
+<body>
+    <input type="hidden" id="mapname" value=''>
+    <input type="hidden" id="sqlstatement" value=''>
+    <input type="hidden" id="loadSql" value=''>
+    <input type="hidden" id="selected_fields" value=''>
+    <input type="hidden" id="selectedOperators" value=''>
+    <input type='hidden' id="mapid" value=''>
+    <div id="main">
+        <div class="header">
+            <div class="title"> </div>
+            <div class="sub-title">CoreBOS Query Generator</div>
+        </div>
+        <div id="content">
+        <div class="header-panel">
+            <div class="entities-block">
+                <hr class="entities-hr hr" />
+                <div class="entities-title">Entities</div>
+                <div class="entities-panel-container">
+                    <!-- EntitiesPanel widget placeholder -->
+                    <div id="EntitiesPanel" onselectstart="return false"></div>
+                </div>
+            </div>
+
+            <div class="central-block">
+                <div class="columns-block">
+                    <hr class="columns-hr hr" />
+                    <div class="columns-title">Columns</div>
+                    <div class="columns-panel-container">
+                        <!-- ColumnsPanel widget placeholder -->
+                        <div id="ColumnsPanel"></div>
+                    </div>
+                </div>
+                <div class="conditions-block">
+                    <hr class="conditions-hr hr" />
+                    <div class="conditions-title">Conditions</div>
+                    <div class="query-panel-container">
+                        <!-- QueryPanel widget placeholder -->
+                        <div id="QueryPanel"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="menu-block">
+                <hr class="menu-hr hr" />
+                <div class="menu-title">Menu</div>
+                <div class="menu-content">
+                    <div id="ClearQueryButton" class="eqv-button clear-button">Clear query</div>
+                    <div id="LoadQueryButton" class="eqv-button load-query-button">Load query</div>
+                    <div id="SaveQueryButton" class="eqv-button save-query-button">Save As query</div>
+                    <div id="UpdateQueryButton" class="eqv-button save-query-button" onclick="updateQuery()">Update query</div>
+                    <div id="ExecuteQueryButton" class="eqv-button execute-button">Execute</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-panel">
+            <div class="sql-panel">
+                <hr class="sql-panel-hr hr" />
+                <div class="sql-panel-title">SQL</div>
+                <div id="SqlPanel" class="sql-block">
+                    <div class="sql-panel-result"></div>
+                </div>
+            </div>
+            <div class="result-panel">
+                <hr class="result-panel-hr hr" />
+                <div class="result-panel-title">Result 
+                    <!--
+                    <span id="btnExport"  >
+                         <a href="/EasyQuery/ExportToFileExcel">Export to Excel</a>   
+                         <a href="/EasyQuery/ExportToFileCsv">Export to CSV</a>
+                    </span>
+                     -->
+                </div>
+                <div id="ResultPanel" class="result-panel-content">
+                </div>
+                <div class="result-panel-content-padding">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="footer">
+
+
+    </div>
+</div>
+    <div id="dialog-form" style="display:none">
+    <form>
+        <label for="name" style=" margin: 8px 0 0 10px;    float: left;  font: bold 13px Trebuchet MS, Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;color: #3a94d4; ">Map Name </label>
+        <input type="text" name="name" id="txt2" style=" margin: 25px; height:20px;width: 250px"/>
+    </form>
+    </div>
+    
+    <p>
+</p>
+
+<div id="dialog-message" title="Choose Map">
+   
+    <div style="margin-left: 23px;">
+        <p>
+           
+        </p>
+    </div>
+</div>
+    <script src="modules/QueryBuilder/eq.all.min.js" type="text/javascript"></script>
+   <script src="modules/QueryBuilder/eq.view.basic.js" type="text/javascript"></script> 
+</body>
+</html>
+
