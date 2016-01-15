@@ -417,7 +417,7 @@ angular.module('demoApp')
       // edit selected record
       $scope.setEditId =  function(user) {
             user =JSON.stringify(user);
-            $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction='+type+'&models='+user
+            $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction='+type+'&models='+encodeURIComponent(user)
                 )
                 .success(function(data, status) {
                       tbl.reload();  

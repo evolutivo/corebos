@@ -1,5 +1,6 @@
 <?php  
                 require_once('include/utils/utils.php');
+                include_once('vtlib/Vtiger/Utils.php');
                 require_once('modules/cbMap/cbMap.php');
                 require_once('modules/BusinessRules/BusinessRules.php');
                 require_once('modules/NgBlock/NgBlock.php');
@@ -65,17 +66,15 @@
                  
                 // retrieve record data     
                 if($kaction=='retrieve'){
-                     
-                     $entity_field_arr=getEntityFieldNames($pointing_module);
-                     $entity_field=$entity_field_arr["fieldname"];//var_dump($entity_field);
-                     if (is_array($entity_field)) {
-                       $entityname=implode(",$pointing_module_table.",$entity_field);
-                     } 
-                     else {$entityname=$entity_field;}
-                        
-                    $query=$adb->pquery(" 
+                    
+                    $join_cf='';
+                    if(Vtiger_Utils::CheckTable($pointing_module_tablecf)) {
+                        $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_field=$pointing_module_table.$pointing_module_field";
+                    }
+                      $query=$adb->pquery(" 
                           SELECT $pointing_module_table.$pointing_module_id
                           FROM $ng_module_table t1
+                          $join_cf
                           join $pointing_module_table on t1.$ng_module_id = $pointing_module_table.$pointing_module_field
                           join vtiger_crmentity on crmid = $pointing_module_table.$pointing_module_id
                           where deleted = 0 and t1.$ng_module_id=? "
@@ -90,16 +89,7 @@
                           $focus_pointing->id=$adb->query_result($query,$i,$pointing_module_id);
                           $focus_pointing->mode = 'edit';
                           $focus_pointing->retrieve_entity_info($adb->query_result($query,$i,$pointing_module_id), $pointing_module);
-                          $entityname_val='';
-                          if (is_array($entity_field)) {
-                              for($k=0;$k<sizeof($entity_field);$k++){
-                                $entityname_val.=' '.$adb->query_result($query,$i,$entity_field[$k]);
-                              }
-                          } 
-                          else{
-                              $entityname_val=$adb->query_result($query,$i,$entityname);
-                          }
-                          $content[$i]['name']=$entityname_val;
+                          
                           for($j=0;$j<sizeof($col);$j++)
                           {
                               if($col[$j]=='') continue;
@@ -245,6 +235,7 @@
                          }
                       } 
                     $focus->column_fields['filelocationtype']='I';
+                    $focus->column_fields['filestatus']='1';
                     $a=$adb->query("SELECT fieldname from vtiger_field
                              WHERE columnname='$pointing_field_name'");
                     $fieldname=$adb->query_result($a,0,"fieldname");
