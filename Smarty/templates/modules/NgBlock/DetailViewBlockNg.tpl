@@ -83,9 +83,7 @@
                           <td > 
                               {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
                                   <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
-                              {elseif in_array($FIELD_UITYPE.$index,array(5,6,23,26) )}
-                                  <div ng-bind-html="user.{$fieldname}_display"></div> 
-                              {elseif in_array($FIELD_UITYPE.$index,array(53) )}
+                              {elseif in_array($FIELD_UITYPE.$index,array(5,6,23,26,53,56) )}
                                   <div ng-bind-html="user.{$fieldname}_display"></div> 
                               {elseif in_array($FIELD_UITYPE.$index,array(69,105,28) )}
                                   <a ng-click="downloadfile(user.preview)"><b>{literal}{{{/literal}user.{$fieldname}{literal}}}{/literal}</b></a>
@@ -165,6 +163,8 @@
                           ng-options="op for op  in opt[{$index}]"></select>
               {elseif $FIELD_UITYPE.$index eq '19'}
                       <div text-angular="text-angular" name="user.{$fieldname}" ng-model="user.{$fieldname}"></div>
+              {elseif $FIELD_UITYPE.$index eq '56'}
+                      <input ng-model="user.{$fieldname}" ng-checked="user.{$fieldname}" name="{$fldname}" tabindex="{$vt_tab}" type="checkbox"> 
               {elseif $FIELD_UITYPE.$index eq '53'}
                   <input type="hidden" ng-model="user.{$fieldname}"/>
                   <select class="form-control" ng-model="user.{$fieldname}_display2" ng-change="put_ass('{$fieldname}');"
@@ -294,12 +294,16 @@ angular.module('demoApp')
       $scope.opt={/literal}{$OPTIONS}{literal}; console.log($scope.opt);
       $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
       $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
+      var array_date = [5,6,23];
       for(var i=0;i<$scope.col_json.length;i++){
-          if($scope.ui_json[i]=='5'){
+          if(array_date.indexOf($scope.ui_json[i])!==-1){
               $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.user[$scope.col_json[i]]);
           }
           else if($scope.ui_json[i]=='53'){
               $scope.user[$scope.col_json[i]+'_display2']={'crmid':$scope.user[$scope.col_json[i]]};
+          }
+          else if($scope.ui_json[i]=='56'){
+              $scope.user[$scope.col_json[i]]=($scope.user[$scope.col_json[i]]==1 ? true : false);
           }
       }
       // edit selected record

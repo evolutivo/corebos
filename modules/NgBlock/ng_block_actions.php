@@ -104,12 +104,7 @@
                                   $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$pointing_module);
                                       $ret_val=$block_info[1];
                                       
-                                  if(in_array($uitype,array(10,51,50,73,68,57,59,58,76,75,81,78,80)))
-                                  {
-                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
-                                      $content[$i][$col[$j].'_display']=$ret_val;
-                                  }
-                                  elseif(in_array($uitype,array(5,6,23)))
+                                  if(in_array($uitype,array(10,51,50,73,68,57,59,58,76,75,81,78,80,5,6,23,53,56)))
                                   {
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
                                       $content[$i][$col[$j].'_display']=$ret_val;
@@ -117,11 +112,6 @@
                                   elseif(in_array($uitype,array(69,105,28,26)))//image fields & folderid
                                   {
                                       $content[$i]['preview']=retrieveAttachment($focus_pointing->id);
-                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
-                                      $content[$i][$col[$j].'_display']=$ret_val;
-                                  }
-                                  elseif(in_array($uitype,array(53)))
-                                  {
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
                                       $content[$i][$col[$j].'_display']=$ret_val;
                                   }
