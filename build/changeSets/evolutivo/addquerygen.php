@@ -21,7 +21,7 @@ class addquerygen extends cbupdaterWorker {
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$toinstall = array('QueryGenerator');
+			$toinstall = array('QueryBuilder');
 			foreach ($toinstall as $module) {
 				if ($this->isModuleInstalled($module)) {
 					vtlib_toggleModuleAccess($module,true);
@@ -39,8 +39,8 @@ class addquerygen extends cbupdaterWorker {
 	function undoChange() {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
-			vtlib_toggleModuleAccess('QueryGenerator',false);
-			$this->sendMsg('QueryGenerator deactivated!');
+			vtlib_toggleModuleAccess('QueryBuilder',false);
+			$this->sendMsg('QueryBuilder deactivated!');
 			$this->markUndone(false);
 			$this->sendMsg('Changeset '.get_class($this).' undone!');
 		} else {
