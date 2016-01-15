@@ -35,7 +35,8 @@
                     require_once("modules/$pointing_module/$pointing_module.php");
                     $pointing= CRMEntity::getInstance($pointing_module);
                     $pointing_module_table=$pointing->table_name;
-                    $pointing_module_tablecf=$pointing->table_name."cf";
+                    $pointing_module_tablecf=$pointing->customFieldTable[0];
+                    $pointing_module_tablecf_id=$pointing->customFieldTable[1];
                     $pointing_module_id=$pointing->table_index;
                 }
 
@@ -69,7 +70,7 @@
                     
                     $join_cf='';
                     if(Vtiger_Utils::CheckTable($pointing_module_tablecf)) {
-                        $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_id=$pointing_module_table.$pointing_module_id";
+                        $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_tablecf_id=$pointing_module_table.$pointing_module_id";
                     }
                       $query=$adb->pquery(" 
                           SELECT $pointing_module_table.$pointing_module_id
