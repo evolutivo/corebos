@@ -219,7 +219,18 @@ class MailManager_Model_DraftEmail {
 		if (empty($fromEmail)) $fromEmail = $current_user->column_fields['email1'];
 		return $fromEmail;
 	}
-
+	function getFromEmailAddressMM() {
+		global $adb, $current_user;
+		$fromEmail = false;
+		if (Vtiger_Version::check('5.2.0', '>=')) {
+			$smtpFromResult = $adb->pquery('SELECT account_name FROM vtiger_mail_accounts WHERE status=1 and user_id=?', array($current_user->id));
+			if ($adb->num_rows($smtpFromResult)) {
+				$fromEmail = decode_html($adb->query_result($smtpFromResult, 0, 'account_name'));
+			}
+		}
+		if (empty($fromEmail)) $fromEmail = $current_user->column_fields['email1'];
+		return $fromEmail;
+	}
 	function saveAttachment($request) {
 		global $current_user, $adb;
 

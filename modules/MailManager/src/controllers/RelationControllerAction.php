@@ -81,7 +81,7 @@ class MailManager_RelationControllerAction extends Vtiger_MailScannerAction {
      */
 	function __SaveAttachements($mailrecord, $basemodule, $basefocus) {
 		global $adb, $root_directory;
-
+          if($basemodule=='Messages') $basemodule='Documents';
 		// If there is no attachments return
 		if(!$mailrecord->_attachments) return;
 
@@ -120,7 +120,7 @@ class MailManager_RelationControllerAction extends Vtiger_MailScannerAction {
 				// Create document record
 				$docInfo = array('title'=>$filename, 'filename'=>$filename, 'assigneduser'=>$userid,
                                     'size'=> $fileSize, 'filetype'=>$mimetype);
-				$documentId = $this->createDocument($docInfo);
+				$documentId = $this->createDocument($docInfo,$basefocus->id);
 
 				// Link file attached to document
 				if(!empty($documentId) && !empty($attachid)) {
@@ -146,7 +146,7 @@ class MailManager_RelationControllerAction extends Vtiger_MailScannerAction {
      * @param Array $info
      * @return Integer
      */
-	function createDocument($info) {
+	function createDocument($info,$idmes) {
 		global $current_user;
 		$handler = vtws_getModuleHandlerFromName('Documents', $current_user);
 		$meta = $handler->getMeta();
@@ -160,6 +160,7 @@ class MailManager_RelationControllerAction extends Vtiger_MailScannerAction {
         $document->column_fields['filetype']         = $info['filetype'];
 		$document->column_fields['filestatus']       = 1;
 		$document->column_fields['filelocationtype'] = 'I';
+                $document->column_fields['message'] = $idmes;
 		$document->column_fields['folderid']         = 1; // Default Folder
 		$document->column_fields['assigned_user_id'] = $info['assigneduser'];
 		$document->save('Documents');
