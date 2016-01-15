@@ -115,8 +115,10 @@
                                       $content[$i][$col[$j]]=$col_fields[$fieldname]; 
                                       $content[$i][$col[$j].'_display']=$ret_val;
                                   }
-                                  else
+                                  else{
                                       $content[$i][$col[$j]]=$ret_val;
+                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                  }
                           }
                       }
                         echo json_encode($content);

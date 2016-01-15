@@ -77,7 +77,7 @@
                  {*  {if $fieldname neq 'messagio'}  *}
                       {if $index eq 0}
                           <td >
-                             <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}{literal}}}{/literal}</a>
+                             <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}_display{literal}}}{/literal}</a>
                           </td> 
                       {else}
                           <td > 
