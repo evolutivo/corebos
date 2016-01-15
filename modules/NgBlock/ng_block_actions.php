@@ -69,7 +69,7 @@
                     
                     $join_cf='';
                     if(Vtiger_Utils::CheckTable($pointing_module_tablecf)) {
-                        $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_field=$pointing_module_table.$pointing_module_field";
+                        $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_id=$pointing_module_table.$pointing_module_id";
                     }
                       $query=$adb->pquery(" 
                           SELECT $pointing_module_table.$pointing_module_id
