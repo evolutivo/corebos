@@ -45,7 +45,7 @@
         </tr>
         <tr>
             <td> 
-                Columns
+                List Columns
             </td> 
             <td> 
                 <!--<input type="time" id="exampleInput" name="input" ng-model="value"
@@ -57,6 +57,25 @@
                     item-label="fieldlabel"
                     tick-property="ticked" 
                     on-item-click="functionClick( data )">
+                </multi-select>
+
+                <input class="form-control" type="hidden" ng-model="user.columns" />
+             </td>
+        </tr>
+        <tr>
+            <td> 
+                EditView Columns
+            </td> 
+            <td> 
+                <!--<input type="time" id="exampleInput" name="input" ng-model="value"
+       placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required /> -->
+                <multi-select   
+                    input-model="createcol" 
+                    output-model="selected_values"
+                    button-label="businessrules_name"
+                    item-label="businessrules_name"
+                    tick-property="ticked" 
+                    on-item-click="functionClick_createcol( data )">
                 </multi-select>
 
                 <input class="form-control" type="hidden" ng-model="user.columns" />
@@ -133,6 +152,9 @@
                 <select id="destination"  ng-model="user.destination" style="width:170px"
                         ng-options="opt for opt in destination_opt">
                 </select>
+                &nbsp;&nbsp;<input type="checkbox"  ng-model="user.top_widget" 
+                                   ng-if="user.destination=='DETAILVIEWWIDGET'" /><span ng-if="user.destination=='DETAILVIEWWIDGET'">Top Widget</span>
+                &nbsp;&nbsp;<input type="checkbox"  ng-model="user.opened"/>Opened
                 <select id="related_tab"  ng-model="related_tab_sel" ng-click="user.related_tab=related_tab_sel.id" style="width:100px"
                         ng-if="user.destination=='RELATEDVIEWWIDGET'" ng-options="opt.name for opt  in  tab_rl_opt | filter_tab_rl:user track by opt.id">
                 </select>

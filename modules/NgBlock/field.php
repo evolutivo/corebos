@@ -52,4 +52,22 @@ else if($kaction=='retrieve_br'){
       }
     echo json_encode($content);
 }
+else if($kaction=='retrieve_br_profile'){
+    $qry="Select businessrules_name,businessrulesid from vtiger_businessrules ";
+    if($pointing_module!='') //only the fields of the pointing module
+    {
+        $qry.="   where module_rules='$pointing_module' ";
+    }
+    $query=$adb->query($qry); 
+    $count=$adb->num_rows($query);
+   for($i=0;$i<$count;$i++){
+      $content[$i]['businessrulesid']=$adb->query_result($query,$i,'businessrulesid');
+      $content[$i]['businessrules_name']=$adb->query_result($query,$i,'businessrules_name');
+
+      if(strpos($selected,$content[$i]['businessrulesid'])!==false)
+      $content[$i]['ticked']=true;
+
+      }
+    echo json_encode($content);
+}
 ?>
