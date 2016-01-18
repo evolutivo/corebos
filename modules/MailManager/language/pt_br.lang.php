@@ -152,6 +152,7 @@ $mod_strings = Array (
     'LBL_MAILMANAGER_ADD_Calendar' => 'Adicionar Compromisso',
     'LBL_MAILMANAGER_ADD_HelpDesk' => 'Adicionar Ticket',
     'LBL_MAILMANAGER_ADD_Emails' => 'Anexar Email',
+    'LBL_MAILMANAGER_ADD_Messages' => 'Anexar Mensagem',
     'LBL_MAILMANAGER_ADD_ModComments' => 'Adicionar Comentário',
     'LBL_MAILMANAGER_ADD_Potentials' => 'Add Potential',
     'LBL_MAILMANAGER_ADD_Project' => 'Add Project',

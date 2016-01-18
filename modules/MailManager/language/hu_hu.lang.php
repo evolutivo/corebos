@@ -150,6 +150,7 @@ $mod_strings = array(
 	'LBL_MAILMANAGER_ADD_Calendar' => 'Teendő hozzáadása',
 	'LBL_MAILMANAGER_ADD_HelpDesk' => 'Kérés hozzáadása',
 	'LBL_MAILMANAGER_ADD_Emails' => 'E-mail iktatása',
+        'LBL_MAILMANAGER_ADD_Messages' => 'E-mail iktatása',
 	'LBL_MAILMANAGER_ADD_ModComments' => 'Feljegyzés hozzáadása',
     'LBL_MAILMANAGER_ADD_Potentials' => 'Add Potential',
     'LBL_MAILMANAGER_ADD_Project' => 'Add Project',

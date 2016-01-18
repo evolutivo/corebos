@@ -105,17 +105,20 @@ class MailManager_MailController extends MailManager_Controller {
 				$toArray = explode(',', $to_string);
 				foreach($toArray as $to) {
 					$relatedtos = MailManager::lookupMailInVtiger($to, $current_user);
-					$referenceArray = Array('Contacts','Accounts','Leads');
+                                        global $log;$log->debug("loro ");$log->debug($relatedtos);
+                                        $referenceArray = Array('Contacts','Accounts','Leads');
 					for($j=0;$j<count($referenceArray);$j++){
 						$val=$referenceArray[$j];
 						if (!empty($relatedtos) && is_array($relatedtos)) {
 							for($i=0; $i<count($relatedtos); $i++) {
 								if($i == count($relatedtos)-1) {
 									$relateto = vtws_getIdComponents($relatedtos[$i]['record']);
-									$parentIds .= $relateto[1]."@1";
+								//	if($relateto[1]!='19')
+                                                                        $parentIds .= $relateto[1]."@1";
 								}elseif($relatedtos[$i]['module'] == $val){
 									$relateto = vtws_getIdComponents($relatedtos[$i]['record']);
-									$parentIds = $relateto[1]."@1";
+								//	if($relateto[1]!='19')
+                                                                        $parentIds = $relateto[1]."@1";
 									break;
 								}
 							}
@@ -132,7 +135,6 @@ class MailManager_MailController extends MailManager_Controller {
 							break;
 						}
 					}
-				
 					$cc_string = rtrim($request->get('cc'), ',');
 					$bcc_string= rtrim($request->get('bcc'), ',');
 					$subject   = $request->get('subject');
@@ -164,14 +166,14 @@ class MailManager_MailController extends MailManager_Controller {
 
 					$mailer = new Vtiger_Mailer();
 					$mailer->IsHTML(true);
-					$mailer->ConfigSenderInfo($fromEmail, $userFullName, $current_user->email1);
+					$mailer->ConfigSenderInfo($fromEmail, $userFullName, $fromEmail);
 					$mailer->Subject = $subject;
 					$mailer->Body = $description;
+                                        $mailer->From = $fromEmail;
 					$mailer->addSignature($userId);
-		            if($mailer->Signature != '') {
-		               $mailer->Body.= $mailer->Signature;
+		                        if($mailer->Signature != '') {
+		                        $mailer->Body.= $mailer->Signature;
 					}
-
 					$ccs = empty($cc_string)? array() : explode(',', $cc_string);
 					$bccs= empty($bcc_string)?array() : explode(',', $bcc_string);
 					$emailId = $request->get('emailid');
@@ -219,31 +221,38 @@ class MailManager_MailController extends MailManager_Controller {
 				$email->column_fields['ccmail'] = $cc_string;
 				$email->column_fields['bccmail'] = $bcc_string;
 				$email->column_fields['email_flag'] = 'SENT';
-require_once('modules/Messages/Messages.php');
-$focus_messages = new Messages();
-$focus_messages->column_fields["assigned_user_id"]=$current_user->id;
-$focus_messages->column_fields["messagesname"]=$mailer->Subject;
-$focus_messages->column_fields["description"]=$mailer->Body;
-$focus_messages->column_fields["frommail"]=$mailer->From;
-$focus_messages->column_fields["tomail"]=$to_string;
-$focus_messages->column_fields["ccmail"]=$cc_string;
-$focus_messages->column_fields["bccmail"]=$bcc_string;
-$focus_messages->column_fields["messagestype"]='Email';
-$focus_messages->column_fields["datainviomail"]=date("Y-m-d");
-$focus_messages->column_fields["messagesrelatedto"]=$parentIds;
+                                require_once('modules/Messages/Messages.php');
+                                $focus_messages = new Messages();
+                                $focus_messages->column_fields["assigned_user_id"]=$current_user->id;
+                                $focus_messages->column_fields["messagesname"]=$mailer->Subject;
+                                $focus_messages->column_fields["description"]=$mailer->Body;
+                                $focus_messages->column_fields["frommail"]=$mailer->From;
+                                $focus_messages->column_fields["tomail"]=$to_string;
+                                $focus_messages->column_fields["ccmail"]=$cc_string;
+                                $focus_messages->column_fields["bccmail"]=$bcc_string;
+                                $focus_messages->column_fields["messagestype"]='Email';
+                                $focus_messages->column_fields["datainviomail"]=date("Y-m-d");
+                                $focus_messages->column_fields["messagesrelatedto"]=$parentIds;
 
 				if(empty($emailId)) {
 					 $email->save('Emails');
                                          $focus_messages->save('Messages');
+                                         $emailId=$focus_messages->id;
 
 				} else {
-					/*$email->id = $emailId;
-					$email->mode = 'edit';
-					$email->save('Emails');*/
+					//$email->id = $emailId;
+					//$email->mode = 'edit';
+					//$email->save('Emails');
                                        $focus_messages->id = $emailId;
                                        $focus_messages->mode = 'edit';
                                        $focus_messages->saveentity('Messages');
 				}
+                                if(is_array($attachments)) {
+						foreach($attachments as $attachment){
+					        $fileid=$attachment['fileid'];
+						$adb->pquery("update vtiger_notes join vtiger_seattachmentsrel on vtiger_notes.notesid=vtiger_seattachmentsrel.crmid join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.crmid  set message=? where attachmentsid=? and setype='Documents'",array($focus_messages->id,$fileid));	
+						}
+					}
 				$response->isJson(true);
 				$response->setResult( array('sent'=> true) );
 			} else {
@@ -318,9 +327,7 @@ $focus_messages->column_fields["messagesrelatedto"]=$parentIds;
 				foreach($attachments as $aName => $aValue) {
 					$attachInfo = $mail->__SaveAttachmentFile($aName, $aValue);
 					if(is_array($attachInfo) && !empty($attachInfo) && $attachInfo['size'] > 0) {
-
 						if(!MailManager::checkModuleWriteAccessForCurrentUser('Documents')) return;
-
 						$document = CRMEntity::getInstance('Documents');
 						$document->column_fields['notes_title']      = $attachInfo['name'];
 						$document->column_fields['filename']         = $attachInfo['name'];
@@ -328,6 +335,7 @@ $focus_messages->column_fields["messagesrelatedto"]=$parentIds;
 						$document->column_fields['filelocationtype'] = 'I';
 						$document->column_fields['folderid']         = 1; // Default Folder
 						$document->column_fields['filesize']		 = $attachInfo['size'];
+                                                $document->column_fields['message']=$emailId;
 						$document->column_fields['assigned_user_id'] = $current_user->id;
 						$document->save('Documents');
 

@@ -207,8 +207,19 @@ class MailManager_RelationController extends MailManager_Controller {
                                     $focus->column_fields['creator'] = $current_user->id;
                                     $focus->column_fields['related_to'] = $parent;
                                     break;
+                case 'Messages':$focus->column_fields["messagesname"]=$mail->subject();
+                                $focus->column_fields["description"]=$mail->body();
+                                $focus->column_fields["frommail"]=$mail->from();
+                                $focus->column_fields["tomail"]=$mail->to();
+                                if($mail->cc()!='' && $mail->cc()!=null)
+                                $focus->column_fields["ccmail"]=$mail->cc();
+                                if($mail->bcc()!='' && $mail->bcc()!=null)
+                                $focus->column_fields["bccmail"]=$mail->bcc();
+                                $focus->column_fields["messagestype"]='Email';
+                                $focus->column_fields["datainviomail"]=date("Y-m-d");
+                                $focus->column_fields["messagesrelatedto"]=$parent;
+                        break;
 			}
-
 			try {
 				$focus->save($linkModule);
 
@@ -219,7 +230,7 @@ class MailManager_RelationController extends MailManager_Controller {
 				}
 
                 // add attachments to the tickets as Documents
-                if(in_array($linkModule,array('HelpDesk','Potentials','Project','ProjectTask')) && !empty($attachments)) {
+                if(in_array($linkModule,array('HelpDesk','Potentials','Project','ProjectTask','Messages')) && !empty($attachments)) {
                     $relationController = new MailManager_RelationControllerAction();
                     $relationController->__SaveAttachements($mail, $linkModule, $focus);
                 }
@@ -345,6 +356,7 @@ class MailManager_RelationController extends MailManager_Controller {
 		 
 		 foreach($moduleListForLinkTo as $module) {
 			 if(MailManager::checkModuleWriteAccessForCurrentUser($module)) {
+                             if($module=='Emails') $module='Messages';
 				 $mailManagerAllowedModules[] = $module;
 			 }
 		 }
