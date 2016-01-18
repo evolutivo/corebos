@@ -51,7 +51,6 @@
 {else}
         <div style="width:auto;display:none;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
 {/if}
-<div style="width:auto;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
 <table border=0 cellspacing=0 cellpadding=0 width="100%" class="small">
     <tr>
         <td>
