@@ -73,15 +73,15 @@
             {/if}
             <tr class="dvtCellLabel">
                 {foreach key=index item=fieldlabel from=$FIELD_LABEL} 
-                   {* {if $COLUMN_NAME.$index neq 'messagio'}*}
+                    {if $COLUMN_NAME_LIST.$index eq true} 
                     <td> <b>{$fieldlabel}</b> </td> 
-                   {* {/if} *}
+                    {/if}
                 {/foreach} 
                 <td> </td> 
             </tr>
             <tr ng-repeat="user in $data"  class="dvtCellInfo">
                 {foreach key=index item=fieldname from=$COLUMN_NAME} 
-                 {*  {if $fieldname neq 'messagio'}  *}
+                 {if $COLUMN_NAME_LIST.$index eq true}  
                       {if $index eq 0}
                           <td >
                              <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}_display{literal}}}{/literal}</a>
@@ -99,7 +99,7 @@
                               {/if}
                           </td>
                       {/if}
-                 {*  {/if} *}
+                 {/if} 
                 {/foreach} 
                 <td  width="80" >
                 <table> 
@@ -145,7 +145,7 @@
         </td>
     </tr>
     {foreach key=index item=fieldname from=$COLUMN_NAME} 
-        {if  $FIELD_UITYPE.$index neq '70'}
+        {if  $FIELD_UITYPE.$index neq '70' && $COLUMN_NAME_EDIT.$index eq true}
           <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" ng-if="type!='choose'">
               <td style="text-align:right;"> 
                   {$FIELD_LABEL.$index}
@@ -301,6 +301,7 @@ angular.module('demoApp')
       $scope.opt={/literal}{$OPTIONS}{literal}; console.log($scope.opt);
       $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
       $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
+      $scope.default_json={/literal}{$DEFAULT_VALUE_JSON}{literal};
       var array_date = [5,6,23];
       for(var i=0;i<$scope.col_json.length;i++){
           if(array_date.indexOf($scope.ui_json[i])!==-1){
@@ -311,6 +312,20 @@ angular.module('demoApp')
           }
           else if($scope.ui_json[i]=='56'){
               $scope.user[$scope.col_json[i]]=($scope.user[$scope.col_json[i]]==1 ? true : false);
+          }
+          if($scope.default_json[i]!=='' && type === 'create')
+          {
+              if(array_date.indexOf($scope.ui_json[i])!==-1){
+                  $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.default_json[i]);
+              }
+              else if($scope.ui_json[i]=='53'){
+                  $scope.user[$scope.col_json[i]+'_display2']={'crmid':$scope.default_json[i]};
+              }
+              else if($scope.ui_json[i]=='56'){
+                  $scope.user[$scope.col_json[i]]=($scope.default_json[i]==1 ? true : false);
+              }
+              else
+                  $scope.user[$scope.col_json[i]]=$scope.default_json[i];
           }
       }
       $scope.processing=false;

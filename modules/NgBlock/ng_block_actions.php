@@ -24,6 +24,7 @@
                 $pointing_module=$adb->query_result($a,0,'pointing_module_name');
                 $tabid=  getTabid($pointing_module);
                 $pointing_field_name=$adb->query_result($a,0,'pointing_field_name');
+                $createcol=$adb->query_result($a,0,'createcol');
                                     
                 $col= explode(",",$columns);
                 $pointing_module_field=$pointing_field_name;
@@ -41,6 +42,18 @@
                 }                
                 // retrieve record data     
                 if($kaction=='retrieve'){
+                    
+                    $instanceNgBlock = new NgBlock();
+                    $editColBR = $instanceNgBlock->getEditCol($createcol);
+                    if(sizeof($editColBR)>0)
+                    {
+                        $all_fld=array();$default_val=array();
+                        foreach($editColBR as $k=>$v){
+                            $all_fld[]=$k;
+                            $default_val[]=$v;
+                        }
+                        $col= array_unique(array_merge($col,$all_fld));
+                    }
                     $query_cond='';  
                     if($cond!='')
                      {
@@ -88,33 +101,33 @@
                           $focus_pointing->mode = 'edit';
                           $focus_pointing->retrieve_entity_info($adb->query_result($query,$i,$pointing_module_id), $pointing_module);
                           
-                          for($j=0;$j<sizeof($col);$j++)
+                          foreach($col as $key=>$fldname_val)
                           {
-                              if($col[$j]=='') continue;
+                              if($fldname_val=='') continue;
                               $a=$adb->query("SELECT *
                                       from vtiger_field
-                                      WHERE ( columnname='$col[$j]' OR fieldname='$col[$j]' )"
+                                      WHERE ( columnname='$fldname_val' OR fieldname='$fldname_val' )"
                                       . " and tabid = '$tabid' ");
                                   $uitype=$adb->query_result($a,0,'uitype');
                                   $fieldname=$adb->query_result($a,0,'fieldname');
-                                  $col_fields[$fieldname]=$focus_pointing->column_fields["$col[$j]"];
+                                  $col_fields[$fieldname]=$focus_pointing->column_fields["$fldname_val"];
                                   $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$pointing_module);
                                       $ret_val=$block_info[1];
                                       
                                   if(in_array($uitype,array(10,51,50,73,68,57,59,58,76,75,81,78,80,5,6,23,53,56)))
                                   {
-                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
-                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                      $content[$i][$fldname_val]=($col_fields[$fieldname]==null ? '': $col_fields[$fieldname]);
+                                      $content[$i][$fldname_val.'_display']=$ret_val;
                                   }
                                   elseif(in_array($uitype,array(69,105,28,26)))//image fields & folderid
                                   {
                                       $content[$i]['preview']=retrieveAttachment($focus_pointing->id);
-                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
-                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                      $content[$i][$fldname_val]=$col_fields[$fieldname]; 
+                                      $content[$i][$fldname_val.'_display']=$ret_val;
                                   }
                                   else{
-                                      $content[$i][$col[$j]]=$ret_val;
-                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                      $content[$i][$fldname_val]=$ret_val;
+                                      $content[$i][$fldname_val.'_display']=$ret_val;
                                   }
                           }
                       }

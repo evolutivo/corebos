@@ -465,6 +465,17 @@ class cbMap extends CRMEntity {
            $return_module=(string)$x->map->originmodule[0]->originname;
            return $return_module;
         }
+        function getMapProfile(){
+           $map=htmlspecialchars_decode($this->column_fields['content']);
+           $x = new crXml();
+           $x->loadXML($map);
+           $target_profile=array();
+           foreach ($x->map->profile[0] as $k => $v) {
+                    $target_profile[]=  (string)$v;
+           }
+           $return_profile=$target_profile;
+           return $return_profile;
+        }
        function getMapTargetFields(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();
@@ -634,11 +645,13 @@ class cbMap extends CRMEntity {
 
                 if($k=='Picklist'){
                 $target_picklist[]=  (string)$v->fieldname;
+                $target_piclist_values_temp=array();
                     foreach($v as $k1=>$v1) {
                         if($k1=='values'){
-                            $target_piclist_values[]=  (string)$v1;
+                            $target_piclist_values_temp[]=  (string)$v1;
                         }
                     }
+                    $target_piclist_values[(string)$v->fieldname]=  $target_piclist_values_temp;
                 }
                 
                 if($k=='ResponsibleRole'){
@@ -681,7 +694,7 @@ class cbMap extends CRMEntity {
            
            $target_fields['target_roles'] = '"'. implode('","',$target_roles).'"';
            
-           $target_fields['target_profiles'] = '"'. implode('","',$target_profiles).'"';
+           $target_fields['target_profiles'] = $target_profiles;
            
            $target_fields['target_mode']=  $target_mode;
                 

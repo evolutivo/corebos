@@ -407,7 +407,7 @@ angular.module('demoApp')
        };
        $scope.functionClick_createcol = function( data ) {
            //alert($scope.user.columns);
-           if($scope.user.createcol!=undefined)
+           if($scope.user.createcol!=undefined && $scope.user.createcol!='')
                var arr = $scope.user.createcol.split(',');
            else
                var arr = new Array();
@@ -420,7 +420,6 @@ angular.module('demoApp')
            {
                arr.push(data.businessrulesid);
            }
-           alert($scope.user.createcol);
            $scope.user.createcol=arr.join(',');
        };
        $scope.refresh_columns = function(  ) {

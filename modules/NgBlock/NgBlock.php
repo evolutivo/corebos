@@ -170,6 +170,31 @@ class NgBlock {
             return (array)$source;
         }
         
+        function getEditCol($createcol) {
+                require_once('modules/cbMap/cbMap.php');
+                require_once('modules/BusinessRules/BusinessRules.php');
+                global $current_user,$adb;
+                $userProfileArr = getUserProfile($current_user->id);
+                $arr=explode(',',$createcol);
+                $columns=array();
+                for($i=0;$i<sizeof($arr);$i++){
+                    if(empty($arr[$i])) continue;
+                    $brId=$arr[$i];
+                    $focusBR = CRMEntity::getInstance("BusinessRules");
+                    $focusBR->retrieve_entity_info($brId, "BusinessRules");
+                    $mapid = $focusBR->column_fields['linktomap'];
+                    $focusMap = CRMEntity::getInstance("cbMap");
+                    $focusMap->retrieve_entity_info($mapid, "cbMap");
+                    $profile = $focusMap->getMapProfile();
+                    $target_fields = $focusMap->getMapTargetFields();
+                    if(count(array_intersect($profile ,$userProfileArr)) != 0 
+                            || in_array('', $profile)){
+                        $columns=$target_fields;
+                        break;
+                    }
+                }
+		return $columns;
+	}
 
 }
 ?>

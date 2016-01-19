@@ -87,7 +87,8 @@ elseif($kaction=='edit'){
              . " elastic_type=?,"
              . " pointing_field_name=?,"
              . " top_widget=?,"
-             . " opened=?";
+             . " opened=?,"
+             . " createcol=?";
      $query.= "  where id=? ";
              
      $result=$adb->pquery($query,array($mv->name,$mv->module_name,$mv->pointing_block_name,$mv->columns,
@@ -96,6 +97,7 @@ elseif($kaction=='edit'){
                                          $mv->destination,$mv->type,$mv->related_tab,$mv->custom_widget_path,
                                          $mv->br_id,$mv->elastic_id,$mv->elastic_type,
                                          $mv->pointing_field_name,$mv->top_widget,$mv->opened,
+                                         $mv->createcol,
                                          $mv->id)
              ); 
      $seq=$adb->query_result($adb->pquery("select sequence from vtiger_blocks "
@@ -220,15 +222,17 @@ elseif($kaction=='add'){
              . " pointing_field_name,columns,cond,sort,"
              . " paginate,add_record,edit_record,"
              . " delete_record,nr_page,sequence_ngblock,destination,type,related_tab,"
-             . " custom_widget_path,br_id,elastic_id,elastic_type,top_widget,opened)"
-             . " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";            
+             . " custom_widget_path,br_id,elastic_id,elastic_type,top_widget,opened,"
+             . " createcol)"
+             . " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";            
      $result=$adb->pquery($query,array($mv->name,$mv->module_name,$mv->pointing_block_name,$mv->pointing_module_name,
                                          $mv->pointing_field_name,$mv->columns,$mv->cond,$mv->sort,
                                          $mv->paginate,$mv->add_record,$mv->edit_record,
                                          $mv->delete_record,$mv->nr_page,$mv->sequence_ngblock,
                                          $mv->destination,$mv->type,$mv->related_tab,
                                          $mv->custom_widget_path,$mv->br_id,
-                                         $mv->elastic_id,$mv->elastic_type,$mv->top_widget,$mv->opened
+                                         $mv->elastic_id,$mv->elastic_type,$mv->top_widget,$mv->opened,
+                                         $mv->createcol
                                      )); 
     $last_id=$adb->query_result($adb->query("select id from vtiger_ng_block order by id desc"),0,'id');
     $seq=$adb->query_result($adb->pquery("select sequence from vtiger_blocks "
