@@ -44,116 +44,56 @@
                 <md-content class="md-padding">
                     <md-tabs md-dynamic-height md-border-bottom>
                       <md-tab label="NgBLocks">
-                        <md-content class="md-padding">
-                          <h5 >Manage NgBlocks</h5>
-                          <table ng-controller="ng_Block" ng-table="tableParams" class="table  table-bordered table-responsive" width=90% >
-                            <tr >
-                                <td colspan="21">
-                                    <button class="btn btn-primary" ng-click="open(new_user,'add')">Add new NgBlock</button>
-                                </td>
-                        </tr>
-                        <tr style="background-color:#c9dff0">
-                                <th style="align:center">
-                                </th> <th style="text-align: center">
-                                    Name
-                                </th><th style="text-align: center">
-                                    Module Name
-                                </th><th style="text-align: center">
-                                    Pointing Block
-                                </th><th style="text-align: center">
-                                    Pointing Module
-                                </th><th style="text-align: center">
-                                    Pointing Field
-                                </th><th style="text-align: center">
-                                    Columns
-                                </th><th style="text-align: center">
-                                    Condition
-                                </th><th style="text-align: center">
-                                    Paginate
-                                </th><th style="text-align: center">
-                                    Nr Page
-                                </th><th style="text-align: center">
-                                    Add Record
-                                </th><th style="text-align: center">
-                                    Sort
-                                </th><th style="text-align: center">
-                                    Edit Record
-                                </th><th style="text-align: center">
-                                    Delete Record
-                                </th><th style="text-align: center">
-                                    Sequence
-                                </th>
-                                <th style="text-align: center">
-                                    Destination
-                                </th>
-                                <th style="text-align: center">
-                                    Type
-                                </th>
-                                <th style="text-align: center">
-                                    Tab
-                                </th>
-                                <th style="text-align: center">
-                                    Custom Widget Path
-                                </th>
-                                <th style="text-align: center">
-                                    Respective Action
-                                </th>
-                            </tr>    
+                        <md-content ng-controller="ng_Block" class="md-padding">
+                          <h5 >Manage NgBlocks</h5><br/>
+                          <button class="btn btn-primary" ng-click="open(new_user,'add')">Add new NgBlock</button>
+                          <table ng-table="tableParams" show-filter="true" class="table  table-bordered table-responsive" width=90% >
                             <tr ng-repeat="user in $data" >
-                              <td  >                
+                              <td>                
                                   <table>
                                       <tr>
                                           <th>
-                                              <img ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'edit')" src="themes/images/editfield.gif" /> 
-                                              <a ng-click="open(user,'edit')">Edit</a> 
+                                              <img alt="Edit" title="Edit" ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'edit')" src="themes/images/editfield.gif" /> 
                                           </th>
                                           <th>
-                                              <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record(user)" src="themes/images/delete.gif" />
-                                              <a ng-click="delete_record(user)">Delete</a>
-                                          </th>   
+                                              <img alt="Delete" title="Delete" ng-if="!user.$edit" width="20" height="20" ng-click="delete_record(user)" src="themes/images/delete.gif" />
+                                          </th> 
+                                          <th>
+                                              <img alt="Duplicate" title="Duplicate" ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'duplicate')" src="themes/images/settingsActBtnDuplicate.gif" />
+                                          </th> 
                                       </tr>             
                                   </table>
                               </td>
-                              <td > 
+                              <td title="'Name'" filter="{literal}{ name: 'text'}{/literal}"> 
                                   {literal}  {{user.name}}{/literal}                                                                   
                               </td> 
-                              <td  > 
+                              <td title="'Module Name'" filter="{literal}{ module_name_trans: 'text'}{/literal}"> 
                                   {literal}  {{user.module_name_trans}}{/literal}
                               </td> 
-                              <td  > 
+                              <td title="'Pointing Block'" > 
                                   {literal}  {{user.pointing_block_name_trans}}{/literal}
                               </td> 
-                              <td > 
+                              <td title="'Pointing Module'" filter="{literal}{ pointing_module_name_trans: 'text'}{/literal}"> 
                                   {literal}  {{user.pointing_module_name_trans}}{/literal}
                               </td> 
-                              <td  > 
-                                  {literal}  {{user.pointing_field_name_trans}}{/literal}
-                              </td> 
-                              <td  > 
-                                  {literal}  {{user.columns}}{/literal}
+                              <td title="'Columns'" > 
+                                  {literal}  {{user.columns_disp}}{/literal}
                               </td> 
                               <td  data-title="'BR'" > 
                                   <a ng-if="user.br_id!=''&& user.br_id!=null && user.br_id!=undefined" href="index.php?module=BusinessRules&action=DetailView&record={literal}{{user.br_id}}{/literal}">BR</a>
                               </td>
-                              <td > 
-                                  <img ng-if="user.paginate==1" width="20" height="20" src="themes/images/yes.gif" />
-                                  <img ng-if="user.paginate!=1" width="20" height="20" src="themes/images/no.gif" />                                  
-                              </td> 
-                              <td  data-title="'Nr Page'"> 
-                                  {literal}  {{user.nr_page}}{/literal}
-                              </td> 
-                              <td  > 
+                              <td title="'Add Record'" > 
                                   <img ng-if="user.add_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.add_record!=1" width="20" height="20" src="themes/images/no.gif" />  
                               </td> 
-                              <td > 
+                              <td title="'Order'"> 
                                   {literal}  {{user.sort}}{/literal}
                               </td> 
-                              <td  > 
+                              <td  title="'Edit'"> 
                                   <img ng-if="user.edit_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.edit_record!=1" width="20" height="20" src="themes/images/no.gif" />
                               </td> 
-                              <td  > 
+                              <td  title="'Delete'"> 
                                   <img ng-if="user.delete_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.delete_record!=1" width="20" height="20" src="themes/images/no.gif" />
                               </td> 
@@ -166,13 +106,7 @@
                               <td  data-title="'Type'"> 
                                   {literal}  {{user.type}}{/literal}
                               </td> 
-                              <td  data-title="'Tab'"> 
-                                  {literal}  {{user.related_tab_name}}{/literal}
-                              </td> 
-                              <td  data-title="'Custom Widget Path'" > 
-                                  {literal}  {{user.custom_widget_path}}{/literal}
-                              </td> 
-                              <td  data-title="'Action'" > 
+                              <td  data-title="'Respective Action'" > 
                                   <a href="index.php?module=BusinessActions&action=DetailView&record={literal}{{user.respective_act}}{/literal}">Action</a>
                               </td> 
                               
@@ -250,7 +184,7 @@
 <script>
 {literal}
 angular.module('demoApp',['ngTable','ui.bootstrap','multi-select','ngMaterial']) 
-.controller('ng_Block', function($scope, $http, $modal, ngTableParams) {
+.controller('ng_Block', function($scope, $http,$filter, $modal, ngTableParams) {
 
     $scope.new_user={"id":"","id_hidden":"","name":"","module_name":"",
         "module_name_trans":"","pointing_block_name":"",
@@ -263,15 +197,18 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select','ngMaterial'])
 
     $scope.tableParams = new ngTableParams({
         page: 1,            // show first page
-        count: 5  // count per page
-
+        count: 5,  // count per page
+        filter: { name: "",module_name:"",pointing_module_name:""} 
     }, {
        counts: [5,15], 
         getData: function($defer, params) {
         $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=retrieve').
             success(function(data, status) {
               var orderedData = data;
-              params.total(data.length);
+              orderedData = params.filter() ?
+                    $filter('filter')(orderedData, params.filter()) :
+                    orderedData;
+              params.total(orderedData.length);
               $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
         })
             }
@@ -377,6 +314,8 @@ angular.module('demoApp')
         item: 0
       };
       $scope.Action = (type === 'add' ? 'Create' : 'Edit');
+      $scope.Action = (type === 'duplicate' ? 'Duplicate' : $scope.Action);
+      type=(type === 'duplicate' ? 'add' : type);
 
       $scope.module_sel=[];
       $scope.blocks=[];
@@ -451,7 +390,11 @@ angular.module('demoApp')
         $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve_br&selected='+$scope.user.br_id+'&pointing_module='+$scope.user.pointing_module_name).
                 success(function(data, status) {
                  $scope.br_id=data;
-                  });
+          });
+        $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve_br_profile&selected='+$scope.user.createcol+'&pointing_module='+$scope.user.pointing_module_name).
+                success(function(data, status) {
+                 $scope.createcol=data;
+          });
        
        $scope.functionClick_br = function( data ) {          
            if ($scope.user.br_id===data.businessrulesid){
@@ -461,6 +404,24 @@ angular.module('demoApp')
                $scope.user.br_id=data.businessrulesid;
            }
            
+       };
+       $scope.functionClick_createcol = function( data ) {
+           //alert($scope.user.columns);
+           if($scope.user.createcol!=undefined)
+               var arr = $scope.user.createcol.split(',');
+           else
+               var arr = new Array();
+           var index =arr.indexOf(data.businessrulesid);
+           if(index!==-1)
+           {
+               arr.splice(index,1);
+           }
+           else
+           {
+               arr.push(data.businessrulesid);
+           }
+           alert($scope.user.createcol);
+           $scope.user.createcol=arr.join(',');
        };
        $scope.refresh_columns = function(  ) {
            $http.get('index.php?module=NgBlock&action=NgBlockAjax&file=field&kaction=retrieve&selected='+$scope.user.columns+'&pointing_module='+$scope.user.pointing_module_name).

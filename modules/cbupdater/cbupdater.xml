@@ -729,4 +729,11 @@
 	<classname>addwftypes</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>        
+	<author>albana</author>
+	<description>Add Params to NgBlock</description>
+	<filename>build/changeSets/evolutivo/addFieldNgBlock_improvement.php</filename>
+	<classname>addFieldNgBlock_improvement</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>

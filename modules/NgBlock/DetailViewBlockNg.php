@@ -106,6 +106,7 @@ class NgBlock_DetailViewBlockNgWidget {
                 $edit_record=$adb->query_result($result,0,'edit_record');
                 $delete_record=$adb->query_result($result,0,'delete_record');
                 $add_record=$adb->query_result($result,0,'add_record');
+                $opened=$adb->query_result($result,0,'opened');
                 $columns=$adb->query_result($result,0,'columns');
                 $type=$adb->query_result($result,0,'type');
                 $custom_widget_path=$adb->query_result($result,0,'custom_widget_path');
@@ -184,6 +185,7 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign('EDIT_RECORD', $edit_record);
                 $viewer->assign('DELETE_RECORD', $delete_record);
                 $viewer->assign('ADD_RECORD', $add_record);
+                $viewer->assign('OPENED', $opened);
                 $viewer->assign("COLUMN_NAME", $columnName);
                 $viewer->assign("FIELD_LABEL", $fieldLabel);
                 $viewer->assign("FIELD_UITYPE", $fieldUitype);
@@ -191,7 +193,6 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign("COLUMN_NAME_JSON", json_encode($columnName));
                 $viewer->assign("FIELD_UITYPE_JSON", json_encode($fieldUitype));
                 $viewer->assign("OPTIONS", json_encode($options));
-                $viewer->assign('ADD_RECORD', $add_record);
                 $viewer->assign('REL_MODULE', $relmodule);
                 $viewer->assign("blockURL",$blockURL);
                 

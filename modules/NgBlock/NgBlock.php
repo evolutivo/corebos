@@ -38,15 +38,16 @@ class NgBlock {
 	 */
 	static function getWidget($id,$context) {
                 global $adb;
-		$result=$adb->pquery("Select id,pointing_block_name,module_name from vtiger_ng_block where id=?", array($id));
+		$result=$adb->pquery("Select id,pointing_block_name,top_widget from vtiger_ng_block where id=?", array($id));
                 $nr=$adb->num_rows($result);
                 if ($nr>0) {
-                    $module_name=$adb->query_result($result,0,'module_name');
+                    $top_widget=$adb->query_result($result,0,'top_widget');
                     $pointing_block_name=$adb->query_result($result,0,'pointing_block_name');
                     $lbl_block_name=array_search($context['header'],$context['MOD']);
 
-                    if($lbl_block_name==$pointing_block_name || $context['header']==$pointing_block_name || 
-                            ($context['CUSTOM_LINKS']['RELATEDVIEWWIDGET'] && $context['CUSTOM_LINKS']['RELATEDVIEWWIDGET'][0]->linktype=='RELATEDVIEWWIDGET') ){
+                    if($lbl_block_name==$pointing_block_name || $context['header']==$pointing_block_name  
+                            ||($context['CUSTOM_LINKS']['RELATEDVIEWWIDGET'] && $context['CUSTOM_LINKS']['RELATEDVIEWWIDGET'][0]->linktype=='RELATEDVIEWWIDGET') 
+                            || $top_widget=='1'){
 			require_once dirname(__FILE__) . '/DetailViewBlockNg.php';
 			return (new NgBlock_DetailViewBlockNgWidget($id));
 	}

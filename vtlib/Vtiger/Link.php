@@ -88,6 +88,7 @@ class Vtiger_Link {
                 $this->script_name=$valuemap['script_name'];
                 $this->actions_block=$valuemap['actions_block'];
                 $this->related_tab=$valuemap['related_tab'];
+                $this->top_widget=$valuemap['top_widget'];
 	}
 
 
@@ -349,11 +350,9 @@ class Vtiger_Link {
                 $module=  $parameters['MODULE'];
 
 		$multitype = false;
-                $orderby = ' order by elementtype_action,sequence'; //MSL
+                $orderby = ' order by elementtype_action,sequence,sequence_ngblock'; //MSL
                 $join_str='';
-                $qry_ngblock="Select * from vtiger_ng_block";
-                $res_ngblock=$adb->query($qry_ngblock);
-                if($adb->num_rows($res_ngblock)>0){
+                if(Vtiger_Utils::CheckTable('vtiger_ng_block')){
                     $join_str= ' left join vtiger_ng_block on vtiger_ng_block.id=reference';
                 }
 		if($type) {
