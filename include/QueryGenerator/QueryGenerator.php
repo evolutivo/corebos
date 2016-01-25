@@ -679,6 +679,7 @@ class QueryGenerator {
 		// Adding support for conditions on reference module fields
 		if(count($this->referenceFieldInfoList)>0) {
 			$referenceFieldTableList = array();
+                        $referenceFieldReferenceList = array();
 			if (isset($this->referenceModuleField) and is_array($this->referenceModuleField)) {
 			foreach ($this->referenceModuleField as $index=>$conditionInfo) {
 				if ($conditionInfo['relatedModule'] == 'Users' && $baseModule != 'Users'
@@ -721,8 +722,9 @@ class QueryGenerator {
 						$tableName.$conditionInfo['referenceField'].'.'.$reltableList[$tableName].'='.
 						$referenceFieldObject->getTableName().'.'.$referenceFieldObject->getColumnName();
 					$referenceFieldTableList[] = $tableName;
-				}else{                                 
-                                    //if(!empty(VTCacheUtils::getReferenceModules()))
+                                        $referenceFieldReferenceList[] = $conditionInfo['referenceField'];
+				}elseif(!in_array($conditionInfo['referenceField'], $referenceFieldReferenceList)){                                 
+                                    
                                  $sql .= " LEFT JOIN ".$tableName.' AS '.$tableName.$conditionInfo['referenceField'].' ON '.
 						$tableName.$conditionInfo['referenceField'].'.'.$reltableList[$tableName].'='.
 						$referenceFieldObject->getTableName().'.'.$referenceFieldObject->getColumnName();
