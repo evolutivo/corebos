@@ -729,6 +729,7 @@ class QueryGenerator {
 						$tableName.$conditionInfo['referenceField'].'.'.$reltableList[$tableName].'='.
 						$referenceFieldObject->getTableName().'.'.$referenceFieldObject->getColumnName();
 					$referenceFieldTableList[] = $tableName;
+                                        $referenceFieldReferenceList[] = $conditionInfo['referenceField'];
                                 }
 			}}              global $log;    $log->Debug('dionu');
 			foreach ($this->fields as $fieldName) {
