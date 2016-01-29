@@ -465,6 +465,17 @@ class cbMap extends CRMEntity {
            $return_module=(string)$x->map->originmodule[0]->originname;
            return $return_module;
         }
+        function getMapProfile(){
+           $map=htmlspecialchars_decode($this->column_fields['content']);
+           $x = new crXml();
+           $x->loadXML($map);
+           $target_profile=array();
+           foreach ($x->map->profile[0] as $k => $v) {
+                    $target_profile[]=  (string)$v;
+           }
+           $return_profile=$target_profile;
+           return $return_profile;
+        }
        function getMapTargetFields(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();

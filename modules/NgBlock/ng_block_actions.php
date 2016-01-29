@@ -24,6 +24,7 @@
                 $pointing_module=$adb->query_result($a,0,'pointing_module_name');
                 $tabid=  getTabid($pointing_module);
                 $pointing_field_name=$adb->query_result($a,0,'pointing_field_name');
+                $createcol=$adb->query_result($a,0,'createcol');
                                     
                 $col= explode(",",$columns);
                 $pointing_module_field=$pointing_field_name;
@@ -38,36 +39,44 @@
                     $pointing_module_tablecf=$pointing->customFieldTable[0];
                     $pointing_module_tablecf_id=$pointing->customFieldTable[1];
                     $pointing_module_id=$pointing->table_index;
-                }
-
-                $query_cond='';  
-                if($cond!='')
-                 {
-                    $businessrulesid = $cond;
-                    $res_buss = $adb->pquery("select * from vtiger_businessrules where businessrulesid=?", array($businessrulesid));
-                    $isRecordDeleted = $adb->query_result($res_buss, 0, "deleted");
-                    if ($isRecordDeleted == 0 || $isRecordDeleted == '0') {
-                        $br_focus = CRMEntity::getInstance("BusinessRules");
-                        $br_focus->retrieve_entity_info($businessrulesid, "BusinessRules");
-                        $mapid=$br_focus->column_fields['linktomap'];
-                        $mapfocus=  CRMEntity::getInstance("cbMap");
-                        $mapfocus->retrieve_entity_info($mapid,"cbMap");
-                        $mapfocus->id=$mapid;
-                        $businessrules_action=$mapfocus->getMapSQL(); 
-                        $query_cond= " and  $businessrules_action  ";
-                    }
-                 }
-                if(!empty($sort) && $sort!= null && $sort!= ' '){
-                    $so= explode(",",$sort);    
-                    $sort_by=$so[0]; 
-                    $order=$so[1];
-                    $query_sort= " order by $sort_by  $order";
-                } 
-                $col2=implode(",",$col);
-                 
+                }                
                 // retrieve record data     
                 if($kaction=='retrieve'){
                     
+                    $instanceNgBlock = new NgBlock();
+                    $editColBR = $instanceNgBlock->getEditCol($createcol);
+                    if(sizeof($editColBR)>0)
+                    {
+                        $all_fld=array();$default_val=array();
+                        foreach($editColBR as $k=>$v){
+                            $all_fld[]=$k;
+                            $default_val[]=$v;
+                        }
+                        $col= array_unique(array_merge($col,$all_fld));
+                    }
+                    $query_cond='';  
+                    if($cond!='')
+                     {
+                        $businessrulesid = $cond;
+                        $res_buss = $adb->pquery("select * from vtiger_businessrules where businessrulesid=?", array($businessrulesid));
+                        $isRecordDeleted = $adb->query_result($res_buss, 0, "deleted");
+                        if ($isRecordDeleted == 0 || $isRecordDeleted == '0') {
+                            $br_focus = CRMEntity::getInstance("BusinessRules");
+                            $br_focus->retrieve_entity_info($businessrulesid, "BusinessRules");
+                            $mapid=$br_focus->column_fields['linktomap'];
+                            $mapfocus=  CRMEntity::getInstance("cbMap");
+                            $mapfocus->retrieve_entity_info($mapid,"cbMap");
+                            $mapfocus->id=$mapid;
+                            $businessrules_action=$mapfocus->getMapSQL(); 
+                            $query_cond= " and  $businessrules_action  ";
+                        }
+                     }
+                    if(!empty($sort) && $sort!= null && $sort!= ' '){
+                        $so= explode(",",$sort);    
+                        $sort_by=$so[0]; 
+                        $order=$so[1];
+                        $query_sort= " order by $sort_by  $order";
+                    } 
                     $join_cf='';
                     if(Vtiger_Utils::CheckTable($pointing_module_tablecf)) {
                         $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_tablecf_id=$pointing_module_table.$pointing_module_id";
@@ -84,6 +93,7 @@
                        // var_dump($col); 
 
                       for($i=0;$i<$count;$i++){
+                          if(!isPermitted($pointing_module, 'DetailView', $adb->query_result($query,$i,$pointing_module_id))) continue;
                           $content[$i]['id']=$adb->query_result($query,$i,$pointing_module_id);
                           $content[$i]['href']='index.php?module='.$pointing_module.'&action=DetailView&record='.$content[$i]['id'];
                           $focus_pointing= CRMEntity::getInstance($pointing_module);
@@ -91,33 +101,33 @@
                           $focus_pointing->mode = 'edit';
                           $focus_pointing->retrieve_entity_info($adb->query_result($query,$i,$pointing_module_id), $pointing_module);
                           
-                          for($j=0;$j<sizeof($col);$j++)
+                          foreach($col as $key=>$fldname_val)
                           {
-                              if($col[$j]=='') continue;
+                              if($fldname_val=='') continue;
                               $a=$adb->query("SELECT *
                                       from vtiger_field
-                                      WHERE ( columnname='$col[$j]' OR fieldname='$col[$j]' )"
+                                      WHERE ( columnname='$fldname_val' OR fieldname='$fldname_val' )"
                                       . " and tabid = '$tabid' ");
                                   $uitype=$adb->query_result($a,0,'uitype');
                                   $fieldname=$adb->query_result($a,0,'fieldname');
-                                  $col_fields[$fieldname]=$focus_pointing->column_fields["$col[$j]"];
+                                  $col_fields[$fieldname]=$focus_pointing->column_fields["$fldname_val"];
                                   $block_info=getDetailViewOutputHtml($uitype,$fieldname,'',$col_fields,'','',$pointing_module);
                                       $ret_val=$block_info[1];
                                       
                                   if(in_array($uitype,array(10,51,50,73,68,57,59,58,76,75,81,78,80,5,6,23,53,56)))
                                   {
-                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
-                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                      $content[$i][$fldname_val]=($col_fields[$fieldname]==null ? '': $col_fields[$fieldname]);
+                                      $content[$i][$fldname_val.'_display']=$ret_val;
                                   }
                                   elseif(in_array($uitype,array(69,105,28,26)))//image fields & folderid
                                   {
                                       $content[$i]['preview']=retrieveAttachment($focus_pointing->id);
-                                      $content[$i][$col[$j]]=$col_fields[$fieldname]; 
-                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                      $content[$i][$fldname_val]=$col_fields[$fieldname]; 
+                                      $content[$i][$fldname_val.'_display']=$ret_val;
                                   }
                                   else{
-                                      $content[$i][$col[$j]]=$ret_val;
-                                      $content[$i][$col[$j].'_display']=$ret_val;
+                                      $content[$i][$fldname_val]=$ret_val;
+                                      $content[$i][$fldname_val.'_display']=$ret_val;
                                   }
                           }
                       }
@@ -138,9 +148,7 @@
                      else {$entityname=$entity_field;}
                         
                     $query=$adb->pquery(" 
-                          SELECT $pointing_module_table.$pointing_module_id,
-                          $pointing_module_table.$col2,$pointing_module_table.$entityname
-                          ,vtiger_crmentity.smownerid,vtiger_crmentity.createdtime,vtiger_crmentity.modifiedtime,vtiger_crmentity.description
+                          SELECT $pointing_module_table.$pointing_module_id
                           FROM $ng_module_table
                           join $pointing_module_table on $ng_module_table.$ng_module_id = $pointing_module_table.$pointing_module_field
                           join vtiger_crmentity on crmid = $pointing_module_table.$pointing_module_id

@@ -92,6 +92,7 @@ class NgBlock_DetailViewBlockNgWidget {
 	}
 	
 	function process($context = false) {
+            require_once('modules/NgBlock/NgBlock.php');
             global $adb,$mod_strings, $app_strings,$default_language,$current_user;
 		$this->context = $context;
 		$sourceRecordId =  $this->getFromContext('ID', true);
@@ -106,29 +107,54 @@ class NgBlock_DetailViewBlockNgWidget {
                 $edit_record=$adb->query_result($result,0,'edit_record');
                 $delete_record=$adb->query_result($result,0,'delete_record');
                 $add_record=$adb->query_result($result,0,'add_record');
+                $opened=$adb->query_result($result,0,'opened');
                 $columns=$adb->query_result($result,0,'columns');
+                $col= explode(",",$columns);
+                $listcol= explode(",",$columns);
+                $createcol=$adb->query_result($result,0,'createcol');
                 $type=$adb->query_result($result,0,'type');
                 $custom_widget_path=$adb->query_result($result,0,'custom_widget_path');
-                $col= explode(",",$columns);
-                $options= Array();
-                for($j=0;$j<sizeof($col);$j++)
+                $instanceNgBlock = new NgBlock();
+                $editColBR = $instanceNgBlock->getEditCol($createcol);
+                $edit_fld=array();$default_val=array();
+                if(sizeof($editColBR)>0)
                 {
-                    if(empty($col[$j])) continue;
+                    foreach($editColBR as $k=>$v){
+                        $edit_fld[]=$k;
+                        $default_val[$k]=$v['value'];
+                    }
+                    $col= array_unique(array_merge($col,$edit_fld));
+                }
+                $options= Array();
+                foreach($col as $key=>$fldname_val)
+                {
+                    if(empty($fldname_val)) continue;
                     $re=$adb->pquery("Select fieldlabel,uitype,fieldname,typeofdata,relmodule "
                             . " from vtiger_field "
                             . " left join vtiger_fieldmodulerel on vtiger_fieldmodulerel.fieldid=vtiger_field.fieldid"
-                            . " where columnname = ? OR fieldname=?",array($col[$j],$col[$j]));  
+                            . " where columnname = ? OR fieldname=?",array($fldname_val,$fldname_val));  
                     $tmp1= getTranslatedString($adb->query_result($re,0,'fieldlabel'),$pointing_module_name);
                     $uitype = $adb->query_result($re,0,'uitype');
                     $fieldname = $adb->query_result($re,0,'fieldname');
-                    $columnName[] = $col[$j];
+                    $columnName[] = $fldname_val;
+                    $coList=false;$coEdit=false;$defValue='';
+                    if(in_array($fldname_val, $edit_fld) || sizeof($editColBR)==0){
+                        $coEdit=true;
+                        $defValue=$default_val[$fldname_val];
+                    }
+                    if(in_array($fldname_val, $listcol)){
+                        $coList=true;
+                    }
+                    $columnNameEdit[]=$coEdit;
+                    $columnNameList[]=$coList;
+                    $defaultValue[]=$defValue;
                     $fieldLabel[] = $tmp1;
                     $fieldUitype [] = $uitype;
                     if(in_array($uitype, array('15','16','55','33'))){
                         $res1=$adb->pquery("Select * from vtiger_$fieldname ",array());
                         for($count_options=0;$count_options<$adb->num_rows($res1);$count_options++)
                         {
-                            $options[$col[$j]][$count_options]=$adb->query_result($res1,$count_options,$fieldname);
+                            $options[$fldname_val][$count_options]=$adb->query_result($res1,$count_options,$fieldname);
                         }
                     
                     }
@@ -136,7 +162,7 @@ class NgBlock_DetailViewBlockNgWidget {
                         $res1=$adb->pquery("Select * from vtiger_attachmentsfolder ",array());
                         for($count_options=0;$count_options<$adb->num_rows($res1);$count_options++)
                         {
-                            $options[$col[$j]][$count_options]=array(
+                            $options[$fldname_val][$count_options]=array(
                                 'id'=>$adb->query_result($res1,$count_options,'folderid'),
                                 'name'=>$adb->query_result($res1,$count_options,'foldername'));
                         }
@@ -147,7 +173,7 @@ class NgBlock_DetailViewBlockNgWidget {
                                 . " Union"
                                 . " Select groupid as id,groupname as crmname,'Group' as type from vtiger_groups",array());
                         while ($emp=$adb->fetch_array($res1))  {
-                               $options[$col[$j]][]=array('crmid'=>$emp['id'],
+                               $options[$fldname_val][]=array('crmid'=>$emp['id'],
                                                           'crmname'=>$emp['crmname'],
                                                           'crmtype'=>$emp['type']);
                         }
@@ -184,14 +210,18 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign('EDIT_RECORD', $edit_record);
                 $viewer->assign('DELETE_RECORD', $delete_record);
                 $viewer->assign('ADD_RECORD', $add_record);
+                $viewer->assign('OPENED', $opened);
                 $viewer->assign("COLUMN_NAME", $columnName);
+                $viewer->assign("COLUMN_NAME_EDIT", $columnNameEdit);
+                $viewer->assign("COLUMN_NAME_LIST", $columnNameList);
+                $viewer->assign("DEFAULT_VALUE", $defaultValue);
                 $viewer->assign("FIELD_LABEL", $fieldLabel);
                 $viewer->assign("FIELD_UITYPE", $fieldUitype);
                 $viewer->assign("Date_format", $current_user->date_format);
                 $viewer->assign("COLUMN_NAME_JSON", json_encode($columnName));
                 $viewer->assign("FIELD_UITYPE_JSON", json_encode($fieldUitype));
+                $viewer->assign("DEFAULT_VALUE_JSON", json_encode($defaultValue));
                 $viewer->assign("OPTIONS", json_encode($options));
-                $viewer->assign('ADD_RECORD', $add_record);
                 $viewer->assign('REL_MODULE', $relmodule);
                 $viewer->assign("blockURL",$blockURL);
                 

@@ -28,6 +28,13 @@ if($kaction=='retrieve'){
       $content[$i]['pointing_module_name_trans']=getTranslatedString($adb->query_result($query,$i,'pointing_module_name'),$adb->query_result($query,$i,'pointing_module_name'));
       $content[$i]['pointing_field_name']=$adb->query_result($query,$i,'pointing_field_name');
       $content[$i]['pointing_field_name_trans']=getTranslatedString($adb->query_result($query,$i,'pointing_field_name'),$adb->query_result($query,$i,'pointing_module_name'));
+      $cols=explode(',',$adb->query_result($query,$i,'columns'));
+      $temp='';
+      for($c=0;$c<sizeof($cols);$c++){
+          $temp.=(($c%2)==0 ? $cols[$c].',' : $cols[$c].',
+');
+      }
+      $content[$i]['columns_disp']=$temp;
       $content[$i]['columns']=$adb->query_result($query,$i,'columns');
       $content[$i]['cond']=$adb->query_result($query,$i,'cond');
       $content[$i]['paginate']=($adb->query_result($query,$i,'paginate')==1 ? true : false );
@@ -46,6 +53,10 @@ if($kaction=='retrieve'){
       $content[$i]['respective_act']=$adb->query_result($query,$i,'businessactionsid');
       $content[$i]['elastic_id']=$adb->query_result($query,$i,'elastic_id');
       $content[$i]['elastic_type']=$adb->query_result($query,$i,'elastic_type');
+      $content[$i]['top_widget']=($adb->query_result($query,$i,'top_widget') ==1 ? true : false );
+      $content[$i]['opened']=($adb->query_result($query,$i,'opened') ==1 ? true : false );
+      $content[$i]['createcol']=$adb->query_result($query,$i,'createcol');
+      $content[$i]['defaultval']=$adb->query_result($query,$i,'defaultval');
       }
       echo json_encode($content);
      
@@ -74,7 +85,10 @@ elseif($kaction=='edit'){
              . " br_id=?,"
              . " elastic_id=?,"
              . " elastic_type=?,"
-             . " pointing_field_name=?";
+             . " pointing_field_name=?,"
+             . " top_widget=?,"
+             . " opened=?,"
+             . " createcol=?";
      $query.= "  where id=? ";
              
      $result=$adb->pquery($query,array($mv->name,$mv->module_name,$mv->pointing_block_name,$mv->columns,
@@ -82,7 +96,8 @@ elseif($kaction=='edit'){
                                          $mv->edit_record,$mv->delete_record,$mv->nr_page,$mv->sequence_ngblock,
                                          $mv->destination,$mv->type,$mv->related_tab,$mv->custom_widget_path,
                                          $mv->br_id,$mv->elastic_id,$mv->elastic_type,
-                                         $mv->pointing_field_name,
+                                         $mv->pointing_field_name,$mv->top_widget,$mv->opened,
+                                         $mv->createcol,
                                          $mv->id)
              ); 
      $seq=$adb->query_result($adb->pquery("select sequence from vtiger_blocks "
@@ -206,15 +221,18 @@ elseif($kaction=='add'){
              . " (name,module_name,pointing_block_name,pointing_module_name,"
              . " pointing_field_name,columns,cond,sort,"
              . " paginate,add_record,edit_record,"
-             . " delete_record,nr_page,sequence_ngblock,destination,type,"
-             . " custom_widget_path,br_id,elastic_id,elastic_type)"
-             . " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";            
+             . " delete_record,nr_page,sequence_ngblock,destination,type,related_tab,"
+             . " custom_widget_path,br_id,elastic_id,elastic_type,top_widget,opened,"
+             . " createcol)"
+             . " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";            
      $result=$adb->pquery($query,array($mv->name,$mv->module_name,$mv->pointing_block_name,$mv->pointing_module_name,
                                          $mv->pointing_field_name,$mv->columns,$mv->cond,$mv->sort,
                                          $mv->paginate,$mv->add_record,$mv->edit_record,
                                          $mv->delete_record,$mv->nr_page,$mv->sequence_ngblock,
-                                         $mv->destination,$mv->type,$mv->custom_widget_path,$mv->br_id,
-                                         $mv->elastic_id,$mv->elastic_type
+                                         $mv->destination,$mv->type,$mv->related_tab,
+                                         $mv->custom_widget_path,$mv->br_id,
+                                         $mv->elastic_id,$mv->elastic_type,$mv->top_widget,$mv->opened,
+                                         $mv->createcol
                                      )); 
     $last_id=$adb->query_result($adb->query("select id from vtiger_ng_block order by id desc"),0,'id');
     $seq=$adb->query_result($adb->pquery("select sequence from vtiger_blocks "
