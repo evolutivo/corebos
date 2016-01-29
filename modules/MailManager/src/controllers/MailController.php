@@ -105,7 +105,7 @@ class MailManager_MailController extends MailManager_Controller {
 				$toArray = explode(',', $to_string);
 				foreach($toArray as $to) {
 					$relatedtos = MailManager::lookupMailInVtiger($to, $current_user);
-                                        global $log;$log->debug("loro ");$log->debug($relatedtos);
+                                      
                                         $referenceArray = Array('Contacts','Accounts','Leads');
 					for($j=0;$j<count($referenceArray);$j++){
 						$val=$referenceArray[$j];
@@ -240,18 +240,21 @@ class MailManager_MailController extends MailManager_Controller {
                                          $emailId=$focus_messages->id;
 
 				} else {
-					//$email->id = $emailId;
-					//$email->mode = 'edit';
-					//$email->save('Emails');
-                                       $focus_messages->id = $emailId;
-                                       $focus_messages->mode = 'edit';
+                                       $email->id = $emailId;
+                                       $email->mode = 'edit';
+                                       $email->save('Emails');
                                        $focus_messages->saveentity('Messages');
 				}
                                 if(is_array($attachments)) {
 						foreach($attachments as $attachment){
 					        $fileid=$attachment['fileid'];
-						$adb->pquery("update vtiger_notes join vtiger_seattachmentsrel on vtiger_notes.notesid=vtiger_seattachmentsrel.crmid join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.crmid  set message=? where attachmentsid=? and setype='Documents'",array($focus_messages->id,$fileid));	
-						}
+                                                $doc=$adb->pquery("select notesid from vtiger_notes join vtiger_seattachmentsrel on vtiger_notes.notesid=vtiger_seattachmentsrel.crmid join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seattachmentsrel.crmid
+                                                where attachmentsid=? and deleted=0 and setype='Documents'",array($fileid));
+                                                $noteid=$adb->query_result($doc,0,'notesid');
+						$adb->pquery("update vtiger_notes  set message=?  where notesid=?",array($focus_messages->id,$noteid));	
+						$adb->pquery("insert into vtiger_senotesrel values (?,?)",array($focus_messages->id,$noteid));
+                                                
+                                                }
 					}
 				$response->isJson(true);
 				$response->setResult( array('sent'=> true) );
