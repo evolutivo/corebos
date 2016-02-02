@@ -156,7 +156,7 @@ class MailManager_RelationController extends MailManager_Controller {
             }
             
 			setObjectValuesFromRequest($focus);
-            
+
 			if($request->get('assigntype') == 'U') {
 				$focus->column_fields['assigned_user_id'] = $request->get('assigned_user_id');
 			} elseif($request->get('assigntype') == 'T') {
@@ -174,7 +174,6 @@ class MailManager_RelationController extends MailManager_Controller {
                 $mail = $connector->openMail($request->get('_msgno'));
                 $attachments = $mail->attachments(); // Initialize attachments
             }
-            
 			$linkedto = MailManager_RelationControllerAction::getSalesEntityInfo($parent);
             
 			switch ($linkModule) {
@@ -199,7 +198,7 @@ class MailManager_RelationController extends MailManager_Controller {
                                     }
                                     break;
 
-				case 'HelpDesk' :   $from = $mail->from();
+		case 'HelpDesk' :   $from = $mail->from();
                                     $focus->column_fields['parent_id'] = $this->setParentForHelpDesk($parent, $from);
                                     break;
 
@@ -216,6 +215,12 @@ class MailManager_RelationController extends MailManager_Controller {
                                 if($mail->bcc()!='' && $mail->bcc()!=null)
                                 $focus->column_fields["bccmail"]=$mail->bcc();
                                 $focus->column_fields["messagestype"]='Email';
+                                if($mail->date()!='') 
+                                {
+                                $dt=explode(" ",$mail->date()); 
+                                $focus->column_fields["datainviomail"]=$dt[0];
+                                }
+                                else 
                                 $focus->column_fields["datainviomail"]=date("Y-m-d");
                                 $focus->column_fields["messagesrelatedto"]=$parent;
                         break;
