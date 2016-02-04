@@ -354,7 +354,9 @@
                                   id =?",array($subngid));
                     $columns=$adb->query_result($a,0,'columns');
                     $col= explode(",",$columns);
+                    $pointing_module_name=$adb->query_result($a,0,'pointing_module_name');
                     $returned['columns']=$col;
+                    $returned['pointingModule']=$pointing_module_name;
                     
 //                    include_once('include/utils/VtlibUtils.php');
 //                    require_once('Smarty_setup.php');

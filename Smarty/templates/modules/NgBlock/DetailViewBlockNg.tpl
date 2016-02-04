@@ -116,7 +116,7 @@
                           {/if}
                           {foreach key=count_i item=block_id from=$SUB_NG} 
                                 <td>
-                                    <img width="20" height="20" ng-click="show_sub_ng_block(user,'{$block_id}')" src="themes/images/editfield.gif" />
+                                    <img width="20" height="20" ng-click="show_sub_ng_block(user,'{$block_id}')" src="themes/images/quickview.png" />
                                 </td> 
                           {/foreach} 
                       </tr>             
@@ -132,7 +132,7 @@
 <script type="text/ng-template" id="DetailViewBlockNgEdit{$NG_BLOCK_ID}.html">
 
 <div class="modal-header">
-    <h4 class="modal-title">{literal}{{Action}}{/literal} {$POINTING_MODULE} {literal}{{user.name}}{/literal}</h4>
+    <h4 class="modal-title">{literal}{{Action}} {{PointigModule}} {{user.name}}{/literal}</h4>
 </div>
 <div class="modal-body">    
     <table  >
@@ -342,8 +342,11 @@ angular.module('demoApp')
         item: 0
       };
       $scope.type=type;
-      $scope.Action = (type === 'create' ? 'Create' : 'Edit');
-      $scope.opt={/literal}{$OPTIONS}{literal}; console.log($scope.opt);
+      $scope.Action = (type === 'create' ? 'Create' : 
+              type == 'subngblock' ? 'List' :
+              type == 'choose' ? 'Choose to relate' : 'Edit');
+      $scope.PointigModule = "{/literal}{$POINTING_MODULE}{literal}";
+      $scope.opt={/literal}{$OPTIONS}{literal}; 
       $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
       $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
       $scope.default_json={/literal}{$DEFAULT_VALUE_JSON}{literal};
@@ -410,12 +413,13 @@ angular.module('demoApp')
                     return cols;
                 };
             $scope.followRecord = function(row) {
-               // window.location = "#/portal_moduleview/Cases/" + row.casesid;
+                window.location = row.href;
             };
             $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=subNgBlock&subngid='+subngid+'&sub_recordid='+user.id).
             success(function(data, status) {
               $scope.sub_data=data.records;
               $scope.sub_config=data.config;
+              $scope.PointigModule = $scope.sub_config.pointingModule;
               $scope.cols_SubNg = $scope.generateColumns($scope.sub_config.columns);
               var blockUrl='module=NgBlock&action=NgBlockAjax'+
                       '&file=ng_block_actions&id='+user.id+

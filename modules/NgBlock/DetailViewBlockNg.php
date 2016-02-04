@@ -112,6 +112,8 @@ class NgBlock_DetailViewBlockNgWidget {
                 $col= explode(",",$columns);
                 $listcol= explode(",",$columns);
                 $id_sub_ng=$adb->query_result($result,0,'sub_ng');
+                $sub_ng=array();
+                if(!empty($id_sub_ng))
                 $sub_ng= explode(",",$id_sub_ng);
                 $createcol=$adb->query_result($result,0,'createcol');
                 $type=$adb->query_result($result,0,'type');
