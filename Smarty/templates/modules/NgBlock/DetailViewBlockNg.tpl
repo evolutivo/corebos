@@ -114,6 +114,11 @@
                               <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record(user)" src="themes/images/delete.gif" />
                           </td> 
                           {/if}
+                          {foreach key=count_i item=block_id from=$SUB_NG} 
+                                <td>
+                                    <img width="20" height="20" ng-click="show_sub_ng_block(user,'{$block_id}')" src="themes/images/editfield.gif" />
+                                </td> 
+                          {/foreach} 
                       </tr>             
                  </table>   
                 </td>
@@ -131,6 +136,15 @@
 </div>
 <div class="modal-body">    
     <table  >
+    <tr ng-if="type=='subngblock'">
+        <td style="height:300px;vertical-align:top">
+            <table ng-table-dynamic="tableParamsSubNg with cols_SubNg" show-filter="false" >
+                <tr style="cursor: pointer;" ng-repeat="row in $data ">
+                    <td ng-repeat="col in $columns" ng-bind-html="::row[col.field]"></td>
+                </tr>
+            </table>     
+        </td>
+    </tr>
      <tr ng-if="type=='choose'">
         <td style="height:300px;vertical-align:top">
                 <input ng-model="choosen_entity" type="hidden"  >  
@@ -146,7 +160,7 @@
     </tr>
     {foreach key=index item=fieldname from=$COLUMN_NAME} 
         {if  $FIELD_UITYPE.$index neq '70' && $COLUMN_NAME_EDIT.$index eq true}
-          <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" ng-if="type!='choose'">
+          <tr ng-class-odd="'emphasis'" ng-class-even="'odd'" ng-if="type!='choose' && type!='subngblock'">
               <td style="text-align:right;"> 
                   {$FIELD_LABEL.$index}
               </td>
@@ -224,22 +238,23 @@ angular.module('demoApp')
 }])
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope,$window,$http, $modal, ngTableParams) {
     $scope.user={};
-            
-    $scope.tableParams = new ngTableParams({
-        page: 1,            // show first page
-        count: 5  // count per page
+    $scope.showNgBlock=false;
+    
+          $scope.tableParams = new ngTableParams({
+                page: 1,            // show first page
+                count: 5  // count per page
 
-    }, {
-       counts: [5,15], 
-        getData: function($defer, params) {
-        $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=retrieve').
-            success(function(data, status) {
-              var orderedData = data;
-              params.total(data.length);
-              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
-        })
-            }
-    });
+            }, {
+               counts: [5,15], 
+                getData: function($defer, params) {
+                $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=retrieve').
+                    success(function(data, status) {
+                      var orderedData = data;
+                      params.total(data.length);
+                      $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+                })
+                    }
+            });  
 
     // delete selected record
     $scope.delete_record =  function(user) {
@@ -260,7 +275,36 @@ angular.module('demoApp')
         $window.open(path, '_blank');
     };
 
-      $scope.open = function (user,type) {
+    $scope.show_sub_ng_block =  function(user,subngid) {
+        var modalInstance = $modal.open({
+          templateUrl: 'DetailViewBlockNgEdit{/literal}{$NG_BLOCK_ID}{literal}.html',
+          controller: 'ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',
+          windowClass: 'app-modal-window',
+          //backdrop: "static",
+          resolve: {
+            user :function () {
+              return user;
+            },
+            type :function () {
+              return 'subngblock';
+            },
+            tbl :function () {
+              return $scope.tableParams;
+            },
+            subngid :function () {
+              return subngid;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          //$log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+     
+    $scope.open = function (user,type) {
         var modalInstance = $modal.open({
           templateUrl: 'DetailViewBlockNgEdit{/literal}{$NG_BLOCK_ID}{literal}.html',
           controller: 'ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',
@@ -275,6 +319,9 @@ angular.module('demoApp')
             },
             tbl :function () {
               return $scope.tableParams;
+            },
+            subngid :function () {
+              return '';
             }
           }
         });
@@ -287,9 +334,7 @@ angular.module('demoApp')
       };
 
 })
-
-.controller('ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',function ($scope,$http,$filter,$modalInstance,user,type,tbl) {
-
+.controller('ModalInstanceCtrl{/literal}{$NG_BLOCK_ID}{literal}',function ($scope,$http,$filter,$modalInstance,ngTableParams,user,type,tbl,subngid) {
       $scope.user = (type === 'create' ? {} : user);
       $scope.user1 = {};
       $scope.choosen_entity='';
@@ -345,6 +390,52 @@ angular.module('demoApp')
                     $scope.choosen_entity1=data;
                 });
         }
+        else if(type=='subngblock'){
+            
+            $scope.generateColumns = function(sampleData) {
+                    var colNames = sampleData;
+                    var cols = colNames.map(function(name, idx) {
+                        var filter = {};
+                        var label_trans = name;
+                        var returned_arr = {
+                            title: label_trans,
+                            sortable: name,
+                            show: true,
+                            field: name
+                        };
+                        filter[name] = 'text';
+                        returned_arr['filter'] = filter;
+                        return returned_arr;
+                    });
+                    return cols;
+                };
+            $scope.followRecord = function(row) {
+               // window.location = "#/portal_moduleview/Cases/" + row.casesid;
+            };
+            $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=subNgBlock&subngid='+subngid+'&sub_recordid='+user.id).
+            success(function(data, status) {
+              $scope.sub_data=data.records;
+              $scope.sub_config=data.config;
+              $scope.cols_SubNg = $scope.generateColumns($scope.sub_config.columns);
+              var blockUrl='module=NgBlock&action=NgBlockAjax'+
+                      '&file=ng_block_actions&id='+user.id+
+                      '&ng_block_id='+subngid;
+              $scope.tableParamsSubNg = new ngTableParams({
+                page: 1,            // show first page
+                count: 5  // count per page
+                }, {
+                   counts: [5,15], 
+                    getData: function($defer, params) {
+                    $http.get('index.php?'+blockUrl+'&kaction=retrieve').
+                        success(function(data, status) {
+                          var orderedData = data;
+                          params.total(data.length);
+                          $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+                    })
+                        }
+            }); 
+        })
+    }
        
         $scope.functionClick_en = function( data ) {          
            if($scope.choosen_entity!=undefined)

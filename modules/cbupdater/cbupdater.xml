@@ -736,4 +736,11 @@
 	<classname>addFieldNgBlock_improvement</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
+<changeSet>        
+	<author>albana</author>
+	<description>Add Params to SubNgBlock</description>
+	<filename>build/changeSets/evolutivo/addSubNgBlock.php</filename>
+	<classname>addSubNgBlock</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>

@@ -344,6 +344,38 @@
                             ,array($arr_ids));
                     
                 }
+                elseif($kaction=='subNgBlock')
+                {
+                    $returned=array();
+                    $subngid=$_REQUEST['subngid'];
+                    $subng_recordid=$_REQUEST['sub_recordid'];
+                    $a=$adb->pquery("SELECT *
+                                  from vtiger_ng_block where 
+                                  id =?",array($subngid));
+                    $columns=$adb->query_result($a,0,'columns');
+                    $col= explode(",",$columns);
+                    $returned['columns']=$col;
+                    
+//                    include_once('include/utils/VtlibUtils.php');
+//                    require_once('Smarty_setup.php');
+//                    $subngid=2;//$_REQUEST['subngid'];
+//                    $subng_recordid=$_REQUEST['sub_recordid'];
+//                    $result=$adb->pquery("Select id,pointing_block_name,top_widget from vtiger_ng_block where id=?", array($subngid));
+//                    $pointing_block_name=$adb->query_result($result,0,'pointing_block_name');
+//                    $dtlviewwidget = Array('MODULE'=>  getSalesEntityType($subng_recordid), 
+//                        'RECORD'=>$subng_recordid, 
+//                        'MOD'=>array(), 
+//                        'ID'=>$subng_recordid,
+//                        'ACTION'=>vtlib_purify('DetailView'),
+//                        'linklabel'=>$subngid,
+//                        'header'=>$pointing_block_name,
+//                        'linkurl'=>'block://NgBlock:modules/NgBlock/NgBlock.php');
+//                    $simulated_customLink=array('CUSTOM_LINKS'=>array('DETAILVIEWWIDGET'=>$dtlviewwidget));
+//                    $simulated_customLink=array_merge($simulated_customLink,$dtlviewwidget);
+//                    $object = json_decode(json_encode($dtlviewwidget), FALSE);
+//                    $ret=vtlib_process_widget($object, $simulated_customLink);
+                    echo json_encode(array('config'=>$returned));
+                }
                 
 function retrieveAttachment($id) {
         global $adb;

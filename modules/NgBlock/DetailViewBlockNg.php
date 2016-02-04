@@ -111,6 +111,8 @@ class NgBlock_DetailViewBlockNgWidget {
                 $columns=$adb->query_result($result,0,'columns');
                 $col= explode(",",$columns);
                 $listcol= explode(",",$columns);
+                $id_sub_ng=$adb->query_result($result,0,'sub_ng');
+                $sub_ng= explode(",",$id_sub_ng);
                 $createcol=$adb->query_result($result,0,'createcol');
                 $type=$adb->query_result($result,0,'type');
                 $custom_widget_path=$adb->query_result($result,0,'custom_widget_path');
@@ -217,6 +219,7 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign("DEFAULT_VALUE", $defaultValue);
                 $viewer->assign("FIELD_LABEL", $fieldLabel);
                 $viewer->assign("FIELD_UITYPE", $fieldUitype);
+                $viewer->assign("SUB_NG", $sub_ng);
                 $viewer->assign("Date_format", $current_user->date_format);
                 $viewer->assign("COLUMN_NAME_JSON", json_encode($columnName));
                 $viewer->assign("FIELD_UITYPE_JSON", json_encode($fieldUitype));
