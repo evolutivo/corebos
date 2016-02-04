@@ -207,7 +207,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = implode(', ',$content);
 	}
-        elseif ($uitype == 1021) {
+        elseif ($uitype == 1021 || $uitype == 1025) {
 		$content=array();
 		$j=0;
                 require_once 'include/Webservices/CustomerPortalWS.php';

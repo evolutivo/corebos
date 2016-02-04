@@ -261,6 +261,7 @@ angular.module('demoApp')
      if(confirm('Are you sure you want to delete?'))
      {
          user.href='';
+         user={id:user.id};
          var data_send =JSON.stringify(user);
          $http.post('index.php?{/literal}{$blockURL}{literal}&kaction=delete&models='+data_send
         )

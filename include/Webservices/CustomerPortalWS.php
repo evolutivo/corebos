@@ -1144,7 +1144,7 @@ function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $
 function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $user,$field) {
 	global $current_user,$log,$adb,$default_charset;
 
-        $values = explode(' |##| ', $term);
+        $values = explode(',', $term);
         $field_param=getFieldConfig($field);
         $fld_search =   $field_param['fld_search'];
         $fld_shown  =   $field_param['fld_shown'];

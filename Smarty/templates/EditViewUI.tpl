@@ -1128,7 +1128,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                                        var val=$scope.{/literal}{$fldname}{literal}[i]['crmid'].split('x');
                                        arr[i]=val[1];
                                     }
-                                document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=arr.join(' |##| ');
+                                document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=arr.join(',');
                             };
                                                
                         });
