@@ -1,6 +1,6 @@
 <?php
 /*+*******************************************************************************
- * The contents of this file are subject to the Evolutivo BPM License Version 1.0
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
@@ -25,15 +25,13 @@ class VTModuleExpressionsManager{
 	static function clearCache() {
 		self::$cache = array();
 	}
-	/** END **/
-	
+
 	function retrieve($moduleName){
 		$adb = $this->adb;
-		
+
 		// Look at cache if we have the information
 		$cachedinfo = self::fromCache($moduleName);
 		if($cachedinfo === false) {
-			
 			$result = $adb->pquery('select * from vtiger_fieldformulas where modulename=?', array($moduleName));
 			if($adb->num_rows($result)==0){
 				self::addToCache($moduleName, array() );
@@ -45,14 +43,13 @@ class VTModuleExpressionsManager{
 			// Retrieve information from cache for consistency
 			$cachedinfo = self::fromCache($moduleName);
 		}
-		
+
 		$me = new VTModuleExpressions($moduleName, new VTExpressionEngine());
 		if(!empty($cachedinfo)) {
 			$me = new VTModuleExpressions($moduleName, $cachedinfo['expression_engine']);
 			$me->id = $cachedinfo['expressionid'];
 		}
 		return $me;
-		
 	}
 
 	function save($moduleExpressions){
@@ -62,9 +59,8 @@ class VTModuleExpressionsManager{
 			array(serialize($moduleExpressions->expressionEngine), $moduleExpressions->id));
 		}else{
 			$id = $adb->getUniqueId('vtiger_fieldformulas');
-			$adb->pquery('insert into vtiger_fieldformulas
-					(expressionid, modulename, expression_engine) values(?,?,?)', 
-			array($id, $moduleExpressions->moduleName,
+			$adb->pquery('insert into vtiger_fieldformulas (expressionid, modulename, expression_engine) values(?,?,?)',
+				array($id, $moduleExpressions->moduleName,
 			serialize($moduleExpressions->expressionEngine)));
 			$moduleExpressions->id = $id;
 		}
@@ -80,7 +76,8 @@ class VTModuleExpressionsManager{
 		$arr = array();
 		foreach($fields as $field){
 			//Use the field name to figure out the custom field
-			if(in_array($field['type']['name'], array('text', 'string','integer', 'double', 'currency'))){
+			if(preg_match('/cf_\d+/', $field['name']) &&
+			in_array($field['type']['name'], array('text', 'string','integer', 'double', 'currency'))){
 				$arr[$field['name']] = getTranslatedString($field['label'], $moduleName);
 			}
 		}

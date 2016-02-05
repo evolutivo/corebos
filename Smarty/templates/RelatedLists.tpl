@@ -133,7 +133,7 @@ $this->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($this->get_temp
 							<!-- content cache -->
 								<table border=0 cellspacing=0 cellpadding=0 width=100%>
 									<tr>
-										<td style="padding:10px">
+										<td style="padding:10px" class="contains_rel_modules">
 										   <!-- General details -->
 												{include file='RelatedListsHidden.tpl'}
 												{if empty($ng_tab)}

@@ -1053,6 +1053,7 @@ $app_strings = array(
 	'Attachments' => 'Dokumentumok',
 	'LBL_HIDE' => 'Elrejt',
 	'LBL_JUMP_BTN' => 'Ugrás',
+	'LBL_JUMP_To'=> 'Jump to',
 	'LBL_ASSIGN_BUTTON_LABEL' => 'Mező hozzárendelés',
 	'LBL_MASS_EDIT' => 'Tömeges módosítás',
 	'LBL_MASSEDIT_FORM_HEADER' => 'Tömeges módosítás - Rekordok Mezők',

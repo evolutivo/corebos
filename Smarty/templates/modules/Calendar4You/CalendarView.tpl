@@ -178,7 +178,11 @@ jQuery(document).ready(function(){
     var config = {
         
         weekMode : 'liquid',
-        
+		columnFormat: {
+			month: 'ddd',
+			week: 'ddd {/literal}{$CALENDAR_DAYMONTHFORMAT}{literal}',
+			day: 'dddd {/literal}{$CALENDAR_DAYMONTHFORMAT}{literal}'
+		},
         theme: true,
         defaultView: '{/literal}{$DEFAULTVIEW}{literal}',
         year: '{/literal}{$DATE_DATA.year}{literal}',
@@ -189,7 +193,7 @@ jQuery(document).ready(function(){
         
         weekends: {/literal}{$CALENDAR_SETTINGS.show_weekends}{literal},
         firstHour: {/literal}{$CALENDAR_SETTINGS.start_hour}{literal},   
-        slotMinutes: 15,
+        slotMinutes: {/literal}{$Calendar_Slot_Minutes}{literal},
         
         header: {
 			left: 'prev,next today ',

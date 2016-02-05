@@ -96,7 +96,15 @@ $smarty->assign("BLOCKS",$block_array);
 $smarty->assign("MODULE",$fld_module);
 $smarty->assign("CFENTRIES",$cfentries);
 $smarty->assign("RELATEDLIST",getRelatedListInfo($fld_module));
-
+$pickListResult=getAllowedPicklistModules();
+$nonRelatableModules = array('PBXManager','SMSNotifier','cbupdater','Calendar','Emails','ModComments');
+$entityrelmods=array();
+foreach ($pickListResult as $pValue) {
+	if (!in_array($pValue, $nonRelatableModules))
+		$entityrelmods[$pValue] = getTranslatedString($pValue, $pValue);
+}
+uasort($entityrelmods, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
+$smarty->assign('entityrelmods',$entityrelmods);
 if(isset($_REQUEST["duplicate"]) && $_REQUEST["duplicate"] == "yes" || $duplicate == 'yes') {
 	echo "ERROR";
 	exit;
@@ -359,11 +367,18 @@ function insertDetailViewBlockWidgets($cfentries,$fld_module) {
 					}
 					if (class_exists($widgetControllerClass)) {
 						$widgetControllerInstance = new $widgetControllerClass;
-						$widgetInstance = $widgetControllerInstance->getWidget($CUSTOM_LINK_DETAILVIEWWIDGET->linklabel);
-						if ($widgetInstance) {
-							$lbl = $widgetInstance->title();
-						} else {
-							$lbl = 'DetailViewBlock_'.$CUSTOM_LINK_DETAILVIEWWIDGET->linkid;
+						if(property_exists($widgetControllerClass,'isSortable'))
+							$isSortable = $widgetControllerInstance->isSortable;
+						else
+							$isSortable = true;
+						if($isSortable)
+						{
+							$widgetInstance = $widgetControllerInstance->getWidget($CUSTOM_LINK_DETAILVIEWWIDGET->linklabel);
+							if ($widgetInstance) {
+								$lbl = $widgetInstance->title();
+							} else {
+								$lbl = 'DetailViewBlock_'.$CUSTOM_LINK_DETAILVIEWWIDGET->linkid;
+							}
 						}
 					}
 					$retarr[$idx++] = array(
@@ -782,6 +797,9 @@ function deleteCustomField() {
 		//Remove picklist dependencies
 		$adb->query("DELETE FROM vtiger_picklist_dependency WHERE vtiger_picklist_dependency.targetfield = '".$colName."'");
 	}
+	if($uitype == 10) {
+		$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid=?',array($id));
+	}
 }
 
 
@@ -842,7 +860,6 @@ function deleteBlock() {
 }
 
 function addCustomField() {
-
 	global $current_user,$log,$adb;
 
 	$fldmodule=vtlib_purify($_REQUEST['fld_module']);
@@ -985,6 +1002,10 @@ if ($fldColName == ''){
 			$uitype = 85;
 			$type = "C(255) default () "; //adodb type
 			$uichekdata='V~O';
+		}elseif($fldType == 'Relation') {
+			$uitype = 10;
+			$type = "I(11) "; //adodb type
+			$uichekdata='I~O';
 		}
 
 		if(is_numeric($blockid)) {
@@ -1015,6 +1036,19 @@ if ($fldColName == ''){
 				$sql_def = "insert into vtiger_def_org_field values(?,?,?,?)";
 				$adb->pquery($sql_def, array($tabid, $custfld_fieldid, 0, 0));
 
+				if($fldType == 'Relation') {
+					$moduleInstance = Vtiger_Module::getInstance($tabid);
+					$block = Vtiger_Block::getInstance($blockid, $moduleInstance);
+					$field = Vtiger_Field::getInstance($custfld_fieldid,$moduleInstance);
+					if ($field) {
+						$moduleNames = explode(';', trim($_REQUEST['relationmodules'],';'));
+						$field->setRelatedModules($moduleNames);
+						foreach ($moduleNames as $mod) {
+							$modrel = Vtiger_Module::getInstance($mod);
+							$modrel->setRelatedList($moduleInstance, $fldmodule, Array('ADD'),'get_dependents_list');
+						}
+					}
+				}
 				if($fldType == 'Picklist' || $fldType == 'MultiSelectCombo') {
 					$columnName = $adb->sql_escape_string($columnName);
 					// Creating the PickList Table and Populating Values

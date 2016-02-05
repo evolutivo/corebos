@@ -2182,7 +2182,7 @@ function fnDropDown(obj,Lay){
 	}
 	else
 		tagName.style.left= leftSide + 'px';
-		tagName.style.top= topSide + 22 +'px';
+		tagName.style.top= topSide + obj.clientHeight +'px';
 		tagName.style.display = 'block';
 }
 
@@ -4000,31 +4000,35 @@ function ToolTipManager(){
 		var getVal = eval(leftSide) + eval(widthM);
 		var tooltipDimensions = getDimension(obj);
 		var tooltipWidth = tooltipDimensions.x;
-
-                if(getVal  > document.body.clientWidth ){
-			leftSide = eval(leftSide) - eval(widthM);
-		}else{
-			leftSide = eval(leftSide) + (eval(tooltipWidth)/2);
-		}
-		if(leftSide < 0) {
-			leftSide = findPosX(obj) + tooltipWidth;
-		}
-		tooltip.style.left = leftSide + 'px';
-
-		var heightTooltip = dimensions.y;
-		var bottomSide = eval(topSide) + eval(heightTooltip);
-		if(bottomSide > document.body.clientHeight){
-			topSide = topSide - (bottomSide - document.body.clientHeight) - 10;
-			if(topSide < 0 ){
-				topSide = 10;
+		if(leftSide == 0 && topSide == 0)
+			tooltip.style.display = 'none';
+		else
+		{
+			if(getVal  > document.body.clientWidth ){
+				leftSide = eval(leftSide) - eval(widthM);
+			}else{
+				leftSide = eval(leftSide) + (eval(tooltipWidth)/2);
 			}
-		}else{
-			topSide = eval(topSide) - eval(heightTooltip)/2;
-			if(topSide<0){
-				topSide = 10;
+			if(leftSide < 0) {
+				leftSide = findPosX(obj) + tooltipWidth;
 			}
+			tooltip.style.left = leftSide + 'px';
+	
+			var heightTooltip = dimensions.y;
+			var bottomSide = eval(topSide) + eval(heightTooltip);
+			if(bottomSide > document.body.clientHeight){
+				topSide = topSide - (bottomSide - document.body.clientHeight) - 10;
+				if(topSide < 0 ){
+					topSide = 10;
+				}
+			}else{
+				topSide = eval(topSide) - eval(heightTooltip)/2;
+				if(topSide<0){
+					topSide = 10;
+				}
+			}
+			tooltip.style.top= topSide + 'px';
 		}
-		tooltip.style.top= topSide + 'px';
 	}
 
 	return {
@@ -4455,7 +4459,7 @@ function convertOptionsToJSONArray(objName,targetObjName) {
 	return arr;
 }
 
-function fnvshobjMore(obj,Lay,announcement){
+function fnvshobjMore(obj,Lay){
 	var tagName = document.getElementById(Lay);
 	var leftSide = findPosX(obj);
 	var topSide = findPosY(obj);
@@ -4497,14 +4501,10 @@ function fnvshobjMore(obj,Lay,announcement){
 	} else {
 		tagName.style.left= leftSide  + 5 +'px';
 	}
-	if(announcement){
-		tagName.style.top = 104+'px';
-	}else{
-		tagName.style.top = 70+'px';
-	}
+	menuBar = document.getElementsByClassName('hdrTabBg')[0];
+	tagName.style.top = (menuBar.offsetTop + menuBar.clientHeight)+'px';
 	tagName.style.display = 'block';
 	tagName.style.visibility = "visible";
-
 }
 
 function fnvshobjsearch(obj,Lay){
@@ -4538,7 +4538,7 @@ function fnvshobjsearch(obj,Lay){
 	} else {
 		tagName.style.left= leftSide - 324 + 'px';
 	}
-	tagName.style.top= topSide + 33 + 'px';
+	tagName.style.top= topSide + obj.clientHeight + 'px';
 	tagName.style.display = 'block';
 	tagName.style.visibility = "visible";
 }
