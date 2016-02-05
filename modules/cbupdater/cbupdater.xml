@@ -102,7 +102,6 @@
 	<description>Add Block, Perspective and Continuous</description>
 	<filename>build/changeSets/cbupdater_blockperspective.php</filename>
 	<classname>cbupdater_blockperspective</classname>
->>>>>>> a68765b5414d5906b3ebdace251117040540c575
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
