@@ -64,12 +64,12 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
 	<author>drivalda</author>
 	<description>add event </description>
 	<filename>build/changeSets/evolutivo/addmoduletolog.php</filename>
 	<classname>addmoduletolog</classname>
-=======
+</changeSet>
+<changeSet>
 	<author>joebordes</author>
 	<description>Add/Delete Tags workflow task</description>
 	<filename>build/changeSets/add_workflow_tags.php</filename>
@@ -190,19 +190,11 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
-        <author>loridacito</author>
-        <description>Add fields in calendar4you</description>
-        <filename>build/changeSets/evolutivo/addfieldstocal.php</filename>
-        <classname>addfieldstocal</classname>
-        <systemupdate>true</systemupdate>
-=======
 	<author>loridacito</author>
 	<description>Add fields in calendar4you</description>
 	<filename>build/changeSets/addfieldstocal.php</filename>
 	<classname>addfieldstocal</classname>
 	<systemupdate>true</systemupdate>
->>>>>>> a68765b5414d5906b3ebdace251117040540c575
 </changeSet>
 <changeSet>
 	<author>joebordes</author>
@@ -240,19 +232,11 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
-        <author>loridacito</author>
-        <description>Add fields in calendar4you 2</description>
-        <filename>build/changeSets/evolutivo/addfieldstocaltwo.php</filename>
-        <classname>addfieldstocaltwo</classname>
-        <systemupdate>true</systemupdate>
-=======
 	<author>loridacito</author>
 	<description>Add fields in calendar4you 2</description>
 	<filename>build/changeSets/addfieldstocaltwo.php</filename>
 	<classname>addfieldstocaltwo</classname>
 	<systemupdate>true</systemupdate>
->>>>>>> a68765b5414d5906b3ebdace251117040540c575
 </changeSet>
 <changeSet>
 	<author>joebordes</author>
@@ -760,7 +744,6 @@
 	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>
-<<<<<<< HEAD
 	<author>loridacito</author>
 	<description>Add BiServer</description>
 	<filename>build/changeSets/evolutivo/addbiserver.php</filename>
