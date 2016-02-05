@@ -191,7 +191,7 @@
 <changeSet>
 	<author>loridacito</author>
 	<description>Add fields in calendar4you</description>
-	<filename>build/changeSets/addfieldstocal.php</filename>
+	<filename>build/changeSets/evolutivo/addfieldstocal.php</filename>
 	<classname>addfieldstocal</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
@@ -233,7 +233,7 @@
 <changeSet>
 	<author>loridacito</author>
 	<description>Add fields in calendar4you 2</description>
-	<filename>build/changeSets/addfieldstocaltwo.php</filename>
+	<filename>build/changeSets/evolutivo/addfieldstocaltwo.php</filename>
 	<classname>addfieldstocaltwo</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
