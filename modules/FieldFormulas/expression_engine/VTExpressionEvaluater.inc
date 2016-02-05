@@ -1,6 +1,6 @@
 <?php
 /*+*******************************************************************************
- * The contents of this file are subject to the Evolutivo BPM License Version 1.0
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
@@ -58,30 +58,29 @@ function _vt_gt($arr) {
 function _vt_concat($arr){
 	return implode($arr);
 }
+
 /* Date difference between (input times) or (current time and input time)
- *
  * @param Array $a $a[0] - Input time1, $a[1] - Input time2
  * (if $a[1] is not available $a[0] = Current Time, $a[1] = Input time1)
  * @return int difference timestamp
  */
-
 function _vt_time_diff($arr) {
 
-    $time_operand1 = $time_operand2 = 0;
-    if(count($arr) > 1) {
-            $time_operand1 = $arr[0];
-            $time_operand2 = $arr[1];
-    } else {
-            $time_operand1 = date('Y-m-d H:i:s'); // Current time
-            $time_operand2 = $arr[0];
-    }
+	$time_operand1 = $time_operand2 = 0;
+	if(count($arr) > 1) {
+		$time_operand1 = $arr[0];
+		$time_operand2 = $arr[1];
+	} else {
+		$time_operand1 = date('Y-m-d H:i:s'); // Current time
+		$time_operand2 = $arr[0];
+	}
 
-    if(empty($time_operand1) || empty($time_operand2)) return 0;
+	if(empty($time_operand1) || empty($time_operand2)) return 0;
 
-    $time_operand1 = getValidDBInsertDateValue($time_operand1);
+	$time_operand1 = getValidDBInsertDateValue($time_operand1);
 	$time_operand2 = getValidDBInsertDateValue($time_operand2);
 
-    return (strtotime($time_operand1) - strtotime($time_operand2));
+	return (strtotime($time_operand1) - strtotime($time_operand2));
 }
 /**
  * Calculate the time difference (input times) or (current time and input time) and
@@ -91,16 +90,13 @@ function _vt_time_diff($arr) {
  * @return int number of days
  */
 function _vt_time_diffdays($arr) {
-    $timediff  = _vt_time_diff($arr);
-    $days_diff = floor($timediff / (60 * 60 * 24));
-    return $days_diff;
+	$timediff  = _vt_time_diff($arr);
+	$days_diff = floor($timediff / (60 * 60 * 24));
+	return $days_diff;
 }
 
-
-/** END **/
 class VTExpressionEvaluater{
 	function __construct($expr){
-			
 		$this->operators = array(
 				'+'  => '_vt_add',
 				'-'  => '_vt_sub',
@@ -115,12 +111,10 @@ class VTExpressionEvaluater{
 		$this->functions = array(
 				'concat'=>'_vt_concat',
 				'time_diff' => '_vt_time_diff',
- 	            'time_diffdays' => '_vt_time_diffdays'
-				);
-					
-				$this->operations = array_merge($this->functions, $this->operators);
-				$this->expr = $expr;
-					
+				'time_diffdays' => '_vt_time_diffdays'
+		);
+		$this->operations = array_merge($this->functions, $this->operators);
+		$this->expr = $expr;
 	}
 
 	function evaluate($env){
@@ -141,21 +135,9 @@ class VTExpressionEvaluater{
 				}else{
 					return $this->exec($params[2]);
 				}
-			}else{ global $log;
-                        $log->debug('dioni92');
+			}else{
 				$params = array_map(array($this, 'exec'), $expr->getParams());
 				$func = $this->operations[$op->value];
-                                //$parameters=$expr->getParams();
-                               // $param1=$this->env($parameters[0]);
-                                //$param2=$this->env($parameters[1]);
-                                 $log->debug('dioni93');
-                                $fieldUIType=getFieldsUIType($expr->getParams());
-                               $log->debug('dioni94');
-                               $log->debug($fieldUIType);
-                                foreach($fieldUIType as $key=>$uitype){
-                                   if(in_array($uitype,array(10,51,57,58,59,66,68,73,75,76,78,80)))
-                                    $params[$key]=getEntityName('', $params[$key]);    
-                                   }         
 				return $func($params);
 			}
 		}else{
