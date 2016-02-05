@@ -216,6 +216,13 @@
  																					<textarea id="fldPickList_{$entries.blockid}" rows="10" class="txtBox" ></textarea>
  																					</td>
  																				</tr>
+<tr id="relationmodules_{$entries.blockid}" style="display:none;">
+																					<td align="left" valign="top"><b>{$MOD.LBL_SELECT_MODULE}</b><br>
+																					<select id="fldRelMods_{$entries.blockid}" rows="10" class="txtBox" multiple="multiple">
+																						 {html_options options=$entityrelmods}
+																					</select>
+																					</td>
+																				</tr>
  																				<tr>
  																					<td class="dataLabel" nowrap="nowrap" align="right"><b>{$MOD.LBL_NUMFIELDS}</b>
  																					</td>
