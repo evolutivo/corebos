@@ -177,7 +177,7 @@ function getFieldListEntries($module) {
 
 	$focus = CRMEntity::getInstance($module);
 
-	$nonEditableUiTypes = array('4','70');
+	$nonEditableUiTypes = array('4','70','69');
 
 	// To get reference field names
 	require_once('include/Webservices/Utils.php');
@@ -1006,6 +1006,10 @@ if ($fldColName == ''){
 			$uitype = 10;
 			$type = "I(11) "; //adodb type
 			$uichekdata='I~O';
+		}elseif($fldType == 'Image') {
+			$uitype = 69;
+			$type = "C(255) "; //adodb type
+			$uichekdata='V~O';
 		}
 
 		if(is_numeric($blockid)) {

@@ -19,8 +19,9 @@ class VTUpdateFieldsTask extends VTTask {
 	}
 
 	public function doTask(&$entity) {
-		global $adb, $current_user, $default_charset, $log;
-
+		global $adb, $current_user, $default_charset, $log, $logbg,$from_wf;
+		$from_wf = true;
+		$logbg->info('Entering workflow task VTUpdateFieldsTask');
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
@@ -28,7 +29,7 @@ class VTUpdateFieldsTask extends VTTask {
 		$entityId = $entity->getId();
 		$recordId = vtws_getIdComponents($entityId);
 		$recordId = $recordId[1];
-
+		$logbg->debug("Module: $moduleName, Record: $entityId");
 		$moduleHandler = vtws_getModuleHandlerFromName($moduleName, $current_user);
 		$handlerMeta = $moduleHandler->getMeta();
 		$moduleFields = $handlerMeta->getModuleFields();
@@ -45,6 +46,8 @@ class VTUpdateFieldsTask extends VTTask {
 			$focus->mode = 'edit';
 			$focus->retrieve_entity_info($recordId, $moduleName);
 			$focus->clearSingletonSaveFields();
+			$logbg->debug('field values pre: '.print_r($focus->column_fields,true));
+			$logbg->debug('update info: '.print_r($fieldValueMapping,true));
 
 			$hold_user = $current_user;
 			$util->loggedInUser();
@@ -56,7 +59,6 @@ class VTUpdateFieldsTask extends VTTask {
 				$fieldValue = trim($fieldInfo['value']);
 
 				$fieldInstance = $moduleFields[$fieldName];
-
 				if ($fieldValueType == 'fieldname') {
 					$fieldValue = $focus->column_fields[$fieldValue];
 				} elseif ($fieldValueType == 'expression') {
@@ -124,11 +126,15 @@ class VTUpdateFieldsTask extends VTTask {
 			}
 			$hold_ajxaction = $_REQUEST['ajxaction'];
 			$_REQUEST['ajxaction'] = 'Workflow';
+			$logbg->debug('field values presave: '.print_r($focus->column_fields,true));
 			$focus->saveentity($moduleName);
 			$_REQUEST['ajxaction'] = $hold_ajxaction;
 			$util->revertUser();
+			$logbg->debug('field values post: '.print_r($focus->column_fields,true));
 		}
 		$util->revertUser();
+		$from_wf = false;
+		$logbg->info('Exiting workflow task VTUpdateFieldsTask');
 	}
 
 }

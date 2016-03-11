@@ -274,8 +274,8 @@ function __cb_getLongitude($address) {
 }
 
 function __cb_getGEODistance($arr){
-	$from = $arr[0];
-	$to = $arr[1];
+	$from = decode_html($arr[0]);
+	$to = decode_html($arr[1]);
 	$coo1 = __cb_getLatitude($from).",".__cb_getLongitude($from);
 	$coo2 = __cb_getLatitude($to).",".__cb_getLongitude($to);
 	$distance = file_get_contents("http://router.project-osrm.org/viaroute?loc=$coo1&loc=$coo2");
@@ -287,15 +287,15 @@ function __cb_getGEODistance($arr){
 function __cb_getGEODistanceFromCompanyAddress($arr){
 	global $adb;
 	$compAdr = $adb->query('Select address,city,state,country,code from vtiger_organizationdetails');
-	$from = $adb->query_result($compAdr, 0, 'address');
+	$from = $adb->query_result($compAdr, 0, 'country');
+	$fld = $adb->query_result($compAdr, 0, 'state');
+	$from.= empty($fld) ? '':', '.$fld;
 	$fld = $adb->query_result($compAdr, 0, 'city');
 	$from.= empty($fld) ? '':', '.$fld;
 	$fld = $adb->query_result($compAdr, 0, 'code');
 	$from.= empty($fld) ? '':', '.$fld;
-	$fld = $adb->query_result($compAdr, 0, 'state');
-	$from.= empty($fld) ? '':', '.$fld;
-	$fld = $adb->query_result($compAdr, 0, 'country');
-	$from.= empty($fld) ? '':', '.$fld;
+	$fld = $adb->query_result($compAdr, 0, 'address');
+	$from.= empty($fld) ? '':', '.$fld;	
 	$array = array($from, $arr[0]);
 	return __cb_getGEODistance($array);
 }
@@ -310,14 +310,14 @@ function __cb_getCurrentUserAddress(){
 	global $adb,$current_user;
 	$compAdr = $adb->pquery('Select address_street,address_city,address_state,address_country,address_postalcode
 		from vtiger_users where id=?',array($current_user->id));
-	$from = $adb->query_result($compAdr, 0, 'address_street');
+	$from = $adb->query_result($compAdr, 0, 'address_country');
+	$fld = $adb->query_result($compAdr, 0, 'address_state');
+	$from.= empty($fld) ? '':', '.$fld;
 	$fld = $adb->query_result($compAdr, 0, 'address_city');
 	$from.= empty($fld) ? '':', '.$fld;
 	$fld = $adb->query_result($compAdr, 0, 'address_postalcode');
 	$from.= empty($fld) ? '':', '.$fld;
-	$fld = $adb->query_result($compAdr, 0, 'address_state');
-	$from.= empty($fld) ? '':', '.$fld;
-	$fld = $adb->query_result($compAdr, 0, 'address_country');
+	$fld = $adb->query_result($compAdr, 0, 'address_street');
 	$from.= empty($fld) ? '':', '.$fld;
 	return $from;
 }
@@ -331,14 +331,14 @@ function __cb_getGEODistanceFromUser2AccountBilling($arr){
 		from vtiger_accountbillads
 		where accountaddressid=?',array($accid));
 	if ($compAdr and $adb->num_rows($compAdr)>0) {
-		$to = $adb->query_result($compAdr, 0, 'bill_street');
+		$to = $adb->query_result($compAdr, 0, 'bill_country');
+		$fld = $adb->query_result($compAdr, 0, 'bill_state');
+		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'bill_city');
 		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'bill_code');
 		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'bill_state');
-		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'bill_country');
+		$fld = $adb->query_result($compAdr, 0, 'bill_street');
 		$to.= empty($fld) ? '':', '.$fld;
 	} else {
 		return '0';
@@ -357,14 +357,14 @@ function __cb_getGEODistanceFromUser2AccountShipping($arr){
 		from vtiger_accountshipads
 		where accountaddressid=?',array($accid));
 	if ($compAdr and $adb->num_rows($compAdr)>0) {
-		$to = $adb->query_result($compAdr, 0, 'ship_street');
+		$to = $adb->query_result($compAdr, 0, 'ship_country');
+		$fld = $adb->query_result($compAdr, 0, 'ship_state');
+		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'ship_city');
 		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'ship_code');
 		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'ship_state');
-		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'ship_country');
+		$fld = $adb->query_result($compAdr, 0, 'ship_street');
 		$to.= empty($fld) ? '':', '.$fld;
 	} else {
 		return '0';
@@ -383,14 +383,14 @@ function __cb_getGEODistanceFromUser2ContactBilling($arr){
 		from vtiger_contactaddress
 		where contactaddressid=?',array($ctoid));
 	if ($compAdr and $adb->num_rows($compAdr)>0) {
-		$to = $adb->query_result($compAdr, 0, 'mailingstreet');
+		$to = $adb->query_result($compAdr, 0, 'mailingcountry');
+		$fld = $adb->query_result($compAdr, 0, 'mailingstate');
+		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'mailingcity');
 		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'mailingzip');
 		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'mailingstate');
-		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'mailingcountry');
+		$fld = $adb->query_result($compAdr, 0, 'mailingstreet');
 		$to.= empty($fld) ? '':', '.$fld;
 	} else {
 		return '0';
@@ -409,14 +409,14 @@ function __cb_getGEODistanceFromUser2ContactShipping($arr){
 		from vtiger_contactaddress
 		where accountaddressid=?',array($ctoid));
 	if ($compAdr and $adb->num_rows($compAdr)>0) {
-		$to = $adb->query_result($compAdr, 0, 'otherstreet');
+		$to = $adb->query_result($compAdr, 0, 'othercountry');
+		$fld = $adb->query_result($compAdr, 0, 'otherstate');
+		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'othercity');
 		$to.= empty($fld) ? '':', '.$fld;
 		$fld = $adb->query_result($compAdr, 0, 'otherzip');
 		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'otherstate');
-		$to.= empty($fld) ? '':', '.$fld;
-		$fld = $adb->query_result($compAdr, 0, 'othercountry');
+		$fld = $adb->query_result($compAdr, 0, 'otherstreet');
 		$to.= empty($fld) ? '':', '.$fld;
 	} else {
 		return '0';
@@ -442,6 +442,7 @@ function __cb_getGEODistanceFromCoordinates($arr){
 class VTFieldExpressionEvaluater{
 	function __construct($expr){
 
+		$this->debug = array();
 		$this->operators = array(
 				'+'  => '__vt_add',
 				'-'  => '__vt_sub',
@@ -457,7 +458,7 @@ class VTFieldExpressionEvaluater{
 		$this->functions = array(
 				'concat'=>'__vt_concat',
 				'time_diff' => '__vt_time_diff',
- 	            'time_diffdays' => '__vt_time_diffdays',
+				'time_diffdays' => '__vt_time_diffdays',
 				'add_days' => '__vt_add_days',
 				'sub_days' => '__vt_sub_days',
 				'get_date' => '__vt_get_date',
@@ -494,13 +495,22 @@ class VTFieldExpressionEvaluater{
 	}
 
 	function exec($expr){
+		global $logbg;
 		if($expr instanceof VTExpressionSymbol){
+			$loginfo = print_r($expr,true);
+			$logbg->debug("VTExpressionSymbol: $loginfo");
+			$this->debug[] = $loginfo;
 			return $this->env($expr);
 		}else if($expr instanceof VTExpressionTreeNode){
 			$op = $expr->getName();
 			if($op->value=='if'){
 				$params = $expr->getParams();
 				$cond = $this->exec($params[0]);
+				$loginfo = print_r($params,true);
+				$logbg->debug("VTExpressionTreeNode: if $loginfo");
+				$logbg->debug('VTExpressionTreeNode: condition => '.($cond?'true':'false'));
+				$this->debug[] = $loginfo;
+				$this->debug[] = $cond;
 				if($cond){
 					return $this->exec($params[1]);
 				}else{
@@ -515,9 +525,15 @@ class VTFieldExpressionEvaluater{
 				} else {
 					$params = array_map(array($this, 'exec'), $expr->getParams());
 				}
+				$loginfo = print_r($params,true);
+				$logbg->debug("VTExpressionTreeNode: function $func $loginfo");
+				$this->debug[] = $loginfo;
 				return $func($params);
 			}
 		}else{
+			$loginfo = print_r($expr,true);
+			$logbg->debug("VTExpression: $loginfo");
+			$this->debug[] = $loginfo;
 			return $expr;
 		}
 	}
