@@ -573,13 +573,53 @@ class cbMap extends CRMEntity {
         $match_fields = array();
         $update_rules = array();
         foreach ($x->map->fields[0] as $k => $v) {
+           
             $fieldname = (string) $v->fieldname;
+            $conditionsValues = array();
             //$allmergeFields = array();
-            $value=(string) $v->value;
+            if (!empty($v->value)) {
+                $value = (string) $v->value;
+            }
+            if (!empty($v->conditions[0])) {
+                foreach ($v->conditions[0] as $condkey => $condval) {
+                    $condition = (string) $condval->cond;
+                    $condValue = (string) $condval->value;
+                    $conditionsValues[] = array('cond' => $condition, 'value' => $condValue);
+                }
+            }
+            if(!empty($v->predefined)){
             $predefined=(string) $v->predefined;
-            $target_fields[$fieldname] = array('value'=>$value,'predefined'=>$predefined);
+            }
+            if(empty($v->Orgfields[0]->Relfield)){
+
+            $target_fields[$fieldname] = array('value'=>$value,'predefined'=>$predefined,'conditions'=>$conditionsValues);
             //}
         }
+        elseif(!empty($v->Orgfields[0]->Relfield) && isset($v->Orgfields[0]->Relfield) ){
+                $allRelValues=array();
+            foreach ($v->Orgfields[0]->Relfield as $key => $value1) { 
+
+                if ($key == 'RelfieldName') {
+                    $allRelValues['fieldname']=(string) $value1;
+                }
+                if ($key == 'RelModule') {
+                    $allRelValues['relmodule']=(string) $value1;
+                }
+                if ($key == 'linkfield') {
+                    $allRelValues['linkfield']=(string) $value1;
+                }
+                if ($key == 'delimiter') {
+                    $delimiter = (string) $value1;
+                    if (empty($delimiter))
+                        $delimiter = "";
+                }               
+            }
+        $allmergeFields[]=$allRelValues;
+        $target_fields[$fieldname] = array('value'=>$value,'predefined'=>$predefined,'conditions'=>$conditionsValues, "relatedFields" => $allmergeFields);
+
+                }
+            }
+        
         foreach ($x->map->matches[0] as $key => $value) {
             //if ($key == 'fieldname') {
             $fldname = (string) $value->fieldname;
