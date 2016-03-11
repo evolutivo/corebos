@@ -677,6 +677,7 @@ class cbMap extends CRMEntity {
             $target_piclist_values=array();
             $target_mode='';
             $mandatory=array();
+            $automatic=array();
             $targetfield=array();
             $respfield=array();
             $index=0;
@@ -686,7 +687,7 @@ class cbMap extends CRMEntity {
                     $targetfield[]=  (string)$v->fieldname;
                     $action[]=  (string)$v->fieldaction;
                     $targetvalue[]=  (string)$v->fieldvalue;
-                    $ismand=false;
+                    $ismand=false;$isautomatic=false;
     //                if($v->fieldlength){
     //                        $fieldlength[]=  (string)$v->fieldlength;
     //                    }
@@ -698,6 +699,15 @@ class cbMap extends CRMEntity {
                     }
                     if(!$ismand){
                         $mandatory[]='';
+                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='automatic'){
+                            $automatic[]=  (string)$v_r;
+                            $isautomatic=true;
+                        }                    
+                    }
+                    if(!$isautomatic){
+                        $automatic[]='';
                     }
                                  
                 }
@@ -762,6 +772,7 @@ class cbMap extends CRMEntity {
            $target_fields['targetvalue']=  $targetvalue;
            $target_fields['fieldlength']=  $fieldlength;
            $target_fields['mandatory']=  $mandatory;
+           $target_fields['automatic']=  $automatic;
            
            $target_fields['respfield']=  $respfield;
            $target_fields['respvalue']=  $respvalue;
@@ -797,16 +808,24 @@ function getMapPermissionActions  (){
                     }
                 }
                 
-                if($k=='BusinessActions'){
+                if($k=='Actions'){
                     foreach($v as $k1=>$v1) {
                         if($k1=='values'){
                             $target_actions[]=  (string)$v1;
                         }
                     }
                 }
+                
+                if($k=='View'){
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_view[]=  (string)$v1;
+                        }
+                    }
+                }
               }
            $target_fields['target_profiles'] = $target_profiles;
-           
+           $target_fields['target_view'] = $target_view;
            $target_fields['target_actions']=  $target_actions;
                 
            return $target_fields;
