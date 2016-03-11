@@ -424,15 +424,11 @@ function getNavigationValues($display, $noofrows, $limit) {
 
 //parameter added for vtiger_customview $oCv 27/5
 function getListViewEntries($focus, $module, $list_result, $navigation_array, $relatedlist = '', $returnset = '', $edit_action = 'EditView', $del_action = 'Delete', $oCv = '', $page = '', $selectedfields = '', $contRelatedfields = '', $skipActions = false) {
-	global $log;
-	global $mod_strings;
-	$log->debug("Entering getListViewEntries(" . get_class($focus) . "," . $module . "," . $list_result . "," . $navigation_array . "," . $relatedlist . "," . $returnset . "," . $edit_action . "," . $del_action . "," . (is_object($oCv) ? get_class($oCv) : $oCv) . ") method ...");
+	global $log, $mod_strings, $adb, $current_user, $app_strings, $theme;
+	$log->debug("Entering getListViewEntries(" . get_class($focus) . "," . $module . "," . $list_result . "," . $relatedlist . "," . $returnset . "," . $edit_action . "," . $del_action . "," . (is_object($oCv) ? get_class($oCv) : $oCv) . ") method ...");
 	$tabname = getParentTab();
-	global $adb, $current_user;
-	global $app_strings;
 	$noofrows = $adb->num_rows($list_result);
 	$list_block = Array();
-	global $theme;
 	$evt_status = '';
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
@@ -3666,14 +3662,13 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
  * Param $navigation_arrray - navigation values in array
  * Param $url_qry - url string
  * Param $module - module name
- * Param $action- action file name
- * Param $viewid - view id
+ * Param $related_module - related module name
+ * Param $recordid - related record id
  * Returns an string value
  */
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid) {
-	global $log, $app_strings, $adb;
-	$log->debug("Entering getTableHeaderNavigation(" . $navigation_array . "," . $url_qry . "," . $module . "," . $action_val . "," . $viewid . ") method ...");
-	global $theme;
+	global $log, $app_strings, $adb, $theme;
+	$log->debug("Entering getTableHeaderNavigation(" . $url_qry . "," . $module . "," . $related_module . "," . $recordid . ") method ...");
 	$relatedTabId = getTabid($related_module);
 	$tabid = getTabid($module);
 
@@ -3708,9 +3703,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		style='width: 3em;margin-right: 0.7em;' onchange=\"loadRelatedListBlock('{$urldata}&start='+this.value+'','{$target}','{$imagesuffix}');\"
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
-	$computeCount = $_REQUEST['withCount'];
-	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true
-			|| ((boolean) $computeCount) == true) {
+	$computeCount = isset($_REQUEST['withCount']) ? $_REQUEST['withCount'] : '';
+	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true || ((boolean) $computeCount) == true) {
 		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
 	} else {
 		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . $app_strings['LBL_HOME_COUNT'] . "'
@@ -3722,8 +3716,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$output .= '</span>';
 
 	if (($navigation_array['next']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['next'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');"><img src="' . vtiger_imageurl('next.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['verylast'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');"><img src="' . vtiger_imageurl('end.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&relstart=' . $navigation_array['next'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');"><img src="' . vtiger_imageurl('next.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&relstart=' . $navigation_array['verylast'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');"><img src="' . vtiger_imageurl('end.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 	} else {
 		$output .= '<img src="' . vtiger_imageurl('next_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 		$output .= '<img src="' . vtiger_imageurl('end_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';

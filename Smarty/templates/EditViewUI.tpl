@@ -6,7 +6,6 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
  ********************************************************************************/
 -->*}
 		{assign var="uitype" value="$maindata[0][0]"}
@@ -19,7 +18,7 @@
 		{assign var="secondvalue" value="$maindata[3][1]"}
 		{assign var="thirdvalue" value="$maindata[3][2]"}
 		{assign var="typeofdata" value="$maindata[4]"}
-	 	{assign var="vt_tab" value="$maindata[5][0]"}
+		{assign var="vt_tab" value="$maindata[5][0]"}
 
 		{if $typeofdata eq 'M'}
 			{assign var="mandatory_field" value="*"}
@@ -203,7 +202,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 
 				{if $secondvalue neq ''}
 					<span id="assign_team" style="{$style_group}">
-						<select name="assigned_group_id" class="small">';
+						<select name="assigned_group_id" class="small">
 							{foreach key=key_one item=arr from=$secondvalue}
 								{foreach key=sel_value item=value from=$arr}
 									<option value="{$key_one}" {$value}>{$sel_value}</option>
@@ -934,7 +933,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 					file.value = '';
 					filename.style.display = 'none';
 					filename.innerHTML="";
-                                        msg.style.display = 'none';
+					msg.style.display = 'none';
 				}
 				{/literal}
 			{rdelim}
