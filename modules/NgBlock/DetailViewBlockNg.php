@@ -193,7 +193,7 @@ class NgBlock_DetailViewBlockNgWidget {
                         $relmodule[$j] = 'Accounts';                   
                     }
                 }
-                $blockURL="module=NgBlock&action=NgBlockAjax";
+                $blockURL="module=Utilities&action=UtilitiesAjax";
                 $blockURL.="&file=ng_block_actions&id=".$sourceRecordId;
                 $blockURL.="&ng_block_id=".$this->id;                
 
@@ -203,8 +203,14 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign('NG_BLOCK_ID', $this->id);
                 $viewer->assign('MODULE_NAME', $module_name);
                 $viewer->assign('APP', $app_strings);
-                include("modules/$pointing_module_name/language/$default_language.lang.php");
-                include("modules/$module_name/language/$default_language.lang.php");
+                if(file_exists("modules/$pointing_module_name/language/$default_language.lang.php")){
+                    include("modules/$pointing_module_name/language/$default_language.lang.php");
+                }
+                if(file_exists("modules/$module_name/language/$default_language.lang.php")){
+                    include("modules/$module_name/language/$default_language.lang.php");
+                }
+//                include_once("include/Webservices/GetRelatedActions.php");
+//                $fldDep=vtws_getFieldDep($pointing_module_name,'FieldDependency');                
                 $viewer->assign('MOD', $mod_strings);
                 $viewer->assign('MOD_NG', $mod_strings);
                 $viewer->assign('POINTING_MODULE', $pointing_module_name);
@@ -229,6 +235,8 @@ class NgBlock_DetailViewBlockNgWidget {
                 $viewer->assign("OPTIONS", json_encode($options));
                 $viewer->assign('REL_MODULE', $relmodule);
                 $viewer->assign("blockURL",$blockURL);
+//                $viewer->assign('FLDDEP', json_encode($fldDep['all_field_dep']));
+//                $viewer->assign('MAP_PCKLIST_TARGET', json_encode($fldDep['MAP_PCKLIST_TARGET']));
                 
                 if($type=='Graph'){
                     $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNgGraph.tpl"));                    
