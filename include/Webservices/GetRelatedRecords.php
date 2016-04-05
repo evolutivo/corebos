@@ -415,3 +415,118 @@ function __getRLQueryFromJoins($query,$meta) {
 	}
 	return $query;
 }
+
+function getui10relatedrecords($id, $module, $relatedModule, $fields) {
+        global $adb, $currentModule, $log, $current_user;
+        $t=explode('x',$id);
+        $id=$t[1];
+        require_once("modules/$module/$module.php");
+        
+        $get_pointing="Select pointing_field_name,type,columns,pointing_module_name"
+                . " from vtiger_ng_block"
+                . " where module_name=? and pointing_module_name=?"
+                . " and destination=?";
+
+        $res_pointing=$adb->pquery($get_pointing,array($module,$relatedModule,$fields));
+        $records=array();
+        if($adb->num_rows($res_pointing)>0){
+            $pointing_f=$adb->query_result($res_pointing,0,'pointing_field_name');
+            $type=$adb->query_result($res_pointing,0,'type');
+            $fields=explode(",",$adb->query_result($res_pointing,0,'columns'));
+            $relatedModule=$adb->query_result($res_pointing,0,'pointing_module_name');
+            require_once("modules/$relatedModule/$relatedModule.php");
+            require_once("modules/$relatedModule/language/it_it.lang.php");
+            $foc_mod=  CRMEntity::getInstance($module);
+            $tab_mod=$foc_mod->table_name;
+            $index_mod=$foc_mod->table_index;
+            $foc_relmod=  CRMEntity::getInstance($relatedModule);
+            $tab_relmod=$foc_relmod->table_name;
+            $index_relmod=$foc_relmod->table_index;
+            $get_relmod_ui10="Select *"
+                . " from ".$tab_mod
+                . " join ".$tab_relmod." on ".$tab_mod.".".$index_mod."=".$tab_relmod.".$pointing_f"
+                . " join vtiger_crmentity on crmid=".$tab_relmod.".$index_relmod"
+                . " where deleted =0 and ".$index_mod."=?";
+            $result=$adb->pquery($get_relmod_ui10,array($id));
+
+            $count=$adb->num_rows($result);
+
+            if($count>0){
+                if($type=='Graph'){
+                      $entity_field_arr=getEntityFieldNames($relatedModule);
+                      $entity_field=$entity_field_arr["fieldname"];
+
+                      for($i=0;$i<$count;$i++){
+                        $entityname_val='';
+                          if (is_array($entity_field)) {
+                              for($k=0;$k<sizeof($entity_field);$k++){
+                                $entityname_val.=' '.$adb->query_result($result,$i,$entity_field[$k]);
+                              }
+                          } 
+                          else{
+                              $entityname_val=$adb->query_result($result,$i,$entity_field);
+                          }
+
+                          for($j=0;$j<sizeof($fields);$j++){
+                            if($fields[$j]=='assigned_user_id')
+                            {
+                                $arr[$fields[$j]][]=array("x"=>$entityname_val,"y"=>$adb->query_result($result,$i,'smownerid'));
+                            }
+                            else {
+                                $arr[$fields[$j]][]=array("x"=>$entityname_val,"y"=>$adb->query_result($result,$i,$fields[$j]));
+                            }
+                        } 
+                    }
+                    for($j=0;$j<sizeof($fields);$j++){
+                        if($fields[$j]=='')
+                           continue;
+                        $records[$j]=array("key"=>$fields[$j],"values"=>$arr[$fields[$j]]);
+                    } 
+                }
+                else{
+                    $sql_ent = 'SELECT id'
+                            . ' from vtiger_ws_entity'
+                            . ' where  name=? ';
+                    $result_ent=$adb->pquery($sql_ent,array($relatedModule));
+                    $id_ent=$adb->query_result($result_ent,0,'id');
+                    for($i=0;$i<$count;$i++){
+                        for($j=0;$j<sizeof($fields);$j++){
+                            
+                                $get_fld="Select fieldlabel,uitype "
+                                    . " from vtiger_field"
+                                    . " where fieldname=? ";
+                                $fld_res=$adb->pquery($get_fld,array($fields[$j]));
+                                $fld_label=$adb->query_result($fld_res,0,'fieldlabel');
+                                $uitype=$adb->query_result($fld_res,0,'uitype');
+                                $col_fields[$fields[$j]]=$adb->query_result($result,$i,$fields[$j]);
+                                $block_info=getDetailViewOutputHtml($uitype,$fields[$j],'',$col_fields,'','',$relatedModule);
+                                $ret_val=$block_info[1];
+                                if(strpos($ret_val,'href')!==false) //if contains link remmove it because ng can't interpret it
+                                {
+                                  $pos1=strpos($ret_val,'>');
+                                  $first_sub=substr($ret_val,$pos1+1);
+                                  $pos2=strpos($first_sub,'<');
+                                  $log->debug('ret_val'.$first_sub.' '.$pos2);
+                                  $sec_sub=substr($first_sub,0,$pos2);
+                                  $ret_val=$sec_sub;
+                                }
+                                $t=$fld_label;
+                                if($mod_strings[$fld_label]!='')
+                                {
+                                    $t =$mod_strings[$fld_label];
+                                }
+                                $headers[$j]=$t;
+                                $field[$fields[$j]]=$ret_val;
+                        } 
+                        $field['id']=$id_ent.'x'.$adb->query_result($result,$i,$index_relmod);
+                        $records[$i]=$field;
+                    } 
+                    
+                }
+            }
+        }
+        
+	return array ('records' => $records,'headers' => $headers,
+            'fields' => $fields ,'type' => $type);
+	
+}

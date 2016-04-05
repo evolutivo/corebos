@@ -988,7 +988,7 @@ function getFieldConfig($fieldname) {
 	return $config;
 }
 
-function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $user,$field) {
+function getEvoReferenceAutocomplete($term, $filter, $limit,$field) {
 	global $current_user,$log,$adb,$default_charset;
         $field_param=getFieldConfig($field);
         $fld_search =   $field_param['fld_search'];
@@ -1032,7 +1032,10 @@ function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $
 				$op='like';
 				$term='%'.$term.'%';
 				break;
-			default: $op='='; break;
+			default: 
+                            $op='like';
+                            $term='%'.$term.'%';
+                            break;
 		}
 	}
 
@@ -1050,10 +1053,18 @@ function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $
 			$fieldlists = explode(',', $fld_search);
 			$wherefield = implode(" $op '$term' or ", $fieldlists)." $op '$term' ";
 		}
-		$qry = "select crmid
+                $qryCount = "select count(*) as nr
                             from {$ei['tablename']}
                             inner join vtiger_crmentity on crmid = {$ei['entityidfield']}
                             where deleted = 0 and ($wherefield)";
+                //var_dump($qryCount);
+                $countRecResult=$adb->query($qryCount);
+                $countRec=$adb->query_result($countRecResult,0,'nr');
+		$qry = "select crmid
+                            from {$ei['tablename']}
+                            inner join vtiger_crmentity on crmid = {$ei['entityidfield']}
+                            where deleted = 0 and ($wherefield)"
+                        .   " $limit ";
 		$rsemp=$adb->query($qry);
 		$trmod = getTranslatedString($srchmod,$srchmod);
 		$wsid = vtyiicpng_getWSEntityId($srchmod);
@@ -1111,14 +1122,14 @@ function getEvoReferenceAutocomplete($term, $filter, $searchinmodules, $limit, $
                                     'crmmodule'=>$srchmod,
                                     'source_fld'=>$src_values,
                                     'dest_fld'=>$dst_values,
+                                    'totalRec'=>$countRec
                     );
-                    if (count($respuesta)>=$limit) break;
 		}
 	}
 	return $respuesta;
 }
 
-function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $user,$field) {
+function getEvoActualAutocomplete($term,$field) {
 	global $current_user,$log,$adb,$default_charset;
 
         $values = explode(',', $term);
@@ -1127,7 +1138,6 @@ function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $use
         $fld_shown  =   $field_param['fld_shown'];
         $flds2show  =   explode(',', $fld_shown);
 	
-        if (empty($limit)) $limit = 30;  // hard coded default
         $respuesta=array();
 	foreach ($values as $val) {
                 $srchmod=  getSalesEntityType($val);
@@ -1140,6 +1150,7 @@ function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $use
                 $focus_pointing= CRMEntity::getInstance($srchmod);
                 $focus_pointing->id=$val;
                 $focus_pointing->mode = 'edit';
+                if(!is_numeric($val))  break;
                 $focus_pointing->retrieve_entity_info($val, $srchmod);
                 $shown_val='';
                 for($j=0;$j<sizeof($flds2show);$j++)
@@ -1160,7 +1171,6 @@ function getEvoActualAutocomplete($term, $filter, $searchinmodules, $limit, $use
                                 'crmname'=>html_entity_decode($shown_val,ENT_QUOTES,$default_charset).($num_search_modules>1 ? " :: $trmod" : ''),
                                 'crmmodule'=>$srchmod,
                 );
-                if (count($respuesta)>=$limit) break;
 	}
 	return $respuesta;
 }

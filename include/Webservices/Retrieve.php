@@ -81,4 +81,52 @@
 		VTWS_PreserveGlobal::flush();
 		return $entity;
 	}
+        
+        function vtws_getrelatedblocksPortal($id, $user){
+                require_once('modules/cbMap/cbMap.php');
+                global $log,$adb,$default_language;
+                $idComponents = vtws_getIdComponents($id);
+                $mid=$idComponents[0];
+                $sql1 = 'SELECT name'
+                        . ' from vtiger_ws_entity'
+                        . ' where  id=? OR name =?';
+                $result=$adb->pquery($sql1,array($mid,$id));
+                $name=$adb->query_result($result,0,'name');
+
+                $isCreating=strpos($id,'x');
+                if($isCreating!==false){
+                    $entity=vtws_retrieve($id, $user);
+                    $type_ma='DETAILVIEWBLOCKPORTAL';
+                }
+                else{
+                    $type_ma='CREATEVIEWPORTAL';
+                }
+
+                $sql = 'SELECT * '
+                        . ' FROM vtiger_businessrules'
+                        . ' INNER JOIN vtiger_crmentity ce ON ce.crmid=vtiger_businessrules.businessrulesid'
+                        . ' INNER JOIN vtiger_cbmap  ON vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid'
+                        . ' where ce.deleted=0  '
+                        . ' and maptype =? and module_rules=? ';
+                $result=$adb->pquery($sql,array($type_ma,$name));
+                $count=$adb->num_rows($result);
+                $block=array();
+                if($count>0){
+                    for($i=0;$i<$count;$i++){
+                        $map=$adb->query_result($result,$i,'linktomap');
+                        if(!empty($map)){
+                            $mapfocus=new cbMap();
+                            $mapfocus->retrieve_entity_info($map, 'cbMap');
+                            $rows=$mapfocus->getMapPortalDvBlocks();
+                            $rows1=$rows['rows'];
+                            $block=$rows['blocks'];
+                        }
+                        $blocks[$i]=array('reference'=>$adb->query_result($result,$i,'businessrules_name'),
+                            'description'=>$adb->query_result($result,$i,'description'),
+                            'mapstructure'=>$rows1,'blocks'=>$block);
+                    }            
+                }
+                $blocks['info']=$entity;
+                return $blocks;
+        }
 ?>
