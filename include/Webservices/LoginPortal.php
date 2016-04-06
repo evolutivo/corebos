@@ -66,7 +66,7 @@ include_once 'include/Webservices/AuthToken.php';
 		global $adb, $log;
 		$log->debug('Entering LoginPortal function with parameter username: '.$username);
 //INNER JOIN vtiger_account ON vtiger_account.accountid = vtiger_contactdetails.accountid
-		$ctors = $adb->pquery('select id,vtiger_account.accountid,cf_812
+		$ctors = $adb->pquery('select id,vtiger_account.accountid
 			from vtiger_portalinfo
 			inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid
 			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_portalinfo.id
@@ -76,34 +76,8 @@ include_once 'include/Webservices/AuthToken.php';
                         where vtiger_crmentity.deleted=0 and user_name=? and user_password=?
 			  and isactive=1 and vtiger_customerdetails.portal=1',array($username,$password));
                if ($ctors and $adb->num_rows($ctors)==1) {
-                   $type_account = $adb->query_result($ctors,0,'cf_812');
-                   switch($type_account){
-                       case 'SDF Italy';
-                           $temp_user='italy.dealer';
-                           $temp_grp='17';
-                           break;
-                       case 'SDF Germany';
-                           $temp_user='germany.dealer';
-                           $temp_grp='44';
-                           break;
-                       case 'SDF France';
-                           $temp_user='france.dealer';
-                           $temp_grp='38';
-                           break;
-                       case 'SDF UK';
-                           $temp_user='england.dealer';
-                           $temp_grp='41';
-                           break;
-                       case 'SDF Iberica';
-                           $temp_user='spain.dealer';
-                           $temp_grp='51';
-                           break;
-                       case 'SDF Export';
-                           $temp_user='export.dealer';
-                           $temp_grp='54';
-                           break;
-                  
- }
+                   $temp_user='admin';
+                   
                     $uname = $temp_user;
                     $user = new Users();
                     $userId = $user->retrieve_user_id($uname);
@@ -143,14 +117,14 @@ include_once 'include/Webservices/AuthToken.php';
 					'contactid' => $ctowsid.'x'.$ctocmrid,
                                         'patientid' => $ptowsid.'x'.$accountid,
 				);
-                                $logintime=date('Y-m-d H:i:s');
-                                $logininfo = $adb->pquery("Insert into vtiger_portalinfologin (contactid,logintime)"
-                                        . "  values(?,?)",
-                                        array($ctocmrid,$logintime));
-                                $adb->pquery("Update vtiger_contactdetails"
-                                        . " set lastaccess=? "
-                                        . " where contactid=?",
-                                        array($logintime,$ctocmrid));
+//                                $logintime=date('Y-m-d H:i:s');
+//                                $logininfo = $adb->pquery("Insert into vtiger_portalinfologin (contactid,logintime)"
+//                                        . "  values(?,?)",
+//                                        array($ctocmrid,$logintime));
+//                                $adb->pquery("Update vtiger_contactdetails"
+//                                        . " set lastaccess=? "
+//                                        . " where contactid=?",
+//                                        array($logintime,$ctocmrid));
 				return $accessinfo;
 			} else {
 				throw new WebServiceException(WebServiceErrorCode::$AUTHREQUIRED,'Given user is inactive');

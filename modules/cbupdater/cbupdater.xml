@@ -826,4 +826,11 @@
 	<classname>sortworkflowtasks</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add default Menu Structure BR/Map for CP</description>
+	<filename>build/changeSets/evolutivo/addMapsCPortalMenuStructure</filename>
+	<classname>addMapsCPortalMenuStructure</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
