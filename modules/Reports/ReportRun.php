@@ -594,7 +594,6 @@ class ReportRun extends CRMEntity {
 	}
 
 	function generateAdvFilterSql($advfilterlist) {
-
 		global $adb;
 
 		$advfiltersql = "";
@@ -691,23 +690,15 @@ class ReportRun extends CRMEntity {
 							$fieldvalue = "(".$selectedfields[0].".".$selectedfields[1]." IS NULL OR ".$selectedfields[0].".".$selectedfields[1]." = '')";
 						} elseif($comparator == 'e' && $datatype == 'D' && (trim($value) == "--$" || trim($value) == '$')) {
 							$fieldvalue = "(".$selectedfields[0].".".$selectedfields[1]." IS NULL OR ".$selectedfields[0].".".$selectedfields[1]." = '')";
-						} elseif($selectedfields[0] == 'vtiger_inventoryproductrel' && ($selectedfields[1] == 'productid' || $selectedfields[1] == 'serviceid')) {
+						} elseif(substr($selectedfields[0],0,26) == 'vtiger_inventoryproductrel' && ($selectedfields[1] == 'productid' || $selectedfields[1] == 'serviceid' || $selectedfields[1] == 'discount')) {
+							$invmod = (in_array($this->primarymodule, getInventoryModules()) ? $this->primarymodule : $this->secondarymodule);
 							if($selectedfields[1] == 'productid'){
-								$fieldvalue = "vtiger_products{$this->primarymodule}.productname ".$this->getAdvComparator($comparator,trim($value),$datatype);
+								$fieldvalue = "vtiger_products{$invmod}.productname ".$this->getAdvComparator($comparator,trim($value),$datatype);
 							} else if($selectedfields[1] == 'serviceid'){
-								$fieldvalue = "vtiger_service{$this->primarymodule}.servicename ".$this->getAdvComparator($comparator,trim($value),$datatype);
+								$fieldvalue = "vtiger_service{$invmod}.servicename ".$this->getAdvComparator($comparator,trim($value),$datatype);
 							} else if($selectedfields[1] == 'discount'){
-								$fieldvalue = "(vtiger_inventoryproductrel{$this->primarymodule}.discount_amount ".$this->getAdvComparator($comparator,trim($value),$datatype)."
-										OR ROUND((vtiger_inventoryproductrel{$this->primarymodule}.listprice * vtiger_inventoryproductrel{$this->primarymodule}.quantity * (vtiger_inventoryproductrel{$this->primarymodule}.discount_percent/100)),3)) ".$this->getAdvComparator($comparator,trim($value),$datatype).") ";
-							}
-						} elseif($selectedfields[0] == 'vtiger_inventoryproductrel'.$this->primarymodule && ($selectedfields[1] == 'productid' || $selectedfields[1] == 'serviceid' || $selectedfields[1] == 'discount')) {
-							if($selectedfields[1] == 'productid'){
-								$fieldvalue = "vtiger_products{$this->primarymodule}.productname ".$this->getAdvComparator($comparator,trim($value),$datatype);
-							} else if($selectedfields[1] == 'serviceid'){
-								$fieldvalue = "vtiger_service{$this->primarymodule}.servicename ".$this->getAdvComparator($comparator,trim($value),$datatype);
-							} else if($selectedfields[1] == 'discount'){
-								$fieldvalue = "(vtiger_inventoryproductrel{$this->primarymodule}.discount_amount ".$this->getAdvComparator($comparator,trim($value),$datatype)."
-										OR ROUND((vtiger_inventoryproductrel{$this->primarymodule}.listprice * vtiger_inventoryproductrel{$this->primarymodule}.quantity * (vtiger_inventoryproductrel{$this->primarymodule}.discount_percent/100)),3) ".$this->getAdvComparator($comparator,trim($value),$datatype).") ";
+								$fieldvalue = "(vtiger_inventoryproductrel{$invmod}.discount_amount ".$this->getAdvComparator($comparator,trim($value),$datatype)."
+									OR ROUND((vtiger_inventoryproductrel{$invmod}.listprice * vtiger_inventoryproductrel{$invmod}.quantity * (vtiger_inventoryproductrel{$invmod}.discount_percent/100)),3) ".$this->getAdvComparator($comparator,trim($value),$datatype).") ";
 							}
 						} elseif($fieldInfo['uitype'] == '10' || isReferenceUIType($fieldInfo['uitype'])) {
 
@@ -886,14 +877,12 @@ class ReportRun extends CRMEntity {
 
 		}
 		return $stdfilterlist;
-
 	}
 
 	/** Function to get the RunTime Advanced filter conditions
 	 *  @ param $advft_criteria : Type Array
 	 *  @ param $advft_criteria_groups : Type Array
 	 *  This function returns  $advfiltersql
-	 *
 	 */
 	function RunTimeAdvFilter($advft_criteria,$advft_criteria_groups) {
 		$adb = PearDatabase::getInstance();
@@ -923,9 +912,9 @@ class ReportRun extends CRMEntity {
 					$fieldType = $field->getFieldDataType();
 				}
 
-				if($fieldType == 'currency') {
-					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-					if($field->getUIType() == '72') {
+				if($fieldType == 'currency' or $fieldType == 'double') {
+					$flduitype = $fieldInfo['uitype'];
+					if($flduitype == '72' or $flduitype == 9 or $flduitype ==7) {
 						$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);
 					} else {
 						$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value);
@@ -980,19 +969,15 @@ class ReportRun extends CRMEntity {
 			$advfiltersql = $this->generateAdvFilterSql($advfilterlist);
 		}
 		return $advfiltersql;
-
 	}
 
 	/** Function to get standardfilter for the given reportid
 	 *  @ param $reportid : Type Integer
 	 *  returns the query of columnlist for the selected columns
 	 */
-
 	function getStandardCriterialSql($reportid)
 	{
-		global $adb;
-		global $modules;
-		global $log;
+		global $adb, $modules, $log;
 
 		$sreportstdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
 		$sreportstdfiltersql .= " inner join vtiger_reportdatefilter on vtiger_report.reportid = vtiger_reportdatefilter.datefilterid";

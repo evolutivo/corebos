@@ -49,6 +49,13 @@ class DataTransform{
 		return $newRow;
 	}
 
+	static function sanitizeRetrieveEntityInfo($newRow,$meta){
+		$newRow = DataTransform::sanitizeDateFieldsForInsert($newRow,$meta);
+		$newRow = DataTransform::sanitizeCurrencyFieldsForInsert($newRow,$meta);
+		$newRow = DataTransform::sanitizeTextFieldsForInsert($newRow,$meta);
+		return $newRow;
+	}
+
 	function sanitizeForInsert($row,$meta){
 		global $adb;
 		$associatedToUser = false;
@@ -142,7 +149,7 @@ class DataTransform{
 		}
 
 		//$row = DataTransform::sanitizeDateFieldsForInsert($row,$meta);
-		$row = DataTransform::sanitizeCurrencyFieldsForInsert($row,$meta);
+		//$row = DataTransform::sanitizeCurrencyFieldsForInsert($row,$meta);
 
 		return $row;
 	}

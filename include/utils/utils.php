@@ -12,7 +12,9 @@
  * All Rights Reserved.
  ********************************************************************************/
 require_once('include/database/PearDatabase.php');
+require_once('include/events/include.inc');
 require_once 'modules/GlobalVariable/GlobalVariable.php';
+require_once 'modules/cbMap/cbMap.php';
 require_once('include/ComboUtil.php'); //new
 require_once('include/utils/ListViewUtils.php');
 require_once('include/utils/EditViewUtils.php');
@@ -915,7 +917,7 @@ function getTabfromcolname($field)
 */
 function getTabModuleName($tabid) {
 	global $log, $adb;
-	$log->debug("Entering getTabModuleName(".$tabid.") method ...");
+	$log->debug("Entering getTabModuleName($tabid) ...");
 
 	// Lookup information in cache first
 	$tabname = VTCacheUtils::lookupModulename($tabid);
@@ -934,7 +936,6 @@ function getTabModuleName($tabid) {
 			VTCacheUtils::updateTabidInfo($tabid, $tabname);
 
 		} else {
-			$log->info("tab id is ".$tabid);
 			$sql = "select name from vtiger_tab where tabid=?";
 			$result = $adb->pquery($sql, array($tabid));
 			$tabname=  $adb->query_result($result,0,"name");
@@ -943,7 +944,7 @@ function getTabModuleName($tabid) {
 			VTCacheUtils::updateTabidInfo($tabid, $tabname);
 		}
 	}
-	$log->debug("Exiting getTabModuleName method ...");
+	$log->debug("Exiting getTabModuleName ($tabname) ...");
 	return $tabname;
 }
 
@@ -3081,7 +3082,7 @@ function is_related($relation_table,$crm_field,$related_module_id,$crmid)
 		return false;
 }
 
-/** Function to get a to find duplicates in a particular module*/
+/** Get SQL to find duplicates in a particular module*/
 function getDuplicateQuery($module,$field_values,$ui_type_arr)
 {
 	global $current_user;
@@ -3270,7 +3271,7 @@ function getDuplicateQuery($module,$field_values,$ui_type_arr)
 /** Function to return the duplicate records data as a formatted array */
 function getDuplicateRecordsArr($module)
 {
-	global $adb,$app_strings,$list_max_entries_per_page,$theme;
+	global $adb,$app_strings,$list_max_entries_per_page,$theme,$default_charset;
 	$field_values_array=getFieldValues($module);
 	$field_values=$field_values_array['fieldnames_list'];
 	$fld_arr=$field_values_array['fieldnames_array'];
@@ -3299,7 +3300,6 @@ function getDuplicateRecordsArr($module)
 	else
 		$limit_start_rec = $start_rec -1;
 	$dup_query .= " LIMIT $limit_start_rec, $list_max_entries_per_page";
-	//ends
 
 	$nresult=$adb->query($dup_query);
 	$no_rows=$adb->num_rows($nresult);
@@ -3308,24 +3308,21 @@ function getDuplicateRecordsArr($module)
 	{
 		if ($_REQUEST['action'] == 'FindDuplicateRecords')
 		{
-			//echo "<br><br><center>".$app_strings['LBL_NO_DUPLICATE']." <a href='javascript:window.history.back()'>".$app_strings['LBL_GO_BACK'].".</a></center>";
-			//die;
 			echo "<link rel='stylesheet' type='text/css' href='themes/$theme/style.css'>";
 			echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
 			echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 55%; position: relative; z-index: 10000000;'>
-
 				<table border='0' cellpadding='5' cellspacing='0' width='98%'>
 				<tbody><tr>
 				<td rowspan='2' width='11%'><img src='" . vtiger_imageurl('empty.jpg', $theme) . "' ></td>
-				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>$app_strings[LBL_NO_DUPLICATE]</span></td>
+				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>".$app_strings['LBL_NO_DUPLICATE']."</span></td>
 				</tr>
 				<tr>
 				<td class='small' align='right' nowrap='nowrap'>
-				<a href='javascript:window.history.back();'>$app_strings[LBL_GO_BACK]</a><br>     </td>
+				<a href='javascript:window.history.back();'>".$app_strings['LBL_GO_BACK']."</a><br></td>
 				</tr>
 				</tbody></table>
-				</div>";
-			echo "</td></tr></table>";
+				</div>
+				</td></tr></table>";
 			exit();
 		}
 		else
@@ -3348,8 +3345,8 @@ function getDuplicateRecordsArr($module)
 		if($rec_cnt != 0)
 		{
 			$sl_arr = array_slice($result,2);
-			array_walk($temp,'lower_array');
-			array_walk($sl_arr,'lower_array');
+			array_walk($temp,'setFormatForDuplicateCompare');
+			array_walk($sl_arr,'setFormatForDuplicateCompare');
 			$arr_diff = array_diff($temp,$sl_arr);
 			if(count($arr_diff) > 0)
 			{
@@ -3364,7 +3361,7 @@ function getDuplicateRecordsArr($module)
 		{
 			if($rec_cnt == 0)
 			{
-				$temp[$fld_labl_arr[$k]] = $result[$col_arr[$k]];
+				$temp[$fld_labl_arr[$k]] = html_entity_decode($result[$col_arr[$k]], ENT_QUOTES, $default_charset);
 			}
 			if($ui_type[$fld_arr[$k]] == 56)
 			{
@@ -3576,9 +3573,17 @@ function get_on_clause($field_list,$uitype_arr,$module)
 	return $ret_str;
 }
 
+function elimina_acentos($cadena){
+	$tofind = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊẼËèéêẽëÌÍĨÎÏìíîĩïÙÚÛŨÜúùûũüÿçÇñÑ");
+	$replac = "AAAAAAaaaaaaOOOOOOooooooEEEEEeeeeeIIIIIiiiiiUUUUUuuuuuycCnN";
+	return utf8_encode(strtr(utf8_decode($cadena),$tofind,$replac));
+}
+
 /** call back function to change the array values in to lower case */
-function lower_array(&$string){
-	$string = strtolower(trim($string));
+function setFormatForDuplicateCompare(&$string){
+	global $default_charset;
+	$string = elimina_acentos(trim($string));
+	$string = strtolower(html_entity_decode($string, ENT_QUOTES, $default_charset));
 }
 
 /** Function to get recordids for subquery where condition */
@@ -4125,28 +4130,29 @@ function getRelationTables($module,$secmodule){
 	$primary_obj = CRMEntity::getInstance($module);
 	$secondary_obj = CRMEntity::getInstance($secmodule);
 
-	$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? AND vtiger_fieldmodulerel.relmodule=?) OR (vtiger_fieldmodulerel.module=? AND vtiger_fieldmodulerel.relmodule=?)",array($module,$secmodule,$secmodule,$module));
-	if($adb->num_rows($ui10_query)>0){
-		$ui10_tablename = $adb->query_result($ui10_query,0,'tablename');
-		$ui10_columnname = $adb->query_result($ui10_query,0,'columnname');
-		$ui10_tabid = $adb->query_result($ui10_query,0,'tabid');
-
-		if($primary_obj->table_name == $ui10_tablename){
-			$reltables = array($ui10_tablename=>array("".$primary_obj->table_index."","$ui10_columnname"));
-		} else if($secondary_obj->table_name == $ui10_tablename){
-			$reltables = array($ui10_tablename=>array("$ui10_columnname","".$secondary_obj->table_index.""),"".$primary_obj->table_name."" => "".$primary_obj->table_index."");
-		} else {
-			if(isset($secondary_obj->tab_name_index[$ui10_tablename])){
-				$rel_field = $secondary_obj->tab_name_index[$ui10_tablename];
-				$reltables = array($ui10_tablename=>array("$ui10_columnname","$rel_field"),"".$primary_obj->table_name."" => "".$primary_obj->table_index."");
+	if(method_exists($primary_obj,'setRelationTables')){
+		$reltables = $primary_obj->setRelationTables($secmodule);
+	}
+	if (empty($reltables)) { // not predefined so we try uitype10
+		$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? AND vtiger_fieldmodulerel.relmodule=?) OR (vtiger_fieldmodulerel.module=? AND vtiger_fieldmodulerel.relmodule=?)",array($module,$secmodule,$secmodule,$module));
+		if($adb->num_rows($ui10_query)>0){
+			$ui10_tablename = $adb->query_result($ui10_query,0,'tablename');
+			$ui10_columnname = $adb->query_result($ui10_query,0,'columnname');
+			$ui10_tabid = $adb->query_result($ui10_query,0,'tabid');
+			if($primary_obj->table_name == $ui10_tablename){
+				$reltables = array($ui10_tablename=>array("".$primary_obj->table_index."","$ui10_columnname"));
+			} else if($secondary_obj->table_name == $ui10_tablename){
+				$reltables = array($ui10_tablename=>array("$ui10_columnname","".$secondary_obj->table_index.""),"".$primary_obj->table_name."" => "".$primary_obj->table_index."");
 			} else {
-				$rel_field = $primary_obj->tab_name_index[$ui10_tablename];
-				$reltables = array($ui10_tablename=>array("$rel_field","$ui10_columnname"),"".$primary_obj->table_name."" => "".$primary_obj->table_index."");
+				if(isset($secondary_obj->tab_name_index[$ui10_tablename])){
+					$rel_field = $secondary_obj->tab_name_index[$ui10_tablename];
+					$reltables = array($ui10_tablename=>array("$ui10_columnname","$rel_field"),"".$primary_obj->table_name."" => "".$primary_obj->table_index."");
+				} else {
+					$rel_field = $primary_obj->tab_name_index[$ui10_tablename];
+					//$reltables = array($ui10_tablename=>array("$rel_field","$ui10_columnname"),"".$primary_obj->table_name."" => "".$primary_obj->table_index."");
+					$reltables = array($ui10_tablename=>array("$rel_field","$ui10_columnname"));
+				}
 			}
-		}
-	}else {
-		if(method_exists($primary_obj,'setRelationTables')){
-			$reltables = $primary_obj->setRelationTables($secmodule);
 		} else {
 			$reltables = '';
 		}

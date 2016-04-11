@@ -69,6 +69,12 @@ class CurrencyField {
 	var $value = null;
 
 	/**
+	 * Maximum Number Of Currency Decimals
+	 * @var Number
+	 */
+	public static $maxNumberOfDecimals = 6;
+
+	/**
 	 * Constructor
 	 * @param Number $value
 	 */
@@ -102,6 +108,7 @@ class CurrencyField {
 		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
 		$this->conversionRate = $currencyRateAndSymbol['rate'];
 		$this->currencySymbolPlacement = $user->currency_symbol_placement;
+		$this->numberOfDecimal = self::getCurrencyDecimalPlaces($user);
 	}
 
 	public function getCurrencySymbol() {
@@ -110,6 +117,19 @@ class CurrencyField {
 
 	public function setNumberofDecimals($numberOfDecimals) {
 		$this->numberOfDecimal = $numberOfDecimals;
+	}
+
+	//Get the User selected NumberOfCurrencyDecimals
+	public static function getCurrencyDecimalPlaces($user=null) {
+		global $current_user;
+		if(empty($user)) {
+			$user = $current_user;
+		}
+		if(isset($user->no_of_currency_decimals)) {
+			return $user->no_of_currency_decimals;
+		} else {
+			return 2;
+		}
 	}
 
 	/**
@@ -130,16 +150,17 @@ class CurrencyField {
 	 * @param Boolean $skipConversion for multicurrency support
 	 * @return Formatted Currency
 	 */
-	public function getDisplayValue($user=null, $skipConversion=false) {
+	public function getDisplayValue($user=null, $skipConversion=false, $noInit=false) {
 		global $current_user;
 		if(empty($user)) {
 			$user = $current_user;
 		}
-		$this->initialize($user);
-
+		if (!$noInit) {
+			$this->initialize($user);
+		}
 		$value = $this->value;
 		if($skipConversion == false) {
-			$value = convertFromDollar($value,$this->conversionRate);
+			$value = self::convertFromDollar($value,$this->conversionRate);
 		}
 
 		$number = $this->_formatCurrencyValue($value);
@@ -189,6 +210,8 @@ class CurrencyField {
 		$currencyPattern = $this->currencyFormat;
 		$currencySeparator = $this->currencySeparator;
 		$decimalSeparator = $this->decimalSeparator;
+		$currencyDecimalPlaces = $this->numberOfDecimal;
+		$value = number_format($value, $currencyDecimalPlaces,'.','');
 		if(empty($currencySeparator)) $currencySeparator = ' ';
 		if(empty($decimalSeparator)) $decimalSeparator = ' ';
 
@@ -235,7 +258,7 @@ class CurrencyField {
 			$wholeNumberParts = str_split($wholeNumber,3);
 			// Re-create the whole number with user's configured currency separator
 			$numericParts[0] = $wholeNumber = implode($currencySeparator, $wholeNumberParts);
-			if($wholeNumber > 0) {
+			if($wholeNumber != 0) {
 				$numericParts[0] = ltrim($wholeNumber, '0');
 			} else {
 				$numericParts[0] = 0;
@@ -267,7 +290,7 @@ class CurrencyField {
 				$wholeNumberFirstPartElements = str_split($wholeNumberFirstPart,2);
 				$wholeNumberFirstPart = ltrim(implode($currencySeparator, $wholeNumberFirstPartElements), '0');
 				$wholeNumberFirstPart = implode($currencySeparator, $wholeNumberFirstPartElements);
-				if($wholeNumberFirstPart > 0) {
+				if($wholeNumberFirstPart != 0) {
 					$wholeNumberFirstPart = ltrim($wholeNumberFirstPart, '0');
 				} else {
 					$wholeNumberFirstPart = 0;
@@ -310,9 +333,9 @@ class CurrencyField {
 		$value = str_replace("$decimalSeparator", ".", $value);
 
 		if($skipConversion == false) {
-			$value = convertToDollar($value,$this->conversionRate);
+			$value = self::convertToDollar($value,$this->conversionRate);
 		}
-		$value = round($value, $this->numberOfDecimal);
+		//$value = round($value, $this->numberOfDecimal);
 
 		return $value;
 	}
@@ -335,13 +358,48 @@ class CurrencyField {
 	 */
 	public static function getDBCurrencyId() {
 		$adb = PearDatabase::getInstance();
-
 		$result = $adb->pquery('SELECT id FROM vtiger_currency_info WHERE defaultid < 0', array());
 		$noOfRows = $adb->num_rows($result);
 		if($noOfRows > 0) {
 			return $adb->query_result($result, 0, 'id');
 		}
 		return null;
+	}
+
+	public static function convertToDollar($amount, $conversionRate) {
+		if ($conversionRate == 0) return 0;
+		return $amount / $conversionRate;
+	}
+
+	public static function convertFromDollar($amount, $conversionRate) {
+		return round($amount * $conversionRate, self::$maxNumberOfDecimals);
+	}
+
+	/** This function returns the amount converted from master currency.
+	 * param $amount - amount to be converted.
+	 * param $crate - conversion rate.
+	 */
+	public static function convertFromMasterCurrency($amount, $conversionRate) {
+		return $amount * $conversionRate;
+	}
+
+	public static function getDecimalsFromTypeOfData($typeofdata) {
+		global $current_user;
+		$typeinfo = explode('~', $typeofdata);
+		if ($typeinfo[0]!='N' and $typeinfo[0]!='NN') return 0;
+		if (isset($typeinfo[2])) {
+			if (strpos($typeinfo[2], ',')) {
+				$decimals = explode(',', $typeinfo[2]);
+				$decimals = ((isset($decimals[1]) and is_numeric($decimals[1])) ? $decimals[1] : self::getCurrencyDecimalPlaces($current_user));
+			} elseif (isset($typeinfo[3]) and is_numeric($typeinfo[3])) {
+				$decimals = $typeinfo[3];
+			} else {
+				$decimals = self::getCurrencyDecimalPlaces($current_user);
+			}
+		} else {
+			$decimals = self::getCurrencyDecimalPlaces($current_user);
+		}
+		return $decimals;
 	}
 }
 ?>
