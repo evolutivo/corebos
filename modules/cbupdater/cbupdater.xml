@@ -829,7 +829,7 @@
 <changeSet>
 	<author>albana</author>
 	<description>Add default Menu Structure BR/Map for CP</description>
-	<filename>build/changeSets/evolutivo/addMapsCPortalMenuStructure</filename>
+	<filename>build/changeSets/evolutivo/addMapsCPortalMenuStructure.php</filename>
 	<classname>addMapsCPortalMenuStructure</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
