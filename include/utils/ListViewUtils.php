@@ -225,15 +225,12 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
  * Returns the listview header values in an array
  */
 function getSearchListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order_by = '') {
-	global $log;
+	global $log, $adb, $theme, $app_strings, $mod_strings, $current_user;
 	$log->debug("Entering getSearchListViewHeader(" . get_class($focus) . "," . $module . "," . $sort_qry . "," . $sorder . "," . $order_by . ") method ...");
-	global $adb;
-	global $theme;
-	global $app_strings;
-	global $mod_strings, $current_user;
 	$arrow = '';
 	$list_header = Array();
 	$tabid = getTabid($module);
+	$pass_url = '';
 	if (isset($_REQUEST['task_relmod_id'])) {
 		$task_relmod_id = vtlib_purify($_REQUEST['task_relmod_id']);
 		$pass_url .="&task_relmod_id=" . $task_relmod_id;
@@ -254,7 +251,11 @@ function getSearchListViewHeader($focus, $module, $sort_qry = '', $sorder = '', 
 		$pass_url .="&parent_module=Accounts&relmod_id=" . vtlib_purify($_REQUEST['acc_id']);
 	}
 
-	$pass_url .= '&form='.vtlib_purify($_REQUEST['form']).'&forfield=' . vtlib_purify($_REQUEST['forfield']) . '&srcmodule=' . vtlib_purify($_REQUEST['srcmodule']) . '&forrecord=' . vtlib_purify($_REQUEST['forrecord']);
+	$pass_url .= '&form=' . (isset($_REQUEST['form']) ? vtlib_purify($_REQUEST['form']) : '').
+		'&forfield=' . (isset($_REQUEST['forfield']) ? vtlib_purify($_REQUEST['forfield']) : '').
+		'&srcmodule=' . (isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : '').
+		'&forrecord=' . (isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : '');
+
 	$field_list = array_values($focus->search_fields_name);
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	$field = Array();
@@ -374,6 +375,7 @@ function getNavigationValues($display, $noofrows, $limit) {
 	} else {
 		$previous = 0;
 	}
+	$last = $paging;
 	if ($noofrows < $limit) {
 		$first = '';
 	} elseif ($noofrows != $limit) {
@@ -537,6 +539,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 		$linkstart = '&start=' . vtlib_purify($_REQUEST['start']);
 	else
 		$linkstart = '';
+	$wfs = new VTWorkflowManager($adb);
 	if ($navigation_array['start'] != 0)
 		for ($i = 1; $i <= $noofrows; $i++) {
 			$list_header = Array();
@@ -824,7 +827,14 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 						} elseif ($module == 'Emails' && $relatedlist != '' && ($name == 'Subject' || $name == 'Date Sent' || $name == 'To')) {
 							$list_result_count = $i - 1;
 							$tmp_value = getValue($ui_col_array, $list_result, $fieldname, $focus, $module, $entity_id, $list_result_count, "list", "", $returnset, $oCv->setdefaultviewid);
-							$value = '<a href="javascript:;" onClick="ShowEmail(\'' . $entity_id . '\');">' . textlength_check($tmp_value) . '</a>';
+							$attrs = $adb->pquery('select count(*) from vtiger_seattachmentsrel where crmid=?', array($entity_id));
+							$atts = $adb->query_result($attrs,0,0);
+							if ($atts>0) {
+								$value = '<img src="themes/images/attachments.gif">&nbsp;';
+							} else {
+								$value = '';
+							}
+							$value.= '<a href="javascript:;" onClick="ShowEmail(\'' . $entity_id . '\');">' . textlength_check($tmp_value) . '</a>';
 							if ($name == 'Date Sent') {
 								$sql = "select email_flag from vtiger_emaildetails where emailid=?";
 								$result = $adb->pquery($sql, array($entity_id));
@@ -882,28 +892,37 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			else
 				$varreturnset = $returnset;
 
+			$WSmodule = $module;
 			if ($module == 'Calendar') {
 				$actvity_type = $adb->query_result($list_result, $list_result_count, 'activitytype');
 				if ($actvity_type == 'Task')
 					$varreturnset .= '&activity_mode=Task';
-				else
+				else{
 					$varreturnset .= '&activity_mode=Events';
+					$WSmodule = 'Events';
+				}
 			}
 
 			//Added for Actions ie., edit and delete links in listview
 			$links_info = '';
 			if (!(is_array($selectedfields) && $selectedfields != '')) {
 				if (isPermitted($module, 'EditView', '') == 'yes') {
+					$racbr = $wfs->getRACRuleForRecord($WSmodule, $entity_id);
+					if (!$racbr or $racbr->hasListViewPermissionTo('edit')) {
 					$edit_link = getListViewEditLink($module, $entity_id, $relatedlist, $varreturnset, $list_result, $list_result_count);
 					$links_info .= "<a href=\"$edit_link$linkstart\">" . $app_strings['LNK_EDIT'] . "</a> ";
+					}
 				}
 
 				if (isPermitted($module, 'Delete', '') == 'yes') {
+					$racbr = $wfs->getRACRuleForRecord($WSmodule, $entity_id);
+					if (!$racbr or $racbr->hasListViewPermissionTo('delete')) {
 					$del_link = getListViewDeleteLink($module, $entity_id, $relatedlist, $varreturnset, $linkstart);
 					if ($links_info != '' && $del_link != '')
 						$links_info .= ' | ';
 					if ($del_link != '')
 						$links_info .= "<a href='javascript:confirmdelete(\"" . addslashes(urlencode($del_link)) . "\")'>" . $app_strings["LNK_DELETE"] . "</a>";
+					}
 				}
 			}
 			// Record Change Notification
@@ -933,10 +952,9 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
  * Returns an array type
  */
 function getSearchListViewEntries($focus, $module, $list_result, $navigation_array, $form = '') {
-	global $log;
-	$log->debug("Entering getSearchListViewEntries(" . get_class($focus) . "," . $module . "," . $list_result . "," . $navigation_array . ") method ...");
+	global $log, $adb, $app_strings, $theme, $current_user, $list_max_entries_per_page;
+	$log->debug("Entering getSearchListViewEntries(" . get_class($focus) . "," . $module . "," . $list_result . ") method ...");
 
-	global $adb, $app_strings, $theme, $current_user, $list_max_entries_per_page;
 	$noofrows = $adb->num_rows($list_result);
 
 	$list_header = '';
@@ -1050,9 +1068,9 @@ function getSearchListViewEntries($focus, $module, $list_result, $navigation_arr
 						// vtlib customization: Generic popup handling
 						elseif (isset($focus->popup_fields) && in_array($fieldname, $focus->popup_fields)) {
 							global $default_charset;
-							$forfield = vtlib_purify($_REQUEST['forfield']);
+							$forfield = isset($_REQUEST['forfield']) ? vtlib_purify($_REQUEST['forfield']) : '';
 							$forfield = htmlspecialchars($forfield, ENT_QUOTES, $default_charset);
-							$forform = vtlib_purify($_REQUEST['form']);
+							$forform = isset($_REQUEST['form']) ? vtlib_purify($_REQUEST['form']) : '';
 							$forform = htmlspecialchars($forform, ENT_QUOTES, $default_charset);
 							$list_result_count = $i - 1;
 							$value = getValue($ui_col_array, $list_result, $fieldname, $focus, $module, $entity_id, $list_result_count, "search", $focus->popup_type);
@@ -1184,7 +1202,7 @@ function getSearchListViewEntries($focus, $module, $list_result, $navigation_arr
  */
 function getValue($field_result, $list_result, $fieldname, $focus, $module, $entity_id, $list_result_count, $mode, $popuptype, $returnset = '', $viewid = '') {
 	global $log, $listview_max_textlength, $app_strings, $current_language, $currentModule;
-	$log->debug("Entering getValue(" . $field_result . "," . $list_result . "," . $fieldname . "," . get_class($focus) . "," . $module . "," . $entity_id . "," . $list_result_count . "," . $mode . "," . $popuptype . "," . $returnset . "," . $viewid . ") method ...");
+	$log->debug("Entering getValue(" . print_r($field_result,true) . "," . $list_result . "," . $fieldname . "," . get_class($focus) . "," . $module . "," . $entity_id . "," . $list_result_count . "," . $mode . "," . $popuptype . "," . $returnset . "," . $viewid . ") method ...");
 	global $adb, $current_user, $default_charset;
 
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
@@ -2171,7 +2189,8 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					} else {
                                                 if($module=='Documents') $fldname=',"'.vtlib_purify($_REQUEST['forfield']).'"';
                                                 else $fldname='';
-						$value = '<a href="javascript:window.close();" onclick=\'set_return("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '" '.$fldname.');\'';
+						$value = '<a href="javascript:if (document.getElementById(\'closewindow\').value==\'true\') {window.close();}" onclick=\'set_return("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)). '" '.$fldname.');\'';
+
 						if (empty($_REQUEST['forfield']) && $focus->popup_type != 'detailview') {
 							$count = counterValue();
 							$value .= " id='$count' ";
@@ -2870,7 +2889,10 @@ function AlphabeticalSearch($module, $action, $fieldname, $query, $type, $popupt
 	if ($return_module != '')
 		$returnvalue .= '&return_module=' . $return_module;
 
-	$returnvalue .= '&form='.vtlib_purify($_REQUEST['form']).'&forfield=' . vtlib_purify($_REQUEST['forfield']) . '&srcmodule=' . vtlib_purify($_REQUEST['srcmodule']) . '&forrecord=' . vtlib_purify($_REQUEST['forrecord']);
+	$returnvalue .= '&form=' . (isset($_REQUEST['form']) ? vtlib_purify($_REQUEST['form']) : '').
+		'&forfield=' . (isset($_REQUEST['forfield']) ? vtlib_purify($_REQUEST['forfield']) : '').
+		'&srcmodule=' . (isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : '').
+		'&forrecord=' . (isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : '');
 
 	$list = '';
 	for ($var = 'A', $i = 1; $i <= 26; $i++, $var++)
@@ -4063,7 +4085,10 @@ function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '
 	$search_tag = isset($_REQUEST['search_tag']) ? $_REQUEST['search_tag'] : '';
 	$url_string = '';
 
-	$url_string .= '&form='.vtlib_purify($_REQUEST['form']).'&forfield=' . vtlib_purify($_REQUEST['forfield']) . '&srcmodule=' . vtlib_purify($_REQUEST['srcmodule']) . '&forrecord=' . vtlib_purify($_REQUEST['forrecord']);
+	$url_string .= '&form=' . (isset($_REQUEST['form']) ? vtlib_purify($_REQUEST['form']) : '').
+		'&forfield=' . (isset($_REQUEST['forfield']) ? vtlib_purify($_REQUEST['forfield']) : '').
+		'&srcmodule=' . (isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : '').
+		'&forrecord=' . (isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : '');
 
 	if ($module == 'Calendar' && $action_val == 'index') {
 		if ($_REQUEST['view'] == '') {

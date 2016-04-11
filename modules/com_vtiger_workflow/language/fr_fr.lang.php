@@ -49,6 +49,7 @@ $mod_strings = array(
 	'LBL_EXPRESSION'=>'Expression',
 	'LBL_SET_EXPRESSION'=>'Définir une expression',
 	'LBL_MANUAL'=>'Système',
+	'LBL_RECORD_ACCESS_CONTROL' => 'Record Access Control',
 	'LBL_NEW_CONDITION_GROUP_BUTTON_LABEL'=>'Nouveau groupe de condition',
 	'VTUpdateFieldsTask' => 'Mise à jour d\'un champ',
 	
@@ -99,6 +100,7 @@ $mod_strings = array(
 	'Relate with AccountVendor' => 'Relate with Account/Vendor',
 	'Relate with Contact' => 'Relate with Contact',
 	'CBDeleteRelatedTask' => 'Delete Related Records',
+	'CBSelectcbMap' => 'Select Business Rule',
 	'LBL_HELPDESK_SUPPORT_EMAILID'=>'Email du support client ',
 	'LBL_HELPDESK_SUPPORT_NAME'=>'Nom du support client ',
 	'LBL_ORGANIZATION_LOGO' => 'Logo',

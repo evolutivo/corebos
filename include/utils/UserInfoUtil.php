@@ -11,7 +11,6 @@ require_once('include/database/PearDatabase.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/GetUserGroups.php');
 include('config.php');
-require_once('include/events/include.inc');
 global $log;
 
 /** To retreive the mail server info resultset for the specified user
@@ -865,9 +864,13 @@ function isPermitted($module,$actionname,$record_id='')
 	}
 	elseif($others_permission_id == 2)
 	{
-		$permission = "yes";
-		$log->debug("Exiting isPermitted method ...");
-		return $permission;
+		$wfs = new VTWorkflowManager($adb);
+		$racbr = $wfs->getRACRuleForRecord($module, $record_id);
+		if (($actionname!='EditView' and $actionname!='Delete') or (!$racbr or $racbr->hasDetailViewPermissionTo($actionname))) {
+			$permission = "yes";
+			$log->debug("Exiting isPermitted method ...");
+			return $permission;
+		}
 	}
 	elseif($others_permission_id == 3)
 	{
