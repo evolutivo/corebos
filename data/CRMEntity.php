@@ -17,6 +17,7 @@ require_once('data/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once("include/Zend/Json.php");
+require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
 
 class CRMEntity {
 
@@ -25,6 +26,8 @@ class CRMEntity {
 	var $id;
 	var $DirectImageFieldValues = array();
 	static protected $methods = array();
+	static protected $dbvalues = array();
+	static protected $todvalues = array();
 
 	public static function registerMethod($method) {
 		self::$methods[] = $method;
@@ -184,14 +187,11 @@ class CRMEntity {
 	 * return void
 	 */
 	function uploadAndSaveFile($id, $module, $file_details, $attachmentname='', $direct_import=false) {
-		global $log;
+		global $log, $adb, $current_user, $upload_badext;
 		$fparams = print_r($file_details,true);
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$fparams) method.");
 
-		global $adb, $current_user;
-		global $upload_badext;
-
-		$date_var = date("Y-m-d H:i:s");
+		$date_var = date('Y-m-d H:i:s');
 
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
@@ -222,7 +222,6 @@ class CRMEntity {
 		} else {
 			$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
 		}
-
 		if ($upload_status) {
 			$description_val = empty($this->column_fields['description']) ? '' : $this->column_fields['description'];
 			if ($module == 'Contacts' || $module == 'Products') {
@@ -395,10 +394,8 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function insertIntoEntityTable($table_name, $module, $fileid = '') {
-		global $log;
-		global $current_user, $app_strings,$from_wf;
-		$log->info("function insertIntoEntityTable " . $module . ' vtiger_table name ' . $table_name);
-		global $adb;
+		global $log, $current_user, $app_strings, $from_wf, $adb;
+		$log->debug("function insertIntoEntityTable $module $table_name");
 		$insertion_mode = $this->mode;
 
 		//Checkin whether an entry is already is present in the vtiger_table to update
@@ -578,9 +575,9 @@ class CRMEntity {
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
-				} elseif ($uitype == 7) {
+				//} elseif ($uitype == 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
-					$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
+					//$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
 				} elseif ($uitype == 26) {
 					if (empty($this->column_fields[$fieldname])) {
 						$fldvalue = 1; //the documents will stored in default folder
@@ -616,11 +613,17 @@ class CRMEntity {
 							$fldvalue = $adb->query_result($res, 0, 'email1');
 						}
 					}
-				} elseif ($uitype == 72 && !$ajaxSave) {
-					// Some of the currency fields like Unit Price, Total, Sub-total - do not need currency conversion during save
+				} elseif (($uitype == 72 || $uitype == 7 || $uitype == 9) && !$ajaxSave) {
+					// Some of the currency fields like Unit Price, Total, Sub-total and normal numbers do not need currency conversion during save
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname], null, true);
+					if ($insertion_mode == 'edit') {
+						$fldvalue = $this->adjustCurrencyField($fieldname,$fldvalue,$tabid);
+					}
 				} elseif ($uitype == 71 && !$ajaxSave) {
 					$fldvalue = CurrencyField::convertToDBFormat($this->column_fields[$fieldname]);
+					if ($insertion_mode == 'edit') {
+						$fldvalue = $this->adjustCurrencyField($fieldname,$fldvalue,$tabid);
+					}
 				} else {
 					$fldvalue = $this->column_fields[$fieldname];
 				}
@@ -711,6 +714,40 @@ class CRMEntity {
 			$sql1 = "insert into $table_name(" . implode(",", $column) . ") values(" . generateQuestionMarks($value) . ")";
 			$adb->pquery($sql1, $value);
 		}
+	}
+
+	/** Function to retrieve maximum decimal values of currency field on save
+	 * @param $fieldname currency field name
+	 * @param $fldvalue currency value they want to save
+	 * @returns field value from database with maximum decimals if it is the same as value being saved
+	 */
+	function adjustCurrencyField($fieldname,$fldvalue,$tabid) {
+		global $adb, $log, $current_user;
+		$log->debug("Entering adjustCurrencyField($fieldname,$fldvalue)");
+		if (isset(self::$dbvalues[$fieldname])) {
+			$dbvalue = self::$dbvalues[$fieldname];
+		} else {
+			$dbvals = $result = array();
+			foreach ($this->tab_name_index as $table_name => $index) {
+				$result = $adb->pquery("select * from $table_name where $index=?", array($this->id));
+				$flds = $adb->fetch_array($result);
+				$dbvals = array_merge($dbvals,$flds);
+			}
+			self::$dbvalues = $dbvals;
+			$dbvalue = self::$dbvalues[$fieldname];
+			$fldrs = $adb->pquery('select fieldname,typeofdata from vtiger_field
+				where vtiger_field.uitype in (7,9,71,72) and vtiger_field.tabid=?', array($tabid));
+			while ($fldinf = $adb->fetch_array($fldrs)) {
+				self::$todvalues[$fldinf['fieldname']] = $fldinf['typeofdata'];
+			}
+		}
+		$typeofdata = self::$todvalues[$fieldname];
+		$decimals = CurrencyField::getDecimalsFromTypeOfData($typeofdata);
+		if (round($dbvalue,min($decimals,$current_user->no_of_currency_decimals))==$fldvalue) {
+			$fldvalue = $dbvalue;
+		}
+		$log->debug("Exiting adjustCurrencyField ($fldvalue)");
+		return $fldvalue;
 	}
 
 	/** Function to delete a record in the specifed table
@@ -1591,7 +1628,7 @@ class CRMEntity {
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query ="select case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name,
 		vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.semodule, vtiger_activity.activitytype,
-		vtiger_activity.date_start, vtiger_activity.status, vtiger_activity.priority, vtiger_crmentity.crmid,
+		vtiger_activity.date_start,vtiger_activity.time_start, vtiger_activity.status, vtiger_activity.priority, vtiger_crmentity.crmid,
 		vtiger_crmentity.smownerid,vtiger_crmentity.modifiedtime, vtiger_users.user_name, vtiger_seactivityrel.crmid as parent_id
 		from vtiger_activity
 		inner join vtiger_seactivityrel on vtiger_seactivityrel.activityid=vtiger_activity.activityid
@@ -1730,7 +1767,7 @@ class CRMEntity {
 	 * if function name is not explicitly specified.
 	 */
 	function get_related_list($id, $cur_tab_id, $rel_tab_id, $actions = false) {
-		global $currentModule, $app_strings, $singlepane_view;
+		global $currentModule, $app_strings, $singlepane_view, $adb;
 
 		$parenttab = getParentTab();
 
@@ -1748,16 +1785,27 @@ class CRMEntity {
 		if ($actions) {
 			if (is_string($actions))
 				$actions = explode(',', strtoupper($actions));
+			$wfs = '';
 			if (in_array('SELECT', $actions) && isPermitted($related_module, 4, '') == 'yes') {
-				$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' " .
+				$wfs = new VTWorkflowManager($adb);
+				$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
+				if (!$racbr or $racbr->hasRelatedListPermissionTo('select',$related_module)) {
+					$button .= "<input title='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module) . "' class='crmbutton small edit' " .
 						" type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id&parenttab=$parenttab','test','width=640,height=602,resizable=0,scrollbars=0');\"" .
 						" value='" . getTranslatedString('LBL_SELECT') . " " . getTranslatedString($related_module, $related_module) . "'>&nbsp;";
+				}
 			}
 			if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes') {
-				$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
+				if ($wfs == '') {
+					$wfs = new VTWorkflowManager($adb);
+					$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
+				}
+				if (!$racbr or $racbr->hasRelatedListPermissionTo('create',$related_module)) {
+					$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
 						"<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
 						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "'>&nbsp;";
+				}
 			}
 		}
 
@@ -1811,7 +1859,7 @@ class CRMEntity {
 	 * From a given Contact/Account if we need to fetch all such dependent trouble tickets, get_dependents_list function can be used.
 	 */
 	function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions = false) {
-		global $currentModule, $app_strings, $singlepane_view, $current_user;
+		global $currentModule, $app_strings, $singlepane_view, $current_user, $adb;
 
 		$parenttab = getParentTab();
 
@@ -1856,11 +1904,16 @@ class CRMEntity {
 			if ($actions) {
 				if (is_string($actions))
 					$actions = explode(',', strtoupper($actions));
+				$wfs = '';
 				if (in_array('ADD', $actions) && isPermitted($related_module, 1, '') == 'yes'
 						&& getFieldVisibilityPermission($related_module, $current_user->id, $dependentField, 'readwrite') == '0') {
-					$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "' class='crmbutton small create'" .
+					$wfs = new VTWorkflowManager($adb);
+					$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
+					if (!$racbr or $racbr->hasRelatedListPermissionTo('create',$related_module)) {
+						$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "' class='crmbutton small create'" .
 							" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
 							" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "'>&nbsp;";
+					}
 				}
 			}
 

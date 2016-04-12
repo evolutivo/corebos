@@ -50,7 +50,7 @@ $mod_strings = array(
 'LBL_SET_EXPRESSION'=>'Set Expression',
 
 'LBL_MANUAL'=>'System',
-
+'LBL_RECORD_ACCESS_CONTROL' => 'Record Access Control',
 'LBL_NEW_CONDITION_GROUP_BUTTON_LABEL'=>'New Condition Group',
 
 'VTUpdateFieldsTask' => 'Update Fields',
@@ -103,6 +103,7 @@ $mod_strings = array(
 'Relate with AccountVendor' => 'Relate with Account/Vendor',
 'Relate with Contact' => 'Relate with Contact',
 'CBDeleteRelatedTask' => 'Delete Related Records',
+'CBSelectcbMap' => 'Select Business Rule',
 
 'LBL_EVENTNAME' => 'Event Name',
 'LBL_DESCRIPTION' => 'Description',

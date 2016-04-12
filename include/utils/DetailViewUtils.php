@@ -12,8 +12,8 @@
  * All Rights Reserved.
  ********************************************************************************/
 require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
-require_once('include/utils/CommonUtils.php'); //new
+require_once('include/ComboUtil.php');
+require_once('include/utils/CommonUtils.php');
 require_once('vtlib/Vtiger/Language.php');
 require_once('modules/PickList/PickListUtils.php');
 
@@ -43,12 +43,20 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	// vtlib customization: New uitype to handle relation between modules
 	if ($uitype == '10') {
 		$fieldlabel = getTranslatedString($fieldlabel, $module);
-
 		$parent_id = $col_fields[$fieldname];
 		if (!empty($parent_id)) {
-			$parent_module = getSalesEntityType($parent_id);
+			$parent_module = '';
+			$fldrs = $adb->pquery('select relmodule
+				from vtiger_fieldmodulerel
+				inner join vtiger_field on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid
+				where vtiger_field.fieldname=? and vtiger_field.tabid=?', array($fieldname, $tabid));
+			if ($adb->num_rows($fldrs)==1) {
+				$parent_module = $adb->query_result($fldrs, 0, 0);
+			}
+			if ($parent_module=='') {
+				$parent_module = getSalesEntityType($parent_id);
+			}
 			$valueTitle = getTranslatedString($parent_module,$parent_module);
-
 			$displayValueArray = getEntityName($parent_module, $parent_id);
 			if (!empty($displayValueArray)) {
 				foreach ($displayValueArray as $key => $value) {
@@ -314,18 +322,18 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		$label_fld ["options"] = $options;
 	} elseif ($uitype == 17) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
-        $matchPattern = "^[\w]+:\/\/^";
-        $value = $col_fields[$fieldname];
-        preg_match($matchPattern, $value, $matches);
-        if(!empty ($matches[0])){
-            $fieldValue = str_replace($matches, "", $value);
-            $label_fld[] = $value;
-        }else{
-            if($value != null)
-                $label_fld[] = 'http://'.$value;
-            else
-                $label_fld[] = '';
-        }
+		$matchPattern = "^[\w]+:\/\/^";
+		$value = $col_fields[$fieldname];
+		preg_match($matchPattern, $value, $matches);
+		if(!empty ($matches[0])){
+			$fieldValue = str_replace($matches, '', $value);
+			$label_fld[] = $value;
+		} else {
+		if($value != null)
+			$label_fld[] = 'http://'.$value;
+		else
+			$label_fld[] = '';
+		}
 	} elseif ($uitype == 19) {
 		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Messages' or $module=='Emails')
 			$col_fields[$fieldname] = decode_html($col_fields[$fieldname]);
@@ -408,7 +416,6 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		}
 		if ($result)
 			$nameArray = $adb->fetch_array($result);
-
 
 		global $current_user;
 		//$value = $user_id;
@@ -764,56 +771,56 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $lead_name . '</a>';
 			} elseif ($parent_module == "Accounts") {
 				$label_fld[] = $app_strings['LBL_ACCOUNT_NAME'];
-				$sql = "select * from  vtiger_account where accountid=?";
+				$sql = "select * from vtiger_account where accountid=?";
 				$result = $adb->pquery($sql, array($value));
 				$account_name = $adb->query_result($result, 0, "accountname");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $account_name . '</a>';
 			} elseif ($parent_module == "Potentials") {
 				$label_fld[] = $app_strings['LBL_POTENTIAL_NAME'];
-				$sql = "select * from  vtiger_potential where potentialid=?";
+				$sql = "select * from vtiger_potential where potentialid=?";
 				$result = $adb->pquery($sql, array($value));
 				$potentialname = $adb->query_result($result, 0, "potentialname");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $potentialname . '</a>';
 			} elseif ($parent_module == "Products") {
 				$label_fld[] = $app_strings['LBL_PRODUCT_NAME'];
-				$sql = "select * from  vtiger_products where productid=?";
+				$sql = "select * from vtiger_products where productid=?";
 				$result = $adb->pquery($sql, array($value));
 				$productname = $adb->query_result($result, 0, "productname");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $productname . '</a>';
 			} elseif ($parent_module == "PurchaseOrder") {
 				$label_fld[] = $app_strings['LBL_PORDER_NAME'];
-				$sql = "select * from  vtiger_purchaseorder where purchaseorderid=?";
+				$sql = "select * from vtiger_purchaseorder where purchaseorderid=?";
 				$result = $adb->pquery($sql, array($value));
 				$pordername = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $pordername . '</a>';
 			} elseif ($parent_module == "SalesOrder") {
 				$label_fld[] = $app_strings['LBL_SORDER_NAME'];
-				$sql = "select * from  vtiger_salesorder where salesorderid=?";
+				$sql = "select * from vtiger_salesorder where salesorderid=?";
 				$result = $adb->pquery($sql, array($value));
 				$sordername = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $sordername . '</a>';
 			} elseif ($parent_module == "Invoice") {
 				$label_fld[] = $app_strings['LBL_INVOICE_NAME'];
-				$sql = "select * from  vtiger_invoice where invoiceid=?";
+				$sql = "select * from vtiger_invoice where invoiceid=?";
 				$result = $adb->pquery($sql, array($value));
 				$invoicename = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $invoicename . '</a>';
 			} elseif ($parent_module == "Quotes") {
 				$label_fld[] = $app_strings['LBL_QUOTES_NAME'];
-				$sql = "select * from  vtiger_quotes where quoteid=?";
+				$sql = "select * from vtiger_quotes where quoteid=?";
 				$result = $adb->pquery($sql, array($value));
 				$quotename = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $quotename . '</a>';
 			} elseif ($parent_module == "HelpDesk") {
 				$label_fld[] = $app_strings['LBL_HELPDESK_NAME'];
-				$sql = "select * from  vtiger_troubletickets where ticketid=?";
+				$sql = "select * from vtiger_troubletickets where ticketid=?";
 				$result = $adb->pquery($sql, array($value));
 				$title = $adb->query_result($result, 0, "title");
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $title . '</a>';
@@ -853,55 +860,55 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $lead_name . '</a>';
 			} elseif ($parent_module == "Accounts") {
 				$label_fld[] = $app_strings['LBL_ACCOUNT_NAME'];
-				$sql = "select * from  vtiger_account where accountid=?";
+				$sql = "select * from vtiger_account where accountid=?";
 				$result = $adb->pquery($sql, array($value));
 				$account_name = $adb->query_result($result, 0, "accountname");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $account_name . '</a>';
 			} elseif ($parent_module == "Potentials") {
 				$label_fld[] = $app_strings['LBL_POTENTIAL_NAME'];
-				$sql = "select * from  vtiger_potential where potentialid=?";
+				$sql = "select * from vtiger_potential where potentialid=?";
 				$result = $adb->pquery($sql, array($value));
 				$potentialname = $adb->query_result($result, 0, "potentialname");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $potentialname . '</a>';
 			} elseif ($parent_module == "Quotes") {
 				$label_fld[] = $app_strings['LBL_QUOTE_NAME'];
-				$sql = "select * from  vtiger_quotes where quoteid=?";
+				$sql = "select * from vtiger_quotes where quoteid=?";
 				$result = $adb->pquery($sql, array($value));
 				$quotename = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $quotename . '</a>';
 			} elseif ($parent_module == "PurchaseOrder") {
 				$label_fld[] = $app_strings['LBL_PORDER_NAME'];
-				$sql = "select * from  vtiger_purchaseorder where purchaseorderid=?";
+				$sql = "select * from vtiger_purchaseorder where purchaseorderid=?";
 				$result = $adb->pquery($sql, array($value));
 				$pordername = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $pordername . '</a>';
 			} elseif ($parent_module == "SalesOrder") {
 				$label_fld[] = $app_strings['LBL_SORDER_NAME'];
-				$sql = "select * from  vtiger_salesorder where salesorderid=?";
+				$sql = "select * from vtiger_salesorder where salesorderid=?";
 				$result = $adb->pquery($sql, array($value));
 				$sordername = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $sordername . '</a>';
 			} elseif ($parent_module == "Invoice") {
 				$label_fld[] = $app_strings['LBL_INVOICE_NAME'];
-				$sql = "select * from  vtiger_invoice where invoiceid=?";
+				$sql = "select * from vtiger_invoice where invoiceid=?";
 				$result = $adb->pquery($sql, array($value));
 				$invoicename = $adb->query_result($result, 0, "subject");
 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $invoicename . '</a>';
 			} elseif ($parent_module == "Campaigns") {
 				$label_fld[] = $app_strings['LBL_CAMPAIGN_NAME'];
-				$sql = "select * from  vtiger_campaign where campaignid=?";
+				$sql = "select * from vtiger_campaign where campaignid=?";
 				$result = $adb->pquery($sql, array($value));
 				$campaignname = $adb->query_result($result, 0, "campaignname");
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $campaignname . '</a>';
 			} elseif ($parent_module == "HelpDesk") {
 				$label_fld[] = $app_strings['LBL_HELPDESK_NAME'];
-				$sql = "select * from  vtiger_troubletickets where ticketid=?";
+				$sql = "select * from vtiger_troubletickets where ticketid=?";
 				$result = $adb->pquery($sql, array($value));
 				$tickettitle = $adb->query_result($result, 0, "title");
 				if (strlen($tickettitle) > 25) {
@@ -910,7 +917,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $tickettitle . '</a>';
 			} elseif ($parent_module == "Vendors") { //MSL
 				$label_fld[] = $app_strings['LBL_VENDOR_NAME'];
-				$sql = "select vendorname from  vtiger_vendor where vendorid=?";
+				$sql = "select vendorname from vtiger_vendor where vendorid=?";
 				$result = $adb->pquery($sql, array($value));
 				$vendor_name = $adb->query_result($result, 0, "vendorname");
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $vendor_name . '</a>';
@@ -993,7 +1000,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 					$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $contact_name . '</a>';
 				} elseif ($parent_module == "Accounts") {
 					$label_fld[] = $app_strings['LBL_ACCOUNT_NAME'];
-					$sql = "select * from  vtiger_account where accountid=?";
+					$sql = "select * from vtiger_account where accountid=?";
 					$result = $adb->pquery($sql, array($value));
 					$accountname = $adb->query_result($result, 0, "accountname");
 					$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $accountname . '</a>';
@@ -1089,9 +1096,29 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		}
 		$label_fld[] = $displayValue;
 	}
+	elseif ($uitype == 9 || $uitype == 7) {
+		$label_fld[] = getTranslatedString($fieldlabel, $module);
+		$fldrs = $adb->pquery('select typeofdata from vtiger_field
+			where vtiger_field.fieldname=? and vtiger_field.tabid=?', array($fieldname, $tabid));
+		$typeofdata = $adb->query_result($fldrs, 0, 0);
+		$typeinfo = explode('~', $typeofdata);
+		if ($typeinfo[0]=='I') {
+			$label_fld[] = $col_fields[$fieldname];
+		} else {
+			$currencyField = new CurrencyField($col_fields[$fieldname]);
+			$decimals = CurrencyField::getDecimalsFromTypeOfData($typeofdata);
+			$currencyField->initialize($current_user);
+			$currencyField->setNumberofDecimals(min($decimals,$currencyField->getCurrencyDecimalPlaces()));
+			$label_fld[] = $currencyField->getDisplayValue(null,false,true);
+		}
+	}
 	elseif ($uitype == 71 || $uitype == 72) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$currencyField = new CurrencyField($col_fields[$fieldname]);
+		$fldrs = $adb->pquery('select typeofdata from vtiger_field
+			where vtiger_field.fieldname=? and vtiger_field.tabid=?', array($fieldname, $tabid));
+		$typeofdata = $adb->query_result($fldrs, 0, 0);
+		$typeinfo = explode('~', $typeofdata);
 		if($uitype == 72) {
 			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 			if ($fieldname == 'unit_price') {
@@ -1104,7 +1131,10 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$label_fld["cursymb"] = $currency_info['currency_symbol'];
 			}
 		} else {
-			$label_fld[] = $currencyField->getDisplayValue();
+			$decimals = CurrencyField::getDecimalsFromTypeOfData($typeofdata);
+			$currencyField->initialize($current_user);
+			$currencyField->setNumberofDecimals(min($decimals,$currencyField->getCurrencyDecimalPlaces()));
+			$label_fld[] = $currencyField->getDisplayValue(null,false,true);
 			$label_fld["cursymb"] = $currencyField->getCurrencySymbol();
 		}
 	} elseif ($uitype == 75 || $uitype == 81) {
@@ -1298,13 +1328,8 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
  * Return type string
  */
 function getDetailAssociatedProducts($module, $focus) {
-	global $log;
+	global $log, $adb, $mod_strings, $theme, $log, $app_strings, $current_user;
 	$log->debug("Entering getDetailAssociatedProducts(" . $module . "," . get_class($focus) . ") method ...");
-	global $adb;
-	global $mod_strings;
-	global $theme;
-	global $log;
-	global $app_strings, $current_user;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 
@@ -1335,7 +1360,7 @@ function getDetailAssociatedProducts($module, $focus) {
 	$output = '';
 	//Header Rows
 	$output .= '
-	<table width="100%"  border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable" id="proTab">
+	<table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable" id="proTab">
 	<tr valign="top">
 		<td colspan="' . $colspan . '" class="dvInnerHeader"><b>' . $app_strings['LBL_ITEM_DETAILS'] . '</b></td>
 		<td class="dvInnerHeader" align="center" colspan="2"><b>' .
@@ -1498,13 +1523,13 @@ function getDetailAssociatedProducts($module, $focus) {
 			<td class="crmTableRow small lineOnTop" align="right">
 				<table width="100%" border="0" cellpadding="5" cellspacing="0">
 				   <tr>
-				   	<td align="right">' . CurrencyField::convertToUserFormat($listprice, null, true) . '</td>
+				    <td align="right">' . CurrencyField::convertToUserFormat($listprice, null, true) . '</td>
 				   </tr>
 				   <tr>
 					   <td align="right">(-)&nbsp;<b><a href="javascript:;" onclick="alert(\'' . $discount_info_message . '\'); ">' . $app_strings['LBL_DISCOUNT'] . ' : </a></b></td>
 				   </tr>
 				   <tr>
-				   	<td align="right" nowrap>' . $app_strings['LBL_TOTAL_AFTER_DISCOUNT'] . ' : </td>
+				    <td align="right" nowrap>' . $app_strings['LBL_TOTAL_AFTER_DISCOUNT'] . ' : </td>
 				   </tr>';
 		if ($taxtype == 'individual') {
 			$output .= '
@@ -1657,10 +1682,8 @@ function getDetailAssociatedProducts($module, $focus) {
  * Return type is an array
  */
 function getRelatedListsInformation($module, $focus) {
-	global $log;
+	global $log, $adb, $current_user;
 	$log->debug("Entering getRelatedLists(" . $module . "," . get_class($focus) . ") method ...");
-	global $adb;
-	global $current_user;
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 	$cur_tab_id = getTabid($module);
@@ -1671,6 +1694,7 @@ function getRelatedListsInformation($module, $focus) {
 	// END
 	$result = $adb->pquery($sql1, array($cur_tab_id));
 	$num_row = $adb->num_rows($result);
+	$focus_list = array();
 	for ($i = 0; $i < $num_row; $i++) {
 		$rel_tab_id = $adb->query_result($result, $i, "related_tabid");
 		$function_name = $adb->query_result($result, $i, "name");
@@ -1701,10 +1725,8 @@ function getRelatedListsInformation($module, $focus) {
  * Return type is an array
  */
 function getRelatedLists($module, $focus) {
-	global $log;
+	global $log, $adb, $current_user;
 	$log->debug("Entering getRelatedLists(" . $module . "," . get_class($focus) . ") method ...");
-	global $adb;
-	global $current_user;
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 	$cur_tab_id = getTabid($module);

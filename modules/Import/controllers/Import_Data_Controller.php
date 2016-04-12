@@ -391,6 +391,8 @@ class Import_Data_Controller {
 										!Import_Utils::hasAssignPrivilege($moduleMeta->getEntityName(), $referenceEntityId)) {
 									$referenceEntityId = $this->user->id;
 								}
+							} elseif ($referenceModule == 'Currency') {
+								$referenceEntityId = getCurrencyId($entityLabel);
 							} else {
 								$referenceEntityId = getEntityId($referenceModule, $entityLabel);
 							}
@@ -440,6 +442,17 @@ class Import_Data_Controller {
 					$fieldObject = Vtiger_Field::getInstance($fieldName, $moduleObject);
 					$fieldObject->setPicklistValues(array($fieldValue));
 				}
+			} elseif ($fieldInstance->getFieldDataType() == 'boolean') {
+				if (empty($fieldValue) or strtolower($fieldValue)==strtolower(getTranslatedString('LBL_NO'))) {
+					$fieldValue = 0;
+				} else {
+					$fieldValue = 1;
+				}
+				$fieldData[$fieldName] = $fieldValue;
+			//} else if($fieldInstance->getFieldDataType() == 'currency'){
+				// While exporting we are exporting as user format, we should import as db format while importing
+				//$fieldData[$fieldName] = CurrencyField::convertToDBFormat($fieldValue, $current_user,false);
+				// We do not need this as we correctly support currency formatting on webservice
 			} else {
 				if ($fieldInstance->getFieldDataType() == 'datetime' && !empty($fieldValue)) {
 					if($fieldValue == null || $fieldValue == '0000-00-00 00:00:00') {

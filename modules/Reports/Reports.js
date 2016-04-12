@@ -355,7 +355,6 @@ function changeSteps1()
 		id.style.display = 'inline';
 	}
 	if (getObj('step7').style.display != 'none') {
-	//if (getObj('step6').style.display != 'none') {
 
 		var isScheduledObj = getObj("isReportScheduled");
 		if(isScheduledObj.checked == true) {
@@ -406,7 +405,7 @@ function changeSteps1()
 					alert(alert_arr.COLUMNS_CANNOT_BE_EMPTY);
 					return false;
 				}
-				if (divarray[i + 1] == /*'step6') { //*/ 'step7') {
+				if (divarray[i + 1] == 'step7') {
 					document.getElementById("next").value = finish_text;
 				}
 				hide(divarray[i]);
@@ -459,7 +458,7 @@ function changeSteps() {
 			new Ajax.Request('index.php',
 				{queue: {position: 'end', scope: 'command'},
 				method: 'post',
-				postBody: 'action=ReportsAjax&mode=ajax&file=CheckReport&module=Reports&check=reportCheck&reportName='+encodeURIComponent(document.NewRep.reportname.value),
+				postBody: 'action=ReportsAjax&mode=ajax&file=CheckReport&module=Reports&check=reportCheck&reportName='+encodeURIComponent(document.NewRep.reportname.value)+'&reportid='+document.NewRep.record.value,
 				onComplete: function(response) {
 					if(response.responseText!=0) {
 						alert(alert_arr.REPORT_NAME_EXISTS);

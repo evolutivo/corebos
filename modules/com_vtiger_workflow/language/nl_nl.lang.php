@@ -76,7 +76,7 @@ $mod_strings = array(
 'LBL_SET_EXPRESSION'=>'Stel Formule in',
 
 'LBL_MANUAL'=>'Systeem',
-
+'LBL_RECORD_ACCESS_CONTROL' => 'Record Access Control',
 'LBL_NEW_CONDITION_GROUP_BUTTON_LABEL'=>'Nieuwe Conditiegroep',
 
 'VTUpdateFieldsTask' => 'Bijwerken velden',
@@ -127,6 +127,7 @@ $mod_strings = array(
 'Relate with AccountVendor' => 'Relate with Account/Vendor',
 'Relate with Contact' => 'Relate with Contact',
 'CBDeleteRelatedTask' => 'Delete Related Records',
+'CBSelectcbMap' => 'Select Business Rule',
 'LBL_HELPDESK_SUPPORT_EMAILID'=>'Helpdesk support e-mail',
 'LBL_HELPDESK_SUPPORT_NAME'=>'Helpdesk support naam',
 'LBL_ORGANIZATION_LOGO'=>'Logo',
