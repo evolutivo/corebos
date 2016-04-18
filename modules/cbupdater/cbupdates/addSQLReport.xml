@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updatesChangeLog>
+<changeSet>
+	<author>drivaldabrecani</author>
+	<description>Install SQLReport Module</description>
+	<filename>build/changeSets/evolutivo/addSQLReport.php</filename>
+	<classname>addSQLReport</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+</updatesChangeLog>

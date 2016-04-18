@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_sqlreports</name>
+			<sql><![CDATA[CREATE TABLE vtiger_sqlreports(sqlreportsid INT)]]></sql>
+		</table>
+		<table>
+			<name>vtiger_sqlreportscf</name>
+			<sql><![CDATA[CREATE TABLE vtiger_sqlreportscf(sqlreportsid INT NOT NULL PRIMARY KEY)]]></sql>
+		</table>
+		<table>
+			<name>vtiger_sqlreportsgrouprel</name>
+			<sql><![CDATA[CREATE TABLE vtiger_sqlreportsgrouprel(sqlreportsid INT NOT NULL PRIMARY KEY, groupname VARCHAR(100))]]></sql>
+		</table>
+	</tables>
+</schema>
