@@ -934,34 +934,35 @@ function getMapPermissionActions  (){
             return $res;
         }
         
-       function getMapPortalDvBlocks(){
+        function getMapPortalDvBlocks(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();
             $x->loadXML($map);
             $rows=array();$rows1=array();
-            $columns=array();
-            $name='';
+            $columns=array();$block=array();
+            $name='';$i=0;
             foreach($x->map->blocks[0] as $k0=>$v0) {
-                    foreach($v0 as $k2=>$v2) {
-                        foreach($v0 as $k=>$v) {
-                        if($k=='name'){
+                    foreach($v0 as $k=>$v) {
+                        if($k=='name'){                           
                             $name=$v;
+                            $block[$i]=(string)$name;
                         }
                         if($k=='row'){
-                        $columns=array();
-                        foreach($v as $k1=>$v1) {
-                                    if($k1=='column'){
-                                    $columns[]=  (string)$v1;
-                                }
-                          }
-                          $rows["$name"][]=  $columns; 
+                            $columns=array();
+                            foreach($v as $k1=>$v1) {
+                                        if($k1=='column'){
+                                        $columns[]=  (string)$v1;
+                                    }
+                            }
+                            $rows[$i][]=  $columns; 
                         }
 //                        $rows1[$name]=  $rows; 
                     }
-                    }
+                    $i++;
               }
-           
+//              var_dump($block);
                $target_fields['rows']=  $rows;
+               $target_fields['blocks']=  $block;
           return $target_fields;
         }
                    
