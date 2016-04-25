@@ -15,22 +15,24 @@
 include_once 'include/Webservices/AuthToken.php';
 
 	function vtws_loginportal($username,$password) {
-		$uname = 'portal';
+                $uname = $username;
 		$user = new Users();
 		$userId = $user->retrieve_user_id($uname);
-		
-		if (empty($userId)) {
+
+                if (empty($userId)) {
 			throw new WebServiceException(WebServiceErrorCode::$INVALIDUSERPWD,"User $uname does not exist");
 		}
 		global $adb, $log;
 		$log->debug('Entering LoginPortal function with parameter username: '.$username);
-		
+                
+		$salt = substr($username, 0, 2);
+                $salt = '$1$' . str_pad($salt, 9, '0');
+                $encrypted_password = crypt($password, $salt);
+                $passCrypt = crypt($password, $salt);
+                
 		$ctors = $adb->pquery('select id
-			from vtiger_portalinfo
-			inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_portalinfo.id
-			where vtiger_crmentity.deleted=0 and user_name=? and user_password=?
-			  and isactive=1 and vtiger_customerdetails.portal=1',array($username,$password));
+			from vtiger_users
+			where user_name =? and user_password=?',array($username,$passCrypt));
 		if ($ctors and $adb->num_rows($ctors)==1) {
 			$user = $user->retrieveCurrentUserInfoFromFile($userId);
 			if($user->status != 'Inactive') {
