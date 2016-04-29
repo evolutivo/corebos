@@ -856,13 +856,6 @@
 </changeSet>
 <changeSet>
 	<author>joebordes</author>
-	<description>Install Business Mapping and Conditions</description>
-	<filename>build/changeSets/installcbmap.php</filename>
-	<classname>installcbmap</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>joebordes</author>
 	<description>Business Mapping and Conditions Target Module field</description>
 	<filename>build/changeSets/cbMapTargetModuleField.php</filename>
 	<classname>cbMapTargetModuleField</classname>

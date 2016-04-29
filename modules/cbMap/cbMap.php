@@ -9,6 +9,7 @@
  ************************************************************************************/
 require_once('data/CRMEntity.php');
 require_once('data/Tracker.php');
+if(!class_exists('crxml'))
 require_once('modules/cbMap/crXml.php');
 include_once('include/utils/VTCacheUtils.php');
 class cbMap extends CRMEntity {
