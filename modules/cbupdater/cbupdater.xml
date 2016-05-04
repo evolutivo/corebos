@@ -50,6 +50,20 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+	<author>joebordes</author>
+	<description>Upgrade from coreBOS5.4 to coreBOS5.5</description>
+	<filename>build/changeSets/cb54_cb55.php</filename>
+	<classname>cb54_cb55</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Move workflow tasks to database to make easier adding new ones</description>
+	<filename>build/changeSets/create_workflow_taskstype.php</filename>
+	<classname>create_workflow_taskstype</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
 	<author>drivalda</author>
 	<description>import entitylog module </description>
 	<filename>build/changeSets/evolutivo/entitylogimport.php</filename>
@@ -754,13 +768,6 @@
 	<description>Add Query Generator</description>
 	<filename>build/changeSets/evolutivo/addquerygen.php</filename>
 	<classname>addquerygen</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>loridacito</author>
-	<description>Add workflow type tables</description>
-	<filename>build/changeSets/evolutivo/addwftypes.php</filename>
-	<classname>addwftypes</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>        
