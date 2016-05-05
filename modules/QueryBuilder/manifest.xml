@@ -3,7 +3,7 @@
 <type>extension</type>
 <name>QueryBuilder</name>
 <label>QueryBuilder</label>
-<parent>Settings</parent>
+<parent>Tools</parent>
 <version>1.0</version>
 <dependencies>
 	<vtiger_version>5.4.0</vtiger_version>
