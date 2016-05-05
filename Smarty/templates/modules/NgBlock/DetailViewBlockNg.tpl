@@ -351,6 +351,8 @@ angular.module('demoApp')
       $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
       $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
       $scope.default_json={/literal}{$DEFAULT_VALUE_JSON}{literal};
+      $scope.map_field_dep={/literal}{$FLDDEP}{literal};
+      $scope.MAP_PCKLIST_TARGET={/literal}{$MAP_PCKLIST_TARGET}{literal};
       var array_date = [5,6,23];
       for(var i=0;i<$scope.col_json.length;i++){
           if(array_date.indexOf($scope.ui_json[i])!==-1){
@@ -533,6 +535,51 @@ angular.module('demoApp')
             });
         }
     };
-});
+})
+.filter('getPickListDep', function() {
+    return function(input,map_field_dep,columns,MAP_PCKLIST_TARGET,moduleData) {
+      var i = 0,
+      len = input.length;
+      var records = new Array();
+      for (; i < len; i++) {
+          if(MAP_PCKLIST_TARGET.indexOf(columns)!==-1){
+              angular.forEach(map_field_dep, function(value, key) {
+                  if(value.target_picklist.indexOf(columns)!==-1){
+                      var conditionResp = '';
+                      angular.forEach(value.respfield, function(resp_val, resp_val_key) {
+                            var resp_value = value.respvalue_portal[resp_val_key];
+                            var comparison = value.comparison[resp_val_key];
+                            if (resp_val_key !== 0 ){
+                                if (comparison === 'empty' || comparison === 'notempty')
+                                    conditionResp += ' || ';
+                                else
+                                    conditionResp += ' && ';
+                            }
+                            if (comparison === 'empty')
+                              conditionResp += (moduleData[resp_val] === '' || moduleData[resp_val] === undefined);
+                            else if (comparison === 'notempty')
+                              conditionResp += (moduleData[resp_val] !== '' && moduleData[resp_val] !== undefined);
+                            else{
+                              conditionResp += (resp_value.indexOf(moduleData[resp_val])!= -1 && moduleData[resp_val]!=undefined);
+                            }
+                      });
+                      if ( eval(conditionResp) ) 
+                      {
+                          angular.forEach(value.target_picklist_values[columns], function(targ_val, targ_key) {
+                             if(input[i]==targ_val){
+                                  records.push(input[i]);
+                              }       
+                          });
+                      }
+                  }
+            });
+          }
+          else{
+              records.push(input[i]);
+          }
+      }
+      return records;
+    };
+  });
 {/literal}
 </script>
