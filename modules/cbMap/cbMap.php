@@ -2023,5 +2023,38 @@ function getBlocksPortal1($module, $disp_view, $mode, $col_fields = '', $info_ty
 	}
 	return $getBlockInfo;
 }
+public static function getMapByID($cbmapid) {
+		$cbmap = new cbMap();
+		$cbmap->retrieve_entity_info($cbmapid, 'cbMap');
+		return $cbmap;
+	}
+	public static function getMapByName($name) {
+		global $adb;
+		$mrs = $adb->pquery('select cbmapid
+			from vtiger_cbmap
+			inner join vtiger_crmentity on crmid=cbmapid
+			where deleted=0 and mapname=?', array($name));
+		if ($mrs and $adb->num_rows($mrs)>0) {
+			$cbmapid = $adb->query_result($mrs, 0, 0);
+			$cbmap = new cbMap();
+			$cbmap->retrieve_entity_info($cbmapid, 'cbMap');
+			return $cbmap;
+		} else {
+			return null;
+		}
+	}
+	public static function getMapIdByName($name) {
+		global $adb;
+		$mrs = $adb->pquery('select cbmapid
+			from vtiger_cbmap
+			inner join vtiger_crmentity on crmid=cbmapid
+			where deleted=0 and mapname=?', array($name));
+		if ($mrs and $adb->num_rows($mrs)>0) {
+			$cbmapid = $adb->query_result($mrs, 0, 0);
+			return $cbmapid;
+		} else {
+			return 0;
+		}
+	}
 }
 ?>
