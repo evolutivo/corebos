@@ -203,13 +203,6 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-	<author>loridacito</author>
-	<description>Add fields in calendar4you</description>
-	<filename>build/changeSets/evolutivo/addfieldstocal.php</filename>
-	<classname>addfieldstocal</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
 	<author>joebordes</author>
 	<description>Send Email from support</description>
 	<filename>build/changeSets/SendEmailFromAddress.php</filename>
@@ -242,13 +235,6 @@
 	<description>Product/Service and PB active default value: move to database instead of code</description>
 	<filename>build/changeSets/PdoSrvPBActiveDefaultValue.php</filename>
 	<classname>PdoSrvPBActiveDefaultValue</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>loridacito</author>
-	<description>Add fields in calendar4you 2</description>
-	<filename>build/changeSets/evolutivo/addfieldstocaltwo.php</filename>
-	<classname>addfieldstocaltwo</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
