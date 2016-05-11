@@ -679,7 +679,7 @@ class Campaigns extends CRMEntity {
 	public static function createPotentialRelatedTo($relatedto,$campaignid) {
 		global $adb, $current_user;
 		$checkrs = $adb->pquery('select 1
-			from vtiger_potentials
+			from vtiger_potential
 			inner join vtiger_crmentity on crmid=potentialid
 			where deleted=0 and related_to=? and campaignid=?',array($relatedto,$campaignid));
 		if ($adb->num_rows($checkrs)==0) {
@@ -714,9 +714,8 @@ class Campaigns extends CRMEntity {
 				$dt = new DateTimeField();
 				$entity->column_fields['closingdate'] = $dt->getDisplayDate();
 			}
-			if (empty($entity->column_fields['closingdate'])) {
-				$pname = $cname[$campaignid].' - '.$rname;
-				$entity->column_fields['potentialname'] = $pname;
+			if (empty($entity->column_fields['potentialname'])) {
+				$entity->column_fields['potentialname'] = $cname.$rname;
 			}
 			if (empty($entity->column_fields['sales_stage'])) {
 				$entity->column_fields['sales_stage'] = 'Prospecting';

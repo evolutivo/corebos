@@ -11,8 +11,10 @@
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
  * All Rights Reserved.
  ********************************************************************************/
+require_once('include/utils/Session.php');
 require_once('include/database/PearDatabase.php');
 require_once('include/events/include.inc');
+require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
 require_once 'modules/GlobalVariable/GlobalVariable.php';
 require_once 'modules/cbMap/cbMap.php';
 require_once('include/ComboUtil.php'); //new
@@ -875,10 +877,16 @@ decide_to_html();//call the function once when loading
 function to_html($string) {
 	global $doconvert,$default_charset;
 	if ($doconvert == true) {
+		list($cachedresult,$found) = VTCacheUtils::lookupCachedInformation('to_html::'.$string);
+		if ($found) {
+			return $cachedresult;
+		}
+		$key = $string;
 		if($default_charset == 'UTF-8')
 			$string = htmlentities($string, ENT_QUOTES, $default_charset);
 		else
 			$string = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $string);
+		VTCacheUtils::updateCachedInformation('to_html::'.$key, $string);
 	}
 	return $string;
 }
@@ -3574,8 +3582,8 @@ function get_on_clause($field_list,$uitype_arr,$module)
 }
 
 function elimina_acentos($cadena){
-	$tofind = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊẼËèéêẽëÌÍĨÎÏìíîĩïÙÚÛŨÜúùûũüÿçÇñÑ");
-	$replac = "AAAAAAaaaaaaOOOOOOooooooEEEEEeeeeeIIIIIiiiiiUUUUUuuuuuycCnN";
+	$tofind = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊẼËèéêẽëÌÍĨÎÏìíîĩïÙÚÛŨÜúùûũüÿçÇºªñÑ");
+	$replac = "AAAAAAaaaaaaOOOOOOooooooEEEEEeeeeeIIIIIiiiiiUUUUUuuuuuycCoanN";
 	return utf8_encode(strtr(utf8_decode($cadena),$tofind,$replac));
 }
 

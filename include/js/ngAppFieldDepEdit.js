@@ -33,7 +33,7 @@ for(detail in blocks){
                      }
                  }
             }
-            else if(keyid=='15' || keyid=='16' || keyid=='31' || keyid=='32'){
+            else if(keyid=='15' || keyid=='16' || keyid=='31' || keyid=='32' || keyid=='1613'){
                 var t= keyfldname+'_values';
                  $scope[t] = [];
                  for(var arr=0;arr< keyoptions.length;arr++){

@@ -26,7 +26,7 @@ class CBSelectcbMap extends VTTask{
 		return array('bmapid','bmapid_display');
 	}
 
-	public function doTask(&$entity) {
+	public function doTask(&$recordid) {
 		global $adb,$default_charset,$log,$current_user;
 		$maprs = $adb->pquery('select 1
 			from vtiger_cbmap
@@ -43,7 +43,10 @@ class CBSelectcbMap extends VTTask{
 			if ($contentok !== true) {
 				return false;
 			}
-			return $focus->RecordAccessControl();
+			$return = $focus->RecordAccessControl();
+			list($mod,$rec) = explode('x', $recordid);
+			$return->setRelatedRecordID($rec);
+			return $return;
 		} else {
 			return false;
 		}

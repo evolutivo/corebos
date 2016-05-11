@@ -1,5 +1,4 @@
 {*<!--
-
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -7,9 +6,7 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
  ********************************************************************************/
-
 -->*}
 <script language="JavaScript" type="text/javascript" src="include/js/dtlviewajax.js"></script>
 <script src="include/scriptaculous/scriptaculous.js" type="text/javascript"></script>
@@ -22,7 +19,7 @@
 function tagvalidate()
 {ldelim}
 	if(trim(document.getElementById('txtbox_tagfields').value) != '')
-		SaveTag('txtbox_tagfields','{$ID}','{$MODULE}');	
+		SaveTag('txtbox_tagfields','{$ID}','{$MODULE}');
 	else
 	{ldelim}
 		alert("{$APP.PLEASE_ENTER_TAG}");
@@ -137,8 +134,7 @@ function getListOfRecords(obj, sModule, iId,sParentTab)
 					<td>
 			         {* Module Record numbering, used MOD_SEQ_ID instead of ID *}
 			         {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
-		  			 {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
-		  			
+					 {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
 						<span class="lvtHeaderText"><font color="purple">[ {$USE_ID_VALUE} ] </font>{$NAME} -  {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>&nbsp;&nbsp;&nbsp;<span class="small">{$UPDATEINFO}</span>&nbsp;<span id="vtbusy_info" style="display:none;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span><span id="vtbusy_info" style="visibility:hidden;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span>
 					</td>
 				   </tr>
@@ -149,7 +145,7 @@ function getListOfRecords(obj, sModule, iId,sParentTab)
 				<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
 				   <tr>
 					<td>
-   						<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
+						<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
 						   <tr>
 								<td class="dvtTabCache" style="width:10px" nowrap>&nbsp;</td>
 								
@@ -169,10 +165,10 @@ function getListOfRecords(obj, sModule, iId,sParentTab)
 									</td>
 								{/if}
 								<td class="dvtTabCache" align="right" style="width:100%">
-									{if $EDIT_DUPLICATE eq 'permitted'}
+									{if $EDIT_PERMISSION eq 'yes'}
 									<input title="{$APP.LBL_EDIT_BUTTON_TITLE}" accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" class="crmbutton small edit" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="button" name="Edit" value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">&nbsp;
 									{/if}
-									{if $EDIT_DUPLICATE eq 'permitted' && $MODULE neq 'Documents'}
+									{if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
 									<input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}" accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}" class="crmbutton small create" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="button" name="Duplicate" value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}">&nbsp;
 									{/if}
 									{if $DELETE eq 'permitted'}
@@ -363,10 +359,10 @@ function getListOfRecords(obj, sModule, iId,sParentTab)
 								<td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a></td>
 								{/if}
 								<td class="dvtTabCacheBottom" align="right" style="width:100%">
-									{if $EDIT_DUPLICATE eq 'permitted'}
+									{if $EDIT_PERMISSION eq 'yes'}
 									<input title="{$APP.LBL_EDIT_BUTTON_TITLE}" accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" class="crmbutton small edit" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="button" name="Edit" value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">&nbsp;
 									{/if}
-									{if $EDIT_DUPLICATE eq 'permitted' && $MODULE neq 'Documents'}
+									{if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
 									<input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}" accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}" class="crmbutton small create" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="button" name="Duplicate" value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}">&nbsp;
 									{/if}
 									{if $DELETE eq 'permitted'}

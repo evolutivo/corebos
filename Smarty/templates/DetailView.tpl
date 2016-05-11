@@ -6,14 +6,12 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
-*
  ********************************************************************************/
 -->*}
 <link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">
 <script type="text/javascript" src="jscalendar/calendar.js"></script>
 <script type="text/javascript" src="jscalendar/lang/calendar-en.js"></script>
 <script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
-
 <script type="text/javascript" src="include/js/reflection.js"></script>
 <script src="include/scriptaculous/scriptaculous.js" type="text/javascript"></script>
 <script language="JavaScript" type="text/javascript" src="include/js/dtlviewajax.js"></script>
@@ -232,10 +230,10 @@ function sendfile_email()
 											{/if}
                                                                                         {include file='RelatedListNg.tpl'}
 											<td class="dvtTabCache" align="right" style="width:100%">
-												{if $EDIT_DUPLICATE eq 'permitted'}
+												{if $EDIT_PERMISSION eq 'yes'}
 													<input title="{$APP.LBL_EDIT_BUTTON_TITLE}" accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" class="crmbutton small edit" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}';submitFormForAction('DetailView','EditView');" type="button" name="Edit" value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">&nbsp;
 												{/if}
-												{if $EDIT_DUPLICATE eq 'permitted' && $MODULE neq 'Documents'}
+												{if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
 													<input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}" accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}" class="crmbutton small create" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="button" name="Duplicate" value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}">&nbsp;
 												{/if}
 												{if $DELETE eq 'permitted'}
@@ -773,10 +771,10 @@ function sendfile_email()
 											{/if}
 											<td class="dvtTabCacheBottom" align="right" style="width:100%">
 												&nbsp;
-												{if $EDIT_DUPLICATE eq 'permitted'}
+												{if $EDIT_PERMISSION eq 'yes' }
 													<input title="{$APP.LBL_EDIT_BUTTON_TITLE}" accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" class="crmbutton small edit" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}';submitFormForAction('DetailView','EditView');" type="submit" name="Edit" value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">&nbsp;
 												{/if}
-												{if $EDIT_DUPLICATE eq 'permitted' && $MODULE neq 'Documents'}
+												{if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
 													<input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}" accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}" class="crmbutton small create" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="submit" name="Duplicate" value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}">&nbsp;
 												{/if}
 												{if $DELETE eq 'permitted'}

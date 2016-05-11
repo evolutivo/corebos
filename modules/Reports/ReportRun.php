@@ -1350,14 +1350,14 @@ class ReportRun extends CRMEntity {
 	 *  @ param $selectedfield : type string
 	 *  this returns the string for grouplist
 	 */
-	function replaceSpecialChar($selectedfield){
+	public static function replaceSpecialChar($selectedfield){
 		$selectedfield = decode_html(decode_html($selectedfield));
 		preg_match('/&/', $selectedfield, $matches);
 		if(!empty($matches)){
 			$selectedfield = str_replace('&', 'and',($selectedfield));
 		}
 		return $selectedfield;
-		}
+	}
 
 	/** function to get the selectedorderbylist for the given reportid
 	 *  @ param $reportid : type integer
@@ -1459,17 +1459,11 @@ class ReportRun extends CRMEntity {
 		}
 		else if($module == "Accounts")
 		{
-			$query = "from vtiger_account
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_account.accountid
-				inner join vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid
+			$focus = CRMEntity::getInstance($module);
+			$query = $focus->generateReportsQuery($module);
+			$query.= " inner join vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid
 				inner join vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid
-				inner join vtiger_accountscf on vtiger_account.accountid = vtiger_accountscf.accountid
-				left join vtiger_groups as vtiger_groupsAccounts on vtiger_groupsAccounts.groupid = vtiger_crmentity.smownerid
 				left join vtiger_account as vtiger_accountAccounts on vtiger_accountAccounts.accountid = vtiger_account.parentid
-				left join vtiger_users as vtiger_usersAccounts on vtiger_usersAccounts.id = vtiger_crmentity.smownerid
-				left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid
-				left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid
-				left join vtiger_users as vtiger_lastModifiedByAccounts on vtiger_lastModifiedByAccounts.id = vtiger_crmentity.modifiedby
 				".$this->getRelatedModulesQuery($module,$this->secondarymodule,$type,$where_condition).
 						getNonAdminAccessControlQuery($this->primarymodule,$current_user)."
 				where vtiger_crmentity.deleted=0 ";
@@ -1516,13 +1510,9 @@ class ReportRun extends CRMEntity {
 		//For this Product - we can related Accounts, Contacts (Also Leads, Potentials)
 		else if($module == "Products")
 		{
-			$query = "from vtiger_products
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_products.productid
-				left join vtiger_productcf on vtiger_products.productid = vtiger_productcf.productid
-				left join vtiger_users as vtiger_lastModifiedByProducts on vtiger_lastModifiedByProducts.id = vtiger_crmentity.modifiedby
-				left join vtiger_users as vtiger_usersProducts on vtiger_usersProducts.id = vtiger_crmentity.smownerid
-				left join vtiger_groups as vtiger_groupsProducts on vtiger_groupsProducts.groupid = vtiger_crmentity.smownerid
-				left join vtiger_vendor as vtiger_vendorRelProducts on vtiger_vendorRelProducts.vendorid = vtiger_products.vendor_id
+			$focus = CRMEntity::getInstance($module);
+			$query = $focus->generateReportsQuery($module);
+			$query.= " left join vtiger_vendor as vtiger_vendorRelProducts on vtiger_vendorRelProducts.vendorid = vtiger_products.vendor_id
 				LEFT JOIN (
 						SELECT vtiger_products.productid,
 								(CASE WHEN (vtiger_products.currency_id = 1 ) THEN vtiger_products.unit_price
@@ -1858,7 +1848,7 @@ class ReportRun extends CRMEntity {
 		if(trim($groupsquery) != "" && $type !== 'COLUMNSTOTOTAL')
 		{
 			if($chartReport == true){
-				$reportquery .= "group by ".$this->GetFirstSortByField($reportid);
+				$reportquery .= " group by ".$this->GetFirstSortByField($reportid);
 			}else{
 				$reportquery .= " order by ".$groupsquery;
 			}
@@ -3063,6 +3053,8 @@ class ReportRun extends CRMEntity {
 			$FieldDataTypes = array();
 			foreach($arr_val[0] as $hdr=>$value) {
 				$FieldDataTypes[$hdr] = $fieldinfo[$hdr]->getFieldDataType();
+				if ($fieldinfo[$hdr]->getColumnName()=='totaltime') $FieldDataTypes[$hdr] = 'time';
+				if ($fieldinfo[$hdr]->getColumnName()=='totaldaytime') $FieldDataTypes[$hdr] = 'time';
 			}
 			$BoolTrue = getTranslatedString('LBL_YES');
 			//$BoolFalse = getTranslatedString('LBL_NO');
@@ -3103,6 +3095,17 @@ class ReportRun extends CRMEntity {
 						case 'currency':
 							$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
 							break;
+						case 'date':
+							$value = DateTimeField::__convertToDBFormat($value, $current_user->date_format);
+							$dt = new DateTime($value);
+							$value = PHPExcel_Shared_Date::PHPToExcel($dt);
+							$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+							break;
+						case 'time':
+							$dt = new DateTime("1970/01/01 $value");
+							$value = PHPExcel_Shared_Date::PHPToExcel($dt);
+							$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+							break;
 						default:
 							$celltype = PHPExcel_Cell_DataType::TYPE_STRING;
 							break;
@@ -3115,6 +3118,11 @@ class ReportRun extends CRMEntity {
 							$value = str_replace($current_user->currency_decimal_separator, '.', $value);
 					}
 					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $celltype);
+					if ($FieldDataTypes[$hdr]=='date') {
+						$worksheet->getStyleByColumnAndRow($count, $rowcount)->getNumberFormat()->setFormatCode($current_user->date_format);
+					} elseif ($FieldDataTypes[$hdr]=='time') {
+						$worksheet->getStyleByColumnAndRow($count, $rowcount)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_TIME4);
+					}
 					if ($FieldDataTypes[$hdr]=='currency') {
 						$count = $count + 1;
 						$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $csym, PHPExcel_Cell_DataType::TYPE_STRING);

@@ -131,13 +131,41 @@
 
 		function getRACRuleForRecord($moduleName,$recordid) {
 			$adb=$this->adb;
-			if (strpos($recordid,'x')===false) {
-				$result = $adb->pquery('select id from vtiger_ws_entity where name=?',array($moduleName));
-				$recordid = $adb->query_result($result, 0, 0).'x'.$recordid;
+			$not_supported = array('RecycleBin','Users');
+			if (in_array($moduleName, $not_supported)) {
+				return false;
 			}
+			if (strpos($recordid,'x')>0) {
+				list($void,$recordid) = explode('x', $recordid);
+			}
+			$rrs = $adb->pquery('select setype,deleted from vtiger_crmentity where crmid=?', array($recordid));
+			if (!$rrs) return false;
+			$rec = $adb->fetch_array($rrs);
+			$moduleName = $adb->query_result($rrs, 0, 'setype');
+			$deleted = $adb->query_result($rrs, 0, 'deleted');
+			if ($deleted!=0 or in_array($moduleName, $not_supported)) {
+				return false;
+			}
+			if ($moduleName=='Calendar') {
+				$actrs = $adb->pquery('select activitytype from vtiger_activity where activityid=?',array($recordid));
+				$actvity_type = $adb->query_result($actrs, 0, 'activitytype');
+				switch ($actvity_type) {
+					case 'Emails':
+						$moduleName = 'Emails';
+						break;
+					case 'Task':
+						$moduleName = 'Calendar';
+						break;
+					default:
+						$moduleName = 'Events';
+						break;
+				}
+			}
+			$result = $adb->pquery('select id from vtiger_ws_entity where name=?',array($moduleName));
+			$recordid = $adb->query_result($result, 0, 0).'x'.$recordid;
 			$wf = $this->getoneRACWorkflowForRecord($moduleName,$recordid);
 			if ($wf) {
-				return $this->executeRACWorkflow($wf);
+				return $this->executeRACWorkflow($wf,$recordid);
 			}
 			return false;
 		}
@@ -168,7 +196,7 @@
 			}
 		}
 
-		function executeRACWorkflow($workflow) {
+		function executeRACWorkflow($workflow,$recordid) {
 			$adb=$this->adb;
 			$tm = new VTTaskManager($adb);
 			$taskQueue = new VTTaskQueue($adb);
@@ -176,7 +204,7 @@
 			foreach($tasks as $task){
 				if(is_object($task) and $task->active and get_class($task) == 'CBSelectcbMap') {
 					$void = array();
-					return $task->doTask($void);
+					return $task->doTask($recordid);
 				}
 			}
 			return false;

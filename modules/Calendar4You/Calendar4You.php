@@ -39,7 +39,8 @@ class Calendar4You extends CRMEntity {
         // array of modules that are allowed for basic version type
         $this->basicModules = array("20", "21", "22", "23");
         // array of action names used in profiles permissions
-        $this->profilesActions = array("EDIT"=>"EditView",        // Create/Edit
+        $this->profilesActions = array("EDIT"=>"EditView",        // Edit
+                                       "CREATE"=>"CreateView",        // Create
                                        "DETAIL"=>"DetailView",    // View
                                        "DELETE"=>"Delete",        // Delete
                                        );
@@ -52,11 +53,8 @@ class Calendar4You extends CRMEntity {
     private function dropModuleTables() {
         $this->db->query("DROP TABLE IF EXISTS its4you_calendar4you_colors");
         $this->db->query("DROP TABLE IF EXISTS its4you_calendar4you_event_fields");
-        $this->db->query("DROP TABLE IF EXISTS its4you_calendar4you_profilespermissions");
         $this->db->query("DROP TABLE IF EXISTS its4you_calendar4you_settings");
         $this->db->query("DROP TABLE IF EXISTS its4you_calendar4you_view");
-        
-        
         $this->db->query("DROP TABLE IF EXISTS its4you_googlesync4you_access");
         $this->db->query("DROP TABLE IF EXISTS its4you_googlesync4you_calendar");
         $this->db->query("DROP TABLE IF EXISTS its4you_googlesync4you_dis");
@@ -111,19 +109,19 @@ public function setgoogleaccessparams($userid){
             
             //0 - Public: Read Only
             //1 - Public: Read, Create/Edit
-            //2 - Public: Read, Create/Edit, Delete 
-            //3 - privat 
+            //2 - Public: Read, Create/Edit, Delete
+            //3 - private
             if ($dosp == "0" || $dosp == "1" || $dosp == "2") $this->view_all = true;
             
-            if ($dosp == "1" || $dosp == "2") $this->edit_all = true;  
+            if ($dosp == "1" || $dosp == "2") $this->edit_all = true;
             
-            if ($dosp == "2") $this->delete_all = true;      
+            if ($dosp == "2") $this->delete_all = true;
             
         } else {
             $this->view_all = true;
             $this->edit_all = true;
             $this->delete_all = true;
-        }    
+        }
     }
 
 	//PUBLIC METHODS SECTION
@@ -433,34 +431,6 @@ public function setgoogleaccessparams($userid){
     
         return $dn;
     }
-    
-    //Method for getting the array of profiles permissions to PDFMaker actions.
-    public function GetProfilesPermissions() {
-        if(count($this->profilesPermissions) == 0) {
-            $profiles = getAllProfileInfo();
-            $sql = "SELECT * FROM its4you_calendar4you_profilespermissions";
-            $res = $this->db->query($sql);
-            $permissions = array();
-            while($row = $this->db->fetchByAssoc($res)) {
-            //      in case that profile has been deleted we need to set permission only for active profiles
-                if(isset($profiles[$row["profileid"]]))
-                    $permissions[$row["profileid"]][$row["operation"]] = $row["permissions"];
-            }
-
-            foreach($profiles as $profileid=>$profilename) {
-                foreach($this->profilesActions as $actionName) {
-                    $actionId = getActionid($actionName);
-                    if(!isset($permissions[$profileid][$actionId])) {
-                        $permissions[$profileid][$actionId] = "0";
-                    }
-                }
-            }
-            ksort($permissions);
-            $this->profilesPermissions = $permissions;
-        }
-
-        return $this->profilesPermissions;
-    }
 
     //Method for checking the permissions, whether the user has privilegies to perform specific action on PDF Maker.
     public function CheckPermissions($actionKey,$record_id = '') {
@@ -472,7 +442,7 @@ public function setgoogleaccessparams($userid){
             
         if ($this->profile_Global_Permission[1] == "0" && $actionKey == "DETAIL") {
             return true;
-        } elseif ($this->profile_Global_Permission[2] == "0" && $actionKey == "EDIT") {
+        } elseif ($this->profile_Global_Permission[2] == "0" && ($actionKey == "EDIT" || $actionKey == "CREATE")) {
             return true;
         } else {
 
@@ -480,10 +450,10 @@ public function setgoogleaccessparams($userid){
     
             if(isset($this->profilesActions[$actionKey])) {
                 $actionid = getActionid($this->profilesActions[$actionKey]);
-                $permissions = $this->GetProfilesPermissions();
+                $permissions = isPermitted('Calendar', $this->profilesActions[$actionKey]);
     
-                if(isset($permissions[$profileid][$actionid]) && $permissions[$profileid][$actionid] == "0") {
-                    if (($this->edit_all && ($actionKey == "DETAIL" || $actionKey == "EDIT")) || ($this->delete_all && $actionKey == "DELETE")) {
+                if($permissions == 'yes') {
+                    if (($this->edit_all && ($actionKey == "DETAIL" || $actionKey == "EDIT" || $actionKey == "CREATE")) || ($this->delete_all && $actionKey == "DELETE")) {
                         return true;
                     } elseif ($record_id != "") {
                         $recOwnType='';

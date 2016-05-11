@@ -212,7 +212,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			else
 				$options[] = array(getTranslatedString($pickListValue, $module_name),$pickListValue,$chk_val);
 		}
-		uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
+		//uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
 		$fieldvalue [] = $options;
 	}
 	elseif($uitype == 15 || $uitype == 33){
