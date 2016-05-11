@@ -890,4 +890,32 @@
 	<classname>add_halfyear_recurring_invoice</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Fix Calendar Start and End Date On Reports, error with ampersand</description>
+	<filename>build/changeSets/fixCalendarStartEndDateOnReports.php</filename>
+	<classname>fixCalendarStartEndDateOnReports</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Separate Create and Edit Permissions</description>
+	<filename>build/changeSets/separateCreateAndEditPermissions.php</filename>
+	<classname>separateCreateAndEditPermissions</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Workflow custom method to update assigned to of contact on contact save</description>
+	<filename>build/changeSets/workflow_contactassignedtoaccount.php</filename>
+	<classname>workflow_contactassignedtoaccount</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>Update Mobile Module</description>
+	<filename>build/changeSets/updateMobileModuleToCrmNow.php</filename>
+	<classname>updateMobileModuleToCrmNow</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

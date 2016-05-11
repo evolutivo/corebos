@@ -77,6 +77,7 @@ switch ($focus->column_fields['maptype']) {
 		break;
 	case 'Record Access Control':
 		$rac = $focus->RecordAccessControl();
+		$rac->setRelatedRecordID(6004);
 		foreach (array('create','retrieve','update','delete') as $op) {
 			echo 'Listview '.$op.' = '.$rac->hasListViewPermissionTo($op)."<br>";
 			echo 'DetailView '.$op.' = '.$rac->hasDetailViewPermissionTo($op)."<br>";
@@ -84,8 +85,18 @@ switch ($focus->column_fields['maptype']) {
 		foreach (array('create','retrieve','update','delete','select') as $op) {
 			echo 'RelatedList Invoice '.$op.' = '.$rac->hasRelatedListPermissionTo($op,'Invoice')."<br>";
 			echo 'RelatedList Potentials '.$op.' = '.$rac->hasRelatedListPermissionTo($op,'Potentials')."<br>";
+			echo 'RelatedList ProjectMilestone '.$op.' = '.$rac->hasRelatedListPermissionTo($op,'ProjectMilestone')."<br>";
+			echo 'RelatedList ProjectTask '.$op.' = '.$rac->hasRelatedListPermissionTo($op,'ProjectTask')."<br>";
 		}
 		break;
+	case 'Record Set Mapping':
+			$rsm = $focus->RecordSetMapping();
+			$mapinfo = $rsm->getFullRecordSet();
+			break;
+	case 'ListColumns':
+			$rsm = $focus->ListColumns();
+			$mapinfo = $rsm->getCompleteMapping();
+			break;
 	case 'Import':
 		$mapinfo = $focus->readImportType();
 		$mapinfo['TargetModule'] = $focus->getMapTargetModule();
@@ -115,7 +126,7 @@ switch ($focus->column_fields['maptype']) {
 		$mapinfo['OriginModule'] = $focus->getMapOriginModule();
 		break;
 	default:
-		
+
 		break;
 }
 $smarty->assign('MAPINFO', $mapinfo);

@@ -17,7 +17,7 @@ angular.module('demoApp').run(function(editableOptions) {
 {foreach key=label item=data from=$detail}
             {assign var=keyid value=$data.ui}
             {assign var=keyfldname value=$data.fldname}
-        {if $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32' || $keyid eq '33'} 
+        {if $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32' || $keyid eq '33' || $keyid eq '1613'} 
                              
             angular.module('demoApp').filter('{$keyfldname}_filter', function() {ldelim}
               return function({$keyfldname}_values ,scope) {ldelim}

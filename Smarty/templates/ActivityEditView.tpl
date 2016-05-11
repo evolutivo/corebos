@@ -652,8 +652,10 @@ var gVTModule = '{$smarty.request.module|@vtlib_purify}';
 														<td>on</td>
 														<td>
 														<select name="repeatMonth_daytype">
-															<option value="first" {if $ACTIVITYDATA.repeatMonth_daytype eq 'first'} selected {/if}>First</option>
-															<option value="last" {if $ACTIVITYDATA.repeatMonth_daytype eq 'last'} selected {/if}>Last</option>
+															<option value="first" {if $ACTIVITYDATA.repeatMonth_daytype eq 'first'} selected {/if}>{$MOD.First}</option>
+															<option value="second" {if $ACTIVITYDATA.repeatMonth_daytype eq 'second'} selected {/if}>{$MOD.Second}</option>
+															<option value="third" {if $ACTIVITYDATA.repeatMonth_daytype eq 'third'} selected {/if}>{$MOD.Third}</option>
+															<option value="last" {if $ACTIVITYDATA.repeatMonth_daytype eq 'last'} selected {/if}>{$MOD.Last}</option>
 														</select>
 														</td>
 														<td>
@@ -712,7 +714,7 @@ var gVTModule = '{$smarty.request.module|@vtlib_purify}';
 								<td colspan="2">
 									<input name="contactidlist" id="contactidlist" value="{$CONTACTSID}" type="hidden">
 									<input name="deletecntlist" id="deletecntlist" type="hidden">
-									<select name="contactlist" size=5  style="height: 100px;width: 300px"  id="parentid" class="small" multiple>
+									<select name="contactlist" size=5  style="height: 100px;width: 300px" id="parentid" class="small" multiple>
 									{foreach item=contactname key=cntid from=$CONTACTSNAME}
 										<option value="{$cntid}">{$contactname}</option>
 									{/foreach}

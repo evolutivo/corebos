@@ -29,6 +29,13 @@ $mod_strings = Array(
 	'Mapping' => 'Mapeado',
 	'SendMail' => 'Enviar EMail',
 	'Block Access' => 'Bloquear Acceso',
+	'Import' => 'Importar',
+	'Map Fields' => 'Mapear Campos',
+	'IOMap' => 'Mapa E/S',
+	'Search and Update' => 'Buscar y Actualizar',
+	'Field Dependency' => 'Dependencia de Campos',
+	'Record Access Control' => 'Control de Acceso a Registro',
+	'Record Set Mapping' => 'Conjunto de Registros',
+	'ListColumns' => 'Columnas de Listas',
 );
-
 ?>

@@ -15,7 +15,7 @@ var CurrProfiles ={$CurrProfiles};
 		{assign var="fldname" value="$maindata[2][0]"}
 		{assign var="fldvalue" value="$maindata[3][0]"}
 		
-        {if $uitype eq '15' || $uitype eq '16' || $uitype eq '31' || $uitype eq '32' || $uitype eq '33'} 
+        {if $uitype eq '15' || $uitype eq '16' || $uitype eq '31' || $uitype eq '32' || $uitype eq '33' || $uitype eq '1613'} 
                              
             angular.module('demoApp').filter('{$fldname}_filter', function() {ldelim}
               return function({$fldname}_values ,scope) {ldelim}

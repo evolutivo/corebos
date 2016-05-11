@@ -131,8 +131,8 @@ class Emails extends CRMEntity {
 		$this->insertIntoAttachment($this->id, $module);
 	}
 
-	function insertIntoAttachment($id, $module) {
-		global $log, $adb,$current_user;
+	function insertIntoAttachment($id, $module, $direct_import=false) {
+		global $log, $adb;
 		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
 
 		$file_saved = false;
@@ -294,7 +294,7 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 	* @param - $secmodule secondary module name
 	* returns the query string formed on fetching the related data for report for secondary module
 	*/
-	function generateReportsSecQuery($module, $secmodule, $queryPlanner){
+	function generateReportsSecQuery($module, $secmodule){
 		$query = " LEFT JOIN vtiger_seactivityrel ON vtiger_crmentity.crmid=vtiger_seactivityrel.crmid";
 		$query .= " LEFT JOIN vtiger_activity ON vtiger_seactivityrel.activityid=vtiger_activity.activityid and vtiger_activity.activitytype = 'Emails'";
 		$query .= " LEFT JOIN vtiger_crmentity as vtiger_crmentityEmails ON vtiger_crmentityEmails.crmid=vtiger_activity.activityid and vtiger_crmentityEmails.deleted = 0";

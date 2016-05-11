@@ -16,7 +16,6 @@ $mod_strings = Array(
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_MAP_INFORMATION' => 'Map Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
-
 	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
         'LBL_CREATE_BUTTON_KEY'=>'Generate Map',
 	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
@@ -28,6 +27,23 @@ $mod_strings = Array(
         'LBL_CREATEMAP'=>'Create Map',
         'LBL_SELECT_MODULE'=>'Select Module',
         'LBL_SELECT_BLOCK'=>'Select Block',
+	'Map Name' => 'Map Name',
+	'Map Number' => 'Map Number',
+	'Map Type' => 'Map Type',
+	'Target Module' => 'Target Module',
+	'Content' => 'Content',
+	'Generate Map' => 'Generate Map',
+	'Condition Expression' => 'Condition Expression',
+	'Condition Query' => 'Condition Query',
+	'Mapping' => 'Mapping',
+	'Block Access' => 'Block Access',
+	'Import' => 'Import',
+	'Map Fields' => 'Map Fields',
+	'IOMap' => 'IOMap',
+	'Search and Update' => 'Search and Update',
+	'Field Dependency' => 'Field Dependency',
+	'Record Access Control' => 'Record Access Control',
+	'Record Set Mapping' => 'Record Set Mapping',
+	'ListColumns' => 'List Columns',
 );
-
 ?>

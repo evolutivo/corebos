@@ -29,6 +29,13 @@ $mod_strings = Array(
 	'Mapping' => 'Mapping',
 	'SendMail' => 'Send Mail',
 	'Block Access' => 'Block Access',
+	'Import' => 'Import',
+	'Map Fields' => 'Map Fields',
+	'IOMap' => 'IOMap',
+	'Search and Update' => 'Search and Update',
+	'Field Dependency' => 'Field Dependency',
+	'Record Access Control' => 'Record Access Control',
+	'Record Set Mapping' => 'Record Set Mapping',
+	'ListColumns' => 'List Columns',
 );
-
 ?>

@@ -12,9 +12,9 @@
  * All Rights Reserved.
  ********************************************************************************/
 require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php'); //new
-require_once('include/utils/CommonUtils.php'); //new
-require_once('user_privileges/default_module_view.php'); //new
+require_once('include/ComboUtil.php');
+require_once('include/utils/CommonUtils.php');
+require_once('user_privileges/default_module_view.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('include/Zend/Json.php');
 require_once 'include/CustomFieldUtil.php';
@@ -39,11 +39,18 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 	$image_path = $theme_path . "images/";
 	$list_header = Array();
 
-	//Get the vtiger_tabid of the module
+	//Get the tabid of the module
 	$tabid = getTabid($module);
 	$tabname = getParentTab();
 	global $current_user;
-	//added for vtiger_customview 27/5
+	$bmapname = $module.'_ListColumns';
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$parentmodule = vtlib_purify($_REQUEST['module']);
+		$focus->list_fields = $cbMap->ListColumns()->getListFieldsFor($parentmodule);
+		$focus->list_fields_name = $cbMap->ListColumns()->getListFieldsNameFor($parentmodule);
+	}
 	if ($oCv) {
 		if (isset($oCv->list_fields)) {
 			$focus->list_fields = $oCv->list_fields;
@@ -256,6 +263,13 @@ function getSearchListViewHeader($focus, $module, $sort_qry = '', $sorder = '', 
 		'&srcmodule=' . (isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : '').
 		'&forrecord=' . (isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : '');
 
+	$bmapname = $module.'_ListColumns';
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$focus->search_fields = $cbMap->ListColumns()->getSearchFields();
+		$focus->search_fields_name = $cbMap->ListColumns()->getSearchFieldsName();
+	}
 	$field_list = array_values($focus->search_fields_name);
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	$field = Array();
@@ -434,10 +448,15 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 	$evt_status = '';
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
-	//getting the vtiger_fieldtable entries from database
 	$tabid = getTabid($module);
-
-	//added for vtiger_customview 27/5
+	$bmapname = $module.'_ListColumns';
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$parentmodule = vtlib_purify($_REQUEST['module']);
+		$focus->list_fields = $cbMap->ListColumns()->getListFieldsFor($parentmodule);
+		$focus->list_fields_name = $cbMap->ListColumns()->getListFieldsNameFor($parentmodule);
+	}
 	if ($oCv) {
 		if (isset($oCv->list_fields)) {
 			$focus->list_fields = $oCv->list_fields;
@@ -892,14 +911,12 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			else
 				$varreturnset = $returnset;
 
-			$WSmodule = $module;
 			if ($module == 'Calendar') {
 				$actvity_type = $adb->query_result($list_result, $list_result_count, 'activitytype');
 				if ($actvity_type == 'Task')
 					$varreturnset .= '&activity_mode=Task';
 				else{
 					$varreturnset .= '&activity_mode=Events';
-					$WSmodule = 'Events';
 				}
 			}
 
@@ -907,7 +924,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			$links_info = '';
 			if (!(is_array($selectedfields) && $selectedfields != '')) {
 				if (isPermitted($module, 'EditView', '') == 'yes') {
-					$racbr = $wfs->getRACRuleForRecord($WSmodule, $entity_id);
+					$racbr = $wfs->getRACRuleForRecord($module, $entity_id);
 					if (!$racbr or $racbr->hasListViewPermissionTo('edit')) {
 					$edit_link = getListViewEditLink($module, $entity_id, $relatedlist, $varreturnset, $list_result, $list_result_count);
 					$links_info .= "<a href=\"$edit_link$linkstart\">" . $app_strings['LNK_EDIT'] . "</a> ";
@@ -915,7 +932,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 				}
 
 				if (isPermitted($module, 'Delete', '') == 'yes') {
-					$racbr = $wfs->getRACRuleForRecord($WSmodule, $entity_id);
+					$racbr = $wfs->getRACRuleForRecord($module, $entity_id);
 					if (!$racbr or $racbr->hasListViewPermissionTo('delete')) {
 					$del_link = getListViewDeleteLink($module, $entity_id, $relatedlist, $varreturnset, $linkstart);
 					if ($links_info != '' && $del_link != '')
@@ -934,6 +951,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			// END
 			if ($links_info != "" && !$skipActions)
 				$list_header[] = $links_info;
+			list($list_header, $unused, $unused2) = cbEventHandler::do_filter('corebos.filter.listview.render', array($list_header, $adb->query_result_rowdata($list_result, $i - 1), $entity_id));
 			$list_block[$entity_id] = $list_header;
 		}
 	$log->debug("Exiting getListViewEntries method ...");
@@ -966,6 +984,13 @@ function getSearchListViewEntries($focus, $module, $list_result, $navigation_arr
 	$tabid = getTabid($module);
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
+	$bmapname = $module.'_ListColumns';
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$focus->search_fields = $cbMap->ListColumns()->getSearchFields();
+		$focus->search_fields_name = $cbMap->ListColumns()->getSearchFieldsName();
+	}
 	//Added to reduce the no. of queries logging for non-admin user -- by Minnie-start
 	$field_list = array_values($focus->search_fields_name);
 
@@ -1735,7 +1760,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					$callBack = $_REQUEST['callback'];
 					if ($_REQUEST['return_module'] == "Calendar") {
 						$count = counterValue();
-						$value = '<a href="javascript:window.close();" id="calendarCont' . $entity_id . '" LANGUAGE=javascript onclick=\'add_data_to_relatedlist_incal("' . $entity_id . '","' . decode_html($slashes_temp_val) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						$value = '<a href="javascript:if (document.getElementById(\'closewindow\').value==\'true\') {window.close();}" id="calendarCont' . $entity_id . '" onclick=\'add_data_to_relatedlist_incal("' . $entity_id . '","' . decode_html($slashes_temp_val) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 					} else {
 						$count = counterValue();
 						if (empty($callBack)) {
@@ -2415,7 +2440,6 @@ function getListQuery($module, $where = '',$loggingconf=false) {
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
 			break;
 		Case "Contacts":
-			//Query modified to sort by assigned to
 			$query = "SELECT vtiger_contactdetails.*, vtiger_crmentity.smownerid, vtiger_crmentity.crmid
 			FROM vtiger_contactdetails
 			INNER JOIN vtiger_crmentity
@@ -2438,8 +2462,7 @@ function getListQuery($module, $where = '',$loggingconf=false) {
 				ON vtiger_customerdetails.customerid = vtiger_contactdetails.contactid";
 			if ((isset($_REQUEST["from_dashboard"]) && $_REQUEST["from_dashboard"] == true) &&
 					(isset($_REQUEST["type"]) && $_REQUEST["type"] == "dbrd")) {
-				$query .= " INNER JOIN vtiger_campaigncontrel on vtiger_campaigncontrel.contactid = " .
-						"vtiger_contactdetails.contactid";
+				$query .= ' INNER JOIN vtiger_campaigncontrel on vtiger_campaigncontrel.contactid = vtiger_contactdetails.contactid';
 			}
 			$query .= getNonAdminAccessControlQuery($module, $current_user);
 			$query .= "WHERE vtiger_crmentity.deleted = 0 " . $where;
@@ -3713,8 +3736,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 
 	$output = '<td align="right" style="padding="5px;">';
 	if (($navigation_array['prev']) != 0) {
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LBL_FIRST'] . '" title="' . $app_strings['LBL_FIRST'] . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&start=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LNK_LIST_PREVIOUS'] . '"title="' . $app_strings['LNK_LIST_PREVIOUS'] . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&relstart=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LBL_FIRST'] . '" title="' . $app_strings['LBL_FIRST'] . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
+		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&relstart=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LNK_LIST_PREVIOUS'] . '"title="' . $app_strings['LNK_LIST_PREVIOUS'] . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 	} else {
 		$output .= '<img src="' . vtiger_imageurl('start_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
 		$output .= '<img src="' . vtiger_imageurl('previous_disabled.gif', $theme) . '" border="0" align="absmiddle">&nbsp;';
@@ -3757,7 +3780,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
  * 	@param int 	$entity_id 	- record id
  * 	@param string 	$relatedlist 	- string "relatedlist" or may be empty. if empty means ListView else relatedlist
  * 	@param string 	$returnset 	- may be empty in case of ListView. For relatedlists, return_module, return_action and return_id values will be passed like &return_module=Accounts&return_action=CallRelatedList&return_id=10
- * 	return string	$edit_link	- url string which cotains the editlink details (module, action, record, etc.,) like index.php?module=Accounts&action=EditView&record=10
+ * 	return string	$edit_link	- url string which contains the editlink details (module, action, record, etc.,) like index.php?module=Accounts&action=EditView&record=10
  */
 function getListViewEditLink($module, $entity_id, $relatedlist, $returnset, $result, $count) {
 	global $adb;
@@ -3767,7 +3790,6 @@ function getListViewEditLink($module, $entity_id, $relatedlist, $returnset, $res
 	else
 		$edit_link = "index.php?module=$module&action=EditView&record=$entity_id";
 	$tabname = getParentTab();
-	//Added to fix 4600
 	$url = getBasic_Advance_SearchURL();
 
 	//This is relatedlist listview

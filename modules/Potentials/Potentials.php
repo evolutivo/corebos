@@ -245,9 +245,13 @@ class Potentials extends CRMEntity {
 				$button .= "<input title='".getTranslatedString('LBL_SELECT')." ". getTranslatedString($related_module). "' class='crmbutton small edit' type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id&parenttab=$parenttab$search_string','test','width=640,height=602,resizable=0,scrollbars=0');\" value='". getTranslatedString('LBL_SELECT'). " " . getTranslatedString($related_module) ."'>&nbsp;";
 			}
 			if(in_array('ADD', $actions) && isPermitted($related_module,1, '') == 'yes') {
-				$button .= "<input title='".getTranslatedString('LBL_ADD_NEW'). " ". getTranslatedString($singular_modname) ."' class='crmbutton small create'" .
-					" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
-					" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString($singular_modname) ."'>&nbsp;";
+				$wfs = new VTWorkflowManager($adb);
+				$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
+				if (!$racbr or $racbr->hasRelatedListPermissionTo('create',$related_module)) {
+					$button .= "<input title='".getTranslatedString('LBL_ADD_NEW'). " ". getTranslatedString($singular_modname) ."' class='crmbutton small create'" .
+						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
+						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString($singular_modname) ."'>&nbsp;";
+				}
 			}
 		}
 
@@ -756,7 +760,7 @@ class Potentials extends CRMEntity {
 			}
 		}
 	}
-	function getListButtons($app_strings, $mod_strings) {
+	function getListButtons($app_strings) {
 		$list_buttons = Array ();
 
 		if (isPermitted ( 'Potentials', 'Delete', '' ) == 'yes') {
@@ -766,10 +770,9 @@ class Potentials extends CRMEntity {
 			$list_buttons ['mass_edit'] = $app_strings ['LBL_MASS_EDIT'];
 			$list_buttons ['c_owner'] = $app_strings ['LBL_CHANGE_OWNER'];
 		}
-		if (isPermitted ( 'Emails', 'EditView', '' ) == 'yes') {
+		if (isPermitted ( 'Emails', 'CreateView', '' ) == 'yes') {
 			$list_buttons ['s_mail'] = $app_strings ['LBL_SEND_MAIL_BUTTON'];
 		}
-		// end of mailer export
 		return $list_buttons;
 	}
 
