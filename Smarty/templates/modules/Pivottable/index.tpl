@@ -18,7 +18,6 @@
  *************************************************************************************************/
 -->*}
 <script  src="Smarty/angular/ng-table.js"></script>
-<link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="Smarty/angular/angular-multi-select.js"></script>  
