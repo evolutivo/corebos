@@ -25,7 +25,7 @@ require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 include_once("modules/Pivottable/pivotfunc.php");
 include_once("modules/Reports/Reports.php");
-include("modules/Reports/ReportRun.php");
+//include("modules/Reports/ReportRun.php");
 global $adb,$current_user,$php_max_execution_time;
 
 $cbAction=$_REQUEST['cbAction'];
