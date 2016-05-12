@@ -197,7 +197,7 @@ class NgBlock_DetailViewBlockNgWidget {
                         $relmodule[] = 'Accounts';                   
                     }
                 }
-                $blockURL="module=NgBlock&action=NgBlockAjax";
+                $blockURL="module=Utilities&action=UtilitiesAjax";
                 $blockURL.="&file=ng_block_actions&id=".$sourceRecordId;
                 $blockURL.="&ng_block_id=".$this->id;                
 
