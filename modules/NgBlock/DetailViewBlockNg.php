@@ -99,6 +99,7 @@ class NgBlock_DetailViewBlockNgWidget {
 		
                 $result=$adb->pquery("Select * from vtiger_ng_block where id=?", array($this->id));
                 $pointing_module_name	=$adb->query_result($result,0,'pointing_module_name');
+                $tabid=  getTabid($pointing_module_name);
                 $pointing_field_name=$adb->query_result($result,0,'pointing_field_name');
                 $name=$adb->query_result($result,0,'name');
                 $module_name=$adb->query_result($result,0,'module_name');
@@ -109,6 +110,8 @@ class NgBlock_DetailViewBlockNgWidget {
                 $add_record=$adb->query_result($result,0,'add_record');
                 $opened=$adb->query_result($result,0,'opened');
                 $columns=$adb->query_result($result,0,'columns');
+                $type=$adb->query_result($result,0,'type');
+                $custom_widget_path=$adb->query_result($result,0,'custom_widget_path');
                 $col= explode(",",$columns);
                 $listcol= explode(",",$columns);
                 $id_sub_ng=$adb->query_result($result,0,'sub_ng');
@@ -136,7 +139,8 @@ class NgBlock_DetailViewBlockNgWidget {
                     $re=$adb->pquery("Select fieldlabel,uitype,fieldname,typeofdata,relmodule "
                             . " from vtiger_field "
                             . " left join vtiger_fieldmodulerel on vtiger_fieldmodulerel.fieldid=vtiger_field.fieldid"
-                            . " where columnname = ? OR fieldname=?",array($fldname_val,$fldname_val));  
+                            . " where columnname = ? OR fieldname=?"
+                            . " and tabid = '$tabid' ",array($fldname_val,$fldname_val));  
                     $tmp1= getTranslatedString($adb->query_result($re,0,'fieldlabel'),$pointing_module_name);
                     $uitype = $adb->query_result($re,0,'uitype');
                     $fieldname = $adb->query_result($re,0,'fieldname');
@@ -184,16 +188,16 @@ class NgBlock_DetailViewBlockNgWidget {
                     
                     }
                     elseif($uitype=='10'){
-                        $relmodule[$j] = $adb->query_result($re,0,'relmodule');                   
+                        $relmodule[] = $adb->query_result($re,0,'relmodule');                   
                     }
                     elseif($uitype=='57'){
-                        $relmodule[$j] = 'Contacts';                   
+                        $relmodule[] = 'Contacts';                   
                     }
                     elseif($uitype=='51'){
-                        $relmodule[$j] = 'Accounts';                   
+                        $relmodule[] = 'Accounts';                   
                     }
                 }
-                $blockURL="module=Utilities&action=UtilitiesAjax";
+                $blockURL="module=NgBlock&action=NgBlockAjax";
                 $blockURL.="&file=ng_block_actions&id=".$sourceRecordId;
                 $blockURL.="&ng_block_id=".$this->id;                
 
@@ -248,7 +252,12 @@ class NgBlock_DetailViewBlockNgWidget {
                     $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNgJson.tpl"));                    
                 }
                 elseif($type=='Custom'){
-                    $ret_temp=$viewer->fetch(vtlib_getModuleTemplate($module_name,$custom_widget_path));                    
+                    if(file_exists("Smarty/templates/modules/$module_name/$custom_widget_path")){
+                        $ret_temp=$viewer->fetch(vtlib_getModuleTemplate($module_name,$custom_widget_path)); 
+                    }
+                    else{
+                        $ret_temp=$viewer->fetch(vtlib_getModuleTemplate('NgBlock',$custom_widget_path)); 
+                    }
                 }
                 else{
                     $ret_temp=$viewer->fetch(vtlib_getModuleTemplate("NgBlock","DetailViewBlockNg.tpl"));

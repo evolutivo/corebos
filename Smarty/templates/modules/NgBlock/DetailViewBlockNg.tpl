@@ -351,8 +351,8 @@ angular.module('demoApp')
       $scope.col_json={/literal}{$COLUMN_NAME_JSON}{literal};
       $scope.ui_json={/literal}{$FIELD_UITYPE_JSON}{literal};
       $scope.default_json={/literal}{$DEFAULT_VALUE_JSON}{literal};
-      $scope.map_field_dep={/literal}{$FLDDEP}{literal};
-      $scope.MAP_PCKLIST_TARGET={/literal}{$MAP_PCKLIST_TARGET}{literal};
+      //$scope.map_field_dep={/literal}{$FLDDEP}{literal};
+      //$scope.MAP_PCKLIST_TARGET={/literal}{$MAP_PCKLIST_TARGET}{literal};
       var array_date = [5,6,23];
       for(var i=0;i<$scope.col_json.length;i++){
           if(array_date.indexOf($scope.ui_json[i])!==-1){
