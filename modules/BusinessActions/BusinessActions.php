@@ -544,22 +544,32 @@ $log->debug('action test');
         $businessrulesid = $this->column_fields['linktobrules'];
         $br_focus = CRMEntity::getInstance("BusinessRules");
         $br_focus->retrieve_entity_info($businessrulesid, "BusinessRules");
+        $mapid=$br_focus->column_fields['linktomap'];
+        if($mapid!='' && $mapid !=0){
+            $has_map=true;
+            $mapfocus=  CRMEntity::getInstance("cbMap");
+            $mapfocus->retrieve_entity_info($mapid,"cbMap");
+            $mapfocus->id=$mapid;
+            $businessrules_action=$mapfocus->getMapSQL(); 
+        }
         if ($br_focus->isProfilePermitted()) {
-    /*        foreach ($allelements as $elem => $value) {
-                $pos_el = strpos($businessrules_action, $elem);
-                if ($pos_el) {
-                    $businessrules_action = str_replace($elem, " ? ", $businessrules_action);
-                    array_push($params, $value);
+            if($has_map){
+                foreach ($allelements as $elem => $value) {
+                    $pos_el = strpos($businessrules_action, $elem);
+                    if ($pos_el) {
+                        $businessrules_action = str_replace($elem, " ? ", $businessrules_action);
+                        array_push($params, $value);
+                    }
                 }
-            }
-            $res_logic = $adb->pquery($businessrules_action, $params);
-            if ($adb->num_rows($res_logic) > 0) {
-                return true;
+                $res_logic = $adb->pquery($businessrules_action, $params);
+                if ($adb->num_rows($res_logic) > 0) {
+                    return true;
+                }
+                else
+                    return false;
             }
             else
-                return false;
-*/
-return true;
+                return true;
         }
         else
             return false;

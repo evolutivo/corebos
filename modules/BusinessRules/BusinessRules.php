@@ -429,16 +429,14 @@ class BusinessRules extends CRMEntity {
         }
         function isProfilePermitted() {
         global $current_user;
-        $roles_array = explode(',', $this->column_fields["busrule_roles"]);
+        $roles_array = explode(' |##| ', $this->column_fields["busrule_roles"]);
         $currentprofiles = getUserProfile($current_user->id);
         $allowed = false;
         //while (!$allowed) {
-            for($i=0;$i<count($currentprofiles);$i++){
-                $profile=$currentprofiles[$i];
-                if (in_array($profile, $roles_array)) {
-                    $allowed = true;
-                    return $allowed;
-                }
+            $role=$current_user->roleid;
+            if (in_array($role, $roles_array)) {
+                $allowed = true;
+                return $allowed;
             }
         //}
         return $allowed;
