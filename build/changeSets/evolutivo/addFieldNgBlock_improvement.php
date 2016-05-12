@@ -26,8 +26,7 @@ class addFieldNgBlock_improvement extends cbupdaterWorker {
                                 . " ADD  top_widget VARCHAR( 250 )  NULL, "
                                 . " ADD  opened VARCHAR( 250 )  NULL, "
                                 . " ADD  createcol VARCHAR( 550 )  NULL, "
-                                . " ADD  defaultval VARCHAR( 550 )  NULL ,
-                                    ADD sequence_ngblock INT(19) NULL");
+                                . " ADD  defaultval VARCHAR( 550 )  NULL");
                         $this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
 		}
