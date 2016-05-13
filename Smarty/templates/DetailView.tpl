@@ -276,7 +276,7 @@ function sendfile_email()
 																   Singlepane view is enabled. -->
 																<form action="index.php" method="post" name="DetailView" id="form">
 																	{include file='DetailViewHidden.tpl'}
-                                                                                                                                </form>
+                                                                                                                                
 
 																	<!-- Start of File Include by SAKTI on 10th Apr, 2008 -->
 																	{include_php file="include/DetailViewBlockStatus.php"}
@@ -440,7 +440,7 @@ function sendfile_email()
 																		{$ASSOCIATED_PRODUCTS}
 																	</tr>
 
-																
+																</form>
 																<!-- End the form related to detail view -->
 
 																{if $SinglePane_View eq 'true' && $IS_REL_LIST|@count > 0}
