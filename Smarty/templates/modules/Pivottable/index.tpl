@@ -208,7 +208,7 @@ function tableToExcel2 (table) {
             </td>
             <td align="center">
                 <input type="radio" name="type_pivot.name" value="elastic" ng-model="type_pivot.name" >Elastic index<br>
-                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'" ng-model="elastic_opt.id">
+                <select id="elastic_opt" ng-disabled="type_pivot.name!='elastic'" ng-model="elastic_opt.id" ng-change='elasticType(elastic_opt.id);'>
                     {$options_elastic}
                 </select>
             </td>
@@ -234,7 +234,7 @@ function tableToExcel2 (table) {
                 <h5>Type Elastic</h5>
             </td>
             <td align="left" colspan="2">
-                <select id="elastic_types" ng-model="elastic_type.name" ng-options="opt.typename for opt  in elastictypes | filter_elastic_type:elastic_opt track by opt.typename">
+                <select id="elastic_types" ng-model="elastic_type.name" ng-options="opt for opt  in elastictypes">
                 </select>
             </td>
         </tr>
@@ -646,23 +646,27 @@ angular.module('demoApp')
     
     for(var i = reports.length - 1; i >= 0; i--){
         if(reports[i].cbAppsid == $scope.cbAppsid){
+            console.log(reports[i]);
             $scope.name_pivot=reports[i]['reportname'];
             $scope.desc_pivot=reports[i]['desc_pivot'];
             $scope.pivot_type=reports[i]['pivot_type'];
             if($scope.pivot_type=='elastic'){
                 $scope.type_pivot={name:'elastic'};
-                $scope.elastic_type.name={typename:reports[i]['elastic_type'],id:reports[i]['reportid']};
+                $scope.elastic_type={name:reports[i]['elastic_type']};
+                //$scope.elastic_type.name={typename:reports[i]['elastic_type'],id:reports[i]['reportid']};
                 $scope.elastic_opt={id:reports[i]['reportid']};
             }
         }
-    }
+    }      
+    $scope.elasticType =  function(index) {
+        var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=index_types&indextosearch='+index;
+        $http.get(url).
+            success(function(data, status) {
+                $scope.elastictypes=data;
+        });
+    };
+    $scope.elasticType($scope.elastic_opt.id);
     
-    var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=index_types';
-    $http.get(url).
-        success(function(data, status) {
-            $scope.elastictypes=data;
-    });
-      
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
@@ -690,7 +694,7 @@ angular.module('demoApp')
            typ='newElastic';
            repid=elasticid;
            repname=elasticname;
-           var elastic_p=elastic_type.name.typename;//document.getElementById('elastic_types').options[document.getElementById('elastic_types').selectedIndex].value;
+           var elastic_p=elastic_type.name;//document.getElementById('elastic_types').options[document.getElementById('elastic_types').selectedIndex].value;
            elastic_params='&elastic_type='+elastic_p;
        }
        if(name_pivot!='')repname=name_pivot;
