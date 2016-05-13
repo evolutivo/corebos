@@ -25,7 +25,7 @@ require('user_privileges/user_privileges_'.$current_user->id.'.php');
 
 include_once("modules/Pivottable/pivotfunc.php");
 include_once("modules/Reports/Reports.php");
-include("modules/Reports/ReportRun.php");
+//include("modules/Reports/ReportRun.php");
 global $adb,$current_user,$php_max_execution_time;
 
 $cbAction=$_REQUEST['cbAction'];
@@ -180,7 +180,7 @@ elseif($cbAction=='newElastic'){
             . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc','$elastic_type')",array());
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
-    createMV($reportid,$cbAppid);
+    //createElastic($reportid,$cbAppid);
   echo $cbAppsid;
 }
 elseif($cbAction=='exportReport'){
@@ -207,19 +207,12 @@ elseif($cbAction=='deleteReport'){
 }
 elseif($cbAction=='index_types'){
     
-    $opt_type_elastic=array();
+    $indextosearch=$_REQUEST['indextosearch'];
     $res=$adb->pquery("Select  * 
-                from vtiger_elastic_indexes",array());
-    for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
-        $elasticname=$adb->query_result($res,$i_c,'elasticname');
-        $id=$adb->query_result($res,$i_c,'id');
-        $type=$adb->query_result($res,$i_c,'type');
-        $t=explode(',',$type);
-        for($j=0;$j<sizeof($t);$j++){
-            $opt_type_elastic[$i_c][$j]['typename']=$t[$j];
-            $opt_type_elastic[$i_c][$j]['id']=$id;
-        }
-    }
+                from vtiger_elastic_indexes 
+                where id=?",array($indextosearch));
+    $indexname=$adb->query_result($res,0,'elasticname');
+    $opt_type_elastic=listElasticTypes($indexname);
   echo json_encode($opt_type_elastic);
 }
 else{
@@ -338,41 +331,27 @@ else{
 
 
         }
-        
-    $ip=GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
-    $endpointUrl = "http://$ip:9200/_cat/indices?v";
-    $channel1 = curl_init();
-    curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-    curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($channel1, CURLOPT_POST, false);
-    //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-//    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-    curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-    curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-    $response1 = curl_exec($channel1);
-    $arr=explode('
-',$response1);
+    $arr=listElastic();
     $arr_el=array();
-//    for($i_c=1;$i_c<sizeof($arr);$i_c++) {
-//        $specific_arr=explode(' ',$arr[$i_c]);
-//        if(!empty($specific_arr[4])){
-//            $res=$adb->pquery("Select  * 
-//                vtiger_elastic_indexes 
-//                where elasticname=?",array($specific_arr[4]));
-//            $arr_el[]=$specific_arr[4];
-//            if($adb->num_rows($res)==0){
-//                $adb->pquery("Insert into 
-//                          vtiger_elastic_indexes (elasticid,elasticname,status)
-//                          values('".$i_c."','".$specific_arr[4]."','open')
-//                          ",array());
-//            }           
-//        }
-//    }
-//    $adb->pquery("Delete from
-//                vtiger_elastic_indexes
-//                where elasticname not in (".  generateQuestionMarks($arr_el).")"
-//            ,array($arr_el));
+    for($i_c=1;$i_c<sizeof($arr);$i_c++) {
+        $indexname=$arr[$i_c];
+        if(!empty($indexname) ){
+            $res=$adb->pquery("Select  * 
+                from vtiger_elastic_indexes 
+                where elasticname=?",array($indexname));
+            if($adb->num_rows($res)==0){
+                $adb->pquery("Insert into 
+                          vtiger_elastic_indexes (elasticname,status)
+                          values('".$indexname."','open')
+                          ",array());
+            }           
+        }
+    }
+    $adb->pquery("Delete from
+                vtiger_elastic_indexes
+                where elasticname not in (".  generateQuestionMarks($arr).")"
+            ,array($arr_el));
+    
     $res=$adb->pquery("Select  * 
                 from vtiger_elastic_indexes",array());
     for($i_c=0;$i_c<$adb->num_rows($res);$i_c++) {
@@ -529,4 +508,49 @@ function createElastic($reportid,$cbAppid){
 //    var_dump(json_encode($source));
     createjson(json_encode((array) $source),$cbAppid); 
     
+}
+function listElastic() {
+    $method = "GET";
+    $search_host=GlobalVariable::getVariable('ip_elastic_server', '');
+    $search_port="9200";
+    $url = 'http://'.$search_host.':'.$search_port.'/_stats/_indices';
+    $ch=curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_PORT, $search_port);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+    $result = curl_exec($ch);
+    curl_close($ch);
+    $ary = json_decode($result,true);
+    $content=array();
+    $i=0;
+    foreach ( $ary["indices"] as $key=>$value){        
+        $content[]=$key;
+    }
+    return $content;
+}
+function listElasticTypes($indextosearch) {
+    $method = "GET";
+    $search_host="193.182.16.34";//GlobalVariable::getVariable('ip_elastic_server', '');
+    $search_port="9200";
+    $url = 'http://'.$search_host.':'.$search_port."/$indextosearch".'/_mapping';
+    $ch=curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_PORT, $search_port);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+    $result = curl_exec($ch);
+    curl_close($ch);
+    $ary = json_decode($result,true);
+    $content=array();
+    $i=0;
+    foreach ( $ary as $key=>$value){
+        foreach($value as $key2=>$value2){
+            foreach($value2 as $key3=>$value3){
+                $i++;
+                $content[]=$key3;
+            }
+        }   
+    }
+    return $content;
 }
