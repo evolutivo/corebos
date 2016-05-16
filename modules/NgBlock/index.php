@@ -190,7 +190,7 @@ elseif($kaction=='get_elastic_indexes'){
     for($i_c=1;$i_c<sizeof($arr);$i_c++) {
         $specific_arr=explode(' ',$arr[$i_c]);
         if(!empty($specific_arr[4])){
-            $res=$adb->pquery("Select  * 
+            $res=$adb->pquery("Select  * from
                 vtiger_elastic_indexes 
                 where elasticname=?",array($specific_arr[4]));
             $arr_el[]=$specific_arr[4];
