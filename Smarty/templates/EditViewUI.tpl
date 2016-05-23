@@ -339,10 +339,10 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
             </td>
 
 		{elseif $uitype eq 71 || $uitype eq 72}
-			<td width="20%" class="dvtCellLabel" align=right>
+			<td ng-show ="show_logic('{$fldname}')" width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
-			<td width="30%" align=left class="dvtCellInfo">
+			<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 				{if $fldname eq "unit_price"}
 					<span id="multiple_currencies">
 						<input name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" type="text" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'; updateUnitPrice('unit_price', '{$BASE_CURRENCY}');"  value="{$fldvalue}" style="width:60%;">
@@ -419,37 +419,37 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			</td>
 
 		{elseif $uitype eq 56}
-			<td width="20%" class="dvtCellLabel" align=right>
+			<td ng-show ="show_logic('{$fldname}')" width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
 
 			{if $fldname eq 'notime' && $ACTIVITY_MODE eq 'Events'}
 				{if $fldvalue eq 1}
-					<td width="30%" align=left class="dvtCellInfo">
+					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 						<input name="{$fldname}" type="checkbox" tabindex="{$vt_tab}" onclick="toggleTime()" checked>
 					</td>
 				{else}
-					<td width="30%" align=left class="dvtCellInfo">
+					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 						<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox" onclick="toggleTime()" >
 					</td>
 				{/if}
 			<!-- For Portal Information we need a hidden field existing_portal with the current portal value -->
 			{elseif $fldname eq 'portal'}
-				<td width="30%" align=left class="dvtCellInfo">
+				<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 					<input type="hidden" name="existing_portal" value="{$fldvalue}">
 					<input name="{$fldname}" type="checkbox" tabindex="{$vt_tab}" {if $fldvalue eq 1}checked{/if}>
 				</td>
 			{else}
 				{if $fldvalue eq 1}
-					<td width="30%" align=left class="dvtCellInfo">
+					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 						<input name="{$fldname}" type="checkbox" tabindex="{$vt_tab}" checked>
 					</td>
 				{elseif $fldname eq 'filestatus'&& $MODE eq 'create'}
-					<td width="30%" align=left class="dvtCellInfo">
+					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 						<input name="{$fldname}" type="checkbox" tabindex="{$vt_tab}" checked>
 					</td>
 				{else}
-					<td width="30%" align=left class="dvtCellInfo">
+					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 						<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox" {if $USER_MODE eq 'create'}checked{/if}>
 					</td>
 				{/if}

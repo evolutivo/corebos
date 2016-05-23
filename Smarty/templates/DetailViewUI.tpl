@@ -291,7 +291,7 @@
 						{elseif $keyid eq '99'}<!-- Password Field-->
 						<td width=25% class="dvtCellInfo" align="left">{$CHANGE_PW_BUTTON}</td>	
 					    {elseif $keyid eq '56'} <!--CheckBox--> 
-                      <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onMouseOver="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;<span id="dtlview_{$label}">{$keyval}&nbsp;</span>
+                      <td ng-show ="show_logic('{$keyfldname}') " width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onMouseOver="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;<span id="dtlview_{$label}">{$keyval}&nbsp;</span>
                     	<div id="editarea_{$label}" style="display:none;">
                     	{if $MODULE neq 'Documents'}
                         	{if $keyval eq $APP.yes}
