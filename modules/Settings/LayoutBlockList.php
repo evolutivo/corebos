@@ -45,7 +45,7 @@ elseif ($subMode == 'deleteRelatedList')
         deleteRelatedList();
 elseif ($subMode == 'createRelatedList')
         createRelatedList();
-$smarty->assign("user", $current_user->superadmincheck);
+$smarty->assign("user",is_superadmin($current_user->id));
 $module_array=getCustomFieldSupportedModules();
 
 $cfimagecombo = Array(
@@ -770,7 +770,7 @@ function deleteCustomField() {
 	$select_columnname = $tablename.":".$columnname .":".$fld_module. "_" . str_replace(" ","_",$oldfieldlabel).":".$fieldname.":".$fieldtype[0];
 	$reportsummary_column = $tablename.":".$columnname.":".str_replace(" ","_",$oldfieldlabel);
 
-	$dbquery = 'alter table '. $adb->sql_escape_string($focus->customFieldTable[0]).' drop column '. $adb->sql_escape_string($colName);
+	$dbquery = 'alter table '. $adb->sql_escape_string($tablename).' drop column '. $adb->sql_escape_string($colName);
 	$adb->pquery($dbquery, array());
 
 	//To remove customfield entry from vtiger_field table

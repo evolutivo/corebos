@@ -203,14 +203,14 @@
  																					<input type="text" id="fldLength_{$entries.blockid}" value="" class="txtBox">
  																					</td>
  																				</tr>
- 																				<tr id="decimaldetails_{$entries.blockid}" style="visibility:hidden;">
+ 																				<tr id="decimaldetails_{$entries.blockid}" style="display:none;">
  																					<td class="dataLabel_{$entries.blockid}" nowrap="nowrap" align="right"><b>{$MOD.LBL_DECIMAL_PLACES}</b>
  																					</td>
  																					<td align="left">
  																					<input type="text" id="fldDecimal_{$entries.blockid}" value=""  class="txtBox">
  																					</td>
  																				</tr>
- 																				<tr id="picklistdetails_{$entries.blockid}" style="visibility:hidden;">
+ 																				<tr id="picklistdetails_{$entries.blockid}" style="display:none;">
  																					<td class="dataLabel" nowrap="nowrap" align="right" valign="top"><b>{$MOD.LBL_PICK_LIST_VALUES}</b>
  																					</td>
  																					<td align="left" valign="top">
