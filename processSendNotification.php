@@ -53,6 +53,7 @@ if (!is_array($sendgridevents) and !isset($sendgridevents[0])) {
 }
 foreach ($sendgridevents as $request) {
 	foreach ($request as $key => $value) {
+          if(!is_object($value))
 	  $LogContent.= "Key: $key; Value: $value \n";
 	}
 	evvtWrite2Log($LogContent);
@@ -61,14 +62,18 @@ foreach ($sendgridevents as $request) {
 	$event=$request->event;
 	$combid=explode('-',$request->category);
 	$category=$combid[0];
-	$crmid=$request->crmid;
+	$crmid1=$request->crmid;
+        global $adb;
+        $crmiddhejeta=$adb->query("select crmid from vtiger_crmentity where setype='Messages' || setype='Emails' order by crmid desc limit 1");
+        $crmid=$adb->query_result($crmiddhejeta,0,0);
+
 	$crmtype=getSalesEntityType($crmid);
 	if ($crmtype!='Messages' and $crmtype!='Emails') {
 		evvtWrite2Log("Error CRM Type: $crmtype - $crmid");
 		continue;
 	}
 	evvtWrite2Log("CRM Type: $crmtype - $crmid");
-	if ($crmtype=='Messages') {
+	if ($crmtype=='Messages' || $crmtype=='Emails') {
 		$user = new Users();
 		$userid = 1;
 		$current_user = $user->retrieveCurrentUserInfoFromFile($userid);
@@ -182,3 +187,4 @@ foreach ($sendgridevents as $request) {
 	}
 } // foreach all events
 ?>
+
