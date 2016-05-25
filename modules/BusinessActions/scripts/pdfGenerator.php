@@ -41,7 +41,7 @@ WHERE adoctomaster =$recid[0] and deleted=0";
  $num_rows = $adb->num_rows($count); 
  $b=$adb->query_result($count,0,'doctype');
  $adocno=$adb->query_result($count,0,'adocmasterno');
- $docSettings="select * from vtiger_docsettings where causale='$b' and SUBSTRING_INDEX(righedaa,'..',-1)>=$num_rows and SUBSTRING_INDEX(righedaa,'..',1)<=$num_rows";
+ $docSettings="select * from vtiger_docsettings join vtiger_crmentity on crmid=docsettings and deleted=0 where causale='$b' and SUBSTRING_INDEX(righedaa,'..',-1)>=$num_rows and SUBSTRING_INDEX(righedaa,'..',1)<=$num_rows";
  
  $count1 = $adb->query($docSettings);
  $num_rows1=$adb->num_rows($count1);
@@ -52,9 +52,11 @@ WHERE adoctomaster =$recid[0] and deleted=0";
  $attach=$adb->query_result($count1,0,'autoattach');
  $tipo=$adb->query_result($count1,0,'tipo');
  $documentID=$adb->query_result($count1,0,'linktodocuments');
- $attachmentquery = $adb->pquery("SELECT attachmentsid,filename,path
+ $attachmentquery = $adb->pquery("SELECT vtiger_attachments.attachmentsid as attachmentsid,filename,path
                                 FROM vtiger_notes
-                                INNER JOIN vtiger_attachments ON filename=name
+                                join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_notes.notesid and vtiger_crmentity.deleted=0
+                                join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_notes.notesid
+                                INNER JOIN vtiger_attachments ON vtiger_seattachmentsrel.attachmentsid=vtiger_attachments.attachmentsid
                                 WHERE vtiger_notes.notesid=? ", array($documentID));
 if ($adb->num_rows($attachmentquery) > 0) {
     $fileName = $adb->query_result($attachmentquery, 0, 'filename');
