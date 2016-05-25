@@ -41,7 +41,7 @@ WHERE adoctomaster =$recid[0] and deleted=0";
  $num_rows = $adb->num_rows($count); 
  $b=$adb->query_result($count,0,'doctype');
  $adocno=$adb->query_result($count,0,'adocmasterno');
- $docSettings="select * from vtiger_docsettings join vtiger_crmentity on crmid=docsettings and deleted=0 where causale='$b' and SUBSTRING_INDEX(righedaa,'..',-1)>=$num_rows and SUBSTRING_INDEX(righedaa,'..',1)<=$num_rows";
+ $docSettings="select * from vtiger_docsettings join vtiger_crmentity on crmid=docsettingsid and deleted=0 where causale='$b' and SUBSTRING_INDEX(righedaa,'..',-1)>=$num_rows and SUBSTRING_INDEX(righedaa,'..',1)<=$num_rows";
  
  $count1 = $adb->query($docSettings);
  $num_rows1=$adb->num_rows($count1);
