@@ -22,14 +22,10 @@ function vtws_getcalendarvisits($dealer){
         $getvisit="Select * ,vtiger_crmentity.smownerid as smowner
             from vtiger_task
             join vtiger_taskcf on vtiger_task.taskid=vtiger_taskcf.taskid            
-            join vtiger_account on vtiger_account.accountid=vtiger_task.linktoentity
-            join vtiger_cases on vtiger_cases.casesid=vtiger_task.casereltask
-            left join vtiger_contactdetails on vtiger_contactdetails.contactid=vtiger_task.dealercontactask
             join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_task.taskid 
-            join vtiger_crmentity c2 on c2.crmid=vtiger_cases.casesid
-            where vtiger_crmentity.deleted=0 and c2.deleted=0 and vtiger_task.linktoentity=? 
+            where vtiger_crmentity.deleted=0  
             order by vtiger_crmentity.createdtime Desc";
-        $result=$adb->pquery($getvisit,array($id));
+        $result=$adb->pquery($getvisit,array());
         $v=array();
         for($i=0;$i<$adb->num_rows($result);$i++){
             $visitname=$adb->query_result($result,$i,'taskname');
@@ -37,7 +33,7 @@ function vtws_getcalendarvisits($dealer){
             $lastname=$adb->query_result($result,$i,'lastname');
             $nome=$adb->query_result($result,$i,'nome');
             $casesid=$adb->query_result($result,$i,'casesid');
-            $cases_no=$adb->query_result($result,$i,'cases_no');
+            $cases_no=$adb->query_result($result,$i,'taskname');
             $casesname=$adb->query_result($result,$i,'casesname');
             $description=$adb->query_result($result,$i,'taskdescription');
             $visitid=$adb->query_result($result,$i,'taskid');
