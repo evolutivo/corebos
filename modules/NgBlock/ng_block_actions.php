@@ -248,9 +248,10 @@
 			$entityname=$entity_field[0];
 		    }
                     else {$entityname=$entity_field;}
-                    //$focus->column_fields["$entityname"]=$mv->$col[0].' - '.$mv->$col[1];
+                    if(empty($focus->column_fields["$entityname"]))
+                        $focus->column_fields["$entityname"]=$mv->$col[0].' - '.$mv->$col[1];
                     if(empty($focus->column_fields['assigned_user_id']))
-                    $focus->column_fields['assigned_user_id']=$current_user->id;
+                        $focus->column_fields['assigned_user_id']=$current_user->id;
                     
                     $focus->save("$pointing_module"); 
     

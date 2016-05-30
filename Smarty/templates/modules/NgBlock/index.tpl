@@ -234,7 +234,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select','ngMaterial'])
      if(confirm('Are you sure you want to delete?'))
      {
          var data_send =JSON.stringify(user);
-         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=delete&models='+data_send
+         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=delete&models='+encodeURIComponent(data_send)
         )
         .success(function(data, status) {
               $scope.tableParams.reload();
@@ -247,7 +247,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select','ngMaterial'])
      if(confirm('Are you sure you want to delete?'))
      {
          var data_send =JSON.stringify(user);
-         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=deletetab&models='+data_send
+         $http.post('index.php?module=NgBlock&action=NgBlockAjax&file=index&kaction=deletetab&models='+encodeURIComponent(data_send)
         )
         .success(function(data, status) {
               $scope.tableParamsTabs.reload();
