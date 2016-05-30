@@ -420,6 +420,7 @@ function getui10relatedrecords($id, $module, $relatedModule, $fields) {
         global $adb, $currentModule, $log, $current_user;
         $t=explode('x',$id);
         $id=$t[1];
+        if($module!='Home')
         require_once("modules/$module/$module.php");
         
         $get_pointing="Select pointing_field_name,type,columns,pointing_module_name"
@@ -436,17 +437,28 @@ function getui10relatedrecords($id, $module, $relatedModule, $fields) {
             $relatedModule=$adb->query_result($res_pointing,0,'pointing_module_name');
             require_once("modules/$relatedModule/$relatedModule.php");
             require_once("modules/$relatedModule/language/it_it.lang.php");
-            $foc_mod=  CRMEntity::getInstance($module);
-            $tab_mod=$foc_mod->table_name;
-            $index_mod=$foc_mod->table_index;
+            if($module!='Home')
+            {
+                $foc_mod=  CRMEntity::getInstance($module);
+                $tab_mod=$foc_mod->table_name;
+                $index_mod=$foc_mod->table_index;
+            }
             $foc_relmod=  CRMEntity::getInstance($relatedModule);
             $tab_relmod=$foc_relmod->table_name;
             $index_relmod=$foc_relmod->table_index;
-            $get_relmod_ui10="Select *"
-                . " from ".$tab_mod
-                . " join ".$tab_relmod." on ".$tab_mod.".".$index_mod."=".$tab_relmod.".$pointing_f"
-                . " join vtiger_crmentity on crmid=".$tab_relmod.".$index_relmod"
-                . " where deleted =0 and ".$index_mod."=?";
+            if($module!='Home'){
+                $get_relmod_ui10="Select *"
+                    . " from ".$tab_mod
+                    . " join ".$tab_relmod." on ".$tab_mod.".".$index_mod."=".$tab_relmod.".$pointing_f"
+                    . " join vtiger_crmentity on crmid=".$tab_relmod.".$index_relmod"
+                    . " where deleted =0 and ".$index_mod."=?";
+            }
+            else{
+                $get_relmod_ui10="Select *"
+                    . " from ".$tab_relmod.""
+                    . " join vtiger_crmentity on crmid=".$tab_relmod.".$index_relmod"
+                    . " where deleted =0 order by createdtime Desc limit 0,10  ";
+            }
             $result=$adb->pquery($get_relmod_ui10,array($id));
 
             $count=$adb->num_rows($result);
