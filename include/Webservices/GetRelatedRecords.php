@@ -452,14 +452,16 @@ function getui10relatedrecords($id, $module, $relatedModule, $fields) {
                     . " join ".$tab_relmod." on ".$tab_mod.".".$index_mod."=".$tab_relmod.".$pointing_f"
                     . " join vtiger_crmentity on crmid=".$tab_relmod.".$index_relmod"
                     . " where deleted =0 and ".$index_mod."=?";
+                $result=$adb->pquery($get_relmod_ui10,array($id));
             }
             else{
                 $get_relmod_ui10="Select *"
                     . " from ".$tab_relmod.""
                     . " join vtiger_crmentity on crmid=".$tab_relmod.".$index_relmod"
-                    . " where deleted =0 order by createdtime Desc limit 0,10  ";
+                    . " where deleted =0 order by modifiedtime Desc limit 0,20  ";
+                $result=$adb->pquery($get_relmod_ui10,array());
             }
-            $result=$adb->pquery($get_relmod_ui10,array($id));
+            
 
             $count=$adb->num_rows($result);
 
