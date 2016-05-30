@@ -1,7 +1,7 @@
 <?php
 global $log,$adb;
 $type = $_POST['type'];
-$cbmapid = $_POST['cbmapid'];
+$cbmapid = $_POST['mapID'];
 $SQLforMap = $adb->pquery("Select content,mapname,selected_fields from vtiger_cbmap where cbmapid = ?",array($cbmapid));
 $mapSql = str_replace('"','',html_entity_decode($adb->query_result($SQLforMap,0,"selected_fields"),ENT_QUOTES));
 //get fields from map SQL
