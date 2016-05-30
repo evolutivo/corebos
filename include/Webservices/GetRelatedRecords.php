@@ -472,15 +472,15 @@ function getui10relatedrecords($id, $module, $relatedModule, $fields) {
 
                       for($i=0;$i<$count;$i++){
                         $entityname_val='';
-                          if (is_array($entity_field)) {
-                              for($k=0;$k<sizeof($entity_field);$k++){
-                                $entityname_val.=' '.$adb->query_result($result,$i,$entity_field[$k]);
-                              }
-                          } 
-                          else{
-                              $entityname_val=$adb->query_result($result,$i,$entity_field);
-                          }
-
+//                          if (is_array($entity_field)) {
+//                              for($k=0;$k<sizeof($entity_field);$k++){
+//                                $entityname_val.=' '.$adb->query_result($result,$i,$entity_field[$k]);
+//                              }
+//                          } 
+//                          else{
+//                              $entityname_val=$adb->query_result($result,$i,$entity_field);
+//                          }
+                        $entityname_val=$adb->query_result($result,$i,"potential_no");
                           for($j=0;$j<sizeof($fields);$j++){
                             if($fields[$j]=='assigned_user_id')
                             {
