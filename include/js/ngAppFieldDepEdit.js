@@ -13,10 +13,10 @@ for(detail in blocks){
             var keyval=info[3][0];
             var keyfldname=info[2][0];
             var keyoptions=info[3][0];
-            if(keyid=='56' && keyval=='si'){
+            if(keyid=='56' && (keyval=='si' || keyval=='yes' || keyval==1) ) {
                 $scope[keyfldname]=true;
             }
-            else if(keyid=='56' && keyval=='no'){
+            else if(keyid=='56' && (keyval=='no'|| keyval==0)){
                 $scope[keyfldname]=false;
             }
             else if(keyid=='33'){

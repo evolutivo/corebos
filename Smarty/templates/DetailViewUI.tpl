@@ -288,29 +288,16 @@
                     <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     </div>
                     </td>
-						{elseif $keyid eq '99'}<!-- Password Field-->
-						<td width=25% class="dvtCellInfo" align="left">{$CHANGE_PW_BUTTON}</td>	
-					    {elseif $keyid eq '56'} <!--CheckBox--> 
-                      <td ng-show ="show_logic('{$keyfldname}') " width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onMouseOver="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;<span id="dtlview_{$label}">{$keyval}&nbsp;</span>
-                    	<div id="editarea_{$label}" style="display:none;">
-                    	{if $MODULE neq 'Documents'}
-                        	{if $keyval eq $APP.yes}
-                            	<input id="txtbox_{$label}" name="{$keyfldname}" type="checkbox" style="border:1px solid #bababa;" checked value="1">
-                        	{else}
-                          		<input id="txtbox_{$label}" type="checkbox" name="{$keyfldname}" style="border:1px solid #bababa;" value="0">
-                       		{/if}
-                       	{else}
-                         	{if $keyval eq $APP.yes}
-                            	<input id="txtbox_{$label}" name="{$keyfldname}" type="checkbox" style="border:1px solid #bababa;" checked value="0">
-                        	{else}
-                          		<input id="txtbox_{$label}" type="checkbox" name="{$keyfldname}" style="border:1px solid #bababa;" value="1">
-                       		{/if}
-                       	{/if}
-                         <br><input name="button_{$label}" type="button" class="crmbutton small save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');"/> {$APP.LBL_OR}
-                          <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
-                        </div>
-                        </td>
-			{elseif $keyid eq '156'} <!--CheckBox for is admin-->
+                    {elseif $keyid eq '99'}<!-- Password Field-->
+                    <td width=25% class="dvtCellInfo" align="left">{$CHANGE_PW_BUTTON}</td>	
+                    {elseif $keyid eq '56'} <!--CheckBox--> 
+                      <td ng-show ="show_logic('{$keyfldname}')" width=30% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
+                          &nbsp;
+                        <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
+                        <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-checkbox="{$keyfldname}" e-title="" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">{literal}{{{/literal}{$keyfldname}{literal} && 'Si' || 'No' }}{/literal}</a>
+
+                      </td>
+                    {elseif $keyid eq '156'} <!--CheckBox for is admin-->
 			{if $smarty.request.record neq $CURRENT_USERID && $keyadmin eq 1}
                       <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onMouseOver="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;<span id="dtlview_{$label}">{if $APP.$keyval!=''}{$APP.$keyval}{elseif $MOD.$keyval!=''}{$MOD.$keyval}{else}{$keyval}{/if}&nbsp;</span>
                     	<div id="editarea_{$label}" style="display:none;">

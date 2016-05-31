@@ -442,7 +442,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			{else}
 				{if $fldvalue eq 1}
 					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
-						<input name="{$fldname}" type="checkbox" tabindex="{$vt_tab}" checked>
+						<input name="{$fldname}" type="checkbox" tabindex="{$vt_tab}" ng-model="{$fldname}" checked>
 					</td>
 				{elseif $fldname eq 'filestatus'&& $MODE eq 'create'}
 					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
@@ -450,7 +450,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 					</td>
 				{else}
 					<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
-						<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox" {if $USER_MODE eq 'create'}checked{/if}>
+						<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox" ng-model="{$fldname}" {if $USER_MODE eq 'create'}checked{/if}>
 					</td>
 				{/if}
 			{/if}
