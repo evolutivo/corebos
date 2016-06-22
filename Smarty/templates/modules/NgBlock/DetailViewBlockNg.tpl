@@ -356,13 +356,19 @@ angular.module('demoApp')
       var array_date = [5,6,23];
       for(var i=0;i<$scope.col_json.length;i++){
           if(array_date.indexOf($scope.ui_json[i])!==-1){
-              $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.user[$scope.col_json[i]]);
+              $scope.user[$scope.col_json[i]+'_display2']=($scope.user[$scope.col_json[i]] != undefined ? new Date($scope.user[$scope.col_json[i]]) : new Date());
           }
           else if($scope.ui_json[i]=='53'){
               $scope.user[$scope.col_json[i]+'_display2']={'crmid':$scope.user[$scope.col_json[i]]};
           }
           else if($scope.ui_json[i]=='56'){
               $scope.user[$scope.col_json[i]]=($scope.user[$scope.col_json[i]]==1 ? true : false);
+          }
+          if($scope.col_json[i]=='time_start'){
+              $scope.user[$scope.col_json[i]]=moment($scope.user[$scope.col_json[i]]).format('HH:mm');
+          }
+          if($scope.col_json[i]=='time_end'){
+              $scope.user[$scope.col_json[i]]=moment($scope.user[$scope.col_json[i]]).add(1, 'hours').format('HH:mm');
           }
           if($scope.default_json[i]!=='' && type === 'create')
           {
