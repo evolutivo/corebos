@@ -55,11 +55,6 @@ function sensex_info()
                 );
         {rdelim}
 {rdelim}
-function AddressSync(Addform,id)
-{ldelim}
-	checkAddress(Addform,id);
-{rdelim}
-
 </script>
 
 		{include file='Buttons_List1.tpl'}	
@@ -137,13 +132,6 @@ function AddressSync(Addform,id)
 											<div align="center">
 												{if $MODULE eq 'Webmails'}
 													<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';this.form.module.value='Webmails';this.form.send_mail.value='true';this.form.record.value='{$ID}'" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
-                                                                                                {elseif $MODULE eq 'Accounts'}{if $MODE eq 'edit'}
-											<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save'; displaydeleted();  if(formValidate()) {ldelim} if(AjaxDuplicateValidate('Accounts','accountname',this.form)) {ldelim} AddressSync(this.form,{$ID}); {rdelim} {rdelim}"  type="button" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
-
-												{else}
-                                                                                        <input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';  if(formValidate())AjaxDuplicateValidate('Accounts','accountname',this.form);" type="button" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
-
-                                                                                                   {/if}
 												{else}
 													<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmButton small save" onclick="this.form.action.value='Save'; displaydeleted(); return formValidate() " type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
 												{/if}
@@ -191,8 +179,12 @@ function AddressSync(Addform,id)
 										{/if}
 										</tr>
 
-										<!-- Handle the ui types display -->
-										{include file="DisplayFields.tpl"}
+                                                                                {if $CUSTOMBLOCKS.$header.custom}
+                                                                                    {include file=$CUSTOMBLOCKS.$header.tpl}
+                                                                                {else}
+                                                                                    <!-- Handle the ui types display -->
+                                                                                    {include file="DisplayFields.tpl"}
+                                                                                {/if}
 
 									   {/foreach}
 
@@ -215,12 +207,6 @@ function AddressSync(Addform,id)
 										{/if}
 										{if $MODULE eq 'Webmails'}
 										<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';this.form.module.value='Webmails';this.form.send_mail.value='true';this.form.record.value='{$ID}'" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
-										{elseif $MODULE eq 'Accounts'}
-											{if $MODE eq 'edit'}
-												<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save'; displaydeleted();  if(formValidate()) {ldelim} if(AjaxDuplicateValidate('Accounts','accountname',this.form)) {ldelim} AddressSync(this.form,'{$ID}'); {rdelim} {rdelim}"  type="button" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
-											{else}
-												<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';  if(formValidate())AjaxDuplicateValidate('Accounts','accountname',this.form);" type="button" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
-											{/if}
 										{else}
 											<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';  displaydeleted();return formValidate()" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  " style="width:70px" >
 										{/if}
@@ -284,13 +270,10 @@ function AddressSync(Addform,id)
 	ScrollEffect.closelimit= 200;
 </script>
 {/if}
-<script>	
-
-        var fieldname = new Array({$VALIDATION_DATA_FIELDNAME})
-
-        var fieldlabel = new Array({$VALIDATION_DATA_FIELDLABEL})
-
-        var fielddatatype = new Array({$VALIDATION_DATA_FIELDDATATYPE})
+<script>
+	var fieldname = new Array({$VALIDATION_DATA_FIELDNAME});
+	var fieldlabel = new Array({$VALIDATION_DATA_FIELDLABEL});
+	var fielddatatype = new Array({$VALIDATION_DATA_FIELDDATATYPE});
 
 	var ProductImages=new Array();
 	var count=0;
@@ -311,7 +294,6 @@ function AddressSync(Addform,id)
 		if(imagelists != '')
 			document.EditView.imagelist.value=imagelists
 	{rdelim}
-
 </script>
 
 <!-- vtlib customization: Help information assocaited with the fields -->

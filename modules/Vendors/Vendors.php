@@ -150,12 +150,12 @@ class Vendors extends CRMEntity {
 			}
 		}
 
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode,
-					vtiger_products.commissionrate, vtiger_products.qty_per_unit, vtiger_products.unit_price,
+		$query = "SELECT vtiger_products.*,vtiger_productcf.*,
 					vtiger_crmentity.crmid, vtiger_crmentity.smownerid,vtiger_vendor.vendorname
 					FROM vtiger_products
 					INNER JOIN vtiger_vendor ON vtiger_vendor.vendorid = vtiger_products.vendor_id
 					INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
+					INNER JOIN vtiger_productcf ON vtiger_productcf.productid = vtiger_products.productid
 					LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid
 					LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 					WHERE vtiger_crmentity.deleted = 0 AND vtiger_vendor.vendorid = $id";
@@ -585,7 +585,7 @@ class Vendors extends CRMEntity {
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_TODO', $related_module) ."'>&nbsp;";
 				}
 				if(getFieldVisibilityPermission('Events',$current_user->id,'parent_id', 'readwrite') == '0') {
-					$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString('LBL_TODO', $related_module) ."' class='crmbutton small create'" .
+					$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString('LBL_EVENT', $related_module) ."' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EventEditView\";this.form.module.value=\"Calendar4You\";this.form.return_module.value=\"$this_module\";this.form.activity_mode.value=\"Events\";' type='submit' name='button'" .
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_EVENT', $related_module) ."'>";
 				}

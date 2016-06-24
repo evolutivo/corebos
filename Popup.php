@@ -295,16 +295,32 @@ else
 		$smarty->assign("recid_var_value",vtlib_purify($_REQUEST['task_relmod_id']));
 		$where_relquery.= getPopupCheckquery($currentModule, vtlib_purify($_REQUEST['task_parent_module']),  vtlib_purify($_REQUEST['task_relmod_id']));
 	}
-	if($currentModule == 'Products' && !$_REQUEST['record_id'] && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po'))
-		$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_products.productid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products'))";
-	elseif($currentModule == 'Products' && $_REQUEST['record_id'] && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po'))
+	if($currentModule == 'Products' && !$_REQUEST['record_id'] && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po')){
+		$showSubproducts = GlobalVariable::getVariable('Product_Show_Subproducts_Popup', 'no');
+		if($showSubproducts == 'yes'){
+			$where_relquery .=" and vtiger_products.discontinued <> 0";
+		}else{
+			$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_products.productid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products'))";
+		}
+	}elseif($currentModule == 'Products' && $_REQUEST['record_id'] && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po'))
 		$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_products.productid IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products' AND productid=".$adb->sql_escape_string($_REQUEST['record_id'])."))";
 	elseif($currentModule == 'Products' && $_REQUEST['return_module'] != 'Products')
 		$where_relquery .=" and vtiger_products.discontinued <> 0";
 
-	if(isset($_REQUEST['return_module']) && $_REQUEST['return_module'] == 'Products' && $currentModule == 'Products' && $_REQUEST['recordid'])
-		$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_crmentity.crmid NOT IN (".$adb->sql_escape_string($_REQUEST['recordid']).") AND vtiger_crmentity.crmid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE setype='Products') AND vtiger_crmentity.crmid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products' AND productid=".$adb->sql_escape_string($_REQUEST['recordid'])."))";
-
+	if(isset($_REQUEST['return_module']) && $_REQUEST['return_module'] == 'Products' && $currentModule == 'Products' && $_REQUEST['recordid']){
+		$parentLikeSubProduct = GlobalVariable::getVariable('Product_Permit_Relate_Bundle_Parent', 'no');
+		$SubProductBeParent = GlobalVariable::getVariable('Product_Permit_Subproduct_Be_Parent', 'no');
+		if($parentLikeSubProduct == 'yes' && $SubProductBeParent == 'no'){
+			$where_relquery .=" and vtiger_products.discontinued <> 0 AND vtiger_crmentity.crmid NOT IN (".$adb->sql_escape_string($_REQUEST['recordid']).")";
+		}elseif($parentLikeSubProduct == 'yes' && $SubProductBeParent == 'yes'){
+			$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_crmentity.crmid NOT IN (".$adb->sql_escape_string($_REQUEST['recordid']).") AND vtiger_crmentity.crmid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE setype='Products' AND crmid=".$adb->sql_escape_string($_REQUEST['recordid'])."))";
+		}else{
+			$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_crmentity.crmid NOT IN (".$adb->sql_escape_string($_REQUEST['recordid']).") AND vtiger_crmentity.crmid NOT IN (SELECT productid FROM vtiger_seproductsrel WHERE setype='Products') AND vtiger_crmentity.crmid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products' AND productid=".$adb->sql_escape_string($_REQUEST['recordid'])."))";
+		}
+	}
+		$smarty->assign("SHOW_SUBPRODUCTS", GlobalVariable::getVariable('Product_Show_Subproducts_Popup', 'no'));
+		$smarty->assign("PRODUCT_PARENT_LIKE_SUBPRODUCT", GlobalVariable::getVariable('Product_Permit_Relate_Bundle_Parent', 'no'));
+		$smarty->assign("SUBPRODUCT_BE_PARENT", GlobalVariable::getVariable('Product_Permit_Subproduct_Be_Parent', 'no'));
 	if($currentModule == 'Services' && $popuptype == 'inventory_service') {
 		$where_relquery .=" and vtiger_service.discontinued <> 0";
 	}
@@ -449,6 +465,15 @@ $smarty->assign("RECORD_STRING", $record_string);
 $smarty->assign("RECORD_COUNTS", $noofrows);
 $smarty->assign("POPUPTYPE", $popuptype);
 $smarty->assign("PARENT_MODULE", isset($_REQUEST['parent_module']) ? vtlib_purify($_REQUEST['parent_module']) : '');
+
+// Field Validation Information
+$tabid = getTabid($currentModule);
+$validationData = getDBValidationData($focus->tab_name,$tabid);
+$validationArray = split_validationdataArray($validationData);
+
+$smarty->assign("VALIDATION_DATA_FIELDNAME",$validationArray['fieldname']);
+$smarty->assign("VALIDATION_DATA_FIELDDATATYPE",$validationArray['datatype']);
+$smarty->assign("VALIDATION_DATA_FIELDLABEL",$validationArray['fieldlabel']);
 
 if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] != '')
 	$smarty->display("PopupContents.tpl");

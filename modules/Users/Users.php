@@ -291,8 +291,15 @@ class Users extends CRMEntity {
 				}
 				$crypt_type = $this->db->query_result($result, 0, 'crypt_type');
 				$encrypted_password = $this->encrypt_password($user_password, $crypt_type);
+				$maxFailedLoginAttempts = GlobalVariable::getVariable('Application_MaxFailedLoginAttempts', 5);
 				$query = "SELECT * from $this->table_name where user_name=? AND user_password=?";
-				$result = $this->db->requirePsSingleResult($query, array($usr_name, $encrypted_password), false);
+				$params = array($usr_name, $encrypted_password);
+				$cnuser=$this->db->getColumnNames($this->table_name);
+				if (in_array('failed_login_attempts', $cnuser)) {
+					$query.= ' AND COALESCE(failed_login_attempts,0)<?';
+					$params[] = $maxFailedLoginAttempts;
+				}
+				$result = $this->db->requirePsSingleResult($query, $params, false);
 				if (empty($result)) {
 					return false;
 				} else {
@@ -311,12 +318,13 @@ class Users extends CRMEntity {
 	 */
 	function load_user($user_password) {
 		$usr_name = $this->column_fields["user_name"];
+		$maxFailedLoginAttempts = GlobalVariable::getVariable('Application_MaxFailedLoginAttempts', 5);
 		if (isset($_SESSION['loginattempts'])) {
 			$_SESSION['loginattempts'] += 1;
 		} else {
 			$_SESSION['loginattempts'] = 1;
 		}
-		if ($_SESSION['loginattempts'] > 5) {
+		if ($_SESSION['loginattempts'] > $maxFailedLoginAttempts) {
 			$this->log->warn("SECURITY: " . $usr_name . " has attempted to login " . $_SESSION['loginattempts'] . " times.");
 		}
 		$this->log->debug("Starting user load for $usr_name");
@@ -417,7 +425,7 @@ class Users extends CRMEntity {
 			}
 			if ($this->db->hasFailedTransaction()) {
 				if ($dieOnError) {
-					die("error verifying old transaction[" . $this->db->database->ErrorNo() . "] " . $this->db->database->ErrorMsg());
+					die("error verifying old password[" . $this->db->database->ErrorNo() . "] " . $this->db->database->ErrorMsg());
 				}
 				return false;
 			}
@@ -429,9 +437,22 @@ class Users extends CRMEntity {
 		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 		$encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
 
-		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, " . "crypt_type=? where id=?";
+		// Set change password at next login to 0 if resetting your own password
+		if ($current_user->id == $this->id) {
+			$change_password_next_login = 0;
+		} else {
+			$change_password_next_login = 1;
+		}
+		$cnuser=$this->db->getColumnNames($this->table_name);
+		if (!in_array('change_password', $cnuser)) {
+			$this->db->query("ALTER TABLE `vtiger_users` ADD `change_password` boolean NOT NULL DEFAULT 0");
+		}
+		if (!in_array('last_password_reset_date', $cnuser)) {
+			$this->db->query("ALTER TABLE `vtiger_users` ADD `last_password_reset_date` date DEFAULT NULL");
+		}
+		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, crypt_type=?, change_password=?, last_password_reset_date=now(), failed_login_attempts=0 where id=?";
 		$this->db->startTransaction();
-		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password, $user_hash, $crypt_type, $this->id));
+		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password, $user_hash, $crypt_type, $change_password_next_login, $this->id));
 		if ($this->db->hasFailedTransaction()) {
 			if ($dieOnError) {
 				die("error setting new password: [" . $this->db->database->ErrorNo() . "] " . $this->db->database->ErrorMsg());
@@ -440,6 +461,15 @@ class Users extends CRMEntity {
 		}
 		$this->createAccessKey();
 		return true;
+	}
+
+	function mustChangePassword() {
+		$cnuser=$this->db->getColumnNames('vtiger_users');
+		if (!in_array('change_password', $cnuser)) {
+			$this->db->query("ALTER TABLE `vtiger_users` ADD `change_password` boolean NOT NULL DEFAULT 0");
+		}
+		$cprs = $this->db->pquery('select change_password from vtiger_users where id=?', array($this->id));
+		return $this->db->query_result($cprs, 0, 0);
 	}
 
 	function de_cryption($data) {
@@ -951,7 +981,8 @@ class Users extends CRMEntity {
 		if (!is_admin($current_user) and $current_user->id != $this->id) {// only admin users can change other users profile
 			return false;
 		}
-
+		$userrs = $adb->pquery('select roleid from vtiger_user2role where userid = ?', array($this->id));
+		$oldrole = $adb->query_result($userrs, 0, 0);
 		//Save entity being called with the modulename as parameter
 		$this->saveentity($module_name);
 
@@ -970,8 +1001,10 @@ class Users extends CRMEntity {
 			updateUser2RoleMapping($this->column_fields['roleid'], $this->id);
 		}
 		require_once ('modules/Users/CreateUserPrivilegeFile.php');
-		createUserPrivilegesfile($this->id);
-		createUserSharingPrivilegesfile($this->id);
+		//createUserPrivilegesfile($this->id); // done in saveentity above
+		if ($this->mode!='edit' or $oldrole != $this->column_fields['roleid']) {
+			createUserSharingPrivilegesfile($this->id);
+		}
 	}
 
 	/**
@@ -1138,7 +1171,6 @@ class Users extends CRMEntity {
 
 		$sql = "insert into vtiger_homedefault values(" . $s14 . ",'LTFAQ',5,'Faq')";
 		$adb->pquery($sql, array());
-
 	}
 
 	/** function to save the order in which the modules have to be displayed in the home page for the specified user id
@@ -1165,7 +1197,6 @@ class Users extends CRMEntity {
 				$homeorder = implode(',', $save_array);
 		} else {
 			$this->insertUserdetails('postinstall');
-
 		}
 		$log->debug("Exiting from function saveHomeOrder($id)");
 	}

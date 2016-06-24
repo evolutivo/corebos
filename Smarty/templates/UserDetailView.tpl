@@ -6,7 +6,6 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
  ********************************************************************************/
 -->*}
 <script language="JavaScript" type="text/javascript" src="include/js/menu.js"></script>
@@ -53,6 +52,7 @@
 							{if $CATEGORY eq 'Settings'}
 							<input type="hidden" name="parenttab" value="{$PARENTTAB}" style="margin:0px">
 							{/if}
+							{include file='applicationmessage.tpl'}
 							<table width="100%" border="0" cellpadding="0" cellspacing="0" >
 							<tr>
 								<td colspan=2>
@@ -82,8 +82,9 @@
 							<tr><td colspan="2">&nbsp;</td></tr>
 							<tr>
 								<td colspan="2" nowrap align="right">
-									{if $IS_ADMIN eq 'true'}
+									{if $IS_ADMIN eq 'true' && !$mustChangePassword}
 									<input type="button" onclick="showAuditTrail();" value="{$MOD.LBL_VIEW_AUDIT_TRAIL}" class="crmButton small save"></input>
+									<input type="button" onclick="VtigerJS_DialogBox.block();window.document.location.href = 'index.php?module=Users&action=UsersAjax&file=CalculatePrivilegeFiles&record={$ID}';" value="{$MOD.LBL_RECALCULATE_BUTTON}" class="crmButton small cancel"></input>
 									{/if}
 									{if $CATEGORY eq 'Settings'}
 														{$DUPLICATE_BUTTON}

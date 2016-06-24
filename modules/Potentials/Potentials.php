@@ -258,12 +258,12 @@ class Potentials extends CRMEntity {
 		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
 							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = 'select case when (vtiger_users.user_name not like "") then '.$userNameSql.' else vtiger_groups.groupname end as user_name,
-					vtiger_contactdetails.accountid,vtiger_potential.potentialid, vtiger_potential.potentialname, vtiger_contactdetails.contactid,
-					vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_contactdetails.title, vtiger_contactdetails.department,
-					vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
+					vtiger_contactdetails.*,vtiger_potential.potentialid, vtiger_potential.potentialname,
+					vtiger_contactscf.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid,
 					vtiger_crmentity.modifiedtime , vtiger_account.accountname from vtiger_potential
 					inner join vtiger_contpotentialrel on vtiger_contpotentialrel.potentialid = vtiger_potential.potentialid
 					inner join vtiger_contactdetails on vtiger_contpotentialrel.contactid = vtiger_contactdetails.contactid
+					inner join vtiger_contactscf on vtiger_contactscf.contactid = vtiger_contactdetails.contactid
 					inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_contactdetails.contactid
 					left join vtiger_account on vtiger_account.accountid = vtiger_contactdetails.accountid
 					left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
@@ -314,7 +314,7 @@ class Potentials extends CRMEntity {
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_TODO', $related_module) ."'>&nbsp;";
 				}
 				if(getFieldVisibilityPermission('Events',$current_user->id,'parent_id', 'readwrite') == '0') {
-					$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString('LBL_TODO', $related_module) ."' class='crmbutton small create'" .
+					$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString('LBL_EVENT', $related_module) ."' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EventEditView\";this.form.module.value=\"Calendar4You\";this.form.return_module.value=\"$this_module\";this.form.activity_mode.value=\"Events\";' type='submit' name='button'" .
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_EVENT', $related_module) ."'>";
 				}
@@ -385,12 +385,12 @@ class Potentials extends CRMEntity {
 			}
 		}
 
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname, vtiger_products.productcode,
-				vtiger_products.commissionrate, vtiger_products.qty_per_unit, vtiger_products.unit_price,
+		$query = "SELECT vtiger_products.*,vtiger_productcf.*,
 				vtiger_crmentity.crmid, vtiger_crmentity.smownerid
 				FROM vtiger_products
 				INNER JOIN vtiger_seproductsrel ON vtiger_products.productid = vtiger_seproductsrel.productid and vtiger_seproductsrel.setype = 'Potentials'
 				INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
+				INNER JOIN vtiger_productcf ON vtiger_productcf.productid = vtiger_products.productid
 				INNER JOIN vtiger_potential ON vtiger_potential.potentialid = vtiger_seproductsrel.crmid
 				LEFT JOIN vtiger_users
 					ON vtiger_users.id=vtiger_crmentity.smownerid
