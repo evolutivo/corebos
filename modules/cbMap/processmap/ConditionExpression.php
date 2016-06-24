@@ -34,6 +34,17 @@
   <expression>if employee > 10 then true else false</expression>
  </map>
 
+ <map>
+  <function>
+	<name>isPermitted</name>
+	<parameters>
+		<parameter>Accounts</parameter>
+		<parameter>CreateView</parameter>
+		<parameter>record_id</parameter>
+	</parameters>
+  </function>
+ </map>
+
  *************************************************************************************************/
 
 require_once('modules/com_vtiger_workflow/include.inc');
@@ -51,12 +62,31 @@ class ConditionExpression extends processcbMap {
 		global $adb, $current_user;
 		$xml = $this->getXMLContent();
 		$entityId = $arguments[0];
+		$holduser = $current_user;
+		$current_user = Users::getActiveAdminUser(); // evaluate condition as admin user
 		$entity = new VTWorkflowEntity($current_user, $entityId);
-		$testexpression = (String)$xml->expression;
-		$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($testexpression)));
-		$expression = $parser->expression();
-		$exprEvaluater = new VTFieldExpressionEvaluater($expression);
-		$exprEvaluation = $exprEvaluater->evaluate($entity);
+		$current_user = $holduser;
+		if (isset($xml->expression)) {
+			$testexpression = (String)$xml->expression;
+			$parser = new VTExpressionParser(new VTExpressionSpaceFilter(new VTExpressionTokenizer($testexpression)));
+			$expression = $parser->expression();
+			$exprEvaluater = new VTFieldExpressionEvaluater($expression);
+			$exprEvaluation = $exprEvaluater->evaluate($entity);
+		} elseif (isset($xml->function)) {
+			list($void,$entity->data['record_id']) = explode('x', $entity->data['id']);
+			$entity->data['record_module'] = $entity->getModuleName();
+			$function = (String)$xml->function->name;
+			$testexpression = '$exprEvaluation = ' . $function . '(';
+			foreach($xml->function->parameters->parameter as $k=>$v) {
+				if (isset($entity->data[(String)$v])) {
+					$testexpression.= "'" . $entity->data[(String)$v] . "',";
+				} else {
+					$testexpression.= "'" . (String)$v . "',";
+				}
+			}
+			$testexpression = trim($testexpression,',') . ');';
+			eval($testexpression);
+		}
 		return $exprEvaluation;
 	}
 }

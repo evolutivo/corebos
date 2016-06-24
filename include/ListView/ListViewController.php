@@ -263,8 +263,22 @@ class ListViewController {
 					$value = $rawValue;
 				}
 
-				if($module == 'Documents' && $fieldName == 'filename') {
-					$downloadtype = $db->query_result($result,$i,'filelocationtype');
+				if(($module == 'Documents' && $fieldName == 'filename') or $fieldName == 'Documents.filename') {
+					if ($fieldName == 'Documents.filename') {
+						$docrs = $db->pquery('select filename,filelocationtype,filestatus,notesid from vtiger_notes where note_no=?',array($db->query_result($result,$i,'documentsnote_no')));
+						$downloadtype = $db->query_result($docrs,0,'filelocationtype');
+						$fileName = $db->query_result($docrs,0,'filename');
+						$status = $db->query_result($docrs,0,'filestatus');
+						$docid = $db->query_result($docrs,0,'notesid');
+					} else {
+						$docid = $recordId;
+						$downloadtype = $db->query_result($result,$i,'filelocationtype');
+						$fileName = $db->query_result($result,$i,'filename');
+						$status = $db->query_result($result,$i,'filestatus');
+					}
+					$fileIdQuery = "select attachmentsid from vtiger_seattachmentsrel where crmid=?";
+					$fileIdRes = $db->pquery($fileIdQuery,array($docid));
+					$fileId = $db->query_result($fileIdRes,0,'attachmentsid');
 					if($downloadtype == 'I') {
 						$ext =substr($value, strrpos($value, ".") + 1);
 						$ext = strtolower($ext);
@@ -300,24 +314,16 @@ class ListViewController {
 						$value = ' --';
 						$fileicon = '';
 					}
-
-					$fileName = $db->query_result($result,$i,'filename');
-
-					$downloadType = $db->query_result($result,$i,'filelocationtype');
-					$status = $db->query_result($result,$i,'filestatus');
-					$fileIdQuery = "select attachmentsid from vtiger_seattachmentsrel where crmid=?";
-					$fileIdRes = $db->pquery($fileIdQuery,array($recordId));
-					$fileId = $db->query_result($fileIdRes,0,'attachmentsid');
 					if($fileName != '' && $status == 1) {
-						if($downloadType == 'I' ) {
+						if($downloadtype == 'I' ) {
 							$value = "<a href='index.php?module=uploads&action=downloadfile&".
-									"entityid=$recordId&fileid=$fileId' title='".
+									"entityid=$docid&fileid=$fileId' title='".
 									getTranslatedString("LBL_DOWNLOAD_FILE",$module).
-									"' onclick='javascript:dldCntIncrease($recordId);'>".textlength_check($value).
+									"' onclick='javascript:dldCntIncrease($docid);'>".textlength_check($value).
 									"</a>";
-						} elseif($downloadType == 'E') {
+						} elseif($downloadtype == 'E') {
 							$value = "<a target='_blank' href='$fileName' onclick='javascript:".
-									"dldCntIncrease($recordId);' title='".
+									"dldCntIncrease($docid);' title='".
 									getTranslatedString("LBL_DOWNLOAD_FILE",$module)."'>".textlength_check($value).
 									"</a>";
 						} else {
@@ -603,18 +609,22 @@ class ListViewController {
 					$parenttab = getParentTab();
 					$nameFields = $this->queryGenerator->getModuleNameFields($module);
 					$nameFieldList = explode(',',$nameFields);
-					if(in_array($fieldName, $nameFieldList) && $module != 'Emails' ) {
-						$value = "<a href='index.php?module=$module&parenttab=$parenttab&action=DetailView&record=".
-						"$recordId' title='".getTranslatedString($module, $module)."'>$value</a>";
-					} elseif($fieldName == $focus->list_link_field && $module != 'Emails') {
-						$value = "<a href='index.php?module=$module&parenttab=$parenttab&action=DetailView&record=".
-						"$recordId' title='".getTranslatedString($module, $module)."'>$value</a>";
+					if(($fieldName == $focus->list_link_field or in_array($fieldName, $nameFieldList)) && $module != 'Emails' ) {
+						$opennewtab = GlobalVariable::getVariable('Application_OpenRecordInNewXOnListView', '', $module);
+						if ($opennewtab=='') {
+							$value = "<a href='index.php?module=$module&parenttab=$parenttab&action=DetailView&record=".
+								"$recordId' title='".getTranslatedString($module, $module)."'>$value</a>";
+						} elseif ($opennewtab=='window') {
+							$value = "<a href='#' onclick='window.open(\"index.php?module=$module&parenttab=$parenttab&action=DetailView&record=".
+								"$recordId\", \"$module-$entity_id\", \"width=1300, height=900, scrollbars=yes\"); return false;' title='".getTranslatedString($module, $module)."'>$value</a>";
+						} else {
+							$value = "<a href='index.php?module=$module&parenttab=$parenttab&action=DetailView&record=".
+								"$recordId' title='".getTranslatedString($module, $module)."' target='_blank'>$value</a>";
+						}
 					}
-	
 					// vtlib customization: For listview javascript triggers
 					$value = "$value <span type='vtlib_metainfo' vtrecordid='{$recordId}' vtfieldname=".
 						"'{$fieldName}' vtmodule='$module' style='display:none;'></span>";
-					// END
 				}
 				$row[] = $value;
 			}
@@ -627,11 +637,9 @@ class ListViewController {
 				$edit_link = $this->getListViewEditLink($module,$recordId);
 				if(isset($navigationInfo['start']) && $navigationInfo['start'] > 1 && $module != 'Emails') {
 					$actionLinkInfo .= "<a href=\"$edit_link&start=".
-						$navigationInfo['start']."\">".getTranslatedString("LNK_EDIT",
-								$module)."</a> ";
+						$navigationInfo['start']."\">".getTranslatedString("LNK_EDIT",$module)."</a> ";
 				} else {
-					$actionLinkInfo .= "<a href=\"$edit_link\">".getTranslatedString("LNK_EDIT",
-								$module)."</a> ";
+					$actionLinkInfo .= "<a href=\"$edit_link\">".getTranslatedString("LNK_EDIT",$module)."</a> ";
 				}
 				}
 			}
@@ -791,7 +799,7 @@ class ListViewController {
 				}
 				$arrow = '';
 			} else {
-				$name = getTranslatedString($field->getFieldLabelKey(), $module);
+				$name = getTranslatedString($field->getFieldLabelKey(), getTabModuleName($field->getTabId()));
 			}
 			//added to display vtiger_currency symbol in related listview header
 			if($name =='Amount') {

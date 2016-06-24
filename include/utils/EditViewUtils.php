@@ -1106,7 +1106,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	//end of rdhital/Raju
 	elseif($uitype == 68)
 	{
-		if(isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '')
+		if(empty($value) && isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '')
 			$value = vtlib_purify($_REQUEST['parent_id']);
 
 		if($value != '')
@@ -2055,7 +2055,7 @@ function getBlockInformation($module, $result, $col_fields,$tabid,$block_label,$
 		$generatedtype = $adb->query_result($result,$i,"generatedtype");
 		$typeofdata = $adb->query_result($result,$i,"typeofdata");
 		$defaultvalue = $adb->query_result($result,$i,"defaultvalue");
-		if($mode == '' && empty($col_fields[$fieldname]) && !$isduplicate) {
+		if(($mode == '' or $mode == 'create') && empty($col_fields[$fieldname]) && !$isduplicate) {
 			$col_fields[$fieldname] = $defaultvalue;
 		}
 		$custfld = getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields,$generatedtype,$module,$mode,$typeofdata);
@@ -2097,6 +2097,8 @@ function getBlockInformation($module, $result, $col_fields,$tabid,$block_label,$
 				if(is_array($editview_arr[$blockid]))
 					$returndata[getTranslatedString($curBlock,$module)]=array_merge((array)$returndata[getTranslatedString($curBlock,$module)],(array)$editview_arr[$blockid]);
 			}
+		} elseif (file_exists("Smarty/templates/modules/$module/{$label}_edit.tpl")) {
+			$returndata[getTranslatedString($label,$module)]=array_merge((array)$returndata[getTranslatedString($label,$module)],array($label=>array()));
 		}
 	}
 	$log->debug("Exiting getBlockInformation method ...");

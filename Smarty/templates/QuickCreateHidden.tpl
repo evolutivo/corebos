@@ -8,29 +8,21 @@
  * All Rights Reserved.
  ********************************************************************************/
 -->*}
+
+<form name="QcEditView" onSubmit="return getFormValidate();" method="POST" action="index.php" ENCTYPE="multipart/form-data">
+
 {if $FROM eq 'popup'}
-	{literal}
-	<form name="QcEditView" onSubmit="if(getFormValidate('qcformpop')) { VtigerJS_DialogBox.block(); return true;} else { return false; }" method="POST" action="index.php">
-	{/literal}
 	<input type="hidden" name="from"   value="{$FROM}">
 	<input type="hidden" name="return_action" value="Popup">
 	<input type="hidden" name="return_module" value="{$MODULE}">
 	<input type="hidden" name="search_url" value="{$URLPOPUP}">
-{elseif $MODULE eq 'HelpDesk'}
-	{literal}
-	<form name="QcEditView" onSubmit="if(getFormValidate('qcform')) { VtigerJS_DialogBox.block(); return true;} else { return false; }" method="POST" action="index.php"  ENCTYPE="multipart/form-data">
-	{/literal}
-{else}
-	{literal}
-	<form name="QcEditView" onSubmit="if(getFormValidate('qcform')) { VtigerJS_DialogBox.block(); return true;} else { return false; }" method="POST" action="index.php">
-	{/literal}
 {/if}
 
-{if $MODULE eq 'Calendar'}
+{if $MODULE eq 'Calendar' || $MODULE eq 'Events'}
 	<input type="hidden" name="activity_mode" value="{$ACTIVITY_MODE}">
-{elseif $MODULE eq 'Events'}
-        <input type="hidden" name="activity_mode" value="{$ACTIVITY_MODE}">
+	<input type="hidden" name="module" value="Calendar4You">
+{else}
+	<input type="hidden" name="module" value="{$MODULE}">
 {/if}
 	<input type="hidden" name="record" value="">
 	<input type="hidden" name="action" value="Save">
-	<input type="hidden" name="module" value="{$MODULE}">

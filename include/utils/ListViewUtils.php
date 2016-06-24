@@ -147,7 +147,7 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 			}
 		}
 		if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0 || in_array($fieldname, $field) || $fieldname == '' || ($name == 'Close' && $module == 'Calendar')) {
-			if (isset($focus->sortby_fields) && $focus->sortby_fields != '') {
+			if (isset($focus->sortby_fields) && $focus->sortby_fields != '' && $name != 'Close') {
 				//Added on 14-12-2005 to avoid if and else check for every list field for arrow image and change order
 				$change_sorder = array('ASC' => 'DESC', 'DESC' => 'ASC');
 				$arrow_gif = array('ASC' => 'arrow_down.gif', 'DESC' => 'arrow_up.gif');
@@ -203,10 +203,10 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 				$name .=' (' . $app_strings['LBL_IN'] . ' ' . $user_info['currency_symbol'] . ')';
 			}
 
-			if ($module == "Calendar" && $name == $app_strings['Close']) {
+			if ($module == "Calendar" && $name == 'Close') {
 				if (isPermitted("Calendar", "EditView") == 'yes') {
 					if ((getFieldVisibilityPermission('Events', $current_user->id, 'eventstatus') == '0') || (getFieldVisibilityPermission('Calendar', $current_user->id, 'taskstatus') == '0')) {
-						array_push($list_header, $name);
+						array_push($list_header, $app_strings[$name]);
 					}
 				}
 			} else {
@@ -894,7 +894,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 					}
 					// END
 
-					if ($module == "Calendar" && $name == $app_strings['Close']) {
+					if ($module == "Calendar" && $name == 'Close') {
 						if (isPermitted("Calendar", "EditView") == 'yes') {
 							if ((getFieldVisibilityPermission('Events', $current_user->id, 'eventstatus') == '0') || (getFieldVisibilityPermission('Calendar', $current_user->id, 'taskstatus') == '0')) {
 								array_push($list_header, $value);
@@ -1165,8 +1165,8 @@ function getSearchListViewEntries($focus, $module, $list_result, $navigation_arr
 				$slashes_desc = htmlspecialchars($description, ENT_QUOTES, $default_charset);
 
 				$sub_products_link = '<a href="index.php?module=Products&action=Popup&html=Popup_picker&return_module=' . vtlib_purify($_REQUEST['return_module']) . '&record_id=' . vtlib_purify($entity_id) . '&form=HelpDeskEditView&select=enable&popuptype=' . $focus->popup_type . '&curr_row=' . vtlib_purify($row_id) . '&currencyid=' . vtlib_purify($_REQUEST['currencyid']) . '" > '.getTranslatedString('Sub Products').'</a>';
-
-				if (!isset($_REQUEST['record_id'])) {
+				$SubProductBeParent = GlobalVariable::getVariable('Product_Permit_Subproduct_Be_Parent', 'no');
+				if (!isset($_REQUEST['record_id']) || $SubProductBeParent == 'yes') {
 					$sub_products_query = $adb->pquery("SELECT * from vtiger_seproductsrel WHERE productid=? AND setype='Products'", array($entity_id));
 					if ($adb->num_rows($sub_products_query) > 0)
 						$list_header[] = $sub_products_link;
@@ -1711,10 +1711,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 
 					$slashes_temp_val = popup_from_html($temp_val);
 					$slashes_temp_val = htmlspecialchars($slashes_temp_val, ENT_QUOTES, $default_charset);
+					$count = counterValue();
 
 					//Added to avoid the error when select SO from Invoice through AjaxEdit
 					if ($module == 'SalesOrder') {
-						$count = counterValue();
 						$value = '<a href="javascript:window.close();" onclick=\'set_return_specific("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '","' . $_REQUEST['form'] . '");\' id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 					} elseif ($module == 'Contacts') {
 						require_once('modules/Contacts/Contacts.php');
@@ -1735,17 +1735,17 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						$form = !empty($_REQUEST['form']) ? $_REQUEST['form'] : '';
 						if (!empty($form))
 							$form = htmlspecialchars($form, ENT_QUOTES, $default_charset);
-						$count = counterValue();
-						$value = '<a href="javascript:void(0);" onclick=\'set_return_address("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingstreet']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherstreet']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingcity']) . '", "' . popup_decode_html($cntct_focus->column_fields['othercity']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingstate']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherstate']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingzip']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherzip']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingcountry']) . '", "' . popup_decode_html($cntct_focus->column_fields['othercountry']) . '","' . popup_decode_html($cntct_focus->column_fields['mailingpobox']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherpobox']) . '","' . $form . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
-					}
-
-					else
-					if ($popuptype == 'toDospecific') {
-						$count = counterValue();
-						$value = '<a href="javascript:window.close();" onclick=\'set_return_toDospecific("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						if ($popuptype == 'toDospecific') {
+							$value = '<a href="javascript:window.close();" onclick=\'set_return_toDospecific("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						} else {
+							$value = '<a href="javascript:void(0);" onclick=\'set_return_address("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingstreet']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherstreet']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingcity']) . '", "' . popup_decode_html($cntct_focus->column_fields['othercity']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingstate']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherstate']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingzip']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherzip']) . '", "' . popup_decode_html($cntct_focus->column_fields['mailingcountry']) . '", "' . popup_decode_html($cntct_focus->column_fields['othercountry']) . '","' . popup_decode_html($cntct_focus->column_fields['mailingpobox']) . '", "' . popup_decode_html($cntct_focus->column_fields['otherpobox']) . '","' . $form . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						}
 					} else {
-						$count = counterValue();
-						$value = '<a href="javascript:window.close();" onclick=\'set_return_specific("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						if ($popuptype == 'toDospecific') {
+							$value = '<a href="javascript:window.close();" onclick=\'set_return_toDospecific("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						} else {
+							$value = '<a href="javascript:window.close();" onclick=\'set_return_specific("' . $entity_id . '", "' . nl2br(decode_html($slashes_temp_val)) . '");\'id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						}
 					}
 				} elseif ($popuptype == "detailview") {
 					if ($colname == "lastname" && ($module == 'Contacts' || $module == 'Leads')) {
@@ -2237,17 +2237,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						$count = counterValue();
 						$value = '<a href="index.php?action=EventDetailView&module=Calendar4You&record=' . $entity_id . '&activity_mode=Events&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 					}
-				} elseif ($module == "Vendors") {
-					$count = counterValue();
-
-					$value = '<a href="index.php?action=DetailView&module=Vendors&record=' . $entity_id . '&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
-				} elseif ($module == "PriceBooks") {
-					$count = counterValue();
-					$value = '<a href="index.php?action=DetailView&module=PriceBooks&record=' . $entity_id . '&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
-				} elseif ($module == "SalesOrder") {
-
-					$count = counterValue();
-					$value = '<a href="index.php?action=DetailView&module=SalesOrder&record=' . $entity_id . '&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 				} elseif ($module == 'Emails') {
 					$value = $temp_val;
 				} elseif (($module == "Users" && $colname == "last_name")) {
@@ -2255,7 +2244,14 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					$value = '<a href="index.php?action=DetailView&module=' . $module . '&record=' . $entity_id . '&parenttab=' . $tabname . '">' . textlength_check($temp_val) . '</a>';
 				} else {
 					$count = counterValue();
-					$value = '<a href="index.php?action=DetailView&module=' . $module . '&record=' . $entity_id . '&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+					$opennewtab = GlobalVariable::getVariable('Application_OpenRecordInNewXOnRelatedList', '', $module);
+					if ($opennewtab=='') {
+						$value = '<a href="index.php?action=DetailView&module=' . $module . '&record=' . $entity_id . '&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+					} elseif ($opennewtab=='window') {
+						$value = '<a href="#" onclick="window.open(\'index.php?action=DetailView&module=' . $module . '&record=' . $entity_id . '&parenttab=' . $tabname . "', '$module-$entity_id', 'width=1300, height=900, scrollbars=yes'); return false;" . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+					} else {
+						$value = '<a href="index.php?action=DetailView&module=' . $module . '&record=' . $entity_id . '&parenttab=' . $tabname . '" id = ' . $count . ' target="_blank" >' . textlength_check($temp_val) . '</a>';
+					}
 				}
 			}
 		} elseif ($module == 'Calendar' && ($fieldname == 'time_start' ||

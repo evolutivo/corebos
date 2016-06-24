@@ -212,14 +212,59 @@ function emptyCheck(fldName,fldLabel, fldType) {
 	}
 }
 
+function patternValidateObject(fldObject,fldLabel,type) {
+	if (type.toUpperCase()=="EMAIL") //Email ID validation
+	{
+		var re=new RegExp(/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i);
+	}
 
+	if (type.toUpperCase()=="DATE") {//DATE validation
+		//YMD
+		//var reg1 = /^\d{2}(\-|\/|\.)\d{1,2}\1\d{1,2}$/ //2 digit year
+		//var re = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/ //4 digit year
+
+		//MYD
+		//var reg1 = /^\d{1,2}(\-|\/|\.)\d{2}\1\d{1,2}$/
+		//var reg2 = /^\d{1,2}(\-|\/|\.)\d{4}\1\d{1,2}$/
+
+		//DMY
+		//var reg1 = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{2}$/
+		//var reg2 = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/
+
+		switch (userDateFormat) {
+			case "yyyy-mm-dd" :
+				var re = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/
+				break;
+			case "mm-dd-yyyy" :
+			case "dd-mm-yyyy" :
+				var re = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/
+		}
+	}
+
+	if (type.toUpperCase()=="TIME") {//TIME validation
+		var re = /^\d{1,2}\:\d{2}:\d{2}$|^\d{1,2}\:\d{2}$/
+	}
+	//Asha: Remove spaces on either side of a Email id before validating
+	if (type.toUpperCase()=="EMAIL" || type.toUpperCase() == "DATE") fldObject.value = trim(fldObject.value);
+	if (!re.test(fldObject.value)) {
+		alert(alert_arr.ENTER_VALID + fldLabel  + " ("+type+")");
+		try {
+			fldObject.focus()
+		} catch(error) {
+		// Fix for IE: If element or its wrapper around it is hidden, setting focus will fail
+		// So using the try { } catch(error) { }
+		}
+		return false
+	}
+	else return true
+}
 
 function patternValidate(fldName,fldLabel,type) {
 	var currObj=getObj(fldName);
 
 	if (type.toUpperCase()=="EMAIL") //Email ID validation
 	{
- 	    var re=new RegExp(/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i);
+		var re=new RegExp(/^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i);
 	}
 
 	if (type.toUpperCase()=="DATE") {//DATE validation
@@ -602,6 +647,40 @@ function timeValidate(fldName,fldLabel,type) {
 	} else return true
 }
 
+function timeValidateObject(fldObject,fldLabel,type) {
+	if (patternValidateObject(fldObject,fldLabel,"TIME")==false)
+		return false
+
+	var timeval=fldObject.value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")));
+	var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length));
+	var secval=parseInt(timeval.substring(timeval.indexOf(":")+4,timeval.length));
+
+	if (hourval>23 || minval>59 || secval>59) {
+		alert(alert_arr.ENTER_VALID+fldLabel);
+		try {
+			fldObject.focus();
+		} catch(error) { }
+		return false
+	}
+
+	var currtime=new Date();
+	var chktime=new Date();
+
+	chktime.setHours(hourval);
+	chktime.setMinutes(minval);
+	chktime.setSeconds(secval);
+
+	if (type!="OTH") {
+		if (!compareDates(chktime,fldLabel,currtime,"current time",type)) {
+			try {
+				fldObject.focus();
+			} catch(error) { }
+			return false
+		} else return true;
+	} else return true
+}
+
 function timeComparison(fldName1,fldLabel1,fldName2,fldLabel2,type) {
 	var timeval1=getObj(fldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
 	var timeval2=getObj(fldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
@@ -918,11 +997,88 @@ function displayFileSize(form_ele) {
 }
 
 function formValidate(){
-	return doformValidation('');
+	return doModuleValidation('');
 }
 
 function massEditFormValidate(){
-	return doformValidation('mass_edit');
+	return doModuleValidation('mass_edit');
+}
+
+function doModuleValidation(edit_type,editForm,callback) {
+	if (editForm == undefined) {
+		var formName = 'EditView';
+	} else {
+		var formName = editForm;
+	}
+	if((formName == 'QcEditView' && QCformValidate()) || (doformValidation(edit_type))) { //base function which validates form data
+		if (edit_type=='mass_edit') {
+			var action = 'MassEditSave';
+		} else {
+			var action = 'Save';
+		}
+		//Testing if a Validation file exists
+		jQuery.ajax({
+			url: "index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=ValidationExists&valmodule="+gVTModule,
+			type:'get',
+			error: function() { //Validation file does not exist
+				if (typeof callback == 'function') {
+					callback('submit');
+				} else {
+					submitFormForAction(formName, action);
+				}
+			},
+			success: function(data) { //Validation file exists
+				if (data == 'yes') {
+					// Create object which gets the values of all input, textarea, select and button elements from the form
+					var myFields = document.forms[formName].elements;
+					var sentForm = new Object();
+					for (f=0; f<myFields.length; f++){
+						sentForm[myFields[f].name] = myFields[f].value;
+					}
+					//JSONize form data
+					sentForm = JSON.stringify(sentForm);
+					jQuery.ajax({
+						type : 'post',
+						data : {structure: sentForm},
+						url : "index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=ValidationLoad&valmodule="+gVTModule,
+						success : function(msg) {  //Validation file answers
+							VtigerJS_DialogBox.unblock();
+							if (msg.search("%%%CONFIRM%%%") > -1) { //Allow to use confirm alert
+								//message to display
+								var display = msg.split("%%%CONFIRM%%%");
+								if(confirm(display[1])) { //If you click on OK
+									if (typeof callback == 'function') {
+										callback('submit');
+									} else {
+										submitFormForAction(formName, action);
+									}
+								}
+							} else if (msg.search("%%%OK%%%") > -1) { //No error
+								if (typeof callback == 'function') {
+									callback('submit');
+								} else {
+									submitFormForAction(formName, action);
+								}
+							} else { //Error
+								alert(msg);
+							}
+						},
+						error : function() {  //Error while asking file
+							VtigerJS_DialogBox.unblock();
+							alert('Error with AJAX');
+						}
+					});
+				} else { // no validation we send form
+					if (typeof callback == 'function') {
+						callback('submit');
+					} else {
+						submitFormForAction(formName, action);
+					}
+				}
+			}
+		});
+	}
+	return false;
 }
 
 function doformValidation(edit_type) {
@@ -2257,7 +2413,6 @@ function AjaxDuplicateValidate(module,fieldname,oform)
 check->to check select options enable or disable
 *type->to differentiate from task
 *frmName->form name*/
-
 function selectContact(check,type,frmName)
 {
 	var record = document.getElementsByName("record")[0].value;
@@ -2320,6 +2475,7 @@ function selectContact(check,type,frmName)
 	{
 		var formName = frmName.name;
 		var task_recordid = '';
+		var popuptype = '';
 		if(formName == 'EditView')
 		{
 			if($("parent_type"))
@@ -2346,7 +2502,7 @@ function selectContact(check,type,frmName)
 		}
 		else
 		{
-			if(task_recordid != '')
+			if(popuptype != '')
 				window.open("index.php?module=Contacts&action=Popup&html=Popup_picker"+popuptype+"&form="+formName+"&task_relmod_id="+task_recordid+"&task_parent_module="+task_module[0],"test","width=640,height=602,resizable=0,scrollbars=0");
 			else
 				window.open("index.php?module=Contacts&action=Popup&html=Popup_picker&popuptype=specific&form="+formName,"test","width=640,height=602,resizable=0,scrollbars=0");
@@ -4724,7 +4880,11 @@ function getviewId()
 	return viewid;
 }
 
-function getFormValidate(divValidate) {
+function getFormValidate() {
+	return doModuleValidation('','QcEditView');
+}
+
+function QCformValidate(){
 	var st = document.getElementById('qcvalidate');
 	eval(st.innerHTML);
 	for (var i=0; i<qcfieldname.length; i++) {
@@ -4774,7 +4934,7 @@ function getFormValidate(divValidate) {
 							var currtimechk="OTH";
 						else
 							var currtimechk=type[2];
-						if (!timeValidate(curr_fieldname,qcfieldlabel[i],currtimechk))
+						if (!timeValidateObject(window.document.QcEditView[curr_fieldname],qcfieldlabel[i],currtimechk))
 							return false;
 						if (type[3]) {
 							if (!timeComparison(curr_fieldname,qcfieldlabel[i],type[4],type[5],type[3]))

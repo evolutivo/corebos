@@ -44,6 +44,8 @@ class Products extends CRMEntity {
 		'Product Name'=>Array('products'=>'productname'),
 		'Part Number'=>Array('products'=>'productcode'),
 		'Commission Rate'=>Array('products'=>'commissionrate'),
+		'Product Category'=>Array('products'=>'productcategory'),
+		'Vendor Name'=>Array('products'=>'vendor_id'),
 		'Qty/Unit'=>Array('products'=>'qty_per_unit'),
 		'Unit Price'=>Array('products'=>'unit_price')
 	);
@@ -51,6 +53,8 @@ class Products extends CRMEntity {
 		'Product Name'=>'productname',
 		'Part Number'=>'productcode',
 		'Commission Rate'=>'commissionrate',
+		'Product Category'=>'productcategory',
+		'Vendor Name'=>'vendor_id',
 		'Qty/Unit'=>'qty_per_unit',
 		'Unit Price'=>'unit_price'
 	);
@@ -62,11 +66,15 @@ class Products extends CRMEntity {
 	var $search_fields = Array(
 		'Product Name'=>Array('products'=>'productname'),
 		'Part Number'=>Array('products'=>'productcode'),
+		'Product Category'=>Array('products'=>'productcategory'),
+		'Vendor Name'=>Array('products'=>'vendor_id'),
 		'Unit Price'=>Array('products'=>'unit_price')
 	);
 	var $search_fields_name = Array(
 		'Product Name'=>'productname',
 		'Part Number'=>'productcode',
+		'Product Category'=>'productcategory',
+		'Vendor Name'=>'vendor_id',
 		'Unit Price'=>'unit_price'
 	);
 
@@ -117,6 +125,13 @@ class Products extends CRMEntity {
 		//Inserting into attachments
 		if ($this->HasDirectImageField) {
 			$this->insertIntoAttachment($this->id,$module);
+		}
+		$copyBundle = GlobalVariable::getVariable('Product_Copy_Bundle_OnDuplicate', 'false');
+		if ($copyBundle != 'false' and $_REQUEST['cbcustominfo1'] == 'duplicatingproduct' and !empty($_REQUEST['cbcustominfo2'])) {
+			global $adb;
+			$adb->pquery('insert into vtiger_seproductsrel
+				select crmid,?,setype from vtiger_seproductsrel
+				where productid = ?',array($this->id,$_REQUEST['cbcustominfo2']));
 		}
 	}
 
@@ -1004,12 +1019,11 @@ class Products extends CRMEntity {
 			}
 		}
 
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname,
-			vtiger_products.productcode, vtiger_products.commissionrate,
-			vtiger_products.qty_per_unit, vtiger_products.unit_price,
+		$query = "SELECT vtiger_products.*,vtiger_productcf.*,
 			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
+			INNER JOIN vtiger_productcf ON vtiger_productcf.productid = vtiger_products.productid
 			LEFT JOIN vtiger_seproductsrel ON vtiger_seproductsrel.crmid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'
 			LEFT JOIN vtiger_users
 				ON vtiger_users.id=vtiger_crmentity.smownerid
@@ -1049,12 +1063,11 @@ class Products extends CRMEntity {
 		else
 			$returnset = '&return_module=Products&return_action=CallRelatedList&is_parent=1&return_id='.$id;
 
-		$query = "SELECT vtiger_products.productid, vtiger_products.productname,
-			vtiger_products.productcode, vtiger_products.commissionrate,
-			vtiger_products.qty_per_unit, vtiger_products.unit_price,
+		$query = "SELECT vtiger_products.*,vtiger_productcf.*,
 			vtiger_crmentity.crmid, vtiger_crmentity.smownerid
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_products.productid
+			INNER JOIN vtiger_productcf ON vtiger_productcf.productid = vtiger_products.productid
 			INNER JOIN vtiger_seproductsrel ON vtiger_seproductsrel.productid = vtiger_products.productid AND vtiger_seproductsrel.setype='Products'
 			WHERE vtiger_crmentity.deleted = 0 AND vtiger_seproductsrel.crmid = $id ";
 
@@ -1110,8 +1123,12 @@ class Products extends CRMEntity {
 	*/
 	function ismember_check(){
 		global $adb;
-		$ismember_query = $adb->pquery(getListQuery("Products")." AND (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? AND vtiger_seproductsrel.setype='Products'))",array($this->id));
-		$ismember = $adb->num_rows($ismember_query);
+		$SubProductBeParent = GlobalVariable::getVariable('Product_Permit_Subproduct_Be_Parent', 'no');
+		$ismember = 0;
+		if($SubProductBeParent == 'no'){
+			$ismember_query = $adb->pquery(getListQuery("Products")." AND (vtiger_products.productid IN (SELECT crmid from vtiger_seproductsrel WHERE vtiger_seproductsrel.crmid = ? AND vtiger_seproductsrel.setype='Products'))",array($this->id));
+			$ismember = $adb->num_rows($ismember_query);
+		}
 		return $ismember;
 	}
 

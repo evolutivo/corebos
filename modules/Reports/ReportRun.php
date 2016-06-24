@@ -16,6 +16,7 @@ require_once('data/CRMEntity.php');
 require_once("modules/Reports/Reports.php");
 require_once 'modules/Reports/ReportUtils.php';
 require_once("vtlib/Vtiger/Module.php");
+include_once("include/fields/InventoryLineField.php");
 
 class ReportRun extends CRMEntity {
 
@@ -29,6 +30,7 @@ class ReportRun extends CRMEntity {
 	var $reporttype;
 	var $reportname;
 	var $totallist;
+	var $number_of_rows;
 
 	var $_groupinglist  = false;
 	var $_columnslist    = false;
@@ -1813,6 +1815,13 @@ class ReportRun extends CRMEntity {
 			if($columnstotalsql != '')
 			{
 				$totalsselectedcolumns = $columnlist;
+				// eliminate product/service columns for inventory modules
+				foreach ($columnlist as $key => $value) {
+					$finfo = explode(':',$key);
+					if ($finfo[0]=='vtiger_inventoryproductrel'.$this->primarymodule) {
+						unset($totalsselectedcolumns[$key]);
+					}
+				}
 				if (isset($this->_columnstotallistaddtoselect) and is_array($this->_columnstotallistaddtoselect) and count($this->_columnstotallistaddtoselect)>0) {
 					$_columnstotallistaddtoselect = ', '.implode(', ', $this->_columnstotallistaddtoselect);
 					$totalscolalias = array();
@@ -1823,7 +1832,7 @@ class ReportRun extends CRMEntity {
 					}
 					foreach ($columnlist as $key => $value) {
 						foreach ($totalscolalias as $cal) {
-							if (preg_match("/\b$cal\b/i", $value)) {
+							if (preg_match("/\b".trim($cal)."\b/i", $value)) {
 								unset($totalsselectedcolumns[$key]);
 								break;
 							}
@@ -1942,6 +1951,7 @@ class ReportRun extends CRMEntity {
 			{
 				$y=$adb->num_fields($result);
 				$noofrows = $adb->num_rows($result);
+				$this->number_of_rows = $noofrows;
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 				$column_definitions = $adb->getFieldsDefinition($result);
@@ -2134,9 +2144,11 @@ class ReportRun extends CRMEntity {
 			{
 				$y=$adb->num_fields($result);
 				$noofrows = $adb->num_rows($result);
+				$this->number_of_rows = $noofrows;
 				$custom_field_values = $adb->fetch_array($result);
 				$column_definitions = $adb->getFieldsDefinition($result);
-
+				$ILF = new InventoryLineField();
+				$invMods = getInventoryModules();
 				do
 				{
 					$arraylists = Array();
@@ -2148,6 +2160,32 @@ class ReportRun extends CRMEntity {
 						$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 						if(!empty($fieldInfo)) {
 							$field = WebserviceField::fromArray($adb, $fieldInfo);
+						} else {
+							if(in_array($module, $invMods)) {
+							  if(substr($fld->table,0,26) == 'vtiger_inventoryproductrel') {
+								foreach ($ILF->getInventoryLineFieldsByName() as $ilfname => $ilfinfo) {
+									$ilflabel = getTranslatedString($ilfinfo['fieldlabel'], $module);
+									if ($ilflabel==$fieldLabel) {
+										$fieldInfo = $ilfinfo;
+										$fieldInfo['tabid'] = getTabid($module);
+										$fieldInfo['presence'] = 1;
+										$field = WebserviceField::fromArray($adb, $fieldInfo);
+										break;
+									}
+								}
+							  } else if(substr($fld->table,0,15) == 'vtiger_products' or substr($fld->table,0,14) == 'vtiger_service') {
+								foreach ($ILF->getInventoryLineProductServiceNameFields() as $ilfname => $ilfinfo) {
+									$ilflabel = getTranslatedString($ilfinfo['fieldlabel'], $module);
+									if ($ilflabel==$fieldLabel) {
+										$fieldInfo = $ilfinfo;
+										$fieldInfo['tabid'] = getTabid($ilfinfo['module']);
+										$fieldInfo['presence'] = 1;
+										$field = WebserviceField::fromArray($adb, $fieldInfo);
+										break;
+									}
+								}
+							  }
+							}
 						}
 						if(!empty($fieldInfo)) {
 							$headerLabel = getTranslatedString($field->getFieldLabelKey(), $module);
@@ -2424,6 +2462,7 @@ class ReportRun extends CRMEntity {
 			if($result)
 			{
 				$noofrows = $adb->num_rows($result);
+				$this->number_of_rows = $noofrows;
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
 				$column_definitions = $adb->getFieldsDefinition($result);
@@ -3096,15 +3135,20 @@ class ReportRun extends CRMEntity {
 							$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
 							break;
 						case 'date':
-							$value = DateTimeField::__convertToDBFormat($value, $current_user->date_format);
-							$dt = new DateTime($value);
-							$value = PHPExcel_Shared_Date::PHPToExcel($dt);
-							$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
-							break;
 						case 'time':
-							$dt = new DateTime("1970/01/01 $value");
-							$value = PHPExcel_Shared_Date::PHPToExcel($dt);
-							$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+							if ($value!='-') {
+								if (strpos($value,':')>0 and (strpos($value,'-')===false)) {
+									// only time, no date
+									$dt = new DateTime("1970-01-01 $value");
+								} else {
+									$value = DateTimeField::__convertToDBFormat($value, $current_user->date_format);
+									$dt = new DateTime($value);
+								}
+								$value = PHPExcel_Shared_Date::PHPToExcel($dt);
+								$celltype = PHPExcel_Cell_DataType::TYPE_NUMERIC;
+							} else {
+								$celltype = PHPExcel_Cell_DataType::TYPE_STRING;
+							}
 							break;
 						default:
 							$celltype = PHPExcel_Cell_DataType::TYPE_STRING;

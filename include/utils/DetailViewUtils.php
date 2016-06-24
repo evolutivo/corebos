@@ -1496,7 +1496,7 @@ function getDetailAssociatedProducts($module, $focus) {
 			break;
 			case 'Products':
 				if (vtlib_isModuleActive('Assets')) {
-					$sc_image_tag = '<a href="index.php?module=Assets&action=EditView&invoiceid=' . $focus->id . '&product=' . $productid . '&account=' . $focus->column_fields['account_id'] . '&datesold=' . DateTimeField::convertToUserFormat($focus->column_fields['invoicedate']) . '&return_module=' . $module . '&return_id=' . $focus->id . '" onmouseout="vtlib_listview.trigger(\'invoiceasset.onmouseout\', $(this))" onmouseover="vtlib_listview.trigger(\'cell.onmouseover\', $(this))">' .
+					$sc_image_tag = '<a onclick="return window.open(\'index.php?module=Assets&return_module=Invoice&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&return_action=DetailView&productid='.$productid.'&invoiceid='.$focus->id.'&return_id=' . $focus->id . '&recordid='.$focus->id.'\',\'test\',\'width=640,height=602,resizable=0,scrollbars=0\')" onmouseout="vtlib_listview.trigger(\'invoiceasset.onmouseout\', $(this))" onmouseover="vtlib_listview.trigger(\'cell.onmouseover\', $(this))">' .
 					'<img border="0" src="' . vtiger_imageurl('barcode.png', $theme) . '" title="' . getTranslatedString('LBL_ADD_NEW',$module)." ".getTranslatedString('Assets','Assets'). '" style="cursor: pointer;" align="absmiddle" />' .
 					'<span style="display:none;" vtmodule="Assets" vtfieldname="invoice_product" vtrecordid="'.$focus->id.'::'.$productid.'::'.$i.'" type="vtlib_metainfo"></span>' .
 					'</a>';
@@ -1820,7 +1820,6 @@ function getDetailBlockInformation($module, $result, $col_fields, $tabid, $block
 
 	$noofrows = $adb->num_rows($result);
 	for ($i = 0; $i < $noofrows; $i++) {
-
 		$fieldtablename = $adb->query_result($result, $i, "tablename");
 		$fieldcolname = $adb->query_result($result, $i, "columnname");
 		$uitype = $adb->query_result($result, $i, "uitype");
@@ -1912,6 +1911,8 @@ function getDetailBlockInformation($module, $result, $col_fields, $tabid, $block
 				} else {
 					$returndata[getTranslatedString($curBlock, $module)] = (array) $label_data[$blockid];
 				}
+			} elseif (file_exists("Smarty/templates/modules/$module/{$label}_detail.tpl")) {
+				$returndata[getTranslatedString($curBlock,$module)]=array_merge((array)$returndata[getTranslatedString($curBlock,$module)],array($label=>array()));
 			}
 		}
 	}
