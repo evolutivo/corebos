@@ -946,4 +946,11 @@
 	<classname>changeHoursAndUse_UnitsFields</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albertxhani</author>
+	<description>Add UserSettings Extension</description>
+	<filename>build/changeSets/evolutivo/UserSettings.php</filename>
+	<classname>UserSettingsImport</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
