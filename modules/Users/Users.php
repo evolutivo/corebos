@@ -978,7 +978,7 @@ class Users extends CRMEntity {
 	 */
 	function save($module_name, $fileid = '') {
 		global $log, $adb, $current_user;
-		if (!is_admin($current_user) and $current_user->id != $this->id) {// only admin users can change other users profile
+		if (!UserSettingsPermissions() and $current_user->id != $this->id) {// only admin users can change other users profile
 			return false;
 		}
 		$userrs = $adb->pquery('select roleid from vtiger_user2role where userid = ?', array($this->id));

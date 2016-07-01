@@ -12,9 +12,10 @@
 
 -->*}
 {php}
-	//add the settings page values
+	global $current_user;
+	//add the settings page values	
 	$this->assign("BLOCKS",getSettingsBlocks());
-	$this->assign("FIELDS",getSettingsFields());
+	$this->assign("FIELDS",getRequiredFields($_REQUEST['module'],$_REQUEST['action']));
 {/php}
 
 <table border=0 cellspacing=0 cellpadding=20 width="99%" class="settingsUI">
@@ -26,12 +27,14 @@
 						<!--Left Side Navigation Table-->
 						<table border=0 cellspacing=0 cellpadding=0 width="100%">
 {foreach key=BLOCKID item=BLOCKLABEL from=$BLOCKS}
-	{if $BLOCKLABEL neq 'LBL_MODULE_MANAGER'}
+	{if $BLOCKLABEL neq 'LBL_MODULE_MANAGER' }
 	{assign var=blocklabel value=$BLOCKLABEL|@getTranslatedString:'Settings'}
 										<tr>
+								{if $FIELDS.$BLOCKID|@count != 0}
 								<td class="settingsTabHeader" nowrap>
 									{$blocklabel}
 								</td>
+								{/if}
 							</tr>
 		{foreach item=data from=$FIELDS.$BLOCKID}
 			{if $data.link neq ''}

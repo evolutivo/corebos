@@ -13,7 +13,7 @@ require_once('Smarty_setup.php');
 global $app_strings;
 global $list_max_entries_per_page;
 global $currentModule, $current_user;
-if($current_user->is_admin != 'on')
+if( !UserSettingsPermissions() && !is_admin($current_user))
 {
         die("<br><br><center>".$app_strings['LBL_PERMISSION']." <a href='javascript:window.history.back()'>".$app_strings['LBL_GO_BACK'].".</a></center>");
 }

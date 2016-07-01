@@ -641,6 +641,17 @@ function isPermittedBusinessRule($module,$actionname)
 
 }
 
+function UserSettingsPermissions()
+{
+	global $log, $adb, $current_user, $seclog;
+	
+	$sql = "SELECT * FROM vtiger_role2profile NATURAL JOIN vtiger_profile2tab NATURAL JOIN vtiger_tab WHERE vtiger_tab.name = 'UserSettings' AND roleid=? AND vtiger_profile2tab.permissions = 0";
+	$result = $adb->pquery($sql,array($current_user->roleid));
+	if($adb->num_rows($result) == 1)
+		return true;
+	return false;
+}
+
 /** Function to check if the currently logged in user is permitted to perform the specified action
  * @param $module -- Module Name:: Type varchar
  * @param $actionname -- Action Name:: Type varchar
@@ -671,11 +682,30 @@ function isPermitted($module,$actionname,$record_id='')
 	}
 
 	//Checking the Access for the Settings Module
-	if($module == 'Settings' || $module == 'Administration' || $parenttab == 'Settings')
+	if($module == 'Settings' || $module == 'Administration' || $module == 'Users' || $parenttab == 'Settings')
 	{
 		if(! $is_admin)
 		{
 			$permission = "no";
+
+			if(UserSettingsPermissions())
+			{
+				if($module == "Settings")
+				{
+					if($actionname == "listroles" || $actionname == "RoleDetailView" || $actionname == "SaveRole" || $actionname == "createrole" || $actionname == "ListProfiles"|| $actionname == "profilePrivileges" || $actionname == "listgroups" || $actionname =="GroupDetailView" || $actionname == "createnewgroup")
+					{
+						$permission = "yes";
+					}
+				}
+
+				if($module = "Users")
+				{
+					if($actionname == "index" || $actionname == "EditView"|| $actionname == "Save"|| $actionname == "ListView" || $actionname == "SaveGroup" || $actionname == "UpdateProfileChanges" || $actionname=="DetailView")
+					{
+						$permission = "yes";
+					}
+				}
+			}	
 		}
 		else
 		{

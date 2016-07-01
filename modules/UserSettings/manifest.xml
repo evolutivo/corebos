@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<module>
+<name>UserSettings</name>
+<label>User Settings</label>
+<parent>Settings</parent>
+<type>extension</type>
+<version>1.0</version>
+<dependencies>
+	<vtiger_version>5.4.0</vtiger_version>
+	<vtiger_max_version>5.*</vtiger_max_version>
+</dependencies>
+</module>

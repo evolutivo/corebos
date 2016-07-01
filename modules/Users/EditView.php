@@ -40,7 +40,7 @@ $focus = new Users();
 if(isset($_REQUEST['record']) && isset($_REQUEST['record'])) {
 	$smarty->assign("ID",vtlib_purify($_REQUEST['record']));
 	$mode='edit';
-	if (!is_admin($current_user) && $_REQUEST['record'] != $current_user->id) die ("Unauthorized access to user administration.");
+	//if (!is_admin($current_user) && $_REQUEST['record'] != $current_user->id) die ("Unauthorized access to user administration.");
     $focus->retrieve_entity_info(vtlib_purify($_REQUEST['record']),'Users');
 	$smarty->assign("USERNAME", getFullNameFromArray('Users', $focus->column_fields));
 }else

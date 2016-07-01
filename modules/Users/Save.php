@@ -102,11 +102,14 @@ if($_REQUEST['changepassword'] == 'true') {
 //save user Image
 if(! $_REQUEST['changepassword'] == 'true')
 {
-	if(strtolower($current_user->is_admin) == 'off' && $current_user->id != $focus->id)
+	if(strtolower($current_user->is_admin) == 'off')
 	{
-		$log->fatal("SECURITY:Non-Admin ". $current_user->id . " attempted to change settings for user:". $focus->id);
-		header("Location: index.php?module=Users&action=Logout");
-		exit;
+		if( !UserSettingsPermissions() && $current_user->id != $focus->id)
+		{
+			$log->fatal("SECURITY:Non-Admin ". $current_user->id . " attempted to change settings for user:". $focus->id);
+			header("Location: index.php?module=Users&action=Logout");
+			exit;
+		}
 	}
 	if(strtolower($current_user->is_admin) == 'off' && isset($_POST['is_admin']) && strtolower($_POST['is_admin']) == 'on')
 	{

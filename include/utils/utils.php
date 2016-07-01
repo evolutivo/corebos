@@ -3993,10 +3993,13 @@ function getSettingsBlocks(){
  */
 function getSettingsFields(){
 	global $adb;
+
 	$sql = "select * from vtiger_settings_field where blockid!=? and active=0 order by blockid,sequence";
 	$result = $adb->pquery($sql, array(getSettingsBlockId('LBL_MODULE_MANAGER')));
 	$count = $adb->num_rows($result);
 	$fields = array();
+
+	$denied_fields = UserSettingsAllowedFields();
 
 	if($count>0){
 		for($i=0;$i<$count;$i++){
@@ -4008,7 +4011,8 @@ function getSettingsFields(){
 			$module = getPropertiesFromURL($linkto, "module");
 			$name = $adb->query_result($result, $i, "name");
 
-			$fields[$blockid][] = array("icon"=>$iconpath, "description"=>$description, "link"=>$linkto, "name"=>$name, "action"=>$action, "module"=>$module);
+			if(!in_array($name, $denied_fields))
+				$fields[$blockid][] = array("icon"=>$iconpath, "description"=>$description, "link"=>$linkto, "name"=>$name, "action"=>$action, "module"=>$module);
 		}
 
 		//add blanks for 4-column layout
@@ -4022,6 +4026,95 @@ function getSettingsFields(){
 	}
 	return $fields;
 }
+
+/**
+ * this function returns the fields for the User Settings page
+ */
+function getUserSettingsFields(){
+	global $adb;
+	
+	$sql = "select * from vtiger_settings_field where blockid!=? and active=0 order by blockid,sequence";
+	$result = $adb->pquery($sql, array(getSettingsBlockId('LBL_MODULE_MANAGER')));
+	$count = $adb->num_rows($result);
+	$fields = array();
+
+	$allowed_fields = UserSettingsAllowedFields();
+
+	if($count>0){
+		for($i=0;$i<$count;$i++){
+			$blockid = $adb->query_result($result, $i, "blockid");
+			$iconpath = $adb->query_result($result, $i, "iconpath");
+			$description = $adb->query_result($result, $i, "description");
+			$linkto = $adb->query_result($result, $i, "linkto");
+			$action = getPropertiesFromURL($linkto, "action");
+			$module = getPropertiesFromURL($linkto, "module");
+			$name = $adb->query_result($result, $i, "name");
+
+			if(in_array($name, $allowed_fields))
+				$fields[$blockid][] = array("icon"=>$iconpath, "description"=>$description, "link"=>$linkto, "name"=>$name, "action"=>$action, "module"=>$module);
+		}
+
+		//add blanks for 4-column layout
+		foreach($fields as $blockid=>&$field){
+			if(count($field)>0 && count($field)<4){
+				for($i=count($field);$i<4;$i++){
+					$field[$i] = array();
+				}
+			}
+		}
+	}
+	return $fields;
+}
+
+/**
+ * this function checks if current Settings page is part of Settings or UserSettings
+ */
+function getRequiredFields($module,$action){
+	global $adb;
+
+	$sql = "select * from vtiger_settings_field where blockid!=? and active=0 order by blockid,sequence";
+	$result = $adb->pquery($sql, array(getSettingsBlockId('LBL_MODULE_MANAGER')));
+	$count = $adb->num_rows($result);
+	$fields = array();
+
+	$dependent_fields = array(
+						"Settings"=>array( "listroles"=>true, "RoleDetailView"=>true, "SaveRole"=>true, "createrole"=>true,
+							"ListProfiles"=>true, "profilePrivileges"=>true, "listgroups"=>true, "GroupDetailView"=>true,"createnewgroup"=>true),
+						"Users"=>array( "index" =>true, "EditView" =>true, "ListView" =>true, "SaveGroup" =>true,
+							"UpdateProfileChanges" =>true, "DetailView" =>true),
+						);
+
+	$UserSettings  = UserSettingsAllowedFields();
+
+	for($i=0;$i<$count;$i++){
+		$linkto = $adb->query_result($result, $i, "linkto");
+		$this_action = getPropertiesFromURL($linkto, "action");
+		$this_module = getPropertiesFromURL($linkto, "module");
+		$name = $adb->query_result($result, $i, "name");
+
+		if((in_array($name, $UserSettings) && $this_module == $module && $this_action == $action) || isset($dependent_fields[$module][$action]) )
+			return getUserSettingsFields();
+	}
+
+	return getSettingsFields();
+
+}
+
+/**
+ * this function returns an array of field names displayed on User Settings page
+ */
+function UserSettingsAllowedFields()
+{
+	$fields = array(
+		"LBL_USERS",
+		"LBL_ROLES",
+		"LBL_PROFILES",
+		"USERGROUPLIST"
+	);
+
+	return $fields;
+}
+
 
 /**
  * this function takes an url and returns the module name from it
