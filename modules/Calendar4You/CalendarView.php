@@ -59,35 +59,35 @@ $smarty->assign("CREATE_PERMISSION",($Calendar4You->CheckPermissions("CREATE") ?
 	//To get date in user selected format
 	$temp_date = $date->getDisplayDate();
 
-	if($current_user->column_fields['is_admin']=='on')
-		$Res = $adb->pquery("select * from vtiger_activitytype",array());
-	else {
-		$roleid=$current_user->roleid;
-		$subrole = getRoleSubordinates($roleid);
-		if(count($subrole)> 0) {
-			$roleids = $subrole;
-			array_push($roleids, $roleid);
-		} else {	
-			$roleids = $roleid;
-		}
-
-		if (count($roleids) > 1) {
-			$Res=$adb->pquery("select distinct activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) order by sortid asc", array($roleids));
-		} else {
-			$Res=$adb->pquery("select distinct activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) order by sortid asc", array($roleid));
-		}
-	}
-
-	$eventlist=''; 
-	$eventlists_array='';
-	for($i=0; $i<$adb->num_rows($Res);$i++) {
-		$actname = $adb->query_result($Res,$i,'activitytype');
-		$eventlist .= html_entity_decode($actname,ENT_QUOTES,$default_charset).";";
-		$eventlists_array .= '"'.html_entity_decode(html_entity_decode($actname,ENT_QUOTES,$default_charset),ENT_QUOTES, $default_charset).'",';
-	}
-
-	$add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".$subtab."\",\"".$eventlist."\");'";
-	$smarty->assign('ADD_ONMOUSEOVER', $add_javascript);
+//	if($current_user->column_fields['is_admin']=='on')
+//		$Res = $adb->pquery("select * from vtiger_event_type where event_type<>'--None--'",array());
+//	else {
+//		$roleid=$current_user->roleid;
+//		$subrole = getRoleSubordinates($roleid);
+//		if(count($subrole)> 0) {
+//			$roleids = $subrole;
+//			array_push($roleids, $roleid);
+//		} else {	
+//			$roleids = $roleid;
+//		}
+//
+//		if (count($roleids) > 1) {
+//			$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc", array($roleids));
+//		} else {
+//			$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc", array($roleid));
+//		}
+//	}
+//
+//	$eventlist=''; 
+//	$eventlists_array='';
+//	for($i=0; $i<$adb->num_rows($Res);$i++) {
+//		$actname = $adb->query_result($Res,$i,'event_type');
+//		$eventlist .= html_entity_decode($actname,ENT_QUOTES,$default_charset).";";
+//		$eventlists_array .= '"'.html_entity_decode(html_entity_decode($actname,ENT_QUOTES,$default_charset),ENT_QUOTES, $default_charset).'",';
+//	}
+//
+//	$add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".$subtab."\",\"".$eventlist."\");'";
+//	$smarty->assign('ADD_ONMOUSEOVER', $add_javascript);
 
 	$smarty->assign('EVENTLIST', trim($eventlists_array,","));
 	$timeModules = getAllModulesWithDateTimeFields();
@@ -117,22 +117,22 @@ include_once('modules/Calendar4You/class/color_harmony.class.php');
 $Event_Colors = $Calendar4You->getEventColors();
 $colorHarmony = new colorHarmony();
 
-$Task_Colors = getEColors("type","task");
-
-$Task_Colors_Palete = $colorHarmony->Monochromatic($Task_Colors["bg"]);
-
-if (!$load_ch || $Ch_Views["1"]["task"]) $task_checked = true; else $task_checked = false;
+//$Task_Colors = getEColors("type","task");
+//
+//$Task_Colors_Palete = $colorHarmony->Monochromatic($Task_Colors["bg"]);
+//
+//if (!$load_ch || $Ch_Views["1"]["task"]) $task_checked = true; else $task_checked = false;
 
 $Activity_Types = $Module_Types = array();
-$Activity_Types["task"] = array(
-	"typename"=>"Tasks",
-	"label"=>$c_mod_strings["LBL_TASK"],
-	"act_type"=>"task",
-	"title_color"=>$Task_Colors_Palete[0],
-	"color"=>$Task_Colors_Palete[1],
-	"textColor"=>$Task_Colors["text"],
-	"checked"=>$task_checked
-);
+//$Activity_Types["task"] = array(
+//	"typename"=>"Tasks",
+//	"label"=>$c_mod_strings["LBL_TASK"],
+//	"act_type"=>"task",
+//	"title_color"=>$Task_Colors_Palete[0],
+//	"color"=>$Task_Colors_Palete[1],
+//	"textColor"=>$Task_Colors["text"],
+//	"checked"=>$task_checked
+//);
 
 $ActTypes = getActTypesForCalendar();
 
@@ -168,20 +168,20 @@ foreach ($ActTypes AS $act_id => $act_name) {
 	unset($Colors_Palete);
 }
 
-$Invite_Colors = getEColors("type","invite");
-$Invite_Colors_Palette = $colorHarmony->Monochromatic($Invite_Colors["bg"]);
+//$Invite_Colors = getEColors("type","invite");
+//$Invite_Colors_Palette = $colorHarmony->Monochromatic($Invite_Colors["bg"]);
+//
+//if (!$load_ch || $Ch_Views["1"]["invite"]) $invite_checked = true; else $invite_checked = false;
 
-if (!$load_ch || $Ch_Views["1"]["invite"]) $invite_checked = true; else $invite_checked = false;
-
-$Activity_Types["invite"] = array(
-	"typename"=>"Invite",
-	"act_type"=>"event",
-	"label"=>$mod_strings["LBL_INVITE"],
-	"title_color"=>$Invite_Colors_Palette[0],
-	"color"=>$Invite_Colors_Palette[1],
-	"textColor"=>$Invite_Colors["text"],
-	"checked"=>$invite_checked
-);
+//$Activity_Types["invite"] = array(
+//	"typename"=>"Invite",
+//	"act_type"=>"event",
+//	"label"=>$mod_strings["LBL_INVITE"],
+//	"title_color"=>$Invite_Colors_Palette[0],
+//	"color"=>$Invite_Colors_Palette[1],
+//	"textColor"=>$Invite_Colors["text"],
+//	"checked"=>$invite_checked
+//);
 
 if (isset($_REQUEST["viewOption"]) && $_REQUEST["viewOption"]!= "") {
 	$default_view = $_REQUEST["viewOption"];
@@ -290,17 +290,17 @@ $add_to_url = "view=".$calendar_arr['calendar']->view."".$calendar_arr['calendar
 
 $smarty->assign('CALENDAR_TO_URL', $add_to_url);
 
-if(getFieldVisibilityPermission('Events',$current_user->id,'eventstatus', 'readwrite') == '0') {
-	$Events_Status = $Calendar4You->getActStatusFieldValues('eventstatus','vtiger_eventstatus');
-}
-$smarty->assign('EVENT_STATUS', $Events_Status);
+//if(getFieldVisibilityPermission('Task',$current_user->id,'taskstate', 'readwrite') == '0') {
+//	$Events_Status = $Calendar4You->getActStatusFieldValues('taskstate','vtiger_taskstate');
+//}
+//$smarty->assign('EVENT_STATUS', $Events_Status);
 
-if(getFieldVisibilityPermission('Calendar',$current_user->id,'taskstatus', 'readwrite') == '0') {
-	$Task_Status = $Calendar4You->getActStatusFieldValues('taskstatus','vtiger_taskstatus'); 
+if(getFieldVisibilityPermission('Task',$current_user->id,'taskstate', 'readwrite') == '0') {
+	$Task_Status = $Calendar4You->getActStatusFieldValues('taskstate','vtiger_taskstate'); 
 }
 $smarty->assign('TASK_STATUS', $Task_Status);
 
-if(getFieldVisibilityPermission('Calendar',$current_user->id,'taskpriority', 'readwrite') == '0') {
+if(getFieldVisibilityPermission('Task',$current_user->id,'taskpriority', 'readwrite') == '0') {
 	$Task_Status = $Calendar4You->getActStatusFieldValues('taskpriority','vtiger_taskpriority');
 }
 $smarty->assign('TASK_PRIORITY', $Task_Status);

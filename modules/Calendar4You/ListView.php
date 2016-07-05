@@ -13,33 +13,35 @@
  ********************************************************************************/
 require_once('Smarty_setup.php');
 require_once("data/Tracker.php");
-require_once('modules/Calendar/Activity.php');
+require_once('modules/Task/Activity.php');
+require_once('modules/Task/Task.php');
 require_once('include/logging.php');
 require_once('include/ListView/ListView.php');
 require_once('include/utils/utils.php');
 require_once('modules/CustomView/CustomView.php');
-require_once('modules/Calendar/CalendarCommon.php');
-require_once("modules/Calendar4You/Calendar4You.php");
-require_once("modules/Calendar4You/CalendarUtils.php");
+require_once('modules/Task/TaskCommon.php');
+require_once("modules/Task4You/Task4You.php");
+require_once("modules/Task4You/TaskUtils.php");
 
 global $app_strings, $list_max_entries_per_page, $currentModule, $image_path, $theme, $adb, $current_user;
 $log = LoggerManager::getLogger('task_list');
 
 if (isset($_REQUEST['current_user_only'])) $current_user_only = vtlib_purify($_REQUEST['current_user_only']);
 
-$Calendar4You = new Calendar4You();
+$Task4You = new Task4You();
 
-$Calendar4You->GetDefPermission($current_user->id);
+$Task4You->GetDefPermission($current_user->id);
 
-$focus = new Activity();
+
+$focus = new Task();
 // Initialize sort by fields
-$focus->initSortbyField('Calendar');
+$focus->initSortbyField('Task');
 // END
 $smarty = new vtigerCRM_Smarty;
 $smarty->assign('ADD_ONMOUSEOVER', "onMouseOver=\"fnvshobj(this,'addButtonDropDown');\"");
 $abelist = '';
 if($current_user->column_fields['is_admin']=='on') {
-	$Res = $adb->pquery("select * from vtiger_activitytype",array());
+	$Res = $adb->pquery("select * from vtiger_event_type where event_type<>'--None--'",array());
 } else {
 	$role_id=$current_user->roleid;
 	$subrole = getRoleSubordinates($role_id);
@@ -53,22 +55,22 @@ if($current_user->column_fields['is_admin']=='on') {
 		$roleids = $role_id;
 	}
 	if (count($roleids) > 1) {
-		$Res=$adb->pquery("select distinct activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) order by sortid asc",array($roleids));
+		$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc",array($roleids));
 	} else {
-		$Res=$adb->pquery("select distinct activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) order by sortid asc",array($role_id));
+		$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc",array($role_id));
 	}
 }
 for($i=0; $i<$adb->num_rows($Res);$i++) {
-	$eventlist = $adb->query_result($Res,$i,'activitytype');
+	$eventlist = $adb->query_result($Res,$i,'event_type');
 	$eventlist = html_entity_decode($eventlist,ENT_QUOTES,$default_charset);
-	$actname = getTranslatedString($eventlist,'Calendar');
-	$abelist.='<tr><td><a href="index.php?module=Calendar4You&action=EventEditView&return_module=Calendar&return_action=index&activity_mode=Events&activitytype='.$eventlist.'" class="drop_down">'.$actname.'</a></td></tr>';
+	$actname = getTranslatedString($eventlist,'Task');
+	$abelist.='<tr><td><a href="index.php?module=Task&action=EditView&return_module=Task&return_action=index&activity_mode=Events&event_type='.$eventlist.'" class="drop_down">'.$actname.'</a></td></tr>';
 }
-$abelist.='<tr><td><a href="index.php?module=Calendar4You&action=EventEditView&return_module=Calendar&return_action=index&activity_mode=Task" class="drop_down">'.$mod_strings['LBL_ADDTODO'].'</a></td></tr>';
+$abelist.='<tr><td><a href="index.php?module=Task&action=EditView&return_module=Task&return_action=index&activity_mode=Task" class="drop_down">'.$mod_strings['LBL_ADDTODO'].'</a></td></tr>';
 $smarty->assign('ADD_BUTTONEVENTLIST', $abelist);
 $other_text = Array();
 
-$c_mod_strings = return_specified_module_language($current_language, "Calendar");
+$c_mod_strings = return_specified_module_language($current_language, "Task");
 
 if(!$_SESSION['lvs'][$currentModule]) {
 	unset($_SESSION['lvs']);
@@ -98,8 +100,8 @@ $_SESSION['ACTIVITIES_SORT_ORDER'] = $sorder;
 //<<<<<<< sort ordering >>>>>>>>>>>>>
 
 //<<<<cutomview>>>>>>>
-$oCustomView = new CustomView("Calendar");
-$viewid = $oCustomView->getViewId("Calendar");
+$oCustomView = new CustomView("Task");
+$viewid = $oCustomView->getViewId("Task");
 $customviewcombo_html = $oCustomView->getCustomViewCombo($viewid);
 $viewnamedesc = $oCustomView->getCustomViewByCvid($viewid);
 
@@ -108,8 +110,9 @@ $statusdetails = $oCustomView->isPermittedChangeStatus($viewnamedesc['status'],$
 $smarty->assign("CUSTOMVIEW_PERMISSION",$statusdetails);
 
 //To check if a user is able to edit/delete a customview
-$edit_permit = $oCustomView->isPermittedCustomView($viewid,'EditView','Calendar');
-$delete_permit = $oCustomView->isPermittedCustomView($viewid,'Delete','Calendar');
+$edit_permit = $oCustomView->isPermittedCustomView($viewid,'EditView','Task');
+$delete_permit = $oCustomView->isPermittedCustomView($viewid,'Delete','Task');
+
 $smarty->assign("CV_EDIT_PERMIT",$edit_permit);
 $smarty->assign("CV_DELETE_PERMIT",$delete_permit);
 
@@ -149,7 +152,7 @@ $url_string = ''; // assigning http url string
 
 if(isset($_REQUEST['query']) && $_REQUEST['query'] == 'true') {
 
-	list($where, $ustring) = explode("#@@#",getWhereCondition('Calendar'));
+	list($where, $ustring) = explode("#@@#",getWhereCondition('Task'));
 	// we have a query
 	$url_string .="&query=true".$ustring;
 	$log->info("Here is the where clause for the list view: $where");
@@ -160,20 +163,21 @@ if($viewnamedesc['viewname'] == 'All') {
 	$smarty->assign("ALL", 'All');
 }
 
-if(isPermitted("Calendar","Delete",$_REQUEST['record']) == 'yes') {
+if(isPermitted("Task","Delete",$_REQUEST['record']) == 'yes') {
 	$other_text['del'] = $app_strings[LBL_MASS_DELETE];
 }
-if(isPermitted('Calendar','EditView','') == 'yes') {
-	$other_text['c_owner'] = $app_strings[LBL_CHANGE_OWNER];
+if(isPermitted('Task','EditView','') == 'yes') {
+        $other_text['c_owner'] = $app_strings[LBL_CHANGE_OWNER];
+
 }
 $title_display = $current_module_strings['LBL_LIST_FORM_TITLE'];
 
 //Retreive the list from Database
 //<<<<<<<<<customview>>>>>>>>>
 
-if (!$Calendar4You->view_all) {
-	$userid = $current_user->id;
-	$invites = true;
+if (!$Task4You->view_all) {
+    $userid = $current_user->id;
+    $invites = true; 
 } else {
 	$userid = '';
 	$invites = true;
@@ -182,15 +186,16 @@ if (!$Calendar4You->view_all) {
 $list_query = getCalendar4YouListQuery($userid, $invites);
 
 if($viewid != "0") {
-	$list_query = $oCustomView->getModifiedCvListQuery($viewid,$list_query,"Calendar");
+	$list_query = $oCustomView->getModifiedCvListQuery($viewid,$list_query,"Task");
 }
 
 if(isset($where) && $where != '') {
 	if(isset($_REQUEST['from_homepagedb']) && $_REQUEST['from_homepagedb'] == 'true')
-		$list_query .= " and ((vtiger_activity.status!='Completed' and vtiger_activity.status!='Deferred') or vtiger_activity.status is null) and ((vtiger_activity.eventstatus!='Held' and vtiger_activity.eventstatus!='Not Held') or vtiger_activity.eventstatus is null) AND ".$where;
+		$list_query .= " and ((vtiger_task.taskstate!='Completed' and vtiger_task.taskstate!='Deferred') or vtiger_task.taskstate is null) and ((vtiger_task.taskstate!='held' and vtiger_task.taskstate!='not held') or vtiger_task.taskstate is null) AND ".$where;
 	else
 		$list_query .= " AND " .$where;
 }
+
 if (isset($_REQUEST['from_homepage'])) {
 	$dbStartDateTime = new DateTimeField(date('Y-m-d H:i:s'));
 	$userStartDate = $dbStartDateTime->getDisplayDate();
@@ -200,17 +205,17 @@ if (isset($_REQUEST['from_homepage'])) {
 	$userEndDateTime = new DateTimeField($userStartDate.' 23:59:00');
 	$endDateTime = $userEndDateTime->getDBInsertDateTimeValue();
 
-	if ($_REQUEST['from_homepage'] == 'upcoming_activities')
-		$list_query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status not in ('Completed','Deferred')) and (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus not in ('Held','Not Held')) AND (CAST((CONCAT(date_start,' ',time_start)) AS DATETIME) >= '$startDateTime' OR CAST((CONCAT(vtiger_recurringevents.recurringdate,' ',time_start)) AS DATETIME) >= '$startDateTime')";
-	elseif ($_REQUEST['from_homepage'] == 'pending_activities')
-		$list_query .= " AND (vtiger_activity.status is NULL OR vtiger_activity.status not in ('Completed','Deferred')) and (vtiger_activity.eventstatus is NULL OR vtiger_activity.eventstatus not in ('Held','Not Held')) AND (CAST((CONCAT(due_date,' ',time_end)) AS DATETIME) <= '$endDateTime' OR CAST((CONCAT(vtiger_recurringevents.recurringdate,' ',time_start)) AS DATETIME) <= '$endDateTime')";
+//	if ($_REQUEST['from_homepage'] == 'upcoming_activities')
+//		$list_query .= " AND (vtiger_task.taskstate is NULL OR vtiger_task.taskstate not in ('Completed','Deferred')) and (vtiger_task.taskstate is NULL OR  vtiger_task.taskstates not in ('held','not held')) AND (CAST((CONCAT(date_start,' ',time_start)) AS DATETIME) >= '$startDateTime' OR CAST((CONCAT(vtiger_recurringevents.recurringdate,' ',time_start)) AS DATETIME) >= '$startDateTime')";
+//	elseif ($_REQUEST['from_homepage'] == 'pending_activities')
+//		$list_query .= " AND (vtiger_task.taskstate is NULL OR vtiger_task.taskstate not in ('Completed','Deferred')) and (vtiger_task.taskstate is NULL OR  vtiger_task.taskstate not in ('held','not held')) AND (CAST((CONCAT(date_end,' ',time_end)) AS DATETIME) <= '$endDateTime' OR CAST((CONCAT(vtiger_recurringevents.recurringdate,' ',time_start)) AS DATETIME) <= '$endDateTime')";
 }
 
 if(isset($order_by) && $order_by != '') {
 	if($order_by == 'smownerid') {
 		$list_query .= ' ORDER BY user_name '.$sorder;
 	} else {
-		$tablename = getTableNameForField('Calendar',$order_by);
+		$tablename = getTableNameForField('Task',$order_by);
 		$tablename = (($tablename != '')?($tablename."."):'');
 		if($order_by == 'lastname')
 			$list_query .= ' ORDER BY vtiger_contactdetails.lastname '.$sorder;
@@ -241,7 +246,7 @@ if(PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true){
 }
 
 $queryMode = (isset($_REQUEST['query']) && $_REQUEST['query'] == 'true');
-$start = ListViewSession::getRequestCurrentPage('Calendar', $list_query, $viewid, $queryMode);
+$start = ListViewSession::getRequestCurrentPage('Task', $list_query, $viewid, $queryMode);
 
 $navigation_array = VT_getSimpleNavigationValues($start,$list_max_entries_per_page,$noofrows);
 
@@ -257,30 +262,30 @@ if($viewid !='')
 $url_string .="&viewname=".$viewid;
 
 if (!empty($viewid)){
-	if (!isset($oCustomView->list_fields['Close'])) $oCustomView->list_fields['Close']=array('vtiger_activity' => 'eventstatus');
-	if (!isset($oCustomView->list_fields_name['Close'])) $oCustomView->list_fields_name['Close']='eventstatus';
+	if (!isset($oCustomView->list_fields['Close'])) $oCustomView->list_fields['Close']=array('vtiger_task' => 'taskstate');
+	if (!isset($oCustomView->list_fields_name['Close'])) $oCustomView->list_fields_name['Close']='taskstate';
 }
-$listview_header = getListViewHeader($focus,"Calendar",$url_string,$sorder,$order_by,"",$oCustomView);
+$listview_header = getListViewHeader($focus,"Task",$url_string,$sorder,$order_by,"",$oCustomView);
 $smarty->assign("LISTHEADER", $listview_header);
 
-$listview_header_search=getSearchListHeaderValues($focus,"Calendar",$url_string,$sorder,$order_by,"",$oCustomView);
+$listview_header_search=getSearchListHeaderValues($focus,"Task",$url_string,$sorder,$order_by,"",$oCustomView);
 $smarty->assign("SEARCHLISTHEADER", $listview_header_search);
 
-$edit_permissions = $Calendar4You->CheckPermissions("EDIT");
+$edit_permissions = $Task4You->CheckPermissions("EDIT");
 
 if(!$edit_permissions)
 	$editlistview = 'EditView';
 else
 	$editlistview = '';
 
-$delete_permissions = $Calendar4You->CheckPermissions("DELETE");
+$delete_permissions = $Task4You->CheckPermissions("DELETE");
 
 if(!$delete_permissions)
 	$deletelistview = 'Delete';
 else
 	$deletelistview = '';
 
-$listview_entries = getListViewEntries($focus,"Calendar",$list_result,$navigation_array,"","","","",$oCustomView);
+$listview_entries = getListViewEntries($focus,"Task",$list_result,$navigation_array,"","","","",$oCustomView);
 
 $smarty->assign("LISTENTITY", $listview_entries);
 $smarty->assign("SELECT_SCRIPT", $view_script);
@@ -290,8 +295,8 @@ $smarty->assign("SELECTEDIDS", vtlib_purify($_REQUEST['selobjs']));
 $smarty->assign("ALLSELECTEDIDS", vtlib_purify($_REQUEST['allselobjs']));
 $smarty->assign("CURRENT_PAGE_BOXES", implode(array_keys($listview_entries),";"));
 
-$navigationOutput = getTableHeaderSimpleNavigation($navigation_array,$url_string,"Calendar4You","ListView",$viewid);
-$alphabetical = AlphabeticalSearch('Calendar4You','ListView','subject','true','basic',"","","","",$viewid);
+$navigationOutput = getTableHeaderSimpleNavigation($navigation_array,$url_string,"Task4You","ListView",$viewid);
+$alphabetical = AlphabeticalSearch('Task4You','ListView','subject','true','basic',"","","","",$viewid);
 $fieldnames = getAdvSearchfields($module);
 $criteria = getcriteria_options();
 $smarty->assign("CRITERIA", $criteria);
@@ -315,5 +320,5 @@ $smarty->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($currentModul
 if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] != '')
 	$smarty->display("ListViewEntries.tpl");
 else
-	$smarty->display("modules/Calendar4You/EventListView.tpl");
+	$smarty->display("modules/Task4You/EventListView.tpl");
 ?>

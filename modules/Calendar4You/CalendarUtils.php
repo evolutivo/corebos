@@ -127,18 +127,18 @@ function get_next_its_cal(& $cal) {
 
 function getActTypeForCalendar($activitytypeid, $translate = true) {
 	global $adb,$default_charset;
-	$q = 'select * from vtiger_activitytype where activitytypeid = ?';
+	$q = 'select * from vtiger_event_type where event_typeid = ?';
 	$Res = $adb->pquery($q,array($activitytypeid));
         if($adb->num_rows($Res)>0){
-        $value = $adb->query_result($Res,0,'activitytype');}
+	$value = $adb->query_result($Res,0,'event_type');}
         else {
-        $q1 = 'select * from vtiger_activitytype order by activitytypeid limit 1';
+        $q1 = 'select * from vtiger_event_type order by event_typeid limit 1';
 	$Res1 = $adb->pquery($q1,array());   
-        $value = $adb->query_result($Res1,0,'activitytype');
+        $value = $adb->query_result($Res1,0,'event_typeid');
         }
-        $value = html_entity_decode($value,ENT_QUOTES,$default_charset);
+	$value = html_entity_decode($value,ENT_QUOTES,$default_charset);
 	if ($translate) 
-		return getTranslatedString($value,'Calendar');
+		return getTranslatedString($value,'Task');
 	else
 		return $value;
 }
@@ -146,35 +146,39 @@ function getActTypeForCalendar($activitytypeid, $translate = true) {
 function getActTypesForCalendar() {
 	global $adb,$mod_strings,$current_user;
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
-
+//brcondition
 	$ActTypes = array();
-	if($is_admin)
-		$q = "select * from vtiger_activitytype";
-	else {
-		$roleid=$current_user->roleid;
-		$subrole = getRoleSubordinates($roleid);
-		if(count($subrole)> 0) {
-			$roleids = $subrole;
-			array_push($roleids, $roleid);
-		} else {
-			$roleids = $roleid;
-		}
-
-		$q = "select distinct activitytypeid, activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid";
-
-		if (count($roleids) > 1) {
-			$q .= " in (\"". implode($roleids,"\",\"") ."\") and picklistid in (select picklistid from vtiger_picklist) order by sortid asc";
-		} else {
-			$q .= " ='".$roleid."' and picklistid in (select picklistid from vtiger_picklist) order by sortid asc";
-		}
-	}
+//	if($is_admin)
+//		$q = "select * from vtiger_event_type where event_type<>'--None--'";
+//	else {
+//		$roleid=$current_user->roleid;
+//		$subrole = getRoleSubordinates($roleid);
+//		if(count($subrole)> 0) {
+//			$roleids = $subrole;
+//			array_push($roleids, $roleid);
+//		} else {
+//			$roleids = $roleid;
+//		}
+//
+//		$q = "select distinct event_typeid, event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where event_type<>'--None--' and roleid";
+//
+//		if (count($roleids) > 1) {
+//			$q .= " in (\"". implode($roleids,"\",\"") ."\") and picklistid in (select picklistid from vtiger_picklist) order by sortid asc";
+//		} else {
+//			$q .= " ='".$roleid."' and picklistid in (select picklistid from vtiger_picklist) order by sortid asc";
+//		}
+//	}
+        $role=$current_user->roleid;
+        $q="select businessrulesid,linktomap from vtiger_businessrules join vtiger_crmentity on crmid=businessrulesid where deleted=0 and module_rules='Calendar' and (busrule_roles like '%$role |#%' or busrule_roles like '$role' or busrule_roles like '%#| $role' or busrule_roles='')";
 	$Res = $adb->query($q);
 	$noofrows = $adb->num_rows($Res);
-
 	for($i = 0; $i < $noofrows; $i++) {
-		$id = $adb->query_result($Res,$i,"activitytypeid");
-		$value = $adb->query_result($Res,$i,"activitytype");
-		$ActTypes[$id] = $value;
+		$id = $adb->query_result($Res,$i,0);
+		$value = $adb->query_result($Res,$i,1);
+                $focus3 = CRMEntity::getInstance("cbMap");
+                $focus3->retrieve_entity_info($value, "cbMap");
+                $sqlrec = $focus3->getMapSQL();
+		$ActTypes[$id] = $sqlrec;
 	}
 
 	return $ActTypes;
@@ -251,26 +255,20 @@ function getCalendar4YouListQuery($userid, $invites, $where = '', $type='1') {
 	//$tab_id = getTabid("Calendar4You");
 	$userNameSql = getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>'vtiger_users.last_name'), 'Users');
 
-	$query = "SELECT distinct vtiger_activity.activityid as act_id, vtiger_crmentity.*, vtiger_activity.*, vtiger_activitycf.*, ";
+	$query = "SELECT distinct vtiger_task.taskid as act_id, vtiger_crmentity.*, vtiger_task.*, vtiger_taskcf.*, ";
 
 	if ($type == '1') $query .= "vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_contactdetails.contactid, vtiger_account.accountid, vtiger_account.accountname, ";
 
-	$query .= "vtiger_seactivityrel.crmid AS parent_id,its4you_googlesync4you_events.geventid,vtiger_activity_reminder.reminder_time
-	FROM vtiger_activity
-	LEFT JOIN vtiger_activitycf
-		ON vtiger_activitycf.activityid = vtiger_activity.activityid
-	LEFT JOIN vtiger_cntactivityrel
-		ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
-	LEFT JOIN vtiger_contactdetails
-		ON vtiger_contactdetails.contactid = (select vtiger_cntactivityrel.contactid
-		from vtiger_cntactivityrel
-		where vtiger_cntactivityrel.activityid = vtiger_activity.activityid limit 1)
-	LEFT JOIN vtiger_seactivityrel
-		ON vtiger_seactivityrel.activityid = vtiger_activity.activityid
-	LEFT OUTER JOIN vtiger_activity_reminder
-		ON vtiger_activity_reminder.activity_id = vtiger_activity.activityid
+	$query .= "vtiger_crmentityrel.relcrmid AS parent_id,its4you_googlesync4you_events.geventid
+	FROM vtiger_task
+	LEFT JOIN vtiger_taskcf
+		ON vtiger_taskcf.taskid = vtiger_task.taskid
+	LEFT JOIN vtiger_crmentityrel
+		ON vtiger_crmentityrel.crmid = vtiger_task.taskid
+        LEFT JOIN vtiger_contactdetails
+		ON vtiger_contactdetails.contactid = vtiger_crmentityrel.relcrmid
 	LEFT JOIN vtiger_crmentity
-		ON vtiger_crmentity.crmid = vtiger_activity.activityid
+		ON vtiger_crmentity.crmid = vtiger_task.taskid
 	LEFT JOIN vtiger_users
 		ON vtiger_users.id = vtiger_crmentity.smownerid
 	LEFT JOIN vtiger_groups
@@ -282,40 +280,39 @@ function getCalendar4YouListQuery($userid, $invites, $where = '', $type='1') {
 	LEFT OUTER JOIN vtiger_account
 		ON vtiger_account.accountid = vtiger_contactdetails.accountid
 	LEFT OUTER JOIN vtiger_leaddetails
-		ON vtiger_leaddetails.leadid = vtiger_seactivityrel.crmid
+		ON vtiger_leaddetails.leadid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_account vtiger_account2
-		ON vtiger_account2.accountid = vtiger_seactivityrel.crmid
+		ON vtiger_account2.accountid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_potential
-		ON vtiger_potential.potentialid = vtiger_seactivityrel.crmid
+		ON vtiger_potential.potentialid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_troubletickets
-		ON vtiger_troubletickets.ticketid = vtiger_seactivityrel.crmid
+		ON vtiger_troubletickets.ticketid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_salesorder
-		ON vtiger_salesorder.salesorderid = vtiger_seactivityrel.crmid
+		ON vtiger_salesorder.salesorderid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_purchaseorder
-		ON vtiger_purchaseorder.purchaseorderid = vtiger_seactivityrel.crmid
+		ON vtiger_purchaseorder.purchaseorderid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_quotes
-		ON vtiger_quotes.quoteid = vtiger_seactivityrel.crmid
+		ON vtiger_quotes.quoteid =vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_invoice
-		ON vtiger_invoice.invoiceid = vtiger_seactivityrel.crmid
+		ON vtiger_invoice.invoiceid = vtiger_crmentityrel.relcrmid
 	LEFT OUTER JOIN vtiger_campaign
-	ON vtiger_campaign.campaignid = vtiger_seactivityrel.crmid ";
+	ON vtiger_campaign.campaignid = vtiger_crmentityrel.relcrmid ";
 
 	//added to fix #5135
-	if (isset($_REQUEST['from_homepage']) && ($_REQUEST['from_homepage'] == "upcoming_activities" || $_REQUEST['from_homepage'] == "pending_activities")) {
-		$query.="LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.activityid=vtiger_activity.activityid ";
-	}
+//	if (isset($_REQUEST['from_homepage']) && ($_REQUEST['from_homepage'] == "upcoming_activities" || $_REQUEST['from_homepage'] == "pending_activities")) {
+//		$query.="LEFT OUTER JOIN vtiger_recurringevents ON vtiger_recurringevents.taskid=vtiger_task.taskid ";
+//	}
 	//end
 
 	//google cal sync
-	$query.= "LEFT JOIN its4you_googlesync4you_events ON its4you_googlesync4you_events.crmid = vtiger_activity.activityid AND its4you_googlesync4you_events.userid = '".$userid."' ";
+	$query.= "LEFT JOIN its4you_googlesync4you_events ON its4you_googlesync4you_events.crmid = vtiger_task.taskid AND its4you_googlesync4you_events.userid = '".$userid."' ";
 
-	if($invites && $userid != "") $query.= "INNER JOIN vtiger_invitees ON vtiger_invitees.activityid = vtiger_activity.activityid AND vtiger_invitees.inviteeid = '".$userid."' ";
+	//if($invites && $userid != "") $query.= "INNER JOIN vtiger_invitees ON vtiger_invitees.taskid = vtiger_task.taskid AND vtiger_invitees.inviteeid = '".$userid."' ";
 
 	//$query .= getCalendar4YouNonAdminAccessControlQuery($userid);
-	$query.=" WHERE vtiger_crmentity.deleted = 0 AND activitytype != 'Emails' " . $where;
+	$query.=" WHERE vtiger_crmentity.deleted = 0 AND event_type != 'Emails' " . $where;
 
-	$query = listQueryNonAdminChange($query, "Calendar");
-
+	$query = listQueryNonAdminChange($query, "Task");
 	$log->debug("Exiting getListQuery method ...");
 	return $query;
 }
@@ -323,7 +320,7 @@ function getCalendar4YouListQuery($userid, $invites, $where = '', $type='1') {
 function getCalendar4YouNonAdminAccessControlQuery($userid,$scope='') {
 	require('user_privileges/user_privileges_'.$userid.'.php');
 	require('user_privileges/sharing_privileges_'.$userid.'.php');
-	$module = "Calendar";
+	$module = "Task";
 	$query = ' ';
 	$tabId = getTabid($module);
 	if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2]
@@ -339,7 +336,7 @@ function getCalendar4YouNonAdminAccessControlQuery($userid,$scope='') {
 		$sharedIds = getCalendar4YouSharedCalendarId($userid);
 		if(!empty($sharedIds)){
 			$query .= "or ($tableName$scope.id = vtiger_crmentity$scope.smownerid AND ".
-				"$tableName$scope.shared=1 and vtiger_activity.visibility = 'Public') ";
+				"$tableName$scope.shared=1 and vtiger_task.visibility = 'Public') ";
 		}
 	}
 	return $query;
@@ -445,7 +442,8 @@ function transferForAddIntoTitle($type, $row, $CD) {
 		$Col_Field["contact_id"] = getAssignedContactsForEvent($row["crmid"]);
 		$CD["uitype"] = "1";   
 	}
-	if ($CD['module']=='Calendar' or $CD['module']=='Events') {
+	$Cal_Data = getDetailViewOutputHtml($CD["uitype"], $CD["fieldname"], $CD["fieldlabel"], $Col_Field, "2", $calendar_tabid, "Task");
+if ($CD['module']=='Calendar' or $CD['module']=='Events') {
 		$Cal_Data = getDetailViewOutputHtml($CD['uitype'], $CD['fieldname'], $CD['fieldlabel'], $Col_Field, '2', $calendar_tabid, 'Calendar');
 		$trmodule = 'Calendar';
 	} else {
@@ -459,9 +457,8 @@ function transferForAddIntoTitle($type, $row, $CD) {
 		$Cal_Data[1] = $adb->query_result($recinfo, 0, $CD['columnname']);
 		$trmodule = $CD['module'];
 	}
-
 	if ($CD["uitype"] == "15")
-		$value = getTranslatedString($Cal_Data[1],$trmodule);
+		$value = getTranslatedString($Cal_Data[1],'Task');
 	else
 		$value = $Cal_Data[1];
 
@@ -474,9 +471,9 @@ function transferForAddIntoTitle($type, $row, $CD) {
 
 function getEventActivityMode($id) {
 	global $adb;
-	$query = "select activitytype from vtiger_activity where activityid=?";
+	$query = "select event_type from vtiger_event_type where event_typeid=?";
 	$result = $adb->pquery($query, array($id));
-	$actType = $adb->query_result($result,0,'activitytype');
+	$actType = $adb->query_result($result,0,'event_type');
 	if( $actType == 'Task')	{
 		$activity_mode = $actType;	
 	} elseif($actType != 'Emails') {
@@ -503,8 +500,8 @@ function getITSActFieldCombo($fieldname,$tablename,$from_module = '',$follow_act
 		}
 	}
 
-	if($fieldname == 'eventstatus')
-		$js_fn = 'onChange = "getSelectedStatus();"';
+//	if($fieldname == 'eventstatus')
+//		$js_fn = 'onChange = "getSelectedStatus();"';
 	if($follow_activitytype)
 		$combo .= '<select name="follow_'.$fieldname.'" id="follow_'.$fieldname.'" class=small '.$js_fn.'>';
 	else
@@ -532,7 +529,7 @@ function getITSActFieldCombo($fieldname,$tablename,$from_module = '',$follow_act
 	for($i = 0; $i < $noofrows; $i++) {
 		$value = $adb->query_result($Res,$i,$fieldname);
 		$value = html_entity_decode($value,ENT_QUOTES,$default_charset);
-		$label = getTranslatedString($value,'Calendar');
+		$label = getTranslatedString($value,'Task');
 		if ($value == $def) $selected = " selected"; else $selected = "";
 		$combo .= '<option value="'.$value.'"'.$selected.'>'.$label.'</option>';
 	}
@@ -546,10 +543,10 @@ function getAssignedContactsForEvent($actid) {
 	$contacts = "";
 	$Contacts = array();
 	$query = "SELECT vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_contactdetails.contactid
-		FROM vtiger_activity
-		INNER JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.activityid = vtiger_activity.activityid
+		FROM vtiger_task
+		INNER JOIN vtiger_cntactivityrel ON vtiger_cntactivityrel.taskid = vtiger_task.taskid
 		INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = vtiger_cntactivityrel.contactid
-		WHERE vtiger_activity.activityid = ?";
+		WHERE vtiger_task.taskid = ?";
 	$Result = $adb->pquery($query,array($actid));
 	$num_rows = $adb->num_rows($Result);
 	if ($num_rows > 0) {
@@ -568,7 +565,7 @@ function getAllModulesWithDateFields() {
 		$sqlmods = 'SELECT distinct cbfld.tabid,vtiger_tab.name
 			FROM vtiger_field as cbfld
 			INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
-			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1  and (uitype=5 OR uitype=6 OR uitype=23)';
+			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1  and (uitype=5 OR uitype=6 OR uitype=23) and name<>"Task"';
 		$params = array();
 	} else {
 		$sqlmods = '';
@@ -612,7 +609,7 @@ function getAllModulesWithDateTimeFields() {
 		$sqlmods = 'SELECT distinct cbfld.tabid,vtiger_tab.name
 			FROM vtiger_field as cbfld
 			INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
-			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1 and (uitype=5 OR uitype=6 OR uitype=23)';
+			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1 and (uitype=5 OR uitype=6 OR uitype=23) and name<>"Task"';
 		$params = array();
 	} else {
 		$sqlmods = '';

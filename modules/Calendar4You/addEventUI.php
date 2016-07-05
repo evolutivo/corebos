@@ -728,6 +728,12 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 		}
 	}
 	$eventlist='';
+                $eventlist = 'Task';
+		$eventlist = html_entity_decode($eventlist,ENT_QUOTES,$default_charset);
+		$actname = getTranslatedString($eventlist,'Task');
+?>
+	<tr><td><a href='' id="add<?php echo strtolower($eventlist);?>" class='drop_down'><?php echo $actname; ?></a></td></tr>
+<?php
 	for($i=0; $i<$adb->num_rows($Res);$i++)
 	{
 		$eventlist = $adb->query_result($Res,$i,'activitytype');

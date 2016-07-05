@@ -504,7 +504,7 @@ public function setgoogleaccessparams($userid){
     	global $adb;
     	global $current_user;
 
-    	$query = "select * from vtiger_invitees where activityid =? and inviteeid=?";
+    	$query = "select * from vtiger_invitees where taskid =? and inviteeid=?";
         $result=$adb->pquery($query, array($recordId, $current_user->id));
     	if($adb->num_rows($result) >0) {
     		return true;
@@ -520,9 +520,9 @@ public function setgoogleaccessparams($userid){
 
         $type = "";
 
-        if ($fieldname == "eventstatus")
-            $type = "3";
-        elseif ($fieldname == "taskstatus")
+//        if ($fieldname == "eventstatus")
+//            $type = "3";
+        if ($fieldname == "taskstate")
             $type = "4";
         elseif ($fieldname == "taskpriority")
             $type = "5";
@@ -556,7 +556,7 @@ public function setgoogleaccessparams($userid){
             $valueid = $adb->query_result($Res,$i,"picklist_valueid");
             $value = $adb->query_result($Res,$i,$fieldname);
             $value = html_entity_decode($value,ENT_QUOTES,$default_charset);
-            $label = getTranslatedString($value,'Calendar');
+            $label = getTranslatedString($value,'Task');
             
             if ($type != "" || $load_ch ) {
                 if (!empty($this->View[$type][$valueid])) 
@@ -572,7 +572,7 @@ public function setgoogleaccessparams($userid){
     //Function Call for Related List -- Start
 	/**
 	 * Function to get Activity related Contacts
-	 * @param  integer   $id      - activityid
+	 * @param  integer   $id      - taskid
 	 * returns related Contacts record in array format
 	 */
 	function get_contacts($id, $cur_tab_id, $rel_tab_id, $actions=false) {
@@ -600,7 +600,7 @@ public function setgoogleaccessparams($userid){
 			}
 		}
 		
-		$query = 'select vtiger_users.user_name,vtiger_contactdetails.accountid,vtiger_contactdetails.contactid, vtiger_contactdetails.firstname,vtiger_contactdetails.lastname, vtiger_contactdetails.department, vtiger_contactdetails.title, vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime from vtiger_contactdetails inner join vtiger_cntactivityrel on vtiger_cntactivityrel.contactid=vtiger_contactdetails.contactid inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_contactdetails.contactid left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid where vtiger_cntactivityrel.activityid='.$id.' and vtiger_crmentity.deleted=0';
+		$query = 'select vtiger_users.user_name,vtiger_contactdetails.accountid,vtiger_contactdetails.contactid, vtiger_contactdetails.firstname,vtiger_contactdetails.lastname, vtiger_contactdetails.department, vtiger_contactdetails.title, vtiger_contactdetails.email, vtiger_contactdetails.phone, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.modifiedtime from vtiger_contactdetails inner join vtiger_cntactivityrel on vtiger_cntactivityrel.contactid=vtiger_contactdetails.contactid inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_contactdetails.contactid left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid where vtiger_cntactivityrel.taskid='.$id.' and vtiger_crmentity.deleted=0';
 				
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset); 
 		
@@ -613,7 +613,7 @@ public function setgoogleaccessparams($userid){
     
     /**
 	 * Function to get Activity related Users
-	 * @param  integer   $id      - activityid
+	 * @param  integer   $id      - taskid
 	 * returns related Users record in array format
 	 */
 	function get_users($id) {
@@ -628,9 +628,9 @@ public function setgoogleaccessparams($userid){
 
 		$returnset = '&return_module=Calendar&return_action=CallRelatedList&return_id='.$id;
 
-		$query = 'SELECT vtiger_users.id, vtiger_users.first_name,vtiger_users.last_name, vtiger_users.user_name, vtiger_users.email1, vtiger_users.email2, vtiger_users.status, vtiger_users.is_admin, vtiger_user2role.roleid, vtiger_users.secondaryemail, vtiger_users.phone_home, vtiger_users.phone_work, vtiger_users.phone_mobile, vtiger_users.phone_other, vtiger_users.phone_fax,vtiger_activity.date_start,vtiger_activity.due_date,vtiger_activity.time_start,vtiger_activity.duration_hours,vtiger_activity.duration_minutes from vtiger_users inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.smid=vtiger_users.id  inner join vtiger_activity on vtiger_activity.activityid=vtiger_salesmanactivityrel.activityid inner join vtiger_user2role on vtiger_user2role.userid=vtiger_users.id where vtiger_activity.activityid='.$id;
+		$query = 'SELECT vtiger_users.id, vtiger_users.first_name,vtiger_users.last_name, vtiger_users.user_name, vtiger_users.email1, vtiger_users.email2, vtiger_users.status, vtiger_users.is_admin, vtiger_user2role.roleid, vtiger_users.secondaryemail, vtiger_users.phone_home, vtiger_users.phone_work, vtiger_users.phone_mobile, vtiger_users.phone_other, vtiger_users.phone_fax,vtiger_task.date_start,vtiger_task.date_end,vtiger_task.time_start,vtiger_task.duration_hours,vtiger_task.duration_minutes from vtiger_users inner join vtiger_salesmanactivityrel on vtiger_salesmanactivityrel.smid=vtiger_users.id  inner join vtiger_task on vtiger_task.taskid=vtiger_salesmanactivityrel.taskid inner join vtiger_user2role on vtiger_user2role.userid=vtiger_users.id where vtiger_task.taskid='.$id;
 		
-		$return_data = GetRelatedList('Calendar','Users',$focus,$query,$button,$returnset);
+		$return_data = GetRelatedList('Task','Users',$focus,$query,$button,$returnset);
 		
 		if($return_data == null) $return_data = Array();
 		$return_data['CUSTOM_BUTTON'] = $button;
@@ -638,7 +638,47 @@ public function setgoogleaccessparams($userid){
 		$log->debug("Exiting get_users method ..."); 
 		return $return_data;
 	}
-
+    
+    /**
+         * Function to get activities for given criteria
+	 * @param   string   $criteria     - query string
+	 * returns  activity records in array format($list) or null value
+         */	 
+  	function get_full_list($criteria) {
+	 	global $log;
+		$log->debug("Entering get_full_list(".$criteria.") method ...");
+	    $query = "select vtiger_crmentity.crmid,vtiger_crmentity.smownerid,vtiger_crmentity.setype, vtiger_task.*, 
+	    		vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_contactdetails.contactid 
+	    		from vtiger_task 
+	    		inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_task.taskid 
+	    		left join vtiger_crmentityrel on vtiger_crmentityrel.crmid = vtiger_task.taskid 
+	    		left join vtiger_contactdetails on vtiger_contactdetails.contactid= vtiger_crmentityrel.relcrmid
+	    		WHERE vtiger_crmentity.deleted=0 ".$criteria;
+    	$result =& $this->db->query($query);
+        
+        if($this->db->getRowCount($result) > 0){
+    		
+          // We have some data.
+          while ($row = $this->db->fetchByAssoc($result)) {
+            foreach($this->list_fields_name as $field){
+              if (isset($row[$field])) {
+                $this->$field = $row[$field];
+              } else {
+                $this->$field = '';   
+              }
+            }
+            $list[] = $this;
+          }
+        }
+        if (isset($list)) {
+    		$log->debug("Exiting get_full_list method ...");
+    	    return $list;
+    	} else {
+    		$log->debug("Exiting get_full_list method ...");
+    	    return null;
+    	}
+    }
+  
     function SaveView($Type_Ids, $Users_Ids, $all_users, $Load_Event_Status, $Load_Task_Status, $Load_Task_Priority) {
         global $adb,$current_user;
         
