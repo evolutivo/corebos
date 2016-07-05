@@ -565,7 +565,7 @@ function getAllModulesWithDateFields() {
 		$sqlmods = 'SELECT distinct cbfld.tabid,vtiger_tab.name
 			FROM vtiger_field as cbfld
 			INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
-			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1  and (uitype=5 OR uitype=6 OR uitype=23) and name<>"Task"';
+			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1  and (uitype=5 OR uitype=6 OR uitype=23) and name<>"Task" ';
 		$params = array();
 	} else {
 		$sqlmods = '';
@@ -609,7 +609,7 @@ function getAllModulesWithDateTimeFields() {
 		$sqlmods = 'SELECT distinct cbfld.tabid,vtiger_tab.name
 			FROM vtiger_field as cbfld
 			INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
-			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1 and (uitype=5 OR uitype=6 OR uitype=23) and name<>"Task"';
+			WHERE vtiger_tab.presence=0 and vtiger_tab.isentitytype=1 and (uitype=5 OR uitype=6 OR uitype=23) ';
 		$params = array();
 	} else {
 		$sqlmods = '';

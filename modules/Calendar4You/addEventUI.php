@@ -734,6 +734,18 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 ?>
 	<tr><td><a href='' id="add<?php echo strtolower($eventlist);?>" class='drop_down'><?php echo $actname; ?></a></td></tr>
 <?php
+	for($i=0; $i<$adb->num_rows($Res);$i++)
+	{
+		$eventlist = $adb->query_result($Res,$i,'activitytype');
+		$eventlist = html_entity_decode($eventlist,ENT_QUOTES,$default_charset);
+		$actname = getTranslatedString($eventlist,'Calendar');
+?>
+	<tr><td><a href='' id="add<?php echo strtolower($eventlist);?>" class='drop_down'><?php echo $actname; ?></a></td></tr>
+<?php
+	}
+?>
+	<tr><td><a href='' id="addtodo" class='drop_down'><?php echo $c_mod_strings['LBL_ADDTODO']?></a></td></tr>
+<?php
 	$timeModules = getAllModulesWithDateTimeFields();
 	foreach ($timeModules as $tmid => $tmmod) {
 		$tmline = getTranslatedString($tmmod,$tmmod);
