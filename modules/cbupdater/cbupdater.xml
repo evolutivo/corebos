@@ -953,4 +953,18 @@
 	<classname>UserSettingsImport</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>brisilda</author>
+	<description>InstallevvtMap </description>
+	<filename>build/changeSets/evolutivo/installevvtMap.php</filename>
+	<classname>installevvtMap</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>brisilda</author>
+	<description>Install OSM </description>
+	<filename>build/changeSets/evolutivo/installOSM.php</filename>
+	<classname>installOSM</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

@@ -1,0 +1,41 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_evvtmap</name>
+			<sql><![CDATA[CREATE TABLE IF NOT EXISTS `vtiger_evvtmap` (
+  `evvtmapid` int(11) NOT NULL DEFAULT '0',
+  `state` varchar(100) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `postalcode` varchar(100) NOT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `street` varchar(250) DEFAULT NULL,
+  `lat` float(10,6) NOT NULL,
+  `lng` float(10,6) NOT NULL,
+  PRIMARY KEY (`evvtmapid`),
+  KEY `postalcode` (`postalcode`),
+  KEY `city` (`city`),
+  KEY `state` (`state`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;]]></sql>
+		</table>
+		<table>
+			<name>vtiger_evvtmapdefaults</name>
+			<sql><![CDATA[CREATE TABLE IF NOT EXISTS `vtiger_evvtmapdefaults` (
+  `uid` int(11) NOT NULL,
+  `radius` int(11) NOT NULL,
+  `zoom` int(11) NOT NULL,
+  `maptype` varchar(25) NOT NULL,
+  `location` varchar(25) NOT NULL,
+  `mapcenter` varchar(25) NOT NULL,
+  `tab` int(11) NOT NULL,
+  `lastrun` datetime DEFAULT NULL,
+  PRIMARY KEY (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;]]></sql>
+		</table>
+		<table>
+			<name>vtiger_evvtmapdefaults_values</name>
+			<sql><![CDATA[INSERT INTO `vtiger_evvtmapdefaults` (`uid`, `radius`, `zoom`, `maptype`, `location`, `mapcenter`, `tab`) VALUES
+(0, 25, 7, 'politico', 'defloc', 'defloc', 0);]]></sql>
+		</table>
+	</tables>
+</schema>
