@@ -195,30 +195,6 @@ alt="GetCoordinates" title="GetCoordinates" LANGUAGE=javascript	onClick="evvt_Ge
 </select>
 </div>
 <div id ="tabs-6">
-  <div id="findhotels">
-    Find hotels in:
-  </div>
-  <div id="locationField">
-    <input id="autocomplete" placeholder="Enter a city" type="text" autocomplete="off">
-  </div>
-  <div id="controls">
-    <select id="country" onchange="setAutocompleteCountry()">
-      <option value="all">All</option>
-      <option value="au">Australia</option>
-      <option value="br">Brazil</option>
-      <option value="ca">Canada</option>
-      <option value="fr">France</option>
-      <option value="de">Germany</option>
-      <option value="mx">Mexico</option>
-      <option value="nz">New Zealand</option>
-      <option value="it">Italy</option>
-      <option value="za">South Africa</option>
-      <option value="es">Spain</option>
-      <option value="pt">Portugal</option>
-      <option value="us" selected="">U.S.A.</option>
-      <option value="uk">United Kingdom</option>
-    </select>
-  </div>
 </div>
 <div style="clear:both;"></div>
 <input type='submit' style="margin-left: 10px;margin-top: 4px;margin-bottom: 4px; clear: both;" value='{$APP.LBL_UPDATE}'/>
