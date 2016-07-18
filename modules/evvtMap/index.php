@@ -111,7 +111,7 @@ if (!isset($defaultUser)) {
   $defaultUser = $current_user->id;
 }
 ?>
-<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=<?php echo $lang?>" type="text/javascript"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=<?php echo $lang?>&key=AIzaSyDlKIKj_IWx5KhohfGQ_eFXaMh0f2fcdDw" type="text/javascript"></script>
 <!--<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="modules/evvtMap/js/gm.js" type="text/javascript"></script>
@@ -328,7 +328,7 @@ $city=$row['city'];
 $pcode=$row['code'];
 $address=$row['address'];
 $state=$row['state'];
-$from = $gc->getGeoCode(-$current_user->id,$state,$city,$pcode,$address,$country);
+$from = $gc->getGeoCode($current_user->id,$state,$city,$pcode,$address,$country);
 if($gc->status != 'OK') show_error_import($gc->status);
 
 if ($_REQUEST['ids']) //priority to request paramater
@@ -673,8 +673,6 @@ if(currentPosition != null){
   baseName = '<?php echo addslashes($ename); ?>';
   baseCity ='<?php echo addslashes($city); ?>';   
 }
-centerMap();
-
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     function(position) {
@@ -691,7 +689,7 @@ if (navigator.geolocation) {
     { enableHighAccuracy: true }
     );
 }
-
+centerMap();
 //
 // Slickgrid config starts here
 //
