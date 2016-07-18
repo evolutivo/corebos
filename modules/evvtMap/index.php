@@ -622,7 +622,7 @@ function centerMap() {
   <span style="float: left"><b>'+around_lbl+'</b>&nbsp;<input id="aroundfilter" size="5" name="aroundfilter" value="<?php echo $radius; ?>" onChange="DrawCircle(latitude,longitude,this,module);" style="width:35px">&nbsp;kms<br/>\
   <a href="index.php?module=evvtMap&file=update&action=evvtMapAjax&id=<?php echo -$current_user->id; ?>&show='+module+'">'+reload_lbl+'</a> / <a href="#" onclick="DrawCircle(latitude,longitude,$(\'aroundfilter\'),module);">'+drawcircle_lbl+'</a> / <a href="#" onclick="removeCircle();return false;">'+clearcircle_lbl+'</a> \n\</span>\n\
   ';
-
+if(from!= null && typeof(from)!= 'undefined')
   if(from.lat() || from.lng())
 	var center = new google.maps.LatLng(from.lat(),from.lng());
   else
@@ -673,6 +673,7 @@ if(currentPosition != null){
   baseName = '<?php echo addslashes($ename); ?>';
   baseCity ='<?php echo addslashes($city); ?>';   
 }
+//centerMap();
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     function(position) {
@@ -689,7 +690,6 @@ if (navigator.geolocation) {
     { enableHighAccuracy: true }
     );
 }
-centerMap();
 //
 // Slickgrid config starts here
 //
