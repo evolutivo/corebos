@@ -967,4 +967,11 @@
 	<classname>installOSM</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albertxhani</author>
+	<description>Add Actions to Business action Module</description>
+	<filename>build/changeSets/evolutivo/add_actions.php</filename>
+	<classname>add_actions</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

@@ -1250,6 +1250,13 @@ $app_strings = array (
 'LBL_ADVANCED_FILTER' => 'Ricerca Avanzata',
 'LBL_CHANGE'=>'Cambia',
 'LBL_CHANGE_TITLE'=>'Cambia [Alt+C]',
+
+// Custom actions on detail View
+'LBL_ADD_NOTE'=>'Aggiungi nota',
+'LBL_ADD_TO_DO'=>'Aggiungi fare',
+'LBL_ADD_EVENT'=>'Aggiungi evento',
+'LBL_CREATE_INVOICE'=>'Creare Fattura',
+
 'LBL_NEXT_BUTTON_LABEL' => 'Avanti',
 'LBL_MAX_SIZE'=> 'Dimensione Massima Upload', //added for uploadsize limit message
 'LBL_FILESIZEIN_MB'=> 'MB', //added to show filesize in MB

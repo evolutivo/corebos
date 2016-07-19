@@ -151,7 +151,6 @@ function sendfile_email()
 {rdelim}
 
 </script>
-
 <div id="lstRecordLayout" class="layerPopup" style="display:none;width:325px;height:300px;"></div>
 
 
@@ -472,15 +471,7 @@ function sendfile_email()
 																</td>
 															</tr>
 														{/if}
-													{elseif $MODULE eq 'Potentials'}
-														{if $CONVERTINVOICE eq 'permitted'}
-															<tr>
-																<td align="left" style="padding-left:10px;">
-																	<a class="webMnu" href="index.php?return_module={$MODULE}&return_action=DetailView&return_id={$ID}&convertmode={$CONVERTMODE}&module=Invoice&action=EditView&account_id={$ACCOUNTID}"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"  border="0"/></a>
-																	<a class="webMnu" href="index.php?return_module={$MODULE}&return_action=DetailView&return_id={$ID}&convertmode={$CONVERTMODE}&module=Invoice&action=EditView&account_id={$ACCOUNTID}">{$APP.LBL_CREATE} {$APP.Invoice}</a>
-																</td>
-															</tr>
-														{/if}
+														
 													{elseif $TODO_PERMISSION eq 'true' || $EVENT_PERMISSION eq 'true' || $CONTACT_PERMISSION eq 'true'|| $MODULE eq 'Contacts' || $MODULE eq 'Leads' || ($MODULE eq 'Documents')}
 
 														{if $MODULE eq 'Contacts'}
@@ -503,33 +494,6 @@ function sendfile_email()
 																	</td>
 																</tr>
 															{/if}
-														{/if}
-
-														{if $MODULE eq 'Contacts' || $EVENT_PERMISSION eq 'true'}
-															<tr>
-																<td align="left" style="padding-left:10px;">
-																	<a href="index.php?module=Calendar4You&action=EventEditView&return_module={$MODULE}&return_action=DetailView&activity_mode=Events&return_id={$ID}&{$subst}={$ID}{$acc}&parenttab={$CATEGORY}" class="webMnu"><img src="{'AddEvent.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"  border="0"/></a>
-																	<a href="index.php?module=Calendar4You&action=EventEditView&return_module={$MODULE}&return_action=DetailView&activity_mode=Events&return_id={$ID}&{$subst}={$ID}{$acc}&parenttab={$CATEGORY}" class="webMnu">{$APP.LBL_ADD_NEW} {$APP.Event}</a>
-																</td>
-															</tr>
-														{/if}
-
-														{if $TODO_PERMISSION eq 'true' && ($MODULE eq 'Accounts' || $MODULE eq 'Leads')}
-															<tr>
-																<td align="left" style="padding-left:10px;">
-																	<a href="index.php?module=Calendar4You&action=EventEditView&return_module={$MODULE}&return_action=DetailView&activity_mode=Task&return_id={$ID}&{$subst}={$ID}{$acc}&parenttab={$CATEGORY}" class="webMnu"><img src="{'AddToDo.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-																	<a href="index.php?module=Calendar4You&action=EventEditView&return_module={$MODULE}&return_action=DetailView&activity_mode=Task&return_id={$ID}&{$subst}={$ID}{$acc}&parenttab={$CATEGORY}" class="webMnu">{$APP.LBL_ADD_NEW} {$APP.Todo}</a>
-																</td>
-															</tr>
-														{/if}
-
-														{if $MODULE eq 'Contacts' && $CONTACT_PERMISSION eq 'true'}
-															<tr>
-																<td align="left" style="padding-left:10px;">
-																	<a href="index.php?module=Calendar4You&action=EventEditView&return_module={$MODULE}&return_action=DetailView&activity_mode=Task&return_id={$ID}&{$subst}={$ID}{$acc}&parenttab={$CATEGORY}" class="webMnu"><img src="{'AddToDo.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-																	<a href="index.php?module=Calendar4You&action=EventEditView&return_module={$MODULE}&return_action=DetailView&activity_mode=Task&return_id={$ID}&{$subst}={$ID}{$acc}&parenttab={$CATEGORY}" class="webMnu">{$APP.LBL_ADD_NEW} {$APP.Todo}</a>
-																</td>
-															</tr>
 														{/if}
 
 														{if $MODULE eq 'Leads'}
@@ -640,7 +604,7 @@ function sendfile_email()
                                                                                                                                             {if $CUSTOMLINK->linkicon}
                                                                                                                                                     <a class="webMnu" href="{$customlink_href}"><img hspace=5 align="absmiddle" width="18" height="18" border=0 src="{$CUSTOMLINK->linkicon}"></a>
                                                                                                                                             {/if}
-                                                                                                                                                    <a class="webMnu" href="{$customlink_href}">{$CUSTOMLINK->linklabel}</a>
+                                                                                                                                                    <a class="webMnu" href="{$customlink_href}">{$CUSTOMLINK->linklabel|@getTranslatedString:$CUSTOMLINK->module()}</a>
                                                                                                                                     </td>
                                                                                                                             </tr>
                                                                                                                         {/if}

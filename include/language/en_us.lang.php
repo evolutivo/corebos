@@ -1249,8 +1249,11 @@ $app_strings = array (
 
 'CANNOT_CONVERT' => 'Cannot be Converted',
 
-// For note link on the detailview
+// Custom actions on detail View
 'LBL_ADD_NOTE'=>'Add Note',
+'LBL_ADD_TO_DO'=>'Add To Do',
+'LBL_ADD_EVENT'=>'Add Event',
+'LBL_CREATE_INVOICE'=>'Create Invoice',
 
 // For Layout Editor 
 'LBL_UNHIDE_FIELDS'=>'Unhide Fields',
