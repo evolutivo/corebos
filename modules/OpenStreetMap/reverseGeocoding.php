@@ -10,6 +10,7 @@ $lng = $_POST['lng'];
 $url = 'index.php?module=Accounts&action=EditView&return_module=Accounts&return_action=index&parenttab=Marketing';
 $gc = new GeoCoder();
 $json = $gc->reverseGeocoding($lat,$lng);
+echo $json;
 $json = json_decode($json,true);
 
 $address = $json["address"];
