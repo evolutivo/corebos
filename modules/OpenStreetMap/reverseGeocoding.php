@@ -11,7 +11,6 @@ $url = 'index.php?module=Accounts&action=EditView&return_module=Accounts&return_
 $gc = new GeoCoder();
 $json = $gc->reverseGeocoding($lat,$lng);
 $json = json_decode($json,true);
-echo $json;
 $address = $json["address"];
 foreach ($address as $key => $value){
 $componentvalue = $value;
@@ -39,5 +38,4 @@ switch($componenttype){
 $url .= "&".$componenttype."=".$componentvalue;
 }
 echo $url;
-var_dump($address);
 ?>
