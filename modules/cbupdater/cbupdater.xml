@@ -981,4 +981,11 @@
 	<classname>add_fields_to_contacts</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albertxhani</author>
+	<description>Add workflow to generate Contacts password</description>
+	<filename>build/changeSets/evolutivo/workflow_contact_passwordset.php</filename>
+	<classname>workflow_contact_passwordset</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
