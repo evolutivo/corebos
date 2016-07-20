@@ -974,4 +974,11 @@
 	<classname>add_actions</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albertxhani</author>
+	<description>Add API signin fields to Contacts Module</description>
+	<filename>build/changeSets/evolutivo/contacts_api_fields.php</filename>
+	<classname>add_fields_to_contacts</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
