@@ -60,4 +60,35 @@ function Contacts_sendCustomerPortalLoginDetails($entityData){
 	}
 }
 
+function Contacts_api_loginDetails($entityData)
+{
+
+	$adb = PearDatabase::getInstance();
+	$moduleName = $entityData->getModuleName();
+	$wsId = $entityData->getId();
+	$parts = explode('x', $wsId);
+	$entityId = $parts[1];
+	if( $entityData->get('contact_api_communcation') == 1)
+	{	
+		$password = makeRandomPassword();
+		$sql = "SELECT api_password FROM vtiger_contactdetails WHERE contactid=?";
+		$result = $adb->pquery($sql, array($entityId));
+		$get_pass = $adb->query_result($result,0,'api_password');
+
+		if($get_pass == "")
+		{
+			$sql = "UPDATE vtiger_contactdetails SET api_password=? WHERE contactid=? ";
+			$adb->pquery($sql, array($password, $entityId) );
+
+			require_once("modules/Emails/mail.php");
+			global $current_user;
+			$subject = "Password for API login";
+			$contents = "Password for API login: ".$password;
+			if( $entityData->get('email') != NULL || $entityData->get('email') != "")
+				$mail_status = send_mail('Contacts',$entityData->get('email'),$current_user->user_name,"",$subject,$contents);
+		}
+	}
+
+}
+
 ?>
