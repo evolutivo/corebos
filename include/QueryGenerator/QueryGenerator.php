@@ -421,7 +421,7 @@ class QueryGenerator {
 		return $this->getQuery();
 	}
 
-	public function getQuery() {
+	public function getQuery($distinct=false) {
 		if(empty($this->query)) {
 			$conditionedReferenceFields = array();
 			$allFields = array_merge($this->whereFields,$this->fields);
@@ -439,10 +439,11 @@ class QueryGenerator {
 				}
 			}
 
-			$query = "SELECT ";
-			$query .= $this->getSelectClauseColumnSQL();
+			$query  = $this->getSelectClauseColumnSQL();
 			$query .= $this->getFromClause();
 			$query .= $this->getWhereClause();
+			list($specialPermissionWithDuplicateRows,$cached) = VTCacheUtils::lookupCachedInformation('SpecialPermissionWithDuplicateRows');
+			$query = 'SELECT '.(($distinct or $specialPermissionWithDuplicateRows) ? 'DISTINCT ' : '') . $query;
 			$this->query = $query;
 			return $query;
 		} else {

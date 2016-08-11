@@ -105,7 +105,7 @@ function updateFilterCombo(elem) {
                     selviewid:selviewid
             }
             }).done(function( filters ) {
-                  $("filterContainer").innerHTML= filters + " " + $("userspantpl").innerHTML; 
+                  document.getElementById("filterContainer").innerHTML= filters + " " +  document.getElementById("userspantpl").innerHTML; 
             });
 	 
 }
@@ -283,15 +283,13 @@ function getDescriptionofList(pointx,pointy,rad,module)
 {
         var url = "module=OpenStreetMap&action=OpenStreetMapAjax&file=PointsInsideCircle&pointx="+pointx+"&pointy="+pointy+"&radius="+rad+"&modulename="+module;
         var latlng =  new L.LatLng(pointx,pointy);
-        new Ajax.Request(
-            'index.php',
-             {
-                     queue: {position: 'end', scope: 'command'},
-                     method: 'post',
-                     postBody:url,
-                     onComplete: function(response)
+        jQuery.ajax({
+                     url:'index.php?',
+                     type: 'POST',
+                     data:url,
+                     success: function(response)
                      {
-                         var content=response.responseText;    // create popup contents
+                         var content=response;    // create popup contents
                          var infowindow = L.popup()
                          .setLatLng(latlng)
                          .setContent(content)

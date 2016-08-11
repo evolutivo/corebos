@@ -912,6 +912,13 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+	<author>joebordes</author>
+	<description>Eliminate Calendar jquery loading. Use application jquery</description>
+	<filename>build/changeSets/CalendarDeletejQueryLinks.php</filename>
+	<classname>CalendarDeletejQueryLinks</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
 	<author>kikojover</author>
 	<description>Add recurring periods to SalesOrder</description>
 	<filename>build/changeSets/addRecurringSO.php</filename>
@@ -986,6 +993,69 @@
 	<description>Add workflow to generate Contacts password</description>
 	<filename>build/changeSets/evolutivo/workflow_contact_passwordset.php</filename>
 	<classname>workflow_contact_passwordset</classname>
+        	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>WebService: correct Convert Lead parameters</description>
+	<filename>build/changeSets/fixConvertLeadWebserviceParameters.php</filename>
+	<classname>fixConvertLeadWebserviceParameters</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Users: set Default Values For User Fields</description>
+	<filename>build/changeSets/setDefaultValuesForUserFields.php</filename>
+	<classname>setDefaultValuesForUserFields</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Emails: make shareble by profile settings</description>
+	<filename>build/changeSets/makeEmailsShareable.php</filename>
+	<classname>makeEmailsShareable</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Apply SQL optimizations</description>
+	<filename>build/changeSets/cleanoptimizedatabase_150.php</filename>
+	<classname>cleanoptimizedatabase_150</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>Fix event handler if timecontrol is installed</description>
+	<filename>build/changeSets/fixEventHandlerPathForConvertTZ.php</filename>
+	<classname>fixEventHandlerPathForConvertTZ</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>Fix activity types with values with special chars</description>
+	<filename>build/changeSets/cleanActivityTypesSpecialChars.php</filename>
+	<classname>cleanActivityTypesSpecialChars</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>cron Watcher Service</description>
+	<filename>build/changeSets/cronWatcher.php</filename>
+	<classname>cronWatcherService</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Empty user_hash column which was a security issue and not being used.</description>
+	<filename>build/changeSets/UserDeleteUserHashColumn.php</filename>
+	<classname>UserDeleteUserHashColumn</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>kevinduqi</author>
+	<description>Assign Related records workflow task</description>
+	<filename>build/changeSets/add_workflow_assignrelated.php</filename>
+	<classname>add_workflow_assignrelated</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
 </updatesChangeLog>

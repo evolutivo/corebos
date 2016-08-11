@@ -13,10 +13,6 @@
 <script type="text/javascript" src="jscalendar/lang/calendar-{$CALENDAR_LANG}.js"></script>
 <script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 <script type="text/javascript" src="include/js/FieldDependencies.js"></script>
-<script type="text/javascript" src="modules/com_vtiger_workflow/resources/jquery-1.2.6.js"></script>
-<script type="text/javascript">
-	jQuery.noConflict();
-</script>
 {if $PICKIST_DEPENDENCY_DATASOURCE neq ''}
 <script type="text/javascript">
 	jQuery(document).ready(function() {ldelim} (new FieldDependencies({$PICKIST_DEPENDENCY_DATASOURCE})).init() {rdelim});
@@ -37,27 +33,24 @@
 var gVTModule = '{$smarty.request.module|@vtlib_purify}';
 function sensex_info()
 {ldelim}
-        var Ticker = $('tickersymbol').value;
+        var Ticker = document.getElementById('tickersymbol').value;
         if(Ticker!='')
         {ldelim}
-                $("vtbusy_info").style.display="inline";
-                new Ajax.Request(
-                      'index.php',
-                      {ldelim}queue: {ldelim}position: 'end', scope: 'command'{rdelim},
-                                method: 'post',
-                                postBody: 'module={$MODULE}&action=Tickerdetail&tickersymbol='+Ticker,
-                                onComplete: function(response) {ldelim}
-                                        $('autocom').innerHTML = response.responseText;
-                                        $('autocom').style.display="block";
-                                        $("vtbusy_info").style.display="none";
-                                {rdelim}
-                        {rdelim}
-                );
-        {rdelim}
+				document.getElementById("vtbusy_info").style.display="inline";
+				jQuery.ajax({ldelim}
+						method:"POST",
+						url:'index.php?module={$MODULE}&action=Tickerdetail&tickersymbol='+Ticker
+				{rdelim}).done(function(response) {ldelim}
+							document.getElementById('autocom').innerHTML = response;
+							document.getElementById('autocom').style.display="block";
+							document.getElementById("vtbusy_info").style.display="none";
+				{rdelim}
+			 );
+		{rdelim}
 {rdelim}
 </script>
 
-		{include file='Buttons_List1.tpl'}	
+{include file='Buttons_List1.tpl'}
 
 {*<!-- Contents -->*}
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
@@ -71,15 +64,15 @@ function sensex_info()
 			{assign var="SINGLE_MOD_LABEL" value=$SINGLE_MOD}
 			{if $APP.$SINGLE_MOD} {assign var="SINGLE_MOD_LABEL" value=$APP.SINGLE_MOD} {/if}
 				
-			{if $OP_MODE eq 'edit_view'} 
+			{if $OP_MODE eq 'edit_view'}
 				{assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
-		  		{if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}			
+				{if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
 				<span class="lvtHeaderText"><font color="purple">[ {$USE_ID_VALUE} ] </font>{$NAME} - {$APP.LBL_EDITING} {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span> <br>
-				{$UPDATEINFO}	 
+				{$UPDATEINFO}
 			{/if}
 			{if $OP_MODE eq 'create_view'}
 				{if $DUPLICATE neq 'true'}
-		            {assign var=create_new value="LBL_CREATING_NEW_"|cat:$SINGLE_MOD}
+					{assign var=create_new value="LBL_CREATING_NEW_"|cat:$SINGLE_MOD}
 					{* vtlib customization: use translation only if present *}
 					{assign var="create_newlabel" value=$APP.$create_new}
 					{if $create_newlabel neq ''}
@@ -126,7 +119,7 @@ function sensex_info()
 							   <tr>
 								<td style="padding:10px">
 									<!-- General details -->
-									<table border=0 cellspacing=0 cellpadding=0 width=100% class="small">
+									<table border=0 cellspacing=0 cellpadding=0 width=100% class="small createview_table">
 									   <tr>
 										<td  colspan=4 style="padding:5px">
 											<div align="center">

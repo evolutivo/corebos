@@ -139,8 +139,11 @@ if (count($Load_Task_Status) > 0) {
 		array_push($Task_Status, $taskstatus);
 	}
 }
+$showGroupEvents = GlobalVariable::getVariable('Calendar_Show_Group_Events',1);
 $modtab = array_flip($tasklabel);
 foreach($Users_Ids AS $userid) {
+	if (!$userid) continue;
+	if ($showGroupEvents) $groups = fetchUserGroupids($userid);
 	foreach($Type_Ids AS $activitytypeid) {
 		$allDay = true;
 		$list_array = array();

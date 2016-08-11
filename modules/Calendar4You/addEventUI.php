@@ -156,7 +156,7 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 	<script type="text/javascript" src="jscalendar/lang/calendar-<?php echo $app_strings['LBL_JSCALENDAR_LANG'] ?>.js"></script>
 	<!--script type="text/javascript" src="jscalendar/calendar-setup.js"></script-->
 	<!--script type="text/javascript" src="include/js/ListView.js"></script-->
-	<div class="calAddITSEvent layerPopup" style="display:none;width:650px;left:200px;z-index:10000;background-color:#ffffff" id="addITSEvent" align=center>
+	<div class="calAddITSEvent layerPopup" style="display:none;width:650px;left:200px;top:150px;z-index:10000;background-color:#ffffff" id="addITSEvent" align=center>
 	<form id="EditView" name="EditView" method="POST" action="index.php">
 	<input type="hidden" name="action" value="SaveEvent">
 	<input type="hidden" name="module" value="Calendar4You">
@@ -213,7 +213,7 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 				<td nowrap align="right"><b><font color="red">*</font><?php echo $c_mod_strings['LBL_EVENTNAME']?></b></td>
 				<td align="left"><input name="subject" type="text" class="textbox" value="" style="width:50%">&nbsp;&nbsp;&nbsp;
 			<?php if(getFieldVisibilityPermission('Events',$current_user->id,'visibility', 'readwrite') == '0') {
-				$visrs = $adb->pquery("select defaultvalue from vtiger_field where tabid=16 and columnname='visibility'");
+				$visrs = $adb->query("select defaultvalue from vtiger_field where tabid=16 and columnname='visibility'");
 				$vis = $adb->query_result($visrs, 0, 0);
 				$visiblecheck = '';
 				if ($vis == 'Public') {
@@ -777,7 +777,7 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 ?>
 </table>
 </div>
-<div class="calAddITSEvent layerPopup" style="display:none;width:700px;left:200px;background-color:red;z-index:10000" id="createTodo" align=center>
+<div class="calAddITSEvent layerPopup" style="display:none;width:700px;left:200px;top:150px;background-color:red;z-index:10000" id="createTodo" align=center>
 <form id="createTodoID" name="createTodo" method="POST" action="index.php">
 	<input type="hidden" name="return_action" value="index">
 	<input type="hidden" name="return_module" value="Calendar4You">
@@ -1077,14 +1077,10 @@ if(isPermitted('Calendar','Delete') == 'yes') {
 </div>
 <script>
 	//for move addITSEventUI
-	var theITSEventHandle = document.getElementById("moveITSEvent");
-	var theITSEventRoot   = document.getElementById("addITSEvent");
-	Drag.init(theITSEventHandle, theITSEventRoot);
+	jQuery("#addITSEvent").draggable({ handle: "#moveITSEvent" });
 
 	//for move addToDo
-	var theITSTodoHandle = document.getElementById("moveITSTodo");
-	var theITSTodoRoot   = document.getElementById("createTodo");
-	Drag.init(theITSTodoHandle, theITSTodoRoot);
+	jQuery("#createTodo").draggable({ handle: "#moveITSTodo" });
 </script>
 
 <?php

@@ -1,4 +1,4 @@
-{include_php file="modules/Vtiger/DetailView.php"}
+{include_php file="modules/Vtiger/DetailViewDep.php"}
 <script>
 var blocks ={$BlocksJson};
 var mapFieldDep ={$MapFieldDep};

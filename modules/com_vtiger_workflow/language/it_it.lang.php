@@ -59,6 +59,7 @@ $mod_strings = array(
 'LBL_VALIDATION_INVALID_FIELD_VALUES' => 'Valori di campo non validi',
 'LBL_CREATE_ENTITY_NOTE_ORDER_MATTERS' => 'Nota: Le espressioni verranno valutate nelmedesimo ordine fornito nei campi.
 											Siate sicuri di inserire un valore nei campi prima di utilizzarli per una espressione.',
+'LBL_CREATE_ENTITY_NOTE_BUSINESSMAPS' => 'Note: You can use a Field Business Map to map fields from one entity to the other, in that case the business map definitions will overwrite the ones defined here.',
 'LBL_SET_VALUE' => 'Imposta Valore',
 
 'LBL_EMAIL_RECIPIENT' => 'Casella',
@@ -85,6 +86,7 @@ $mod_strings = array(
 'VTCreateEntityTask' => 'Crea Oggetto',
 'LBL_ENTITY_TYPE' => 'Tipo Oggetto',
 'LBL_SELECT_ENTITY_TYPE' => '-- Seleziona Tipo Oggetto --',
+'Assigned User' => 'Assigned User',
 'LBL_NO_ENTITIES_FOUND' => 'Non sono stati trovati oggetti da creare',
 'LBL_PARENT_OWNER' => 'Parent Record Owner',
 'LBL_SPECIAL_OPTIONS' => 'Special Options',
@@ -100,6 +102,7 @@ $mod_strings = array(
 'Relate with AccountVendor' => 'Relate with Account/Vendor',
 'Relate with Contact' => 'Relate with Contact',
 'CBDeleteRelatedTask' => 'Delete Related Records',
+'CBAssignRelatedTask' => 'Assign Related Records',
 'CBSelectcbMap' => 'Select Business Rule',
 'LBL_HELPDESK_SUPPORT_EMAILID'=>'Helpdesk Support Email-Id',
 'LBL_HELPDESK_SUPPORT_NAME'=>'Nome per Helpdesk',

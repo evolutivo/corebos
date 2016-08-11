@@ -166,7 +166,7 @@ if(!isset($_SERVER['REQUEST_URI']))
 $action = '';
 if(isset($_REQUEST['action']))
 {
-	$action = $_REQUEST['action'];
+	$action = vtlib_purify($_REQUEST['action']);
 }
 if($action == 'Export')
 {
@@ -187,7 +187,7 @@ $is_module = false;
 $is_action = false;
 if(isset($_REQUEST['module']))
 {
-	$module = $_REQUEST['module'];
+	$module = vtlib_purify($_REQUEST['module']);
 	$dir = @scandir($root_directory."modules");
 	$temp_arr = Array("CVS","Attic");
 	$res_arr = @array_intersect($dir,$temp_arr);
@@ -201,13 +201,14 @@ if(isset($_REQUEST['module']))
 		if(@in_array($action.".php",$in_dir))
 			$is_action = true;
 	}
+	if (empty($action)) $is_action = false;
 	if(!$is_module)
 	{
-		die("Module name is missing. Please check the module name.");
+		die("Module name is missing or incorrect. Please check the module name.");
 	}
 	if(!$is_action)
 	{
-		die("Action name is missing. Please check the action name.");
+		die("Action name is missing or incorrect. Please check the action name.");
 	}
 }
 
@@ -415,9 +416,6 @@ if(isset($action) && isset($module))
 		$currentModuleFile = 'modules/'.$module.'/'.$action.'.php';
 	}
 	$currentModule = $module;
-} elseif(isset($module)) {
-	$currentModule = $module;
-	$currentModuleFile = $moduleDefaultFile[$currentModule];
 } else {
 	// use $default_module and $default_action as set in config.php
 	// Redirect to the correct module with the correct action.  We need the URI to include these fields.
@@ -425,15 +423,12 @@ if(isset($action) && isset($module))
 	exit();
 }
 
-$log->info("current page is $currentModuleFile");
-$log->info("current module is $currentModule ");
+$log->info("current page is $currentModuleFile current module is $currentModule ");
 
-// for printing
 $module = (isset($_REQUEST['module'])) ? vtlib_purify($_REQUEST['module']) : "";
 $action = (isset($_REQUEST['action'])) ? vtlib_purify($_REQUEST['action']) : "";
 $record = (isset($_REQUEST['record'])) ? vtlib_purify($_REQUEST['record']) : "";
 $lang_crm = (isset($_SESSION['authenticated_user_language'])) ? $_SESSION['authenticated_user_language'] : "";
-$GLOBALS['request_string'] = "&module=$module&action=$action&record=$record&lang_crm=$lang_crm";
 
 $current_user = new Users();
 
@@ -448,12 +443,8 @@ if($use_current_login)
 		coreBOS_Session::destroy();
 		header("Location: index.php?action=Login&module=Users");
 	}
-
+	coreBOS_Session::setUserGlobalSessionVariables();
 	$moduleList = getPermittedModuleNames();
-
-	foreach ($moduleList as $mod) {
-		$moduleDefaultFile[$mod] = "modules/".$currentModule."/index.php";
-	}
 
 	//auditing
 	require_once('user_privileges/audit_trail.php');
@@ -526,22 +517,18 @@ $mod_strings = return_module_language($current_language, $currentModule);
 //If DetailView, set focus to record passed in
 if($action == "DetailView")
 {
-	if(!isset($_REQUEST['record']))
-		die("A record number must be specified to view details.");
+	if(empty($_REQUEST['record']))
+		die('A record number must be specified to view details.');
 
-	// If we are going to a detail form, load up the record now.
-	// Use the record to track the viewing.
-	// todo - Have a record of modules and thier primary object names.
-	//Getting the actual module
-	switch($currentModule)
-	{
+	// If we are going to a detail form, load up the record now and use the record to track the viewing.
+	switch($currentModule) {
 		case 'Webmails':
 			//No need to create a webmail object here
 			break;
 		default:
 			$focus = CRMEntity::getInstance($currentModule);
 			break;
-		}
+	}
 
 	if(isset($_REQUEST['record']) && $_REQUEST['record']!='' && $_REQUEST["module"] != "Webmails" && $current_user->id != '') {
 		// Only track a viewing if the record was retrieved.
@@ -714,31 +701,7 @@ if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action 
 		font-size:9px;
 		font-family: Verdana, Arial, Helvetica, Sans-serif;
 	}
-	</style>
-		<script language=javascript>
-		function LogOut(e)
-		{
-			var nav4 = window.Event ? true : false;
-			var iX,iY;
-			if (nav4)
-			{
-				iX = e.pageX;
-				iY = e.pageY;
-			}
-			else
-			{
-				iX = event.clientX + document.body.scrollLeft;
-				iY = event.clientY + document.body.scrollTop;
-
-			}
-			if (iX <= 30 && iY < 0 )
-			{
-				w=window.open(\"index.php?action=Logout&module=Users\");
-				w.close();
-			}
-		}
-	//window.onunload=LogOut
-	</script>";
+	</style>";
 
 	if((!$skipFooters) && $action != "about_us" && $action != "vtchat" && $action != "ChangePassword" && $action != "body" && $action != $module."Ajax" && $action!='Popup' && $action != 'ImportStep3' && $action != 'ActivityAjax' && $action != 'getListOfRecords') {
 		echo $copyrightstatement;
