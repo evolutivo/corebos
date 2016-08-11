@@ -13,7 +13,7 @@
 <table border="0" align="center" cellspacing="0" cellpadding="0" width="90%" class="mailClient mailClientBg">
 <tr>
 <td>
-	<table border="0" cellspacing="0" cellpadding="0" width="100%" class=small>
+	<table border="0" cellspacing="0" cellpadding="0" width="100%" class='small' style="cursor: move;">
 	<tr>
 		<td width="90%" class="mailSubHeader" background="{'qcBg.gif'|@vtiger_imageurl:$THEME}"><b >{$APP.LBL_CREATE_BUTTON_LABEL} {$QCMODULE}</b></td>
 		<td nowrap class="mailSubHeader moduleName" align=right><i>{$APP.LBL_QUICK_CREATE}</i></td></tr>
@@ -42,7 +42,7 @@
 				<td width="50%" align="left"><input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="crmbutton small cancel" onclick="hide('qcformpop');" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  " style="width:70px"></td>
 				{else}
 				<td width="50%" align="left">
-					<input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="crmbutton small cancel" onclick="hide('qcform'); $('qccombo').options.selectedIndex=0;" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  " style="width:70px">
+					<input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="crmbutton small cancel" onclick="hide('qcform'); document.getElementById('qccombo').options.selectedIndex=0;" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  " style="width:70px">
 				</td>
 				{/if}
 			</tr>

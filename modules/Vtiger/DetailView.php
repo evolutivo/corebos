@@ -1,64 +1,113 @@
 <?php
-require_once 'modules/cbMap/cbMap.php';
-//$focus->id
-global $adb;
-$resp_f=array();
-$resp_fields=array();
-$target_picklist=array();
-$conditions=array();
-$mapFieldDependecy=array();
-$currentModule=$this->get_template_vars('MODULE');
-$q_business_rule="Select businessrule,linktomap "
-        . " from vtiger_businessrules"
-        . " join vtiger_cbmap on vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid"
-        . " join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_cbmap.cbmapid"
-        . " where module_rules=?"
-        . " and maptype ='FieldDependency' and deleted=0";
-$res_business_rule=$adb->pquery($q_business_rule,array($currentModule));
-    for ($m=0;$m<$adb->num_rows($res_business_rule);$m++)
-    {
-        $businessrule=$adb->query_result($res_business_rule,$m,'businessrule'); 
-        $linktomap=$adb->query_result($res_business_rule,$m,'linktomap');  
-        if(empty($linktomap)) continue;
-        $mapfocus=  CRMEntity::getInstance("cbMap");
-        $mapfocus->retrieve_entity_info($linktomap,"cbMap");
-        $mapFieldDependecy[$m]=$mapfocus->getMapFieldDependecy();
-        if($m==0){
-            $resp_fields=$mapFieldDependecy[$m]['respfield'];
-            $target_picklist=$mapFieldDependecy[$m]['target_picklist'];
-        }
-        else{
-            $resp_fields=array_merge($mapFieldDependecy[$m]['respfield'],$resp_fields); 
-            $target_picklist=array_merge($mapFieldDependecy[$m]['target_picklist'],$target_picklist); 
-        } 
-        $resp_fields=array_unique($resp_fields);  
-        $target_picklist=array_unique($target_picklist);
-    } 
-    $this->assign("MAP_RESPONSIBILE_FIELDS",$resp_fields);
-    $r2='';$r3='';
-    if(sizeof($resp_fields)>0){
-        $r2=':'.implode(':',$resp_fields);
-        $r3=','.implode(',',$resp_fields);
-        }
-    $this->assign("MAP_RESPONSIBILE_FIELDS3",$r2);
-    //var_dump(':'.implode(':',$resp_fields));
-    $this->assign("MAP_RESPONSIBILE_FIELDS2",$r3);
-    //var_dump($resp_fields);var_dump(','.implode(',',$resp_fields));
-    //$this->assign("MAP_TARGET_FIELDS",$mapFieldDependecy2['targetfield'][0]);
-    $this->assign("MAP_PCKLIST_TARGET",$target_picklist);
-    $this->assign("MAP_FIELD_DEPENDENCY",$mapFieldDependecy);//var_dump($mapFieldDependecy);
-    global $current_user;
-    $roleid=$current_user->roleid;
-    $current_profiles=getUserProfile($current_user->id);
-    $tempBlocks=$this->get_template_vars('BLOCKS');
-    if(empty($tempBlocks)){
-        $this->assign('BLOCKS',$this->get_template_vars('BASBLOCKS'));
-        $tempBlocks=$this->get_template_vars('BASBLOCKS');
-    }
+/*+**********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ ************************************************************************************/
+require_once('Smarty_setup.php');
+global $currentModule;
+$focus = CRMEntity::getInstance($currentModule);
+$smarty = new vtigerCRM_Smarty();
+$tool_buttons = Button_Check($currentModule);
+if(isset($tool_buttons)==false) {
+	$tool_buttons = Button_Check($currentModule);
+}
+$record = vtlib_purify($_REQUEST['record']);
+$isduplicate = isset($_REQUEST['isDuplicate']) ? vtlib_purify($_REQUEST['isDuplicate']) : '';
+$tabid = getTabid($currentModule);
+$category = getParentTab($currentModule);
 
-    $tempMapFieldDep=$this->get_template_vars('MAP_FIELD_DEPENDENCY');
-    $this->assign('CurrRole',$roleid);
-    $this->assign('CurrProfiles',json_encode($current_profiles));
-    $this->assign('BlocksJson',json_encode($tempBlocks));
-    $this->assign('MapFieldDep',json_encode($tempMapFieldDep));
+if($record != '') {
+	$focus->id = $record;
+	$focus->retrieve_entity_info($record, $currentModule);
+	$focus->name=$focus->column_fields[$focus->list_link_field];
+}
+if($isduplicate == 'true') $focus->id = '';
+$focus->preViewCheck($_REQUEST, $smarty);
 
+// Identify this module as custom module.
+$smarty->assign('CUSTOM_MODULE', $focus->IsCustomModule);
+$smarty->assign('APP', $app_strings);
+$smarty->assign('MOD', $mod_strings);
+$smarty->assign('MODULE', $currentModule);
+// TODO: Update Single Module Instance name here.
+$smarty->assign('SINGLE_MOD', 'SINGLE_'.$currentModule);
+$smarty->assign('CATEGORY', $category);
+$smarty->assign('IMAGE_PATH', "themes/$theme/images/");
+$smarty->assign('THEME', $theme);
+$smarty->assign('ID', $focus->id);
+$smarty->assign('RECORDID', $focus->id);
+$smarty->assign('MODE', $focus->mode);
+
+$recordName = array_values(getEntityName($currentModule, $focus->id));
+$recordName = $recordName[0];
+$smarty->assign('NAME', $recordName);
+$smarty->assign('UPDATEINFO',updateInfo($focus->id));
+
+// Module Sequence Numbering
+$mod_seq_field = getModuleSequenceField($currentModule);
+if ($mod_seq_field != null) {
+	$mod_seq_id = $focus->column_fields[$mod_seq_field['name']];
+} else {
+	$mod_seq_id = $focus->id;
+}
+$smarty->assign('MOD_SEQ_ID', $mod_seq_id);
+
+$validationArray = split_validationdataArray(getDBValidationData($focus->tab_name, $tabid));
+$smarty->assign('VALIDATION_DATA_FIELDNAME',$validationArray['fieldname']);
+$smarty->assign('VALIDATION_DATA_FIELDDATATYPE',$validationArray['datatype']);
+$smarty->assign('VALIDATION_DATA_FIELDLABEL',$validationArray['fieldlabel']);
+$smarty->assign('TODO_PERMISSION',CheckFieldPermission('parent_id','Calendar'));
+$smarty->assign('EVENT_PERMISSION',CheckFieldPermission('parent_id','Events'));
+
+$smarty->assign('EDIT_PERMISSION', isPermitted($currentModule, 'EditView', $record));
+$smarty->assign('CHECK', $tool_buttons);
+
+if(PerformancePrefs::getBoolean('DETAILVIEW_RECORD_NAVIGATION', true) && isset($_SESSION[$currentModule.'_listquery'])){
+	$recordNavigationInfo = ListViewSession::getListViewNavigation($focus->id);
+	VT_detailViewNavigation($smarty,$recordNavigationInfo,$focus->id);
+}
+
+$smarty->assign('IS_REL_LIST', isPresentRelatedLists($currentModule));
+$smarty->assign('SinglePane_View', $singlepane_view);
+
+if($singlepane_view == 'true') {
+	$related_array = getRelatedLists($currentModule,$focus);
+	$smarty->assign("RELATEDLISTS", $related_array);
+
+	require_once('include/ListView/RelatedListViewSession.php');
+	if(!empty($_REQUEST['selected_header']) && !empty($_REQUEST['relation_id'])) {
+		RelatedListViewSession::addRelatedModuleToSession(vtlib_purify($_REQUEST['relation_id']),
+				vtlib_purify($_REQUEST['selected_header']));
+	}
+	$open_related_modules = RelatedListViewSession::getRelatedModulesFromSession();
+	$smarty->assign("SELECTEDHEADERS", $open_related_modules);
+}
+
+if(isPermitted($currentModule, 'CreateView', $record) == 'yes')
+	$smarty->assign('CREATE_PERMISSION', 'permitted');
+if(isPermitted($currentModule, 'Delete', $record) == 'yes')
+	$smarty->assign('DELETE', 'permitted');
+
+$blocks = getBlocks($currentModule,'detail_view','',$focus->column_fields);
+$smarty->assign('BLOCKS', $blocks);
+$custom_blocks = getCustomBlocks($currentModule,'detail_view');
+$smarty->assign('CUSTOMBLOCKS', $custom_blocks);
+$smarty->assign('FIELDS',$focus->column_fields);
+// Gather the custom link information to display
+include_once('vtlib/Vtiger/Link.php');
+$customlink_params = Array('MODULE'=>$currentModule, 'RECORD'=>$focus->id, 'ACTION'=>vtlib_purify($_REQUEST['action']));
+$smarty->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($currentModule), Array('DETAILVIEWBASIC','DETAILVIEW','DETAILVIEWWIDGET'), $customlink_params));
+
+// Hide Action Panel
+$DEFAULT_ACTION_PANEL_STATUS = GlobalVariable::getVariable('Application_Action_Panel_Open',1);
+$smarty->assign('DEFAULT_ACTION_PANEL_STATUS',($DEFAULT_ACTION_PANEL_STATUS ? '' : 'display:none'));
+
+// Record Change Notification
+$focus->markAsViewed($current_user->id);
+
+$smarty->assign('DETAILVIEW_AJAX_EDIT', PerformancePrefs::getBoolean('DETAILVIEW_AJAX_EDIT', true));
+?>

@@ -46,7 +46,7 @@ class Users extends CRMEntity {
 
 	var $object_name = "User";
 	var $user_preferences;
-	var $homeorder_array = array('HDB', 'ALVT', 'PLVT', 'QLTQ', 'CVLVT', 'HLT', 'GRT', 'OLTSO', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ', 'UA', 'PA');
+	var $homeorder_array = array('HDB'=>'', 'ALVT'=>'', 'PLVT'=>'', 'QLTQ'=>'', 'CVLVT'=>'', 'HLT'=>'', 'GRT'=>'', 'OLTSO'=>'', 'ILTI'=>'', 'MNL'=>'', 'OLTPO'=>'', 'LTFAQ'=>'', 'UA'=>'', 'PA'=>'');
 
 	var $encodeFields = Array("first_name", "last_name", "description");
 
@@ -202,25 +202,6 @@ class Users extends CRMEntity {
 		return $encrypted_password;
 	}
 
-	/** Function to authenticate the current user with the given password
-	 * @param $password -- password::Type varchar
-	 * @returns true if authenticated or false if not authenticated
-	 */
-	function authenticate_user($password) {
-		$usr_name = $this->column_fields["user_name"];
-
-		$query = "SELECT * from $this->table_name where user_name=? AND user_hash=?";
-		$params = array($usr_name, $password);
-		$result = $this->db->requirePsSingleResult($query, $params, false);
-
-		if (empty($result)) {
-			$this->log->fatal("SECURITY: failed login by $usr_name");
-			return false;
-		}
-
-		return true;
-	}
-
 	/** Function for validation check */
 	function validation_check($validate, $md5, $alt = '') {
 		$validate = base64_decode($validate);
@@ -348,13 +329,6 @@ class Users extends CRMEntity {
 		$this->column_fields = $row;
 		$this->id = $row['id'];
 
-		$user_hash = strtolower(md5($user_password));
-
-		// If there is no user_hash is not present or is out of date, then create a new one.
-		if (!isset($row['user_hash']) || $row['user_hash'] != $user_hash) {
-			$query = "UPDATE $this->table_name SET user_hash=? where id=?";
-			$this->db->pquery($query, array($user_hash, $row['id']), true, "Error setting new hash for {$row['user_name']}: ");
-		}
 		$this->loadPreferencesFromDB($row['user_preferences']);
 
 		if ($row['status'] != "Inactive")
@@ -431,8 +405,6 @@ class Users extends CRMEntity {
 			}
 		}
 
-		$user_hash = strtolower(md5($new_password));
-
 		//set new password
 		$crypt_type = $this->DEFAULT_PASSWORD_CRYPT_TYPE;
 		$encrypted_new_password = $this->encrypt_password($new_password, $crypt_type);
@@ -450,9 +422,9 @@ class Users extends CRMEntity {
 		if (!in_array('last_password_reset_date', $cnuser)) {
 			$this->db->query("ALTER TABLE `vtiger_users` ADD `last_password_reset_date` date DEFAULT NULL");
 		}
-		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, user_hash=?, crypt_type=?, change_password=?, last_password_reset_date=now(), failed_login_attempts=0 where id=?";
+		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, crypt_type=?, change_password=?, last_password_reset_date=now(), failed_login_attempts=0 where id=?";
 		$this->db->startTransaction();
-		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password, $user_hash, $crypt_type, $change_password_next_login, $this->id));
+		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password, $crypt_type, $change_password_next_login, $this->id));
 		if ($this->db->hasFailedTransaction()) {
 			if ($dieOnError) {
 				die("error setting new password: [" . $this->db->database->ErrorNo() . "] " . $this->db->database->ErrorMsg());
@@ -891,15 +863,6 @@ class Users extends CRMEntity {
 			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '$1.0';
 		}
 
-		// TODO - This needs to be cleaned up once default values for fields are picked up in a cleaner way.
-		// This is just a quick fix to ensure things doesn't start breaking when the user currency configuration is missing
-		if ($this->column_fields['currency_grouping_pattern'] == '' && $this->column_fields['currency_symbol_placement'] == '') {
-			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';
-			$this->column_fields['currency_decimal_separator'] = $this->currency_decimal_separator = '.';
-			$this->column_fields['currency_grouping_separator'] = $this->currency_grouping_separator = ',';
-			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '$1.0';
-		}
-
 		$this->id = $record;
 		$log->debug("Exit from retrieve_entity_info($record, $module) method.");
 
@@ -1015,7 +978,7 @@ class Users extends CRMEntity {
 	function getHomeStuffOrder($id) {
 		global $adb;
 		if (!is_array($this->homeorder_array)) {
-			$this->homeorder_array = array('UA', 'PA', 'ALVT', 'HDB', 'PLVT', 'QLTQ', 'CVLVT', 'HLT', 'GRT', 'OLTSO', 'ILTI', 'MNL', 'OLTPO', 'LTFAQ');
+			$this->homeorder_array = array('HDB'=>'', 'ALVT'=>'', 'PLVT'=>'', 'QLTQ'=>'', 'CVLVT'=>'', 'HLT'=>'', 'GRT'=>'', 'OLTSO'=>'', 'ILTI'=>'', 'MNL'=>'', 'OLTPO'=>'', 'LTFAQ'=>'', 'UA'=>'', 'PA'=>'');
 		}
 		$return_array = Array();
 		$homeorder = Array();
@@ -1025,19 +988,34 @@ class Users extends CRMEntity {
 			for ($q = 0; $q < $adb->num_rows($res); $q++) {
 				$homeorder[] = $adb->query_result($res, $q, "hometype");
 			}
-			for ($i = 0; $i < count($this->homeorder_array); $i++) {
-				if (in_array($this->homeorder_array[$i], $homeorder)) {
-					$return_array[$this->homeorder_array[$i]] = $this->homeorder_array[$i];
+			foreach ($this->homeorder_array as $key => $value) {
+				if (in_array($key, $homeorder)) {
+					$return_array[$key] = $key;
 				} else {
-					$return_array[$this->homeorder_array[$i]] = '';
+					$return_array[$key] = '';
 				}
 			}
 		} else {
-			for ($i = 0; $i < count($this->homeorder_array); $i++) {
-				$return_array[$this->homeorder_array[$i]] = $this->homeorder_array[$i];
+			foreach ($this->homeorder_array as $fieldname => $val) {
+				if (isset($this->column_fields[$fieldname])) {
+					$value = trim($this->column_fields[$fieldname]);
+					$this->homeorder_array[$fieldname] = $value;
+				}
+			}
+			foreach ($this->homeorder_array as $key => $value) {
+				$return_array[$key] = $value;
 			}
 		}
-		$return_array['Tag Cloud'] = (getTagCloudView($id) ? 'true' : 'false');
+		if($id == '' && isset($this->column_fields['tagcloudview'])){
+			$return_array['Tag Cloud'] = $this->column_fields['tagcloudview'];
+		}else{
+			$return_array['Tag Cloud'] = (getTagCloudView($id) ? 'true' : 'false');
+		}
+		if($id == '' && isset($this->column_fields['showtagas'])){
+			$return_array['showtagas'] = $this->column_fields['showtagas'];
+		}else{
+			$return_array['showtagas'] = getTagCloudShowAs($id);
+		}
 		return $return_array;
 	}
 
@@ -1181,14 +1159,14 @@ class Users extends CRMEntity {
 		$log->debug("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
-			for ($i = 0; $i < count($this->homeorder_array); $i++) {
-				if ($_REQUEST[$this->homeorder_array[$i]] != '') {
-					$save_array[] = $this->homeorder_array[$i];
-					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $this->homeorder_array[$i] . "'";
+			foreach ($this->homeorder_array as $key => $value) {
+				if ($_REQUEST[$key] != '') {
+					$save_array[] = $key;
+					$qry = " update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=0 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $key . "'";
 					//To show the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, array());
 				} else {
-					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $this->homeorder_array[$i] . "'";
+					$qry = "update vtiger_homestuff,vtiger_homedefault set vtiger_homestuff.visible=1 where vtiger_homestuff.stuffid=vtiger_homedefault.stuffid and vtiger_homestuff.userid=" . $id . " and vtiger_homedefault.hometype='" . $key . "'";
 					//To hide the default Homestuff on the the Home Page
 					$result = $adb->pquery($qry, array());
 				}

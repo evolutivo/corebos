@@ -60,6 +60,7 @@ $mod_strings = array(
 'LBL_VALIDATION_INVALID_FIELD_VALUES' => 'Invalid field values',
 'LBL_CREATE_ENTITY_NOTE_ORDER_MATTERS' => 'Note: Expressions will be evaluated in the order of the field values provided.
 											So make sure to provide value for a field before using it in expressions.',
+'LBL_CREATE_ENTITY_NOTE_BUSINESSMAPS' => 'Note: You can use a Field Business Map to map fields from one entity to the other, in that case the business map definitions will overwrite the ones defined here.',
 'LBL_SET_VALUE' => 'Set Value',
 
 'LBL_EMAIL_RECIPIENT' => 'Recipient',
@@ -88,6 +89,7 @@ $mod_strings = array(
 'VTCreateEntityTask' => 'Create Entity',
 'LBL_ENTITY_TYPE' => 'Entity Type',
 'LBL_SELECT_ENTITY_TYPE' => '-- Select Entity Type --',
+'Assigned User' => 'Assigned User',
 'LBL_NO_ENTITIES_FOUND' => 'No Entities Found to Create',
 'LBL_PARENT_OWNER' => 'Parent Record Owner',
 'LBL_SPECIAL_OPTIONS' => 'Special Options',
@@ -103,6 +105,7 @@ $mod_strings = array(
 'Relate with AccountVendor' => 'Relate with Account/Vendor',
 'Relate with Contact' => 'Relate with Contact',
 'CBDeleteRelatedTask' => 'Delete Related Records',
+'CBAssignRelatedTask' => 'Assign Related Records',
 'CBSelectcbMap' => 'Select Business Rule',
 
 'LBL_EVENTNAME' => 'Event Name',

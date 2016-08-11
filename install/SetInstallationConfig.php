@@ -56,8 +56,7 @@ $db_options = Installation_Utils::getDbOptions();
 	<link href="include/install/install.css" rel="stylesheet" type="text/css">
 	<link href="themes/softed/style.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="include/js/general.js"></script>
-	<script type="text/javascript" src="include/scriptaculous/prototype.js"></script>
-	<script type="text/javascript" src="modules/com_vtiger_workflow/resources/jquery-1.2.6.js"></script>
+	<script type="text/javascript" src="include/jquery/jquery.js"></script>
 </head>
 
 <body class="small cwPageBg" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0">
@@ -66,8 +65,7 @@ $db_options = Installation_Utils::getDbOptions();
 	.show_div{}
 </style>
 
-<script type="text/javascript" language="Javascript">
-jQuery.noConflict();
+<script type="text/javascript">
 function fnShow_Hide(){
 	var sourceTag = document.getElementById('check_createdb').checked;
 	if(sourceTag){
@@ -269,18 +267,18 @@ function verify_data(form) {
 											<tr>
 												<td colspan=2  style="border-top:1px dotted black;">
 													<input type="checkbox" class="dataInput" name="db_populate" style="visibility: hidden;" />
-													&nbsp;<?php echo 'If you are looking demo data use the <a href="https://github.com/tsolucio/coreBOSTests">coreBOSTests database</a>'; ?>
+													&nbsp;<?php echo 'If you are looking for demo data use the <a href="https://github.com/tsolucio/coreBOSTests">coreBOSTests database</a>'; ?>
 												</td>
 											</tr>
-		              					</table>
+									</table>
 										<br>
 									</td>
 									<td align=left class="small" width=50% style="padding-left:2em;">
-				  						<!-- Web site configuration -->
+										<!-- Web site configuration -->
 										<table width="100%" cellpadding="0" border="0" cellspacing="1" align=center class="level3"><tbody>
-			            					<tr>
+										<tr>
 												<td colspan=2><strong><?php echo $installationStrings['LBL_CRM_CONFIGURATION']; ?></strong><hr noshade size=1></td>
-			            					</tr>
+										</tr>
 											<tr>
 												<td width="20%" ><?php echo $installationStrings['LBL_URL']; ?> <sup><font color=red>*</font></sup></td>
 												<td width="80%" align="left"><input class="small" type="text" name="site_URL"

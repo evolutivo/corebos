@@ -60,6 +60,7 @@ $mod_strings = array(
 'LBL_VALIDATION_INVALID_FIELD_VALUES' => 'Valores de campo inválidos',
 'LBL_CREATE_ENTITY_NOTE_ORDER_MATTERS' => 'Nota: As expressões serão avaliadas na ordem dos valores do campo fornecidos.
 							    Portanto, certifique-se de que tenha fornecido o valor para um campo antes de utilizá-lo na expressão.',
+'LBL_CREATE_ENTITY_NOTE_BUSINESSMAPS' => 'Note: You can use a Field Business Map to map fields from one entity to the other, in that case the business map definitions will overwrite the ones defined here.',
 'LBL_SET_VALUE' => 'Configurar Valor',
 
 'LBL_EMAIL_RECIPIENT' => 'Destinatário',
@@ -88,6 +89,7 @@ $mod_strings = array(
 'VTCreateEntityTask' => 'Criar Entidade',
 'LBL_ENTITY_TYPE' => 'Tipo Entidade',
 'LBL_SELECT_ENTITY_TYPE' => '-- Selecionar Tipo Entidade --',
+'Assigned User' => 'Assigned User',
 'LBL_NO_ENTITIES_FOUND' => 'Nenhuma Entidade Encontrada para ser Criar',
 'LBL_PARENT_OWNER' => 'Parent Record Owner',
 'LBL_SPECIAL_OPTIONS' => 'Special Options',
@@ -103,6 +105,7 @@ $mod_strings = array(
 'Relate with AccountVendor' => 'Relate with Account/Vendor',
 'Relate with Contact' => 'Relate with Contact',
 'CBDeleteRelatedTask' => 'Delete Related Records',
+'CBAssignRelatedTask' => 'Assign Related Records',
 'CBSelectcbMap' => 'Select Business Rule',
 'LBL_HELPDESK_SUPPORT_EMAILID'=>'Email Suporte',
 'LBL_HELPDESK_SUPPORT_NAME'=>'Nome Suporte',

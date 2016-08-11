@@ -157,7 +157,6 @@ if($_POST["command"] == "check_mbox") {
 }
 
 ?>
-<script language="JavaScript" type="text/javascript" src="include/scriptaculous/scriptaculous.js?load=effects,builder"></script>
 
 <script type="text/javascript">
 // Pass our PHP variables to js.
@@ -185,7 +184,7 @@ addOnloadEvent(function() {
 	}
 );
 </script>
-<script language="JavaScript" type="text/javascript" src="modules/Webmails/Webmails.js"></script>
+<script type="text/javascript" src="modules/Webmails/Webmails.js"></script>
 <?php
 
 global $displayed_msgs;

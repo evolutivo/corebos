@@ -1,5 +1,4 @@
 /*********************************************************************************
-
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
@@ -11,31 +10,28 @@
 //Utility Functions
 
 function c_toggleAssignType(currType){
-		if (currType=="U")
-		{
-			document.getElementById("c_assign_user").style.display="block";
-			document.getElementById("c_assign_team").style.display="none";
-		}
-		else
-		{
-			document.getElementById("c_assign_user").style.display="none";
-			document.getElementById("c_assign_team").style.display="block";
-		}
+	if (currType=="U")
+	{
+		document.getElementById("c_assign_user").style.display="block";
+		document.getElementById("c_assign_team").style.display="none";
 	}
+	else
+	{
+		document.getElementById("c_assign_user").style.display="none";
+		document.getElementById("c_assign_team").style.display="block";
+	}
+}
 
 var gValidationCall='';
 
 if (document.all)
-
-	var browser_ie=true
+	var browser_ie=true;
 
 else if (document.layers)
-
-	var browser_nn4=true
+	var browser_nn4=true;
 
 else if (document.layers || (!document.all && document.getElementById))
-
-	var browser_nn6=true
+	var browser_nn6=true;
 
 var gBrowserAgent = navigator.userAgent.toLowerCase();
 
@@ -99,23 +95,17 @@ function getObj(n,d) {
 }
 
 function getOpenerObj(n) {
-
-	return getObj(n,opener.document)
-
+	return getObj(n,opener.document);
 }
-
-
 
 function findPosX(obj) {
-    var pos = getPosition(obj);
-    return pos.x;
+	var pos = getPosition(obj);
+	return pos.x;
 }
 
-
-
 function findPosY(obj) {
-    var pos = getPosition(obj);
-    return pos.y;
+	var pos = getPosition(obj);
+	return pos.y;
 }
 
 function getPosition(element) {
@@ -133,15 +123,12 @@ function getPosition(element) {
 }
 
 function clearTextSelection() {
-
 	if (browser_ie) document.selection.empty();
-
 	else if (browser_nn4 || browser_nn6) window.getSelection().removeAllRanges();
-
 }
 
 // Setting cookies
-function set_cookie ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
+function set_cookie( name, value, exp_y, exp_m, exp_d, path, domain, secure )
 {
 	var cookie_string = name + "=" + escape ( value );
 
@@ -175,23 +162,21 @@ function delete_cookie( cookie_name )
 }
 //End of Utility Functions
 
-
-
 function emptyCheck(fldName,fldLabel, fldType) {
 	var currObj = getObj(fldName);
 	if (fldType=="text") {
 		if (currObj.value.replace(/^\s+/g, '').replace(/\s+$/g, '').length==0) {
-			alert(fldLabel+alert_arr.CANNOT_BE_EMPTY)
+			alert(fldLabel+alert_arr.CANNOT_BE_EMPTY);
 			try {
-				currObj.focus()
+				currObj.focus();
 			} catch(error) {
 			// Fix for IE: If element or its wrapper around it is hidden, setting focus will fail
 			// So using the try { } catch(error) { }
 			}
-			return false
+			return false;
 		}
 		else{
-			return true
+			return true;
 		}
 	}else if((fldType == "textarea")
 		&& (typeof(CKEDITOR)!=='undefined' && CKEDITOR.instances[fldName] !== undefined)) {
@@ -205,10 +190,10 @@ function emptyCheck(fldName,fldLabel, fldType) {
 		}
 	}	else{
 		if (trim(currObj.value) == '') {
-			alert(fldLabel+alert_arr.CANNOT_BE_NONE)
-			return false
+			alert(fldLabel+alert_arr.CANNOT_BE_NONE);
+			return false;
 		} else
-			return true
+			return true;
 	}
 }
 
@@ -233,30 +218,30 @@ function patternValidateObject(fldObject,fldLabel,type) {
 
 		switch (userDateFormat) {
 			case "yyyy-mm-dd" :
-				var re = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/
+				var re = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
 				break;
 			case "mm-dd-yyyy" :
 			case "dd-mm-yyyy" :
-				var re = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/
+				var re = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/;
 		}
 	}
 
 	if (type.toUpperCase()=="TIME") {//TIME validation
-		var re = /^\d{1,2}\:\d{2}:\d{2}$|^\d{1,2}\:\d{2}$/
+		var re = /^\d{1,2}\:\d{2}:\d{2}$|^\d{1,2}\:\d{2}$/;
 	}
 	//Asha: Remove spaces on either side of a Email id before validating
 	if (type.toUpperCase()=="EMAIL" || type.toUpperCase() == "DATE") fldObject.value = trim(fldObject.value);
 	if (!re.test(fldObject.value)) {
-		alert(alert_arr.ENTER_VALID + fldLabel  + " ("+type+")");
+		alert(alert_arr.ENTER_VALID + fldLabel + " ("+type+")");
 		try {
-			fldObject.focus()
+			fldObject.focus();
 		} catch(error) {
 		// Fix for IE: If element or its wrapper around it is hidden, setting focus will fail
 		// So using the try { } catch(error) { }
 		}
-		return false
+		return false;
 	}
-	else return true
+	else return true;
 }
 
 function patternValidate(fldName,fldLabel,type) {
@@ -282,132 +267,132 @@ function patternValidate(fldName,fldLabel,type) {
 
 		switch (userDateFormat) {
 			case "yyyy-mm-dd" :
-				var re = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/
+				var re = /^\d{4}(\-|\/|\.)\d{1,2}\1\d{1,2}$/;
 				break;
 			case "mm-dd-yyyy" :
 			case "dd-mm-yyyy" :
-				var re = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/
+				var re = /^\d{1,2}(\-|\/|\.)\d{1,2}\1\d{4}$/;
 		}
 	}
 
 	if (type.toUpperCase()=="TIME") {//TIME validation
-		var re = /^\d{1,2}\:\d{2}:\d{2}$|^\d{1,2}\:\d{2}$/
+		var re = /^\d{1,2}\:\d{2}:\d{2}$|^\d{1,2}\:\d{2}$/;
 	}
 	//Asha: Remove spaces on either side of a Email id before validating
 	if (type.toUpperCase()=="EMAIL" || type.toUpperCase() == "DATE") currObj.value = trim(currObj.value);
 	if (!re.test(currObj.value)) {
-		alert(alert_arr.ENTER_VALID + fldLabel  + " ("+type+")");
+		alert(alert_arr.ENTER_VALID + fldLabel + " ("+type+")");
 		try {
-			currObj.focus()
+			currObj.focus();
 		} catch(error) {
 		// Fix for IE: If element or its wrapper around it is hidden, setting focus will fail
 		// So using the try { } catch(error) { }
 		}
-		return false
+		return false;
 	}
-	else return true
+	else return true;
 }
 
 function splitDateVal(dateval) {
 	var datesep;
 	var dateelements = new Array(3);
 
-	if (dateval.indexOf("-")>=0) datesep="-"
-	else if (dateval.indexOf(".")>=0) datesep="."
-	else if (dateval.indexOf("/")>=0) datesep="/"
+	if (dateval.indexOf("-")>=0) datesep="-";
+	else if (dateval.indexOf(".")>=0) datesep=".";
+	else if (dateval.indexOf("/")>=0) datesep="/";
 
 	switch (userDateFormat) {
 		case "yyyy-mm-dd" :
-			dateelements[0]=dateval.substr(dateval.lastIndexOf(datesep)+1,dateval.length) //dd
-			dateelements[1]=dateval.substring(dateval.indexOf(datesep)+1,dateval.lastIndexOf(datesep)) //mm
-			dateelements[2]=dateval.substring(0,dateval.indexOf(datesep)) //yyyyy
+			dateelements[0]=dateval.substr(dateval.lastIndexOf(datesep)+1,dateval.length); //dd
+			dateelements[1]=dateval.substring(dateval.indexOf(datesep)+1,dateval.lastIndexOf(datesep)); //mm
+			dateelements[2]=dateval.substring(0,dateval.indexOf(datesep)); //yyyyy
 			break;
 		case "mm-dd-yyyy" :
-			dateelements[0]=dateval.substring(dateval.indexOf(datesep)+1,dateval.lastIndexOf(datesep))
-			dateelements[1]=dateval.substring(0,dateval.indexOf(datesep))
-			dateelements[2]=dateval.substr(dateval.lastIndexOf(datesep)+1,dateval.length)
+			dateelements[0]=dateval.substring(dateval.indexOf(datesep)+1,dateval.lastIndexOf(datesep));
+			dateelements[1]=dateval.substring(0,dateval.indexOf(datesep));
+			dateelements[2]=dateval.substr(dateval.lastIndexOf(datesep)+1,dateval.length);
 			break;
 		case "dd-mm-yyyy" :
-			dateelements[0]=dateval.substring(0,dateval.indexOf(datesep))
-			dateelements[1]=dateval.substring(dateval.indexOf(datesep)+1,dateval.lastIndexOf(datesep))
-			dateelements[2]=dateval.substr(dateval.lastIndexOf(datesep)+1,dateval.length)
+			dateelements[0]=dateval.substring(0,dateval.indexOf(datesep));
+			dateelements[1]=dateval.substring(dateval.indexOf(datesep)+1,dateval.lastIndexOf(datesep));
+			dateelements[2]=dateval.substr(dateval.lastIndexOf(datesep)+1,dateval.length);
 	}
 
 	return dateelements;
 }
 
 function compareDates(date1,fldLabel1,date2,fldLabel2,type) {
-	var ret=true
+	var ret=true;
 	switch (type) {
-		case 'L'	:
+		case 'L':
 			if (date1>=date2) {//DATE1 VALUE LESS THAN DATE2
-			alert(fldLabel1+ alert_arr.SHOULDBE_LESS +fldLabel2)
-			ret=false
+			alert(fldLabel1+ alert_arr.SHOULDBE_LESS +fldLabel2);
+			ret=false;
 		}
 		break;
-		case 'LE'	:
+		case 'LE':
 			if (date1>date2) {//DATE1 VALUE LESS THAN OR EQUAL TO DATE2
-			alert(fldLabel1+alert_arr.SHOULDBE_LESS_EQUAL+fldLabel2)
-			ret=false
+			alert(fldLabel1+alert_arr.SHOULDBE_LESS_EQUAL+fldLabel2);
+			ret=false;
 		}
 		break;
-		case 'E'	:
+		case 'E':
 			if (date1!=date2) {//DATE1 VALUE EQUAL TO DATE
-			alert(fldLabel1+alert_arr.SHOULDBE_EQUAL+fldLabel2)
-			ret=false
+			alert(fldLabel1+alert_arr.SHOULDBE_EQUAL+fldLabel2);
+			ret=false;
 		}
 		break;
-		case 'G'	:
+		case 'G':
 			if (date1<=date2) {//DATE1 VALUE GREATER THAN DATE2
-			alert(fldLabel1+alert_arr.SHOULDBE_GREATER+fldLabel2)
-			ret=false
+			alert(fldLabel1+alert_arr.SHOULDBE_GREATER+fldLabel2);
+			ret=false;
 		}
 		break;
-		case 'GE'	:
+		case 'GE':
 			if (date1<date2) {//DATE1 VALUE GREATER THAN OR EQUAL TO DATE2
-			alert(fldLabel1+alert_arr.SHOULDBE_GREATER_EQUAL+fldLabel2)
-			ret=false
+			alert(fldLabel1+alert_arr.SHOULDBE_GREATER_EQUAL+fldLabel2);
+			ret=false;
 		}
 		break;
 	}
 
-	if (ret==false) return false
-	else return true
+	if (ret==false) return false;
+	else return true;
 }
 
 function dateTimeValidate(dateFldName,timeFldName,fldLabel,type) {
 	if(patternValidate(dateFldName,fldLabel,"DATE")==false)
 		return false;
-	dateval=getObj(dateFldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	dateval=getObj(dateFldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var dateelements=splitDateVal(dateval)
+	var dateelements=splitDateVal(dateval);
 
-	dd=dateelements[0]
-	mm=dateelements[1]
-	yyyy=dateelements[2]
+	dd=dateelements[0];
+	mm=dateelements[1];
+	yyyy=dateelements[2];
 
 	if (dd<1 || dd>31 || mm<1 || mm>12 || yyyy<1 || yyyy<1000) {
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			getObj(dateFldName).focus()
+			getObj(dateFldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
 	if ((mm==2) && (dd>29)) {//checking of no. of days in february month
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			getObj(dateFldName).focus()
-		} catch(error) { }
-		return false
+			getObj(dateFldName).focus();
+		} catch(error) { };
+		return false;
 	}
 
 	if ((mm==2) && (dd>28) && ((yyyy%4)!=0)) {//leap year checking
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			getObj(dateFldName).focus()
+			getObj(dateFldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
 	switch (parseInt(mm)) {
@@ -417,94 +402,94 @@ function dateTimeValidate(dateFldName,timeFldName,fldLabel,type) {
 		case 9 :
 		case 11 :
 			if (dd>30) {
-			alert(alert_arr.ENTER_VALID+fldLabel)
+			alert(alert_arr.ENTER_VALID+fldLabel);
 			try {
-				getObj(dateFldName).focus()
+				getObj(dateFldName).focus();
 			} catch(error) { }
-			return false
+			return false;
 		}
 	}
 
 	if (patternValidate(timeFldName,fldLabel,"TIME")==false)
-		return false
+		return false;
 
-	var timeval=getObj(timeFldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-	var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")))
-	var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length))
-	var currObj=getObj(timeFldName)
+	var timeval=getObj(timeFldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")));
+	var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length));
+	var currObj=getObj(timeFldName);
 
 	if (hourval>23 || minval>59) {
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			currObj.focus()
+			currObj.focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
-	var currdate=new Date()
-	var chkdate=new Date()
+	var currdate=new Date();
+	var chkdate=new Date();
 
-	chkdate.setYear(yyyy)
-	chkdate.setMonth(mm-1)
-	chkdate.setDate(dd)
-	chkdate.setHours(hourval)
-	chkdate.setMinutes(minval)
+	chkdate.setYear(yyyy);
+	chkdate.setMonth(mm-1);
+	chkdate.setDate(dd);
+	chkdate.setHours(hourval);
+	chkdate.setMinutes(minval);
 
 	if (type!="OTH") {
 		if (!compareDates(chkdate,fldLabel,currdate,"current date & time",type)) {
 			try {
-				getObj(dateFldName).focus()
+				getObj(dateFldName).focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
 	} else return true;
 }
 
 function dateTimeComparison(dateFldName1,timeFldName1,fldLabel1,dateFldName2,timeFldName2,fldLabel2,type) {
-	var dateval1=getObj(dateFldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-	var dateval2=getObj(dateFldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	var dateval1=getObj(dateFldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var dateval2=getObj(dateFldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var dateelements1=splitDateVal(dateval1)
-	var dateelements2=splitDateVal(dateval2)
+	var dateelements1=splitDateVal(dateval1);
+	var dateelements2=splitDateVal(dateval2);
 
-	dd1=dateelements1[0]
-	mm1=dateelements1[1]
-	yyyy1=dateelements1[2]
+	dd1=dateelements1[0];
+	mm1=dateelements1[1];
+	yyyy1=dateelements1[2];
 
-	dd2=dateelements2[0]
-	mm2=dateelements2[1]
-	yyyy2=dateelements2[2]
+	dd2=dateelements2[0];
+	mm2=dateelements2[1];
+	yyyy2=dateelements2[2];
 
-	var timeval1=getObj(timeFldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-	var timeval2=getObj(timeFldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	var timeval1=getObj(timeFldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var timeval2=getObj(timeFldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var hh1=timeval1.substring(0,timeval1.indexOf(":"))
-	var min1=timeval1.substring(timeval1.indexOf(":")+1,timeval1.length)
+	var hh1=timeval1.substring(0,timeval1.indexOf(":"));
+	var min1=timeval1.substring(timeval1.indexOf(":")+1,timeval1.length);
 
-	var hh2=timeval2.substring(0,timeval2.indexOf(":"))
-	var min2=timeval2.substring(timeval2.indexOf(":")+1,timeval2.length)
+	var hh2=timeval2.substring(0,timeval2.indexOf(":"));
+	var min2=timeval2.substring(timeval2.indexOf(":")+1,timeval2.length);
 
-	var date1=new Date()
-	var date2=new Date()
+	var date1=new Date();
+	var date2=new Date();
 
-	date1.setYear(yyyy1)
-	date1.setMonth(mm1-1)
-	date1.setDate(dd1)
-	date1.setHours(hh1)
-	date1.setMinutes(min1)
+	date1.setYear(yyyy1);
+	date1.setMonth(mm1-1);
+	date1.setDate(dd1);
+	date1.setHours(hh1);
+	date1.setMinutes(min1);
 
-	date2.setYear(yyyy2)
-	date2.setMonth(mm2-1)
-	date2.setDate(dd2)
-	date2.setHours(hh2)
-	date2.setMinutes(min2)
+	date2.setYear(yyyy2);
+	date2.setMonth(mm2-1);
+	date2.setDate(dd2);
+	date2.setHours(hh2);
+	date2.setMinutes(min2);
 
 	if (type!="OTH") {
 		if (!compareDates(date1,fldLabel1,date2,fldLabel2,type)) {
 			try {
-				getObj(dateFldName1).focus()
+				getObj(dateFldName1).focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
 	} else return true;
 }
@@ -512,36 +497,36 @@ function dateTimeComparison(dateFldName1,timeFldName1,fldLabel1,dateFldName2,tim
 function dateValidate(fldName,fldLabel,type) {
 	if(patternValidate(fldName,fldLabel,"DATE")==false)
 		return false;
-	dateval=getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	dateval=getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var dateelements=splitDateVal(dateval)
+	var dateelements=splitDateVal(dateval);
 
-	dd=dateelements[0]
-	mm=dateelements[1]
-	yyyy=dateelements[2]
+	dd=dateelements[0];
+	mm=dateelements[1];
+	yyyy=dateelements[2];
 
 	if (dd<1 || dd>31 || mm<1 || mm>12 || yyyy<1 || yyyy<1000) {
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
 	if ((mm==2) && (dd>29)) {//checking of no. of days in february month
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
 	if ((mm==2) && (dd>28) && ((yyyy%4)!=0)) {//leap year checking
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
 	switch (parseInt(mm)) {
@@ -551,105 +536,105 @@ function dateValidate(fldName,fldLabel,type) {
 		case 9 :
 		case 11 :
 			if (dd>30) {
-			alert(alert_arr.ENTER_VALID+fldLabel)
+			alert(alert_arr.ENTER_VALID+fldLabel);
 			try {
-				getObj(fldName).focus()
+				getObj(fldName).focus();
 			} catch(error) { }
-			return false
+			return false;
 		}
 	}
 
-	var currdate=new Date()
-	var chkdate=new Date()
+	var currdate=new Date();
+	var chkdate=new Date();
 
-	chkdate.setYear(yyyy)
-	chkdate.setMonth(mm-1)
-	chkdate.setDate(dd)
+	chkdate.setYear(yyyy);
+	chkdate.setMonth(mm-1);
+	chkdate.setDate(dd);
 
 	if (type!="OTH") {
 		if (!compareDates(chkdate,fldLabel,currdate,"current date",type)) {
 			try {
-				getObj(fldName).focus()
+				getObj(fldName).focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
 	} else return true;
 }
 
 function dateComparison(fldName1,fldLabel1,fldName2,fldLabel2,type) {
-	var dateval1=getObj(fldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-	var dateval2=getObj(fldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	var dateval1=getObj(fldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var dateval2=getObj(fldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var dateelements1=splitDateVal(dateval1)
-	var dateelements2=splitDateVal(dateval2)
+	var dateelements1=splitDateVal(dateval1);
+	var dateelements2=splitDateVal(dateval2);
 
-	dd1=dateelements1[0]
-	mm1=dateelements1[1]
-	yyyy1=dateelements1[2]
+	dd1=dateelements1[0];
+	mm1=dateelements1[1];
+	yyyy1=dateelements1[2];
 
-	dd2=dateelements2[0]
-	mm2=dateelements2[1]
-	yyyy2=dateelements2[2]
+	dd2=dateelements2[0];
+	mm2=dateelements2[1];
+	yyyy2=dateelements2[2];
 
-	var date1=new Date()
-	var date2=new Date()
+	var date1=new Date();
+	var date2=new Date();
 
-	date1.setYear(yyyy1)
-	date1.setMonth(mm1-1)
-	date1.setDate(dd1)
+	date1.setYear(yyyy1);
+	date1.setMonth(mm1-1);
+	date1.setDate(dd1);
 
-	date2.setYear(yyyy2)
-	date2.setMonth(mm2-1)
-	date2.setDate(dd2)
+	date2.setYear(yyyy2);
+	date2.setMonth(mm2-1);
+	date2.setDate(dd2);
 
 	if (type!="OTH") {
 		if (!compareDates(date1,fldLabel1,date2,fldLabel2,type)) {
 			try {
-				getObj(fldName1).focus()
+				getObj(fldName1).focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
-	} else return true
+	} else return true;
 }
 
 function timeValidate(fldName,fldLabel,type) {
 	if (patternValidate(fldName,fldLabel,"TIME")==false)
-		return false
+		return false;
 
-	var timeval=getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-	var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")))
-	var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length))
-	var secval=parseInt(timeval.substring(timeval.indexOf(":")+4,timeval.length))
-	var currObj=getObj(fldName)
+	var timeval=getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")));
+	var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length));
+	var secval=parseInt(timeval.substring(timeval.indexOf(":")+4,timeval.length));
+	var currObj=getObj(fldName);
 
 	if (hourval>23 || minval>59 || secval>59) {
-		alert(alert_arr.ENTER_VALID+fldLabel)
+		alert(alert_arr.ENTER_VALID+fldLabel);
 		try {
-			currObj.focus()
+			currObj.focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
-	var currtime=new Date()
-	var chktime=new Date()
+	var currtime=new Date();
+	var chktime=new Date();
 
-	chktime.setHours(hourval)
-	chktime.setMinutes(minval)
-	chktime.setSeconds(secval)
+	chktime.setHours(hourval);
+	chktime.setMinutes(minval);
+	chktime.setSeconds(secval);
 
 	if (type!="OTH") {
 		if (!compareDates(chktime,fldLabel,currtime,"current time",type)) {
 			try {
-				getObj(fldName).focus()
+				getObj(fldName).focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
-	} else return true
+	} else return true;
 }
 
 function timeValidateObject(fldObject,fldLabel,type) {
 	if (patternValidateObject(fldObject,fldLabel,"TIME")==false)
-		return false
+		return false;
 
 	var timeval=fldObject.value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 	var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")));
@@ -661,7 +646,7 @@ function timeValidateObject(fldObject,fldLabel,type) {
 		try {
 			fldObject.focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 
 	var currtime=new Date();
@@ -676,29 +661,29 @@ function timeValidateObject(fldObject,fldLabel,type) {
 			try {
 				fldObject.focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
-	} else return true
+	} else return true;
 }
 
 function timeComparison(fldName1,fldLabel1,fldName2,fldLabel2,type) {
-	var timeval1=getObj(fldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-	var timeval2=getObj(fldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	var timeval1=getObj(fldName1).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+	var timeval2=getObj(fldName2).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var hh1=timeval1.substring(0,timeval1.indexOf(":"))
-	var min1=timeval1.substring(timeval1.indexOf(":")+1,timeval1.length)
+	var hh1=timeval1.substring(0,timeval1.indexOf(":"));
+	var min1=timeval1.substring(timeval1.indexOf(":")+1,timeval1.length);
 
-	var hh2=timeval2.substring(0,timeval2.indexOf(":"))
-	var min2=timeval2.substring(timeval2.indexOf(":")+1,timeval2.length)
+	var hh2=timeval2.substring(0,timeval2.indexOf(":"));
+	var min2=timeval2.substring(timeval2.indexOf(":")+1,timeval2.length);
 
-	var time1=new Date()
-	var time2=new Date()
+	var time1=new Date();
+	var time2=new Date();
 
 	//added to fix the ticket #5028
 	if(fldName1 == "time_end" && (getObj("due_date") && getObj("date_start")))
 	{
-		var due_date=getObj("due_date").value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-		var start_date=getObj("date_start").value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+		var due_date=getObj("due_date").value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+		var start_date=getObj("date_start").value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 		dateval1 = splitDateVal(due_date);
 		dateval2 = splitDateVal(start_date);
 
@@ -710,28 +695,27 @@ function timeComparison(fldName1,fldLabel1,fldName2,fldLabel2,type) {
 		mm2 = dateval2[1];
 		yyyy2 = dateval2[2];
 
-		time1.setYear(yyyy1)
-		time1.setMonth(mm1-1)
-		time1.setDate(dd1)
+		time1.setYear(yyyy1);
+		time1.setMonth(mm1-1);
+		time1.setDate(dd1);
 
-		time2.setYear(yyyy2)
-		time2.setMonth(mm2-1)
-		time2.setDate(dd2)
+		time2.setYear(yyyy2);
+		time2.setMonth(mm2-1);
+		time2.setDate(dd2);
 
 	}
-	//end
 
-	time1.setHours(hh1)
-	time1.setMinutes(min1)
+	time1.setHours(hh1);
+	time1.setMinutes(min1);
 
-	time2.setHours(hh2)
-	time2.setMinutes(min2)
+	time2.setHours(hh2);
+	time2.setMinutes(min2);
 	if (type!="OTH") {
 		if (!compareDates(time1,fldLabel1,time2,fldLabel2,type)) {
 			try {
-				getObj(fldName1).focus()
+				getObj(fldName1).focus();
 			} catch(error) { }
-			return false
+			return false;
 		} else return true;
 	} else return true;
 }
@@ -750,42 +734,42 @@ function numValidate(fldName,fldLabel,format,neg) {
 	}
 	if (format!="any") {
 		if (isNaN(val)) {
-			var invalid=true
+			var invalid=true;
 		} else {
-			var format=format.split(",")
-			var splitval=val.split(".")
+			var format=format.split(",");
+			var splitval=val.split(".");
 			if (neg==true) {
 				if (splitval[0].indexOf("-")>=0) {
 					if (splitval[0].length-1>format[0])
-						invalid=true
+						invalid=true;
 				} else {
 					if (splitval[0].length>format[0])
-						invalid=true
+						invalid=true;
 				}
 			} else {
 				if (val<0)
-					invalid=true
+					invalid=true;
 				else if (format[0]==2 && splitval[0]==100 && (!splitval[1] || splitval[1]==0))
-					invalid=false
+					invalid=false;
 				else if (splitval[0].length>format[0])
-					invalid=true
+					invalid=true;
 			}
 			if (splitval[1])
 				if (splitval[1].length>format[1])
-					invalid=true
+					invalid=true;
 		}
 		if (invalid==true) {
-			alert(alert_arr.INVALID+fldLabel)
+			alert(alert_arr.INVALID+fldLabel);
 			try {
-				getObj(fldName).focus()
+				getObj(fldName).focus();
 			} catch(error) { }
-			return false
-		}else return true
+			return false;
+		}else return true;
 	} else {
 		// changes made -- to fix the ticket#3272
 		if(fldName == "probability" || fldName == "commissionrate")
 		{
-			var splitval=val.split(".")
+			var splitval=val.split(".");
 			var arr_len = splitval.length;
 			var len = 0;
 
@@ -793,11 +777,11 @@ function numValidate(fldName,fldLabel,format,neg) {
 				len = splitval[1].length;
 			if(isNaN(val))
 			{
-				alert(alert_arr.INVALID+fldLabel)
+				alert(alert_arr.INVALID+fldLabel);
 				try {
-					getObj(fldName).focus()
+					getObj(fldName).focus();
 				}catch(error) { }
-				return false
+				return false;
 			}
 			else if(splitval[0] > 100 || len > 3 || (splitval[0] >= 100 && splitval[1] > 0))
 			{
@@ -806,7 +790,7 @@ function numValidate(fldName,fldLabel,format,neg) {
 			}
 		}
 		else {
-			var splitval=val.split(".")
+			var splitval=val.split(".");
 			if(splitval[0]>18446744073709551615)
 			{
 				alert( fldLabel + alert_arr.EXCEEDS_MAX);
@@ -815,9 +799,9 @@ function numValidate(fldName,fldLabel,format,neg) {
 		}
 
 		if (neg==true)
-			var re=/^(-|)(\d)*(\.)?\d+(\.\d\d*)*$/
+			var re=/^(-|)(\d)*(\.)?\d+(\.\d\d*)*$/;
 		else
-			var re=/^(\d)*(\.)?\d+(\.\d\d*)*$/
+			var re=/^(\d)*(\.)?\d+(\.\d\d*)*$/;
 	}
 
 	//for precision check. ie.number must contains only one "."
@@ -830,22 +814,21 @@ function numValidate(fldName,fldLabel,format,neg) {
 
 	if(dotcount>1)
 	{
-		alert(alert_arr.INVALID+fldLabel)
+		alert(alert_arr.INVALID+fldLabel);
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		}catch(error) { }
 		return false;
 	}
 
 	if (!re.test(val)) {
-		alert(alert_arr.INVALID+fldLabel)
+		alert(alert_arr.INVALID+fldLabel);
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		} catch(error) { }
-		return false
-	} else return true
+		return false;
+	} else return true;
 }
-
 
 function intValidate(fldName,fldLabel) {
 	var val=getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
@@ -856,11 +839,11 @@ function intValidate(fldName,fldLabel) {
 	}
 	if (isNaN(val) || (val.indexOf(".")!=-1 && fldName != 'potential_amount' && fldName != 'list_price'))
 	{
-		alert(alert_arr.INVALID+fldLabel)
+		alert(alert_arr.INVALID+fldLabel);
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	}
 	else if((fldName != 'employees' || fldName != 'noofemployees') && (val < -2147483648 || val > 2147483647))
 	{
@@ -874,59 +857,59 @@ function intValidate(fldName,fldLabel) {
 	}
 	else
 	{
-		return true
+		return true;
 	}
 }
 
 function numConstComp(fldName,fldLabel,type,constval) {
-	var val=parseFloat(getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, ''))
-	constval=parseFloat(constval)
+	var val=parseFloat(getObj(fldName).value.replace(/^\s+/g, '').replace(/\s+$/g, ''));
+	constval=parseFloat(constval);
 
-	var ret=true
+	var ret=true;
 	switch (type) {
-		case "L"  :
+		case "L" :
 			if (val>=constval) {
-			alert(fldLabel+alert_arr.SHOULDBE_LESS+constval)
-			ret=false
+			alert(fldLabel+alert_arr.SHOULDBE_LESS+constval);
+			ret=false;
 		}
 		break;
 		case "LE" :
 			if (val>constval) {
-			alert(fldLabel+alert_arr.SHOULDBE_LESS_EQUAL+constval)
-			ret=false
+			alert(fldLabel+alert_arr.SHOULDBE_LESS_EQUAL+constval);
+			ret=false;
 		}
 		break;
-		case "E"  :
+		case "E" :
 			if (val!=constval) {
-			alert(fldLabel+alert_arr.SHOULDBE_EQUAL+constval)
-			ret=false
+			alert(fldLabel+alert_arr.SHOULDBE_EQUAL+constval);
+			ret=false;
 		}
 		break;
 		case "NE" :
 			if (val==constval) {
-			alert(fldLabel+alert_arr.SHOULDNOTBE_EQUAL+constval)
-			ret=false
+			alert(fldLabel+alert_arr.SHOULDNOTBE_EQUAL+constval);
+			ret=false;
 		}
 		break;
-		case "G"  :
+		case "G" :
 			if (val<=constval) {
-			alert(fldLabel+alert_arr.SHOULDBE_GREATER+constval)
-			ret=false
+			alert(fldLabel+alert_arr.SHOULDBE_GREATER+constval);
+			ret=false;
 		}
 		break;
 		case "GE" :
 			if (val<constval) {
-			alert(fldLabel+alert_arr.SHOULDBE_GREATER_EQUAL+constval)
-			ret=false
+			alert(fldLabel+alert_arr.SHOULDBE_GREATER_EQUAL+constval);
+			ret=false;
 		}
 		break;
 	}
 
 	if (ret==false) {
 		try {
-			getObj(fldName).focus()
+			getObj(fldName).focus();
 		} catch(error) { }
-		return false
+		return false;
 	} else return true;
 }
 
@@ -1011,6 +994,7 @@ function doModuleValidation(edit_type,editForm,callback) {
 		var formName = editForm;
 	}
 	if((formName == 'QcEditView' && QCformValidate()) || (doformValidation(edit_type))) { //base function which validates form data
+		VtigerJS_DialogBox.block();
 		if (edit_type=='mass_edit') {
 			var action = 'MassEditSave';
 		} else {
@@ -1042,7 +1026,6 @@ function doModuleValidation(edit_type,editForm,callback) {
 						data : {structure: sentForm},
 						url : "index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=ValidationLoad&valmodule="+gVTModule,
 						success : function(msg) {  //Validation file answers
-							VtigerJS_DialogBox.unblock();
 							if (msg.search("%%%CONFIRM%%%") > -1) { //Allow to use confirm alert
 								//message to display
 								var display = msg.split("%%%CONFIRM%%%");
@@ -1061,11 +1044,12 @@ function doModuleValidation(edit_type,editForm,callback) {
 								}
 							} else { //Error
 								alert(msg);
+								VtigerJS_DialogBox.unblock();
 							}
 						},
 						error : function() {  //Error while asking file
-							VtigerJS_DialogBox.unblock();
 							alert('Error with AJAX');
+							VtigerJS_DialogBox.unblock();
 						}
 					});
 				} else { // no validation we send form
@@ -1124,7 +1108,7 @@ function doformValidation(edit_type) {
 					return false;
 				}
 				if(getObj('enable_recurring').checked == false && getObj('recurring_frequency_mass_edit_check').checked
-					&& getObj('recurring_frequency') != null && trim(getObj('recurring_frequency').value) !=  '--None--') {
+					&& getObj('recurring_frequency') != null && trim(getObj('recurring_frequency').value) != '--None--') {
 					alert(alert_arr.RECURRING_FREQNECY_NOT_ENABLED);
 					return false;
 				}
@@ -1150,106 +1134,105 @@ function doformValidation(edit_type) {
 		}
 		if(getObj(fieldname[i]) != null)
 		{
-			var type=fielddatatype[i].split("~")
+			var type=fielddatatype[i].split("~");
 			if (type[1]=="M") {
 				if (!emptyCheck(fieldname[i],fieldlabel[i],getObj(fieldname[i]).type))
 					return false;
 			}
 			switch (type[0]) {
-				case "O"  :
+				case "O" :
 					break;
-				case "V"  :
+				case "V" :
 					break;
-				case "C"  :
+				case "C" :
 					break;
 				case "DT" :
 					if (getObj(fieldname[i]) != null && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0)
 					{
 						if (type[1]=="M")
 							if (!emptyCheck(fieldname[2],fieldlabel[i],getObj(type[2]).type))
-								return false
+								return false;
 
-						if(typeof(type[3])=="undefined") var currdatechk="OTH"
-						else var currdatechk=type[3]
+						if(typeof(type[3])=="undefined") var currdatechk="OTH";
+						else var currdatechk=type[3];
 
 						if (!dateTimeValidate(fieldname[i],type[2],fieldlabel[i],currdatechk))
-							return false
+							return false;
 						if (type[4]) {
 							if (!dateTimeComparison(fieldname[i],type[2],fieldlabel[i],type[5],type[6],type[4]))
-								return false
-
+								return false;
 						}
 					}
 					break;
-				case "D"  :
+				case "D" :
 					if (getObj(fieldname[i]) != null && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0)
 					{
-						if(typeof(type[2])=="undefined") var currdatechk="OTH"
-						else var currdatechk=type[2]
+						if(typeof(type[2])=="undefined") var currdatechk="OTH";
+						else var currdatechk=type[2];
 
 						if (!dateValidate(fieldname[i],fieldlabel[i],currdatechk))
-							return false
+							return false;
 						if (type[3]) {
 							if(gVTModule == 'SalesOrder' && fieldname[i] == 'end_period'
 								&& (getObj('enable_recurring') == null || getObj('enable_recurring').checked == false)) {
 								continue;
 							}
 							if (!dateComparison(fieldname[i],fieldlabel[i],type[4],type[5],type[3]))
-								return false
+								return false;
 						}
 					}
 					break;
-				case "T"  :
+				case "T" :
 					if (getObj(fieldname[i]) != null && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0)
 					{
-						if(typeof(type[2])=="undefined") var currtimechk="OTH"
-						else var currtimechk=type[2]
+						if(typeof(type[2])=="undefined") var currtimechk="OTH";
+						else var currtimechk=type[2];
 
 						if (!timeValidate(fieldname[i],fieldlabel[i],currtimechk))
-							return false
+							return false;
 						if (type[3]) {
 							if (!timeComparison(fieldname[i],fieldlabel[i],type[4],type[5],type[3]))
-								return false
+								return false;
 						}
 					}
 					break;
-				case "I"  :
+				case "I" :
 					if (getObj(fieldname[i]) != null && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0)
 					{
 						if (getObj(fieldname[i]).value.length!=0)
 						{
 							if (!intValidate(fieldname[i],fieldlabel[i]))
-								return false
+								return false;
 							if (type[2]) {
 								if (!numConstComp(fieldname[i],fieldlabel[i],type[2],type[3]))
-									return false
+									return false;
 							}
 						}
 					}
 					break;
-				case "N"  :
+				case "N" :
 				case "NN" :
 					if (getObj(fieldname[i]) != null && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0)
 					{
 						if (getObj(fieldname[i]).value.length!=0)
 						{
-							if (typeof(type[2])=="undefined") var numformat="any"
-							else var numformat=type[2]
+							if (typeof(type[2])=="undefined") var numformat="any";
+							else var numformat=type[2];
 							if(type[0]=="NN")
 							{
 								if (!numValidate(fieldname[i],fieldlabel[i],numformat,true))
-									return false
+									return false;
 							}
 							else if (!numValidate(fieldname[i],fieldlabel[i],numformat))
-								return false
+								return false;
 							if (type[3]) {
 								if (!numConstComp(fieldname[i],fieldlabel[i],type[3],type[4]))
-									return false
+									return false;
 							}
 						}
 					}
 					break;
-				case "E"  :
+				case "E" :
 					if (getObj(fieldname[i]) != null && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0)
 					{
 						if (getObj(fieldname[i]).value.length!=0)
@@ -1264,34 +1247,34 @@ function doformValidation(edit_type) {
 			//start Birth day date validation
 			if(fieldname[i] == "birthday" && getObj(fieldname[i]).value.replace(/^\s+/g, '').replace(/\s+$/g, '').length!=0 )
 			{
-				var now =new Date()
-				var currtimechk="OTH"
-				var datelabel = fieldlabel[i]
-				var datefield = fieldname[i]
-				var datevalue =getObj(datefield).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+				var now =new Date();
+				var currtimechk="OTH";
+				var datelabel = fieldlabel[i];
+				var datefield = fieldname[i];
+				var datevalue =getObj(datefield).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 				if (!dateValidate(fieldname[i],fieldlabel[i],currdatechk))
 				{
 					try {
-						getObj(datefield).focus()
+						getObj(datefield).focus();
 					} catch(error) { }
-					return false
+					return false;
 				}
 				else
 				{
 					datearr=splitDateVal(datevalue);
-					dd=datearr[0]
-					mm=datearr[1]
-					yyyy=datearr[2]
-					var datecheck = new Date()
-					datecheck.setYear(yyyy)
-					datecheck.setMonth(mm-1)
-					datecheck.setDate(dd)
+					dd=datearr[0];
+					mm=datearr[1];
+					yyyy=datearr[2];
+					var datecheck = new Date();
+					datecheck.setYear(yyyy);
+					datecheck.setMonth(mm-1);
+					datecheck.setDate(dd);
 					if (!compareDates(datecheck,datelabel,now,"Current Date","L"))
 					{
 						try {
-							getObj(datefield).focus()
+							getObj(datefield).focus();
 						} catch(error) { }
-						return false
+						return false;
 					}
 				}
 			}
@@ -1313,7 +1296,7 @@ function doformValidation(edit_type) {
 					return false;
 				}
 				var image_ext = image_arr[image_arr_last_index].toLowerCase();
-				if(image_ext ==  "jpeg" || image_ext ==  "png" || image_ext ==  "jpg" || image_ext ==  "pjpeg" || image_ext ==  "x-png" || image_ext ==  "gif")
+				if(image_ext == "jpeg" || image_ext == "png" || image_ext == "jpg" || image_ext == "pjpeg" || image_ext == "x-png" || image_ext == "gif")
 				{
 					return true;
 				}
@@ -1333,53 +1316,48 @@ function doformValidation(edit_type) {
 		{
 			if(fieldname[j] == "date_start" || fieldname[j] == "task_date_start" )
 			{
-				var datelabel = fieldlabel[j]
-				var datefield = fieldname[j]
-				var startdatevalue = getObj(datefield).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+				var datelabel = fieldlabel[j];
+				var datefield = fieldname[j];
+				var startdatevalue = getObj(datefield).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 			}
 			if(fieldname[j] == "time_start" || fieldname[j] == "task_time_start")
 			{
-				var timelabel = fieldlabel[j]
-				var timefield = fieldname[j]
-				var timeval=getObj(timefield).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
+				var timelabel = fieldlabel[j];
+				var timefield = fieldname[j];
+				var timeval=getObj(timefield).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
 			}
 			if(fieldname[j] == "eventstatus" || fieldname[j] == "taskstatus")
 			{
-				var statusvalue = getObj(fieldname[j]).value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-				var statuslabel = fieldlabel[j++]
+				var statusvalue = getObj(fieldname[j]).value.replace(/^\s+/g, '').replace(/\s+$/g, '');
+				var statuslabel = fieldlabel[j++];
 			}
 		}
 	}
 	if(statusvalue == "Planned")
 	{
-		var dateelements=splitDateVal(startdatevalue)
+		var dateelements=splitDateVal(startdatevalue);
+		var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")));
+		var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length));
 
-		var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")))
-		var minval=parseInt(timeval.substring(timeval.indexOf(":")+1,timeval.length))
+		dd=dateelements[0];
+		mm=dateelements[1];
+		yyyy=dateelements[2];
 
-
-		dd=dateelements[0]
-		mm=dateelements[1]
-		yyyy=dateelements[2]
-
-		var chkdate=new Date()
-		chkdate.setYear(yyyy)
-		chkdate.setMonth(mm-1)
-		chkdate.setDate(dd)
-		chkdate.setMinutes(minval)
-		chkdate.setHours(hourval)
+		var chkdate=new Date();
+		chkdate.setYear(yyyy);
+		chkdate.setMonth(mm-1);
+		chkdate.setDate(dd);
+		chkdate.setMinutes(minval);
+		chkdate.setHours(hourval);
 		if(!comparestartdate(chkdate)) return false;
-	}//end
+	}
 
 	return true;
 }
 
 function clearId(fldName) {
-
-	var currObj=getObj(fldName)
-
-	currObj.value=""
-
+	var currObj=getObj(fldName);
+	currObj.value="";
 }
 
 function comparestartdate(chkdate) {
@@ -1387,86 +1365,71 @@ function comparestartdate(chkdate) {
 	return compareDates(chkdate,alert_arr.START_DATE_TIME,currdate,alert_arr.DATE_SHOULDNOT_PAST,"GE");
 }
 
-function showCalc(fldName) {
-	var currObj=getObj(fldName)
-	openPopUp("calcWin",currObj,"/crm/Calc.do?currFld="+fldName,"Calc",170,220,"menubar=no,toolbar=no,location=no,status=no,scrollbars=no,resizable=yes")
-}
-
-function showLookUp(fldName,fldId,fldLabel,searchmodule,hostName,serverPort,username) {
-	var currObj=getObj(fldName)
-
-	//var fldValue=currObj.value.replace(/^\s+/g, '').replace(/\s+$/g, '')
-
-	//need to pass the name of the system in which the server is running so that even when the search is invoked from another system, the url will remain the same
-
-	openPopUp("lookUpWin",currObj,"/crm/Search.do?searchmodule="+searchmodule+"&fldName="+fldName+"&fldId="+fldId+"&fldLabel="+fldLabel+"&fldValue=&user="+username,"LookUp",500,400,"menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes")
-}
-
 function openPopUp(winInst,currObj,baseURL,winName,width,height,features) {
-	var left=parseInt(findPosX(currObj))
-	var top=parseInt(findPosY(currObj))
+	var left=parseInt(findPosX(currObj));
+	var top=parseInt(findPosY(currObj));
 
-	if (window.navigator.appName!="Opera") top+=parseInt(currObj.offsetHeight)
-	else top+=(parseInt(currObj.offsetHeight)*2)+10
+	if (window.navigator.appName!="Opera") top+=parseInt(currObj.offsetHeight);
+	else top+=(parseInt(currObj.offsetHeight)*2)+10;
 
 	if (browser_ie)	{
-		top+=window.screenTop-document.body.scrollTop
-		left-=document.body.scrollLeft
+		top+=window.screenTop-document.body.scrollTop;
+		left-=document.body.scrollLeft;
 		if (top+height+30>window.screen.height)
-			top=findPosY(currObj)+window.screenTop-height-30 //30 is a constant to avoid positioning issue
+			top=findPosY(currObj)+window.screenTop-height-30 ;//30 is a constant to avoid positioning issue
 		if (left+width>window.screen.width)
-			left=findPosX(currObj)+window.screenLeft-width
+			left=findPosX(currObj)+window.screenLeft-width;
 	} else if (browser_nn4 || browser_nn6) {
-		top+=(scrY-pgeY)
-		left+=(scrX-pgeX)
+		top+=(scrY-pgeY);
+		left+=(scrX-pgeX);
 		if (top+height+30>window.screen.height)
-			top=findPosY(currObj)+(scrY-pgeY)-height-30
+			top=findPosY(currObj)+(scrY-pgeY)-height-30;
 		if (left+width>window.screen.width)
-			left=findPosX(currObj)+(scrX-pgeX)-width
+			left=findPosX(currObj)+(scrX-pgeX)-width;
 	}
 
-	features="width="+width+",height="+height+",top="+top+",left="+left+";"+features
-	eval(winInst+'=window.open("'+baseURL+'","'+winName+'","'+features+'")')
+	features="width="+width+",height="+height+",top="+top+",left="+left+";"+features;
+	eval(winInst+'=window.open("'+baseURL+'","'+winName+'","'+features+'")');
 }
 
 var scrX=0,scrY=0,pgeX=0,pgeY=0;
 
 if (browser_nn4 || browser_nn6) {
-	document.addEventListener("click",popUpListener,true)
+	document.addEventListener("click",popUpListener,true);
 }
 
 function popUpListener(ev) {
 	if (browser_nn4 || browser_nn6) {
-		scrX=ev.screenX
-		scrY=ev.screenY
-		pgeX=ev.pageX
-		pgeY=ev.pageY
+		scrX=ev.screenX;
+		scrY=ev.screenY;
+		pgeX=ev.pageX;
+		pgeY=ev.pageY;
 	}
 }
 
 function toggleSelect(state,relCheckName) {
 	if (getObj(relCheckName)) {
 		if (typeof(getObj(relCheckName).length)=="undefined") {
-			getObj(relCheckName).checked=state
+			getObj(relCheckName).checked=state;
 		} else {
 			for (var i=0;i<getObj(relCheckName).length;i++)
-				getObj(relCheckName)[i].checked=state
+				getObj(relCheckName)[i].checked=state;
 		}
 	}
 }
 
 function toggleSelectAll(relCheckName,selectAllName) {
 	if (typeof(getObj(relCheckName).length)=="undefined") {
-		getObj(selectAllName).checked=getObj(relCheckName).checked
+		getObj(selectAllName).checked=getObj(relCheckName).checked;
 	} else {
 		var atleastOneFalse=false;
 		for (var i=0;i<getObj(relCheckName).length;i++) {
 			if (getObj(relCheckName)[i].checked==false) {
-				atleastOneFalse=true
+				atleastOneFalse=true;
 				break;
 			}
 		}
-		getObj(selectAllName).checked=!atleastOneFalse
+		getObj(selectAllName).checked=!atleastOneFalse;
 	}
 }
 //added for show/hide 10July
@@ -1476,7 +1439,7 @@ function expandCont(bn)
 	leftTab.style.display = (leftTab.style.display == "block")?"none":"block";
 	img = document.getElementById("img_"+bn);
 	img.src=(img.src.indexOf("images/toggle1.gif")!=-1)?"themes/images/toggle2.gif":"themes/images/toggle1.gif";
-	set_cookie_gen(bn,leftTab.style.display)
+	set_cookie_gen(bn,leftTab.style.display);
 
 }
 
@@ -1485,9 +1448,9 @@ function setExpandCollapse_gen()
 	var x = leftpanelistarray.length;
 	for (i = 0 ; i < x ; i++)
 	{
-		var listObj=getObj(leftpanelistarray[i])
-		var tgImageObj=getObj("img_"+leftpanelistarray[i])
-		var status = get_cookie_gen(leftpanelistarray[i])
+		var listObj=getObj(leftpanelistarray[i]);
+		var tgImageObj=getObj("img_"+leftpanelistarray[i]);
+		var status = get_cookie_gen(leftpanelistarray[i]);
 
 		if (status == "block") {
 			listObj.style.display="block";
@@ -1500,20 +1463,18 @@ function setExpandCollapse_gen()
 }
 
 function toggleDiv(id) {
-
-	var listTableObj=getObj(id)
-
+	var listTableObj=getObj(id);
 	if (listTableObj.style.display=="block")
 	{
-		listTableObj.style.display="none"
+		listTableObj.style.display="none";
 	}else{
-		listTableObj.style.display="block"
+		listTableObj.style.display="block";
 	}
 //set_cookie(id,listTableObj.style.display)
 }
 
 //Setting cookies
-function set_cookie_gen ( name, value, exp_y, exp_m, exp_d, path, domain, secure )
+function set_cookie_gen( name, value, exp_y, exp_m, exp_d, path, domain, secure )
 {
 	var cookie_string = name + "=" + escape ( value );
 
@@ -1553,7 +1514,6 @@ function delete_cookie_gen ( cookie_name )
 	cookie_date.setTime ( cookie_date.getTime() - 1 );
 	document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
 }
-//end added for show/hide 10July
 
 /** This is Javascript Function which is used to toogle between
   * assigntype user and group/team select options while assigning owner to entity.
@@ -1562,35 +1522,36 @@ function toggleAssignType(currType)
 {
 	if (currType=="U")
 	{
-		getObj("assign_user").style.display="block"
-		getObj("assign_team").style.display="none"
+		getObj("assign_user").style.display="block";
+		getObj("assign_team").style.display="none";
 	}
 	else
 	{
-		getObj("assign_user").style.display="none"
-		getObj("assign_team").style.display="block"
+		getObj("assign_user").style.display="none";
+		getObj("assign_team").style.display="block";
 	}
 }
+
 //to display type of address for google map
 function showLocateMapMenu()
 {
-	getObj("dropDownMenu").style.display="block"
-	getObj("dropDownMenu").style.left=findPosX(getObj("locateMap"))
-	getObj("dropDownMenu").style.top=findPosY(getObj("locateMap"))+getObj("locateMap").offsetHeight
+	getObj("dropDownMenu").style.display="block";
+	getObj("dropDownMenu").style.left=findPosX(getObj("locateMap"));
+	getObj("dropDownMenu").style.top=findPosY(getObj("locateMap"))+getObj("locateMap").offsetHeight;
 }
-
 
 function hideLocateMapMenu(ev)
 {
 	if (browser_ie)
-		currElement=window.event.srcElement
+		currElement=window.event.srcElement;
 	else if (browser_nn4 || browser_nn6)
-		currElement=ev.target
+		currElement=ev.target;
 
 	if (currElement.id!="locateMap")
 		if (getObj("dropDownMenu").style.display=="block")
-			getObj("dropDownMenu").style.display="none"
+			getObj("dropDownMenu").style.display="none";
 }
+
 /*
 * javascript function to display the div tag
 * @param divId :: div tag ID
@@ -1615,31 +1576,21 @@ function showBlock(divId)
 	id.style.display = 'block';
 }
 
-
 /*
 * javascript function to hide the div tag
 * @param divId :: div tag ID
 */
-function hide(divId)
-{
-
+function hide(divId) {
 	var id = document.getElementById(divId);
-
 	id.style.display = 'none';
-
 }
-function fnhide(divId)
-{
 
+function fnhide(divId) {
 	var id = document.getElementById(divId);
-
 	id.style.display = 'none';
 }
 
 function fnLoadValues(obj1,obj2,SelTab,unSelTab,moduletype,module){
-
-
-
 	var oform = document.forms['EditView'];
 	oform.action.value='Save';
 	//global variable to check the validation calling function to avoid validating when tab change
@@ -1662,88 +1613,57 @@ function fnLoadValues(obj1,obj2,SelTab,unSelTab,moduletype,module){
 	// if(formValidate())
 	// {
 	var tabName1 = document.getElementById(obj1);
-
 	var tabName2 = document.getElementById(obj2);
-
 	var tagName1 = document.getElementById(SelTab);
-
 	var tagName2 = document.getElementById(unSelTab);
-
 	if(tabName1.className == "dvtUnSelectedCell")
-
 		tabName1.className = "dvtSelectedCell";
 
 	if(tabName2.className == "dvtSelectedCell")
-
 		tabName2.className = "dvtUnSelectedCell";
-	tagName1.style.display='block';
 
+	tagName1.style.display='block';
 	tagName2.style.display='none';
 	// }
-
 	gValidationCall = '';
 }
 
 function fnCopy(source,design){
-
 	document.getElementById(source).value=document.getElementById(design).value;
-
 	document.getElementById(source).disabled=true;
-
 }
 
 function fnClear(source){
-
 	document.getElementById(source).value=" ";
-
 	document.getElementById(source).disabled=false;
-
 }
 
 function fnCpy(){
-
 	var tagName=document.getElementById("cpy");
-
 	if(tagName.checked==true){
 		fnCopy("shipaddress","address");
-
 		fnCopy("shippobox","pobox");
-
 		fnCopy("shipcity","city");
-
 		fnCopy("shipcode","code");
-
 		fnCopy("shipstate","state");
-
 		fnCopy("shipcountry","country");
-
-	}
-
-	else{
-
+	} else {
 		fnClear("shipaddress");
-
 		fnClear("shippobox");
-
 		fnClear("shipcity");
-
 		fnClear("shipcode");
-
 		fnClear("shipstate");
-
 		fnClear("shipcountry");
-
 	}
-
 }
+
 function fnDown(obj){
 	var tagName = document.getElementById(obj);
 	var tabName = document.getElementById("one");
 	if(tagName.style.display == 'none'){
 		tagName.style.display = 'block';
 		tabName.style.display = 'block';
-	}
-	else{
+	} else {
 		tabName.style.display = 'none';
 		tagName.style.display = 'none';
 	}
@@ -1758,19 +1678,13 @@ var rowCnt = 1;
 function fnAddSrch(){
 
 	var tableName = document.getElementById('adSrc');
-
 	var prev = tableName.rows.length;
-
 	var count = prev;
-
 	var row = tableName.insertRow(prev);
 
 	if(count%2)
-
 		row.className = "dvtCellLabel";
-
 	else
-
 		row.className = "dvtCellInfo";
 
 	var fieldObject = document.getElementById("Fields0");
@@ -1784,7 +1698,7 @@ function fnAddSrch(){
 	colone.setAttribute('value','');
 	colone.onchange = function() {
 		updatefOptions(colone, 'Condition'+count);
-	}
+	};
 	columnone.appendChild(colone);
 	row.appendChild(columnone);
 
@@ -1820,76 +1734,41 @@ function totalnoofrows()
 */
 function delRow()
 {
-
 	var tableName = document.getElementById('adSrc');
-
 	var prev = tableName.rows.length;
-
 	if(prev > 1)
-
 		document.getElementById('adSrc').deleteRow(prev-1);
-
 }
 
 function fnVis(obj){
-
 	var profTag = document.getElementById("prof");
-
 	var moreTag = document.getElementById("more");
-
 	var addrTag = document.getElementById("addr");
 
-
 	if(obj == 'prof'){
-
 		document.getElementById('mnuTab').style.display = 'block';
-
 		document.getElementById('mnuTab1').style.display = 'none';
-
 		document.getElementById('mnuTab2').style.display = 'none';
-
 		profTag.className = 'dvtSelectedCell';
-
 		moreTag.className = 'dvtUnSelectedCell';
-
 		addrTag.className = 'dvtUnSelectedCell';
-
 	}
-
-
 	else if(obj == 'more'){
-
 		document.getElementById('mnuTab1').style.display = 'block';
-
 		document.getElementById('mnuTab').style.display = 'none';
-
 		document.getElementById('mnuTab2').style.display = 'none';
-
 		moreTag.className = 'dvtSelectedCell';
-
 		profTag.className = 'dvtUnSelectedCell';
-
 		addrTag.className = 'dvtUnSelectedCell';
-
 	}
-
-
 	else if(obj == 'addr'){
-
 		document.getElementById('mnuTab2').style.display = 'block';
-
 		document.getElementById('mnuTab').style.display = 'none';
-
 		document.getElementById('mnuTab1').style.display = 'none';
-
 		addrTag.className = 'dvtSelectedCell';
-
 		profTag.className = 'dvtUnSelectedCell';
-
 		moreTag.className = 'dvtUnSelectedCell';
-
 	}
-
 }
 
 function fnvsh(obj,Lay){
@@ -1906,7 +1785,13 @@ function fnvshobj(obj,Lay){
 	var leftSide = findPosX(obj);
 	var topSide = findPosY(obj);
 	var maxW = tagName.style.width;
-	var widthM = maxW.substring(0,maxW.length-2);
+	if (maxW == '') {
+		maxW = tagName.getBoundingClientRect();
+		var widthM = maxW.width;
+	} else {
+		var widthM = maxW.substring(0,maxW.length-2);
+	}
+	if (widthM==0) widthM = 360; // element is still empty, we estimate some size to avoid going off screen
 	if(Lay == 'editdiv')
 	{
 		leftSide = leftSide - 225;
@@ -1919,7 +1804,7 @@ function fnvshobj(obj,Lay){
 	var IE = document.all?true:false;
 	if(IE)
 	{
-		if($("repposition1"))
+		if(document.getElementById("repposition1"))
 		{
 			if(topSide > 1200)
 			{
@@ -1929,7 +1814,7 @@ function fnvshobj(obj,Lay){
 	}
 
 	var getVal = eval(leftSide) + eval(widthM);
-	if(getVal  > document.body.clientWidth ){
+	if(getVal > document.body.clientWidth ){
 		leftSide = eval(leftSide) - eval(widthM);
 		tagName.style.left = leftSide + 34 + 'px';
 	}
@@ -1947,7 +1832,7 @@ function posLay(obj,Lay){
 	var maxW = tagName.style.width;
 	var widthM = maxW.substring(0,maxW.length-2);
 	var getVal = eval(leftSide) + eval(widthM);
-	if(getVal  > document.body.clientWidth ){
+	if(getVal > document.body.clientWidth ){
 		leftSide = eval(leftSide) - eval(widthM);
 		tagName.style.left = leftSide + 'px';
 	}
@@ -2081,9 +1966,7 @@ function InternalMailer(record_id,field_id,field_name,par_module,type) {
 		case 'email_addy':
 			url = 'index.php?module=Emails&action=EmailsAjax&internal_mailer=true&type='+type+'&email_addy='+record_id+'&file=EditView';
 			break;
-
 	}
-
 	var opts = "menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes";
 	openPopUp('xComposeEmail',this,url,'createemailWin',830,662,opts);
 }
@@ -2091,12 +1974,13 @@ function InternalMailer(record_id,field_id,field_name,par_module,type) {
 function fnHide_Event(obj){
 	document.getElementById(obj).style.visibility = 'hidden';
 }
+
 function ReplyCompose(id,mode)
 {
 	url = 'index.php?module=Emails&action=EmailsAjax&file=EditView&record='+id+'&reply=true';
-
 	openPopUp('xComposeEmail',this,url,'createemailWin',820,689,'menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes');
 }
+
 function OpenCompose(id,mode,crmid)
 {
 	var modeparts = mode.split(':');
@@ -2160,16 +2044,15 @@ function SelectAll(mod,parmod)
 		var y=0;
 		if(parmod != 'Calendar')
 		{
-			var module = window.opener.document.getElementById('RLreturn_module').value
-			var entity_id = window.opener.document.getElementById('RLparent_id').value
-			var parenttab = window.opener.document.getElementById('parenttab').value
+			var module = window.opener.document.getElementById('RLreturn_module').value;
+			var entity_id = window.opener.document.getElementById('RLparent_id').value;
+			var parenttab = window.opener.document.getElementById('parenttab').value;
 		}
 		idstring = "";
 		namestr = "";
 
 		if ( x == undefined)
 		{
-
 			if (document.selectall.selected_id.checked)
 			{
 				idstring = document.selectall.selected_id.value;
@@ -2272,6 +2155,7 @@ function SelectAll(mod,parmod)
 		}
 	}
 }
+
 function ShowEmail(id)
 {
 	url = 'index.php?module=Emails&action=EmailsAjax&file=DetailView&record='+id;
@@ -2281,6 +2165,7 @@ function ShowEmail(id)
 var bSaf = (navigator.userAgent.indexOf('Safari') != -1);
 var bOpera = (navigator.userAgent.indexOf('Opera') != -1);
 var bMoz = (navigator.appName == 'Netscape');
+
 function execJS(node) {
 	var st = node.getElementsByTagName('SCRIPT');
 	var strExec;
@@ -2307,32 +2192,21 @@ function execJS(node) {
 
 //Function added for getting the Tab Selected Values (Standard/Advanced Filters) for Custom View - Ahmed
 function fnLoadCvValues(obj1,obj2,SelTab,unSelTab){
-
 	var tabName1 = document.getElementById(obj1);
-
 	var tabName2 = document.getElementById(obj2);
-
 	var tagName1 = document.getElementById(SelTab);
-
 	var tagName2 = document.getElementById(unSelTab);
-
 	if(tabName1.className == "dvtUnSelectedCell")
-
 		tabName1.className = "dvtSelectedCell";
 
 	if(tabName2.className == "dvtSelectedCell")
-
 		tabName2.className = "dvtUnSelectedCell";
+
 	tagName1.style.display='block';
-
 	tagName2.style.display='none';
-
 }
 
-
 // Drop Dwon Menu
-
-
 function fnDropDown(obj,Lay){
 	var tagName = document.getElementById(Lay);
 	var leftSide = findPosX(obj);
@@ -2340,7 +2214,7 @@ function fnDropDown(obj,Lay){
 	var maxW = tagName.style.width;
 	var widthM = maxW.substring(0,maxW.length-2);
 	var getVal = eval(leftSide) + eval(widthM);
-	if(getVal  > document.body.clientWidth ){
+	if(getVal > document.body.clientWidth ){
 		leftSide = eval(leftSide) - eval(widthM);
 		tagName.style.left = leftSide + 34 + 'px';
 	}
@@ -2371,7 +2245,6 @@ function getCalendarPopup(imageid,fieldid,dateformat)
 }
 
 //Added to check duplicate account creation
-
 function AjaxDuplicateValidate(module,fieldname,oform)
 {
 	var fieldvalue = encodeURIComponent(trim(getObj(fieldname).value));
@@ -2384,17 +2257,11 @@ function AjaxDuplicateValidate(module,fieldname,oform)
 	VtigerJS_DialogBox.block();
 
 	var url = "module="+module+"&action="+module+"Ajax&file=Save&"+fieldname+"="+fieldvalue+"&dup_check=true&record="+recordid;
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody:url,
-			onComplete: function(response) {
-				var str = response.responseText
+	jQuery.ajax({
+			method: 'POST',
+			url: "index.php?"+url
+	}).done(function (response) {
+				var str = response;
 				if(str.indexOf('SUCCESS') > -1)
 				{
 					oform.submit();
@@ -2405,7 +2272,6 @@ function AjaxDuplicateValidate(module,fieldname,oform)
 					return false;
 				}
 			}
-		}
 		);
 }
 
@@ -2416,10 +2282,10 @@ check->to check select options enable or disable
 function selectContact(check,type,frmName)
 {
 	var record = document.getElementsByName("record")[0].value;
-	if($("single_accountid"))
+	if(document.getElementById("single_accountid"))
 	{
 		var potential_id = '';
-		if($("potential_id"))
+		if(document.getElementById("potential_id"))
 			potential_id = frmName.potential_id.value;
 		account_id = frmName.account_id.value;
 		if(potential_id != '')
@@ -2437,7 +2303,7 @@ function selectContact(check,type,frmName)
 		else
 			window.open("index.php?module=Contacts&action=Popup&html=Popup_picker&popuptype=specific&form=EditView","test","width=640,height=602,resizable=0,scrollbars=0");
 	}
-	else if($("vendor_name") && gVTModule=='PurchaseOrder') {
+	else if(document.getElementById("vendor_name") && gVTModule=='PurchaseOrder') {
 		record_id = frmName.vendor_id.value;
 		module_string = "&parent_module=Vendors";
 		if(record_id != '')
@@ -2445,7 +2311,7 @@ function selectContact(check,type,frmName)
 		else
 			window.open("index.php?module=Contacts&action=Popup&html=Popup_picker&popuptype=specific&form=EditView","test","width=640,height=602,resizable=0,scrollbars=0");
 	}
-	else if(($("parentid")) && type != 'task')
+	else if((document.getElementById("parentid")) && type != 'task')
 	{
 		if(getObj("parent_type")){
 			rel_parent_module = frmName.parent_type.value;
@@ -2471,14 +2337,14 @@ function selectContact(check,type,frmName)
 			window.open("index.php?module=Contacts&action=Popup&html=Popup_picker&return_module=Calendar&select=enable&popuptype=detailview&form=EditView&form_submit=false","test","width=640,height=602,resizable=0,scrollbars=0");
 		}
 	}
-	else if(($("contact_name")) && type == 'task')
+	else if((document.getElementById("contact_name")) && type == 'task')
 	{
 		var formName = frmName.name;
 		var task_recordid = '';
 		var popuptype = '';
 		if(formName == 'EditView')
 		{
-			if($("parent_type"))
+			if(document.getElementById("parent_type"))
 			{
 				task_parent_module = frmName.parent_type.value;
 				task_recordid = frmName.parent_id.value;
@@ -2488,7 +2354,7 @@ function selectContact(check,type,frmName)
 		}
 		else
 		{
-			if($("task_parent_type"))
+			if(document.getElementById("task_parent_type"))
 			{
 				task_parent_module = frmName.task_parent_type.value;
 				task_recordid = frmName.task_parent_id.value;
@@ -2514,6 +2380,7 @@ function selectContact(check,type,frmName)
 		window.open("index.php?module=Contacts&action=Popup&html=Popup_picker&popuptype=specific&form=EditView&recordid="+record,"test","width=640,height=602,resizable=0,scrollbars=0");
 	}
 }
+
 //to get Select Potential Popup
 function selectPotential()
 {
@@ -2534,6 +2401,7 @@ function selectPotential()
 	else
 		window.open("index.php?module=Potentials&action=Popup&html=Popup_picker&popuptype=specific_potential_account_address&form=EditView","test","width=640,height=602,resizable=0,scrollbars=0");
 }
+
 //to select Quote Popup
 function selectQuote()
 {
@@ -2555,6 +2423,7 @@ function selectQuote()
 	else
 		window.open("index.php?module=Quotes&action=Popup&html=Popup_picker&popuptype=specific&form=EditView","test","width=640,height=602,resizable=0,scrollbars=0");
 }
+
 //to get select SalesOrder Popup
 function selectSalesOrder()
 {
@@ -2622,7 +2491,7 @@ function calQCduedatetime()
 		if(hour == 24)
 		{
 			hour = 0;
-			date =  tempdate;
+			date = tempdate;
 		}
 		hour = _2digit(hour);
 		min = _2digit(min);
@@ -2639,14 +2508,13 @@ function calQCduedatetime()
 		if(hour == 24)
 		{
 			hour = 0;
-			date =  tempdate;
+			date = tempdate;
 		}
 		hour = _2digit(hour);
 		min = _2digit(min);
 		document.QcEditView.due_date.value = date;
 		document.QcEditView.time_end.value = hour+':'+min;
 	}
-
 }
 
 function _2digit( no ){
@@ -2674,7 +2542,6 @@ function valid(c,type)
 		return (((c >= 'a') && (c <= 'z')) ||((c >= 'A') && (c <= 'Z')) ||((c >= '0') && (c <= '9')) || (c == '.')||(c==' ') || (c == '_') || (c == '-') );
 	}
 }
-//end
 
 function CharValidation(s,type)
 {
@@ -2688,7 +2555,6 @@ function CharValidation(s,type)
 	return true;
 }
 
-
 /** Check Upload file is in specified format(extension).
   * @param fldName -- name of the file field
   * @param filter -- List of file extensions to allow. each extension must be seperated with a | sybmol.
@@ -2698,10 +2564,9 @@ function CharValidation(s,type)
   *
   * NOTE: If this field is mandatory,  please call emptyCheck() function before calling this function.
  */
-
 function upload_filter(fldName, filter)
 {
-	var currObj=getObj(fldName)
+	var currObj=getObj(fldName);
 	if(currObj.value !="")
 	{
 		var file=currObj.value;
@@ -2710,9 +2575,9 @@ function upload_filter(fldName, filter)
 
 		if(valid_extn.indexOf(type[type.length-1]) == -1)
 		{
-			alert(alert_arr.PLS_SELECT_VALID_FILE+valid_extn)
+			alert(alert_arr.PLS_SELECT_VALID_FILE+valid_extn);
 			try {
-				currObj.focus()
+				currObj.focus();
 			} catch(error) {
 			// Fix for IE: If element or its wrapper around it is hidden, setting focus will fail
 			// So using the try { } catch(error) { }
@@ -2720,8 +2585,7 @@ function upload_filter(fldName, filter)
 			return false;
 		}
 	}
-	return true
-
+	return true;
 }
 
 function validateUrl(name)
@@ -2746,20 +2610,18 @@ function validateUrl(name)
 
 function LTrim( value )
 {
-
 	var re = /\s*((\S+\s*)*)/;
 	return value.replace(re, "$1");
-
 }
 
 function selectedRecords(module,category)
 {
 	var allselectedboxes = document.getElementById("allselectedboxes");
-	var idstring  =  (allselectedboxes == null)? '' : allselectedboxes.value;
+	var idstring = (allselectedboxes == null)? '' : allselectedboxes.value;
 	var viewid = getviewId();
 	var url = '&viewname='+viewid;
 	if(document.getElementById('excludedRecords') != null && typeof(document.getElementById('excludedRecords')) != 'undefined') {
-		var excludedRecords = $('excludedRecords').value;
+		var excludedRecords = document.getElementById('excludedRecords').value;
 		var searchurl = document.getElementById('search_url').value;
 		url = url+searchurl+'&excludedRecords='+excludedRecords;
 	}
@@ -2782,46 +2644,40 @@ function record_export(module,category,exform,idstring)
 		if(exportData[i].checked == true)
 			var exp_type = exportData[i].value;
 	}
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody: "module="+module+"&action=ExportAjax&export_record=true&search_type="+sel_type+"&export_data="+exp_type+"&idstring="+idstring,
-			onComplete: function(response) {
-				if(response.responseText == 'NOT_SEARCH_WITHSEARCH_ALL')
+	jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module="+module+"&action=ExportAjax&export_record=true&search_type="+sel_type+"&export_data="+exp_type+"&idstring="+idstring
+	}).done(function (response) {
+				if(response == 'NOT_SEARCH_WITHSEARCH_ALL')
 				{
-					$('not_search').style.display = 'block';
-					$('not_search').innerHTML="<font color='red'><b>"+alert_arr.LBL_NOTSEARCH_WITHSEARCH_ALL+" "+module+"</b></font>";
+					document.getElementById('not_search').style.display = 'block';
+					document.getElementById('not_search').innerHTML="<font color='red'><b>"+alert_arr.LBL_NOTSEARCH_WITHSEARCH_ALL+" "+module+"</b></font>";
 					setTimeout(hideErrorMsg1,6000);
 
 					exform.submit();
 				}
-				else if(response.responseText == 'NOT_SEARCH_WITHSEARCH_CURRENTPAGE')
+				else if(response == 'NOT_SEARCH_WITHSEARCH_CURRENTPAGE')
 				{
-					$('not_search').style.display = 'block';
-					$('not_search').innerHTML="<font color='red'><b>"+alert_arr.LBL_NOTSEARCH_WITHSEARCH_CURRENTPAGE+" "+module+"</b></font>";
+					document.getElementById('not_search').style.display = 'block';
+					document.getElementById('not_search').innerHTML="<font color='red'><b>"+alert_arr.LBL_NOTSEARCH_WITHSEARCH_CURRENTPAGE+" "+module+"</b></font>";
 					setTimeout(hideErrorMsg1,7000);
 
 					exform.submit();
 				}
-				else if(response.responseText == 'NO_DATA_SELECTED')
+				else if(response == 'NO_DATA_SELECTED')
 				{
-					$('not_search').style.display = 'block';
-					$('not_search').innerHTML="<font color='red'><b>"+alert_arr.LBL_NO_DATA_SELECTED+"</b></font>";
+					document.getElementById('not_search').style.display = 'block';
+					document.getElementById('not_search').innerHTML="<font color='red'><b>"+alert_arr.LBL_NO_DATA_SELECTED+"</b></font>";
 					setTimeout(hideErrorMsg1,3000);
 				}
-				else if(response.responseText == 'SEARCH_WITHOUTSEARCH_ALL')
+				else if(response == 'SEARCH_WITHOUTSEARCH_ALL')
 				{
 					if(confirm(alert_arr.LBL_SEARCH_WITHOUTSEARCH_ALL))
 					{
 						exform.submit();
 					}
 				}
-				else if(response.responseText == 'SEARCH_WITHOUTSEARCH_CURRENTPAGE')
+				else if(response == 'SEARCH_WITHOUTSEARCH_CURRENTPAGE')
 				{
 					if(confirm(alert_arr.LBL_SEARCH_WITHOUTSEARCH_CURRENTPAGE))
 					{
@@ -2833,15 +2689,12 @@ function record_export(module,category,exform,idstring)
 					exform.submit();
 				}
 			}
-		}
 		);
-
 }
-
 
 function hideErrorMsg1()
 {
-	$('not_search').style.display = 'none';
+	document.getElementById('not_search').style.display = 'none';
 }
 
 // Replace the % sign with %25 to make sure the AJAX url is going wel.
@@ -2859,6 +2712,7 @@ function removeHTMLFormatting(str) {
 	str = str.replace(/&nbsp;/g, " ");
 	return str;
 }
+
 function get_converted_html(str)
 {
 	var temp = str.toLowerCase();
@@ -2877,6 +2731,7 @@ function get_converted_html(str)
 	}
 	return str;
 }
+
 //To select the select all check box(if all the items are selected) when the form loads.
 function default_togglestate(obj_id,elementId)
 {
@@ -2898,8 +2753,7 @@ function default_togglestate(obj_id,elementId)
 	}
 }
 
-//for select  multiple check box in multiple pages for Campaigns related list:
-
+//for select multiple check box in multiple pages for Campaigns related list:
 function rel_check_object(sel_id,module)
 {
 	var selected;
@@ -2915,12 +2769,12 @@ function rel_check_object(sel_id,module)
 	var duplicate = select_global.indexOf(id);
 	var size = select_global.length-1;
 	var result = "";
-	var currentModule = $('return_module').value;
-	var excluded = $(currentModule+'_'+module+'_excludedRecords').value;
+	var currentModule = document.getElementById('return_module').value;
+	var excluded = document.getElementById(currentModule+'_'+module+'_excludedRecords').value;
 	if(box_value == true)
 	{
-		if($(currentModule+'_'+module+'_selectallActivate').value == 'true') {
-			$(currentModule+'_'+module+'_excludedRecords').value = excluded.replace(excluded.match(id+";"),'');
+		if(document.getElementById(currentModule+'_'+module+'_selectallActivate').value == 'true') {
+			document.getElementById(currentModule+'_'+module+'_excludedRecords').value = excluded.replace(excluded.match(id+";"),'');
 		} else {
 			if(duplicate == "-1")
 			{
@@ -2938,12 +2792,11 @@ function rel_check_object(sel_id,module)
 	}
 	else
 	{
-		if($(currentModule+'_'+module+'_selectallActivate').value == 'true'){
-			$(currentModule+'_'+module+'_excludedRecords').value= id+";"+excluded;
+		if(document.getElementById(currentModule+'_'+module+'_selectallActivate').value == 'true'){
+			document.getElementById(currentModule+'_'+module+'_excludedRecords').value= id+";"+excluded;
 		}
 		if(duplicate != "-1")
-
-			select_global.splice(duplicate,1)
+			select_global.splice(duplicate,1);
 
 		size=select_global.length-1;
 		var i=0;
@@ -2952,7 +2805,6 @@ function rel_check_object(sel_id,module)
 				result=select_global[i]+";"+result;
 		}
 		getObj(module+"_selectall").checked=false;
-
 	}
 	set_cookie(module+"_all",result);
 }
@@ -2966,30 +2818,31 @@ function rel_toggleSelect(state,relCheckName,module) {
 			rel_check_object(obj[i],module);
 		}
 	}
-	var current_module = $('return_module').value;
+	var current_module = document.getElementById('return_module').value;
 	if(current_module == 'Campaigns') {
 		if(state == true) {
-			var count = $(current_module+'_'+module+'_numOfRows').value;
+			var count = document.getElementById(current_module+'_'+module+'_numOfRows').value;
 			if(count == '')	{
 				getNoOfRelatedRows(current_module,module);
 			}
-			if(parseInt($('maxrecords').value) < parseInt(count)) {
-				$(current_module+'_'+module+'_linkForSelectAll').show();
+			if(parseInt(document.getElementById('maxrecords').value) < parseInt(count)) {
+				document.getElementById(current_module+'_'+module+'_linkForSelectAll').style.display="block";
 			}
 		} else {
-			if($(current_module+'_'+module+'_selectallActivate').value == 'true'){
-				$(current_module+'_'+module+'_linkForSelectAll').show();
+			if(document.getElementById(current_module+'_'+module+'_selectallActivate').value == 'true'){
+				document.getElementById(current_module+'_'+module+'_linkForSelectAll').style.display="block";
 			} else {
-				$(current_module+'_'+module+'_linkForSelectAll').hide();
+				document.getElementById(current_module+'_'+module+'_linkForSelectAll').style.display="none";
 			}
 		}
 	}
 }
+
 //To select the select all check box(if all the items are selected) when the form loads for Campaigns related list:.
 function rel_default_togglestate(module)
 {
 	var all_state=true;
-	var currentModule = $('return_module').value;
+	var currentModule = document.getElementById('return_module').value;
 	if(currentModule == 'Campaigns'){
 		var groupElements = document.getElementsByName(currentModule+'_'+module+"_selected_id");
 	} else {
@@ -3009,6 +2862,7 @@ function rel_default_togglestate(module)
 		getObj(module+"_selectall").checked=all_state;
 	}
 }
+
 //To clear all the checked items in all the pages for Campaigns related list:
 function clear_checked_all(module)
 {
@@ -3026,6 +2880,7 @@ function clear_checked_all(module)
 		getObj(module+"_selectall").checked=false;
 	}
 }
+
 //groupParentElementId is added as there are multiple groups in Documents listview.
 function toggleSelect_ListView(state,relCheckName,groupParentElementId) {
 	var obj = document.getElementsByName(relCheckName);
@@ -3038,38 +2893,38 @@ function toggleSelect_ListView(state,relCheckName,groupParentElementId) {
 			}
 		}
 	}
-	if($('curmodule') != undefined && $('curmodule').value == 'Documents') {
-		if(state==true)	{
-			var count = $('numOfRows_'+groupParentElementId).value;
+	if(document.getElementById('curmodule') != undefined && document.getElementById('curmodule').value == 'Documents') {
+		if(state==true) {
+			var count = document.getElementById('numOfRows_'+groupParentElementId).value;
 			if(count == '') {
 				getNoOfRows(groupParentElementId);
+				count = document.getElementById('numOfRows_'+groupParentElementId).value;
 			}
-			if(parseInt($('maxrecords').value) < parseInt(count)) {
-				$('linkForSelectAll_'+groupParentElementId).show();
+			if(parseInt(document.getElementById('maxrecords').value) < parseInt(count)) {
+				document.getElementById('linkForSelectAll_'+groupParentElementId).style.display="table-cell";
 			}
-
 		} else {
-			if($('selectedboxes_'+groupParentElementId).value == 'all') {
-				$('linkForSelectAll_'+groupParentElementId).show();
+			if(document.getElementById('selectedboxes_'+groupParentElementId).value == 'all') {
+				document.getElementById('linkForSelectAll_'+groupParentElementId).style.display="table-cell";
 			} else {
-				$('linkForSelectAll_'+groupParentElementId).hide();
+				document.getElementById('linkForSelectAll_'+groupParentElementId).style.display="none";
 			}
 		}
 	} else {
-		if(state==true)	{
-			var count = $('numOfRows').value;
-			if(count == '')	{
+		if(state==true) {
+			var count = document.getElementById('numOfRows').value;
+			if(count == '') {
 				getNoOfRows();
+				count = document.getElementById('numOfRows').value;
 			}
-			if(parseInt($('maxrecords').value) < parseInt(count)) {
-				$('linkForSelectAll').show();
+			if(parseInt(document.getElementById('maxrecords').value) < parseInt(count)) {
+				document.getElementById('linkForSelectAll').style.display="table-cell";
 			}
-
 		} else {
-			if($('allselectedboxes').value == 'all') {
-				$('linkForSelectAll').show();
+			if(document.getElementById('allselectedboxes').value == 'all') {
+				document.getElementById('linkForSelectAll').style.display="table-cell";
 			} else {
-				$('linkForSelectAll').hide();
+				document.getElementById('linkForSelectAll').style.display="none";
 			}
 		}
 	}
@@ -3110,42 +2965,27 @@ function fnpriceValidation(txtObj) {
 }
 
 function delimage(id,fname,aname) {
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody: 'module=Contacts&action=ContactsAjax&file=DelImage&ImageModule='+gVTModule+'&recordid='+id+'&fieldname='+fname+'&attachmentname='+aname,
-			onComplete: function(response) {
-				if(response.responseText.indexOf("SUCCESS")>-1)
-					$(fname+'_replaceimage').innerHTML=alert_arr.LBL_IMAGE_DELETED;
-				else
-					alert(alert_arr.ERROR_WHILE_EDITING);
-			}
-		});
+	jQuery.ajax({
+		method: 'POST',
+		url: 'index.php?module=Contacts&action=ContactsAjax&file=DelImage&ImageModule='+gVTModule+'&recordid='+id+'&fieldname='+fname+'&attachmentname='+aname,
+	}).done(function (response) {
+		if(response.indexOf("SUCCESS")>-1)
+			document.getElementById(fname+'_replaceimage').innerHTML=alert_arr.LBL_IMAGE_DELETED;
+		else
+			alert(alert_arr.ERROR_WHILE_EDITING);
+	});
 }
 
 function delUserImage(id) {
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody: 'module=Users&action=UsersAjax&file=Save&deleteImage=true&recordid='+id,
-			onComplete: function(response) {
-				if(response.responseText.indexOf("SUCCESS")>-1)
-					$("replaceimage").innerHTML=alert_arr.LBL_IMAGE_DELETED;
-				else
-					alert(alert_arr.ERROR_WHILE_EDITING);
-			}
-		}
-		);
+	jQuery.ajax({
+		method: 'POST',
+		url: 'index.php?module=Users&action=UsersAjax&file=Save&deleteImage=true&recordid='+id,
+	}).done(function (response) {
+		if(response.indexOf("SUCCESS")>-1)
+			document.getElementById("replaceimage").innerHTML=alert_arr.LBL_IMAGE_DELETED;
+		else
+			alert(alert_arr.ERROR_WHILE_EDITING);
+	});
 }
 
 // Function to enable/disable related elements based on whether the current object is checked or not
@@ -3161,7 +3001,7 @@ function fnenableDisable(currObj,enableId) {
 
 // Update current value with current value of base currency and the conversion rate
 function updateCurrencyValue(currObj,txtObj,base_curid,conv_rate) {
-	var unit_price = $(base_curid).value;
+	var unit_price = document.getElementById(base_curid).value;
 
 	if(typeof userCurrencySeparator != 'undefined') {
 		while(unit_price.indexOf(userCurrencySeparator) != -1) {
@@ -3201,100 +3041,80 @@ function updateBaseCurrencyValue() {
 			base_currency_ele.value = cur_ele.value;
 	}
 }
-// END
 
 /******************************************************************************/
 /* Activity reminder Customization: Setup Callback */
 function ActivityReminderProgressIndicator(show) {
-	if(show) $("status").style.display = "inline";
-	else $("status").style.display = "none";
+	if(show) document.getElementById("status").style.display = "inline";
+	else document.getElementById("status").style.display = "none";
 }
 
 function ActivityReminderSetupCallback(cbmodule, cbrecord) {
 	if(cbmodule && cbrecord) {
-
 		ActivityReminderProgressIndicator(true);
-		new Ajax.Request(
-			'index.php',
-			{
-				queue: {
-					position: 'end',
-					scope: 'command'
-				},
-				method: 'post',
-				postBody:"module=Calendar&action=CalendarAjax&ajax=true&file=ActivityReminderSetupCallbackAjax&cbmodule="+
-				encodeURIComponent(cbmodule) + "&cbrecord=" + encodeURIComponent(cbrecord),
-				onComplete: function(response) {
-					$("ActivityReminder_callbacksetupdiv").innerHTML=response.responseText;
-
+		jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module=Calendar&action=CalendarAjax&ajax=true&file=ActivityReminderSetupCallbackAjax&cbmodule="+
+				encodeURIComponent(cbmodule) + "&cbrecord=" + encodeURIComponent(cbrecord)
+		}).done(function (response) {
+					document.getElementById("ActivityReminder_callbacksetupdiv").innerHTML=response;
 					ActivityReminderProgressIndicator(false);
-
 				}
-			});
-}
+			);
+	}
 }
 
 function ActivityReminderSetupCallbackSave(form) {
 	var cbmodule = form.cbmodule.value;
 	var cbrecord = form.cbrecord.value;
 	var cbaction = form.cbaction.value;
-
 	var cbdate   = form.cbdate.value;
 	var cbtime   = form.cbhour.value + ":" + form.cbmin.value;
 
 	if(cbmodule && cbrecord) {
 		ActivityReminderProgressIndicator(true);
 
-		new Ajax.Request("index.php",
-		{
-			queue:{
-				position:"end",
-				scope:"command"
-			},
-			method:"post",
-			postBody:"module=Calendar&action=CalendarAjax&ajax=true&file=ActivityReminderSetupCallbackAjax" +
+		jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module=Calendar&action=CalendarAjax&ajax=true&file=ActivityReminderSetupCallbackAjax" +
 			"&cbaction=" + encodeURIComponent(cbaction) +
 			"&cbmodule="+ encodeURIComponent(cbmodule) +
 			"&cbrecord=" + encodeURIComponent(cbrecord) +
 			"&cbdate=" + encodeURIComponent(cbdate) +
-			"&cbtime=" + encodeURIComponent(cbtime),
-			onComplete:function (response) {
-				ActivityReminderSetupCallbackSaveProcess(response.responseText);
+			"&cbtime=" + encodeURIComponent(cbtime)
+		}).done(function (response) {
+				ActivityReminderSetupCallbackSaveProcess(response);
 			}
-		});
+		);
+	}
 }
-}
+
 function ActivityReminderSetupCallbackSaveProcess(message) {
 	ActivityReminderProgressIndicator(false);
-	$('ActivityReminder_callbacksetupdiv_lay').style.display='none';
+	document.getElementById('ActivityReminder_callbacksetupdiv_lay').style.display='none';
 }
 
 function ActivityReminderPostponeCallback(cbmodule, cbrecord, cbreminderid) {
 	if(cbmodule && cbrecord) {
-
 		ActivityReminderProgressIndicator(true);
-		new Ajax.Request("index.php",
-		{
-			queue:{
-				position:"end",
-				scope:"command"
-			},
-			method:"post",
-			postBody:"module=Calendar&action=CalendarAjax&ajax=true&file=ActivityReminderSetupCallbackAjax&cbaction=POSTPONE&cbmodule="+
-			encodeURIComponent(cbmodule) + "&cbrecord=" + encodeURIComponent(cbrecord) + "&cbreminderid=" + encodeURIComponent(cbreminderid),
-			onComplete:function (response) {
-				ActivityReminderPostponeCallbackProcess(response.responseText);
+		jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module=Calendar&action=CalendarAjax&ajax=true&file=ActivityReminderSetupCallbackAjax&cbaction=POSTPONE&cbmodule="+
+			encodeURIComponent(cbmodule) + "&cbrecord=" + encodeURIComponent(cbrecord) + "&cbreminderid=" + encodeURIComponent(cbreminderid)
+		}).done(function (response) {
+				ActivityReminderPostponeCallbackProcess(response);
 			}
-		});
+		);
+	}
 }
-}
+
 function ActivityReminderPostponeCallbackProcess(message) {
 	ActivityReminderProgressIndicator(false);
 }
+
 function ActivityReminderRemovePopupDOM(id) {
-	if($(id)) $(id).remove();
+	if (jQuery("#"+id).length) jQuery("#"+id).remove();
 }
-/* END */
 
 /* ActivityReminder Customization: Pool Callback */
 var ActivityReminder_regcallback_timer;
@@ -3312,26 +3132,22 @@ var ActivityReminder_popup_onscreen = 2 * 1000; // Milli Seconds (should be less
 var ActivityReminder_callback_win_uniqueids = new Object();
 
 function ActivityReminderCallback() {
-	if(typeof(Ajax) == 'undefined') {
+	if(typeof(jQuery) == 'undefined') {
 		return;
 	}
 	if(ActivityReminder_regcallback_timer) {
 		window.clearTimeout(ActivityReminder_regcallback_timer);
 		ActivityReminder_regcallback_timer = null;
 	}
-	new Ajax.Request("index.php",
-	{
-		queue:{
-			position:"end",
-			scope:"command"
-		},
-		method:"post",
-		postBody:"module=Calendar&action=CalendarAjax&file=ActivityReminderCallbackAjax&ajax=true",
-		onComplete:function (response) {
-			ActivityReminderCallbackProcess(response.responseText);
+	jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module=Calendar&action=CalendarAjax&file=ActivityReminderCallbackAjax&ajax=true"
+	}).done(function (response) {
+			ActivityReminderCallbackProcess(response);
 		}
-	});
+	);
 }
+
 function ActivityReminderCallbackProcess(message) {
 	ActivityReminder_callback = document.getElementById("ActivityRemindercallback");
 	if(ActivityReminder_callback == null) return;
@@ -3347,22 +3163,22 @@ function ActivityReminderCallbackProcess(message) {
 	ActivityReminder_callback_win.id  = winuniqueid;
 	ActivityReminder_callback.appendChild(ActivityReminder_callback_win);
 
-	$(ActivityReminder_callback_win).update(message);
+	ActivityReminder_callback_win.innerHTML=message;
 	ActivityReminder_callback_win.style.height = "0px";
 	ActivityReminder_callback_win.style.display = "";
 
 	var ActivityReminder_Newdelay_response_node = '_vtiger_activityreminder_callback_interval_';
-	if($(ActivityReminder_Newdelay_response_node)) {
-		var ActivityReminder_Newdelay_response_value = parseInt($(ActivityReminder_Newdelay_response_node).innerHTML);
+	if(document.getElementById(ActivityReminder_Newdelay_response_node)) {
+		var ActivityReminder_Newdelay_response_value = parseInt(document.getElementById(ActivityReminder_Newdelay_response_node).innerHTML);
 		if(ActivityReminder_Newdelay_response_value > 0) {
 			ActivityReminder_callback_delay = ActivityReminder_Newdelay_response_value;
 		}
 		// We don't need the no any longer, it will be sent from server for next Popup
-		$(ActivityReminder_Newdelay_response_node).remove();
+		jQuery("#"+ActivityReminder_Newdelay_response_node).remove();
 	}
 	if(message == '' || trim(message).indexOf('<script') == 0) {
 		// We got only new dealay value but no popup information, let us remove the callback win created
-		$(ActivityReminder_callback_win.id).remove();
+		jQuery("#"+ActivityReminder_callback_win.id).remove();
 		ActivityReminder_callback_win = false;
 		message = '';
 	}
@@ -3372,8 +3188,10 @@ function ActivityReminderCallbackProcess(message) {
 		ActivityReminderCallbackReset(0, ActivityReminder_callback_win);
 	}
 }
+
 function ActivityReminderCallbackRollout(z, ActivityReminder_callback_win) {
-	ActivityReminder_callback_win = $(ActivityReminder_callback_win);
+	if (typeof(ActivityReminder_callback_win)=='string')
+		ActivityReminder_callback_win = document.getElementById(ActivityReminder_callback_win);
 
 	if (ActivityReminder_timer) {
 		window.clearTimeout(ActivityReminder_timer);
@@ -3387,8 +3205,9 @@ function ActivityReminderCallbackRollout(z, ActivityReminder_callback_win) {
 		else ActivityReminderRegisterCallback(ActivityReminder_callback_delay);
 	}
 }
+
 function ActivityReminderCallbackRollin(z, ActivityReminder_callback_win) {
-	ActivityReminder_callback_win = $(ActivityReminder_callback_win);
+	ActivityReminder_callback_win = document.getElementById(ActivityReminder_callback_win);
 
 	if (ActivityReminder_timer) {
 		window.clearTimeout(ActivityReminder_timer);
@@ -3400,8 +3219,9 @@ function ActivityReminderCallbackRollin(z, ActivityReminder_callback_win) {
 		ActivityReminderCallbackReset(z, ActivityReminder_callback_win);
 	}
 }
+
 function ActivityReminderCallbackReset(z, ActivityReminder_callback_win) {
-	ActivityReminder_callback_win = $(ActivityReminder_callback_win);
+	ActivityReminder_callback_win = document.getElementById(ActivityReminder_callback_win);
 
 	if(ActivityReminder_callback_win) {
 		ActivityReminder_callback_win.style.height = z + "px";
@@ -3413,6 +3233,7 @@ function ActivityReminderCallbackReset(z, ActivityReminder_callback_win) {
 	}
 	ActivityReminderRegisterCallback(ActivityReminder_callback_delay);
 }
+
 function ActivityReminderRegisterCallback(timeout) {
 	if(timeout == null) timeout = 1;
 	if(ActivityReminder_regcallback_timer == null) {
@@ -3423,22 +3244,19 @@ function ActivityReminderRegisterCallback(timeout) {
 //added for finding duplicates
 function movefields()
 {
-	availListObj=getObj("availlist")
-	selectedColumnsObj=getObj("selectedCol")
+	availListObj=getObj("availlist");
+	selectedColumnsObj=getObj("selectedCol");
 	for (i=0;i<selectedColumnsObj.length;i++)
 	{
-
-		selectedColumnsObj.options[i].selected=false
+		selectedColumnsObj.options[i].selected=false;
 	}
-
 	movefieldsStep1();
 }
 
 function movefieldsStep1()
 {
-
-	availListObj=getObj("availlist")
-	selectedColumnsObj=getObj("selectedCol")
+	availListObj=getObj("availlist");
+	selectedColumnsObj=getObj("selectedCol");
 	document.getElementById("selectedCol").style.width="164px";
 	var count=0;
 	for(i=0;i<availListObj.length;i++)
@@ -3447,13 +3265,12 @@ function movefieldsStep1()
 		{
 			count++;
 		}
-
 	}
 	var total_fields=count+selectedColumnsObj.length;
 	if (total_fields >4 )
 	{
-		alert(alert_arr.MAX_RECORDS)
-		return false
+		alert(alert_arr.MAX_RECORDS);
+		return false;
 	}
 	if (availListObj.options.selectedIndex > -1)
 	{
@@ -3475,18 +3292,18 @@ function movefieldsStep1()
 
 				if (rowFound!=true)
 				{
-					var newColObj=document.createElement("OPTION")
-					newColObj.value=availListObj.options[i].value
-					if (browser_ie) newColObj.innerText=availListObj.options[i].innerText
-					else if (browser_nn4 || browser_nn6) newColObj.text=availListObj.options[i].text
-					selectedColumnsObj.appendChild(newColObj)
-					newColObj.selected=true
+					var newColObj=document.createElement("OPTION");
+					newColObj.value=availListObj.options[i].value;
+					if (browser_ie) newColObj.innerText=availListObj.options[i].innerText;
+					else if (browser_nn4 || browser_nn6) newColObj.text=availListObj.options[i].text;
+					selectedColumnsObj.appendChild(newColObj);
+					newColObj.selected=true;
 				}
 				else
 				{
-					existingObj.selected=true
+					existingObj.selected=true;
 				}
-				availListObj.options[i].selected=false
+				availListObj.options[i].selected=false;
 				movefieldsStep1();
 			}
 		}
@@ -3505,7 +3322,7 @@ function selectedColClick(oSel)
 function delFields()
 {
 	selectedColumnsObj=getObj("selectedCol");
-	selected_tab = $("dupmod").value;
+	selected_tab = document.getElementById("dupmod").value;
 	if (selectedColumnsObj.options.selectedIndex > -1)
 	{
 		for (i=0;i < selectedColumnsObj.options.length;i++)
@@ -3569,86 +3386,83 @@ function delFields()
 
 function moveFieldUp()
 {
-	selectedColumnsObj=getObj("selectedCol")
-	var currpos=selectedColumnsObj.options.selectedIndex
+	selectedColumnsObj=getObj("selectedCol");
+	var currpos=selectedColumnsObj.options.selectedIndex;
 	var tempdisabled= false;
 	for (i=0;i<selectedColumnsObj.length;i++)
 	{
 		if(i != currpos)
-			selectedColumnsObj.options[i].selected=false
+			selectedColumnsObj.options[i].selected=false;
 	}
 	if (currpos>0)
 	{
-		var prevpos=selectedColumnsObj.options.selectedIndex-1
+		var prevpos=selectedColumnsObj.options.selectedIndex-1;
 
 		if (browser_ie)
 		{
-			temp=selectedColumnsObj.options[prevpos].innerText
+			temp=selectedColumnsObj.options[prevpos].innerText;
 			tempdisabled = selectedColumnsObj.options[prevpos].disabled;
-			selectedColumnsObj.options[prevpos].innerText=selectedColumnsObj.options[currpos].innerText
+			selectedColumnsObj.options[prevpos].innerText=selectedColumnsObj.options[currpos].innerText;
 			selectedColumnsObj.options[prevpos].disabled = false;
-			selectedColumnsObj.options[currpos].innerText=temp
+			selectedColumnsObj.options[currpos].innerText=temp;
 			selectedColumnsObj.options[currpos].disabled = tempdisabled;
 		}
 		else if (browser_nn4 || browser_nn6)
 		{
-			temp=selectedColumnsObj.options[prevpos].text
+			temp=selectedColumnsObj.options[prevpos].text;
 			tempdisabled = selectedColumnsObj.options[prevpos].disabled;
-			selectedColumnsObj.options[prevpos].text=selectedColumnsObj.options[currpos].text
+			selectedColumnsObj.options[prevpos].text=selectedColumnsObj.options[currpos].text;
 			selectedColumnsObj.options[prevpos].disabled = false;
-			selectedColumnsObj.options[currpos].text=temp
+			selectedColumnsObj.options[currpos].text=temp;
 			selectedColumnsObj.options[currpos].disabled = tempdisabled;
 		}
-		temp=selectedColumnsObj.options[prevpos].value
-		selectedColumnsObj.options[prevpos].value=selectedColumnsObj.options[currpos].value
-		selectedColumnsObj.options[currpos].value=temp
-		selectedColumnsObj.options[prevpos].selected=true
-		selectedColumnsObj.options[currpos].selected=false
+		temp=selectedColumnsObj.options[prevpos].value;
+		selectedColumnsObj.options[prevpos].value=selectedColumnsObj.options[currpos].value;
+		selectedColumnsObj.options[currpos].value=temp;
+		selectedColumnsObj.options[prevpos].selected=true;
+		selectedColumnsObj.options[currpos].selected=false;
 	}
-
 }
 
 function moveFieldDown()
 {
-	selectedColumnsObj=getObj("selectedCol")
-	var currpos=selectedColumnsObj.options.selectedIndex
+	selectedColumnsObj=getObj("selectedCol");
+	var currpos=selectedColumnsObj.options.selectedIndex;
 	var tempdisabled= false;
 	for (i=0;i<selectedColumnsObj.length;i++)
 	{
 		if(i != currpos)
-			selectedColumnsObj.options[i].selected=false
+			selectedColumnsObj.options[i].selected=false;
 	}
 	if (currpos<selectedColumnsObj.options.length-1)
 	{
-		var nextpos=selectedColumnsObj.options.selectedIndex+1
+		var nextpos=selectedColumnsObj.options.selectedIndex+1;
 
 		if (browser_ie)
 		{
-			temp=selectedColumnsObj.options[nextpos].innerText
+			temp=selectedColumnsObj.options[nextpos].innerText;
 			tempdisabled = selectedColumnsObj.options[nextpos].disabled;
-			selectedColumnsObj.options[nextpos].innerText=selectedColumnsObj.options[currpos].innerText
+			selectedColumnsObj.options[nextpos].innerText=selectedColumnsObj.options[currpos].innerText;
 			selectedColumnsObj.options[nextpos].disabled = false;
 			selectedColumnsObj.options[nextpos];
-
-			selectedColumnsObj.options[currpos].innerText=temp
+			selectedColumnsObj.options[currpos].innerText=temp;
 			selectedColumnsObj.options[currpos].disabled = tempdisabled;
 		}
 		else if (browser_nn4 || browser_nn6)
 		{
-			temp=selectedColumnsObj.options[nextpos].text
+			temp=selectedColumnsObj.options[nextpos].text;
 			tempdisabled = selectedColumnsObj.options[nextpos].disabled;
-			selectedColumnsObj.options[nextpos].text=selectedColumnsObj.options[currpos].text
+			selectedColumnsObj.options[nextpos].text=selectedColumnsObj.options[currpos].text;
 			selectedColumnsObj.options[nextpos].disabled = false;
 			selectedColumnsObj.options[nextpos];
-			selectedColumnsObj.options[currpos].text=temp
+			selectedColumnsObj.options[currpos].text=temp;
 			selectedColumnsObj.options[currpos].disabled = tempdisabled;
 		}
-		temp=selectedColumnsObj.options[nextpos].value
-		selectedColumnsObj.options[nextpos].value=selectedColumnsObj.options[currpos].value
-		selectedColumnsObj.options[currpos].value=temp
-
-		selectedColumnsObj.options[nextpos].selected=true
-		selectedColumnsObj.options[currpos].selected=false
+		temp=selectedColumnsObj.options[nextpos].value;
+		selectedColumnsObj.options[nextpos].value=selectedColumnsObj.options[currpos].value;
+		selectedColumnsObj.options[currpos].value=temp;
+		selectedColumnsObj.options[nextpos].selected=true;
+		selectedColumnsObj.options[currpos].selected=false;
 	}
 }
 
@@ -3656,23 +3470,20 @@ function lastImport(module,req_module)
 {
 	var module_name= module;
 	var parent_tab= document.getElementById('parenttab').value;
-	if(module == '')
-	{
+	if(module == '') {
 		return false;
-	}
-	else
-
+	} else {
 		//alert("index.php?module="+module_name+"&action=lastImport&req_mod="+req_module+"&parenttab="+parent_tab);
 		window.open("index.php?module="+module_name+"&action=lastImport&req_mod="+req_module+"&parenttab="+parent_tab,"lastImport","width=750,height=602,menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes");
+	}
 }
 
 function merge_fields(selectedNames,module,parent_tab)
 {
-
 	var select_options=document.getElementsByName(selectedNames);
 	var x= select_options.length;
 	var req_module=module;
-	var num_group=$("group_count").innerHTML;
+	var num_group=document.getElementById("group_count").innerHTML;
 	var pass_url="";
 	var flag=0;
 	//var i=0;
@@ -3681,30 +3492,29 @@ function merge_fields(selectedNames,module,parent_tab)
 	{
 		if(select_options[i].checked)
 		{
-			pass_url = pass_url+select_options[i].value +","
-			xx++
+			pass_url = pass_url+select_options[i].value +",";
+			xx++;
 		}
 	}
-	var tmp = 0
+	var tmp = 0;
 	if ( xx != 0)
 	{
-
 		if(xx > 3)
 		{
-			alert(alert_arr.MAX_THREE)
+			alert(alert_arr.MAX_THREE);
 			return false;
 		}
 		if(xx > 0)
 		{
 			for(j=0;j<num_group;j++)
 			{
-				flag = 0
+				flag = 0;
 				var group_options=document.getElementsByName("group"+j);
 				for(i = 0; i < group_options.length ; i++)
 				{
 					if(group_options[i].checked)
 					{
-						flag++
+						flag++;
 					}
 				}
 				if(flag > 0)
@@ -3712,17 +3522,15 @@ function merge_fields(selectedNames,module,parent_tab)
 			}
 			if (tmp > 1)
 			{
-				alert(alert_arr.SAME_GROUPS)
+				alert(alert_arr.SAME_GROUPS);
 				return false;
 			}
 			if(xx <2)
 			{
-				alert(alert_arr.ATLEAST_TWO)
+				alert(alert_arr.ATLEAST_TWO);
 				return false;
 			}
-
 		}
-
 		window.open("index.php?module="+req_module+"&action=ProcessDuplicates&mergemode=mergefields&passurl="+pass_url+"&parenttab="+parent_tab,"Merge","width=750,height=602,menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes");
 	}
 	else
@@ -3743,12 +3551,12 @@ function delete_fields(module)
 	{
 		if(select_options[i].checked)
 		{
-			url_rec=url_rec+select_options[i].value +","
-			xx++
+			url_rec=url_rec+select_options[i].value +",";
+			xx++;
 		}
 	}
-	if($("current_action"))
-		cur_action = $("current_action").innerHTML
+	if(document.getElementById("current_action"))
+		cur_action = document.getElementById("current_action").innerHTML;
 	if (xx == 0)
 	{
 		alert(alert_arr.SELECT);
@@ -3759,27 +3567,19 @@ function delete_fields(module)
 		alert_str = alert_arr.DELETE_ACCOUNT + xx +alert_arr.RECORDS;
 	if(confirm(alert_str))
 	{
-		$("status").style.display="inline";
-		new Ajax.Request(
-			'index.php',
-			{
-				queue: {
-					position: 'end',
-					scope: 'command'
-				},
-				method: 'post',
-				postBody:"module="+module+"&action="+module+"Ajax&file=FindDuplicateRecords&del_rec=true&ajax=true&return_module="+module+"&idlist="+url_rec+"&current_action="+cur_action+"&"+dup_start,
-				onComplete: function(response) {
-					$("status").style.display="none";
-					$("duplicate_ajax").innerHTML= response.responseText;
+		document.getElementById("status").style.display="inline";
+		jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module="+module+"&action="+module+"Ajax&file=FindDuplicateRecords&del_rec=true&ajax=true&return_module="+module+"&idlist="+url_rec+"&current_action="+cur_action+"&"+dup_start
+		}).done(function (response) {
+					document.getElementById("status").style.display="none";
+					document.getElementById("duplicate_ajax").innerHTML= response;
 				}
-			}
 			);
 	}
 	else
 		return false;
 }
-
 
 function validate_merge(module)
 {
@@ -3811,12 +3611,12 @@ function select_All(fieldnames,cnt,module)
 	var len=new_arr.length;
 	for(i=0;i<len;i++)
 	{
-		var fld_names=new_arr[i]
-		var value=document.getElementsByName(fld_names)
+		var fld_names=new_arr[i];
+		var value=document.getElementsByName(fld_names);
 		var fld_len=document.getElementsByName(fld_names).length;
 		for(j=0;j<fld_len;j++)
 		{
-			value[cnt].checked='true'
+			value[cnt].checked='true';
 		//	alert(value[j].checked)
 		}
 
@@ -3853,12 +3653,12 @@ function selectDel(ThisName,CheckAllName)
 		{
 			if (ThisNameOptions[j].checked==false)
 			{
-				flag=false
+				flag=false;
 				break;
 			}
 		}
 	}
-	CheckAllNameOptions[0].checked=flag
+	CheckAllNameOptions[0].checked=flag;
 }
 
 // Added for page navigation in duplicate-listview
@@ -3866,47 +3666,29 @@ var dup_start = "";
 function getDuplicateListViewEntries_js(module,url)
 {
 	dup_start = url;
-	$("status").style.display="block";
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody:"module="+module+"&action="+module+"Ajax&file=FindDuplicateRecords&ajax=true&"+dup_start,
-			onComplete: function(response) {
-				$("status").style.display="none";
-				$("duplicate_ajax").innerHTML = response.responseText;
-			}
-		}
-		);
+	document.getElementById("status").style.display="block";
+	jQuery.ajax({
+		method: 'POST',
+		url: "index.php?module="+module+"&action="+module+"Ajax&file=FindDuplicateRecords&ajax=true&"+dup_start,
+	}).done(function (response) {
+		document.getElementById("status").style.display="none";
+		document.getElementById("duplicate_ajax").innerHTML = response;
+	});
 }
 
 function getUnifiedSearchEntries_js(search,module,url){
 	var qryStr = document.getElementsByName('search_criteria')[0].value;
-	$("status").style.display="block";
+	document.getElementById("status").style.display="block";
 	var recordCount = document.getElementById(module+'RecordCount').value;
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody:"module="+module+"&search_tag="+search+"&action="+module+"Ajax&file=UnifiedSearch&ajax=true&"+url+
-			'&query_string='+qryStr+'&search_onlyin='+encodeURIComponent('--USESELECTED--')+'&recordCount='+recordCount,
-			onComplete: function(response) {
-				$("status").style.display="none";
-				$('global_list_'+module).innerHTML = response.responseText;
-			}
-		}
-		);
+	jQuery.ajax({
+		method: 'POST',
+		url: "index.php?module="+module+"&search_tag="+search+"&action="+module+"Ajax&file=UnifiedSearch&ajax=true&"+url+
+		'&query_string='+qryStr+'&search_onlyin='+encodeURIComponent('--USESELECTED--')+'&recordCount='+recordCount
+	}).done(function (response) {
+		document.getElementById("status").style.display="none";
+		document.getElementById('global_list_'+module).innerHTML = response;
+	});
 }
-
-/* End */
 
 //Added after 5.0.4 for Documents Module
 function positionDivToCenter(targetDiv)
@@ -3961,19 +3743,11 @@ function FileAdd(obj,Lay,return_action){
 
 function dldCntIncrease(fileid)
 {
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody: 'action=DocumentsAjax&mode=ajax&file=SaveFile&module=Documents&file_id='+fileid+"&act=updateDldCnt",
-			onComplete: function(response) {
-			}
-		}
-		);
+	jQuery.ajax({
+		method: 'POST',
+		url: "index.php?action=DocumentsAjax&mode=ajax&file=SaveFile&module=Documents&file_id="+fileid+"&act=updateDldCnt",
+	}).done(function (response) {
+	});
 }
 //End Documents Module
 
@@ -3987,8 +3761,6 @@ function placeAtCenter(node){
 	var centerPixel = getViewPortCenter();
 	node.style.position = "absolute";
 	var point = getDimension(node);
-
-
 	var topvalue = (centerPixel.y - point.y/2) ;
 	var rightvalue = (centerPixel.x - point.x/2);
 
@@ -4000,7 +3772,6 @@ function placeAtCenter(node){
 	node.style.right =rightvalue + "px";
 	node.style.left = '';
 	node.style.bottom = '';
-
 }
 
 /**
@@ -4064,23 +3835,16 @@ function startCall(number, recordid){
 	outgoingPopup.displayPopup(outgoingPopup.content);
 
 	//var ASTERISK_DIV_TIMEOUT = 6000;
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody: 'action=PBXManagerAjax&mode=ajax&file=StartCall&ajax=true&module=PBXManager&number='+encodeURIComponent(number)+'&recordid='+recordid,
-			onComplete: function(response) {
-				if(response.responseText == ''){
+	jQuery.ajax({
+			method: 'POST',
+			url: 'index.php?action=PBXManagerAjax&mode=ajax&file=StartCall&ajax=true&module=PBXManager&number='+encodeURIComponent(number)+'&recordid='+recordid
+	}).done(function (response) {
+				if(response == ''){
 				//successfully called
 				}else{
-					alert(response.responseText);
+					alert(response);
 				}
 			}
-		}
 		);
 }
 //asterisk integration :: ends
@@ -4095,7 +3859,7 @@ function ToolTipManager(){
 	function tip(node, text,id,fieldname){
 		state=true;
 		var divName = getDivId(id,fieldname);
-		var div = document.getElementById(divName)
+		var div = document.getElementById(divName);
 		if(!div){
 			div = document.createElement('div');
 			div.id = divName;
@@ -4168,7 +3932,7 @@ function ToolTipManager(){
 			tooltip.style.display = 'none';
 		else
 		{
-			if(getVal  > document.body.clientWidth ){
+			if(getVal > document.body.clientWidth ){
 				leftSide = eval(leftSide) - eval(widthM);
 			}else{
 				leftSide = eval(leftSide) + (eval(tooltipWidth)/2);
@@ -4177,7 +3941,7 @@ function ToolTipManager(){
 				leftSide = findPosX(obj) + tooltipWidth;
 			}
 			tooltip.style.left = leftSide + 'px';
-	
+
 			var heightTooltip = dimensions.y;
 			var bottomSide = eval(topSide) + eval(heightTooltip);
 			if(bottomSide > document.body.clientHeight){
@@ -4269,7 +4033,7 @@ VtigerJS_DialogBox = {
 		return olayer;
 	},
 	_removebyid : function(id) {
-		if($(id)) $(id).remove();
+		if (jQuery("#"+id).length) jQuery("#"+id).remove();
 	},
 	unblock : function() {
 		VtigerJS_DialogBox._olayer(false);
@@ -4331,8 +4095,8 @@ VtigerJS_DialogBox = {
 			'</tr>' +
 			'<tr>' +
 			'<td align="center">' +
-			'<input type="button" style="text-transform: capitalize;" onclick="$(\''+ dlgbxid + '\').hide();VtigerJS_DialogBox._olayer(false);VtigerJS_DialogBox._confirm_handler();" value="'+ alert_arr.YES + '"/>' +
-			'<input type="button" style="text-transform: capitalize;" onclick="$(\''+ dlgbxid + '\').hide();VtigerJS_DialogBox._olayer(false)" value="' + alert_arr.NO + '"/>' +
+			'<input type="button" style="text-transform: capitalize;" onclick="document.getElementById(\''+ dlgbxid + '\').style.display=\'none\';VtigerJS_DialogBox._olayer(false);VtigerJS_DialogBox._confirm_handler();" value="'+ alert_arr.YES + '"/>' +
+			'<input type="button" style="text-transform: capitalize;" onclick="document.getElementById(\''+ dlgbxid + '\').style.display=\'none\';VtigerJS_DialogBox._olayer(false)" value="' + alert_arr.NO + '"/>' +
 			'</td>'+
 			'</tr>' +
 			'</tbody>' +
@@ -4352,7 +4116,7 @@ VtigerJS_DialogBox = {
 			}
 		}
 	}
-}
+};
 
 function validateInputData(value, fieldLabel, typeofdata) {
 
@@ -4364,18 +4128,18 @@ function validateInputData(value, fieldLabel, typeofdata) {
 			return false;
 	} else if(type == 'D' || type == 'DT') {
 		if(!re_dateValidate(value,fieldLabel+" (Current User Date Format)","OTH"))
-			return false
+			return false;
 	} else if(type == 'I') {
 		if(isNaN(value) || value.indexOf(".")!=-1) {
 			alert(alert_arr.INVALID+fieldLabel);
-			return false
+			return false;
 		}
 	} else if(type == 'N' || type == 'NN') {
 
 		if(typeof(typeinfo[2]) == "undefined") {
 			var numformat = "any";
 		} else {
-			var numformat = typeinfo[2]
+			var numformat = typeinfo[2];
 		}
 
 		if(type == 'NN') {
@@ -4386,46 +4150,46 @@ function validateInputData(value, fieldLabel, typeofdata) {
 
 		if(numformat != "any") {
 			if (isNaN(value)) {
-				var invalid=true
+				var invalid=true;
 			} else {
-				var format = numformat.split(",")
-				var splitval = value.split(".")
+				var format = numformat.split(",");
+				var splitval = value.split(".");
 
 				if (negativeallowed == true) {
 					if (splitval[0].indexOf("-") >= 0) {
 						if (splitval[0].length-1 > format[0]) {
-							invalid=true
+							invalid=true;
 						}
 					} else {
 						if (splitval[0].length > format[0]) {
-							invalid=true
+							invalid=true;
 						}
 					}
 				} else {
 					if (value < 0) {
-						invalid=true
+						invalid=true;
 					} else if (format[0] == 2 && splitval[0] == 100 && (!splitval[1] || splitval[1]==0)) {
-						invalid=false
+						invalid=false;
 					} else if (splitval[0].length > format[0]) {
-						invalid=true
+						invalid=true;
 					}
 				}
 
 				if (splitval[1]) {
 					if (splitval[1].length > format[1]) {
-						invalid=true
+						invalid=true;
 					}
 				}
 			}
 
 			if (invalid==true) {
-				alert(alert_arr.INVALID + fieldLabel)
+				alert(alert_arr.INVALID + fieldLabel);
 				return false;
 			} else {
 				return true;
 			}
 		} else {
-			var splitval = value.split(".")
+			var splitval = value.split(".");
 			var arr_len = splitval.length;
 			var len = 0;
 			if(splitval[0] > 18446744073709551615) {
@@ -4433,9 +4197,9 @@ function validateInputData(value, fieldLabel, typeofdata) {
 				return false;
 			}
 			if(negativeallowed == true) {
-				var re=/^(-|)(\d)*(\.)?\d+(\.\d\d*)*$/
+				var re=/^(-|)(\d)*(\.)?\d+(\.\d\d*)*$/;
 			} else {
-				var re=/^(\d)*(\.)?\d+(\.\d\d*)*$/
+				var re=/^(\d)*(\.)?\d+(\.\d\d*)*$/;
 			}
 		}
 
@@ -4447,17 +4211,17 @@ function validateInputData(value, fieldLabel, typeofdata) {
 		}
 
 		if(dotcount>1) {
-			alert(alert_arr.INVALID+fieldLabel)
+			alert(alert_arr.INVALID+fieldLabel);
 			return false;
 		}
 
 		if (!re.test(value)) {
-			alert(alert_arr.INVALID+fieldLabel)
-			return false
+			alert(alert_arr.INVALID+fieldLabel);
+			return false;
 		}
 	} else if(type == 'E') {
 		if (!re_patternValidate(value,fieldLabel+" (Email Id)","EMAIL"))
-			return false
+			return false;
 	}
 
 	return true;
@@ -4466,27 +4230,27 @@ function validateInputData(value, fieldLabel, typeofdata) {
 function re_dateValidate(fldval,fldLabel,type) {
 	if(re_patternValidate(fldval,fldLabel,"DATE")==false)
 		return false;
-	dateval=fldval.replace(/^\s+/g, '').replace(/\s+$/g, '')
+	dateval=fldval.replace(/^\s+/g, '').replace(/\s+$/g, '');
 
-	var dateelements=splitDateVal(dateval)
+	var dateelements=splitDateVal(dateval);
 
-	dd=dateelements[0]
-	mm=dateelements[1]
-	yyyy=dateelements[2]
+	dd=dateelements[0];
+	mm=dateelements[1];
+	yyyy=dateelements[2];
 
 	if (dd<1 || dd>31 || mm<1 || mm>12 || yyyy<1 || yyyy<1000) {
-		alert(alert_arr.ENTER_VALID+fldLabel)
-		return false
+		alert(alert_arr.ENTER_VALID+fldLabel);
+		return false;
 	}
 
 	if ((mm==2) && (dd>29)) {//checking of no. of days in february month
-		alert(alert_arr.ENTER_VALID+fldLabel)
-		return false
+		alert(alert_arr.ENTER_VALID+fldLabel);
+		return false;
 	}
 
 	if ((mm==2) && (dd>28) && ((yyyy%4)!=0)) {//leap year checking
-		alert(alert_arr.ENTER_VALID+fldLabel)
-		return false
+		alert(alert_arr.ENTER_VALID+fldLabel);
+		return false;
 	}
 
 	switch (parseInt(mm)) {
@@ -4496,56 +4260,55 @@ function re_dateValidate(fldval,fldLabel,type) {
 		case 9 :
 		case 11 :
 			if (dd>30) {
-			alert(alert_arr.ENTER_VALID+fldLabel)
-			return false
+			alert(alert_arr.ENTER_VALID+fldLabel);
+			return false;
 		}
 	}
 
-	var currdate=new Date()
-	var chkdate=new Date()
+	var currdate=new Date();
+	var chkdate=new Date();
 
-	chkdate.setYear(yyyy)
-	chkdate.setMonth(mm-1)
-	chkdate.setDate(dd)
+	chkdate.setYear(yyyy);
+	chkdate.setMonth(mm-1);
+	chkdate.setDate(dd);
 
 	if (type!="OTH") {
 		if (!compareDates(chkdate,fldLabel,currdate,"current date",type)) {
-			return false
+			return false;
 		} else return true;
 	} else return true;
 }
 
-//Copied from general.js and altered some lines. becos we cant send vales to function present in general.js. it accept only field names.
+//Copied from general.js and altered some lines. because we cant send vales to function present in general.js. it accept only field names.
 function re_patternValidate(fldval,fldLabel,type) {
 
 	if (type.toUpperCase()=="EMAIL") {
 		/*changes made to fix -- ticket#3278 & ticket#3461
 		  var re=new RegExp(/^.+@.+\..+$/)*/
 		//Changes made to fix tickets #4633, #5111  to accomodate all possible email formats
-		var re=new RegExp(/^[a-zA-Z0-9]+([\_\-\.]*[a-zA-Z0-9]+[\_\-]?)*@[a-zA-Z0-9]+([\_\-]?[a-zA-Z0-9]+)*\.+([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)*$/)
+		var re=new RegExp(/^[a-zA-Z0-9]+([\_\-\.]*[a-zA-Z0-9]+[\_\-]?)*@[a-zA-Z0-9]+([\_\-]?[a-zA-Z0-9]+)*\.+([\-\_]?[a-zA-Z0-9])+(\.?[a-zA-Z0-9]+)*$/);
 	}
 
 	if (type.toUpperCase()=="DATE") {//DATE validation
 
 		switch (userDateFormat) {
 			case "yyyy-mm-dd" :
-				var re = /^\d{4}(-)\d{1,2}\1\d{1,2}$/
+				var re = /^\d{4}(-)\d{1,2}\1\d{1,2}$/;
 				break;
 			case "mm-dd-yyyy" :
 			case "dd-mm-yyyy" :
-				var re = /^\d{1,2}(-)\d{1,2}\1\d{4}$/
+				var re = /^\d{1,2}(-)\d{1,2}\1\d{4}$/;
 		}
 	}
-
 
 	if (type.toUpperCase()=="TIMESECONDS") {//TIME validation
 		var re = new RegExp("^([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$|^([0-1][0-9]|[2][0-3]):([0-5][0-9])$");
 	}
 	if (!re.test(fldval)) {
-		alert(alert_arr.ENTER_VALID + fldLabel)
-		return false
+		alert(alert_arr.ENTER_VALID + fldLabel);
+		return false;
 	}
-	else return true
+	else return true;
 }
 
 function getTranslatedString(key, alertArray){
@@ -4554,18 +4317,17 @@ function getTranslatedString(key, alertArray){
 			return alertArray[key];
 		}
 	}
-    if(alert_arr[key] != undefined) {
-        return alert_arr[key];
-    }
-    else {
-        return key;
+	if(alert_arr[key] != undefined) {
+		return alert_arr[key];
+	} else {
+		return key;
 	}
 }
 
 function copySelectedOptions(source, destination) {
 
-	var srcObj = $(source);
-	var destObj = $(destination);
+	var srcObj = document.getElementById(source);
+	var destObj = document.getElementById(destination);
 
 	if(typeof(srcObj) == 'undefined' || typeof(destObj) == 'undefined') return;
 
@@ -4575,23 +4337,23 @@ function copySelectedOptions(source, destination) {
 			var existingObj=null;
 			for (j=0;j<destObj.length;j++) {
 				if (destObj.options[j].value==srcObj.options[i].value) {
-					rowFound=true
-					existingObj=destObj.options[j]
-					break
+					rowFound=true;
+					existingObj=destObj.options[j];
+					break;
 				}
 			}
 
 			if (rowFound!=true) {
-				var newColObj=document.createElement("OPTION")
-				newColObj.value=srcObj.options[i].value
-				if (browser_ie) newColObj.innerText=srcObj.options[i].innerText
-				else if (browser_nn4 || browser_nn6) newColObj.text=srcObj.options[i].text
-				destObj.appendChild(newColObj)
-				srcObj.options[i].selected=false
-				newColObj.selected=true
-				rowFound=false
+				var newColObj=document.createElement("OPTION");
+				newColObj.value=srcObj.options[i].value;
+				if (browser_ie) newColObj.innerText=srcObj.options[i].innerText;
+				else if (browser_nn4 || browser_nn6) newColObj.text=srcObj.options[i].text;
+				destObj.appendChild(newColObj);
+				srcObj.options[i].selected=false;
+				newColObj.selected=true;
+				rowFound=false;
 			} else {
-				if(existingObj != null) existingObj.selected=true
+				if(existingObj != null) existingObj.selected=true;
 			}
 		}
 	}
@@ -4609,7 +4371,7 @@ function removeSelectedOptions(objName) {
 }
 
 function convertOptionsToJSONArray(objName,targetObjName) {
-	var obj = $(objName);
+	var obj = document.getElementById(objName);
 	var arr = [];
 	if(typeof(obj) != 'undefined') {
 		for (i=0; i<obj.options.length; ++i) {
@@ -4617,7 +4379,7 @@ function convertOptionsToJSONArray(objName,targetObjName) {
 		}
 	}
 	if(targetObjName != 'undefined') {
-		var targetObj = $(targetObjName);
+		var targetObj = document.getElementById(targetObjName);
 		if(typeof(targetObj) != 'undefined') targetObj.value = JSON.stringify(arr);
 	}
 	return arr;
@@ -4638,7 +4400,7 @@ function fnvshobjMore(obj,Lay){
 	}
 	var IE = document.all?true:false;
 	if(IE) {
-		if($("repposition1")) {
+		if(document.getElementById("repposition1")) {
 			if(topSide > 1200) {
 				topSide = topSide-250;
 			}
@@ -4651,19 +4413,19 @@ function fnvshobjMore(obj,Lay){
 		tagName.style.left= leftSide -150 + 'px';
 	} else if((leftSide >= 800) && (leftSide < 1400)){
 		if((widthM > 100) && (widthM < 250)) {
-			tagName.style.left= leftSide- 100  + 'px';
+			tagName.style.left= leftSide- 100 + 'px';
 		} else if((widthM >= 250) && (widthM < 350)) {
 
-			tagName.style.left= leftSide- 200  + 'px';
+			tagName.style.left= leftSide- 200 + 'px';
 		}
 		else if((widthM >= 350) && (widthM < 500)) {
-			tagName.style.left= leftSide- 300  + 'px';
+			tagName.style.left= leftSide- 300 + 'px';
 		}
 		else {
 			tagName.style.left= leftSide -550 + 'px';
 		}
 	} else {
-		tagName.style.left= leftSide  + 5 +'px';
+		tagName.style.left= leftSide + 5 +'px';
 	}
 	menuBar = document.getElementsByClassName('hdrTabBg')[0];
 	tagName.style.top = (menuBar.offsetTop + menuBar.clientHeight)+'px';
@@ -4688,7 +4450,7 @@ function fnvshobjsearch(obj,Lay){
 	}
 	var IE = document.all?true:false;
 	if(IE) {
-		if($("repposition1")) {
+		if(document.getElementById("repposition1")) {
 			if(topSide > 1200) {
 				topSide = topSide-250;
 			}
@@ -4696,7 +4458,7 @@ function fnvshobjsearch(obj,Lay){
 	}
 
 	var getVal = eval(leftSide) + eval(widthM);
-	if(getVal  > document.body.clientWidth ) {
+	if(getVal > document.body.clientWidth ) {
 		leftSide = eval(leftSide) - eval(widthM);
 		tagName.style.left = leftSide + 91 + 'px';
 	} else {
@@ -4706,6 +4468,7 @@ function fnvshobjsearch(obj,Lay){
 	tagName.style.display = 'block';
 	tagName.style.visibility = "visible";
 }
+
 function fnDropDownUser(obj,Lay){
 	var tagName = document.getElementById(Lay);
 	var leftSide = findPosX(obj);
@@ -4713,12 +4476,12 @@ function fnDropDownUser(obj,Lay){
 	var maxW = tagName.style.width;
 	var widthM = maxW.substring(0,maxW.length-2);
 	var getVal = eval(leftSide) + eval(widthM);
-	if(getVal  > document.body.clientWidth ){
+	if(getVal > document.body.clientWidth ){
 		leftSide = eval(leftSide) - eval(widthM);
 		tagName.style.left = leftSide + 34 + 'px';
 	}
 	else
-		tagName.style.left= leftSide  - 50 + 'px';
+		tagName.style.left= leftSide - 50 + 'px';
 		tagName.style.top= topSide + 28 +'px';
 		tagName.style.display = 'block';
 }
@@ -4728,16 +4491,16 @@ function toggleSelectAll_Records(module,state,relCheckName) {
 
 	toggleSelect_ListView(state,relCheckName);
 	if(state == true) {
-		$('allselectedboxes').value = 'all';
-		$('selectAllRec').style.display = 'none';
-		$('deSelectAllRec').style.display = 'inline';
+		document.getElementById('allselectedboxes').value = 'all';
+		document.getElementById('selectAllRec').style.display = 'none';
+		document.getElementById('deSelectAllRec').style.display = 'inline';
 	} else {
-		$('allselectedboxes').value = '';
-		$('excludedRecords').value = '';
-		$('selectCurrentPageRec').checked = false;
-		$('selectAllRec').style.display = 'inline';
-		$('deSelectAllRec').style.display = 'none';
-		$('linkForSelectAll').hide();
+		document.getElementById('allselectedboxes').value = '';
+		document.getElementById('excludedRecords').value = '';
+		document.getElementById('selectCurrentPageRec').checked = false;
+		document.getElementById('selectAllRec').style.display = 'inline';
+		document.getElementById('deSelectAllRec').style.display = 'none';
+		document.getElementById('linkForSelectAll').style.display = 'none';
 	}
 }
 
@@ -4745,95 +4508,80 @@ function toggleSelectDocumentRecords(module,state,relCheckName,parentEleId) {
 
 	toggleSelect_ListView(state,relCheckName,parentEleId);
 	if(state == true) {
-		$('selectedboxes_'+parentEleId).value = 'all';
-		$('selectAllRec_'+parentEleId).style.display = 'none';
-		$('deSelectAllRec_'+parentEleId).style.display = 'inline';
+		document.getElementById('selectedboxes_'+parentEleId).value = 'all';
+		document.getElementById('selectAllRec_'+parentEleId).style.display = 'none';
+		document.getElementById('deSelectAllRec_'+parentEleId).style.display = 'inline';
 	} else {
-		$('selectedboxes_'+parentEleId).value = '';
-		$('excludedRecords_'+parentEleId).value = '';
-		$('currentPageRec_'+parentEleId).checked = false;
-		$('selectAllRec_'+parentEleId).style.display = 'inline';
-		$('deSelectAllRec_'+parentEleId).style.display = 'none';
-		$('linkForSelectAll_'+parentEleId).hide();
+		document.getElementById('selectedboxes_'+parentEleId).value = '';
+		document.getElementById('excludedRecords_'+parentEleId).value = '';
+		document.getElementById('currentPageRec_'+parentEleId).checked = false;
+		document.getElementById('selectAllRec_'+parentEleId).style.display = 'inline';
+		document.getElementById('deSelectAllRec_'+parentEleId).style.display = 'none';
+		document.getElementById('linkForSelectAll_'+parentEleId).style.display = 'none';
 	}
 }
 
 //Compute the number of rows in the current module
 function getNoOfRows(id){
-	var module = $('curmodule').value;
-	var searchurl = $('search_url').value;
+	var module = document.getElementById('curmodule').value;
+	var searchurl = document.getElementById('search_url').value;
 	var viewid = getviewId();
 	var url = "module="+module+"&action="+module+"Ajax&file=ListViewCount&viewname="+viewid+searchurl;
 	if(module == 'Documents') {
-		var folderid = $('folderid_'+id).value;
+		var folderid = document.getElementById('folderid_'+id).value;
 		url = url+"&folderidstring="+folderid;
 	}
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody:url,
-			onComplete: function(response) {
+	jQuery.ajax({
+			method: 'POST',
+			url: "index.php?"+url
+	}).done(function (response) {
 				if(module != 'Documents') {
-					$('numOfRows').value = response.responseText;
-					$('count').innerHTML = response.responseText;
-					if(parseInt($('maxrecords').value) < parseInt(response.responseText)){
-						$('linkForSelectAll').show();
+					document.getElementById('numOfRows').value = response;
+					document.getElementById('count').innerHTML = response;
+					if(parseInt(document.getElementById('maxrecords').value) < parseInt(response)){
+						document.getElementById('linkForSelectAll').style.display="table-cell";
 					}
 				} else {
-					$('numOfRows_'+id).value = response.responseText;
-					$('count_'+id).innerHTML = response.responseText;
-					if(parseInt($('maxrecords').value) < parseInt(response.responseText)){
-						$('linkForSelectAll_'+id).show();
+					document.getElementById('numOfRows_'+id).value = response;
+					document.getElementById('count_'+id).innerHTML = response;
+					if(parseInt(document.getElementById('maxrecords').value) < parseInt(response)){
+						document.getElementById('linkForSelectAll_'+id).style.display="table-cell";
 					}
 				}
 			}
-		}
 	);
 }
 
 //select all function for related list of campaign module
 function rel_toggleSelectAll_Records(module,relmodule,state,relCheckName) {
-
 	 rel_toggleSelect(state,relCheckName,relmodule);
 	 if(state == true) {
-		$(module+'_'+relmodule+'_selectallActivate').value = 'true';
-		$(module+'_'+relmodule+'_selectAllRec').style.display = 'none';
-		$(module+'_'+relmodule+'_deSelectAllRec').style.display = 'inline';
+		document.getElementById(module+'_'+relmodule+'_selectallActivate').value = 'true';
+		document.getElementById(module+'_'+relmodule+'_selectAllRec').style.display = 'none';
+		document.getElementById(module+'_'+relmodule+'_deSelectAllRec').style.display = 'inline';
 	} else {
-		$(module+'_'+relmodule+'_selectallActivate').value = 'false';
-		$(module+'_'+relmodule+'_excludedRecords').value = '';
-		$(module+'_'+relmodule+'_selectCurrentPageRec').checked = false;
-		$(module+'_'+relmodule+'_selectAllRec').style.display = 'inline';
-		$(module+'_'+relmodule+'_deSelectAllRec').style.display = 'none';
-		$(module+'_'+relmodule+'_linkForSelectAll').hide();
+		document.getElementById(module+'_'+relmodule+'_selectallActivate').value = 'false';
+		document.getElementById(module+'_'+relmodule+'_excludedRecords').value = '';
+		document.getElementById(module+'_'+relmodule+'_selectCurrentPageRec').checked = false;
+		document.getElementById(module+'_'+relmodule+'_selectAllRec').style.display = 'inline';
+		document.getElementById(module+'_'+relmodule+'_deSelectAllRec').style.display = 'none';
+		document.getElementById(module+'_'+relmodule+'_linkForSelectAll').style.display = 'none';
 	}
 }
 
-// Compute the number of records related to capmaign record
+// Compute the number of records related to campaign record
 function getNoOfRelatedRows(current_module,related_module){
 	var recordid = document.getElementById('recordid').value;
-	new Ajax.Request(
-		'index.php',
-		{
-			queue: {
-				position: 'end',
-				scope: 'command'
-			},
-			method: 'post',
-			postBody:"module="+current_module+"&related_module="+related_module+"&action="+current_module+"Ajax&idlist="+recordid+"&file=ListViewCount&mode=relatedlist",
-			onComplete: function(response) {
-				$(current_module+'_'+related_module+'_numOfRows').value = response.responseText;
-				$(related_module+'_count').innerHTML = response.responseText;
-				if(parseInt($('maxrecords').value) < parseInt(response.responseText)){
-					$(current_module+'_'+related_module+'_linkForSelectAll').show();
+	jQuery.ajax({
+			method: 'POST',
+			url: "index.php?module="+current_module+"&related_module="+related_module+"&action="+current_module+"Ajax&idlist="+recordid+"&file=ListViewCount&mode=relatedlist",
+	}).done(function (response) {
+				document.getElementById(current_module+'_'+related_module+'_numOfRows').value = response;
+				document.getElementById(related_module+'_count').innerHTML = response;
+				if(parseInt(document.getElementById('maxrecords').value) < parseInt(response)){
+					document.getElementById(current_module+'_'+related_module+'_linkForSelectAll').style.display="block";
 				}
 			}
-		}
 	);
 }
 
@@ -4846,8 +4594,9 @@ function updateParentCheckbox(obj,id){
 			}
 		}
 	}
-	if(parentCheck){
-		$(id+'_selectCurrentPageRec').checked=parentCheck;
+	var selelem = document.getElementById(id+'_selectCurrentPageRec');
+	if(selelem && parentCheck){
+		selelem.checked=parentCheck;
 	}
 }
 
@@ -5023,7 +4772,7 @@ function QCformValidate(){
 		chkdate.setMinutes(minval);
 		chkdate.setHours(hourval);
 		if(!comparestartdate(chkdate)) return false;
-	}//end
+	}
 	return true;
 }
 
@@ -5110,3 +4859,18 @@ function runJSONAction(actionid, parameters, outputType) {
                 }
     });
  }
+function duplicate_record(module,record)
+{
+	jQuery.ajax({
+		url: ' index.php?module=Utilities&action=UtilitiesAjax&file=duplicate',
+		type:'POST',
+		data: {module_name: module, record_id: record },
+		dataType:'JSON',
+		error: function(data){
+			console.log(data);
+		},
+		success: function(response) {
+			window.location = "index.php?module=" + response.module + "&action=DetailView&record=" + response.record_id;
+		}
+	});
+}

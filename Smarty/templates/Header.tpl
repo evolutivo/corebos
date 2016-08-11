@@ -11,9 +11,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset={$APP.LBL_CHARSET}">
 	<title>{$USER} - {$MODULE_NAME|@getTranslatedString:$MODULE_NAME} - {$APP.LBL_BROWSER_TITLE}</title>
 	<link REL="SHORTCUT ICON" HREF="{$FAVICON}">
-	<meta http-equiv="X-FRAME-OPTIONS" content="DENY" />
 	<style type="text/css">@import url("themes/{$THEME}/style.css?v={$VERSION}");</style>
 	<link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">
 	<link rel="stylesheet" href="include/print.css" type="text/css" media="print" />
@@ -48,19 +48,19 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<a name="top"></a>
 	<!-- header -->
 	<!-- header-vtiger crm name & RSS -->
-	<script language="JavaScript" type="text/javascript" src="include/js/meld.js"></script>
-	<script language="JavaScript" type="text/javascript" src="include/js/json.js"></script>
-	<script language="JavaScript" type="text/javascript" src="include/js/general.js?v={$VERSION}"></script>
+	<script type="text/javascript" src="include/jquery/jquery.js"></script>
+	<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="include/js/meld.js"></script>
+	<script type="text/javascript" src="include/js/json.js"></script>
+	<script type="text/javascript" src="include/js/general.js?v={$VERSION}"></script>
 	<!-- vtlib customization: Javascript hook -->
-	<script language="JavaScript" type="text/javascript" src="include/js/vtlib.js?v={$VERSION}"></script>
+	<script type="text/javascript" src="include/js/vtlib.js?v={$VERSION}"></script>
 	<!-- END -->
 	<script language="JavaScript" type="text/javascript" id="_current_language_" src="include/js/{php} echo $_SESSION['authenticated_user_language'];{/php}.lang.js?{php} echo $_SESSION['vtiger_version'];{/php}"></script>
 	<script language="JavaScript" type="text/javascript" src="include/js/QuickCreate.js"></script>
-{if $MODULE_NAME neq 'Pivottable' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'QueryBuilder' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'MarketingDashboard' && $MODULE_NAME neq 'ESClient'}	<script language="javascript" type="text/javascript" src="include/scriptaculous/prototype.js"></script>
-{/if}	<script language="JavaScript" type="text/javascript" src="include/js/menu.js?v={$VERSION}"></script>
+        <script language="JavaScript" type="text/javascript" src="include/js/menu.js?v={$VERSION}"></script>
 	<script language="JavaScript" type="text/javascript" src="include/calculator/calc.js"></script>
 	<script language="JavaScript" type="text/javascript" src="modules/Calendar/script.js"></script>
-	<script language="javascript" type="text/javascript" src="include/scriptaculous/dom-drag.js"></script>
 	<script language="JavaScript" type="text/javascript" src="include/js/notificationPopup.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
@@ -242,7 +242,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 				<table border=0 celspacing=0 cellpadding=5 width=100% align=center bgcolor=white>
 				<tr>
 					<td align="right" nowrap class="cellLabel small">
-						<input class="small" type='radio' name='exportCalendar' value = 'iCal' onclick="$('ics_filename').removeAttribute('disabled');" checked /> iCal Format
+						<input class="small" type='radio' name='exportCalendar' value = 'iCal' onclick="jQuery('#ics_filename').removeAttr('disabled');" checked /> iCal Format
 					</td>
 					<td align="left">
 						<input class="small" type='text' name='ics_filename' id='ics_filename' size='25' value='{php}global $coreBOS_app_name; echo $coreBOS_app_name;{/php}.calendar'/>
@@ -366,21 +366,18 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 <script type='text/javascript'>
 {literal}
 function UnifiedSearch_SelectModuleForm(obj) {
-	if($('UnifiedSearch_moduleform')) {
+	if(jQuery('#UnifiedSearch_moduleform').length) {
 		// If we have loaded the form already.
 		UnifiedSearch_SelectModuleFormCallback(obj);
 	} else {
-		$('status').show();
-		new Ajax.Request(
-		'index.php',
-		{queue: {position: 'end', scope: 'command'},
-			method: 'post',
-			postBody: 'module=Home&action=HomeAjax&file=UnifiedSearchModules&ajax=true',
-			onComplete: function(response) {
-				$('status').hide();
-				$('UnifiedSearch_moduleformwrapper').innerHTML = response.responseText;
+		jQuery('#status').show();
+		jQuery.ajax({
+				method:"POST",
+				url:'index.php?module=Home&action=HomeAjax&file=UnifiedSearchModules&ajax=true'
+		}).done(function(response) {
+				jQuery('#status').hide();
+				jQuery('#UnifiedSearch_moduleformwrapper').html(response);
 				UnifiedSearch_SelectModuleFormCallback(obj);
-			}
 		});
 	}
 }
@@ -388,28 +385,22 @@ function UnifiedSearch_SelectModuleFormCallback(obj) {
 	fnvshobjsearch(obj, 'UnifiedSearch_moduleformwrapper');
 }
 function UnifiedSearch_SelectModuleToggle(flag) {
-	Form.getElements($('UnifiedSearch_moduleform')).each(
-		function(element) {
-			if(element.type == 'checkbox') {
-				element.checked = flag;
+	jQuery('#UnifiedSearch_moduleform input[type=checkbox]').each(function() {
+			this.checked = flag;
 			}
-		}
 	);
 }
 function UnifiedSearch_SelectModuleCancel() {
-	$('UnifiedSearch_moduleformwrapper').hide();
+	jQuery('#UnifiedSearch_moduleformwrapper').hide();
 }
 function UnifiedSearch_SelectModuleSave() {
 	var UnifiedSearch_form = document.forms.UnifiedSearch;
-	UnifiedSearch_form.search_onlyin.value = Form.serialize($('UnifiedSearch_moduleform')).replace(/search_onlyin=/g, '').replace(/&/g,',');
-	new Ajax.Request(
-		'index.php',
-		{queue: {position: 'end', scope: 'command'},
-			method: 'post',
-			postBody: 'module=Home&action=HomeAjax&file=UnifiedSearchModulesSave&search_onlyin=' + encodeURIComponent(UnifiedSearch_form.search_onlyin.value),
-			onComplete: function(response) {
+	UnifiedSearch_form.search_onlyin.value = jQuery('#UnifiedSearch_moduleform').serialize().replace(/search_onlyin=/g, '').replace(/&/g,',');
+	jQuery.ajax({
+			method:"POST",
+			url:'index.php?module=Home&action=HomeAjax&file=UnifiedSearchModulesSave&search_onlyin=' + encodeURIComponent(UnifiedSearch_form.search_onlyin.value)
+	}).done(function(response) {
 				// continue
-			}
 		}
 	);
 	UnifiedSearch_SelectModuleCancel();
@@ -421,31 +412,24 @@ function UnifiedSearch_SelectModuleSave() {
 <script>
 function fetch_clock()
 {ldelim}
-	new Ajax.Request(
-		'index.php',
-		{ldelim}queue: {ldelim}position: 'end', scope: 'command'{rdelim},
-			method: 'post',
-			postBody: 'module=Utilities&action=UtilitiesAjax&file=Clock',
-			onComplete: function(response) {ldelim}
-				$("clock_cont").innerHTML=response.responseText;
-				execJS($('clock_cont'));
-			{rdelim}
-		{rdelim}
+	jQuery.ajax({ldelim}
+			method:"POST",
+			url:'index.php?module=Utilities&action=UtilitiesAjax&file=Clock'
+	{rdelim}).done(function(response) {ldelim}
+				jQuery("#clock_cont").html(response);
+				execJS(jQuery('#clock_cont'));
+	{rdelim}
 	);
 {rdelim}
 
 function fetch_calc()
 {ldelim}
-	new Ajax.Request(
-		'index.php',
-		{ldelim}queue: {ldelim}position: 'end', scope: 'command'{rdelim},
-			method: 'post',
-			postBody: 'module=Utilities&action=UtilitiesAjax&file=Calculator',
-			onComplete: function(response)
-					{ldelim}
-						$("calculator_cont").innerHTML=response.responseText;
-						execJS($('calculator_cont'));
-					{rdelim}
+	jQuery.ajax({ldelim}
+			method:"POST",
+			url:'index.php?module=Utilities&action=UtilitiesAjax&file=Calculator'
+	{rdelim}).done(function(response) {ldelim}
+				jQuery("#calculator_cont").html(response);
+				execJS(jQuery('#calculator_cont'));
 		{rdelim}
 	);
 {rdelim}
@@ -456,7 +440,7 @@ function fetch_calc()
 function QCreate(qcoptions){
 	var module = qcoptions.options[qcoptions.options.selectedIndex].value;
 	if(module != 'none'){
-		$("status").style.display="inline";
+		document.getElementById("status").style.display="inline";
 		if(module == 'Events'){
 			module = 'Calendar';
 			var urlstr = '&activity_mode=Events';
@@ -466,24 +450,21 @@ function QCreate(qcoptions){
 		}else{
 			var urlstr = '';
 		}
-		new Ajax.Request(
-			'index.php',
-				{queue: {position: 'end', scope: 'command'},
-				method: 'post',
-				postBody: 'module='+module+'&action='+module+'Ajax&file=QuickCreate'+urlstr,
-				onComplete: function(response){
-					$("status").style.display="none";
-					$("qcform").style.display="inline";
-					$("qcform").innerHTML = response.responseText;
+		jQuery.ajax({
+				method:"POST",
+				url:'index.php?module='+module+'&action='+module+'Ajax&file=QuickCreate'+urlstr
+		}).done(function(response) {
+					document.getElementById("status").style.display="none";
+					document.getElementById("qcform").style.display="inline";
+					document.getElementById("qcform").innerHTML = response;
+					jQuery("#qcform").draggable();
 					// Evaluate all the script tags in the response text.
-					var scriptTags = $("qcform").getElementsByTagName("script");
+					var scriptTags = document.getElementById("qcform").getElementsByTagName("script");
 					for(var i = 0; i< scriptTags.length; i++){
 						var scriptTag = scriptTags[i];
 						eval(scriptTag.innerHTML);
 					}
-                    eval($("qcform"));
-                    posLay(qcoptions, "qcform");
-				}
+					posLay(qcoptions, "qcform");
 			}
 		);
 	}else{
@@ -535,9 +516,7 @@ function QCreate(qcoptions){
 </div>
 
 <script>
-	var THandle = document.getElementById("Track_Handle");
-	var TRoot   = document.getElementById("tracker");
-	Drag.init(THandle, TRoot);
+	jQuery('#tracker').draggable({ldelim} handle: "#Track_Handle" {rdelim});
 </script>
 
 <!--for admin users-->
@@ -567,18 +546,15 @@ function QCreate(qcoptions){
 <script type="text/javascript">
 {literal}
 function vtiger_news(obj) {
-	$('status').style.display = 'inline';
-	new Ajax.Request(
-		'index.php',
-		{queue: {position: 'end', scope: 'command'},
-			method: 'post',
-			postBody: 'module=Home&action=HomeAjax&file=HomeNews',
-			onComplete: function(response) {
-				$("vtigerNewsPopupLay").innerHTML=response.responseText;
+	document.getElementById('status').style.display = 'inline';
+	jQuery.ajax({
+			method:"POST",
+			url:'index.php?module=Home&action=HomeAjax&file=HomeNews'
+	}).done(function(response) {
+				jQuery("#vtigerNewsPopupLay").html(response);
 				fnvshobj(obj, 'vtigerNewsPopupLay');
-				$('status').style.display = 'none';
+				jQuery('#status').hide();
 			}
-		}
 	);
 }
 {/literal}

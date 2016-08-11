@@ -239,6 +239,15 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
+	public static function EmailHasBeenSent($emailid) {
+		global $adb;
+		if (strpos($emailid, 'x')>0) list($wsid,$emailid) = explode('x', $emailid);
+		$sql = 'select email_flag from vtiger_emaildetails where emailid=?';
+		$result = $adb->pquery($sql, array($emailid));
+		$email_flag = $adb->query_result($result, 0, 'email_flag');
+		return  ($email_flag != 'SAVED');
+	}
+
 	function saveForwardAttachments($id, $module, $file_details) {
 		global $log;
 		$log->debug("Entering into saveForwardAttachments($id,$module,$file_details) method.");
@@ -562,10 +571,6 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
 		$this->db->pquery($sql, $params);
 		$this->db->pquery('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?', array(date('y-m-d H:i:d'), $id));
-	}
-
-	public function getNonAdminAccessControlQuery($module, $user, $scope='') {
-		return " and vtiger_crmentity$scope.smownerid=$user->id ";
 	}
 
 }

@@ -60,6 +60,7 @@ $mod_strings = array(
     'LBL_VALIDATION_INVALID_FIELD_VALUES' => 'Ungültee Feldwerte',
     'LBL_CREATE_ENTITY_NOTE_ORDER_MATTERS' => 'Hinweis: Ausdrücke werden in der Reihenfolde der Feldwerte ausgewerte.
                                             Stellen Sie sicher, dass der gesuchte Wert im Ausdruck zur Verfügung steht.',
+	'LBL_CREATE_ENTITY_NOTE_BUSINESSMAPS' => 'Note: You can use a Field Business Map to map fields from one entity to the other, in that case the business map definitions will overwrite the ones defined here.',
     'LBL_SET_VALUE' => 'setze Wert',
 
     'LBL_EMAIL_RECIPIENT' => 'Empfänger',
@@ -85,10 +86,11 @@ $mod_strings = array(
 
     'Workflow'=>'Workflow',
 
-    'VTCreateEntityTask' => 'erstelle Objekt',
-    'LBL_ENTITY_TYPE' => 'Objekttyp',
-    'LBL_SELECT_ENTITY_TYPE' => '-- wähle Objekttyp --',
-    'LBL_NO_ENTITIES_FOUND' => 'Keine Objekte zum erstellen gefunden',
+	'VTCreateEntityTask' => 'erstelle Objekt',
+	'LBL_ENTITY_TYPE' => 'Objekttyp',
+	'LBL_SELECT_ENTITY_TYPE' => '-- wähle Objekttyp --',
+	'Assigned User' => 'Assigned User',
+	'LBL_NO_ENTITIES_FOUND' => 'Keine Objekte zum erstellen gefunden',
 	'LBL_PARENT_OWNER' => 'Parent Record Owner',
 	'LBL_SPECIAL_OPTIONS' => 'Special Options',
 	'CBTagTask' => 'Add/Delete Tag',
@@ -103,6 +105,7 @@ $mod_strings = array(
 	'Relate with AccountVendor' => 'Relate with Account/Vendor',
 	'Relate with Contact' => 'Relate with Contact',
 	'CBDeleteRelatedTask' => 'Delete Related Records',
+	'CBAssignRelatedTask' => 'Assign Related Records',
 	'CBSelectcbMap' => 'Select Business Rule',
 	'LBL_HELPDESK_SUPPORT_EMAILID'=>'Trouble Ticket E-Mail-Id',
 	'LBL_HELPDESK_SUPPORT_NAME'=>'Trouble Ticket Support Name',

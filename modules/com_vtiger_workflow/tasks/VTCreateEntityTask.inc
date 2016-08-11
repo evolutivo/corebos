@@ -101,11 +101,32 @@ class VTCreateEntityTask extends VTTask {
 				$newEntity->column_fields[$fieldName] = $fieldValue;
 			}
 			$newEntity->column_fields[$this->reference_field] = $focus->id;
-			$newEntity->column_fields = DataTransform::sanitizeRetrieveEntityInfo($newEntity->column_fields,$handlerMeta);
+			if (($moduleName=='Invoice' or $moduleName=='SalesOrder') and $entityType=='CobroPago') {
+				$newEntity->column_fields['parent_id'] = (empty($focus->column_fields['account_id']) ? $focus->column_fields['contact_id'] : $focus->column_fields['account_id']);
+			}
+			if (($moduleName=='Invoice' or $moduleName=='SalesOrder') and $entityType=='Potentials') {
+				$newEntity->column_fields['related_to'] = (empty($focus->column_fields['account_id']) ? $focus->column_fields['contact_id'] : $focus->column_fields['account_id']);
+			}
+			if ($moduleName=='PurchaseOrder' and $entityType=='CobroPago') {
+				$newEntity->column_fields['parent_id'] = $focus->column_fields['vendor_id'];
+			}
+
+                        $cbfromid = $recordId;
+                        $cbfrommodule = getSalesEntityType($cbfromid);
+                        $bmapname = $cbfrommodule.'2'.$entityType;
+                        $cbfrom = CRMEntity::getInstance($cbfrommodule);
+                        $cbfrom->retrieve_entity_info($cbfromid, $cbfrommodule);
+                        $cbMapidFromid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+                        if ($cbMapidFromid) $cbMapid = $cbMapidFromid;
+                        if ($cbMapid) {
+                                $cbMap = cbMap::getMapByID($cbMapid);
+                                $newEntity->column_fields = $cbMap->Mapping($cbfrom->column_fields,$newEntity->column_fields);
+                        }
+                        
+                        $newEntity->column_fields = DataTransform::sanitizeRetrieveEntityInfo($newEntity->column_fields,$handlerMeta);
 			$newEntity->save($entityType);
 			relateEntities($focus, $moduleName, $recordId, $entityType, $newEntity->id);
 		}
-
                 $from_wf = false;
 		$util->revertUser();
 	}
