@@ -24,7 +24,7 @@ document.getElementById('closegetmodule').style.display='block';
 jQuery.ajax({url:'index.php?',
             type: 'POST',
             data:"module=LoggingConf&action=LoggingConfAjax&file=GetModules",
-            onComplete: function(data) {
+            success: function(data) {
                 var response=data;
                 document.getElementById('showmodules').innerHTML=response;
                

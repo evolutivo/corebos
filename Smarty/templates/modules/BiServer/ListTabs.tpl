@@ -651,12 +651,11 @@ jQuery(document).ready(function() {
            var execute_scr=selectedItem.execute_scr;
            if(execute_scr || is_superadmin){
            VtigerJS_DialogBox.block();
-           new Ajax.Request(
-        	'index.php',
-              {queue: {position: 'end', scope: 'command'},
-                	method: 'post',
-                        postBody:blockURL+'&kaction=execute&filename='+filename+'&folder='+folder,
-		onComplete: function(response) {
+           jQuery.ajax({
+                        url:'index.php?',
+                	type: 'post',
+                        data:blockURL+'&kaction=execute&filename='+filename+'&folder='+folder,
+		success: function(response) {
                           //alert(response.responseText);
                           
                           alert('Script executed successfully');
@@ -676,14 +675,13 @@ jQuery(document).ready(function() {
            var export_scr=selectedItem.export_scr;
            if(export_scr || is_superadmin){
            VtigerJS_DialogBox.block();
-           new Ajax.Request(
-        	'index.php',
-              {queue: {position: 'end', scope: 'command'},
-                	method: 'post',
-                        postBody:blockURL+'&kaction=export&filename='+filename+'&folder='+folder,
-		onComplete: function(response) {
+           jQuery.ajax({
+                        url:'index.php?',
+                	type: 'post',
+                        data:blockURL+'&kaction=export&filename='+filename+'&folder='+folder,
+		success: function(response) {
                           //alert(response.responseText);
-                          var resp=response.responseText;
+                          var resp=response;
                           if(resp.indexOf("ERROR")!==-1)
                           {
                               alert('The report does not exist.\n\
@@ -693,7 +691,7 @@ Problem in creation');
                           {
                           alert('Script exported successfully');
                           //alert(response.responseText);
-                          var uriContent=response.responseText;
+                          var uriContent=response;
                           var myWindow = window.open(uriContent,"_self");
                           myWindow.focus();
                           }
@@ -720,12 +718,11 @@ Problem in creation');
                        Ok: function() {
                          var period=document.getElementById("periodicity").options[document.getElementById("periodicity").selectedIndex].value;
                          var time=document.getElementById("cron_script_time").value;
-                         new Ajax.Request(
-                            'index.php',
-                            {queue: {position: 'end', scope: 'command'},
-                                    method: 'post',
-                                    postBody:blockURL+'&kaction=cron&fileid='+fileid+'&folder='+folder+'&type='+type+'&time='+time+'&period='+period,
-                            onComplete: function(response) {                         
+                        jQuery.ajax({
+                                    url:'index.php?',
+                                    type: 'post',
+                                    data:blockURL+'&kaction=cron&fileid='+fileid+'&folder='+folder+'&type='+type+'&time='+time+'&period='+period,
+                            success: function(response) {                         
                                       grid.dataSource.read();
                             }
                             });
@@ -735,12 +732,11 @@ Problem in creation');
                });
            }
            else{
-                new Ajax.Request(
-                    'index.php',
-                    {queue: {position: 'end', scope: 'command'},
-                            method: 'post',
-                            postBody:blockURL+'&kaction=cron&fileid='+fileid+'&folder='+folder+'&type='+type,
-                    onComplete: function(response) {                         
+               jQuery.ajax({
+                            url:'index.php?',
+                            type: 'post',
+                            data:blockURL+'&kaction=cron&fileid='+fileid+'&folder='+folder+'&type='+type,
+                    success: function(response) {                         
                               grid.dataSource.read();
                     }
                 });
@@ -756,14 +752,13 @@ Problem in creation');
            var id=selectedItem.id;
            
            VtigerJS_DialogBox.block();
-           new Ajax.Request(
-        	'index.php',
-              {queue: {position: 'end', scope: 'command'},
-                	method: 'post',
-                        postBody:blockURL_email+'&kaction=sendmail_now&actionid='+id,
-		onComplete: function(response) {
+           jQuery.ajax({
+                        url:'index.php?',
+                	type: 'post',
+                        data:blockURL_email+'&kaction=sendmail_now&actionid='+id,
+		success: function(response) {
                           
-                          alert(response.responseText);
+                          alert(response);
                           VtigerJS_DialogBox.unblock();
                	}
                 }
