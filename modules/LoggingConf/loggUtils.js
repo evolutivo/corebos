@@ -18,29 +18,23 @@
 
 
 function OpenSelectModule(){
-$('undermodules').style.display='block';
-$('getmodules').style.display='block';
-$('closegetmodule').style.display='block';
-new Ajax.Request(
-        'index.php',
-        {
-            queue: {
-                position: 'end',
-                scope: 'command'
-            },
-            method: 'post',
-            postBody:"module=LoggingConf&action=LoggingConfAjax&file=GetModules",
+document.getElementById('undermodules').style.display='block';
+document.getElementById('getmodules').style.display='block';
+document.getElementById('closegetmodule').style.display='block';
+jQuery.ajax({url:'index.php?',
+            type: 'POST',
+            data:"module=LoggingConf&action=LoggingConfAjax&file=GetModules",
             onComplete: function(data) {
-                var response=data.responseText;
-                $('showmodules').innerHTML=response;
+                var response=data;
+                document.getElementById('showmodules').innerHTML=response;
                
             }
         }
         );
 }
  function saveit(){
-	$("status").style.display="inline";
-	var moduleval=$('Screen').value;
+	document.getElementById("status").style.display="inline";
+	var moduleval=document.getElementById('Screen').value;
         var values=new Array();
         var values1=new Array();
         var relmodule=new Array();
@@ -87,12 +81,11 @@ if(document.getElementById("entitylog"+moduleval)!=null){
         if(document.getElementsByName('brinlog').item(0)!=undefined)
         var brelastic=document.getElementsByName('brinlog').item(0).value;
        }
-	new Ajax.Request(
-		'index.php',
-		{queue: {position: 'end', scope: 'command'},
-			method: 'post',
-			postBody: 'module=LoggingConf&action=LoggingConfAjax&file=UpdateLoggingConfiguration&Screen='+moduleval+'&fieldstobeloggedModule='+serialize(values)+"&elog="+elog+"&denorm="+denorm+"&norm="+norm+'&fieldselasticModule='+serialize(values1)+"&relmodule="+relmodule1+'&indextype='+indextype+'&brelastic='+brelastic,
-			onComplete: function(response) {                           
+       jQuery.ajax({
+                        url:'index.php?', 
+                        type: 'POST',
+			data: 'module=LoggingConf&action=LoggingConfAjax&file=UpdateLoggingConfiguration&Screen='+moduleval+'&fieldstobeloggedModule='+serialize(values)+"&elog="+elog+"&denorm="+denorm+"&norm="+norm+'&fieldselasticModule='+serialize(values1)+"&relmodule="+relmodule1+'&indextype='+indextype+'&brelastic='+brelastic,
+			success: function(response) {                           
 				
                                 window.location="index.php?action=index&module=LoggingConf&fld_module="+moduleval;
 			}
@@ -115,16 +108,11 @@ if (chks[i].checked)
 
 
 } 
-    new Ajax.Request(
-        'index.php',
-        {
-            queue: {
-                position: 'end',
-                scope: 'command'
-            },
-            method: 'post',
-            postBody:"module=LoggingConf&action=LoggingConfAjax&file=AddModuleToLog&tabidvalues="+tabidsvalues,
-            onComplete: function(data) {                
+    jQuery.ajax({
+            url:'index.php?',
+            type: 'post',
+            data:"module=LoggingConf&action=LoggingConfAjax&file=AddModuleToLog&tabidvalues="+tabidsvalues,
+            success: function(data) {                
                 updateModules();
                 hide('undermodules');
                 hide('getmodules');            
@@ -136,18 +124,13 @@ if (chks[i].checked)
 }
 function updateModules()
 {
-    new Ajax.Request(
-        'index.php',
-        {
-            queue: {
-                position: 'end',
-                scope: 'command'
-            },
-            method: 'post',
-            postBody:"module=LoggingConf&action=LoggingConfAjax&file=GetModules&which=LoggedModules",
-            onComplete: function(data) {
-                var response=data.responseText;                
-                $('Screen').innerHTML=response;
+    jQuery.ajax({
+            url:'index.php?',
+            type: 'post',
+            data:"module=LoggingConf&action=LoggingConfAjax&file=GetModules&which=LoggedModules",
+            success: function(data) {
+                var response=data;                
+                document.getElementById('Screen').innerHTML=response;
 
             }
         }

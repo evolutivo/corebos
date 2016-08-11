@@ -232,8 +232,8 @@ $scope.checkName = function(fieldLabel,fieldName,val_data,crmId,module,uitype) {
 		return $scope.doformValidation_ng(fieldName,val_data);
 	}
 
-        if($("vtbusy_info"))
-	$("vtbusy_info").style.display="inline";
+        if(document.getElementById("vtbusy_info"))
+	document.getElementById("vtbusy_info").style.display="inline";
 //	var isAdmin = document.getElementById("hdtxt_IsAdmin").value; 
 
 
@@ -242,29 +242,28 @@ $scope.checkName = function(fieldLabel,fieldName,val_data,crmId,module,uitype) {
 	if(module == 'Users') {
 		data += "&form_token=" + (document.getElementsByName('form_token')[0].value);
 	}
-	new Ajax.Request(
-		'index.php',
-                {queue: {position: 'end', scope: 'command'},
-                        method: 'post',
-                        postBody: data,
-                        onComplete: function(response) {
-							if(response.responseText.indexOf(":#:FAILURE")>-1) {
+	 jQuery.ajax({
+		        url:'index.php?',
+                        type: 'POST',
+                        data: data,
+                        success: function(response) {
+							if(response.indexOf(":#:FAILURE")>-1) {
 	          					alert(alert_arr.ERROR_WHILE_EDITING);
 	          				}
-	          				else if(response.responseText.indexOf(":#:ERR")>-1) {
-								alert_str = response.responseText.replace(":#:ERR","");
+	          				else if(response.indexOf(":#:ERR")>-1) {
+								alert_str = response.replace(":#:ERR","");
 	          					alert(alert_str);
-	           					$("vtbusy_info").style.display="none";
+	           					document.getElementById("vtbusy_info").style.display="none";
 	          				}
-	          				else if(response.responseText.indexOf(":#:SUCCESS")>-1) {
+	          				else if(response.indexOf(":#:SUCCESS")>-1) {
 								//For HD & FAQ - comments, we should empty the field value
 								if((module == "HelpDesk" || module == "Faq") && fieldName == "comments") {
-									var comments = response.responseText.replace(":#:SUCCESS","");
+									var comments = response.replace(":#:SUCCESS","");
 									if(getObj("comments_div") != null) getObj("comments_div").innerHTML = comments;
 									if(getObj(dtlView) != null) getObj(dtlView).innerHTML = "";
 									if(getObj("comments") != null) getObj("comments").value = "";
 								}
-	           					$("vtbusy_info").style.display="none";
+	           					document.getElementById("vtbusy_info").style.display="none";
 							}
 						}
                 }

@@ -139,15 +139,13 @@ function getDescription(id, pos, name, city, phone, cname, extra,viewid,module)
 function getDescriptionofList(pointx,pointy,rad,module)
 {
         var url = "module=evvtMap&action=evvtMapAjax&file=PointsInsideCircle&pointx="+pointx+"&pointy="+pointy+"&radius="+rad+"&modulename="+module;
-        new Ajax.Request(
-            'index.php',
-             {
-                     queue: {position: 'end', scope: 'command'},
-                     method: 'post',
-                     postBody:url,
-                     onComplete: function(response)
+        jQuery.ajax({
+                     url:'index.php?',
+                     type: 'POST',
+                     data:url,
+                     success: function(response)
                      {
-                         var content=response.responseText;                         
+                         var content=response;                         
                          var infowindow = new google.maps.InfoWindow({
                          content: content
                          });
