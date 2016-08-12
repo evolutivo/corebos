@@ -46,11 +46,11 @@ class BusinessActions extends CRMEntity {
 	var $list_fields = Array (
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Reference'=> Array('businessactions', 'reference'),
-		'actions_status' => array('businessactions', 'actions_status'),
-		'actions_type' => array('businessactions', 'actions_type'),
-		'Assigned To' => array('crmentity', 'smownerid'),
-		'tags' => array('businessactions', 'tags'),
+		'Reference'=> Array('businessactions'=> 'reference'),
+		'actions_status' => array('businessactions'=> 'actions_status'),
+		'actions_type' => array('businessactions'=> 'actions_type'),
+		'Assigned To' => array('crmentity'=> 'smownerid'),
+		'tags' => array('businessactions'=> 'tags'),
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -68,11 +68,11 @@ class BusinessActions extends CRMEntity {
 	var $search_fields = Array(
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
-		'Reference'=> Array('businessactions', 'reference'),
-		'actions_status' => array('businessactions', 'actions_status'),
-		'actions_type' => array('businessactions', 'actions_type'),
-		'Assigned To' => array('crmentity', 'smownerid'),
-		'tags' => array('businessactions', 'tags'),
+		'Reference'=> Array('businessactions'=> 'reference'),
+		'actions_status' => array('businessactions'=> 'actions_status'),
+		'actions_type' => array('businessactions'=> 'actions_type'),
+		'Assigned To' => array('crmentity'=> 'smownerid'),
+		'tags' => array('businessactions'=> 'tags'),
 	);
 	var $search_fields_name = Array(
 		/* Format: Field Label => fieldname */
@@ -106,21 +106,20 @@ class BusinessActions extends CRMEntity {
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'reference');
-	
+
 	function __construct() {
 		global $log;
 		$this_module = get_class($this);
 		$this->column_fields = getColumnFields($this_module);
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
-		$sql = 'SELECT 1 FROM vtiger_field WHERE uitype=69 and tabid = ?';
+		$sql = 'SELECT 1 FROM vtiger_field WHERE uitype=69 and tabid = ? limit 1';
 		$tabid = getTabid($this_module);
 		$result = $this->db->pquery($sql, array($tabid));
 		if ($result and $this->db->num_rows($result)==1) {
 			$this->HasDirectImageField = true;
 		}
 	}
-
 
 	function save_module($module) {
 		if ($this->HasDirectImageField) {

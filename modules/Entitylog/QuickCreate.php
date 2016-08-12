@@ -16,5 +16,5 @@
  *  Version      : 5.4.0
  *  Author       : OpenCubed
  *************************************************************************************************/
-	require_once('include/quickcreate.php');
+require_once('include/quickcreate.php');
 ?>

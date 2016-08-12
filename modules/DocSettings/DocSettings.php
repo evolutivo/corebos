@@ -19,7 +19,7 @@ class DocSettings extends CRMEntity {
 
 	/** Indicator if this is a custom module or standard module */
 	var $IsCustomModule = true;
-        var $HasDirectImageField = false;
+	var $HasDirectImageField = false;
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
@@ -97,7 +97,7 @@ class DocSettings extends CRMEntity {
 		$this->column_fields = getColumnFields($this_module);
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
-		$sql = 'SELECT 1 FROM vtiger_field WHERE uitype=69 and tabid = ?';
+		$sql = 'SELECT 1 FROM vtiger_field WHERE uitype=69 and tabid = ? limit 1';
 		$tabid = getTabid($this_module);
 		$result = $this->db->pquery($sql, array($tabid));
 		if ($result and $this->db->num_rows($result)==1) {

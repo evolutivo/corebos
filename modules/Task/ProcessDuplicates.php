@@ -8,4 +8,4 @@
  * All Rights Reserved.
  ********************************************************************************/
 include_once('modules/Vtiger/ProcessDuplicates.php');
-	?>
+?>

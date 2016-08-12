@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 require_once('Smarty_setup.php');
-global $currentModule;
+global $currentModule,$adb;
 $focus = CRMEntity::getInstance($currentModule);
 $smarty = new vtigerCRM_Smarty();
 $tool_buttons = Button_Check($currentModule);
@@ -27,7 +27,67 @@ if($record != '') {
 }
 if($isduplicate == 'true') $focus->id = '';
 $focus->preViewCheck($_REQUEST, $smarty);
+if($currentModule=='Task'){
+$query="Select *
+   from vtiger_cntactivityrel
+   join vtiger_task on vtiger_cntactivityrel.activityid=vtiger_task.taskid
+   join vtiger_contactdetails on vtiger_cntactivityrel.contactid=vtiger_contactdetails.contactid
+   join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_task.taskid
+   where deleted=0 and vtiger_cntactivityrel.activityid=".$record;
+   $result=$adb->query($query);
+   $num=$adb->num_rows($result);
+   for($i=0;$i<$num;$i++)
+   {
+   $cnt_idlist .= $adb->query_result($result,$i,"contactid");
+   $contName = $adb->query_result($result,$i,"lastname");
+   $product.='<a href="index.php?module=Contacts&action=DetailView&record='.$adb->query_result($result,$i,"contactid").'" target="_blank">'.$contName.'</a><br>';
+   }
+   $smarty->assign("contact", $product);
+        
+   $id1=$focus->id;
+   $q1 = $adb->query("select * from vtiger_task join vtiger_potential on taskid=linktotask where taskid=$id1");
+   if($adb->num_rows($q1)== 0)
+   $mod = 0;
+   else{  
+   $mod=1;
+   }
+   $smarty->assign('mod', $mod);
+   
+   $sql = 'select vtiger_users.user_name,vtiger_invitees.* from vtiger_invitees left join vtiger_users on vtiger_invitees.inviteeid=vtiger_users.id where activityid=?';
+   $result = $adb->pquery($sql, array($focus->id));
+   $num_rows=$adb->num_rows($result);
+   $invited_users=Array();
+   for($i=0;$i<$num_rows;$i++)
+   {
+   $userid=$adb->query_result($result,$i,'inviteeid');
+   $username=$adb->query_result($result,$i,'user_name');
+   $invited_users[$userid]=$username;
+   }
+   $smarty->assign("INVITEDUSERS",$invited_users);
+}
+if($currentModule=='Entitylog'){
+   $querydata=$adb->pquery("Select finalstate,tabid from vtiger_entitylog where entitylogid=?",array($record));
+   $vl=$adb->query_result($querydata,0,0);
+   $tab_id=$adb->query_result($querydata,0,1);
+   $moduleName=  getTabModuleName($tab_id);
+   $update_log = explode(';',$vl);       
+   foreach($update_log as $d){
+              if(stristr($d,'fieldname='))
+                $fldname=substr($d,strpos($d,'fieldname=')+10);
+              if(stristr($d,'oldvalue='))
+                 $oldvl=substr($d,strpos($d,'oldvalue=')+9);
+              if(stristr($d,'newvalue'))
+                $newvl=substr($d,strpos($d,'newvalue=')+9);
+                  }     
+   $query = "select fieldlabel from vtiger_field where tabid={$tab_id} and fieldname='{$fldname}'";
+   $res = $adb->query($query);
+   $fieldlabel = $adb->query_result($res, 0, 0);
+   $line[] = $moduleName ." changed value of '". $fieldlabel."' FROM ". $oldvl ."  TO  ". $newvl;
+   $focus->column_fields['finalstate']=implode(' ',$line);
 
+   $focus->column_fields['user']=  getUserName($focus->column_fields['user']);
+   $focus->column_fields['tabid']=  getTabName($focus->column_fields['tabid']);
+}
 // Identify this module as custom module.
 $smarty->assign('CUSTOM_MODULE', $focus->IsCustomModule);
 $smarty->assign('APP', $app_strings);

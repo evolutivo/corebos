@@ -91,14 +91,15 @@ class Messages extends CRMEntity {
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	var $mandatory_fields = Array('createdtime', 'modifiedtime', 'messagesname');
-	
+
 	function __construct() {
-		global $log, $currentModule;
-		$this->column_fields = getColumnFields($currentModule);
+		global $log;
+		$this_module = get_class($this);
+		$this->column_fields = getColumnFields($this_module);
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
-		$sql = 'SELECT 1 FROM vtiger_field WHERE uitype=69 and tabid = ?';
-		$tabid = getTabid($currentModule);
+		$sql = 'SELECT 1 FROM vtiger_field WHERE uitype=69 and tabid = ? limit 1';
+		$tabid = getTabid($this_module);
 		$result = $this->db->pquery($sql, array($tabid));
 		if ($result and $this->db->num_rows($result)==1) {
 			$this->HasDirectImageField = true;
@@ -426,7 +427,7 @@ class Messages extends CRMEntity {
 	 * You can override the behavior by re-defining it here.
 	 */
 	// function save_related_module($module, $crmid, $with_module, $with_crmid) { }
-	
+
 	/**
 	 * Handle deleting related module information.
 	 * NOTE: This function has been added to CRMEntity (base class).
