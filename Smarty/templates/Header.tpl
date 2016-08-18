@@ -65,7 +65,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 	<script type="text/javascript" src="jscalendar/lang/calendar-{$APP.LBL_JSCALENDAR_LANG}.js"></script>
-	<script src="kendoui/js/jquery.min.js"></script>
+	{if $MODULE_NAME eq 'MarketingDashboard' && $MODULE_NAME eq 'evvtApps' && $MODULE_NAME eq 'VtappSecurity'}<script src="kendoui/js/jquery.min.js"></script>{/if}
         {if $MODULE_NAME neq 'MarketingDashboard'}<script type="text/javascript" charset="utf-8">
         jQuery.noConflict();
         </script>{/if}
@@ -107,8 +107,8 @@ var gVTUserID = '{$CURRENT_USER_ID}';
         <script src='Smarty/angular/textAngular.min.js'></script>
         <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 {/if}
-{if $MODULE_NAME neq 'VtappSecurity'}
-        <script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>
+{if $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'com_vtiger_workflow'} 
+        <!--<script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>-->
    	<script type="text/javascript">
 		jQuery.noConflict();
 	</script>

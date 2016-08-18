@@ -188,13 +188,13 @@ class NgBlock_DetailViewBlockNgWidget {
                     
                     }
                     elseif($uitype=='10'){
-                        $relmodule[] = $adb->query_result($re,0,'relmodule');                   
+                        $relmodule[$fieldname] = $adb->query_result($re,0,'relmodule');                   
                     }
                     elseif($uitype=='57'){
-                        $relmodule[] = 'Contacts';                   
+                        $relmodule[$fieldname] = 'Contacts';                   
                     }
                     elseif($uitype=='51'){
-                        $relmodule[] = 'Accounts';                   
+                        $relmodule[$fieldname] = 'Accounts';                   
                     }
                 }
                 $blockURL="module=Utilities&action=UtilitiesAjax";

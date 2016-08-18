@@ -2023,6 +2023,12 @@ function getBlocksPortal1($module, $disp_view, $mode, $col_fields = '', $info_ty
 	}
 	return $getBlockInfo;
 }
+public function __call($name, $arguments) {
+		require_once 'modules/cbMap/processmap/'.$name.'.php';
+		$processmap = new $name($this);
+		$ret = $processmap->processMap($arguments);
+		return $ret;
+	}
 public static function getMapByID($cbmapid) {
 		$cbmap = new cbMap();
 		$cbmap->retrieve_entity_info($cbmapid, 'cbMap');

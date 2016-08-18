@@ -30,12 +30,12 @@ class addFieldsCbMap extends cbupdaterWorker {
                     if (!$field) {
                         $field1 = new Vtiger_Field();
                         $field1->name = 'selectedoperators';
-                        $field1->label= 'Seleceted Operators';
+                        $field1->label= 'Selected Operators';
                         $field1->column = 'selectedoperators';
                         $field1->columntype = 'VARCHAR(255)';
                         $field1->sequence = 2;
-                        $field1->uitype = 2;
-                        $field1->typeofdata = 'V~M';
+                        $field1->uitype = 1;
+                        $field1->typeofdata = 'V~O';
                         $field1->displaytype = 1;
                         $field1->presence = 0;
                         $block->addField($field1);
