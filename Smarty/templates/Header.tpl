@@ -107,7 +107,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
         <script src='Smarty/angular/textAngular.min.js'></script>
         <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 {/if}
-{if $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'com_vtiger_workflow'} 
+{if $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'MarketingDashboard'} 
         <!--<script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>-->
    	<script type="text/javascript">
 		jQuery.noConflict();
