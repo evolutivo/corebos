@@ -251,6 +251,7 @@ foreach($Users_Ids AS $userid) {
 				$list_array = array_merge($list_array, $Task_Status);
 			}
 		}
+                if($activitytypeid=='Task' || is_numeric($activitytypeid))
                 $list_query .= ' group by vtiger_task.taskid';
 		$list_result = $adb->pquery($list_query, $list_array);
 		while($row = $adb->fetchByAssoc($list_result)) {

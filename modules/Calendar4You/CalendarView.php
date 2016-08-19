@@ -13,7 +13,6 @@ require_once("modules/Calendar/Calendar.php");
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $current_user, $default_charset;
 require_once('Smarty_setup.php');
 $tasklabel = getAllModulesWithDateFields();
-
 $category = getParentTab($currentModule);
 
 $smarty = new vtigerCRM_Smarty();
@@ -151,7 +150,9 @@ foreach ($ActTypes AS $act_id => $act_name) {
 		"textColor"=>$Colors["text"],
 		"checked"=>$event_checked
 	);
-	//  add modules
+	
+}
+//  add modules
 	foreach ($tasklabel as $tbid => $mname){
 		$Modules_Colors = getEColors("type",$mname);
 		$Module_Types[$mname] = array(
@@ -166,8 +167,6 @@ foreach ($ActTypes AS $act_id => $act_name) {
 	}
 	unset($Colors);
 	unset($Colors_Palete);
-}
-
 //$Invite_Colors = getEColors("type","invite");
 //$Invite_Colors_Palette = $colorHarmony->Monochromatic($Invite_Colors["bg"]);
 //
