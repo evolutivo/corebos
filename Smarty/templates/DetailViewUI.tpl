@@ -82,7 +82,7 @@
                 </div>
 				<div id="internal_mailer_{$keyfldname}" style="display: none;">{$keyfldid}####{$smarty.session.internal_mailer}</div>
                                                   </td>
-	 {elseif ($keyid eq '15' || $keyid eq '16' || $keyid eq '1613') && !picklistHasDependency($keyfldname,$MODULE)} <!--ComboBox-->
+	 {elseif (($keyid eq '15' && $keyfldname neq 'gvname') || $keyid eq '16' || $keyid eq '1613') && !picklistHasDependency($keyfldname,$MODULE)} <!--ComboBox-->
 						{foreach item=arr from=$keyoptions}
 							{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE && $arr[2] eq 'selected'}
 								{assign var=keyval value=$APP.LBL_NOT_ACCESSIBLE}
@@ -100,6 +100,33 @@
                                                          {literal} {{{/literal}showPicklist('{$keyfldname}'){literal}}}{/literal}</a>
                                                          <div id="editarea_{$label}" style="display:none;">
                     							   <select id="txtbox_{$label}" name="{$keyfldname}" class="small" style="width:280px;">
+                    								{foreach item=arr from=$keyoptions}
+											{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
+                    									<option value="{$arr[0]}" {$arr[2]}>{$arr[0]}</option>
+											{else}
+        							                                <option value="{$arr[1]}" {$arr[2]}>
+							                                                {$arr[0]}
+								                                </option>
+							                                {/if}
+
+										{/foreach}
+                    							   </select>
+                    							   <br><input name="button_{$keyfldname}" type="button" class="crmbutton small save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();"/> {$APP.LBL_OR}
+                                              		   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                    							</div>
+               							</td>
+                                                {elseif $keyid eq '15'}
+                                                {foreach item=arr from=$keyoptions}
+							{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE && $arr[2] eq 'selected'}
+								{assign var=keyval value=$APP.LBL_NOT_ACCESSIBLE}
+								{assign var=fontval value='red'}
+							{else}
+                                                                {assign var=fontval value=''}
+							{/if}
+						{/foreach}
+							<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'><span id="dtlview_{$keyfldname}"><font color="{$fontval}">{if $APP.$keyval!=''}{$APP.$keyval}{elseif $MOD.$keyval!=''}{$MOD.$keyval}{else}{$keyval}{/if}</font></span>
+                                              		<div id="editarea_{$keyfldname}" style="display:none;">
+                    							   <select id="txtbox_{$keyfldname}" name="{$keyfldname}" class="small" style="width:280px;">
                     								{foreach item=arr from=$keyoptions}
 											{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
                     									<option value="{$arr[0]}" {$arr[2]}>{$arr[0]}</option>

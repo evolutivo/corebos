@@ -106,24 +106,23 @@ class HistoryLogHandler extends VTEventHandler {
             'oldvalue' => $entityData->old[$i],
             'newvalue' => $news[$i],
             );       
-    $dt=date("Y-m-d H:i:s");  
+    $dt=date("Y-m-d H:i:s"); 
     if(!empty($act)) { 
-    $ip=GlobalVariable::getVariable('ip_elastic_server', '');
-    $fl=$adb->pquery("select fieldlabel from vtiger_elastic_indexes where elasticname='$indextype'");
-    if($adb->num_rows($fl)!=0)
-    $fldlabel1=explode(",", $adb->query_result($fl,0,0));
     if(in_array('entitylog',$type)){
     require_once('modules/Entitylog/Entitylog.php');
     require_once("data/CRMEntity.php" );
     $focus=new Entitylog();
     $focus->column_fields['entitylogname']=$app_strings['LBL_CHANGES_RECORD'].' '.$Id.' '.$app_strings['LBL_OF_MODULE'].' '.$moduleName.' '.$app_strings['LBL_AT'].' '.$dt;
-   // $focus->column_fields['assigned_user_id']=$userid;
+    $focus->column_fields['assigned_user_id']=$userid;
     $focus->column_fields['user']=$userid;
     $focus->column_fields['relatedto']=$entityData->getId();
     $focus->column_fields['tabid']=$tabid;
     $focus->column_fields['finalstate']=$act2;
     $focus->saveentity("Entitylog");}
-    
+    $ip=GlobalVariable::getVariable('ip_elastic_server', '');
+    $fl=$adb->pquery("select fieldlabel from vtiger_elastic_indexes where elasticname='$indextype'");
+    if($adb->num_rows($fl)!=0)
+    $fldlabel1=explode(",", $adb->query_result($fl,0,0));
     if(in_array('normalized',$type)) {
     $endpointUrl2 = "http://$ip:9200/$indextype/norm";
     $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));

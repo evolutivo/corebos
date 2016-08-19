@@ -5,7 +5,7 @@
  $tab = $_REQUEST['nometab'];
  global $adb,$log,$mod_strings;
  include_once("modules/Reports/Reports.php");
- include("modules/Reports/ReportRun.php");
+ include_once("modules/Reports/ReportRun.php");
  $nr = $_REQUEST['nr'];
  if($actionTodo != "createindex")
 $val = $_REQUEST['count'];

@@ -37,6 +37,7 @@ $adb->query("create table  vtiger_loggingconfiguration(
 configurationid	int(19) NOT NULL AUTO_INCREMENT,
 tabid int(19),
 fields text ,
+type varchar(250),
 PRIMARY KEY (configurationid)
 )");
 				}

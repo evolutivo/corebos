@@ -64,6 +64,13 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+	<author>albertxhani</author>
+	<description>Add UserSettings Extension</description>
+	<filename>build/changeSets/evolutivo/UserSettings.php</filename>
+	<classname>UserSettingsImport</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
 	<author>drivalda</author>
 	<description>import entitylog module </description>
 	<filename>build/changeSets/evolutivo/entitylogimport.php</filename>
@@ -379,6 +386,41 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+	<author>albana</author>
+	<description>addelastic_indexes</description>
+	<filename>build/changeSets/evolutivo/addelastic_indexes.php</filename>
+	<classname>addelastic_indexes</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add module BusinessActions</description>
+	<filename>build/changeSets/evolutivo/addBusinessActions.php</filename>
+	<classname>addBusinessActions</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Read BusinessActions as Links</description>
+	<filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
+	<classname>addFieldsToBA</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albertxhani</author>
+	<description>Add Actions to Business action Module</description>
+	<filename>build/changeSets/evolutivo/add_actions.php</filename>
+	<classname>add_actions</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>wf for BusinessActions Block</description>
+	<filename>build/changeSets/evolutivo/addmoduleBAwf.php</filename>
+	<classname>addmoduleBAwf</classname>
+ 	<systemupdate>true</systemupdate>
+ </changeSet>
 <author>albana</author>
 	<description>Add NgBlock Module</description>
 	<filename>build/changeSets/evolutivo/addNgBlock.php</filename>
@@ -386,11 +428,39 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-	<author>loridacito</author>
-	<description>add field to loggingconf</description>
-	<filename>build/changeSets/evolutivo/addfieldtologging.php</filename>
-	<classname>addfieldtologging</classname>
-	<systemupdate>true</systemupdate>
+	<author>albana</author>
+	<description>Add NgBlock Improvements</description>
+	<filename>build/changeSets/evolutivo/addNgBlockImprovements.php</filename>
+	<classname>addNgBlockImprovements</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add NgBlock Improvements2</description>
+	<filename>build/changeSets/evolutivo/addNgBlockImprov2.php</filename>
+	<classname>addNgBlockImprov2</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add Ng Evo Fields</description>
+	<filename>build/changeSets/evolutivo/addEvoFieldsColumns.php</filename>
+	<classname>addEvoFieldsColumns</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
+<changeSet>        
+	<author>albana</author>
+	<description>Add Params to NgBlock</description>
+	<filename>build/changeSets/evolutivo/addFieldNgBlock_improvement.php</filename>
+	<classname>addFieldNgBlock_improvement</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
+<changeSet>        
+	<author>albana</author>
+	<description>Add Params to SubNgBlock</description>
+	<filename>build/changeSets/evolutivo/addSubNgBlock.php</filename>
+	<classname>addSubNgBlock</classname>
+	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>
 	<author>loridacito</author>
@@ -520,20 +590,6 @@
 </changeSet>
 <changeSet>
 	<author>loridacito</author>
-	<description>addVtappsecurity</description>
-	<filename>build/changeSets/evolutivo/addVtappsecurity.php</filename>
-	<classname>addVtappsecurity</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albana</author>
-	<description>addelastic_indexes</description>
-	<filename>build/changeSets/evolutivo/addelastic_indexes.php</filename>
-	<classname>addelastic_indexes</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>loridacito</author>
 	<description>addfieldtocbapp</description>
 	<filename>build/changeSets/evolutivo/addfieldtocbapp.php</filename>
 	<classname>addfieldtocbapp</classname>
@@ -544,6 +600,20 @@
 	<description>addparamstocbapp</description>
 	<filename>build/changeSets/evolutivo/addparamstocbapp.php</filename>
 	<classname>addparamstocbapp</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>add_field_indextype_cbapps</description>
+	<filename>build/changeSets/evolutivo/addelastictype.php</filename>
+	<classname>addelastictype</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>addVtappsecurity</description>
+	<filename>build/changeSets/evolutivo/addVtappsecurity.php</filename>
+	<classname>addVtappsecurity</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
@@ -575,39 +645,11 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-	<author>albana</author>
-	<description>add_field_indextype_cbapps</description>
-	<filename>build/changeSets/evolutivo/addelastictype.php</filename>
-	<classname>addelastictype</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
 	<author>joebordes</author>
 	<description>User fields: add hour_format and start_hour for calendar</description>
 	<filename>build/changeSets/UserHourStartFields.php</filename>
 	<classname>UserHourStartFields</classname>
 	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albana</author>
-	<description>Add NgBlock Improvements</description>
-	<filename>build/changeSets/evolutivo/addNgBlockImprovements.php</filename>
-	<classname>addNgBlockImprovements</classname>
-	<systemupdate>false</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albana</author>
-	<description>Add NgBlock Improvements2</description>
-	<filename>build/changeSets/evolutivo/addNgBlockImprov2.php</filename>
-	<classname>addNgBlockImprov2</classname>
-	<systemupdate>false</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albana</author>
-	<description>Add Ng Evo Fields</description>
-	<filename>build/changeSets/evolutivo/addEvoFieldsColumns.php</filename>
-	<classname>addEvoFieldsColumns</classname>
-	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>
 	<author>joebordes</author>
@@ -631,33 +673,12 @@
 	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>
-	<author>albana</author>
-	<description>Add module BusinessActions</description>
-	<filename>build/changeSets/evolutivo/addBusinessActions.php</filename>
-	<classname>addBusinessActions</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
 	<author>loridacito</author>
 	<description>Add module DocSettings</description>
 	<filename>build/changeSets/evolutivo/adddocsett.php</filename>
 	<classname>adddocsett</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
-<changeSet>
-	<author>albana</author>
-	<description>Read BusinessActions as Links</description>
-	<filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
-	<classname>addFieldsToBA</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albana</author>
-	<description>wf for BusinessActions Block</description>
-	<filename>build/changeSets/evolutivo/addmoduleBAwf.php</filename>
-	<classname>addmoduleBAwf</classname>
- 	<systemupdate>true</systemupdate>
- </changeSet>
  <changeSet>
 	<author>loridacito</author>
 	<description>Add module Messages</description>
@@ -755,20 +776,6 @@
 	<filename>build/changeSets/evolutivo/addquerygen.php</filename>
 	<classname>addquerygen</classname>
 	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>        
-	<author>albana</author>
-	<description>Add Params to NgBlock</description>
-	<filename>build/changeSets/evolutivo/addFieldNgBlock_improvement.php</filename>
-	<classname>addFieldNgBlock_improvement</classname>
-	<systemupdate>false</systemupdate>
-</changeSet>
-<changeSet>        
-	<author>albana</author>
-	<description>Add Params to SubNgBlock</description>
-	<filename>build/changeSets/evolutivo/addSubNgBlock.php</filename>
-	<classname>addSubNgBlock</classname>
-	<systemupdate>false</systemupdate>
 </changeSet>
 <changeSet>        
 	<author>joebordes</author>
@@ -954,13 +961,6 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-	<author>albertxhani</author>
-	<description>Add UserSettings Extension</description>
-	<filename>build/changeSets/evolutivo/UserSettings.php</filename>
-	<classname>UserSettingsImport</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
 	<author>brisilda</author>
 	<description>InstallevvtMap </description>
 	<filename>build/changeSets/evolutivo/installevvtMap.php</filename>
@@ -972,13 +972,6 @@
 	<description>Install OSM </description>
 	<filename>build/changeSets/evolutivo/installOSM.php</filename>
 	<classname>installOSM</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albertxhani</author>
-	<description>Add Actions to Business action Module</description>
-	<filename>build/changeSets/evolutivo/add_actions.php</filename>
-	<classname>add_actions</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>

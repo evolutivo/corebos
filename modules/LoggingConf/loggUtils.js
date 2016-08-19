@@ -53,16 +53,12 @@ jQuery.ajax({url:'index.php?',
      var selmod;
      var j1=0;
      var k=0;
-      var chks1;
+     var chks1;
         for (var i = 0; i < chks.length; i++)
-        { 
-             chks1 = document.getElementsByName('fieldselastic'+moduleval+i);
-
-     selmod = document.getElementById('modulerel'+moduleval+chks[i].value+i+'[]');
-
+        {    chks1 = document.getElementsByName('fieldselastic'+moduleval+i);
+             selmod = document.getElementById('modulerel'+moduleval+chks[i].value+i+'[]');
         if (chks1.item(0)!=null && chks1.item(0).checked)
-            {
-                 
+            {                
               values1[j1]=chks1.item(0).value;         
               j1++;
             }
@@ -72,8 +68,8 @@ jQuery.ajax({url:'index.php?',
             k++;
         }
         }
-  var relmodule1=relmodule.join(";")
-if(document.getElementById("entitylog"+moduleval)!=null){
+     var relmodule1=relmodule.join(";")
+     if(document.getElementById("entitylog"+moduleval)!=null){
         var elog=document.getElementById("entitylog"+moduleval).checked;
         var denorm=document.getElementById("denorm"+moduleval).checked;
         var norm=document.getElementById("norm"+moduleval).checked;

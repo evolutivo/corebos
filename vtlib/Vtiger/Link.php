@@ -243,8 +243,9 @@ class Vtiger_Link {
 	 */
         static function getAllByType($tabid, $type=false, $parameters=false) {
             global $adb;
-                $qry_actions="Select sequence from vtiger_businessactions";
-                $res_actions=$adb->query($qry_actions);
+                if(vtlib_isModuleActive('BusinessActions')){
+                $qry_actions="Select sequence from vtiger_businessactions join vtiger_crmentity on crmid=businessactionsid where deleted=0";
+                $res_actions=$adb->query($qry_actions);}
                 if($adb->num_rows($res_actions)>0){
                     $instances=self::getAllByType_BA($tabid, $type, $parameters);
                 }
@@ -260,8 +261,9 @@ class Vtiger_Link {
 		$multitype = false;
 		$orderby = ' order by linktype,sequence'; //MSL
                 $join_str='';
+                if(vtlib_isModuleActive('NgBlock')){
                 $qry_ngblock="Select * from vtiger_ng_block";
-                $res_ngblock=$adb->query($qry_ngblock);
+                $res_ngblock=$adb->query($qry_ngblock);}
                 if($adb->num_rows($res_ngblock)>0){
                     $join_str= ' left join vtiger_ng_block on vtiger_ng_block.id=vtiger_links.linklabel';
                 }

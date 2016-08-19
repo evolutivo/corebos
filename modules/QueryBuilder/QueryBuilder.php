@@ -593,7 +593,7 @@ if ($action == 'getModel') {
     global $adb;
     $query_name = $_POST['queryName'];
 
-    $getMaps = $adb->pquery("Select mapname,vtiger_cbmap.description as query,cbmapid from vtiger_cbmap join vtiger_crmentity on crmid=cbmapid where deleted=0 and maptype='SQL' ", array());
+    $getMaps = $adb->pquery("Select mapname,vtiger_crmentity.description as query,cbmapid from vtiger_cbmap join vtiger_crmentity on crmid=cbmapid where deleted=0 and maptype='SQL' ", array());
     for ($q = 0; $q < $adb->num_rows($getMaps); $q++) {
         $description=explode(':::',$adb->query_result($getMaps, $q, 'query'));
         

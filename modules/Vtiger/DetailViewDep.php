@@ -15,6 +15,7 @@ $target_picklist=array();
 $conditions=array();
 $mapFieldDependecy=array();
 $currentModule=$this->get_template_vars('MODULE');
+if(vtlib_isModuleActive('BusinessRules')){
 $q_business_rule="Select businessrule,linktomap "
         . " from vtiger_businessrules"
         . " join vtiger_cbmap on vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid"
@@ -41,6 +42,7 @@ $res_business_rule=$adb->pquery($q_business_rule,array($currentModule));
         $resp_fields=array_unique($resp_fields);  
         $target_picklist=array_unique($target_picklist);
     } 
+    }
     $this->assign("MAP_RESPONSIBILE_FIELDS",$resp_fields);
     $r2='';$r3='';
     if(sizeof($resp_fields)>0){

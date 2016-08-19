@@ -49,27 +49,35 @@ return $number;
 }
 function getEntitylogbr($tabid){
 global $adb;
+$q=$adb->query("show columns from vtiger_loggingconfiguration where Field='brelastic'");
+if($adb->num_rows($q)==1){
 $query=$adb->pquery("Select brelastic from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
+$number=$adb->query_result($query,0);}
 return $number;  
 }
 function getqueryelastic($tabid){
 global $adb;
+$q=$adb->query("show columns from vtiger_loggingconfiguration where Field='queryelastic'");
+if($adb->num_rows($q)==1){
 $query=$adb->pquery("Select queryelastic from vtiger_loggingconfiguration where tabid=?",array($tabid));
 $number=explode("##",$adb->query_result($query,0,0));
-
+}
 return $number;  
 }
 function getEntitylogindextype($tabid){
 global $adb;
+$q=$adb->query("show columns from vtiger_loggingconfiguration where Field='indextype'");
+if($adb->num_rows($q)==1){
 $query=$adb->pquery("Select indextype from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
+$number=$adb->query_result($query,0);}
 return $number;  
 }
 function getEntitylogrelmodule($tabid){
 global $adb;
+$q=$adb->query("show columns from vtiger_loggingconfiguration where Field='relmodules'");
+if($adb->num_rows($q)==1){
 $query=$adb->pquery("Select relmodules from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=$adb->query_result($query,0);
+$number=$adb->query_result($query,0);}
 return $number;  
 }
 function getColumnname($fieldid,$colname=null,$tablename=null)
@@ -110,16 +118,16 @@ require_once('include/utils/utils.php');
 global $adb;
 $loggingFields=array();
 $fields=array();
+$q=$adb->query("show columns from vtiger_loggingconfiguration where Field='fieldselastic'");
+if($adb->num_rows($q)==1){
 $query=$adb->pquery("Select fieldselastic from vtiger_loggingconfiguration where tabid=? and fieldselastic!=''",array($tabid));
-
 $fieldserialized=$adb->query_result($query,0);
 $fields=unserialize($fieldserialized);
-
 foreach($fields as $field)
 {
     if(is_numeric($field))
     $loggingFields[$field]=$field;
-}
+}}
 return $loggingFields;
 }
 function getModuleLogFieldListNames($tabid)

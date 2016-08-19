@@ -24,8 +24,6 @@ global $adb,$log;
 $tab_id= getTabid(vtlib_purify($_REQUEST['Screen']));
 $fieldsarray=$_REQUEST['fieldstobeloggedModule'];
 $fieldselarray=$_REQUEST['fieldselasticModule'];
-
-
 $elog=$_REQUEST['elog'];
 $relmodule=$_REQUEST['relmodule'];
 $denorm=$_REQUEST['denorm'];
@@ -39,7 +37,7 @@ $type[]='denormalized';
 if($norm=='true')
 $type[]='normalized';
 $type1=implode(",",$type);
-//
+//changed to BI logging query
 ////if($indextype=='' || $indextype==null)
 ////{
 //     $pref=GlobalVariable::getVariable('ip_elastic_indexprefix', '');
@@ -311,12 +309,28 @@ $type1=implode(",",$type);
 // if(($create)<1)
 // $ind='';
      
-    //Updating the database
+//Updating the database
 if($elog=='undefined' && $denorm=='undefined' && $norm=='undefined')
-    break;
+{break;}
+else{
+$update_params[]=$fieldsarray;
+$update_params[]=$type1;
+$q=$adb->query("show columns from vtiger_loggingconfiguration where Field='fieldselastic'");
+if($adb->num_rows($q)==1){
+$setfields=',fieldselastic=?';  
+$update_params[]=$fieldselarray;
+}
+$q2=$adb->query("show columns from vtiger_loggingconfiguration where Field='relmodules'");
+if($adb->num_rows($q2)==1){
+$setfields.=',relmodules=?'; 
+if($relmodule=="")
+$update_params[]=0;
 else
-$update_query = "update vtiger_loggingconfiguration set fields=? ,fieldselastic=? ,type=?,relmodules=?  where tabid=?";
-$update_params = array($fieldsarray,$fieldselarray,$type1,$relmodule,$tab_id);
+$update_params[]=$relmodule;
+}
+$update_params[]=$tab_id;
+$update_query = "update vtiger_loggingconfiguration set fields=?,type=? $setfields  where tabid=?";
+}
 $query=$adb->pquery($update_query, $update_params);
 echo $query;
 ?>

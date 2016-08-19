@@ -139,14 +139,75 @@
 					{foreach item=elementinfo name=curvalue from=$elements}
                            		<td class="prvPrfTexture" style="width:20px">&nbsp;</td>
                            		<td width="5%" id="{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}">{$elementinfo.1}</td>
-                           		<td width="25%" nowrap  onMouseOver="this.className='prvPrfHoverOn',$('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOn'" onMouseOut="this.className='prvPrfHoverOff',$('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOff'">{$elementinfo.0}</td>
+                           		<td width="25%" nowrap  onMouseOver="this.className='prvPrfHoverOn',jQuery('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOn'" onMouseOut="this.className='prvPrfHoverOff',jQuery('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOff'">{$elementinfo.0}</td>
 					{/foreach}
                          	</tr>
                          	{/foreach}
                      	</table>
 			</td>
                 </tr>
-                </table>
+                          <!--    <tr height=20><td></td></tr>
+                {if ($denorm eq 'checked' or $norm eq 'checked') && $MODE eq 'edit'}
+                <th>Elastic fields</th>
+                
+                	<tr>
+                	<td valign=top width="25%" >
+		     	<table border=0 cellspacing=0 cellpadding=5 width=100% class=small>
+				{foreach item=elements name=groupfields from=$info}
+                        	<tr>
+					{foreach item=elementinfo name=curvalue from=$elements}
+                           		<td class="prvPrfTexture" style="width:20px">&nbsp;</td>
+                           		<td width="5%" id="{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}">{$elementinfo.2}</td>
+                           		<td width="30%" nowrap  onMouseOver="this.className='prvPrfHoverOn',jQuery('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOn'" onMouseOut="this.className='prvPrfHoverOff',jQuery('{$smarty.foreach.allmodules.iteration}_{$smarty.foreach.groupfields.iteration}_{$smarty.foreach.curvalue.iteration}').className='prvPrfHoverOff'">{$elementinfo.0} &nbsp;&nbsp;{$elementinfo.3}</td>
+					{/foreach}
+                         	</tr>
+                         	{/foreach}
+                     	</table>
+			</td>
+                </tr><th>Business Rules</th> 
+                <tr><td class="prvPrfTexture" colspan=3>    
+                        <div ng-controller="mainCtrl_brinlog"> 
+                        <input name="brinlog" id="brinlog" value="{$fldvalues}" type="hidden"  >  
+                        <tags-input ng-model="brinlog" 
+                                    display-property="name" 
+                                    on-tag-added="functionClick($tag)"
+                                    on-tag-removed="functionClick($tag)"
+                                    placeholder="Select " >
+                          <auto-complete source="loadTags($query)"
+                                         min-length="2"
+                                         max-results-to-show="20"
+                                         ></auto-complete>
+                        </tags-input>
+                    </div>
+                                        </td></tr>
+                {/if}-->
+                </table><!--
+                <script>
+                        {literal}
+                        angular.module('demoApp')
+                       .controller('mainCtrl_brinlog', function ($scope, $http) {                   
+                           $scope.brinlog=[];
+                          $scope.loadTags = function(query) {
+                                return $http.get('index.php?module=BusinessRules&action=BusinessRulesAjax&file=get_brinlog&query='+query).
+                            success(function(data, status) {
+                              });
+                          };
+                          $http.get('index.php?module=BusinessRules&action=BusinessRulesAjax&file=get_brinlog&sel_values={/literal}{$fldvalues}{literal}').
+                                success(function(data, status) {
+                                   $scope.brinlog=data;
+                          });                            
+                          $scope.functionClick= function(tag) {                         
+                               var arr = new Array();
+                             for(i=0;i<$scope.brinlog.length;i++)
+                               arr[i]=$scope.brinlog[i]['id'];
+                             document.getElementsByName('brinlog').item(0).value=arr.join(',');
+
+                           };
+                                               
+                          });
+                          
+                        {/literal}
+                    </script>-->
                 </div>
 		{/foreach}
 	</td>

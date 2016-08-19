@@ -2,7 +2,7 @@
 
 global $adb,$log,$mod_strings;
 include_once("modules/Reports/Reports.php");
-include("modules/Reports/ReportRun.php");
+include_once("modules/Reports/ReportRun.php");
 include_once("include/utils/CommonUtils.php");
 require_once('include/database/PearDatabase.php');
 global $root_directory;

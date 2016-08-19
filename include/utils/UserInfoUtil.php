@@ -610,6 +610,7 @@ function isPermittedBusinessRule($module,$actionname)
     global $current_user,$adb;
     $userProfileArr = getUserProfile($current_user->id);
     //check Button Control for current module 
+    if(vtlib_isModuleActive('BusinessRules')){
     $q_business_rule="Select businessrule,linktomap"
                     ." from vtiger_businessrules
                        join vtiger_crmentity cb on cb.crmid=businessrulesid and cb.deleted=0"
@@ -637,6 +638,7 @@ function isPermittedBusinessRule($module,$actionname)
                 }   
             }
         }
+        } 
         return true;
 
 }
