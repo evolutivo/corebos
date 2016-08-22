@@ -393,7 +393,6 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-<changeSet>
 	<author>albana</author>
 	<description>Add module BusinessActions</description>
 	<filename>build/changeSets/evolutivo/addBusinessActions.php</filename>
@@ -421,6 +420,7 @@
 	<classname>addmoduleBAwf</classname>
  	<systemupdate>true</systemupdate>
  </changeSet>
+ <changeSet>
 <author>albana</author>
 	<description>Add NgBlock Module</description>
 	<filename>build/changeSets/evolutivo/addNgBlock.php</filename>
