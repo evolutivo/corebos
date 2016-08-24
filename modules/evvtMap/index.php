@@ -145,7 +145,7 @@ var orginputshow='<?php echo $orginputshow; ?>';
 function updateFilterCombo(elem) {
 	var module = encodeURIComponent(elem.options[elem.options.selectedIndex].value);
 	jQuery("#show").val(module);
-	$("filterContainer").innerHTML= combos[module]+" "+$("userspantpl").innerHTML;  
+	document.getElementById("filterContainer").innerHTML= combos[module]+" "+document.getElementById("userspantpl").innerHTML;  
 }
 function evvt_GetCoordinates() {
 	var eid = jQuery('#parent_id').val();
@@ -287,7 +287,7 @@ jQuery(function() {
 		}
 	});
 	jQuery("#rdotabs").tabs();
-	updateFilterCombo($('filtermodule'));
+	updateFilterCombo(document.getElementById('filtermodule'));
 <?php
 switch ($orginputshow) {
 	case 'HelpDesk':
@@ -620,7 +620,7 @@ var baseCity;
 function centerMap() {
   baseDesc = '<span style="font-weight: bold; font-size: 110%">'+baseName+'</span><br/><br/>'+baseAddress+'<br/>'+baseCity+'<br/><br>\n\
   <span style="float: left"><b>'+around_lbl+'</b>&nbsp;<input id="aroundfilter" size="5" name="aroundfilter" value="<?php echo $radius; ?>" onChange="DrawCircle(latitude,longitude,this,module);" style="width:35px">&nbsp;kms<br/>\
-  <a href="index.php?module=evvtMap&file=update&action=evvtMapAjax&id=<?php echo -$current_user->id; ?>&show='+module+'">'+reload_lbl+'</a> / <a href="#" onclick="DrawCircle(latitude,longitude,$(\'aroundfilter\'),module);">'+drawcircle_lbl+'</a> / <a href="#" onclick="removeCircle();return false;">'+clearcircle_lbl+'</a> \n\</span>\n\
+  <a href="index.php?module=evvtMap&file=update&action=evvtMapAjax&id=<?php echo -$current_user->id; ?>&show='+module+'">'+reload_lbl+'</a> / <a href="#" onclick="DrawCircle(latitude,longitude,document.getElementById(\'aroundfilter\'),module);">'+drawcircle_lbl+'</a> / <a href="#" onclick="removeCircle();return false;">'+clearcircle_lbl+'</a> \n\</span>\n\
   ';
 if(from!= null && typeof(from)!= 'undefined')
   if(from.lat() || from.lng())

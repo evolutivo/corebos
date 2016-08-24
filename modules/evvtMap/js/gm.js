@@ -129,7 +129,7 @@ function getDescription(id, pos, name, city, phone, cname, extra,viewid,module)
         html += "<b>"+around_lbl+" </b>&nbsp;<input id=\"aroundfilter\" size=\"5\" name=\"aroundfilter\" value=\""+defaultRadius+"\" onChange='DrawCircle(\""+pos.lat()+"\",\""+pos.lng()+"\",this,module);' style='width:35px;'>&nbsp;kms\n";
        	html += "<br/><a onClick='loadDirection(\""+pos.lat()+","+pos.lng()+"\",\""+name+"\",\""+city+"\")' href='javascript:void(0)'>"+direction_lbl+"</a>";
        	html += " / <a href='index.php?module=evvtMap&file=update&action=evvtMapAjax&id="+id+"&viewid="+viewid+"&show="+module+"'>"+reload_lbl+"</a>";
-       	html += " / <a href='#' onclick='DrawCircle(\""+pos.lat()+"\",\""+pos.lng()+"\",$(\"aroundfilter\"),module);'>"+drawcircle_lbl+"</a>";
+       	html += " / <a href='#' onclick='DrawCircle(\""+pos.lat()+"\",\""+pos.lng()+"\",document.getElementById(\"aroundfilter\"),module);'>"+drawcircle_lbl+"</a>";
        	html += " / <a href='#' onclick='removeCircle();return false;'>"+clearcircle_lbl+"</a><br/><br/>";
 
        	html += "Direction between marks<br/><a onClick='addDirection(\""+pos.lat()+","+pos.lng()+"\",\""+extra+"\",true)' href='javascript:void(0)'>"+start_lbl+"</a> / <a onClick='addDirection(\""+pos.lat()+","+pos.lng()+"\",\""+extra+"\",false)' href='javascript:void(0)'>"+end_lbl+"</a>";

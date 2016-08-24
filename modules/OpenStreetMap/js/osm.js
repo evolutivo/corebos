@@ -34,7 +34,7 @@ function onLocationFound(e) {
      baseDesc += '<b>'+mod_strings.Around+'</b>&nbsp;<input id="aroundfilter" size="5" name="aroundfilter" value="'+defaultRadius+'"';
      baseDesc += 'onChange="DrawCircle(latitude,longitude,this,module);" style="width:35px">&nbsp;kms<br/>';
      baseDesc += '<a href="index.php?module=evvtMap&file=update&action=evvtMapAjax&id='+jQuery("#user").val();
-     baseDesc += '&show='+module+'">'+mod_strings.Reload + '</a> / <a href="#" onclick="DrawCircle(latitude,longitude,$(\'aroundfilter\'),module);">';
+     baseDesc += '&show='+module+'">'+mod_strings.Reload + '</a> / <a href="#" onclick="DrawCircle(latitude,longitude,document.getElementById(\'aroundfilter\'),module);">';
      baseDesc += mod_strings.DrawCircle+'</a> / \n\<a href="#" onclick="removeCircle();return false;">'+ mod_strings.ClearCircle+'</a><br><br> \n\ ';
      addMarker(newLatLng,baseName,baseDesc,greenIcon);
 //     markersArray.push(marker); 
@@ -176,7 +176,7 @@ function getDescription(id, pos, name, city, phone, cname, extra,viewid,module)
         html += "<b>"+mod_strings.Around+"</b>&nbsp;<input id=\"aroundfilter\" size=\"5\" name=\"aroundfilter\" value=\""+defaultRadius+"\" onChange='DrawCircle(\""+pos.lat+"\",\""+pos.lng+"\",this,module);' style='width:35px;'>&nbsp;kms\n";
        	html += "<br/><a onClick='loadDirection(\""+pos.lat+"\",\""+pos.lng+"\",\""+name+"\",\""+city+"\")' href='javascript:void(0)'>"+mod_strings.Direction+"</a>";
        	html += " / <a href='index.php?module=evvtMap&file=update&action=evvtMapAjax&id="+id+"&viewid="+viewid+"&show="+module+"'>"+mod_strings.Reload+"</a>";
-       	html += " / <a href='#' onclick='DrawCircle(\""+pos.lat+"\",\""+pos.lng+"\",$(\"aroundfilter\"),module);'>"+mod_strings.DrawCircle+"</a>";
+       	html += " / <a href='#' onclick='DrawCircle(\""+pos.lat+"\",\""+pos.lng+"\",document.getElementById(\"aroundfilter\"),module);'>"+mod_strings.DrawCircle+"</a>";
        	html += " / <a href='#' onclick='removeCircle();return false;'>"+mod_strings.ClearCircle+"</a><br/><br/>";
 
        	html += "Direction between marks<br/><a onClick='addDirection(\""+pos.lat+"\",\""+pos.lng+"\",\""+extra+"\",true)' href='javascript:void(0)'>"+mod_strings.Start+"</a> / <a onClick='addDirection(\""+pos.lat+"\",\""+pos.lng+"\",\""+extra+"\",false)' href='javascript:void(0)'>"+mod_strings.End+"</a>";
