@@ -68,7 +68,7 @@ jQuery("#tabs").tabs({
         
 	jQuery("#rdotabs").tabs();
         jQuery('#tabs').tabs('option', 'active',{/literal}{$seltab}{literal});
-	updateFilterCombo($('filtermodule'));       
+	updateFilterCombo(document.getElementById('filtermodule'));       
         });
  {/literal}
 </script>
