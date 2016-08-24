@@ -401,20 +401,6 @@
 </changeSet>
 <changeSet>
 	<author>albana</author>
-	<description>Read BusinessActions as Links</description>
-	<filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
-	<classname>addFieldsToBA</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albertxhani</author>
-	<description>Add Actions to Business action Module</description>
-	<filename>build/changeSets/evolutivo/add_actions.php</filename>
-	<classname>add_actions</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
-	<author>albana</author>
 	<description>wf for BusinessActions Block</description>
 	<filename>build/changeSets/evolutivo/addmoduleBAwf.php</filename>
 	<classname>addmoduleBAwf</classname>
@@ -776,6 +762,20 @@
 	<filename>build/changeSets/evolutivo/addquerygen.php</filename>
 	<classname>addquerygen</classname>
 	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+        <author>albana</author>
+        <description>Read BusinessActions as Links</description>
+        <filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
+        <classname>addFieldsToBA</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+        <author>albertxhani</author>
+        <description>Add Actions to Business action Module</description>
+        <filename>build/changeSets/evolutivo/add_actions.php</filename>
+        <classname>add_actions</classname>
+        <systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>        
 	<author>joebordes</author>
