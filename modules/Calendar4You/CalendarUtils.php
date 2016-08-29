@@ -169,15 +169,15 @@ function getActTypesForCalendar() {
 //		}
 //	}
         $role=$current_user->roleid;
-        $q="select businessrulesid,linktomap from vtiger_businessrules join vtiger_crmentity on crmid=businessrulesid where deleted=0 and module_rules='Calendar' and (busrule_roles like '%$role |#%' or busrule_roles like '$role' or busrule_roles like '%#| $role' or busrule_roles='')";
+        $q="select businessrulesid,linktomap,businessrules_name from vtiger_businessrules join vtiger_crmentity on crmid=businessrulesid where deleted=0 and module_rules='Calendar' and (busrule_roles like '%$role |#%' or busrule_roles like '$role' or busrule_roles like '%#| $role' or busrule_roles='')";
 	$Res = $adb->query($q);
 	$noofrows = $adb->num_rows($Res);
 	for($i = 0; $i < $noofrows; $i++) {
 		$id = $adb->query_result($Res,$i,0);
 		$value = $adb->query_result($Res,$i,1);
-                $focus3 = CRMEntity::getInstance("cbMap");
-                $focus3->retrieve_entity_info($value, "cbMap");
-                $sqlrec = $focus3->getMapSQL();
+        $focus3 = CRMEntity::getInstance("cbMap");
+        $focus3->retrieve_entity_info($value, "cbMap");
+        $sqlrec = $adb->query_result($Res,$i,2);
 		$ActTypes[$id] = $sqlrec;
 	}
 
