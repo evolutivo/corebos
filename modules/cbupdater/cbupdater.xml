@@ -1058,4 +1058,11 @@
 	<classname>installGlobalVarDefinitions</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>brisilda</author>
+	<description>Add new fields to cbmap table</description>
+	<filename>build/changeSets/addFieldsCbMapCondition.php</filename>
+	<classname>addFieldsCbMapCondition.php</classname>
+	<systemupdate>false</systemupdate>
+</changeSet>
 </updatesChangeLog>
