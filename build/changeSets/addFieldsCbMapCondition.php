@@ -24,11 +24,11 @@ class addFieldsCbMapCondition extends cbupdaterWorker {
 		
 			$this->ExecuteQuery("ALTER TABLE  vtiger_cbmap "
                                 . " ADD COLUMN  origin INT( 19 )  NULL,"
-                                . " ADD COLUMN  originname VARCHAR( 250 )  NULL"
-                                . " ADD COLUMN  target INT( 19 )  NULL"
-                                . " ADD COLUMN  field1 TEXT  NULL"
-                                . " ADD COLUMN  field2 TEXT  NULL"
-                                . " ADD COLUMN  delimiter VARCHAR( 500 )  NULL"
+                                . " ADD COLUMN  originname VARCHAR( 250 )  NULL,"
+                                . " ADD COLUMN  target INT( 19 )  NULL,"
+                                . " ADD COLUMN  field1 TEXT  NULL,"
+                                . " ADD COLUMN  field2 TEXT  NULL,"
+                                . " ADD COLUMN  delimiter VARCHAR( 500 )  NULL,"
                                 . " ADD COLUMN  blocks VARCHAR( 250 )  NULL");
                         $this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
