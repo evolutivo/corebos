@@ -1062,7 +1062,7 @@
 	<author>brisilda</author>
 	<description>Add new fields to cbmap table</description>
 	<filename>build/changeSets/addFieldsCbMapCondition.php</filename>
-	<classname>addFieldsCbMapCondition.php</classname>
+	<classname>addFieldsCbMapCondition</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
 </updatesChangeLog>
