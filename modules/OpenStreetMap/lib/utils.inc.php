@@ -58,7 +58,7 @@ function getResult($gc,$query,$idsarray=array()) {
 							((empty($row['website']) || $row['website'] == "--None--") ? '' : "<br/>".addslashes($row['website'])),
 						"city" => utf8_encode(addslashes(ucwords(strtolower($row['city'])))),
 						"phone" =>utf8_encode(addslashes(ucwords(strtolower($row['phone'])))),
-						"extra" =>utf8_encode(addslashes(ucwords(strtolower($row['street']."<br/>".$row['code']." ".$row['city'])).$state.$approx.$content)),
+						"extra" =>utf8_encode(addslashes(ucwords(strtolower(trim(preg_replace('/\s\s+/', ' ',$row['street']))))))."<br/>".utf8_encode(addslashes($row['code']))." ".utf8_encode(addslashes($row['city'])).utf8_encode(addslashes($state)).$approx.$content,
 						"lat" => $coord->latitude,
 						"lng" => $coord->longitude,
 						"vid"=> $cvid,
