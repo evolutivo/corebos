@@ -25,6 +25,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Debug_Record_Not_Found',
 				'Debug_Report_Query',
 				'Debug_ListView_Query',
+				'Debug_Popup_Query',
 				'Debug_Send_VtigerCron_Error',
 				'Debug_Send_AdminLoginIPAuth_Error',
 
@@ -40,6 +41,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_ListView_MaxColumns',
 				'Application_Action_Panel_Open',
 				'Application_Search_Panel_Open',
+				'Application_TrackerMaxHistory',
 
 				'Calendar_Modules_Panel_Visible',
 				'Calendar_Default_Reminder_Minutes',
@@ -73,6 +75,8 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Product_Maximum_Number_Images',
 				'Workflow_Send_Email_ToCCBCC',
 				'Workflow_GeoDistance_Country_Default',
+				'ModComments_DefaultCriteria',
+				'ModComments_DefaultBlockStatus',
 
 				'Report_Send_Scheduled_ifEmpty',
 

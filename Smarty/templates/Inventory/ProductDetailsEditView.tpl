@@ -9,9 +9,7 @@
  ********************************************************************************/
 -->*}
 
-<script type="text/javascript" src="include/js/Inventory.js"></script>
-<!-- Added to display the Product Details -->
-<script type="text/javascript">
+<script>
 if(typeof(e) != 'undefined')
 	window.captureEvents(Event.MOUSEMOVE);
 
@@ -38,7 +36,7 @@ function displayCoords(currObj,obj,mode,curr_row)
 	//Set the Header value for Discount
 	if(mode == 'discount')
 	{ldelim}
-		document.getElementById("discount_div_title"+curr_row).innerHTML = '<b>{$APP.LABEL_SET_DISCOUNT_FOR_X_COLON} '+document.getElementById("productTotal"+curr_row).innerHTML+'</b>';
+		document.getElementById("discount_div_title"+curr_row).innerHTML = '<b>{$APP.LABEL_SET_DISCOUNT_FOR_COLON} '+document.getElementById("productTotal"+curr_row).innerHTML+'</b>';
 	{rdelim}
 	else if(mode == 'tax')
 	{ldelim}
@@ -46,7 +44,7 @@ function displayCoords(currObj,obj,mode,curr_row)
 	{rdelim}
 	else if(mode == 'discount_final')
 	{ldelim}
-		document.getElementById("discount_div_title_final").innerHTML = '<b>{$APP.LABEL_SET_DISCOUNT_FOR_COLON} '+document.getElementById("netTotal").innerHTML+'</b>';
+		document.getElementById("discount_div_title_final").innerHTML = '<b>{$APP.LABEL_SET_DISCOUNT_FOR} '+document.getElementById("netTotal").innerHTML+'</b>';
 	{rdelim}
 	else if(mode == 'sh_tax_div_title')
 	{ldelim}
@@ -76,28 +74,25 @@ function displayCoords(currObj,obj,mode,curr_row)
 	document.getElementById(obj).style.display = "block";
 
 {rdelim}
-  
+
 	function doNothing(){ldelim}
 	{rdelim}
-	
+
 	function fnHidePopDiv(obj){ldelim}
 		document.getElementById(obj).style.display = 'none';
 	{rdelim}
-</script>
 
+	var moreInfoFields = Array({$moreinfofields});
+</script>
 
 <tr><td colspan="4" align="left">
 
 <table width="100%"  border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable" id="proTab">
-   <tr>
-   	{if $MODULE neq 'PurchaseOrder' && 'Products'|vtlib_isModuleActive}
-			<td colspan="3" class="dvInnerHeader">
-	{else}
-			<td colspan="2" class="dvInnerHeader">
-	{/if}
+	<tr>
+	<td colspan="3" class="dvInnerHeader">
 		<b>{$APP.LBL_ITEM_DETAILS}</b>
 	</td>
-	
+
 	<td class="dvInnerHeader" align="center" colspan="2">
 		<input type="hidden" value="{$INV_CURRENCY_ID}" id="prev_selected_currency_id" />
 		<b>{$APP.LBL_CURRENCY}</b>&nbsp;&nbsp;
@@ -132,14 +127,12 @@ function displayCoords(currObj,obj,mode,curr_row)
    <!-- Header for the Product Details -->
    <tr valign="top">
 	<td width=5% valign="top" class="lvtCol" align="right"><b>{$APP.LBL_TOOLS}</b></td>
-	<td width=40% class="lvtCol"><font color='red'>*</font><b>{$APP.LBL_ITEM_NAME}</b></td>
-	{if $MODULE neq 'PurchaseOrder' && 'Products'|vtlib_isModuleActive}
-		<td width=10% class="lvtCol"><b>{$APP.LBL_QTY_IN_STOCK}</b></td>
-	{/if}
+	<td width=35% class="lvtCol"><font color='red'>*</font><b>{$APP.LBL_ITEM_NAME}</b></td>
+	<td width=20% class="lvtCol"><b>{$APP.LBL_INFORMATION}</b></td>
 	<td width=10% class="lvtCol"><b>{$APP.LBL_QTY}</b></td>
 	<td width=10% class="lvtCol" align="right"><b>{$APP.LBL_LIST_PRICE}</b></td>
-	<td width=12% nowrap class="lvtCol" align="right"><b>{$APP.LBL_TOTAL}</b></td>
-	<td width=13% valign="top" class="lvtCol" align="right"><b>{$APP.LBL_NET_PRICE}</b></td>
+	<td width=10% nowrap class="lvtCol" align="right"><b>{$APP.LBL_TOTAL}</b></td>
+	<td width=10% valign="top" class="lvtCol" align="right"><b>{$APP.LBL_NET_PRICE}</b></td>
    </tr>
 
    {foreach key=row_no item=data from=$ASSOCIATEDPRODUCTS name=outer1}
@@ -156,6 +149,8 @@ function displayCoords(currObj,obj,mode,curr_row)
 	{assign var="subprod_names" value="subprod_names"|cat:$row_no}
 	{assign var="entityIdentifier" value="entityType"|cat:$row_no}
 	{assign var="entityType" value=$data.$entityIdentifier}
+	{assign var="lineitem_id" value="lineitem_id"|cat:$row_no}
+	{assign var="moreinfo" value="moreinfo"|cat:$row_no}
 
 	{assign var="discount_type" value="discount_type"|cat:$row_no}
 	{assign var="discount_percent" value="discount_percent"|cat:$row_no}
@@ -171,21 +166,21 @@ function displayCoords(currObj,obj,mode,curr_row)
 	{assign var="taxTotal" value="taxTotal"|cat:$row_no}
 	{assign var="netPrice" value="netPrice"|cat:$row_no}
 
-
    <tr id="row{$row_no}" valign="top">
 
 	<!-- column 1 - delete link - starts -->
-	<td  class="crmTableRow small lineOnTop">
+	<td class="crmTableRow small lineOnTop">
 		{if $row_no neq 1}
-			<img src="{'delete.gif'|@vtiger_imageurl:$THEME}" border="0" onclick="deleteRow('{$MODULE}',{$row_no},'{$IMAGE_PATH}')">
+			<img src="{'delete.gif'|@vtiger_imageurl:$THEME}" border="0" onclick="deleteRow('{$MODULE}',{$row_no},'{$IMAGE_PATH}')" style="cursor:pointer;" title="{'LBL_DELETE'|@getTranslatedString:'Settings'}">
 		{/if}<br/><br/>
 		{if $row_no neq 1}
-			&nbsp;<a href="javascript:moveUpDown('UP','{$MODULE}',{$row_no})" title="Move Upward"><img src="{'up_layout.gif'|@vtiger_imageurl:$THEME}" border="0"></a>
+			&nbsp;<a href="javascript:moveUpDown('UP','{$MODULE}',{$row_no})" title="{'LBL_MOVE'|@getTranslatedString:'Settings'} {'LBL_UP'|@getTranslatedString:'Settings'}"><img src="{'up_layout.gif'|@vtiger_imageurl:$THEME}" border="0"></a>
 		{/if}
 		{if not $smarty.foreach.outer1.last}
-			&nbsp;<a href="javascript:moveUpDown('DOWN','{$MODULE}',{$row_no})" title="Move Downward"><img src="{'down_layout.gif'|@vtiger_imageurl:$THEME}" border="0" ></a>
+			&nbsp;<a href="javascript:moveUpDown('DOWN','{$MODULE}',{$row_no})" title="{'LBL_MOVE'|@getTranslatedString:'Settings'} {'LBL_DOWN'|@getTranslatedString:'Settings'}"><img src="{'down_layout.gif'|@vtiger_imageurl:$THEME}" border="0" ></a>
 		{/if}
 		<input type="hidden" id="{$deleted}" name="{$deleted}" value="0">
+		<input type="hidden" id="{$lineitem_id}" name="{$lineitem_id}" value="{$data[$lineitem_id]}">
 	</td>
 
 	<!-- column 2 - Product Name - starts -->
@@ -201,9 +196,9 @@ function displayCoords(currObj,obj,mode,curr_row)
 					<input type="hidden" id="lineItemType{$row_no}" name="lineItemType{$row_no}" value="{$entityType}" />
 					&nbsp;
 					{if $entityType eq 'Services'}
-						<img id="searchIcon{$row_no}" title="Services" src="{'services.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="servicePickList(this,'{$MODULE}','{$row_no}')" />
+						<img id="searchIcon{$row_no}" title="{'Services'|@getTranslatedString:'Services'}" src="{'services.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="servicePickList(this,'{$MODULE}','{$row_no}')" />
 					{else}
-						<img id="searchIcon{$row_no}" title="Products" src="{'products.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="productPickList(this,'{$MODULE}','{$row_no}')" />
+						<img id="searchIcon{$row_no}" title="{'Products'|@getTranslatedString:'Products'}" src="{'products.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="productPickList(this,'{$MODULE}','{$row_no}')" />
 					{/if}
 				</td>
 			</tr>
@@ -224,11 +219,15 @@ function displayCoords(currObj,obj,mode,curr_row)
 	<!-- column 2 - Product Name - ends -->
 
 	<!-- column 3 - Quantity in Stock - starts -->
-	{if ($MODULE eq 'Quotes' || $MODULE eq 'SalesOrder' || $MODULE eq 'Invoice')  && 'Products'|vtlib_isModuleActive}
-	   <td class="crmTableRow small lineOnTop" valign="top"><span id="{$qtyInStock}">{$data.$qtyInStock}</span></td>
-	{/if}
+	<td class="crmTableRow small lineOnTop" valign="top">
+		{if ($MODULE eq 'Quotes' || $MODULE eq 'SalesOrder' || $MODULE eq 'Invoice')  && 'Products'|vtlib_isModuleActive}
+		{$APP.LBL_QTY_IN_STOCK}:&nbsp;<span id="{$qtyInStock}">{$data.$qtyInStock}</span><br>
+		{/if}
+		{foreach item=maindata from=$data.$moreinfo}
+			{include file='Inventory/EditViewUI.tpl'}
+		{/foreach}
+	</td>
 	<!-- column 3 - Quantity in Stock - ends -->
-
 
 	<!-- column 4 - Quantity - starts -->
 	<td class="crmTableRow small lineOnTop" valign="top">
@@ -237,7 +236,6 @@ function displayCoords(currObj,obj,mode,curr_row)
 		{else}
 			<input id="{$qty}" name="{$qty}" type="text" class="small " style="width:50px" onBlur="settotalnoofrows(); calcTotal(); loadTaxes_Ajax('{$row_no}'); {if $MODULE eq 'Invoice' && $entityType neq 'Services'} stock_alert('{$row_no}');{/if}" onChange="setDiscount(this,'{$row_no}')" value="{$data.$qty}"/><br><span id="stock_alert{$row_no}"></span>
 		{/if}
-
 	</td>
 	<!-- column 4 - Quantity - ends -->
 
@@ -345,7 +343,6 @@ function displayCoords(currObj,obj,mode,curr_row)
 	</td>
 	<!-- column 7 - Net Price - ends -->
 
-
    </tr>
    <!-- Product Details First row - Ends -->
    {/foreach}
@@ -425,8 +422,6 @@ so we will get that array, parse that array and fill the details
    </tr>
    <!-- Group Tax - ends -->
 
-
-
    <tr valign="top">
 	<td class="crmTableRow small" style="border-right:1px #dadada;">&nbsp;</td>
 	<td class="crmTableRow small" align="right">
@@ -436,7 +431,6 @@ so we will get that array, parse that array and fill the details
 		<input id="shipping_handling_charge" name="shipping_handling_charge" type="text" class="small" style="width:40px" align="right" value="{$FINAL.shipping_handling_charge}" onBlur="calcSHTax();">
 	</td>
    </tr>
-
 
    <tr valign="top">
 	<td class="crmTableRow small" style="border-right:1px #dadada;">&nbsp;</td>
@@ -473,8 +467,6 @@ so we will get that array, parse that array and fill the details
 	</td>
 	<td id="shipping_handling_tax" class="crmTableRow small" align="right">{$FINAL.shtax_totalamount}</td>
    </tr>
-
-
    <tr valign="top">
 	<td class="crmTableRow small" style="border-right:1px #dadada;">&nbsp;</td>
 	<td class="crmTableRow small" align="right">
@@ -488,8 +480,6 @@ so we will get that array, parse that array and fill the details
 		<input id="adjustment" name="adjustment" type="text" class="small" style="width:40px" align="right" value="{$FINAL.adjustment}" onBlur="calcTotal();">
 	</td>
    </tr>
-
-
    <tr valign="top">
 	<td class="crmTableRow big lineOnTop" style="border-right:1px #dadada;">&nbsp;</td>
 	<td class="crmTableRow big lineOnTop" align="right"><b>{$APP.LBL_GRAND_TOTAL}</b></td>
@@ -501,7 +491,6 @@ so we will get that array, parse that array and fill the details
 		<input type="hidden" name="subtotal" id="subtotal" value="">
 		<input type="hidden" name="total" id="total" value="">
 </td></tr>
-<!-- Upto this Added to display the Product Details -->
 
 {foreach key=row_no item=data from=$ASSOCIATEDPRODUCTS}
 	<!-- This is added to call the function calcCurrentTax which will calculate the tax amount from percentage -->

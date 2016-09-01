@@ -9,7 +9,7 @@
  * @license	vtiger CRM Public License Version 1.0 (by definition)
  ********************************************************************************/
 
-var alert_arr = {       
+var alert_arr = {
 	'DELETE':'Wilt u de geselecteerde records wissen? ',
 	'RECORDS':' records?',
 	'SELECT':'selecteer ten minste een entiteit',
@@ -151,6 +151,7 @@ var alert_arr = {
 	'LBL_NO_DATA_SELECTED':'Geen record geselecteerd. Selecteer ten minste 1 record voor Export',
 	'LBL_SEARCH_WITHOUTSEARCH_ALL':'U heeft de zoek optie gebruikt maar u heeft geselecteerd zonder zoek & alle opties.\nU kunt [ok] klikken om alle data te exporteren of u klikt [annuleer] om opnieuw te proberen met andere export criteria',
 	'STOCK_IS_NOT_ENOUGH' : 'Voorraad is niet toerijkend',
+	'LBL_QTY_IN_STOCK' : 'Voorraad',
 	'INVALID_QTY' : 'Ongeldige Hoeveelheid',
 	'LBL_SEARCH_WITHOUTSEARCH_CURRENTPAGE':'U heeft de zoek optie gebruikt maar u heeft niet geselecteerd zonder zoek & huidige pagina option.\nU kunt [ok] klikken om de huidige pagiba data te exporteren of u klikt [annuleer] om opnieuw te proberen met ander export criteria.',
 	'LBL_SELECT_COLUMN': ' Kolom niet geldig.\n Seleceer kolom',
@@ -333,5 +334,9 @@ var alert_arr = {
 	'MAXIMUM_OF_TWO_MODULES_PERMITTED' : 'A maximum of two modules is permitted.',
 	'LBL_NEW_CONDITION' : 'Nieuwe Conditie',
 	'WF_UPDATE_MAP_ERROR' : '**ERROR**: This task uses a field that does not exist: ',
-	'WF_UPDATE_MAP_ERROR_INFO' : 'The task will load with INCORRECT settings to permit you to fix it. It is NOT CORRECT!!'
+	'WF_UPDATE_MAP_ERROR_INFO' : 'The task will load with INCORRECT settings to permit you to fix it. It is NOT CORRECT!!',
+	'MoveUp' : 'Move Up',
+	'MoveDown' : 'Move Down',
+	'Products' : 'Products',
+	'Services' : 'Services'
 };

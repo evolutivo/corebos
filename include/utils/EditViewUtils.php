@@ -208,9 +208,9 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			}
 			$pickListValue = to_html($pickListValue);
 			if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate')
-				$options[] = array(htmlentities(getTranslatedString($pickListValue, $module_name),ENT_QUOTES,$default_charset),$pickListValue,$chk_val);
+				$options[] = array(htmlentities(getTranslatedString($pickListValue, $pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val);
 			else
-				$options[] = array(getTranslatedString($pickListValue, $module_name),$pickListValue,$chk_val);
+				$options[] = array(getTranslatedString($pickListValue, $pickListValue),$pickListValue,$chk_val);
 		}
 		//uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
 		$fieldvalue [] = $options;
@@ -264,9 +264,9 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 					$chk_val = '';
 				}
 				if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate'){
-					$options[] = array(htmlentities(getTranslatedString($pickListValue, $module_name),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
+					$options[] = array(htmlentities(getTranslatedString($pickListValue, $pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
 				}else{
-					$options[] = array(getTranslatedString($pickListValue, $module_name),$pickListValue,$chk_val );
+					$options[] = array(getTranslatedString($pickListValue, $pickListValue),$pickListValue,$chk_val );
 				}
 			}
 
@@ -1487,11 +1487,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 function getConvertSoToInvoice($focus,$so_focus,$soid) {
 	global $log,$current_user;
 	$log->debug("Entering getConvertSoToInvoice(".get_class($focus).",".get_class($so_focus).",".$soid.") method ...");
-	$cbMapid = GlobalVariable::getVariable('BusinessMapping_SalesOrder2Invoice', cbMap::getMapIdByName('SalesOrder2Invoice'));
-	if ($cbMapid) {
-		$cbMap = cbMap::getMapByID($cbMapid);
-		$focus->column_fields = $cbMap->Mapping($so_focus->column_fields,$focus->column_fields);
-	} else {
 	$xyz=array('bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state','ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state');
 	for($i=0;$i<count($xyz);$i++){
 		if (getFieldVisibilityPermission('SalesOrder', $current_user->id,$xyz[$i]) == '0') {
@@ -1525,6 +1520,10 @@ function getConvertSoToInvoice($focus,$so_focus,$soid) {
 	$focus->column_fields['terms_conditions'] = $so_focus->column_fields['terms_conditions'];
 	$focus->column_fields['currency_id'] = $so_focus->column_fields['currency_id'];
 	$focus->column_fields['conversion_rate'] = $so_focus->column_fields['conversion_rate'];
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_SalesOrder2Invoice', cbMap::getMapIdByName('SalesOrder2Invoice'));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$focus->column_fields = $cbMap->Mapping($so_focus->column_fields,$focus->column_fields);
 	}
 	$log->debug("Exiting getConvertSoToInvoice method ...");
 	return $focus;
@@ -1567,7 +1566,11 @@ function getConvertQuoteToInvoice($focus,$quote_focus,$quoteid)
 	$focus->column_fields['terms_conditions'] = $quote_focus->column_fields['terms_conditions'];
 	$focus->column_fields['currency_id'] = $quote_focus->column_fields['currency_id'];
 	$focus->column_fields['conversion_rate'] = $quote_focus->column_fields['conversion_rate'];
-
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_Quotes2Invoice', cbMap::getMapIdByName('Quotes2Invoice'));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$focus->column_fields = $cbMap->Mapping($quote_focus->column_fields,$focus->column_fields);
+	}
 	$log->debug("Exiting getConvertQuoteToInvoice method ...");
 	return $focus;
 }
@@ -1612,7 +1615,11 @@ function getConvertQuoteToSoObject($focus,$quote_focus,$quoteid)
 	$focus->column_fields['terms_conditions'] = $quote_focus->column_fields['terms_conditions'];
 	$focus->column_fields['currency_id'] = $quote_focus->column_fields['currency_id'];
 	$focus->column_fields['conversion_rate'] = $quote_focus->column_fields['conversion_rate'];
-
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_Quotes2SalesOrder', cbMap::getMapIdByName('Quotes2SalesOrder'));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$focus->column_fields = $cbMap->Mapping($quote_focus->column_fields,$focus->column_fields);
+	}
 	$log->debug("Exiting getConvertQuoteToSoObject method ...");
 	return $focus;
 }
@@ -1627,7 +1634,6 @@ function getAssociatedProducts($module,$focus,$seid='')
 {
 	global $log, $adb, $theme,$current_user;
 	$log->debug("Entering getAssociatedProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
-	$output = '';
 
 	$theme_path="themes/".$theme."/";
 	$image_path=$theme_path."images/";
@@ -1698,6 +1704,12 @@ function getAssociatedProducts($module,$focus,$seid='')
 			$params = array($seid);
 	}
 
+	$cbMap = cbMap::getMapByName($module.'InventoryDetails','MasterDetailLayout');
+	$MDMapFound = ($cbMap!=null);
+	if ($MDMapFound) {
+		$cbMapFields = $cbMap->MasterDetailLayout();
+	}
+
 	$result = $adb->pquery($query, $params);
 	$num_rows=$adb->num_rows($result);
 	for($i=1;$i<=$num_rows;$i++)
@@ -1715,6 +1727,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		if (!empty($entitytype)) {
 			$product_Detail[$i]['entityType'.$i]=$entitytype;
 		}
+		$product_Detail[$i]['lineitem_id'.$i]=$adb->query_result($result,$i-1,'lineitem_id');
 
 		if($listprice == '')
 			$listprice = $unitprice;
@@ -1762,6 +1775,21 @@ function getAssociatedProducts($module,$focus,$seid='')
 			$product_Detail[$i]['comment'.$i]= $productdescription;
 		}else {
 			$product_Detail[$i]['comment'.$i]= $comment;
+		}
+		if ($MDMapFound) {
+			foreach ($cbMapFields['detailview']['fields'] as $mdfield) {
+				$mdrs = $adb->pquery('select '.$mdfield['fieldinfo']['name'].' from vtiger_inventorydetails
+						inner join vtiger_crmentity on crmid=vtiger_inventorydetails.inventorydetailsid
+						inner join vtiger_inventorydetailscf on vtiger_inventorydetailscf.inventorydetailsid=vtiger_inventorydetails.inventorydetailsid
+						where deleted=0 and related_to=? and lineitem_id=?',
+					array($focus->id,$adb->query_result($result, $i - 1, 'lineitem_id')));
+				if ($mdrs) {
+					$col_fields = array();
+					$col_fields[$mdfield['fieldinfo']['name']] = $adb->query_result($mdrs, 0, 0);
+					$foutput = getOutputHtml($mdfield['fieldinfo']['uitype'], $mdfield['fieldinfo']['name'], $mdfield['fieldinfo']['label'], 100, $col_fields, 0, 'InventoryDetails', 'edit', $mdfield['fieldinfo']['typeofdata']);
+					$product_Detail[$i]['moreinfo'.$i][] = $foutput;
+				}
+			}
 		}
 
 		if($module != 'PurchaseOrder' && $focus->object_name != 'Order')
@@ -1990,7 +2018,6 @@ function getNoOfAssocProducts($module,$focus,$seid='')
 {
 	global $log, $adb;
 	$log->debug("Entering getNoOfAssocProducts(".$module.",".get_class($focus).",".$seid."='') method ...");
-	$output = '';
 	if($module == 'Quotes')
 	{
 		$query="select vtiger_products.productname, vtiger_products.unit_price, vtiger_inventoryproductrel.* from vtiger_inventoryproductrel inner join vtiger_products on vtiger_products.productid=vtiger_inventoryproductrel.productid where id=?";

@@ -1013,14 +1013,7 @@ function doModuleValidation(edit_type,editForm,callback) {
 			},
 			success: function(data) { //Validation file exists
 				if (data == 'yes') {
-					// Create object which gets the values of all input, textarea, select and button elements from the form
-					var myFields = document.forms[formName].elements;
-					var sentForm = new Object();
-					for (f=0; f<myFields.length; f++){
-						sentForm[myFields[f].name] = myFields[f].value;
-					}
-					//JSONize form data
-					sentForm = JSON.stringify(sentForm);
+					sentForm = document.forms[formName].serialize();
 					jQuery.ajax({
 						type : 'post',
 						data : {structure: sentForm},
@@ -1035,6 +1028,8 @@ function doModuleValidation(edit_type,editForm,callback) {
 									} else {
 										submitFormForAction(formName, action);
 									}
+								} else {
+									VtigerJS_DialogBox.unblock();
 								}
 							} else if (msg.search("%%%OK%%%") > -1) { //No error
 								if (typeof callback == 'function') {
@@ -2021,7 +2016,7 @@ function OpenCompose(id,mode,crmid)
 		case 'print':
 			url = 'index.php?module=Emails&action=EmailsAjax&file=PrintEmail&record='+id+'&print=true';
 	}
-	openPopUp('xComposeEmail',this,url,'createemailWin',820,689,'menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes');
+	openPopUp('xComposeEmail',this,url,'createemailWin',920,700,'menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes');
 }
 
 //Function added for Mass select in Popup - Philip
