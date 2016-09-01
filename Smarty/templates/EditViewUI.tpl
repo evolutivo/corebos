@@ -46,7 +46,7 @@
 
 			{if count($fldlabel.options) eq 1}
 				{assign var="use_parentmodule" value=$fldlabel.options.0}
-				<input type='hidden' class='small' name="{$fldname}_type" value="{$use_parentmodule}">
+				<input type='hidden' class='small' name="{$fldname}_type" id="{$fldname}_type" value="{$use_parentmodule}">
 				{assign var=vtui10func value=$use_parentmodule|getvtlib_open_popup_window_function:$fldname:$MODULE}
 			{else}
 			{assign var=vtui10func value="vtlib_open_popup_window"}
@@ -1179,4 +1179,10 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			{/foreach}
 
 			<td colspan="2" class="dvtCellInfo">&nbsp;</td>
+		{else}
+			{* just show field on screen *}
+			<td width=20% class="dvtCellLabel" align=right>{$fldlabel}</td>
+			<td width=30% align=left class="dvtCellInfo">
+				{if $fldname neq ''}<input type="hidden" name="{$fldname}" id="{$fldname}" value="{$fldvalue.fieldsavevalue}">{/if}{$fldvalue.fieldshowvalue}
+			</td>
 		{/if}

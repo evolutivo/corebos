@@ -59,14 +59,14 @@ function getProductDetailsBlockInfo($mode,$module,$focus='',$num_of_products='',
  * Param $productid - product id
  * Param $qty - product quantity in no's
  * Param $mode - mode type
- * Param $ext_prod_arr - existing products
+ * Param $ext_prod_arr - existing products ** NOT USED: empty **
  * Param $module - module name
  * return type void
  */
 function updateStk($product_id,$qty,$mode,$ext_prod_arr,$module)
 {
 	global $log, $adb, $current_user;
-	$log->debug("Entering updateStk($product_id,$qty,$mode,".print_r($ext_prod_arr,true).",$module) method ...");
+	$log->debug("Entering updateStk($product_id,$qty,$mode,$module) method ...");
 
 	$prod_name = getProductName($product_id);
 	$qtyinstk= getPrdQtyInStck($product_id);
@@ -415,15 +415,12 @@ function getTaxDetailsForProduct($productid, $available='all', $acvid=0)
 }
 
 /**	Function used to delete the Inventory product details for the passed entity
- *	@param int $objectid - entity id to which we want to delete the product details from REQUEST values where as the entity will be Purchase Order, Sales Order, Quotes or Invoice
- *	@param string $return_old_values - string which contains the string return_old_values or may be empty, if the string is return_old_values then before delete old values will be retrieved
- *	@return array $ext_prod_arr - if the second input parameter is 'return_old_values' then the array which contains the productid and quantity which will be retrieved before delete the product details will be returned otherwise return empty
+ *	@param int $objectid - entity id to which we want to delete the product details values where as the entity will be Purchase Order, Sales Order, Quotes or Invoice
  */
 function deleteInventoryProductDetails($focus)
 {
 	global $log, $adb,$updateInventoryProductRel_update_product_array;
 	$log->debug("Entering into function deleteInventoryProductDetails(".$focus->id.").");
-
 	$product_info = $adb->pquery("SELECT productid, quantity, sequence_no, incrementondel from vtiger_inventoryproductrel WHERE id=?",array($focus->id));
 	$numrows = $adb->num_rows($product_info);
 	for($index = 0;$index <$numrows;$index++){
@@ -548,7 +545,6 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		$id=vtlib_purify($_REQUEST['duplicate_from']);
 	}
 	$ipr_cols = $adb->getColumnNames('vtiger_inventoryproductrel');
-	$ext_prod_arr = Array();
 	if($focus->mode == 'edit')
 	{
 		if($_REQUEST['taxtype'] == 'group')
@@ -558,9 +554,6 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		{
 			$return_old_values = 'return_old_values';
 		}
-
-		//we will retrieve the existing product details and store it in a array and then delete all the existing product details and save new values, retrieve the old value and update stock only for SO, Quotes and Invoice not for PO
-		//$ext_prod_arr = deleteInventoryProductDetails($focus->id,$return_old_values);
 		deleteInventoryProductDetails($focus);
 	}
 	else
@@ -613,11 +606,16 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 			}
 		}
 
-		$query ="insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description) values(?,?,?,?,?,?,?)";
-		$qparams = array($focus->id,$prod_id,$prod_seq,$qty,$listprice,$comment,$description);
+		if (!empty($_REQUEST['lineitem_id'.$i]) and $focus->mode == 'edit') {
+			$lineitem_id = vtlib_purify($_REQUEST['lineitem_id'.$i]);
+			$query ="insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description, lineitem_id) values(?,?,?,?,?,?,?,?)";
+			$qparams = array($focus->id,$prod_id,$prod_seq,$qty,$listprice,$comment,$description,$lineitem_id);
+		} else {
+			$query ="insert into vtiger_inventoryproductrel(id, productid, sequence_no, quantity, listprice, comment, description) values(?,?,?,?,?,?,?)";
+			$qparams = array($focus->id,$prod_id,$prod_seq,$qty,$listprice,$comment,$description);
+			$lineitem_id = $adb->getLastInsertID();
+		}
 		$adb->pquery($query,$qparams);
-
-		$lineitem_id = $adb->getLastInsertID();
 
 		$sub_prod_str = $_REQUEST['subproduct_ids'.$i];
 		if (!empty($sub_prod_str)) {
@@ -633,7 +631,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 		if($module != 'PurchaseOrder')
 		{
 			//update the stock with existing details
-			updateStk($prod_id,$qty,$focus->mode,$ext_prod_arr,$module);
+			updateStk($prod_id,$qty,$focus->mode,array(),$module);
 		}
 
 		//we should update discount and tax details
@@ -788,31 +786,10 @@ function getInventoryTaxType($module, $id)
  *	@param int $id - id of the PO or SO or Quotes or Invoice
  *	@return string $pricetype - pricetype for the given entity which will be unitprice or secondprice
  */
-function getInventoryCurrencyInfo($module, $id)
-{
-	global $log, $adb;
-
+function getInventoryCurrencyInfo($module, $id) {
+	global $log;
 	$log->debug("Entering into function getInventoryCurrencyInfo($module, $id).");
-
-	$inv_table_array = Array('PurchaseOrder'=>'vtiger_purchaseorder','SalesOrder'=>'vtiger_salesorder','Quotes'=>'vtiger_quotes','Invoice'=>'vtiger_invoice');
-	$inv_id_array = Array('PurchaseOrder'=>'purchaseorderid','SalesOrder'=>'salesorderid','Quotes'=>'quoteid','Invoice'=>'invoiceid');
-
-	$inventory_table = $inv_table_array[$module];
-	$inventory_id = $inv_id_array[$module];
-	$res = $adb->pquery("select currency_id, $inventory_table.conversion_rate as conv_rate, vtiger_currency_info.* from $inventory_table
-						inner join vtiger_currency_info on $inventory_table.currency_id = vtiger_currency_info.id
-						where $inventory_id=?", array($id));
-
-	$currency_info = array();
-	$currency_info['currency_id'] = $adb->query_result($res,0,'currency_id');
-	$currency_info['conversion_rate'] = $adb->query_result($res,0,'conv_rate');
-	$currency_info['currency_name'] = $adb->query_result($res,0,'currency_name');
-	$currency_info['currency_code'] = $adb->query_result($res,0,'currency_code');
-	$currency_info['currency_symbol'] = $adb->query_result($res,0,'currency_symbol');
-
-	$log->debug("Exit from function getInventoryCurrencyInfo($module, $id).");
-
-	return $currency_info;
+	return CurrencyField::getMultiCurrencyInfoFrom($module, $id);
 }
 
 /**	function used to get the taxvalue which is associated with a product for PO/SO/Quotes or Invoice

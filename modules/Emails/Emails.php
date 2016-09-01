@@ -424,7 +424,7 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 				onclick="this.form.action.value=\"sendmail\";this.form.return_action.value=\"DetailView\";this.form.module.value=\"Emails\";this.form.return_module.value=\"Emails\";"
 				name="button" value="' . getTranslatedString('LBL_BULK_MAILS') . '" type="submit">&nbsp;
 				<input title="' . getTranslatedString('LBL_BULK_MAILS') . '" accesskey="" tabindex="2" class="crmbutton small edit"
-				value="' . getTranslatedString('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button" language="javascript"
+				value="' . getTranslatedString('LBL_SELECT_USER_BUTTON_LABEL') . '" name="Button"
 				onclick=\"return window.open("index.php?module=Users&return_module=Emails&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=true&return_id=' . $id . '&recordid=' . $id . '","test","width=640,height=520,resizable=0,scrollbars=0");\"
 				type="button">';
 
@@ -583,6 +583,19 @@ function get_to_emailids($module) {
 	require_once 'include/Webservices/Query.php';
 	//$idlists1 = "";
 	$mailds = '';
+	if (empty($_REQUEST['field_lists'])) {
+		switch ($module) {
+		case 'Accounts':
+			$_REQUEST["field_lists"]=9;
+			break;
+		case 'Contacts':
+			$_REQUEST["field_lists"]=80;
+			break;
+		case 'Vendors':
+			$_REQUEST["field_lists"]=292;
+			break;
+		}
+	}
 	$fieldids = explode(":", vtlib_purify($_REQUEST['field_lists']));
 	if($_REQUEST['idlist'] == 'all' || $_REQUEST['idlist'] == 'relatedListSelectAll'){
 		$idlist = getSelectedRecords($_REQUEST,vtlib_purify($_REQUEST['pmodule']),vtlib_purify($_REQUEST['idlist']),vtlib_purify($_REQUEST['excludedRecords']));
