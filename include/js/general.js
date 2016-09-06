@@ -1013,7 +1013,7 @@ function doModuleValidation(edit_type,editForm,callback) {
 			},
 			success: function(data) { //Validation file exists
 				if (data == 'yes') {
-					sentForm = document.forms[formName].serialize();
+					sentForm = jQuery(formName).serialize();
 					jQuery.ajax({
 						type : 'post',
 						data : {structure: sentForm},
