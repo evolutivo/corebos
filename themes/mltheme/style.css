@@ -549,9 +549,9 @@ a:hover {
 	padding: 0;
 }
 
-.detailview_row {
+/*.detailview_row {
 	transform: translateX(-3px);
-}
+}*/
 
 .dvtCellLabel, .cellLabel,.cellLabelnew{
 	background-color: white;
