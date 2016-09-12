@@ -1354,7 +1354,7 @@ class QueryGenerator {
 		return array('name'=>$fieldname,'value'=>$value,'operator'=>$operator);
 	}
 
-	public function startGroup($groupType) {
+	public function startGroup($groupType='') {
 		$this->groupInfo .= " $groupType (";
 	}
 

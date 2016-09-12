@@ -266,25 +266,6 @@ function sendfile_email()
 																   Singlepane view is enabled. -->
 																<form action="index.php" method="post" name="DetailView" id="form">
 																	{include file='DetailViewHidden.tpl'}
-                                                                                                                                
-
-																	<!-- Start of File Include by SAKTI on 10th Apr, 2008 -->
-																	{include_php file="include/DetailViewBlockStatus.php"}
-																	<!-- Start of File Include by SAKTI on 10th Apr, 2008 -->
-                                                                                                                                        {* vtlib Customization: DetailViewWidget before block *}
-																	{if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
-																		{foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
-																			{if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl) && $CUSTOM_LINK_DETAILVIEWWIDGET->linklabel neq 'DetailViewBlockCommentWidget'}
-																			 {if ($CUSTOM_LINK_DETAILVIEWWIDGET->top_widget eq '1')}
-																				<tr>
-																					<td style="padding:5px;" >
-																						{php} echo vtlib_process_widget($this->_tpl_vars['CUSTOM_LINK_DETAILVIEWWIDGET'], $this->_tpl_vars); {/php}
-																					</td>
-																				</tr>
-																			 {/if}
-																			{/if}
-																		{/foreach}
-																	{/if}
 
 																	{foreach key=header item=detail from=$BLOCKS name=BLOCKS}
 																		<tr><td style="padding:5px">
@@ -354,9 +335,9 @@ function sendfile_email()
 																							{if $CUSTOMBLOCKS.$header.custom}
 																								{include file=$CUSTOMBLOCKS.$header.tpl}
 																							{else}
-																								{foreach item=detail from=$detail}
+																								{foreach item=detailInfo from=$detail}
 																									<tr style="height:25px" class="detailview_row">
-																										{foreach key=label item=data from=$detail}
+																										{foreach key=label item=data from=$detailInfo}
 																											{assign var=keyid value=$data.ui}
 																											{assign var=keyval value=$data.value}
 																											{assign var=keytblname value=$data.tablename}
@@ -419,9 +400,7 @@ function sendfile_email()
 																			 	|| ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration+1)
 																			 	|| ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration+1)}
 																				<tr>
-																					<td style="padding:5px;" >
-																						{php} echo vtlib_process_widget($this->_tpl_vars['CUSTOM_LINK_DETAILVIEWWIDGET'], $this->_tpl_vars); {/php}
-																					</td>
+																					<td style="padding:5px;">{process_widget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
 																				</tr>
 																			{/if}
 																			{/if}
@@ -541,7 +520,7 @@ function sendfile_email()
 												{* vtlib customization: Custom links on the Detail view basic links *}
 												{if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEWBASIC}
 													<table width="100%" border="0" cellpadding="5" cellspacing="0">
-														                                                                                                                    <tr>
+													                                                                                                                    <tr>
                                                                                                                     <td align="left" style="padding-left:-3px;">
 
                                                                                                                     {foreach item=ACTIONBLOCK key=key from=$CUSTOM_LINKS.ActionBlock}
@@ -607,7 +586,6 @@ function sendfile_email()
                                                                                                                     </tr>
                                                                                                         </table>      
 												{/if}
-
 												{* vtlib customization: Custom links on the Detail view *}
 												{if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEW}
 													<br>
@@ -767,8 +745,8 @@ function sendfile_email()
 
 
 {if $MODULE eq 'Products'}
-<script language="JavaScript" type="text/javascript" src="modules/Products/Productsslide.js"></script>
-<script language="JavaScript" type="text/javascript">Carousel();</script>
+<script type="text/javascript" src="modules/Products/Productsslide.js"></script>
+<script type="text/javascript">Carousel();</script>
 {/if}
 
 <script>
@@ -790,7 +768,7 @@ function getTagCloud()
 getTagCloud();
 </script>
 <!-- added for validation -->
-<script language="javascript">
+<script>
   var fieldname = new Array({$VALIDATION_DATA_FIELDNAME});
   var fieldlabel = new Array({$VALIDATION_DATA_FIELDLABEL});
   var fielddatatype = new Array({$VALIDATION_DATA_FIELDDATATYPE});

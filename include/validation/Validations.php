@@ -67,4 +67,47 @@ function validate_IBAN_BankAccount($field, $iban, $params, $fields) {
 	return false;
 }
 
+// Intra-Community VAT number verification - www.bigotconsulting.fr (thanks)
+function validate_EU_VAT($field, $num_tva, $params, $fields) {
+	if ($num_tva=='') return true;
+	if (extension_loaded('soap')) {
+		ini_set("soap.wsdl_cache_enabled", "0");
+		$prefix = substr($num_tva, 0, 2);
+		$tva = substr($num_tva, 2);
+		$param = array('countryCode' => $prefix, 'vatNumber' => $tva);
+		$soap = new SoapClient('http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl');
+		try {
+			$xml = $soap->checkVat($param);
+		} catch (Exception $e) {
+			return false;
+		}
+		return (($xml->valid)=="1");
+	}
+	return false;
+}
+
+/** check if record exists with the same value in the given field
+ * params[0] module name
+ * params[1] crmid
+ */
+function validate_notDuplicate($field, $fieldval, $params, $fields) {
+	global $adb, $current_user;
+	$module = $params[0];
+	$crmid = $params[1];
+	$queryGenerator = new QueryGenerator($module, $current_user);
+	$queryGenerator->setFields(array('id'));
+	$queryGenerator->addCondition($field, $fieldval, 'e');
+	if(isset($crmid) && $crmid !='') {
+		$queryGenerator->addCondition('id',$crmid,'ne','and');
+	}
+	$query = $queryGenerator->getQuery();
+	global $log;$log->fatal($query);
+	$result = $adb->pquery($query, array());
+	if ($result and $adb->num_rows($result) == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 ?>
