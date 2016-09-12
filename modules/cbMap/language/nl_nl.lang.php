@@ -29,7 +29,7 @@ $mod_strings = array(
 	'Map Fields' => 'Maak veldrelatie',
 	'IOMap' => 'IO Relatie',
 	'Search and Update' => 'Zoek en update',
-	'Field Dependency' => 'Veld afhankelijkheid',
+	'FieldDependency' => 'Veld afhankelijkheid',
 	'Record Access Control' => 'Record toegang controle',
 	'Record Set Mapping' => 'Record set relatie',
 	'ListColumns' => 'Kolomlijst',
@@ -39,5 +39,6 @@ $mod_strings = array(
 	'Modified Time' => 'Gewijzigd op',
 	'Description' => 'Beschrijving',
 	'GlobalVariable' => 'Globale Variabele',
+	'Validations' => 'Validations',
 );
 ?>

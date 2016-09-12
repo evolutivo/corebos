@@ -40,12 +40,13 @@ $mod_strings = Array(
 	'Map Fields' => 'Map Fields',
 	'IOMap' => 'IOMap',
 	'Search and Update' => 'Search and Update',
-	'Field Dependency' => 'Field Dependency',
+	'FieldDependency' => 'Field Dependency',
 	'Record Access Control' => 'Record Access Control',
 	'Record Set Mapping' => 'Record Set Mapping',
 	'Module Set Mapping' => 'Module Set Mapping',
 	'ListColumns' => 'List Columns',
 	'DuplicateRelations' => 'Duplicate Relations',
 	'MasterDetailLayout' => 'Master Detail Layout',
+	'Validations' => 'Validations',
 );
 ?>

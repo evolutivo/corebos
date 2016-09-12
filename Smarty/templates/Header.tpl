@@ -39,12 +39,8 @@
 {/literal}
 	<!-- End -->
 </head>
-<script>
-var gVTModule = '{$smarty.request.module|@vtlib_purify}';
-var gVTTheme  = '{$THEME}';
-var gVTUserID = '{$CURRENT_USER_ID}';
-</script>
-	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small>
+{include file='BrowserVariables.tpl'}
+<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small>
 	<a name="top"></a>
 	<!-- header -->
 	<!-- header-vtiger crm name & RSS -->
@@ -56,12 +52,12 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	<!-- vtlib customization: Javascript hook -->
 	<script type="text/javascript" src="include/js/vtlib.js?v={$VERSION}"></script>
 	<!-- END -->
-	<script language="JavaScript" type="text/javascript" id="_current_language_" src="include/js/{php} echo $_SESSION['authenticated_user_language'];{/php}.lang.js?{php} echo $_SESSION['vtiger_version'];{/php}"></script>
-	<script language="JavaScript" type="text/javascript" src="include/js/QuickCreate.js"></script>
-        <script language="JavaScript" type="text/javascript" src="include/js/menu.js?v={$VERSION}"></script>
-	<script language="JavaScript" type="text/javascript" src="include/calculator/calc.js"></script>
-	<script language="JavaScript" type="text/javascript" src="modules/Calendar/script.js"></script>
-	<script language="JavaScript" type="text/javascript" src="include/js/notificationPopup.js"></script>
+	<script type="text/javascript" id="_current_language_" src="include/js/{$LANGUAGE}.lang.js?{$VERSION}"></script>
+	<script type="text/javascript" src="include/js/QuickCreate.js"></script>
+	<script type="text/javascript" src="include/js/menu.js?v={$VERSION}"></script>
+	<script type="text/javascript" src="include/calculator/calc.js"></script>
+	<script type="text/javascript" src="modules/Calendar/script.js"></script>
+	<script type="text/javascript" src="include/js/notificationPopup.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 	<script type="text/javascript" src="jscalendar/lang/calendar-{$APP.LBL_JSCALENDAR_LANG}.js"></script>
@@ -245,7 +241,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 						<input class="small" type='radio' name='exportCalendar' value = 'iCal' onclick="jQuery('#ics_filename').removeAttr('disabled');" checked /> iCal Format
 					</td>
 					<td align="left">
-						<input class="small" type='text' name='ics_filename' id='ics_filename' size='25' value='{php}global $coreBOS_app_name; echo $coreBOS_app_name;{/php}.calendar'/>
+						<input class="small" type='text' name='ics_filename' id='ics_filename' size='25' value='{$coreBOS_app_name}.calendar'/>
 					</td>
 				</tr>
 				</table>
@@ -295,7 +291,7 @@ var gVTUserID = '{$CURRENT_USER_ID}';
 	</form>
 	</div>
 {/if}
-{php}cbEventHandler::do_action('corebos.header.premenu');{/php}
+{$COREBOS_HEADER_PREMENU}
 <!-- header - master tabs -->
 <TABLE border=0 cellspacing=0 cellpadding=0 width=100% class="hdrTabBg">
 <tr>
