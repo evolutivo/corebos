@@ -395,7 +395,6 @@ class ListViewController {
 								$currencyInfo = getInventoryCurrencyInfo($module, $recordId);
 								$currencySymbol = $currencyInfo['currency_symbol'];
 							}
-							$value = number_format($value, 2,'.','');
 							$currencyValue = CurrencyField::convertToUserFormat($value, null, true);
 							$value = CurrencyField::appendCurrencySymbol($currencyValue, $currencySymbol);
 						} else {
@@ -581,16 +580,6 @@ class ListViewController {
 						$value = textlength_check($this->ownerNameListrel[$fieldName][$value]);
 					} else {
 						$value = textlength_check($this->ownerNameList[$fieldName][$value]);
-					}
-				} elseif ($field->getUIType() == 25) {
-					//TODO clean request object reference.
-					$contactId=$_REQUEST['record'];
-					$emailId=$this->db->query_result($result,$i,"activityid");
-					$result1 = $this->db->pquery("SELECT access_count FROM vtiger_email_track WHERE ".
-							"crmid=? AND mailid=?", array($contactId,$emailId));
-					$value=$this->db->query_result($result1,0,"access_count");
-					if(!$value) {
-						$value = 0;
 					}
 				} elseif($field->getUIType() == 8){
 					if(!empty($value)){

@@ -158,6 +158,7 @@ list($startHour, $startMin) = explode(':', $date->getDisplayTime());
 	<!--script type="text/javascript" src="include/js/ListView.js"></script-->
 	<div class="calAddITSEvent layerPopup" style="display:none;width:650px;left:200px;top:150px;z-index:10000;background-color:#ffffff" id="addITSEvent" align=center>
 	<form id="EditView" name="EditView" method="POST" action="index.php">
+	<input type="hidden" name="action" value="SaveEvent">
 	<input type="hidden" name="module" value="Calendar4You">
 	<input type="hidden" name="return_action" value="index">
 	<input type="hidden" name="return_module" value="Calendar4You">
@@ -1096,9 +1097,9 @@ $picklistDependencyDSCalendar = Vtiger_DependencyPicklist::getPicklistDependency
 		<?php if(!empty($picklistDependencyDSCalendar)){ ?>
 		(new FieldDependencies(<?php echo Zend_Json::encode($picklistDependencyDSCalendar) ?>)).init(document.forms['createTodo']);
 		<?php } ?>
+		getSelectedStatus(); // Call status onchange function in case default status is Held
 	});
-</script>
-<script type="text/javascript">
+
 function triggerOnChangeHandler(elementName, formName){
 	if(typeof(formName) == 'undefined') {
 		formName = document.forms['EditView'];
@@ -1113,8 +1114,9 @@ function c4y_eventsave() {
 	jQuery.ajax({
 		type: frm1.attr('method'),
 		url: "index.php?module=Calendar4You&action=Calendar4YouAjax&file=SaveEvent",
-		data: frm1r.serialize(),
-		success: function (data){
+		data: frm1r.serialize()
+	})
+	.done(function (data){
 			jQuery('#EditView')[0].reset();
 			var return_data = data.split("-");
 			jQuery('#calendar_div').fullCalendar( 'refetchEvents' );
@@ -1127,7 +1129,6 @@ function c4y_eventsave() {
 			} else {
 				alert(data);
 			}
-		}
 	});
 	return false;
 };
@@ -1145,8 +1146,9 @@ function c4y_todosave(val_result) {
 	jQuery.ajax({
 		type: frm2.attr('method'),
 		url: "index.php?module=Calendar4You&action=Calendar4YouAjax&file=SaveTodo",
-		data: frm2r.serialize(),
-		success: function (data) {
+		data: frm2r.serialize()
+	})
+	.done(function (data) {
 			jQuery('#createTodoID')[0].reset();
 			var return_data = data.split("-");
 			jQuery('#calendar_div').fullCalendar( 'refetchEvents' );
@@ -1159,7 +1161,6 @@ function c4y_todosave(val_result) {
 			} else {
 				alert("error:"+data);
 			}
-		}
 	});
 }
 frm2.submit(function (){
