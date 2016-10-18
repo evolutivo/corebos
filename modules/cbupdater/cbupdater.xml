@@ -1156,4 +1156,32 @@
 	<classname>changeTypeOfDataUitype9FIX</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>Database changes for mysql strict. Fix update_log for cobropago. Not permit null and we save with null value</description>
+	<filename>build/changeSets/mysqlstrictCobroPagoUpdateLog.php</filename>
+	<classname>mysqlstrictCobroPagoUpdateLog</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>Database changes for mysql strict. Uitype 101 need a number by default, not accpet empty value</description>
+	<filename>build/changeSets/mysqlstrict_Uitype101NotAcceptEmptyValue.php</filename>
+	<classname>mysqlstrict_Uitype101NotAcceptEmptyValue</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete Settings Backup and Announcements</description>
+	<filename>build/changeSets/delSettingsBackupAnnouncements.php</filename>
+	<classname>delSettingsBackupAnnouncements</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete Customer Portal and Webforms from Settings</description>
+	<filename>build/changeSets/delSettingsCPortalWebform.php</filename>
+	<classname>delSettingsCPortalWebform</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

@@ -104,6 +104,13 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'If emails will have a hidden image to track openings. The default is enabled (1). <a href="http://corebos.org/documentation/doku.php?id=en:email_tracking" target="_blank">Documentation</a>',
 ),
+'ToolTip_MaxFieldValueLength' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Module Functionality',
+	'values' => '',
+	'definition' => 'Maximum number of characters of a value to show in the tooltip. The default value is 35. This variable can be set per module.',
+),
 'Debug_Send_VtigerCron_Error' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'CSV EMail',
@@ -117,6 +124,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Debug',
 	'values' => '',
 	'definition' => '',
+),
+'Application_Announcement' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'String',
+	'category' => 'Application',
+	'values' => 'Text to show',
+	'definition' => 'Shows a scrolling header text as a system wide announcement',
 ),
 'Application_Global_Search_SelectedModules' => array(
 	'status' => 'Implemented',
