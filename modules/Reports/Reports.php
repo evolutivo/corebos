@@ -173,19 +173,18 @@ class Reports extends CRMEntity{
 				}
 				echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
 				echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 80%; position: relative; z-index: 10000000;'>
-
 				<table border='0' cellpadding='5' cellspacing='0' width='98%'>
 				<tbody><tr>
 				<td rowspan='2' width='11%'><img src='". vtiger_imageurl('denied.gif', $theme) ."' ></td>
-				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>You are not allowed to View this Report </span></td>
+				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>".$app_strings['LBL_NO_PERMISSION']."</span></td>
 				</tr>
 				<tr>
 				<td class='small' align='right' nowrap='nowrap'>
-				<a href='javascript:window.history.back();'>$app_strings[LBL_GO_BACK]</a><br></td>
+				<a href='javascript:window.history.back();'>".$app_strings['LBL_GO_BACK'].'</a><br></td>
 				</tr>
 				</tbody></table>
-				</div>";
-				echo "</td></tr></table>";
+				</div>
+				</td></tr></table>';
 				exit;
 			}
 		}
@@ -655,8 +654,28 @@ class Reports extends CRMEntity{
 			$fieldlabel1 = str_replace(' ','_',$fieldlabel);
 			$fieldlabel1 = ReportRun::replaceSpecialChar($fieldlabel1);
 			$optionvalue = $fieldtablename.":".$fieldcolname.":".$module."_".$fieldlabel1.":".$fieldname.":".$fieldtypeofdata;
-			$this->adv_rel_fields[$fieldtypeofdata][] = '$'.$module.'#'.$fieldname.'$'."::".getTranslatedString($module,$module)." ".getTranslatedString($fieldlabel,$module);
+			$comparefield = '$'.$module.'#'.$fieldname.'$'."::".getTranslatedString($module,$module)." ".getTranslatedString($fieldlabel,$module);
+			switch ($fieldtypeofdata) {
+				case 'NN':
+				case 'N':
+				case 'I':
+					$this->adv_rel_fields['NN'][] = $comparefield;
+					$this->adv_rel_fields['N'][] = $comparefield;
+					$this->adv_rel_fields['I'][] = $comparefield;
+					break;
+				default:
+					$this->adv_rel_fields[$fieldtypeofdata][] = $comparefield;
+					break;
+			}
 			$module_columnlist[$optionvalue] = $fieldlabel;
+		}
+		foreach ($this->adv_rel_fields as $ftypes => $flds) {
+			$uniq = array();
+			foreach($flds as $val) {
+				$uniq[$val] = true;
+			}
+			$uniq = array_keys($uniq);
+			$this->adv_rel_fields[$ftypes] = $uniq;
 		}
 		$blockname = getBlockName($block);
 		if($blockname == 'LBL_RELATED_PRODUCTS' && in_array($module,getInventoryModules())) {
@@ -1638,7 +1657,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 			$field = WebserviceField::fromArray($adb, $fieldInfo);
 			$fieldType = $field->getFieldDataType();
 		}
-		if($fieldType == 'currency' or $fieldType == 'double') {
+		if(($fieldType == 'currency' or $fieldType == 'double') and (substr($adv_filter_value,0,1) != "$" and substr($adv_filter_value,-1,1) != "$")) {
 			$flduitype = $fieldInfo['uitype'];
 			if($flduitype == '72' or $flduitype == 9 or $flduitype ==7) {
 				$adv_filter_value = CurrencyField::convertToDBFormat($adv_filter_value, null, true);

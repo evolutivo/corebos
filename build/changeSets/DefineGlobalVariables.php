@@ -42,6 +42,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_Action_Panel_Open',
 				'Application_Search_Panel_Open',
 				'Application_TrackerMaxHistory',
+				'Application_Announcement',
 
 				'Calendar_Modules_Panel_Visible',
 				'Calendar_Default_Reminder_Minutes',
@@ -78,6 +79,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'ModComments_DefaultCriteria',
 				'ModComments_DefaultBlockStatus',
 				'EMail_OpenTrackingEnabled',
+				'ToolTip_MaxFieldValueLength',
 
 				'Report_Send_Scheduled_ifEmpty',
 

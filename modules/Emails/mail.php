@@ -265,6 +265,14 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 		}
 	}
 
+        //If we send attachments from MarketingDashboard
+	if(is_array($attachment))
+	{
+            foreach($attachment as $file){
+			addAttachment($mail,$file,$emailid);
+            }
+	}
+
 	$mail->IsHTML(true);		// set email format to HTML
 	$mail->AllowEmpty = true; //allow sent empty body.
 	return;
@@ -302,6 +310,16 @@ function setMailServerProperties($mail)
 	if ("false" != $smtp_auth) {
 		$mail->SMTPAuth = true;
 		if ("true" != $smtp_auth) {
+			if ($smtp_auth == 'sslnc' or $smtp_auth == 'tlsnc') {
+				$mail->SMTPOptions = array(
+						'ssl' => array(
+							'verify_peer' => false,
+							'verify_peer_name' => false,
+							'allow_self_signed' => true
+						)
+				);
+				$smtp_auth = substr($smtp_auth,0,3);
+			}
 			$mail->SMTPSecure = $smtp_auth;
 		}
 	}
@@ -401,7 +419,7 @@ function MailSend($mail)
 		$log->debug("Error in Mail Sending : Error log = '".$mail->ErrorInfo."'");
 		return $mail->ErrorInfo;
 	} else {
-		$log->info("Mail has been sent from the vtigerCRM system : Status : '".$mail->ErrorInfo."'");
+		$log->info("Mail has been sent from the application : Status : '".$mail->ErrorInfo."'");
 		return 1;
 	}
 }
