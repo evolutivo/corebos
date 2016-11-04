@@ -29,7 +29,7 @@ class Installation_Utils {
 	static function getDbOptions() {
 		$dbOptions = array();
 		if(function_exists('mysql_connect')) {
-			$dbOptions['mysql'] = 'MySQL';
+			$dbOptions['mysqli'] = 'MySQL';
 		}
 		return $dbOptions;
 	}
@@ -106,7 +106,7 @@ class Installation_Utils {
 					-  '.$installationStrings['MSG_DB_PARAMETERS_INVALID'].'.<BR>
 					-  '.$installationStrings['MSG_DB_USER_NOT_AUTHORIZED'];
 		}
-		elseif(Common_Install_Wizard_Utils::isMySQL($db_type) && $mysql_server_version < '4.1') {
+		elseif(Common_Install_Wizard_Utils::isMySQL($db_type) && version_compare($mysql_server_version,'4.1','<')) {
 			$error_msg = $mysql_server_version.' -> '.$installationStrings['ERR_INVALID_MYSQL_VERSION'];
 		}
 		elseif($db_creation_failed) {
@@ -728,9 +728,6 @@ class ConfigFile_Utils {
 
 					/* replace the application unique key variable */
 					$buffer = str_replace( "_VT_APP_UNIQKEY_", md5((time() + rand(1,9999999)) . $this->rootDirectory) , $buffer);
-
-					/* replace support email variable */
-					$buffer = str_replace( "_USER_SUPPORT_EMAIL_", $this->adminEmail, $buffer);
 
 					fwrite($includeHandle, $buffer);
 				}

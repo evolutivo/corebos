@@ -57,13 +57,21 @@ define("RB_RECORD_UPDATED", 'update');
  * @returns array with the variables
  */
 function getBrowserVariables(&$smarty) {
-	global $currentModule,$current_user,$default_charset,$theme;
+	global $currentModule,$current_user,$default_charset,$theme,$adb;
 	$vars = array();
 	$vars['gVTModule'] = $currentModule;
 	$vars['gVTTheme']  = $theme;
 	$vars['gVTUserID'] = $current_user->id;
 	$vars['default_charset'] = $default_charset;
 	$vars['userDateFormat'] = $current_user->date_format;
+	$sql = 'SELECT dayoftheweek FROM its4you_calendar4you_settings WHERE userid=?';
+	$result = $adb->pquery($sql, array($current_user->id));
+	if ($adb and $adb->num_rows($result)>0) {
+		$fDOW = $adb->query_result($result, 0,0);
+		$vars['userFirstDOW'] = ($fDOW=='Monday' ? 1 : 0);
+	} else {
+		$vars['userFirstDOW'] = 0;
+	}
 	if(isset($current_user->currency_grouping_separator) && $current_user->currency_grouping_separator == '') {
 		$vars['userCurrencySeparator'] = ' ';
 	} else {
@@ -85,6 +93,7 @@ function getBrowserVariables(&$smarty) {
 		$smarty->assign('DEFAULT_CHARSET', $vars['default_charset']);
 		$smarty->assign('CURRENT_USER_ID', $vars['gVTUserID']);
 		$smarty->assign('USER_DATE_FORMAT',$vars['userDateFormat']);
+		$smarty->assign('USER_FIRST_DOW',$vars['userFirstDOW']);
 		$smarty->assign('USER_CURRENCY_SEPARATOR', $vars['userCurrencySeparator']);
 		$smarty->assign('USER_DECIMAL_FORMAT', $vars['userDecimalSeparator']);
 		$smarty->assign('USER_NUMBER_DECIMALS', $vars['userNumberOfDecimals']);
@@ -2643,6 +2652,33 @@ function html_to_utf8 ($data)
 	return preg_replace("/\\&\\#([0-9]{3,10})\\;/e", '_html_to_utf8("\\1")', $data);
 }
 
+function decode_html($str) {
+	global $default_charset;
+	// Direct Popup action or Ajax Popup action should be treated the same.
+	$request['action'] = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
+	$request['file'] = isset($_REQUEST['file']) ? $_REQUEST['file'] : '';
+	if ($request['action'] == 'Popup' || $request['file'] == 'Popup')
+		return html_entity_decode($str);
+	else
+		return html_entity_decode($str, ENT_QUOTES, $default_charset);
+}
+
+/**
+ * Alternative decoding function which coverts irrespective of $_REQUEST values.
+ * Useful in case of Popup (Listview etc...) where decode_html will not work as expected
+ */
+function decode_html_force($str) {
+	global $default_charset;
+	return html_entity_decode($str, ENT_QUOTES, $default_charset);
+}
+
+function popup_decode_html($str) {
+	global $default_charset;
+	$slashes_str = popup_from_html($str);
+	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $default_charset);
+	return decode_html(br2nl($slashes_str));
+}
+
 function _html_to_utf8 ($data)
 {
 	if ($data > 127)
@@ -3073,11 +3109,6 @@ function getRecordValues($id_array,$module) {
 					if($product_name != '')
 						$value_pair['disp_value']=$product_name;
 					else $value_pair['disp_value']='';
-				} elseif($ui_type==58) {
-					$campaign_name=getCampaignName($field_values[$j][$fld_name]);
-					if($campaign_name != '')
-						$value_pair['disp_value']=$campaign_name;
-					else $value_pair['disp_value']='';
 				} elseif($ui_type == 10) {
 					$value_pair['disp_value'] = getRecordInfoFromID($field_values[$j][$fld_name]);
 				}elseif($ui_type == 5 || $ui_type == 6 || $ui_type == 23){
@@ -3318,7 +3349,8 @@ function getDuplicateQuery($module,$field_values,$ui_type_arr)
 /** Function to return the duplicate records data as a formatted array */
 function getDuplicateRecordsArr($module)
 {
-	global $adb,$app_strings,$list_max_entries_per_page,$theme,$default_charset;
+	global $adb,$app_strings,$theme,$default_charset;
+	$list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize',20,$module);
 	$field_values_array=getFieldValues($module);
 	$field_values=$field_values_array['fieldnames_list'];
 	$fld_arr=$field_values_array['fieldnames_array'];
@@ -3486,13 +3518,6 @@ function getDuplicateRecordsArr($module)
 				} else {
 					$result[$col_arr[$k]]='';
 				}
-			}
-			if($ui_type[$fld_arr[$k]] ==58)
-			{
-				$campaign_name=getCampaignName($result[$col_arr[$k]]);
-				if($campaign_name != '')
-					$result[$col_arr[$k]]=$campaign_name;
-				else $result[$col_arr[$k]]='';
 			}
 			if($ui_type[$fld_arr[$k]] == 59)
 			{
@@ -4542,7 +4567,21 @@ function getMailFields($tabid){
  */
 function isRecordExists($recordId) {
 	global $adb;
-	$query = "SELECT crmid FROM vtiger_crmentity where crmid=? AND deleted=0";
+	$users = $groups = false;
+	if (strpos($recordId, 'x')) {
+		list($moduleWS,$recordId) = explode('x', $recordId);
+		$userWS = vtws_getEntityId('Users');
+		$users = ($userWS==$moduleWS);
+		$groupWS = vtws_getEntityId('Groups');
+		$groups = ($groupWS==$moduleWS);
+	}
+	if ($users) {
+		$query = 'SELECT id FROM vtiger_users where id=? AND deleted=0';
+	} elseif ($groups) {
+		$query = 'SELECT groupid FROM vtiger_groups where groupid=?';
+	} else {
+		$query = 'SELECT crmid FROM vtiger_crmentity where crmid=? AND deleted=0';
+	}
 	$result = $adb->pquery($query, array($recordId));
 	if ($adb->num_rows($result)) {
 		return true;
@@ -4733,7 +4772,7 @@ function getEmailRelatedModules() {
 }
 
 function getInventoryModules() {
-	return array('Invoice','Quotes','PurchaseOrder','SalesOrder');
+	return array('Invoice','Quotes','PurchaseOrder','SalesOrder','Issuecards');
 }
 
 /**
@@ -4801,7 +4840,7 @@ function getSelectedRecords($input,$module,$idstring,$excludedRecords) {
 		$excludedRecords=explode(';',$excludedRecords);
 		$storearray=array_diff($storearray,$excludedRecords);
 
-	} else if($module == 'Documents') {
+	} else if($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 
 		if($input['selectallmode']=='true') {
 			$result = getSelectAllQuery($input,$module);
@@ -4869,7 +4908,7 @@ function getSelectAllQuery($input,$module) {
 		$queryGenerator->setFields(array('id'));
 		$query = $queryGenerator->getQuery();
 
-		if($module == 'Documents') {
+		if($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 			$folderid = vtlib_purify($input['folderidstring']);
 			$folderid = str_replace(';', ',', $folderid);
 			$query .= " AND vtiger_notes.folderid in (".$folderid.")";
@@ -4965,12 +5004,7 @@ function dateDiffAsString($d1, $d2) {
 }
 
 function getMinimumCronFrequency() {
-	global $MINIMUM_CRON_FREQUENCY;
-
-	if(!empty($MINIMUM_CRON_FREQUENCY)) {
-		return $MINIMUM_CRON_FREQUENCY;
-	}
-	return 15;
+	return GlobalVariable::getVariable('Application_Minimum_Cron_Frequency',15);
 }
 
 ?>

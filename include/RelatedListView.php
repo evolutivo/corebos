@@ -46,7 +46,8 @@ function GetRelatedListBase($module,$relatedmodule,$focus,$query,$button,$return
 
 	$current_module_strings = return_module_language($current_language, $module);
 
-	global $list_max_entries_per_page, $urlPrefix, $currentModule, $theme, $theme_path, $theme_path, $mod_strings;
+	global $currentModule, $theme, $theme_path, $theme_path, $mod_strings;
+	$list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize',20,$currentModule);
 	$smarty = new vtigerCRM_Smarty;
 	if (!isset($where)) $where = "";
 
@@ -236,9 +237,8 @@ function getAttachmentsAndNotes($parentmodule,$query,$id,$sid='')
 	$theme_path="themes/".$theme."/";
 	$image_path=$theme_path."images/";
 
-	global $adb,$current_user;
-	global $mod_strings;
-	global $app_strings, $listview_max_textlength;
+	global $adb,$current_user, $mod_strings, $app_strings,$currentModule;
+	$listview_max_textlength = GlobalVariable::getVariable('Application_ListView_Max_Text_Length',40,$currentModule);
 
 	$result=$adb->query($query);
 	$noofrows = $adb->num_rows($result);
@@ -508,16 +508,9 @@ function getPriceBookRelatedProducts($query,$focus,$returnset='')
 	global $log;
 	$log->debug("Entering getPriceBookRelatedProducts(".$query.",".get_class($focus).",".$returnset.") method ...");
 
-	global $adb;
-	global $app_strings;
-	global $mod_strings;
-	global $current_language,$current_user;
+	global $adb, $app_strings, $mod_strings, $current_language,$current_user, $theme;
 	$current_module_strings = return_module_language($current_language, 'PriceBook');
-
-	global $list_max_entries_per_page;
-	global $urlPrefix;
-
-	global $theme;
+	$list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize',20,'PriceBook');
 	$pricebook_id = vtlib_purify($_REQUEST['record']);
 	$theme_path="themes/".$theme."/";
 	$image_path=$theme_path."images/";

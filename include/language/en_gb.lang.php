@@ -10,7 +10,6 @@
 
 $app_strings = array(
 	'LBL_BROWSER_TITLE' => 'coreBOS',
-	'APP_NAME' => 'coreBOS',
 	'LBL_MY_ACCOUNT' => 'My Organisation',
 	'LBL_MY_PREFERENCES' => 'My Preferences',
 	'LBL_ADMIN' => 'Admin',
@@ -542,6 +541,7 @@ $app_strings = array(
 	'Expected Revenue' => 'Expected Revenue',
 	'Expected Close Date' => 'Expected Close Date',
 	'LBL_ACTIONS' => 'Actions',
+	'TOGGLE_ACTIONS' => 'Toggle Actions',
 	'LBL_SEND' => 'Send',
 	'LBL_VAT' => 'VAT',
 	'LBL_SALES' => 'Sales',
@@ -1062,8 +1062,6 @@ $app_strings = array(
 	'LBL_MASSEDIT_FORM_HEADER' => 'Mass Edit - Records Fields',
 	'Product Bundles' => 'Product Bundles',
 	'VTLIB_MOD_NOT_ACTIVE' => 'module is not active!',
-	'LBL_VTIGER_NEWS' => 'vtiger News',
-	'LBL_FEEDBACK' => 'Feedback',
 	'CallHistory' => 'Call History',
 	'PBXManager' => 'PBX Manager',
 	'LBL_OUTGOING_CALL_MESSAGE' => 'Pick up the extension\'s receiver to dial the number',

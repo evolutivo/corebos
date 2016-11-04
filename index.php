@@ -85,8 +85,6 @@ if (!isset($dbconfig['db_hostname']) || $dbconfig['db_status']=='_DB_STAT_') {
 if (is_file('config_override.php')) {
 	require_once('config_override.php');
 }
-// load global help links
-require_once 'config.help.link.php';
 
 /**
  * Check for vtiger installed version and codebase
@@ -131,11 +129,6 @@ if(isset($_SESSION['VTIGER_DB_VERSION']) && isset($_SESSION['authenticated_user_
 		exit();
 	}
 }
-// END
-
-$default_config_values = Array( "allow_exports"=>"all","upload_maxsize"=>"3000000", "listview_max_textlength" => "40", "php_max_execution_time" => "0");
-
-set_default_config($default_config_values);
 
 // Set the default timezone preferred by user
 global $default_timezone;
@@ -145,8 +138,8 @@ if(isset($default_timezone) && function_exists('date_default_timezone_set')) {
 
 require_once('include/logging.php');
 require_once('modules/Users/Users.php');
-
-//if($calculate_response_time) $startTime = microtime();
+$calculate_response_time = GlobalVariable::getVariable('Debug_Calculate_Response_Time',0);
+if($calculate_response_time) $startTime = microtime(true);
 
 $log = LoggerManager::getLogger('index');
 
@@ -225,6 +218,8 @@ if(isset($_SESSION["authenticated_user_id"]) && (isset($_SESSION["app_unique_key
 	$use_current_login = true;
 }
 
+$default_action = GlobalVariable::getVariable('Application_Default_Action','index');
+$default_module = GlobalVariable::getVariable('Application_Default_Module','Home');
 // Prevent loading Login again if there is an authenticated user in the session.
 if (isset($_SESSION["authenticated_user_id"]) && $module == 'Users' && $action == 'Login') {
 	header("Location: index.php?action=$default_action&module=$default_module");
@@ -325,7 +320,6 @@ if(isset($action) && isset($module))
 		preg_match("/^savetermsandconditions/",$action) ||
 		preg_match("/^home_rss/",$action) ||
 		preg_match("/^ConvertAsFAQ/",$action) ||
-		preg_match("/^Tickerdetail/",$action) ||
 		preg_match("/^".$module."Ajax/",$action) ||
 		preg_match("/^ActivityAjax/",$action) ||
 		preg_match("/^chat/",$action) ||
@@ -686,7 +680,7 @@ if(isset($_SESSION['vtiger_authenticated_user_theme']) && $_SESSION['vtiger_auth
 $Ajx_module= $module;
 if($module == 'Events')
 	$Ajx_module = 'Calendar';
-if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action != 'Tickerdetail' && $action != $Ajx_module."Ajax" && $action != "chat" && $action != "HeadLines" && $action != 'massdelete' && $action != "DashboardAjax" && $action != "ActivityAjax")
+if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action != $Ajx_module."Ajax" && $action != "chat" && $action != "HeadLines" && $action != 'massdelete' && $action != "DashboardAjax" && $action != "ActivityAjax")
 {
 	// Under the SPL you do not have the right to remove this copyright statement.
 	$copyrightstatement="<style>
@@ -708,20 +702,19 @@ if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action 
 	if((!$skipFooters) && $action != "about_us" && $action != "vtchat" && $action != "ChangePassword" && $action != "body" && $action != $module."Ajax" && $action!='Popup' && $action != 'ImportStep3' && $action != 'ActivityAjax' && $action != 'getListOfRecords') {
 		echo $copyrightstatement;
 		cbEventHandler::do_action('corebos.footer.prefooter');
+		$coreBOS_uiapp_name = GlobalVariable::getVariable('Application_UI_Name',$coreBOS_app_name);
+		$coreBOS_uiapp_version = GlobalVariable::getVariable('Application_UI_Version',$coreBOS_app_version);
+		$coreBOS_uiapp_url = GlobalVariable::getVariable('Application_UI_URL',$coreBOS_app_url);
 		echo "<br><br><br><table border=0 cellspacing=0 cellpadding=5 width=100% class=settingsSelectedUI >";
-		echo "<tr><td class=small align=left><span style='color: rgb(153, 153, 153);'>Powered by ".getTranslatedString('APP_NAME')." <span id='_vtiger_product_version_'>$coreBOS_app_version</span></span></td>";
-		echo "<td class=small align=right><span>&copy; 2004-".date('Y')." <a href='$coreBOS_app_url' target='_blank'>$coreBOS_app_name</a> | <a href='copyright.html' target='_blank'>".$app_strings['LNK_READ_LICENSE']."</a> | <a href='http://corebos.org/page/privacy-policy' target='_blank'>".getTranslatedString('LNK_PRIVACY_POLICY')."</a></span></td></tr></table>";
-	//	echo "<table align='center'><tr><td align='center'>";
-		// Under the Sugar Public License referenced above, you are required to leave in all copyright statements
-		// in both the code and end-user application.
-	//	if($calculate_response_time)
-	//	{
-	//		$endTime = microtime();
-
-	//		$deltaTime = microtime_diff($startTime, $endTime);
-	//		echo('&nbsp;Server response time: '.$deltaTime.' seconds.');
-	//	}
-	//	echo "</td></tr></table>\n";
+		echo "<tr><td class=small align=left><span style='color: rgb(153, 153, 153);'>Powered by ".$coreBOS_uiapp_name." <span id='_vtiger_product_version_'>$coreBOS_uiapp_version</span></span></td>";
+		echo "<td class=small align=right><span>&copy; 2004-".date('Y')." <a href='$coreBOS_uiapp_url' target='_blank'>$coreBOS_uiapp_name</a></span></td></tr></table>";
+		if($calculate_response_time) {
+			$endTime = microtime(true);
+			echo "<table align='center'><tr><td align='center'>";
+			$deltaTime = round($endTime - $startTime,2);
+			echo('&nbsp;Server response time: '.$deltaTime.' seconds.');
+			echo "</td></tr></table>\n";
+		}
 	}
 	// ActivityReminder Customization for callback
 	if(!$skipFooters) {

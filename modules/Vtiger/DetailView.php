@@ -132,9 +132,11 @@ if(PerformancePrefs::getBoolean('DETAILVIEW_RECORD_NAVIGATION', true) && isset($
 }
 
 $smarty->assign('IS_REL_LIST', isPresentRelatedLists($currentModule));
+$isPresentRelatedListBlock = isPresentRelatedListBlock($currentModule);
+$smarty->assign('IS_RELBLOCK_LIST', $isPresentRelatedListBlock);
 $smarty->assign('SinglePane_View', $singlepane_view);
-
-if($singlepane_view == 'true') {
+$smarty->assign('HASRELATEDPANES', 'false');
+if($singlepane_view == 'true' or $isPresentRelatedListBlock) {
 	$related_array = getRelatedLists($currentModule,$focus);
 	$smarty->assign("RELATEDLISTS", $related_array);
 
@@ -144,6 +146,15 @@ if($singlepane_view == 'true') {
 	}
 	$open_related_modules = RelatedListViewSession::getRelatedModulesFromSession();
 	$smarty->assign("SELECTEDHEADERS", $open_related_modules);
+} else {
+	$bmapname = $currentModule.'RelatedPanes';
+	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+	if ($cbMapid) {
+		$cbMap = cbMap::getMapByID($cbMapid);
+		$rltabs = $cbMap->RelatedPanes($focus->id);
+		$smarty->assign('RLTabs', $rltabs['panes']);
+		$smarty->assign('HASRELATEDPANES', 'true');
+	}
 }
 
 if(isPermitted($currentModule, 'CreateView', $record) == 'yes')
@@ -161,6 +172,20 @@ $smarty->assign("BLOCKINITIALSTATUS",$_SESSION['BLOCKINITIALSTATUS']);
 include_once('vtlib/Vtiger/Link.php');
 $customlink_params = Array('MODULE'=>$currentModule, 'RECORD'=>$focus->id, 'ACTION'=>vtlib_purify($_REQUEST['action']));
 $smarty->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($currentModule), Array('DETAILVIEWBASIC','DETAILVIEW','DETAILVIEWWIDGET'), $customlink_params));
+if($isPresentRelatedListBlock) {
+	$related_list_block = array();
+	foreach ($blocks as $blabel => $binfo) {
+		if (!empty($binfo['relatedlist'])) {
+			foreach ($related_array as $rlabel => $rinfo) {
+				if ($rinfo['relationId']==$binfo['relatedlist']) {
+					$related_list_block[$binfo['relatedlist']] = array($rlabel=>$rinfo);
+					break;
+				}
+			}
+		}
+	}
+	$smarty->assign('RELATEDLISTBLOCK', $related_list_block);
+}
 
 // Hide Action Panel
 $DEFAULT_ACTION_PANEL_STATUS = GlobalVariable::getVariable('Application_Action_Panel_Open',1);

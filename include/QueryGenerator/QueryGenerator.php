@@ -666,7 +666,7 @@ class QueryGenerator {
 			$tableJoinCondition['folderid'] = array(
 				'vtiger_attachmentsfolder'=>"$baseTable.folderid = vtiger_attachmentsfolder.folderid"
 			);
-			$tableJoinMapping['vtiger_attachmentsfolder'] = 'INNER JOIN';
+			$tableJoinMapping['vtiger_attachmentsfolder'] = 'LEFT JOIN';
 		}
 
 		$alias_count=2;

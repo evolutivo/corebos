@@ -18,6 +18,7 @@ global $log, $app_strings, $app_list_strings, $mod_strings, $current_user, $curr
 $focus = CRMEntity::getInstance($currentModule);
 $smarty = new vtigerCRM_Smarty();
 $json = new Zend_Json();
+$upload_maxsize = GlobalVariable::getVariable('Application_Upload_MaxSize',3000000,$currentModule);
 $smarty->assign("UPLOADSIZE", $upload_maxsize/1000000); // Convert to MB
 if($_REQUEST['upload_error'] == true)
 {
@@ -330,7 +331,6 @@ $smarty->assign("ID", $focus->id);
 $smarty->assign("ENTITY_ID", vtlib_purify($_REQUEST["record"]));
 $smarty->assign("ENTITY_TYPE",vtlib_purify($_REQUEST["email_directing_module"]));
 $smarty->assign("OLD_ID", $old_id );
-//Display the RTE or not? -- configure $USE_RTE in config.php
 $USE_RTE = vt_hasRTE();
 $smarty->assign("USE_RTE",$USE_RTE);
 

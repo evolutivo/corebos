@@ -35,7 +35,6 @@ $mod_strings = Array(
 'LBL_IMPORT_MODULE_NO_DIRECTORY_END'=>' Deze bestaat niet of is niet overschrijfbaar',
 'LBL_IMPORT_MODULE_ERROR_NO_UPLOAD'=>'Het bestand is niet succesvol verstuurd, probeer nog een keer',
 'LBL_IMPORT_MODULE_ERROR_LARGE_FILE'=>'Bestand is te groot. Max:',
-'LBL_IMPORT_MODULE_ERROR_LARGE_FILE_END'=>'Bytes. Verander $upload_maxsize in config.php',
 'LBL_MODULE_NAME'=>'Importeren',
 'LBL_TRY_AGAIN'=>'Probeer nog een keer',
 'LBL_ERROR'=>'Foutmelding:',
@@ -207,5 +206,6 @@ $mod_strings = Array(
 'LBL_IMPORT_CHANGE_UPLOAD_SIZE' => ') may be incremented in your PHP configuration',
 'LBL_IMPORT_DIRECTORY_NOT_WRITABLE' => 'Import Directory is not writable',
 'LBL_IMPORT_FILE_COPY_FAILED' => 'Error copying file to import. Check file system permissions',
+'ImportInfo' => 'This extension adds import functionality to the application and is accessed via the icon on each module not directly, so you can eliminate it from the menu.',
 );
 ?>

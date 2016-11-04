@@ -19,7 +19,8 @@ require_once('modules/Task/TaskCommon.php');
 require_once("modules/Task4You/Task4You.php");
 require_once("modules/Task4You/TaskUtils.php");
 
-global $app_strings, $list_max_entries_per_page, $currentModule, $image_path, $theme, $adb, $current_user;
+global $app_strings, $currentModule, $image_path, $theme, $adb, $current_user;
+$list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize',20,$currentModule);
 $log = LoggerManager::getLogger('task_list');
 
 if (isset($_REQUEST['current_user_only'])) $current_user_only = vtlib_purify($_REQUEST['current_user_only']);

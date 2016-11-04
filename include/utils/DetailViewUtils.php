@@ -568,15 +568,6 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		$label_fld[] = $contact_name;
 		$label_fld["secid"] = $contact_id;
 		$label_fld["link"] = "index.php?module=Contacts&action=DetailView&record=" . $contact_id;
-	} elseif ($uitype == 58) {
-		$label_fld[] = getTranslatedString($fieldlabel, $module);
-		$campaign_id = $col_fields[$fieldname];
-		if ($campaign_id != '') {
-			$campaign_name = getCampaignName($campaign_id);
-		}
-		$label_fld[] = $campaign_name;
-		$label_fld["secid"] = $campaign_id;
-		$label_fld["link"] = "index.php?module=Campaigns&action=DetailView&record=" . $campaign_id;
 	} elseif ($uitype == 59) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$product_id = $col_fields[$fieldname];
@@ -1393,7 +1384,7 @@ function getDetailAssociatedProducts($module, $focus) {
 		<td width=10% valign="top" class="lvtCol" align="right"><b>' . $app_strings['LBL_NET_PRICE'] . '</b></td>
 	</tr>';
 
-	if ($module == 'Quotes' || $module == 'PurchaseOrder' || $module == 'SalesOrder' || $module == 'Invoice') {
+	if (in_array($module, getInventoryModules())) {
 		$query = "select case when vtiger_products.productid != '' then vtiger_products.productname else vtiger_service.servicename end as productname," .
 				" case when vtiger_products.productid != '' then 'Products' else 'Services' end as entitytype," .
 				" case when vtiger_products.productid != '' then vtiger_products.unit_price else vtiger_service.unit_price end as unit_price," .
@@ -1729,18 +1720,26 @@ function getRelatedListsInformation($module, $focus) {
 /** This function returns the related vtiger_tab details for a given entity or a module.
  * Param $module - module name
  * Param $focus - module object
+ * Param $restrictedRelations - array of related list IDs that you want to access
  * Return type is an array
  */
-function getRelatedLists($module, $focus) {
+function getRelatedLists($module, $focus,$restrictedRelations=null) {
 	global $log, $adb, $current_user;
 	$log->debug("Entering getRelatedLists(" . $module . "," . get_class($focus) . ") method ...");
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 
 	$cur_tab_id = getTabid($module);
 
+	//To select several specific Lists
+	$sel_list = '';
+	if(is_array($restrictedRelations) and count($restrictedRelations)>0){
+		$comma_list = implode(',',$restrictedRelations);
+		$sel_list = " AND relation_id IN ($comma_list) ";
+	}
+
 	//$sql1 = "select * from vtiger_relatedlists where tabid=? order by sequence";
 	// vtlib customization: Do not picklist module which are set as in-active
-	$sql1 = "select * from vtiger_relatedlists where tabid=? and related_tabid not in (SELECT tabid FROM vtiger_tab WHERE presence = 1) order by sequence";
+	$sql1 = "select * from vtiger_relatedlists where tabid=? and related_tabid not in (SELECT tabid FROM vtiger_tab WHERE presence = 1) $sel_list order by sequence";
 	// END
 	$result = $adb->pquery($sql1, array($cur_tab_id));
 	$num_row = $adb->num_rows($result);
@@ -1770,6 +1769,31 @@ function getRelatedLists($module, $focus) {
 	}
 	$log->debug("Exiting getRelatedLists method ...");
 	return $focus_list;
+}
+
+/** This function returns whether related lists block is present for this particular module or not
+ * Param $module - module name
+ * Return true if at least one block exists, false otherwise
+ */
+function isPresentRelatedListBlock($module) {
+	global $adb;
+	$brs = $adb->pquery('select 1 from vtiger_blocks where tabid=? and isrelatedlist>0',array(getTabid($module)));
+	return ($brs and $adb->num_rows($brs)>0);
+}
+
+/** This function returns whether a related lists block is present for this particular module with another or not
+ * Param $originModule - origin module name
+ * Param $relatedModule - related module name
+ * Return true if related list block exists between origin and related modules, false otherwise
+ */
+function isPresentRelatedListBlockWithModule($originModule,$relatedModule) {
+	global $adb;
+	$brs = $adb->pquery('select 1
+		from vtiger_blocks
+		INNER JOIN vtiger_relatedlists ON vtiger_blocks.isrelatedlist=vtiger_relatedlists.relation_id
+		where vtiger_blocks.tabid=? and vtiger_relatedlists.related_tabid=?',
+		array(getTabid($originModule),getTabid($relatedModule)));
+	return ($brs and $adb->num_rows($brs)>0);
 }
 
 /** This function returns whether related lists is present for this particular module or not
@@ -1918,6 +1942,14 @@ function getDetailBlockInformation($module, $result, $col_fields, $tabid, $block
 				}
 			} elseif (file_exists("Smarty/templates/modules/$module/{$label}_detail.tpl")) {
 				$returndata[getTranslatedString($curBlock,$module)]=array_merge((array)$returndata[getTranslatedString($curBlock,$module)],array($label=>array()));
+			} else {
+				$brs = $adb->pquery('select isrelatedlist from vtiger_blocks where blockid=?',array($blockid));
+				if ($brs and $adb->num_rows($brs)>0) {
+					$rellist = $adb->query_result($brs, 0,'isrelatedlist');
+					if ($rellist>0) {
+						$returndata[$curBlock]=array_merge((array)$returndata[$curBlock],array($label=>array(),'relatedlist'=>$rellist));
+					}
+				}
 			}
 		}
 	}
