@@ -22,25 +22,6 @@
 {/if}
 
 {include file='salesEditViewFieldDependency.tpl'}
-<script type="text/javascript">
-function sensex_info()
-{ldelim}
-		var Ticker = document.getElementById('tickersymbol').value;
-		if(Ticker!='')
-	{ldelim}
-				document.getElementById("vtbusy_info").style.display="inline";
-				jQuery.ajax({ldelim}
-							method:"POST",
-							url:'index.php?module={$MODULE}&action=Tickerdetail&tickersymbol='+Ticker,
-				{rdelim}).done(function(response) {ldelim}
-										document.getElementById('autocom').innerHTML = response;
-										document.getElementById('autocom').style.display="block";
-										document.getElementById("vtbusy_info").style.display="none";
-						{rdelim});
-	{rdelim}
-{rdelim}
-</script>
-
 {include file='Buttons_List1.tpl'}
 
 {*<!-- Contents -->*}
@@ -104,9 +85,6 @@ function sensex_info()
 							{*<!-- content cache -->*}
 							<table border=0 cellspacing=0 cellpadding=0 width=100%>
 							   <tr>
-								<td id ="autocom"></td>
-							   </tr>
-							   <tr>
 								<td style="padding:10px">
 								<!-- General details -->
 									<table border=0 cellspacing=0 cellpadding=0 width=100% class="small createview_table">
@@ -145,7 +123,7 @@ function sensex_info()
 
 
 									   <!-- Added to display the Product Details in Inventory-->
-									   {if $MODULE eq 'PurchaseOrder' || $MODULE eq 'SalesOrder' || $MODULE eq 'Quotes' || $MODULE eq 'Invoice'}
+									   {if $MODULE eq 'PurchaseOrder' || $MODULE eq 'SalesOrder' || $MODULE eq 'Quotes' || $MODULE eq 'Invoice' || $MODULE eq 'Issuecards'}
 									   <tr>
 										<td colspan=4>
 										{if $OP_MODE eq 'create_view'}

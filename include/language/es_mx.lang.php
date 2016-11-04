@@ -11,7 +11,6 @@
 
 $app_strings = array (
       'LBL_BROWSER_TITLE' => 'coreBOS',
-      'APP_NAME' => 'coreBOS',
       'LBL_MY_ACCOUNT' => 'Mi Cuenta',
       'LBL_MY_PREFERENCES' => 'Mis Preferencias',
       'LBL_ADMIN' => 'Admin',
@@ -552,6 +551,7 @@ $app_strings = array (
       'Expected Revenue' => 'Expectativa de Beneficio',
       'Expected Close Date' => 'Fecha Estimada de Cierre',
       'LBL_ACTIONS' => 'Acciones',
+      'TOGGLE_ACTIONS' => 'Conmutar Acciones',
       'LBL_SEND' => 'Enviar',
       'LBL_VAT' => 'IVA',
       'LBL_SALES' => 'Ventas',
@@ -1122,14 +1122,8 @@ $app_strings = array (
     
       // vtlib customization: Language strings
       'VTLIB_MOD_NOT_ACTIVE' => ' módulo no está activado!',
-      // END
 
-      // vtiger News & Feedback
-     'LBL_VTIGER_NEWS'=>'Noticias vtiger',
-     'LBL_FEEDBACK'=>'Cuéntanos',
-     // END
-     
-     //added for asterisk integration
+      //added for asterisk integration
      'CallHistory'=>'Historia de Llamadas',
      'PBXManager'=>'Administrador PBX',
      'LBL_OUTGOING_CALL_MESSAGE'=>'Descuelgue el teléfono para marcar el número',
@@ -1160,7 +1154,6 @@ $app_strings = array (
      'LBL_MERGE_SELECT'=>'Combinar Selección',
      'LBL_MERGE_DATA_IN'=>'Combinar Registro',
      'LBL_MERGE'=>'Combinar',
-     'LBL_ACTION'=>'Acción',
      'LBL_FIELDLISTS'=> 'Lista de Campos',
      'LBL_RECORD'=>'Registro #',
      'LBL_DUP_PERMISSION' => 'No tienes permiso para eliminar ',

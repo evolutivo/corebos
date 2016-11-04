@@ -13,7 +13,6 @@
  ********************************************************************************/
 $app_strings = array (
 'LBL_BROWSER_TITLE' => 'coreBOS',
-'APP_NAME' => 'coreBOS',
 'LBL_MY_ACCOUNT' => 'My Organization',
 'LBL_MY_PREFERENCES' => 'My Preferences',
 'LBL_ADMIN' => 'Admin',
@@ -547,6 +546,7 @@ $app_strings = array (
 'Expected Close Date' => 'Expected Close Date',
 'LBL_ACTIONS' => 'Actions',
 'GENERAL' => 'General',
+'TOGGLE_ACTIONS' => 'Toggle Actions',
 'LBL_SEND' => 'Send',
 'LBL_VAT' => 'VAT',
 'LBL_SALES' => 'Sales',
@@ -1161,12 +1161,6 @@ $app_strings = array (
 
 // vtlib customization: Language strings
 'VTLIB_MOD_NOT_ACTIVE' => ' module is not active!',
-// END
-
-// vtiger News & Feedback
-'LBL_VTIGER_NEWS'=>'vtiger News',
-'LBL_FEEDBACK'=>'Feedback',
-// END
 
 //added for asterisk integration
 'CallHistory'=>'Call History',
@@ -1200,7 +1194,6 @@ $app_strings = array (
 'LBL_MERGE_SELECT'=>'Merge Select',
 'LBL_MERGE_DATA_IN'=>'Merge Records In',
 'LBL_MERGE'=>'Merge',
-'LBL_ACTION'=>'Action',
 'LBL_FIELDLISTS'=> 'List Of Fields',
 'LBL_RECORD'=>'Record #',
 'LBL_DUP_PERMISSION' => 'You are not permitted to delete ',

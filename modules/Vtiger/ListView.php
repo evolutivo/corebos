@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $list_max_entries_per_page;
-
+global $app_strings, $mod_strings, $current_language, $currentModule, $theme;
+$list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize',20,$currentModule);
 require_once('Smarty_setup.php');
 require_once('include/ListView/ListView.php');
 require_once('modules/CustomView/CustomView.php');
@@ -188,6 +188,10 @@ $controller = new ListViewController($adb, $current_user, $queryGenerator);
 
 if(!isset($skipAction)){
 	$skipAction = false;
+}
+$smarty->assign('Document_Folder_View',0);
+if ($currentModule == 'Documents') {
+	include 'modules/Documents/ListViewCalculations.php';
 }
 
 $listview_header = $controller->getListViewHeader($focus,$currentModule,$url_string,$sorder,$order_by,$skipAction);

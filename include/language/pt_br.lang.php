@@ -545,6 +545,7 @@ $app_strings = array (
 'Expected Revenue' => 'Previsão Receita',
 'Expected Close Date' => 'Previsão Fechamento',
 'LBL_ACTIONS' => 'Ações',
+'TOGGLE_ACTIONS' => 'Toggle Actions',
 'LBL_SEND' => 'Enviar',
 'LBL_VAT' => 'ICMS',
 'LBL_SALES' => 'Vendas',
@@ -1160,12 +1161,6 @@ $app_strings = array (
 
 // vtlib customization: Language strings
 'VTLIB_MOD_NOT_ACTIVE' => ' o Módulo não está ativo!',
-// END
-
-// vtiger News & Feedback
-'LBL_VTIGER_NEWS'=>'Notícias vtiger',
-'LBL_FEEDBACK'=>'Feedback',
-// END
 
 //added for asterisk integration
 'CallHistory'=>'Histórico Chamada',
@@ -1197,7 +1192,6 @@ $app_strings = array (
 'LBL_MERGE_SELECT'=>'Selecionar Mesclagem',
 'LBL_MERGE_DATA_IN'=>'Mesclar Registros em',
 'LBL_MERGE'=>'Mesclar',
-'LBL_ACTION'=>'Ação',
 'LBL_FIELDLISTS'=> 'Lista de Campos',
 'LBL_RECORD'=>'No. Registro',
 'LBL_DUP_PERMISSION' => 'Você não tem permissão para apagar',

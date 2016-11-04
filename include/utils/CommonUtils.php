@@ -1331,23 +1331,26 @@ function getCustomBlocks($module, $disp_view) {
 	$tabid = getTabid($module);
 	$block_detail = Array();
 	$getBlockinfo = "";
-	$query = "select blockid,blocklabel,show_title,display_status,iscustom from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
+	$query = "select blockid,blocklabel,show_title,display_status,iscustom,isrelatedlist from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 	$result = $adb->pquery($query, array($tabid));
 	$noofrows = $adb->num_rows($result);
 	$prev_header = "";
 	$block_list = array();
 	$block_label = array();
 	for ($i = 0; $i < $noofrows; $i++) {
+		$hasrelatedlist = $adb->query_result($result, $i, 'isrelatedlist');
 		$blockid = $adb->query_result($result, $i, "blockid");
 		$block_label[$blockid] = $adb->query_result($result, $i, "blocklabel");
 		$sLabelVal = getTranslatedString($block_label[$blockid], $module);
 		array_push($block_list, $sLabelVal);
 		if (($disp_view == 'edit_view' || $disp_view == 'create' || $disp_view == 'create_view') && file_exists("Smarty/templates/modules/$module/{$block_label[$blockid]}_edit.tpl")) {
-			$block_list[$sLabelVal] = array('custom' => true, 'tpl' => "modules/$module/{$block_label[$blockid]}_edit.tpl");
+			$block_list[$sLabelVal] = array('custom' => true, 'relatedlist' => false, 'tpl' => "modules/$module/{$block_label[$blockid]}_edit.tpl");
 		} elseif ($disp_view == 'detail_view' && file_exists("Smarty/templates/modules/$module/{$block_label[$blockid]}_detail.tpl")) {
-			$block_list[$sLabelVal] = array('custom' => true, 'tpl' => "modules/$module/{$block_label[$blockid]}_detail.tpl");
+			$block_list[$sLabelVal] = array('custom' => true, 'relatedlist' => false, 'tpl' => "modules/$module/{$block_label[$blockid]}_detail.tpl");
+		} elseif ($hasrelatedlist>0) {
+			$block_list[$sLabelVal] = array('custom' => false, 'relatedlist' => true, 'tpl' => '');
 		} else {
-			$block_list[$sLabelVal] = array('custom' => false, 'tpl' => '');
+			$block_list[$sLabelVal] = array('custom' => false, 'relatedlist' => false, 'tpl' => '');
 		}
 	}
 	return $block_list;
@@ -3462,9 +3465,10 @@ function vt_suppressHTMLTags($string) {
 }
 
 function vt_hasRTE() {
-	global $FCKEDITOR_DISPLAY, $USE_RTE;
-	return ((!empty($FCKEDITOR_DISPLAY) && $FCKEDITOR_DISPLAY == 'true') ||
-			(!empty($USE_RTE) && $USE_RTE == 'true'));
+	global $FCKEDITOR_DISPLAY, $currentModule;
+	$USE_RTE = GlobalVariable::getVariable('Application_Use_RTE',1,$currentModule);
+	$USE_RTE = empty($USE_RTE) ? 'false' : 'true';
+	return ((!empty($FCKEDITOR_DISPLAY) && $FCKEDITOR_DISPLAY == 'true') || (!empty($USE_RTE) && $USE_RTE == 'true'));
 }
 
 function getNameInDisplayFormat($input, $dispFormat = "lf") {

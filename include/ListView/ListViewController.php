@@ -126,7 +126,8 @@ class ListViewController {
 	 */
 	function getListViewEntries($focus, $module,$result,$navigationInfo,$skipActions=false) {
 		require('user_privileges/user_privileges_'.$this->user->id.'.php');
-		global $listview_max_textlength, $theme, $default_charset, $current_user, $currentModule, $adb;
+		global $theme, $default_charset, $current_user, $currentModule, $adb;
+		$listview_max_textlength = GlobalVariable::getVariable('Application_ListView_Max_Text_Length',40,$currentModule);
 		$fields = $this->queryGenerator->getFields();
 		$whereFields = $this->queryGenerator->getWhereFields();
 		$meta = $this->queryGenerator->getMeta($this->queryGenerator->getModule());
@@ -216,6 +217,7 @@ class ListViewController {
 
 		$useAsterisk = get_use_asterisk($this->user->id);
 		$wfs = new VTWorkflowManager($adb);
+		$totals = array();
 		$data = array();
 		for ($i = 0; $i < $rowCount; ++$i) {
 			//Getting the recordId
@@ -395,6 +397,8 @@ class ListViewController {
 								$currencyInfo = getInventoryCurrencyInfo($module, $recordId);
 								$currencySymbol = $currencyInfo['currency_symbol'];
 							}
+							if (!isset($totals[$fieldName])) $totals[$fieldName]=0;
+							$totals[$fieldName] =  $totals[$fieldName] + $value;
 							$currencyValue = CurrencyField::convertToUserFormat($value, null, true);
 							$value = CurrencyField::appendCurrencySymbol($currencyValue, $currencySymbol);
 						} else {
@@ -661,6 +665,19 @@ class ListViewController {
 			list($row, $unused, $unused2) = cbEventHandler::do_filter('corebos.filter.listview.render', array($row, $this->db->query_result_rowdata($result, $i), $recordId));
 			$data[$recordId] = $row;
 
+		}
+		if(count($totals) > 0){
+			$trow = array();
+			foreach ($listViewFields as $fieldName) {
+				if (isset($totals[$fieldName])) {
+					$currencyField = new CurrencyField($totals[$fieldName]);
+					$currencyValue = $currencyField->getDisplayValueWithSymbol();
+					$trow[] = '<span class="listview_row_total">'.$currencyValue.'</span>';
+				} else {
+					$trow[] = '';
+				}
+			}
+			$data[-1] = $trow;
 		}
 		return $data;
 	}

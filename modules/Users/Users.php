@@ -344,11 +344,10 @@ class Users extends CRMEntity {
 					if ($mailto != '') {
 						require_once('modules/Emails/mail.php');
 						require_once('modules/Emails/Emails.php');
-						global $HELPDESK_SUPPORT_EMAIL_ID,$HELPDESK_SUPPORT_NAME;
-						$from_name = $HELPDESK_SUPPORT_NAME;
-						$form_mail = $HELPDESK_SUPPORT_EMAIL_ID;
+						$HELPDESK_SUPPORT_EMAIL_ID = GlobalVariable::getVariable('HelpDesk_Support_EMail','support@your_support_domain.tld','HelpDesk');
+						$HELPDESK_SUPPORT_NAME = GlobalVariable::getVariable('HelpDesk_Support_Name','your-support name','HelpDesk');
 						$mailcontent = $mailsubject. "\n";
-						send_mail('Emails',$mailto,$from_name,$form_mail,$mailsubject,$mailcontent);
+						send_mail('Emails',$mailto,$HELPDESK_SUPPORT_NAME,$HELPDESK_SUPPORT_EMAIL_ID,$mailsubject,$mailcontent);
 					}
 				}
 			}
@@ -413,19 +412,10 @@ class Users extends CRMEntity {
 			return false;
 		}
 
-		if (!is_admin($current_user)) {
-			$this->db->startTransaction();
-			if (!$this->verifyPassword($user_password)) {
-				$this->log->warn("Incorrect old password for $usr_name");
-				$this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
-				return false;
-			}
-			if ($this->db->hasFailedTransaction()) {
-				if ($dieOnError) {
-					die("error verifying old password[" . $this->db->database->ErrorNo() . "] " . $this->db->database->ErrorMsg());
-				}
-				return false;
-			}
+		if (!is_admin($current_user) and !$this->verifyPassword($user_password)) {
+			$this->log->warn("Incorrect old password for $usr_name");
+			$this->error_string = $mod_strings['ERR_PASSWORD_INCORRECT_OLD'];
+			return false;
 		}
 
 		//set new password
@@ -446,15 +436,10 @@ class Users extends CRMEntity {
 			$this->db->query("ALTER TABLE `vtiger_users` ADD `last_password_reset_date` date DEFAULT NULL");
 		}
 		$query = "UPDATE $this->table_name SET user_password=?, confirm_password=?, crypt_type=?, change_password=?, last_password_reset_date=now(), failed_login_attempts=0 where id=?";
-		$this->db->startTransaction();
 		$this->db->pquery($query, array($encrypted_new_password, $encrypted_new_password, $crypt_type, $change_password_next_login, $this->id));
-		if ($this->db->hasFailedTransaction()) {
-			if ($dieOnError) {
-				die("error setting new password: [" . $this->db->database->ErrorNo() . "] " . $this->db->database->ErrorMsg());
-			}
-			return false;
-		}
 		$this->createAccessKey();
+		require_once ('modules/Users/CreateUserPrivilegeFile.php');
+		createUserPrivilegesfile($this->id);
 		return true;
 	}
 
@@ -635,10 +620,10 @@ class Users extends CRMEntity {
 	}
 
 	function createAccessKey() {
-		global $adb, $log;
+		global $log;
 		$log->info("Entering Into function createAccessKey()");
 		$updateQuery = "update vtiger_users set accesskey=? where id=?";
-		$insertResult = $adb->pquery($updateQuery, array(vtws_generateRandomAccessKey(16), $this->id));
+		$insertResult = $this->db->pquery($updateQuery, array(vtws_generateRandomAccessKey(16), $this->id));
 		$log->info("Exiting function createAccessKey()");
 	}
 
@@ -803,7 +788,11 @@ class Users extends CRMEntity {
 				$column .= ', crypt_type';
 				$qparams[] = $crypt_type;
 			}
-			$sql1 = "insert into $table_name ($column, date_entered) values(" . generateQuestionMarks($qparams) . ",NOW())";
+			if ($table_name == 'vtiger_users') {
+				$sql1 = "insert into $table_name ($column, date_entered) values(" . generateQuestionMarks($qparams) . ',NOW())';
+			} else {
+				$sql1 = "insert into $table_name ($column) values(" . generateQuestionMarks($qparams) . ')';
+			}
 			$this->db->pquery($sql1, $qparams);
 		}
 	}

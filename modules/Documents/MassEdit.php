@@ -7,18 +7,5 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-class ConfigEditorHandler extends VTEventHandler {
-
-	function handleEvent($eventName, $data) {
-
-		if($eventName == 'vtiger.entity.beforesave') {
-			// Entity is about to be saved, take required action
-		}
-
-		if($eventName == 'vtiger.entity.aftersave') {
-			// Entity has been saved, take next action
-		}
-	}
-}
-
+require_once('modules/Vtiger/MassEdit.php');
 ?>

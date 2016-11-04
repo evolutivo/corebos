@@ -353,7 +353,7 @@ function getNavigationValues($display, $noofrows, $limit) {
 	global $log;
 	$log->debug("Entering getNavigationValues(" . $display . "," . $noofrows . "," . $limit . ") method ...");
 	$navigation_array = Array();
-	global $limitpage_navigation;
+	$limitpage_navigation = '5'; // magic number to limit the end page to five more than the current page
 	if (isset($_REQUEST['allflag']) && $_REQUEST['allflag'] == 'All') {
 		$navigation_array['start'] = 1;
 		$navigation_array['first'] = 1;
@@ -562,6 +562,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 		$linkstart = '';
 	$wfs = new VTWorkflowManager($adb);
 	if ($navigation_array['start'] != 0)
+		$totals = array();
 		for ($i = 1; $i <= $noofrows; $i++) {
 			$list_header = Array();
 			//Getting the entityid
@@ -882,6 +883,16 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 						} else {
 							$list_result_count = $i - 1;
 							$value = getValue($ui_col_array, $list_result, $fieldname, $focus, $module, $entity_id, $list_result_count, "list", "", $returnset, $oCv->setdefaultviewid);
+							$uicolarr = $ui_col_array[$fieldname];
+							foreach ($uicolarr as $key => $val) {
+								$uitype = $key;
+								$colname = $val;
+							}
+							if ($uitype == 71 or $uitype == 72) {
+								if (!isset($totals[$fieldname])) $totals[$fieldname]=0;
+								$field_val = $adb->query_result($list_result, $list_result_count, $colname);
+								$totals[$fieldname] =  $totals[$fieldname] + $field_val;
+							}
 						}
 					}
 
@@ -951,6 +962,20 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			list($list_header, $unused, $unused2) = cbEventHandler::do_filter('corebos.filter.listview.render', array($list_header, $adb->query_result_rowdata($list_result, $i - 1), $entity_id));
 			$list_block[$entity_id] = $list_header;
 		}
+	if(count($totals) > 0){
+		$trow = array();
+		foreach ($focus->list_fields as $name => $tableinfo) {
+			$field_name = $focus->list_fields_name[$name];
+			if (isset($totals[$field_name])) {
+				$currencyField = new CurrencyField($totals[$field_name]);
+				$currencyValue = $currencyField->getDisplayValueWithSymbol();
+				$trow[] = '<span class="listview_row_total">'.$currencyValue.'</span>';
+			} else {
+				$trow[] = '';
+			}
+		}
+		$list_block['total'] = $trow;
+	}
 	$log->debug("Exiting getListViewEntries method ...");
 	return $list_block;
 }
@@ -967,7 +992,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
  * Returns an array type
  */
 function getSearchListViewEntries($focus, $module, $list_result, $navigation_array, $form = '') {
-	global $log, $adb, $app_strings, $theme, $current_user, $list_max_entries_per_page;
+	global $log, $adb, $app_strings, $theme, $current_user;
 	$log->debug("Entering getSearchListViewEntries(" . get_class($focus) . "," . $module . "," . $list_result . ") method ...");
 
 	$noofrows = $adb->num_rows($list_result);
@@ -1227,7 +1252,7 @@ function getSearchListViewEntries($focus, $module, $list_result, $navigation_arr
  * Returns an string value
  */
 function getValue($field_result, $list_result, $fieldname, $focus, $module, $entity_id, $list_result_count, $mode, $popuptype, $returnset = '', $viewid = '') {
-	global $log, $listview_max_textlength, $app_strings, $current_language, $currentModule;
+	global $log, $app_strings, $current_language, $currentModule;
 	$log->debug("Entering getValue(" . print_r($field_result,true) . "," . $list_result . "," . $fieldname . "," . get_class($focus) . "," . $module . "," . $entity_id . "," . $list_result_count . "," . $mode . "," . $popuptype . "," . $returnset . "," . $viewid . ") method ...");
 	global $adb, $current_user, $default_charset;
 
@@ -1434,19 +1459,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 		else
 			$value = '';
 	}
-	//Added by Minnie to get Campaign Source
-	elseif ($uitype == 58) {
-		if ($temp_val != '') {
-			$sql = "SELECT * FROM vtiger_campaign WHERE campaignid=?";
-			$result = $adb->pquery($sql, array($temp_val));
-			$campaignname = $adb->query_result($result, 0, "campaignname");
-			$value = '<a href=index.php?module=Campaigns&action=DetailView&record=' . $temp_val . '>' . textlength_check($campaignname) . '</a>';
-		}
-		else
-			$value = '';
-	}
-	//End
-	//Added By *Raj* for the Issue ProductName not displayed in CustomView of HelpDesk
 	elseif ($uitype == 59) {
 		if ($temp_val != '') {
 			$value = getProductName($temp_val);
@@ -1454,7 +1466,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 			$value = '';
 		}
 	}
-	//End
 	elseif ($uitype == 61) {
 		$attachmentid = $adb->query_result($adb->pquery("SELECT * FROM vtiger_seattachmentsrel WHERE crmid = ?", array($entity_id)), 0, 'attachmentsid');
 		$value = '<a href = "index.php?module=uploads&action=downloadfile&return_module=' . $module . '&fileid=' . $attachmentid . '&filename=' . $temp_val . '">' . textlength_check($temp_val) . '</a>';
@@ -1642,6 +1653,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 				$value_temp = Array();
 				$string_temp = '';
 				$str_c = 0;
+				$listview_max_textlength = GlobalVariable::getVariable('Application_ListView_Max_Text_Length',40,$currentModule);
 				foreach ($value_arr as $ind => $val) {
 					$notaccess = '<font color="red">' . $app_strings['LBL_NOT_ACCESSIBLE'] . "</font>";
 					if (!$listview_max_textlength || !(strlen(preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $string_temp)) > $listview_max_textlength)) {
@@ -3157,7 +3169,7 @@ function getTableHeaderNavigation($navigation_array, $url_qry, $module = '', $ac
 	global $theme, $current_user;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
-	if ($module == 'Documents') {
+	if ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 		$output = '<td class="mailSubHeader" width="100%" align="center">';
 	} else {
 		$output = '<td align="right" style="padding: 5px;">';
@@ -3215,7 +3227,7 @@ function getTableHeaderNavigation($navigation_array, $url_qry, $module = '', $ac
 		} elseif ($action_val == 'UnifiedSearch') {
 			$output .= '<a href="javascript:;" onClick="getUnifiedSearchEntries_js(\'' . $search_tag . '\',\'' . $module . '\',\'parenttab=' . $tabname . '&start=1' . $url_string . '\');" alt="' . $app_strings['LBL_FIRST'] . '" title="' . $app_strings['LBL_FIRST'] . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 			$output .= '<a href="javascript:;" onClick="getUnifiedSearchEntries_js(\'' . $search_tag . '\',\'' . $module . '\',\'parenttab=' . $tabname . '&start=' . $navigation_array['prev'] . $url_string . '\');" alt="' . $app_strings['LNK_LIST_PREVIOUS'] . '"title="' . $app_strings['LNK_LIST_PREVIOUS'] . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
-		} elseif ($module == 'Documents') {
+		} elseif ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 			$output .= '<a href="javascript:;" onClick="getListViewEntries_js(\'' . $module . '\',\'parenttab=' . $tabname . '&start=1' . $url_string . '\');" alt="' . $app_strings['LBL_FIRST'] . '" title="' . $app_strings['LBL_FIRST'] . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 			$output .= '<a href="javascript:;" onClick="getListViewEntries_js(\'' . $module . '\',\'parenttab=' . $tabname . '&start=' . $navigation_array['prev'] . $url_string . '&folderid=' . $action_val . '\');" alt="' . $app_strings['LNK_LIST_PREVIOUS'] . '"title="' . $app_strings['LNK_LIST_PREVIOUS'] . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 		} else {
@@ -3233,12 +3245,12 @@ function getTableHeaderNavigation($navigation_array, $url_qry, $module = '', $ac
 		$jsNavigate = "getDuplicateListViewEntries_js('$module','parenttab=$tabname&start='+this.value+'$url_string');";
 	} elseif ($action_val == 'UnifiedSearch') {
 		$jsNavigate = "getUnifiedSearchEntries_js('$module','parenttab=$tabname&start='+this.value+'$url_string');";
-	} elseif ($module == 'Documents') {
+	} elseif ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 		$jsNavigate = "getListViewEntries_js('$module','parenttab=$tabname&start='+this.value+'$url_string&folderid=$action_val');";
 	} else {
 		$jsNavigate = "getListViewEntries_js('$module','parenttab=$tabname&start='+this.value+'$url_string');";
 	}
-	if ($module == 'Documents') {
+	if ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 		$url = '&folderid=' . $action_val;
 	} else {
 		$url = '';
@@ -3262,7 +3274,7 @@ function getTableHeaderNavigation($navigation_array, $url_qry, $module = '', $ac
 		} elseif ($action_val == 'UnifiedSearch') {
 			$output .= '<a href="javascript:;" onClick="getUnifiedSearchEntries_js(\'' . $search_tag . '\',\'' . $module . '\',\'parenttab=' . $tabname . '&start=' . $navigation_array['next'] . $url_string . '\');" alt="' . $app_strings['LNK_LIST_NEXT'] . '" title="' . $app_strings['LNK_LIST_NEXT'] . '"><img src="' . vtiger_imageurl('next.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 			$output .= '<a href="javascript:;" onClick="getUnifiedSearchEntries_js(\'' . $search_tag . '\',\'' . $module . '\',\'parenttab=' . $tabname . '&start=' . $navigation_array['verylast'] . $url_string . '\');" alt="' . $app_strings['LBL_LAST'] . '" title="' . $app_strings['LBL_LAST'] . '"><img src="themes/images/end.gif" border="0" align="absmiddle"></a>&nbsp;';
-		} elseif ($module == 'Documents') {
+		} elseif ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 			$output .= '<a href="javascript:;" onClick="getListViewEntries_js(\'' . $module . '\',\'parenttab=' . $tabname . '&start=' . $navigation_array['next'] . $url_string . '&folderid=' . $action_val . '\');" alt="' . $app_strings['LNK_LIST_NEXT'] . '" title="' . $app_strings['LNK_LIST_NEXT'] . '"><img src="' . vtiger_imageurl('next.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 			$output .= '<a href="javascript:;" onClick="getListViewEntries_js(\'' . $module . '\',\'parenttab=' . $tabname . '&start=' . $navigation_array['verylast'] . $url_string . '&folderid=' . $action_val . '\');" alt="' . $app_strings['LBL_LAST'] . '" title="' . $app_strings['LBL_LAST'] . '"><img src="' . vtiger_imageurl('end.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 		} else {
@@ -3940,36 +3952,10 @@ function getParentId($parent_name) {
 	return $parent_id;
 }
 
-function decode_html($str) {
-	global $default_charset;
-	// Direct Popup action or Ajax Popup action should be treated the same.
-	$request['action'] = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
-	$request['file'] = isset($_REQUEST['file']) ? $_REQUEST['file'] : '';
-	if ($request['action'] == 'Popup' || $request['file'] == 'Popup')
-		return html_entity_decode($str);
-	else
-		return html_entity_decode($str, ENT_QUOTES, $default_charset);
-}
-
-/**
- * Alternative decoding function which coverts irrespective of $_REQUEST values.
- * Useful incase of Popup (Listview etc...) where if decode_html will not work as expected
- */
-function decode_html_force($str) {
-	global $default_charset;
-	return html_entity_decode($str, ENT_QUOTES, $default_charset);
-}
-
-function popup_decode_html($str) {
-	global $default_charset;
-	$slashes_str = popup_from_html($str);
-	$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $default_charset);
-	return decode_html(br2nl($slashes_str));
-}
-
 //function added to check the text length in the listview.
 function textlength_check($field_val) {
-	global $listview_max_textlength, $default_charset;
+	global $default_charset,$currentModule;
+	$listview_max_textlength = GlobalVariable::getVariable('Application_ListView_Max_Text_Length',40,$currentModule);
 	if ($listview_max_textlength && $listview_max_textlength > 0) {
 		$temp_val = preg_replace("/(<\/?)(\w+)([^>]*>)/i", "", $field_val);
 		if (function_exists('mb_strlen')) {
@@ -4088,7 +4074,7 @@ function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '
 	global $log, $app_strings, $theme, $current_user;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
-	if ($module == 'Documents') {
+	if ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
 		$output = '<td class="mailSubHeader" width="40%" align="right">';
 	} else {
 		$output = '<td align="right" style="padding: 5px;">';
