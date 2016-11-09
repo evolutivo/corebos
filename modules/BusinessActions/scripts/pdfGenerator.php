@@ -115,7 +115,7 @@ $adb->pquery("Insert into vtiger_seattachmentsrel values (?,?)",array($document-
     {
         $adb->pquery("Insert into vtiger_senotesrel
             values (?,?)",array($recordid,$document->id));
-		
+        
   }}
        include_once ("modules/$origin_module/$origin_module.php");
      $focus2 = CRMEntity::getInstance($origin_module);
@@ -132,8 +132,34 @@ $adb->pquery("Insert into vtiger_seattachmentsrel values (?,?)",array($document-
          } else {
              if (isset($value['listFields']) && !empty($value['listFields'])) {
                  for ($i = 0; $i < count($value['listFields']); $i++) {
-                     $foundValues[] = $focus2->column_fields[$value['listFields'][$i]];
-                 }
+
+                     $fieldnameadm=$value['listFields'][$i];
+                     $query1= $adb->query("SELECT uitype
+                                         FROM vtiger_field
+                                         where columnname='$fieldnameadm'");
+
+                    $resul1=$adb->query_result($query1,fieldnameadm);
+
+                    if ($resul1==7 or $resul1==71)
+                    {
+  
+                    $number=$focus2->column_fields[$fieldnameadm];                    
+                    $val=number_format($number,2,",",".");
+                    $foundValues[] = $val;
+                    }
+elseif ($resul1==5)
+                    {
+  
+                    $date=$focus2->column_fields[$fieldnameadm];   
+                    $date1=date_create($date);                 
+                    $val1=date_format($date1,'d-m-Y');
+                    $foundValues[] = $val1;
+                    }
+else
+                 
+                    {$foundValues[] = $focus2->column_fields[$fieldnameadm];}
+                 
+             } 
 
              }
              elseif (isset($value['relatedFields']) && !empty($value['relatedFields'])) {
@@ -163,6 +189,7 @@ $adb->pquery("Insert into vtiger_seattachmentsrel values (?,?)",array($document-
 //____________
 for ($j = 0; $j < $num_rows; $j++)
 {
+
 if($tipo=='Master Detail'){      
 $recordidADD = $adb->query_result($count,$j,'adocdetailid');
   
@@ -179,7 +206,7 @@ $recordidADD = $adb->query_result($count,$j,'adocdetailid');
      $allparameters = array();
 
      foreach ($target_fields as $key => $value) {
-         $key1=$key.($j+1);
+         $key1=($j+1).$key;
          $foundValues = array();
 
          if (!empty($value['value'])) {
@@ -187,8 +214,35 @@ $recordidADD = $adb->query_result($count,$j,'adocdetailid');
 
          } else {
              if (isset($value['listFields']) && !empty($value['listFields'])) {
+
                  for ($i = 0; $i < count($value['listFields']); $i++) {
-                     $foundValues[] = $focus2->column_fields[$value['listFields'][$i]];
+                     $fieldname=$value['listFields'][$i];
+                     $query1= $adb->query("SELECT uitype
+                                         FROM vtiger_field
+                                         where columnname='$fieldname'");
+
+                    $resul1=$adb->query_result($query1,fieldname);
+
+                    if ($resul1==7 or $resul1==71)
+                    {
+  
+                    $number=$focus2->column_fields[$fieldname];                    
+                    $val=number_format($number,2,",",".");
+                    $foundValues[] = $val;
+                    }
+elseif ($resul1==5)
+                    {
+  
+                    $date=$focus2->column_fields[$fieldname];   
+                    $date1=date_create($date);                 
+                    $val1=date_format($date1,'d-m-Y');
+                    $foundValues[] = $val1;
+                    }
+else
+                 
+                    {$foundValues[] = $focus2->column_fields[$fieldname];}
+                   
+                    
                  }
 
              }
@@ -219,8 +273,6 @@ $recordidADD = $adb->query_result($count,$j,'adocdetailid');
 }}
 
 }
-
-
 $pdf=new FPDM($pdfName);
 $pdf->Load($fields,true);
 $pdf->Merge();
@@ -233,7 +285,7 @@ if($myfile)
  {
     fwrite($myfile,$vlera);   
  }
-     
+ob_end_clean();
 $log->debug('before_$response');
 $response['pdfURL'] = "$site_URL/"."$upload_file_path"."$filename";
 $log->debug('after_$response ');
@@ -262,6 +314,7 @@ for ($t=0;$t<$num_rows;$t++)
        include_once ("modules/$origin_module/$origin_module.php");
      $focus2 = CRMEntity::getInstance($origin_module);
      $focus2->retrieve_entity_info($recordid, $origin_module);
+
    
      $allparameters = array();
 
@@ -272,9 +325,38 @@ for ($t=0;$t<$num_rows;$t++)
              $fields[$t][$key] = $value['value'];
 
          } else {
+            
              if (isset($value['listFields']) && !empty($value['listFields'])) {
                  for ($i = 0; $i < count($value['listFields']); $i++) {
-                     $foundValues[] = $focus2->column_fields[$value['listFields'][$i]];
+                     $fieldname=$value['listFields'][$i];
+                     $query1= $adb->query("SELECT uitype
+                                         FROM vtiger_field
+                                         where columnname='$fieldname'");
+
+                    $resul1=$adb->query_result($query1,fieldname);
+
+                    if ($resul1==7 or $resul1==71)
+                    {
+  
+                    $number=$focus2->column_fields[$fieldname];                    
+                    $val=number_format($number,2,",",".");
+                    $foundValues[] = $val;
+                    }
+
+                  elseif ($resul1==5)
+                    {
+  
+                    $date=$focus2->column_fields[$fieldname];   
+                    $date1=date_create($date);                 
+                    $val1=date_format($date1,'d-m-Y');
+                    $foundValues[] = $val1;
+                    }
+else
+                 
+                    {$foundValues[] = $focus2->column_fields[$fieldname];}
+                    
+
+                   
                  }
 
              }
@@ -337,7 +419,7 @@ $adb->pquery("Insert into vtiger_seattachmentsrel values (?,?)",array($document-
     {
         $adb->pquery("Insert into vtiger_senotesrel
             values (?,?)",array($recordid,$document->id));
-		
+        
   }
 }
 for ($j = 0; $j < count($recid); $j++)
@@ -361,14 +443,43 @@ for ($j = 0; $j < count($recid); $j++)
 
      foreach ($target_fields as $key => $value) {
          $foundValues = array();
-         $key1=$key.'1';
+         $key1='1'.$key;
          if (!empty($value['value'])) {
          $fields[$t][$key1]  = $value['value'];
+
 
          } else {
              if (isset($value['listFields']) && !empty($value['listFields'])) {
                  for ($i = 0; $i < count($value['listFields']); $i++) {
-                     $foundValues[] = $focus2->column_fields[$value['listFields'][$i]];
+
+                    $fieldname=$value['listFields'][$i];
+                     $query1= $adb->query("SELECT uitype
+                                         FROM vtiger_field
+                                         where columnname='$fieldname'");
+
+                    $resul1=$adb->query_result($query1,fieldname);
+
+                    if ($resul1==7 or $resul1==71)
+                    {
+  
+                    $number=$focus2->column_fields[$fieldname];                    
+                    $val=number_format($number,2,",",".");
+                    $foundValues[] = $val;
+                    }
+
+                  
+elseif ($resul1==5)
+                    {
+  
+                    $date=$focus2->column_fields[$fieldname];   
+                    $date1=date_create($date);                 
+                    $val1=date_format($date1,'d-m-Y');
+                    $foundValues[] = $val1;
+                    }
+else
+                 
+                    {$foundValues[] = $focus2->column_fields[$fieldname];}
+              
                  }
 
              }
@@ -394,6 +505,7 @@ for ($j = 0; $j < count($recid); $j++)
              }
    $log->debug('before $fields[key]');
    $fields[$t][$key1] = implode($value['delimiter'], $foundValues); 
+   $log->debug($fields);
        
                   }
 
@@ -416,20 +528,42 @@ if($myfile)
  {
     fwrite($myfile,$vlera);   
  }
+ob_end_clean();
     $cod=substr(md5("$b".date('Y-m-d')),6);
     $destPdf="PDF_".date('Y-m-d').'_'.$cod.'.zip';
     $log->debug('before_$response');
-    $response['pdfURL'] = "$site_URL"."$upload_file_path"."$filename";
+    $response['pdfURL'] = "$site_URL/"."$upload_file_path"."$filename";
 
     $zip = new ZipArchive;
     $zip->open($destPdf,ZipArchive::CREATE);
     $zip->addFile("$upload_file_path/$filename","$filename");
     $zip->close();
-    return $response;
+    $files_to_zip[] = "$upload_file_path/$filename";
+   // $response1['pdfURL'] = "$site_URL/" . "$destPdf";
+   // return $response1;
 
    
 }
- 
+
+if (sizeof($files_to_zip) == 1) {
+$response1['pdfURL'] = "$site_URL/" . "$files_to_zip[0]";
+return $response1;
+} else {
+$cod = substr(md5("DDT_" . date('Y-m-d H:i:s')), 6);
+//$destPdf = "storage/DDT_$pp_" . $adocmasterno . '_' . date('Y-m-d') . '_' . $cod . '.zip';
+$log->debug('before_$response');
+$zip = new ZipArchive;
+$zip->open($destPdf, ZipArchive::CREATE);
+for ($f = 0; $f < sizeof($files_to_zip); $f++) {
+$file_name_arr = explode("/", $files_to_zip[$f]);
+$file_name = $file_name_arr[sizeof($file_name_arr) - 1];
+$zip->addFile("$files_to_zip[$f]", "$file_name");
+}
+$zip->close();
+ $response1['pdfURL'] = "$site_URL/" . "$destPdf";
+ return $response1;
+}
+
   }
 }
 ?>
