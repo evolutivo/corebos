@@ -28,8 +28,13 @@ function vtlib_setvalue_from_popup(recordid,value,target_fieldname,formname) {
     if (ret) {
         var domnode_id = wodform[target_fieldname];
         var domnode_display = wodform[target_fieldname+'_display'];
+        if(domnode_id!=undefined){
         if(domnode_id) domnode_id.value = recordid;
-        if(domnode_display) domnode_display.value = value;
+        if(domnode_display) domnode_display.value = value;}
+        else {
+        window.opener.document.getElementsByName(target_fieldname).item(0).value=recordid;
+        window.opener.document.getElementsByName(target_fieldname+'_display').item(0).value=value;
+        }
     }
     var func = window.opener.gVTModule + 'setValueFromCapture';
     if (typeof window.opener[func] == 'function') {
@@ -45,9 +50,12 @@ function vtlib_setvalue_from_popup(recordid,value,target_fieldname,formname) {
 function vtlib_open_popup_window(fromlink,fldname,MODULE,ID) {
 	if (fromlink == 'qcreate')
 		window.open("index.php?module="+ document.QcEditView[fldname+'_type'].value +"&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield="+fldname+"&srcmodule="+MODULE+"&forrecord="+ID,"vtlibui10qc","width=680,height=602,resizable=0,scrollbars=0,top=150,left=200");
-	else if (fromlink != '')
+	else if (fromlink != ''){
+                if(document.forms[fromlink][fldname+'_type']!=undefined)
 		window.open("index.php?module="+ document.forms[fromlink][fldname+'_type'].value +"&action=Popup&html=Popup_picker&form="+fromlink+"&forfield="+fldname+"&srcmodule="+MODULE+"&forrecord="+ID,"vtlibui10","width=680,height=602,resizable=0,scrollbars=0,top=150,left=200");
-	else
+                else 
+                window.open("index.php?module="+ document.getElementById(fldname+'_type').value +"&action=Popup&html=Popup_picker&form="+fromlink+"&forfield="+fldname+"&srcmodule="+MODULE+"&forrecord="+ID,"vtlibui10","width=680,height=602,resizable=0,scrollbars=0,top=150,left=200");
+       }else
 		window.open("index.php?module="+ document.EditView[fldname+'_type'].value +"&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield="+fldname+"&srcmodule="+MODULE+"&forrecord="+ID,"vtlibui10","width=680,height=602,resizable=0,scrollbars=0,top=150,left=200");
 	return true;
 }

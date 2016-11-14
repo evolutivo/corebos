@@ -418,7 +418,7 @@
 							<img src="{'select.gif'|@vtiger_imageurl:$THEME}" tabindex="{$vt_tab}"
 								alt="{'LBL_SELECT'|@getTranslatedString}" title="{'LBL_SELECT'|@getTranslatedString}" onclick='return {$vtui10func}("DetailView","{$keyfldname}","{$MODULE}","{$ID}");' align="absmiddle" style='cursor:hand;cursor:pointer'>&nbsp;
 							<input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}"
-								alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedString}" onClick="this.form.{$keyfldname}.value=''; this.form.{$keyfldname}_display.value=''; return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
+								alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedString}" onClick="if (this.form!=null){ldelim}this.form.{$keyfldname}.value=''; this.form.{$keyfldname}_display.value=''; {rdelim} else {ldelim}document.getElementsByName('{$keyfldname}').item(0).value='';document.getElementsByName('{$keyfldname}_display').item(0).value=''; {rdelim} return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
 							<br><input name="button_{$keyfldname}" type="button" class="crmbutton small save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();"/> {$APP.LBL_OR}
 							<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 						</div>

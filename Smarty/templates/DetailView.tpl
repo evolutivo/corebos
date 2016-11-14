@@ -197,7 +197,7 @@ function sendfile_email()
 						<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
 							<tr>
 								<td>
-									<table border=0 cellspacing=0 cellpadding=3 width=100% class="small detailview_utils_table_top">
+									<table border=0 cellspacing=0 cellpadding=3 width=100% class="small {if $theme eq 'mltheme'}detailview_utils_table_top{/if}">
 										<tr>
 											<td class="dvtTabCache" id="detailview_utils_firstfiller" style="width:10px" nowrap>&nbsp;</td>
 
