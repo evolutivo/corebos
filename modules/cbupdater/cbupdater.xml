@@ -1233,4 +1233,11 @@
 	<classname>fixIssuecardsCurrencyFieldsBlock</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>erimatraku</author>
+	<description>Add field phabricatorid in module Project needed to identify phabricator projects in the crm</description>
+	<filename>build/changeSets/evolutivo/phabricatoridfield.php</filename>
+	<classname>phabricatoridfield</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
