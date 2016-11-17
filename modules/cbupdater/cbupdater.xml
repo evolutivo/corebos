@@ -1240,4 +1240,18 @@
 	<classname>phabricatoridfield</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>erimatraku</author>
+	<description>Add field phabricatorphid in module Project needed to identify phabricator projects in the crm</description>
+	<filename>build/changeSets/evolutivo/phabricatorphidfield.php</filename>
+	<classname>phabricatorphidfield</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>erimatraku</author>
+	<description>Add field phabricatortaskid and phabricatortaskphid in module ProjectTask needed to identify phabricator project tasks in the crm</description>
+	<filename>build/changeSets/evolutivo/phabricatortaskfields.php</filename>
+	<classname>phabricatortaskfields</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
