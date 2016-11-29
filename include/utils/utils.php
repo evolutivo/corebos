@@ -3366,9 +3366,9 @@ function getDuplicateRecordsArr($module)
 	$no_of_rows = $adb->query_result($count_res,0,"count");
 
 	if($no_of_rows <= $list_max_entries_per_page)
-		$_SESSION['dup_nav_start'.$module] = 1;
+		coreBOS_Session::set('dup_nav_start'.$module, 1);
 	else if(isset($_REQUEST["start"]) && $_REQUEST["start"] != "" && $_SESSION['dup_nav_start'.$module] != $_REQUEST["start"])
-		$_SESSION['dup_nav_start'.$module] = ListViewSession::getRequestStartPage();
+		coreBOS_Session::set('dup_nav_start'.$module, ListViewSession::getRequestStartPage());
 	$start = ($_SESSION['dup_nav_start'.$module] != "")?$_SESSION['dup_nav_start'.$module]:1;
 	$navigation_array = getNavigationValues($start, $no_of_rows, $list_max_entries_per_page);
 	$start_rec = $navigation_array['start'];
@@ -3531,16 +3531,16 @@ function getDuplicateRecordsArr($module)
 				$result[$col_arr[$k]] = getRecordInfoFromID($result[$col_arr[$k]]);
 			}
 			if($ui_type[$fld_arr[$k]] == 5 || $ui_type[$fld_arr[$k]] == 6 || $ui_type[$fld_arr[$k]] == 23){
-				if ($$result[$col_arr[$k]] != '' && $$result[$col_arr[$k]] != '0000-00-00') {
-					$date = new DateTimeField($$result[$col_arr[$k]]);
+				if ($result[$col_arr[$k]] != '' && $result[$col_arr[$k]] != '0000-00-00') {
+					$date = new DateTimeField($result[$col_arr[$k]]);
 					$value = $date->getDisplayDate();
-					if(strpos($$result[$col_arr[$k]], ' ') > -1) {
+					if(strpos($result[$col_arr[$k]], ' ') > -1) {
 						$value .= (' ' . $date->getDisplayTime());
 					}
-				} elseif ($$result[$col_arr[$k]] == '0000-00-00') {
+				} elseif ($result[$col_arr[$k]] == '0000-00-00') {
 					$value = '';
 				} else {
-					$value = $$result[$col_arr[$k]];
+					$value = $result[$col_arr[$k]];
 				}
 				$result[$col_arr[$k]] = $value;
 			}
@@ -4341,11 +4341,16 @@ function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
 		if ($module != $return_module && !empty($return_module) && !empty($return_id)) {
 			$focus->unlinkRelationship($record, $return_module, $return_id);
 			$focus->trackUnLinkedInfo($return_module, $return_id, $module, $record);
+			$log->debug('Exiting DeleteEntity method ...');
 		} else {
-			$focus->trash($module, $record);
+			list($delerror,$errormessage) = $focus->preDeleteCheck();
+			if (!$delerror) {
+				$focus->trash($module, $record);
+			}
+			$log->debug('Exiting DeleteEntity method ...');
+			return array($delerror,$errormessage);
 		}
 	}
-	$log->debug("Exiting DeleteEntity method ...");
 }
 
 /**

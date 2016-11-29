@@ -46,7 +46,6 @@ $mod_strings = array(
 	'Last Week' => 'Elmúlt hét',
 	'Last 2 Days' => 'Elmúlt 2 nap',
 	'Last Ten Days' => 'Elmúlt 10 nap',
-	'TITLE_AJAX_CSS_POPUP_CHAT' => 'Ajax Css-Popup chat',
 	'User List' => 'Felhasználó Lista',
 	'LBL_HOME_MODULE' => 'Modul',
 	'LBL_HOME_RSS' => 'RSS Hírfolyam',
@@ -97,5 +96,6 @@ $mod_strings = array(
 	'LBL_DEFAULT_WIDGET' => 'Alapértelmezett dobozok',
 	'LBL_NO_WIDGETS_HIDDEN' => 'Nincsen alapértelmezett doboz elrejtve',
 	'UpdateExchangeRate' => 'Update Exchange Rate',
+	'LBL_HOME_ADDWINDOW' => 'Add Window',
 );
 ?>

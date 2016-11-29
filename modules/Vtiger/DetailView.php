@@ -26,6 +26,10 @@ if($record != '') {
 	$focus->name=$focus->column_fields[$focus->list_link_field];
 }
 if($isduplicate == 'true') $focus->id = '';
+$errormessageclass = isset($_REQUEST['error_msgclass']) ? vtlib_purify($_REQUEST['error_msgclass']) : '';
+$errormessage = isset($_REQUEST['error_msg']) ? vtlib_purify($_REQUEST['error_msg']) : '';
+$smarty->assign('ERROR_MESSAGE_CLASS', $errormessageclass);
+$smarty->assign('ERROR_MESSAGE', $errormessage);
 $focus->preViewCheck($_REQUEST, $smarty);
 if($currentModule=='Task'){
 $query="Select *
@@ -134,6 +138,8 @@ if(PerformancePrefs::getBoolean('DETAILVIEW_RECORD_NAVIGATION', true) && isset($
 $smarty->assign('IS_REL_LIST', isPresentRelatedLists($currentModule));
 $isPresentRelatedListBlock = isPresentRelatedListBlock($currentModule);
 $smarty->assign('IS_RELBLOCK_LIST', $isPresentRelatedListBlock);
+$singlepane_view = GlobalVariable::getVariable('Application_Single_Pane_View', 0, $currentModule);
+$singlepane_view = empty($singlepane_view) ? 'false' : 'true';
 $smarty->assign('SinglePane_View', $singlepane_view);
 $smarty->assign('HASRELATEDPANES', 'false');
 if($singlepane_view == 'true' or $isPresentRelatedListBlock) {

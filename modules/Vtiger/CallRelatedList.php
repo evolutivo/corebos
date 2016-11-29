@@ -8,9 +8,9 @@
  * All Rights Reserved.
  ************************************************************************************/
 require_once('Smarty_setup.php');
-require_once('user_privileges/default_module_view.php');
+require('user_privileges/default_module_view.php');
 
-global $mod_strings, $app_strings, $currentModule, $current_user, $theme, $singlepane_view, $log;
+global $mod_strings, $app_strings, $currentModule, $current_user, $theme, $log;
 
 $category = getParentTab();
 $action = vtlib_purify($_REQUEST['action']);
@@ -34,7 +34,7 @@ if($singlepane_view == 'true' && $action == 'CallRelatedList') {
 
 	if($isduplicate == 'true') $focus->id = '';
 	if(isset($_REQUEST['mode']) && $_REQUEST['mode'] != ' ') $smarty->assign("OP_MODE",vtlib_purify($_REQUEST['mode']));
-	if(!$_SESSION['rlvs'][$currentModule]) unset($_SESSION['rlvs']);
+	if(!$_SESSION['rlvs'][$currentModule]) coreBOS_Session::delete('rlvs');
 
 	// Identify this module as custom module.
 	$smarty->assign('CUSTOM_MODULE', $focus->IsCustomModule);
@@ -71,7 +71,7 @@ if($singlepane_view == 'true' && $action == 'CallRelatedList') {
 			$_RelatedPane=vtlib_purify($_SESSION['RelatedPane']);
 		} else {
 			$_RelatedPane=vtlib_purify($_REQUEST['RelatedPane']);
-			$_SESSION['RelatedPane']=$_RelatedPane;
+			coreBOS_Session::set('RelatedPane',$_RelatedPane);
 		}
 		$smarty->assign("RETURN_RELATEDPANE", $_RelatedPane);
 		$cbMap = cbMap::getMapByID($cbMapid);
@@ -82,7 +82,7 @@ if($singlepane_view == 'true' && $action == 'CallRelatedList') {
 		$rel_array = getRelatedLists($currentModule, $focus, $restrictedRelations);
 		foreach ($rltabs['panes'][$_RelatedPane]['blocks'] as $blk) {
 			if ($blk['type']=='RelatedList') {
-				$related_array[$blk['loadfrom']] = $rel_array[$blk['loadfrom']];
+				$related_array[$blk['loadfrom']] = empty($rel_array[$blk['loadfrom']]) ? $rel_array[$blk['label']] : $rel_array[$blk['loadfrom']];
 			} else {
 				if (!empty($blk['loadphp'])) {
 					try {

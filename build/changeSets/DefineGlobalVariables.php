@@ -76,12 +76,14 @@ class DefineGlobalVariables extends cbupdaterWorker {
 
 				'BusinessMapping_SalesOrder2Invoice',
 				'BusinessMapping_PotentialOnCampaignRelation',
+
+				'Mobile_Module_by_default',
+
 				'Webservice_showUserAdvancedBlock',
 				'Webservice_CORS_Enabled_Domains',
 				'Webservice_Enabled',
 				'WebService_Session_Life_Span',
 				'WebService_Session_Idle_Time',
-				'SOAP_Thunderbird_Enabled',
 				'SOAP_CustomerPortal_Enabled',
 
 				'Users_ReplyTo_SecondEmail',
@@ -96,6 +98,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Import_Batch_Limit',
 				'Import_Scheduled_Limit',
 				'Lead_Convert_TransferToAccount',
+				'PBX_Get_Line_Prefix',
 				'Product_Copy_Bundle_OnDuplicate',
 				'Product_Show_Subproducts_Popup',
 				'Product_Permit_Relate_Bundle_Parent',
@@ -106,6 +109,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'ModComments_DefaultCriteria',
 				'ModComments_DefaultBlockStatus',
 				'EMail_OpenTrackingEnabled',
+				'Email_Attachments_Folder',
 				'ToolTip_MaxFieldValueLength',
 				'HelpDesk_Support_EMail',
 				'HelpDesk_Support_Name',
@@ -156,6 +160,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'default_language',
 				'corebos_app_name',
 				'corebos_app_url',
+				'SOAP_Thunderbird_Enabled',
 			);
 			$moduleInstance = Vtiger_Module::getInstance('GlobalVariable');
 			$field = Vtiger_Field::getInstance('gvname',$moduleInstance);

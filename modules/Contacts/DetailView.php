@@ -11,9 +11,9 @@ require_once('Smarty_setup.php');
 require_once('data/Tracker.php');
 require_once('include/CustomFieldUtil.php');
 require_once('include/utils/utils.php');
-require_once('user_privileges/default_module_view.php');
+require('user_privileges/default_module_view.php');
 
-global $mod_strings, $app_strings, $currentModule, $current_user, $theme, $singlepane_view, $log;
+global $mod_strings, $app_strings, $currentModule, $current_user, $theme, $log;
 
 $focus = CRMEntity::getInstance($currentModule);
 
@@ -29,7 +29,7 @@ if($record != '') {
 	//Display the error message
 	if($_SESSION['image_type_error'] != '') {
 		echo '<font color="red">'.$_SESSION['image_type_error'].'</font>';
-		unset($_SESSION['image_type_error']);
+		coreBOS_Session::delete('image_type_error');
 	}
 
 	$focus->id = $record;

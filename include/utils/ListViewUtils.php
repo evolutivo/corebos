@@ -10,9 +10,7 @@
 require_once('include/database/PearDatabase.php');
 require_once('include/ComboUtil.php');
 require_once('include/utils/CommonUtils.php');
-require_once('user_privileges/default_module_view.php');
 require_once('include/utils/UserInfoUtil.php');
-require_once('include/Zend/Json.php');
 require_once 'include/CustomFieldUtil.php';
 
 /** This function is used to get the list view header values in a list view
@@ -26,7 +24,7 @@ require_once 'include/CustomFieldUtil.php';
  * Returns the listview header values in an array
  */
 function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order_by = '', $relatedlist = '', $oCv = '', $relatedmodule = '', $skipActions = false) {
-	global $log, $singlepane_view, $adb, $theme, $app_strings, $mod_strings, $counter;
+	global $log, $adb, $theme, $app_strings, $mod_strings, $counter;
 	$log->debug("Entering getListViewHeader(" . $module . "," . $sort_qry . "," . $sorder . "," . $order_by . "," . $relatedlist . "," . (is_object($oCv) ? get_class($oCv) : $oCv) . ") method ...");
 
 	$arrow = '';
@@ -1694,8 +1692,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 	} elseif ($uitype == 8) {
 		if (!empty($temp_val)) {
 			$temp_val = html_entity_decode($temp_val, ENT_QUOTES, $default_charset);
-			$json = new Zend_Json();
-			$value = vt_suppressHTMLTags(implode(',', $json->decode($temp_val)));
+			$value = vt_suppressHTMLTags(implode(',',json_decode($temp_val,true)));
 		}
 	}
 	else {
@@ -1821,8 +1818,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 
 					$slashes_desc = str_replace(array("\r", "\n"), array('\r', '\n'), $slashes_temp_desc);
 					$tmp_arr = array("entityid" => $entity_id, "prodname" => "" . stripslashes(decode_html(nl2br($slashes_temp_val))) . "", "unitprice" => "$unitprice", "qtyinstk" => "$qty_stock", "taxstring" => "$tax_str", "rowid" => "$row_id", "desc" => "$slashes_desc", "subprod_ids" => "$sub_det");
-					require_once('include/Zend/Json.php');
-					$prod_arr = Zend_Json::encode($tmp_arr);
+					$prod_arr = json_encode($tmp_arr);
 					$value = '<a href="javascript:window.close();" id=\'popup_product_' . $entity_id . '\' onclick=\'set_return_inventory("' . $entity_id . '", "' . decode_html(nl2br($slashes_temp_val)) . '", "' . $unitprice . '", "' . $qty_stock . '","' . $tax_str . '","' . $row_id . '","' . $slashes_desc . '","' . $sub_det . '");\' vt_prod_arr=\'' . $prod_arr . '\' >' . textlength_check($temp_val) . '</a>';
 				}
 				elseif ($popuptype == "inventory_prod_po") {
@@ -1868,8 +1864,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 
 					$slashes_desc = str_replace(array("\r", "\n"), array('\r', '\n'), $slashes_temp_desc);
 					$tmp_arr = array("entityid" => $entity_id, "prodname" => "" . stripslashes(decode_html(nl2br($slashes_temp_val))) . "", "unitprice" => "$unitprice", "qtyinstk" => "$qty_stock", "taxstring" => "$tax_str", "rowid" => "$row_id", "desc" => "$slashes_desc", "subprod_ids" => "$sub_det");
-					require_once('include/Zend/Json.php');
-					$prod_arr = Zend_Json::encode($tmp_arr);
+					$prod_arr = json_encode($tmp_arr);
 					$value = '<a href="javascript:window.close();" id=\'popup_product_' . $entity_id . '\' onclick=\'set_return_inventory_po("' . $entity_id . '", "' . decode_html(nl2br($slashes_temp_val)) . '", "' . $unitprice . '", "' . $tax_str . '","' . $row_id . '","' . $slashes_desc . '","' . $sub_det . '"); \'  vt_prod_arr=\'' . $prod_arr . '\' >' . textlength_check($temp_val) . '</a>';
 				}
 				elseif ($popuptype == "inventory_service") {
@@ -1900,8 +1895,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 
 					$slashes_desc = str_replace(array("\r", "\n"), array('\r', '\n'), $slashes_temp_desc);
 					$tmp_arr = array("entityid" => $entity_id, "prodname" => "" . stripslashes(decode_html(nl2br($slashes_temp_val))) . "", "unitprice" => "$unitprice", "taxstring" => "$tax_str", "rowid" => "$row_id", "desc" => "$slashes_desc");
-					require_once('include/Zend/Json.php');
-					$prod_arr = Zend_Json::encode($tmp_arr);
+					$prod_arr = json_encode($tmp_arr);
 
 					$value = '<a href="javascript:window.close();" id=\'popup_product_' . $entity_id . '\' onclick=\'set_return_inventory("' . $entity_id . '", "' . decode_html(nl2br($slashes_temp_val)) . '", "' . $unitprice . '", "' . $tax_str . '","' . $row_id . '","' . $slashes_desc . '");\'  vt_prod_arr=\'' . $prod_arr . '\' >' . textlength_check($temp_val) . '</a>';
 				} elseif ($popuptype == "inventory_pb") {
@@ -3690,14 +3684,14 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
 		$lv_array['viewname'] = vtlib_purify($_REQUEST['viewname']);
 
 	if ($related == '')
-		$_SESSION['lvs'][$_REQUEST['module']] = $lv_array;
+		coreBOS_Session::set('lvs^'.$_REQUEST['module'], $lv_array);
 	else
-		$_SESSION['rlvs'][$module][$related] = $lv_array;
+		coreBOS_Session::set('rlvs^'.$module.'^'.$related, $lv_array);
 
 	if ($start < ceil($noofrows / $max_ent) && $start != '') {
 		$start = ceil($noofrows / $max_ent);
 		if ($related == '')
-			$_SESSION['lvs'][$currentModule]['start'] = $start;
+			coreBOS_Session::set('lvs^'.$currentModule.'^start', $start);
 	}
 }
 

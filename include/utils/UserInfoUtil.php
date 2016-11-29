@@ -1221,7 +1221,7 @@ function isAllowed_Outlook($module,$action,$user_id,$record_id)
 	$log->debug("Entering isAllowed_Outlook(".$module.",".$action.",".$user_id.",".$record_id.") method ...");
 
 	$permission = "no";
-	if($module == 'Users' || $module == 'Home' || $module == 'Administration' || $module == 'uploads' ||  $module == 'Settings' || $module == 'Calendar')
+	if($module == 'Users' || $module == 'Home' || $module == 'uploads' ||  $module == 'Settings' || $module == 'Calendar')
 	{
 		//These modules done have security
 		$permission = "yes";
