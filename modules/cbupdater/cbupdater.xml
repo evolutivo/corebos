@@ -1252,6 +1252,76 @@
 	<description>Add field phabricatortaskid and phabricatortaskphid in module ProjectTask needed to identify phabricator project tasks in the crm</description>
 	<filename>build/changeSets/evolutivo/phabricatortaskfields.php</filename>
 	<classname>phabricatortaskfields</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Add Divisible checkbox to product and service</description>
+	<filename>build/changeSets/addPdoSrvDivisible.php</filename>
+	<classname>addPdoSrvDivisible</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete Administration directory (obsolete code)</description>
+	<filename>build/changeSets/delAdministration.php</filename>
+	<classname>delAdministration</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete Settings Notifications (moved to workflow)</description>
+	<filename>build/changeSets/delSettingsNotifications.php</filename>
+	<classname>delSettingsNotifications</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete chat functionality tables</description>
+	<filename>build/changeSets/delvtChatTables.php</filename>
+	<classname>delvtChatTables</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>kikojover</author>
+	<description>Add Indexes on Inventorydetail table</description>
+	<filename>build/changeSets/add_Indexes_InvDetails.php</filename>
+	<classname>add_Indexes_InvDetails</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>vtlib Header Links Load Only On their Module</description>
+	<filename>build/changeSets/vtlibLinkLoadOnlyOnMyModule.php</filename>
+	<classname>vtlibLinkLoadOnlyOnMyModule</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Header Dropzone CSS and javascript</description>
+	<filename>build/changeSets/dropzonecssandjs.php</filename>
+	<classname>dropzonecssandjs</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>mysql strict Mail Manager record table</description>
+	<filename>build/changeSets/mysqlstrictMailManager.php</filename>
+	<classname>mysqlstrictMailManager</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>Add UIType 1024 Webservice Field Type</description>
+	<filename>build/changeSets/addUIType1024WebserviceFieldType.php</filename>
+	<classname>addUIType1024WebserviceFieldType</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Fix Calendar Start and End Date On Reports Filters, error with ampersand</description>
+	<filename>build/changeSets/fixCalendarStartEndDateOnReportsFilters.php</filename>
+	<classname>fixCalendarStartEndDateOnReportsFilters</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>

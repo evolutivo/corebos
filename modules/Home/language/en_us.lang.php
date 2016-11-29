@@ -59,7 +59,6 @@ $mod_strings = Array(
 'Last Ten Days'=>'Last Ten Days',
 
 // Added/Updated for vtiger CRM 5.0.4 
-'TITLE_AJAX_CSS_POPUP_CHAT'=>'Ajax Css-Popup chat',
 'User List'=>'User List',
 
 // Added after 5.0.4 GA
@@ -126,6 +125,7 @@ $mod_strings = Array(
 'LBL_DEFAULT_WIDGET'=>'Default Widgets',
 'LBL_NO_WIDGETS_HIDDEN'=>'No default widgets are hidden',
 'UpdateExchangeRate' => 'Update Exchange Rate',
+'LBL_HOME_ADDWINDOW' => 'Add Window',
 );
 
 ?>

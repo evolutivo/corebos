@@ -28,9 +28,7 @@ class Installation_Utils {
 
 	static function getDbOptions() {
 		$dbOptions = array();
-		if(function_exists('mysql_connect')) {
-			$dbOptions['mysqli'] = 'MySQL';
-		}
+		$dbOptions['mysqli'] = 'MySQL';
 		return $dbOptions;
 	}
 
@@ -313,10 +311,7 @@ class Migration_Utils {
 
 	static function copyRequiredFiles($sourceDirectory, $destinationDirectory) {
 		if (realpath($sourceDirectory) == realpath($destinationDirectory)) return;
-		@Migration_Utils::getFilesFromFolder($sourceDirectory."user_privileges/",$destinationDirectory."user_privileges/",
-								// Force copy these files - Overwrite if they exist in destination directory.
-								array($sourceDirectory."user_privileges/default_module_view.php")
-							);
+		@Migration_Utils::getFilesFromFolder($sourceDirectory."user_privileges/",$destinationDirectory."user_privileges/");
 		@Migration_Utils::getFilesFromFolder($sourceDirectory."storage/",$destinationDirectory."storage/");
 		@Migration_Utils::getFilesFromFolder($sourceDirectory."test/contact/",$destinationDirectory."test/contact/");
 		@Migration_Utils::getFilesFromFolder($sourceDirectory."test/logo/",$destinationDirectory."test/logo/");
@@ -648,7 +643,7 @@ class ConfigFile_Utils {
 	private $currencyName;
 	private $adminEmail;
 
-	function ConfigFile_Utils($configFileParameters) {
+	function __construct($configFileParameters) {
 		if (isset($configFileParameters['root_directory']))
 			$this->rootDirectory = $configFileParameters['root_directory'];
 

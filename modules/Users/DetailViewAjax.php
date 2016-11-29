@@ -52,7 +52,7 @@ if($ajaxaction == "DETAILVIEW")
 		}
 		if($fieldname == 'internal_mailer'){
 			if(isset($_SESSION['internal_mailer']) && $_SESSION['internal_mailer'] != $userObj->column_fields['internal_mailer'])
-				$_SESSION['internal_mailer'] = $userObj->column_fields['internal_mailer'];
+				coreBOS_Session::set('internal_mailer', $userObj->column_fields['internal_mailer']);
 		}
 		$userObj->id = $userid;
 		$userObj->mode = "edit";

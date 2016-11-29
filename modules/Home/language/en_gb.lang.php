@@ -40,7 +40,6 @@ $mod_strings = array(
 	'Last Week' => 'Last Week',
 	'Last 2 Days' => 'Last 2 Days',
 	'Last Ten Days' => 'Last Ten Days',
-	'TITLE_AJAX_CSS_POPUP_CHAT' => 'Ajax Css-Popup chat',
 	'User List' => 'User List',
 	'LBL_HOME_MODULE' => 'Module',
 	'LBL_HOME_RSS' => 'RSS',
@@ -91,5 +90,6 @@ $mod_strings = array(
 	'LBL_DEFAULT_WIDGET' => 'Default widgets',
 	'LBL_NO_WIDGETS_HIDDEN' => 'No default widgets are hidden',
 	'UpdateExchangeRate' => 'Update Exchange Rate',
+	'LBL_HOME_ADDWINDOW' => 'Add Window',
 );
 ?>

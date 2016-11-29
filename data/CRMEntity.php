@@ -12,7 +12,6 @@ require_once('include/logging.php');
 require_once('data/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
-require_once("include/Zend/Json.php");
 require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
 
 class CRMEntity {
@@ -592,8 +591,7 @@ class CRMEntity {
 				} elseif ($uitype == 8) {
 					$this->column_fields[$fieldname] = rtrim($this->column_fields[$fieldname], ',');
 					$ids = explode(',', $this->column_fields[$fieldname]);
-					$json = new Zend_Json();
-					$fldvalue = $json->encode($ids);
+					$fldvalue = json_encode($ids);
 				} elseif ($uitype == 12) {
 					// Bulk Save Mode: Consider the FROM email address as specified, if not lookup
 					$fldvalue = $this->column_fields[$fieldname];
@@ -828,6 +826,16 @@ class CRMEntity {
 		list($request,$void,$saveerror,$errormessage,$error_action,$returnvalues) =
 			cbEventHandler::do_filter('corebos.filter.preSaveCheck', array($request,$this,false,'','',''));
 		return array($saveerror,$errormessage,$error_action,$returnvalues);
+	}
+
+	/* Validate record trying to be deleted.
+	 * @return array
+	 *   delerror: true if error false if not
+	 *   errormessage: message to return to user if error, empty otherwise
+	 */
+	function preDeleteCheck() {
+		list($void,$delerror,$errormessage) = cbEventHandler::do_filter('corebos.filter.preDeleteCheck', array($this,false,''));
+		return array($delerror,$errormessage);
 	}
 
 	/* Check launched when entering Edit View, called after creating object and loading variables. Will be empty on create
@@ -1837,17 +1845,29 @@ class CRMEntity {
 				" fieldid IN (SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=? AND module=?)", array($currentModule, $related_module));
 		$numOfFields = $this->db->num_rows($dependentFieldSql);
 
+		$relWithSelf = false;
 		if ($numOfFields > 0) {
 			$relconds = array();
 			while ($depflds = $this->db->fetch_array($dependentFieldSql)) {
 			$dependentTable = $depflds['tablename'];
-			if ($dependentTable!=$other->table_name and !in_array($dependentTable, $other->related_tables)) {
+			if(!is_array($other->related_tables)){
+				$otherRelatedTable = array($other->related_tables);
+			}else {
+				$otherRelatedTable = $other->related_tables;
+			}
+			if ($dependentTable!=$other->table_name and !in_array($dependentTable, $otherRelatedTable)) {
 				$relidx = isset($other->tab_name_index[$dependentTable]) ? $other->tab_name_index[$dependentTable] : $other->table_index;
 				$other->related_tables[$dependentTable] = array($relidx,$other->table_name,$other->table_index);
 			}
 			$dependentColumn = $depflds['columnname'];
 			$dependentField = $depflds['fieldname'];
-			$relconds[] = "$this->table_name.$this->table_index = $dependentTable.$dependentColumn";
+			if ($this->table_name==$other->table_name) {
+				$thistablename = $this->table_name.'RelSelf';
+				$relWithSelf = true;
+			} else {
+				$thistablename = $this->table_name;
+			}
+			$relconds[] = "$thistablename.$this->table_index = $dependentTable.$dependentColumn";
 			$button .= '<input type="hidden" name="' . $dependentColumn . '" id="' . $dependentColumn . '" value="' . $id . '">';
 			$button .= '<input type="hidden" name="' . $dependentColumn . '_type" id="' . $dependentColumn . '_type" value="' . $currentModule . '">';
 			}
@@ -1890,11 +1910,19 @@ class CRMEntity {
 			$query .= " FROM $other->table_name";
 			$query .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $other->table_name.$other->table_index";
 			$query .= $more_relation;
-			$query .= " INNER JOIN $this->table_name ON $relationconditions";
+			if ($relWithSelf) {
+				$query .= " INNER JOIN $this->table_name as ".$this->table_name."RelSelf ON $relationconditions";
+			} else {
+				$query .= " INNER JOIN $this->table_name ON $relationconditions";
+			}
 			$query .= " LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid";
 			$query .= " LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid";
 
-			$query .= " WHERE vtiger_crmentity.deleted = 0 AND $this->table_name.$this->table_index = $id";
+			if ($relWithSelf) {
+				$query .= " WHERE vtiger_crmentity.deleted = 0 AND ".$this->table_name."RelSelf.$this->table_index = $id";
+			} else {
+				$query .= " WHERE vtiger_crmentity.deleted = 0 AND $this->table_name.$this->table_index = $id";
+			}
 
 			$return_value = GetRelatedList($currentModule, $related_module, $other, $query, $button, $returnset);
 		}
