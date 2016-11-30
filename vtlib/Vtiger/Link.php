@@ -455,9 +455,9 @@ class Vtiger_Link {
                         include_once('modules/BusinessActions/BusinessActions.php');
                         $actionfocus=CRMEntity::getInstance("BusinessActions");
                         $actionfocus->retrieve_entity_info($instance->businessactionsid,"BusinessActions");                                
-                            if($instance->linktobrules!='')
+                            if($instance->linktobrules!='' && $instance->linktobrules!=0)
                             $res_logic=$actionfocus->runBusinessLogic(); 
-                            if($res_logic || $instance->linktobrules==''){ // temporarly condition for showing actions not related to BR
+                            if($res_logic || $instance->linktobrules=='' || $instance->linktobrules==0){ // temporarly condition for showing actions not related to BR
                                 if($multitype) {
                                         $instances[$instance->linktype][] = $instance;
                                 } else {
