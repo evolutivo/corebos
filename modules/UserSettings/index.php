@@ -17,7 +17,7 @@ $items = array();
 
 $items[] = array(
 	"img" => "ico-users.gif",
-	"link" => "index.php?module=Administration&action=index&parenttab=Settings",
+	"link" => "index.php?module=Users&action=index&parenttab=Settings",
 	"label" => "Users",
 	"description" => 'Manage users who can access the application'
 );
