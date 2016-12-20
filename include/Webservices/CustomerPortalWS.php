@@ -1005,7 +1005,7 @@ function getEvoReferenceAutocomplete($term, $filter, $limit,$field) {
 		$searchin = array('HelpDesk','Project','ProjectTask','Potentials','ProjectMilestone',
 		'Invoice','PurchaseOrder','Quotes','SalesOrder','ServiceContracts','Accounts','Contacts',);
 	}
-	if (empty($limit)) $limit = 30;  // hard coded default
+	if (empty($limit)) $limit = ' limi 0,10';  // hard coded default
 	$respuesta=array();
         $term=  strtolower($term);
         if (empty($term)) {

@@ -95,7 +95,7 @@ $scope.showPicklist = function(fld) {
         for(var mapid=0;mapid<mapFieldDep.length;mapid++)
         {
             var map =mapFieldDep[mapid];
-            var target_roles=new Array(map['target_roles']);
+            var target_roles=map['target_roles'];
             var conditionResp='';
             var c_resp=0;
             if (map['respfield']!=null)
@@ -113,11 +113,11 @@ $scope.showPicklist = function(fld) {
             }
            for(var map_key=0;map_key<map['targetfield'].length;map_key++){
                var map_item = map['targetfield'][map_key];
-               if(fld==map_item && map['action'][map_key]=='hide' && target_roles.indexOf(CurrRole)!=-1){
+               if(fld==map_item && map['action'][map_key]=='hide' && eval(conditionResp) && target_roles.indexOf(CurrRole)!=-1){
                    ret=false;
                    fieldname=fld;
                } 
-               else if(fld==map_item && map['action'][map_key]=='hide' && eval(conditionResp)){
+               else if(fld==map_item && map['action'][map_key]=='hide' && eval(conditionResp) && target_roles.length===0){
                    ret=false;
                    fieldname=fld;
                }

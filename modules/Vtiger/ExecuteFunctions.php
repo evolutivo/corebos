@@ -87,7 +87,7 @@ switch ($functiontocall) {
 			$term = vtlib_purify($_REQUEST['term']);
 			$op = 'contains';
 		}
-		$ret = getEvoReferenceAutocomplete($term, $op, $searchinmodule, $limit, $current_user,$field);
+		$ret = getEvoReferenceAutocomplete($term, $op, $limit, $field);
 		break;
         case 'getEvoActualAutocomplete':
 		include_once 'include/Webservices/CustomerPortalWS.php';
@@ -105,7 +105,7 @@ switch ($functiontocall) {
 			$term = vtlib_purify($_REQUEST['term']);
 			$op = 'startswith';
 		}
-		$ret = getEvoActualAutocomplete($sel_values, $op, $searchinmodule, $limit, $current_user,$field);
+		$ret = getEvoActualAutocomplete($sel_values,$field);
 		break;
         case 'newEvoAutocomplete':
 		include_once 'include/Webservices/CustomerPortalWS.php';

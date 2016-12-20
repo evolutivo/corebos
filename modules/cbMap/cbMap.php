@@ -766,7 +766,7 @@ class cbMap extends CRMEntity {
            $target_fields['target_picklist']=  $target_picklist;
            $target_fields['target_picklist_values']=  $target_piclist_values;
            
-           $target_fields['target_roles'] = '"'. implode('","',$target_roles).'"';
+           $target_fields['target_roles'] = $target_roles;
            
            $target_fields['target_profiles'] = $target_profiles;
            

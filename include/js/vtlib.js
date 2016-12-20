@@ -31,12 +31,17 @@ function vtlib_setvalue_from_popup(recordid,value,target_fieldname,formname) {
         var domnode_display = wodform[target_fieldname+'_display'];
         if (!domnode_display) domnode_display = window.opener.document.getElementById(target_fieldname+'_display');
 
-        if(domnode_id!=undefined){
-        if(domnode_id) domnode_id.value = recordid;
-        if(domnode_display) domnode_display.value = value;}
+        if(domnode_id!==undefined){
+            if(domnode_id) domnode_id.value = recordid;
+            if(domnode_display) domnode_display.value = value;
+        }
+        else if(window.opener.document.getElementById(target_fieldname)!==undefined){
+            window.opener.document.getElementById(target_fieldname).value = recordid;
+            window.opener.document.getElementById(target_fieldname+'_display').value = value;
+        }
         else {
-        window.opener.document.getElementsByName(target_fieldname).item(0).value=recordid;
-        window.opener.document.getElementsByName(target_fieldname+'_display').item(0).value=value;
+            window.opener.document.getElementsByName(target_fieldname).item(0).value=recordid;
+            window.opener.document.getElementsByName(target_fieldname+'_display').item(0).value=value;
         }
     }
     var func = window.opener.gVTModule + 'setValueFromCapture';
