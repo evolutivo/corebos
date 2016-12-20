@@ -31,7 +31,7 @@ function vtlib_setvalue_from_popup(recordid,value,target_fieldname,formname) {
         var domnode_display = wodform[target_fieldname+'_display'];
         if (!domnode_display) domnode_display = window.opener.document.getElementById(target_fieldname+'_display');
 
-        if(domnode_id!==undefined){
+        if(domnode_id!=undefined){
             if(domnode_id) domnode_id.value = recordid;
             if(domnode_display) domnode_display.value = value;
         }
