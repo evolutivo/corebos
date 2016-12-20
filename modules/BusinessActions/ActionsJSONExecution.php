@@ -34,6 +34,7 @@ class ActionsJSONExecution extends BusinessActions {
         }
         //default data needed to be retrieven from Action itself
         $data['mapid'] = $this->column_fields['linktomapmodule'];
+        $data['accid']=$this->column_fields['record_id'];
         $actionParameters = $this->column_fields['stockparameters'];
         if(!empty($actionParameters)){
         $data = $this->processActionParameters($actionParameters, $data);
@@ -82,7 +83,12 @@ class ActionsJSONExecution extends BusinessActions {
      function returnJSONOutput() {
         $output=array();
         foreach ($this->inputParameters as $k => $val) {
-            $output[$k] =$val;
+            if($k=='mapid' || $k=='accid')
+            ;
+            else{
+            $output[$j] =$val;
+            $j++;
+            }
         }
         foreach ($this->outputParameters as $k => $val) {
             $output[$k] = $val;

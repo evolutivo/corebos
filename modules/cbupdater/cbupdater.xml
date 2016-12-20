@@ -1324,4 +1324,11 @@
 	<classname>fixCalendarStartEndDateOnReportsFilters</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Notification Scheduler</description>
+	<filename>build/changeSets/evolutivo/addnotificationscheduler.php</filename>
+	<classname>addnotificationscheduler</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
