@@ -191,7 +191,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		if ($col_fields[$fieldname]!='') {
                     $ret = getEvoActualAutocomplete($col_fields[$fieldname],$fieldname);
                     for($i=0;$i<sizeof($ret);$i++) {
-                        $content[$i]='<a href="index.php?module='.$ret[$i]['crmmodule'].'&action=DetailView&record='.$col_fields[$fieldname].'">'.$ret[$i]['crmname'].'</a>';
+                        $content[$i]='<a href="index.php?module='.$ret[$i]['crmmodule'].'&action=DetailView&record='.$ret[$i]['crmid'].'">'.$ret[$i]['crmname'].'</a>';
                     }
 		}
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
