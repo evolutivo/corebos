@@ -494,7 +494,7 @@ class BusinessActions extends CRMEntity {
                 }
                 else{
                 shell_exec("cd $root_directory");
-$log->debug('action test');
+                $log->debug('action test');
                 $jdec=json_decode($recordid);
                 $jdec1=str_replace("'","",$jdec[0]);$log->debug('testim'.$recarray .' ' .$outputType.' '.$jdec1);
                 if($jdec1=='ws')
@@ -573,5 +573,30 @@ $log->debug('action test');
         else
             return false;
     }
+    function runBusinessLogic2($therecid) {
+        //new method for put_ methods of sap
+        global $current_user, $record, $adb, $log;
+        $businessrulesid = $this->column_fields['actobrnew'];
+        if (!empty($businessrulesid)) {
+            require_once ("modules/BusinessRules/BusinessRules.php");
+            $br_focus = CRMEntity::getInstance("BusinessRules");
+            $br_focus->retrieve_entity_info($businessrulesid, "BusinessRules");
+            if ($br_focus->isRolePermitted()) {
+                $retrieveQuery=$br_focus->executeSQLQuery2($therecid);
+                return $retrieveQuery;
+                if($retrieveQuery){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+                return true;
+            }
+            else
+                return false;
+        }
+        else
+            return true;
+    } 
 }
 ?>

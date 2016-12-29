@@ -957,8 +957,19 @@ function getMapPermissionActions  (){
            $sqlString=(string)$x->map->sql[0];
            return $sqlString;
         }
-
-     function initListOfModules(){
+    function getMapSQLCondition() {
+        $result = array();
+        $map = htmlspecialchars_decode($this->column_fields['content'], ENT_QUOTES);
+        $x = new crXml();
+        $x->loadXML($map);
+        $queryVal = (string) $x->map->sql;
+        $result['sqlString'] = $queryVal;
+        if (!empty($x->map->conditionsql)) {
+            $result['sqlCondition'] = (string) $x->map->conditionsql;
+        }
+        return $result;
+    }
+    function initListOfModules(){
             global $adb;
             $restricted_modules = array('Emails','Events','Webmails');
             $restricted_blocks = array('LBL_IMAGE_INFORMATION','LBL_COMMENTS','LBL_COMMENT_INFORMATION');

@@ -441,7 +441,7 @@ class BusinessRules extends CRMEntity {
         //}
         return $allowed;
     }
-      function apply_bussinessrules(){
+    function apply_bussinessrules(){
         global $adb,$log;
         $mapid=$this->column_fields['linktomap'];
         if($mapid!='' && $mapid!=0){
@@ -453,7 +453,114 @@ class BusinessRules extends CRMEntity {
             return $result;
           
         }
-}
+    }
+    function isRolePermitted() {
+        global $current_user;
+        $roles_array = $this->column_fields["br_allowedroles"];
+        $currentRole = $current_user->roleid;
+        $allowed = false;
+        if (!empty($roles_array)) {
+            $roles_array = explode(',', $this->column_fields["br_allowedroles"]);
+            if (in_array($currentRole, $roles_array)) {
+                $allowed = true;
+            } else {
+                $allowed = false;
+            }
+        } else {
+            $allowed = true;
+        }
+        return $allowed;
+    }
+     function executeSQLQuery($record) {
+        global $adb,$current_user;
+        $params = array();
+        $allelements = array("CURRENT_USER" => $current_user->id, "CURRENT_RECORD" => $record,"CURRENT_RECORO" => $record);
+        $mapid = $this->column_fields['linktomap'];
+        if (!empty($mapid)) {
+            require_once ("modules/cbMap/cbMap.php");
+            $mapfocus = CRMEntity::getInstance("cbMap");
+            $mapfocus->retrieve_entity_info($mapid, "cbMap");
+            $mapINFO = $mapfocus->getMapSQLCondition();
+            $sqlQuery = $mapINFO['sqlString'];
+            $sqlCondition = $mapINFO['sqlCondition'];
+            $this->log->debug("condition");
+            $this->log->debug($sqlCondition);
+            foreach ($allelements as $elem => $value) {
+                $pos_el = strpos($sqlQuery, $elem);
+                if ($pos_el) {
+                    $sqlQuery = str_replace($elem, " ? ", $sqlQuery);
+                    array_push($params, $value);
+                }
+            }
+            $res_logic = $adb->pquery($sqlQuery, $params);
+            if (isset($sqlCondition)) {
+                $condRes = $adb->query_result($res_logic, 0, 0);
+                $this->log->debug("This is the map condition");
+                $this->log->debug($condRes);
+                if ($condRes == $sqlCondition) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if ($adb->num_rows($res_logic) > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        else{
+            return true;
+        }
+    }
+
+    function executeSQLQuery2($therecid) {
+    	//new parameter for put_ actions in sap
+        global $adb, $current_user;
+    
+        $params = array();
+        $allelements = array("CURRENT_USER" => $current_user->id, "CURRENT_RECORD" => $therecid,"CURRENT_RECORO" => $therecid);
+        $mapid = $this->column_fields['linktomap'];
+        if (!empty($mapid)) {
+            require_once ("modules/cbMap/cbMap.php");
+            $mapfocus = CRMEntity::getInstance("cbMap");
+            $mapfocus->retrieve_entity_info($mapid, "cbMap");
+            $mapINFO = $mapfocus->getMapSQLCondition();
+            $sqlQuery = $mapINFO['sqlString'];
+            $sqlCondition = $mapINFO['sqlCondition'];
+            $this->log->debug("condition");
+            $this->log->debug($sqlCondition);
+		
+            foreach ($allelements as $elem => $value) {
+                $pos_el = strpos($sqlQuery, $elem);
+                if ($pos_el) {
+                    $sqlQuery = str_replace($elem, " ? ", $sqlQuery);
+                    array_push($params, $value);
+                }
+            }
+            $res_logic = $adb->pquery($sqlQuery, $params);
+            if (isset($sqlCondition)) {
+                $condRes = $adb->query_result($res_logic, 0, 0);
+                $this->log->debug("This is the map condition");
+                $this->log->debug($condRes);
+                if ($condRes == $sqlCondition) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if ($adb->num_rows($res_logic) > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        else{
+            return true;
+        }
+    }
 	/**
 	 * Handle saving related module information.
 	 * NOTE: This function has been added to CRMEntity (base class).

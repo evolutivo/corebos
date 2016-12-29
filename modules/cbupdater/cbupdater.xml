@@ -1331,4 +1331,11 @@
 	<classname>addnotificationscheduler</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add condition field to action</description>
+	<filename>build/changeSets/evolutivo/addconditionfieldtoaction.php</filename>
+	<classname>addconditionfieldtoaction</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
