@@ -91,16 +91,16 @@ $this->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($this->get_temp
 			<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
 			<tr>
 				<td>
-					<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
-						<tr>
-							{if $OP_MODE eq 'edit_view'}
-								{assign var="action" value="EditView"}
-							{else}
-								{assign var="action" value="DetailView"}
-							{/if}
-							<td class="dvtTabCache" style="width:10px" nowrap>&nbsp;</td>
-							{if $MODULE eq 'Calendar'}
-								<td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&activity_mode={$ACTIVITY_MODE}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
+					{if isset($OP_MODE) && $OP_MODE eq 'edit_view'}
+						{assign var="action" value="EditView"}
+					{else}
+						{assign var="action" value="DetailView"}
+					{/if}
+					<div class="small detailview_utils_table_top">
+						<div class="detailview_utils_table_tabs">
+							<div class="detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_top"><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></div>
+							{if isset($HASRELATEDPANES) && $HASRELATEDPANES eq 'true'}
+								{include file='RelatedPanes.tpl' tabposition='top'}
 							{else}
 								<td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
 							{/if}
@@ -153,6 +153,9 @@ $this->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($this->get_temp
 									</tr>
 								</table>
 							</td>
+							{if isset($HASRELATEDPANESACTIONS) && $HASRELATEDPANESACTIONS eq 'true'}
+								{include file='RelatedPaneActions.tpl'}
+							{/if}
 						</tr>
 					</table>
 				</td>

@@ -62,7 +62,7 @@ class coreBOS_Session {
 		}
 		if (empty($URL)) $URL = $site_URL;
 		$purl = parse_url($URL);
-		$sn = preg_replace('/[^A-Za-z0-9]/', '', $purl['host'].$purl['path'].(isset($purl['port'])?$purl['port']:''));
+		$sn = preg_replace('/[^A-Za-z0-9]/', '', $purl['host'].(isset($purl['path'])?$purl['path']:'').(isset($purl['port'])?$purl['port']:''));
 		if (is_numeric($sn)) $sn = 'cb'.$sn;
 		self::$session_name = $sn;
 		return $sn;
@@ -169,10 +169,10 @@ class coreBOS_Session {
 		} else {
 			$key = substr($key, strpos($key,'^')+1);
 			if (is_null($sespos)) {
-				if (!is_array($_SESSION[$keyparts[0]])) $_SESSION[$keyparts[0]] = array();
+				if (!isset($_SESSION[$keyparts[0]]) || !is_array($_SESSION[$keyparts[0]])) $_SESSION[$keyparts[0]] = array();
 				self::set($key, $value, $_SESSION[$keyparts[0]]);
 			} else {
-				if (!is_array($sespos[$keyparts[0]])) $sespos[$keyparts[0]] = array();
+				if (!isset($sespos[$keyparts[0]]) || !is_array($sespos[$keyparts[0]])) $sespos[$keyparts[0]] = array();
 				self::set($key, $value, $sespos[$keyparts[0]]);
 			}
 		}

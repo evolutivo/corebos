@@ -4,7 +4,6 @@
 *  Version      : 5.4.0 
 *  License      : GPL
 *  Author       : ABOnline solutions http://www.vtiger-crm.fr
-
 ***********************************************************/
 
 var alert_arr = {
@@ -318,6 +317,9 @@ var alert_arr = {
 	'ERR_MAP_NAME_ALREADY_EXISTS' : 'Le nom de mapping existe déjà. Veuillez modifier',
 	'ERR_MAP_NAME_CANNOT_BE_EMPTY' : 'Le nom de mapping ne peut être vide.',
 	'ERR_FIELDS_MAPPED_MORE_THAN_ONCE' : 'Les champs suivants sont mappés plus d\'une fois, veuillez modifier.',
+	'LBL_MERGE_SHOULDHAVE_INFO' : 'Sélectionnez au moins un champ pour fusionner vos critères',
+	'MAP_NAME_EXISTS' : 'Ce nom existe déjà. \\n Voulez-vous écraser ?',
+	'MAP_DELETED_INFO' : 'Ce mapping a été supprimé. Il est maintenant inutilisable',
 
 	//arror messages for lead conversion
 	'ERR_SELECT_EITHER':'Choisir un compte ou un contact lors de la conversion du prospect',
@@ -375,5 +377,12 @@ var alert_arr = {
 	'Products' : 'Products',
 	'Services' : 'Services',
 	'LBL_Hide' : 'Cacher',
-	'LBL_Show' : 'Montrer'
+	'LBL_Show' : 'Montrer',
+	'ERR_INVALID_DATE_FORMAT' : 'Le format de la date doit être: dd-mm-yyyy',
+	'ERR_INVALID_MONTH' : 'Veuillez saisir un mois correct.',
+	'ERR_INVALID_DAY' : 'Veuillez saisir un jour correct.',
+	'ERR_INVALID_YEAR' : 'Veuillez saisir une année correcte sur 4 chiffres.',
+	'ERR_INVALID_DATE' : 'Veuillez saisir une date correcte.',
+	'ERR_INVALID_HOUR' : 'Veuillez saisir une heure correcte.',
+	'ERR_INVALID_TIME' : 'Veuillez saisir un horaire correct.'
 };

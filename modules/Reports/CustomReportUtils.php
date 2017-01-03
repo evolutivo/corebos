@@ -7,9 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-
 require_once 'modules/Reports/ReportRun.php';
-require_once 'include/ChartUtils.php';
+require_once 'include/utils/ChartUtils.php';
 require_once 'include/utils/CommonUtils.php';
 
 Class CustomReportUtils {
@@ -41,13 +40,12 @@ Class CustomReportUtils {
 		$queryReports = self::getCustomReportsQuery($reportid);
 
 		$queryResult = $adb->pquery($queryReports, array());
-		//ChartUtils::generateChartDataFromReports($queryResult, strtolower($groupByNew[1]));
 		if ($chartType == 'horizontalbarchart') {
-			$Chart = ChartUtils::getReportBarChart($queryResult, strtolower($module_field), $fieldDetails, $reportid);
+			$Chart = ChartUtils::generateChartDataFromReports($queryResult, strtolower($module_field), $fieldDetails, $reportid);
 		} else if ($chartType == 'verticalbarchart') {
-			$Chart = ChartUtils::getReportBarChart($queryResult, strtolower($module_field), $fieldDetails, $reportid, 'vertical');
+			$Chart = ChartUtils::generateChartDataFromReports($queryResult, strtolower($module_field), $fieldDetails, $reportid);
 		} else if ($chartType == 'piechart') {
-			$Chart = ChartUtils::getReportPieChart($queryResult, strtolower($module_field), $fieldDetails, $reportid);
+			$Chart = ChartUtils::generateChartDataFromReports($queryResult, strtolower($module_field), $fieldDetails, $reportid);
 		}
 		return $Chart;
 	}

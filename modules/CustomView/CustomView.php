@@ -122,8 +122,15 @@ class CustomView extends CRMEntity {
 			} else {
 				$viewid = $viewname;
 			}
-			if ($this->isPermittedCustomView($viewid, $now_action, $this->customviewmodule) != 'yes')
-				$viewid = 0;
+			if ($this->isPermittedCustomView($viewid, $now_action, $this->customviewmodule) != 'yes') {
+				if ($this->customviewmodule=='Calendar') {
+					if ($this->isPermittedCustomView($viewid, $now_action, 'Calendar4You') != 'yes') {
+						$viewid = 0;
+					}
+				} else {
+					$viewid = 0;
+				}
+			}
 		}
 		coreBOS_Session::set('lvs^'.$module.'^viewname', $viewid);
 		return $viewid;
@@ -1070,7 +1077,7 @@ class CustomView extends CRMEntity {
 		}
 
 		if (isset($stdfilterlist)) {
-
+			$startDateTime = $endDateTime = '';
 			foreach ($stdfilterlist as $columnname => $value) {
 
 				if ($columnname == "columnname") {

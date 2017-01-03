@@ -31,6 +31,8 @@ class ReportRun extends CRMEntity {
 	var $reportname;
 	var $totallist;
 	var $number_of_rows;
+	var $page = 1;
+	var $islastpage = false;
 
 	var $_groupinglist  = false;
 	var $_columnslist    = false;
@@ -603,7 +605,7 @@ class ReportRun extends CRMEntity {
 		$advfiltersql = "";
 
 		foreach($advfilterlist as $groupindex => $groupinfo) {
-			$groupcondition = $groupinfo['condition'];
+			$groupcondition = isset($groupinfo['condition']) ? $groupinfo['condition'] : '';
 			$groupcolumns = $groupinfo['columns'];
 
 			if(count($groupcolumns) > 0) {
@@ -893,7 +895,7 @@ class ReportRun extends CRMEntity {
 		$adb = PearDatabase::getInstance();
 
 		$advfilterlist = array();
-
+		$advfiltersql = null;
 		if(!empty($advft_criteria)) {
 			foreach($advft_criteria as $column_index => $column_condition) {
 
@@ -957,6 +959,7 @@ class ReportRun extends CRMEntity {
 				$advfilterlist[$adv_filter_groupid]['columns'][] = $criteria;
 			}
 
+			if (is_array($advft_criteria_groups))
 			foreach($advft_criteria_groups as $group_index => $group_condition_info) {
 				if(empty($group_condition_info)) continue;
 				if(empty($advfilterlist[$group_index])) continue;
@@ -1448,6 +1451,7 @@ class ReportRun extends CRMEntity {
 
 		if($module == "Leads")
 		{
+			$val_conv = ((isset($_COOKIE['LeadConv']) && $_COOKIE['LeadConv'] == 'true') ? 1 : 0);
 			$query = "from vtiger_leaddetails
 				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_leaddetails.leadid
 				inner join vtiger_leadsubdetails on vtiger_leadsubdetails.leadsubscriptionid=vtiger_leaddetails.leadid
@@ -1460,7 +1464,7 @@ class ReportRun extends CRMEntity {
 				left join vtiger_users as vtiger_lastModifiedByLeads on vtiger_lastModifiedByLeads.id = vtiger_crmentity.modifiedby
 				".$this->getRelatedModulesQuery($module,$this->secondarymodule,$type,$where_condition).
 						getNonAdminAccessControlQuery($this->primarymodule,$current_user)."
-				where vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0";
+				where vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=$val_conv";
 		}
 		else if($module == "Accounts")
 		{
@@ -1743,9 +1747,10 @@ class ReportRun extends CRMEntity {
 	}
 
 	/** function to get query for the given reportid,filterlist,type
-	 *  @ param $reportid : Type integer
-	 *  @ param $filtersql : Type Array
-	 *  @ param $module : Type String
+	 * @param $reportid : integer
+	 * @param $filtersql : Array
+	 * @param $type : String output format of the report
+	 * @param $chartReport : boolean
 	 *  this returns join query for the report
 	 */
 	function sGetSQLforReport($reportid,$filtersql,$type='',$chartReport=false)
@@ -1881,6 +1886,10 @@ class ReportRun extends CRMEntity {
 			$report=str_replace('&amp;', '&', $reportquery);
 			$reportquery = $this->replaceSpecialChar($report);
 		}
+		if ($type == 'HTMLPAGED' and !$allColumnsRestricted) {
+			$rowsperpage = GlobalVariable::getVariable('Report_ListView_PageSize',40);
+			$reportquery .= ' limit '.(($this->page-1)*$rowsperpage).', '.$rowsperpage;
+		}
 		$log->info("ReportRun :: Successfully returned sGetSQLforReport".$reportid);
 		if (GlobalVariable::getVariable('Debug_Report_Query', '0')=='1') {
 			echo '<br>'.$reportquery.'<br>';
@@ -1931,18 +1940,18 @@ class ReportRun extends CRMEntity {
 			}
 		}
 
-		if($outputformat == "HTML")
+		if($outputformat == 'HTML' || $outputformat == 'HTMLPAGED')
 		{
+			if ($outputformat=='HTMLPAGED') $directOutput = false;
 			$sSQL = $this->sGetSQLforReport($this->reportid,$filtersql,$outputformat);
 			$result = $adb->query($sSQL);
 			$error_msg = $adb->database->ErrorMsg();
 			if(!$result && $error_msg!=''){
 				// Performance Optimization: If direct output is requried
 				if($directOutput) {
-					echo getTranslatedString('LBL_REPORT_GENERATION_FAILED', $currentModule) . "<br>" . $error_msg;
+					echo getTranslatedString('LBL_REPORT_GENERATION_FAILED', 'Reports') . "<br>" . $error_msg;
 					$error_msg = false;
 				}
-				// END
 				return $error_msg;
 			}
 
@@ -1950,7 +1959,6 @@ class ReportRun extends CRMEntity {
 			if($directOutput) {
 				echo '<table cellpadding="5" cellspacing="0" align="center" class="rptTable"><tr>';
 			}
-			// END
 
 			if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 				$picklistarray = $this->getAccessPickListValues();
@@ -1960,16 +1968,25 @@ class ReportRun extends CRMEntity {
 				$y=$adb->num_fields($result);
 				$noofrows = $adb->num_rows($result);
 				$this->number_of_rows = $noofrows;
+				if($outputformat == 'HTMLPAGED') {
+					$rowsperpage = GlobalVariable::getVariable('Report_ListView_PageSize',40);
+					if ($this->page*$rowsperpage>$noofrows-($noofrows % $rowsperpage)) {
+						$this->islastpage = true;
+					}
+				}
+				$reportmaxrows = GlobalVariable::getVariable('Report_MaxRows_OnScreen',5000);
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
-				$column_definitions = $adb->getFieldsDefinition($result);
-				$arrayHeaders = Array();
 				$header = '';
 				for ($x=0; $x<$y; $x++)
 				{
 					$fld = $adb->field_name($result, $x);
-					$fld_type = $column_definitions[$x]->type;
-					list($module, $fieldLabel) = explode('_', $fld->name, 2);
+					if ($fld->name=='LBL_ACTION') {
+						$module = 'Reports';
+						$fieldLabel = 'LBL_ACTION';
+					} else {
+						list($module, $fieldLabel) = explode('_', $fld->name, 2);
+					}
 					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 					if(!empty($fieldInfo)) {
 						$field = WebserviceField::fromArray($adb, $fieldInfo);
@@ -2012,8 +2029,8 @@ class ReportRun extends CRMEntity {
 				$secondvalue = '';
 				$thirdvalue = '';
 				$sHTML = '';
+				if ($noofrows<=$reportmaxrows) {
 				do {
-					$arraylists = Array();
 					$newvalue = '';
 					$snewvalue = '';
 					$tnewvalue = '';
@@ -2046,7 +2063,6 @@ class ReportRun extends CRMEntity {
 
 					for ($i=0; $i<$y; $i++) {
 						$fld = $adb->field_name($result, $i);
-						$fld_type = $column_definitions[$i]->type;
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
 
 						if($fieldvalue == '')
@@ -2055,7 +2071,7 @@ class ReportRun extends CRMEntity {
 						}
 						else if($fld->name == 'LBL_ACTION' && $fieldvalue != '-')
 						{
-							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>".getTranslatedString('LBL_VIEW_DETAILS')."</a>";
+							$fieldvalue = "<a href='index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}' target='_blank'>".getTranslatedString('LBL_VIEW_DETAILS','Reports')."</a>";
 						}
 
 						if(($lastvalue == $fieldvalue) && $this->reporttype == "summary")
@@ -2116,30 +2132,218 @@ class ReportRun extends CRMEntity {
 					$lastvalue = $newvalue;
 					$secondvalue = $snewvalue;
 					$thirdvalue = $tnewvalue;
-					$arr_val[] = $arraylists;
 					set_time_limit($php_max_execution_time);
 				}while($custom_field_values = $adb->fetch_array($result));
-
+				} else {
+					$reporterrmsg = new vtigerCRM_Smarty();
+					$errormessage = getTranslatedString('ERR_TOO_MANY_ROWS','Reports');
+					$reporterrmsg->assign('ERROR_MESSAGE', $errormessage);
+					$errormessage = $reporterrmsg->fetch('applicationmessage.tpl');
+					$errormessage = '<tr><td colspan="'.$y.'">'.$errormessage.'</td>';
+					if($directOutput) {
+						echo $errormessage;
+					} else {
+						$valtemplate = $errormessage;
+					}
+				}
 				// Performance Optimization
 				if($directOutput) {
 					echo "</tr></table>";
 					echo "<script type='text/javascript' id='__reportrun_directoutput_recordcount_script'>
 						if(document.getElementById('_reportrun_total')) document.getElementById('_reportrun_total').innerHTML=$noofrows;</script>";
 				} else {
-					$sHTML ='<table cellpadding="5" cellspacing="0" align="center" class="rptTable">
-					<tr>'.
-					$header
-					.'<!-- BEGIN values -->
-					<tr>'.
-					$valtemplate
-					.'</tr>
-					</table>';
+					if ($this->page==1) {
+						$sHTML = '<table cellpadding="5" cellspacing="0" align="center" class="rptTable">
+						<tr>'.
+						$header
+						.'<!-- BEGIN values -->';
+					}
+					$sHTML .= '<tr>'.$valtemplate.'</tr>';
+					if ($this->islastpage) {
+						$sHTML .= '</table>';
+					}
 				}
 				//<<<<<<<<construct HTML>>>>>>>>>>>>
 				$return_data[] = $sHTML;
 				$return_data[] = $noofrows;
 				$return_data[] = $sSQL;
 				return $return_data;
+			}
+		}elseif($outputformat == 'HEADERS') {
+			$sSQL = $this->sGetSQLforReport($this->reportid,$filtersql,'HTML');
+			$result = $adb->query($sSQL.' limit 1');
+			$error_msg = $adb->database->ErrorMsg();
+			if(!$result && $error_msg!=''){
+				$resp = array(
+					'has_contents' => false,
+					'jsonheaders' => array(),
+					'i18nheaders' => array(),
+					'error' => true,
+					'error_message' => getTranslatedString('LBL_REPORT_GENERATION_FAILED', 'Reports') . ':' . $error_msg,
+				);
+				return $resp;
+			}
+			$fldcnt=$adb->num_fields($result);
+			$i18nheader = $jsonheader = array();
+			for ($x=0; $x<$fldcnt; $x++) {
+				$fld = $adb->field_name($result, $x);
+				if ($fld->name=='LBL_ACTION') {
+					$module = 'Reports';
+					$fieldLabel = 'LBL_ACTION';
+				} else {
+					list($module, $fieldLabel) = explode('_', $fld->name, 2);
+				}
+				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+				if(!empty($fieldInfo)) {
+					$field = WebserviceField::fromArray($adb, $fieldInfo);
+				}
+				if(!empty($fieldInfo)) {
+					$headerLabel = $field->getFieldLabelKey();
+				} else {
+					$headerLabel = str_replace('_', ' ', $fieldLabel);
+				}
+				if(empty($headerLabel)) {
+					$headerLabel = str_replace('_', ' ', $fld->name);
+				}
+				$i18nheaderLabel = getTranslatedString($headerLabel, $module);
+				$moduleLabel = '';
+				if(!empty($this->secondarymodule) and in_array($module,$modules_selected)) {
+					$headerLabel = $module.' '.$headerLabel;
+					$i18nheaderLabel = getTranslatedString($module,$module).' '.$i18nheaderLabel;
+				}
+				if ($fld->name=='LBL_ACTION') {
+					$jsonheader[] = 'reportrowaction';
+				} else {
+					$jsonheader[] = $headerLabel;
+				}
+				$i18nheader[] = $i18nheaderLabel;
+			}
+			$resp = array(
+				'has_contents' => ($adb->num_rows($result)==1 ? true : false),
+				'jsonheaders' => $jsonheader,
+				'i18nheaders' => $i18nheader,
+				'error' => false,
+			);
+			return $resp;
+		}elseif($outputformat == 'JSON' or $outputformat == 'JSONPAGED') {
+			$sSQL = $this->sGetSQLforReport($this->reportid,$filtersql,($outputformat == 'JSON' ? 'HTML' : 'HTMLPAGED'));
+			$result = $adb->query($sSQL);
+			$error_msg = $adb->database->ErrorMsg();
+			if(!$result && $error_msg!=''){
+				$resp = array(
+					'total' => 0,
+					'data' => array(),
+					'sql' => $sSQL,
+					'error' => true,
+					'error_message' => getTranslatedString('LBL_REPORT_GENERATION_FAILED', 'Reports') . ':' . $error_msg,
+				);
+				return json_encode($resp);
+			}
+
+			if($is_admin==false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
+				$picklistarray = $this->getAccessPickListValues();
+			}
+			if($result)
+			{
+				$fldcnt=$adb->num_fields($result);
+				if ($outputformat == 'JSONPAGED') {
+					$fullsSQL = $this->sGetSQLforReport($this->reportid,$filtersql, 'HTML');
+					$fullresult = $adb->query($fullsSQL);
+					$noofrows = $adb->num_rows($fullresult);
+					unset($fullsSQL);
+					unset($fullresult);
+				} else {
+					$noofrows = $adb->num_rows($result);
+				}
+				$this->number_of_rows = $noofrows;
+				$resp = array(
+					'total' => $noofrows,
+					'current_page' => $this->page,
+					'error' => false,
+				);
+				if($outputformat == 'JSONPAGED') {
+					$rowsperpage = GlobalVariable::getVariable('Report_ListView_PageSize',40);
+					$resp['per_page'] = $rowsperpage;
+					$resp['from'] = ($this->page-1)*$rowsperpage+1;
+					if ($this->page*$rowsperpage>$noofrows-($noofrows % $rowsperpage)) {
+						$this->islastpage = true;
+						$resp['to'] = $noofrows;
+					} else {
+						$this->islastpage = false;
+						$resp['to'] = $this->page*$rowsperpage;
+					}
+					$resp['last_page'] = ceil($noofrows/$rowsperpage);
+				} else {
+					$resp['per_page'] = $noofrows;
+					$resp['from'] = 1;
+					$resp['to'] = $noofrows;
+					$resp['current_page'] = 1;
+					$resp['last_page'] = 1;
+				}
+				if ($this->islastpage and $this->page!=1) {
+					$resp['next_page_url'] = null;
+				} else {
+					$resp['next_page_url'] = 'index.php?module=Reports&action=ReportsAjax&file=getJSON&record='.$this->reportid.'&page='.($this->islastpage ? $this->page : $this->page+1);
+				}
+				$resp['prev_page_url'] = 'index.php?module=Reports&action=ReportsAjax&file=getJSON&record='.$this->reportid.'&page='.($this->page == 1 ? 1 : $this->page-1);
+				$custom_field_values = $adb->fetch_array($result);
+				$groupslist = $this->getGroupingList($this->reportid);
+				$header = array();
+				for ($x=0; $x<$fldcnt; $x++)
+				{
+					$fld = $adb->field_name($result, $x);
+					if ($fld->name=='LBL_ACTION') {
+						$module = 'Reports';
+						$fieldLabel = 'LBL_ACTION';
+					} else {
+						list($module, $fieldLabel) = explode('_', $fld->name, 2);
+					}
+					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
+					if(!empty($fieldInfo)) {
+						$field = WebserviceField::fromArray($adb, $fieldInfo);
+					}
+					if(!empty($fieldInfo)) {
+						$headerLabel = $field->getFieldLabelKey();
+					} else {
+						$headerLabel = str_replace('_', ' ', $fieldLabel);
+					}
+					if(empty($headerLabel)) {
+						$headerLabel = str_replace('_', ' ', $fld->name);
+					}
+					if(!empty($this->secondarymodule) and in_array($module,$modules_selected)) {
+						$headerLabel = $module.' '.$headerLabel;
+					}
+					$header[] = $headerLabel;
+				}
+
+				$data = array();
+				$rowcnt = 0;
+				do {
+					$crmid = $adb->query_result($result, $rowcnt++, $fldcnt-1);
+					$datarow = array();
+					$datarow['crmid'] = $crmid;
+					for ($i=0; $i<$fldcnt; $i++) {
+						$fld = $adb->field_name($result, $i);
+						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld, $custom_field_values, $i);
+						if($fieldvalue == '')
+						{
+							$fieldvalue = "-";
+						}
+						else if($fld->name == 'LBL_ACTION' && $fieldvalue != '-')
+						{
+							$fieldvalue = "index.php?module={$this->primarymodule}&action=DetailView&record={$fieldvalue}";
+						}
+						if ($header[$i]=='LBL ACTION') {
+							$datarow['reportrowaction'] = $fieldvalue;
+						} else {
+							$datarow[$header[$i]] = $fieldvalue;
+						}
+					}
+					$data[] = $datarow;
+					set_time_limit($php_max_execution_time);
+				}while($custom_field_values = $adb->fetch_array($result));
+				$resp['data'] = $data;
+				return json_encode($resp);
 			}
 		}elseif($outputformat == "PDF")
 		{
@@ -2154,16 +2358,14 @@ class ReportRun extends CRMEntity {
 				$noofrows = $adb->num_rows($result);
 				$this->number_of_rows = $noofrows;
 				$custom_field_values = $adb->fetch_array($result);
-				$column_definitions = $adb->getFieldsDefinition($result);
 				$ILF = new InventoryLineField();
 				$invMods = getInventoryModules();
-				do
-				{
+				$arr_val = array();
+				do {
 					$arraylists = Array();
 					for ($i=0; $i<$y-1; $i++) //No tratamos la última columna por ser el ACTION con el CRMID.
 					{
 						$fld = $adb->field_name($result, $i);
-						$fld_type = $column_definitions[$i]->type;
 						list($module, $fieldLabel) = explode('_', $fld->name, 2);
 						$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 						if(!empty($fieldInfo)) {
@@ -2473,14 +2675,11 @@ class ReportRun extends CRMEntity {
 				$this->number_of_rows = $noofrows;
 				$custom_field_values = $adb->fetch_array($result);
 				$groupslist = $this->getGroupingList($this->reportid);
-				$column_definitions = $adb->getFieldsDefinition($result);
 				$y=$adb->num_fields($result);
-				$arrayHeaders = Array();
 				$header = '';
 				for ($x=0; $x<$y-1; $x++)
 				{
 					$fld = $adb->field_name($result, $x);
-					$fld_type = $column_definitions[$x]->type;
 					list($module, $fieldLabel) = explode('_', $fld->name, 2);
 					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 					if(!empty($fieldInfo)) {
@@ -2512,7 +2711,6 @@ class ReportRun extends CRMEntity {
 				$secondvalue = '';
 				$thirdvalue = '';
 				do {
-					$arraylists = Array();
 					$newvalue = '';
 					$snewvalue = '';
 					$tnewvalue = '';
@@ -2538,7 +2736,6 @@ class ReportRun extends CRMEntity {
 					for ($i=0; $i<$y-1; $i++)
 					{
 						$fld = $adb->field_name($result, $i);
-						$fld_type = $column_definitions[$i]->type;
 						$fieldvalue = getReportFieldValue($this, $picklistarray, $fld,$custom_field_values, $i);
 						if(($lastvalue == $fieldvalue) && $this->reporttype == "summary")
 						{
@@ -2584,7 +2781,6 @@ class ReportRun extends CRMEntity {
 					$lastvalue = $newvalue;
 					$secondvalue = $snewvalue;
 					$thirdvalue = $tnewvalue;
-					$arr_val[] = $arraylists;
 					set_time_limit($php_max_execution_time);
 				}while($custom_field_values = $adb->fetch_array($result));
 
@@ -2733,7 +2929,7 @@ class ReportRun extends CRMEntity {
 		}
 
 		global $adb, $modules, $log, $current_user;
-
+		static $modulename_cache = array();
 		$query = "select * from vtiger_reportmodules where reportmodulesid =?";
 		$res = $adb->pquery($query , array($reportid));
 		$modrow = $adb->fetch_array($res);
@@ -2756,19 +2952,22 @@ class ReportRun extends CRMEntity {
 				$field_tablename = $fieldlist[1];
 				$field_columnname = $fieldlist[2];
 
-				$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?",array($fieldlist[1],$fieldlist[2]));
-				if($adb->num_rows($mod_query)>0){
-					$module_name = getTabName($adb->query_result($mod_query,0,'tabid'));
-					$fieldlabel = trim($fieldlist[3]);
-					if($module_name){
-						$field_columnalias = $module_name."_".$fieldlist[3];
-					} else {
-						$field_columnalias = $module_name."_".$fieldlist[3];
+				$cachekey = $field_tablename . ":" . $field_columnname;
+				if (!isset($modulename_cache[$cachekey])) {
+					$mod_query = $adb->pquery("SELECT distinct(tabid) as tabid from vtiger_field where tablename = ? and columnname=?",array($fieldlist[1],$fieldlist[2]));
+					if($adb->num_rows($mod_query)>0){
+						$module_name = getTabModuleName($adb->query_result($mod_query,0,'tabid'));
+						$modulename_cache[$cachekey] = $module_name;
 					}
-					$field_columnalias = decode_html($field_columnalias);
-					$query_columnalias = substr($field_columnalias, 0, strrpos($field_columnalias, '_'));
-					$query_columnalias = str_replace(array(' ','&'),'_',$query_columnalias);
+				} else {
+					$module_name = $modulename_cache[$cachekey];
 				}
+
+				$fieldlabel = trim($fieldlist[3]);
+				$field_columnalias = $module_name."_".$fieldlist[3];
+				$field_columnalias = decode_html($field_columnalias);
+				$query_columnalias = substr($field_columnalias, 0, strrpos($field_columnalias, '_'));
+				$query_columnalias = str_replace(array(' ','&'),'_',$query_columnalias);
 				$sckey = $field_tablename.':'.$field_columnname.':'.$query_columnalias.':'.$field_columnname.':N'; // vtiger_invoice:subject:Invoice_Subject:subject:V
 				$scval = $field_tablename.'.'.$field_columnname." AS '".$query_columnalias."'"; // vtiger_invoice.subject AS 'Invoice_Subject'
 				$seltotalcols[$sckey] = $scval;

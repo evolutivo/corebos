@@ -223,14 +223,16 @@ $mod_strings = Array(
 'LBL_FLDR_NOT_EMPTY'=>'A Pasta que você está tentanto apagar não está vazia, Mova ou Apague os Relatórios existentes.',
 'NO_REL_MODULES'=>'Nenhum Módulo Relacionado para o Módulo Selecionado',
 'LBL_REPORT_GENERATION_FAILED'=>'Falha ao Gerar Relatório!',
-
+'ERR_TOO_MANY_ROWS' => 'This report has too many rows. Please add some filters and divide it into various smaller reports.',
+'ERR_INCORRECT_REPORTID' => 'Report cannot be found',
 'LBL_OR'=>'ou',
 'LBL_NEW_GROUP'=>'Novo Grupo',
 'LBL_DELETE_GROUP'=>'Apagar Grupo',
 'LBL_NEW_CONDITION'=>'Nova Condição',
 'LBL_SHARING_TYPE'=>'Compartilhar Tipo',
-'LBL_SELECT_REPORT_TYPE_TO_CONTROL_ACCESS'=>'Selecionar Compartilhar Tipo para Controlar Acesso ao Relatório', 
+'LBL_SELECT_REPORT_TYPE_TO_CONTROL_ACCESS'=>'Selecionar Compartilhar Tipo para Controlar Acesso ao Relatório',
 'LBL_ACTION' => 'Ação',
+'LBL ACTION' => 'Ação',
 'ACTION' => 'Ação',
 'LBL_VIEW_DETAILS' => 'Detalhes Visualização',
 'LBL_SHOW_STANDARD_FILTERS' => 'Mostrar Filtros Padrão',
@@ -270,7 +272,7 @@ $mod_strings = Array(
 
 'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Este é um email auto-gerado enviado a partir de um relatório agendado.',
 'LBL_TIME_FORMAT_MSG' => 'hh:mm (Formato 24 horas)',
-
+'LBL_RELOAD_REPORT' => 'Reload Report',
 'LBL_SAVE_REPORT' => 'Salvar',
 'LBL_SAVE_REPORT_AS' => 'Salvar Relatório como...',
 
@@ -286,6 +288,7 @@ $mod_strings = Array(
 'LBL_GROUPING_TIME' => 'Grupo por Data',
 'LBL_WIDGET_ADDED' => 'Widget Adicionado com Sucesso.',
 'LBL_UNDEFINED' => 'Indefinido',
+'Add ReportCharts' => 'Add Report Charts',
 )
 
 ?>

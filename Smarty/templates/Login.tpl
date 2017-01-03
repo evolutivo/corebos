@@ -8,7 +8,7 @@
   * All Rights Reserved.
   *********************************************************************************/
 -->*}
-{include file="LoginHeader.tpl}
+{include file="LoginHeader.tpl"}
 
 <div id="loginWrapper">
 <div id="loginTop"><a href="index.php"><img src="test/logo/{$COMPANY_DETAILS.logo}"></a></div>

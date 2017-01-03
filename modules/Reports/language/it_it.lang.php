@@ -210,6 +210,8 @@ $mod_strings = array (
 'LBL_FLDR_NOT_EMPTY' => 'La Cartella che stai per cancellare non e\' vuota, Sposta o Elimina i Report in essa.',
 'NO_REL_MODULES' => 'Nessun Modulo relazionato alla selezione',
 'LBL_REPORT_GENERATION_FAILED' => 'Generazione Report fallita!',
+'ERR_TOO_MANY_ROWS' => 'This report has too many rows. Please add some filters and divide it into various smaller reports.',
+'ERR_INCORRECT_REPORTID' => 'Report cannot be found',
 'LBL_OR'=>'o',
 'LBL_NEW_GROUP'=>'Nuovo Gruppo',
 'LBL_DELETE_GROUP'=>'Cancella Gruppo',
@@ -217,6 +219,7 @@ $mod_strings = array (
 'LBL_SHARING_TYPE'=>'Tipo di Condivisione',
 'LBL_SELECT_REPORT_TYPE_TO_CONTROL_ACCESS'=>'Seleziona il tipo di Condivisione per l\'accesso al Report', 
 'LBL_ACTION' => 'Azione',
+'LBL ACTION' => 'Azione',
 'ACTION' => 'Azione',
 'LBL_VIEW_DETAILS' => 'Vedi Dettagli',
 'LBL_SHOW_STANDARD_FILTERS' => 'Mostra Filtri Standard',
@@ -256,7 +259,7 @@ $mod_strings = array (
 
 'LBL_AUTO_GENERATED_REPORT_EMAIL' => 'Questa mail viene generata automaticamente per accompagnare un report.',
 'LBL_TIME_FORMAT_MSG' => 'hh:mm (Formato 24 ore)',
-
+'LBL_RELOAD_REPORT' => 'Reload Report',
 'LBL_SAVE_REPORT' => 'Salva',
 'LBL_SAVE_REPORT_AS' => 'Salva report come...',
 
@@ -272,5 +275,6 @@ $mod_strings = array (
 'LBL_GROUPING_TIME' => 'Raggruppa per Ora',
 'LBL_WIDGET_ADDED' => 'Widget Aggiunto con Succssso.',
 'LBL_UNDEFINED' => 'Indefinito',
-)
+'Add ReportCharts' => 'Add Report Charts',
+);
 ?>
