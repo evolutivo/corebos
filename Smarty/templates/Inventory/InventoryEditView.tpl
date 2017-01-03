@@ -18,11 +18,12 @@
 {if $PICKIST_DEPENDENCY_DATASOURCE neq ''}
 <script type="text/javascript">
 	jQuery(document).ready(function() {ldelim} (new FieldDependencies({$PICKIST_DEPENDENCY_DATASOURCE})).init() {rdelim});
+	var Inventory_ListPrice_ReadOnly = '{$Inventory_ListPrice_ReadOnly}';
 </script>
 {/if}
 
 {include file='salesEditViewFieldDependency.tpl'}
-{include file='Buttons_List1.tpl'}
+{include file='Buttons_List.tpl'}
 
 {*<!-- Contents -->*}
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
@@ -40,14 +41,7 @@
 			{/if}
 			{if $OP_MODE eq 'create_view'}
 				{if $DUPLICATE neq 'true'}
-					{assign var=create_new value="LBL_CREATING_NEW_"|cat:$SINGLE_MOD}
-					{* vtlib customization: use translation only if present *}
-					{assign var="create_newlabel" value=$APP.$create_new}
-					{if $create_newlabel neq ''}
-						<span class="lvtHeaderText">{$create_newlabel}</span> <br>
-					{else}
-						<span class="lvtHeaderText">{$APP.LBL_CREATING} {$APP.LBL_NEW} {$SINGLE_MOD|@getTranslatedString:$MODULE}</span> <br>
-					{/if}
+					<span class="lvtHeaderText">{$APP.LBL_CREATING} {$APP.LBL_NEW} {$SINGLE_MOD|@getTranslatedString:$MODULE}</span> <br>
 				{else}
 					<span class="lvtHeaderText">{$APP.LBL_DUPLICATING} "{$NAME}" </span> <br>
 				{/if}
@@ -58,7 +52,7 @@
 			{include file='EditViewHidden.tpl'}
 			{if $OP_MODE eq 'create_view'}
 				<input type="hidden" name="convert_from" value="{$CONVERT_MODE}">
-				<input type="hidden" name="duplicate_from" value="{$DUPLICATE_FROM}">
+				<input type="hidden" name="duplicate_from" value="{if isset($DUPLICATE_FROM)}{$DUPLICATE_FROM}{/if}">
 			{/if}
 			<input name='search_url' id="search_url" type='hidden' value='{$SEARCH}'>
 
@@ -87,7 +81,7 @@
 							   <tr>
 								<td style="padding:10px">
 								<!-- General details -->
-									<table border=0 cellspacing=0 cellpadding=0 width=100% class="small createview_table">
+									<table border=0 cellspacing=0 cellpadding=0 width="100%" class="small createview_table">
 									   <tr>
 										<td colspan=4 style="padding:5px">
 										   <div align="center">
@@ -99,7 +93,7 @@
 
 									   <!-- included to handle the edit fields based on ui types -->
 									   {foreach key=header item=data from=$BLOCKS}
-									      <tr id="tbl{$header|replace:' ':''}Head">
+										<tr id="tbl{$header|replace:' ':''}Head">
 										{if $header== $MOD.LBL_ADDRESS_INFORMATION && ($MODULE == 'Accounts' || $MODULE == 'Contacts' || $MODULE == 'Quotes' || $MODULE == 'PurchaseOrder' || $MODULE == 'SalesOrder'|| $MODULE == 'Invoice')  && $SHOW_COPY_ADDRESS eq 'yes'}
 											<td colspan=2 class="detailedViewHeader">
 											<b>{$header}</b></td>
@@ -110,14 +104,18 @@
 										{else}
 											<td colspan=4 class="detailedViewHeader">
 											<b>{$header}</b>
-										{/if}
 										</td>
-									      </tr>
+										{/if}
+										</tr>
 
-										<!-- Handle the ui types display -->
-										{include file="DisplayFields.tpl"}
+										{if $CUSTOMBLOCKS.$header.custom}
+											{include file=$CUSTOMBLOCKS.$header.tpl}
+										{else}
+											<!-- Handle the ui types display -->
+											{include file="DisplayFields.tpl"}
+										{/if}
 
-									      <tr style="height:25px"><td>&nbsp;</td></tr>
+										<tr style="height:25px"><td>&nbsp;</td></tr>
 
 									   {/foreach}
 
@@ -127,7 +125,7 @@
 									   <tr>
 										<td colspan=4>
 										{if $OP_MODE eq 'create_view'}
-											{if $AVAILABLE_PRODUCTS eq 'true'}
+											{if isset($AVAILABLE_PRODUCTS) && $AVAILABLE_PRODUCTS eq 'true'}
 												{include file="Inventory/ProductDetailsEditView.tpl"}
 											{else}
 												{include file="Inventory/ProductDetails.tpl"}

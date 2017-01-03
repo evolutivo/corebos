@@ -9,8 +9,8 @@
  ********************************************************************************/
 require_once('include/utils/utils.php');
 require_once('include/logging.php');
-require_once("modules/Potentials/Charts.php");
-global $app_list_strings, $current_language, $tmp_dir, $currentModule, $action;
+require_once("modules/Dashboard/DashboardCharts.php");
+global $app_list_strings, $current_language, $currentModule, $action;
 $current_module_strings = return_module_language($current_language, 'Dashboard');
 require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 require('user_privileges/user_privileges_'.$current_user->id.'.php');
@@ -21,7 +21,6 @@ else { $refresh = false; }
 
 // added for auto refresh
 $refresh = true;
-//
 
 // Get _dom Arrays from Database
 $comboFieldNames = Array('sales_stage'=>'sales_stage_dom');
@@ -105,7 +104,11 @@ $log->debug($datax);
 
 $ids = array();
 //get list of user ids for which to display data
-if (isset($_SESSION['pbss_ids']) && count($_SESSION['pbss_ids']) != 0 && !isset($_REQUEST['pbss_ids'])) {
+if (isset($_REQUEST['showmypipeline'])) {
+	$ids = array($current_user->id);
+} elseif (isset($_REQUEST['showpipelineof']) and is_numeric($_REQUEST['showpipelineof'])) {
+	$ids = array($_REQUEST['showpipelineof']);
+} elseif (isset($_SESSION['pbss_ids']) && count($_SESSION['pbss_ids']) != 0 && !isset($_REQUEST['pbss_ids'])) {
 	$ids = $_SESSION['pbss_ids'];
 	$log->debug("_SESSION['pbss_ids'] is:");
 	$log->debug($_SESSION['pbss_ids']);
@@ -123,37 +126,22 @@ else {
 	$ids = array_keys($ids);
 }
 
-//create unique prefix based on selected users for image files
-$id_hash = '';
-if (isset($ids)) {
-	sort($ids);
-	$id_hash = crc32(implode('',$ids));
-}
-$log->debug("ids is:");
-$log->debug($ids);
-
-$cache_file_name = $id_hash."_pipeline_".$current_language."_".crc32(implode('',$datax)).$date_start.$date_end.".png";
-$log->debug("cache file name is: $cache_file_name");
-
 if(isPermitted('Potentials','index')=="yes")
 {
-$draw_this = new jpgraph();
-$width = 850;
-$height = 500;
+$width = 1100;
+$height = 600;
 if(isset($_REQUEST['display_view']) && $_REQUEST['display_view'] == 'MATRIX')
 {
 	$width = 350;
 	$height = 250;
 }
 
-
-echo $draw_this->pipeline_by_sales_stage($datax, $date_start, $date_end, $ids, $tmp_dir.$cache_file_name, $refresh,$width,$height);
+echo DashboardCharts::pipeline_by_sales_stage($datax, $date_start, $date_end, $ids, $width, $height);
 echo "<P><font size='1'><em>".$current_module_strings['LBL_SALES_STAGE_FORM_DESC']."</em></font></P>";
 if (isset($_REQUEST['pbss_edit']) && $_REQUEST['pbss_edit'] == 'true') {
 	$cal_lang = "en";
 	$cal_dateformat = parse_calendardate($app_strings['NTC_DATE_FORMAT']);
 	$cal_dateformat = '%Y-%m-%d'; // fix providedd by Jlee for date bug in Dashboard
-
 ?>
 <link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">
 <script type="text/javascript" src="jscalendar/calendar.js"></script>
@@ -166,7 +154,6 @@ if (isset($_REQUEST['pbss_edit']) && $_REQUEST['pbss_edit'] == 'true') {
 <input type="hidden" name="display_view" value="<?php echo vtlib_purify($_REQUEST['display_view'])?>">
 <table cellpadding="2" border="0"><tbody>
 <tr>
-
 
 <td valign='top' nowrap><?php echo $current_module_strings['LBL_DATE_START']?> <br><em><?php echo $app_strings['NTC_DATE_FORMAT']?></em></td>
 
@@ -200,24 +187,15 @@ Calendar.setup ({
 
 <?php } 
 else {
-	if (file_exists($tmp_dir.$cache_file_name)) {
-		$date = new DateTimeField(date('Y-m-d H:i', filemtime($tmp_dir.$cache_file_name)));
-		$file_date = $date->getDBInsertDateValue();
-	}
-	else {
-		$file_date = '';
-	}
 ?>
 <div align=right><FONT size='1'>
-<em><?php  echo $current_module_strings['LBL_CREATED_ON'].' '.$file_date; ?> 
-</em>[<a href="javascript:;" onClick="changeView('<?php echo vtlib_purify($_REQUEST['display_view']);?>');"><?php echo $current_module_strings['LBL_REFRESH'];?></a>]
-[<a href="index.php?module=<?php echo $currentModule;?>&action=index&display_view=<?php echo vtlib_purify($_REQUEST['display_view']);?>&pbss_edit=true"><?php echo $current_module_strings['LBL_EDIT'];?></a>]
+[<a href="javascript:;" onClick="changeView('<?php echo isset($_REQUEST['display_view']) ? vtlib_purify($_REQUEST['display_view']) : '';?>');"><?php echo $current_module_strings['LBL_REFRESH'];?></a>]
+[<a href="index.php?module=<?php echo $currentModule;?>&action=index&display_view=<?php echo isset($_REQUEST['display_view']) ? vtlib_purify($_REQUEST['display_view']) : '';?>&pbss_edit=true"><?php echo $current_module_strings['LBL_EDIT'];?></a>]
 </FONT></div>
 <?php }
 }
 else
 {
 	echo $mod_strings['LBL_NO_PERMISSION'];
-} 
-//echo get_validate_chart_js();
+}
 ?>

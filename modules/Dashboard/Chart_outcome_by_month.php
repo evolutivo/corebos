@@ -9,9 +9,8 @@
  ********************************************************************************/
 require_once('include/utils/utils.php');
 require_once('include/logging.php');
-require_once("modules/Potentials/Charts.php");
-require_once("modules/Dashboard/Forms.php");
-global $app_list_strings, $current_language, $tmp_dir, $currentModule, $action, $theme;
+require_once("modules/Dashboard/DashboardCharts.php");
+global $app_list_strings, $current_language, $currentModule, $action, $theme;
 $current_module_strings = return_module_language($current_language, 'Dashboard');
 require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 require('user_privileges/user_privileges_'.$current_user->id.'.php');
@@ -23,10 +22,8 @@ else { $refresh = false; }
 
 // added for auto refresh
 $refresh = true;
-//
 
 $date_start = array();
-$datax = array();
 //get the dates to display
 //added to fix the issue4307
 if(isset($_REQUEST['obm_date_start']) && $_REQUEST['obm_date_start'] == '')
@@ -77,7 +74,11 @@ else {
 
 $ids = array();
 //get list of user ids for which to display data
-if (isset($_SESSION['obm_ids']) && count($_SESSION['obm_ids']) != 0 && !isset($_REQUEST['obm_ids'])) {
+if (isset($_REQUEST['showmypipeline'])) {
+	$ids = array($current_user->id);
+} elseif (isset($_REQUEST['showpipelineof']) and is_numeric($_REQUEST['showpipelineof'])) {
+	$ids = array($_REQUEST['showpipelineof']);
+} elseif (isset($_SESSION['obm_ids']) && count($_SESSION['obm_ids']) != 0 && !isset($_REQUEST['obm_ids'])) {
 	$ids = $_SESSION['obm_ids'];
 	$log->debug("_SESSION['obm_ids'] is:");
 	$log->debug($_SESSION['obm_ids']);
@@ -95,30 +96,17 @@ else {
 	$ids = array_keys($ids);
 }
 
-//create unique prefix based on selected users for image files
-$id_hash = '';
-if (isset($ids)) {
-	sort($ids);
-	$id_hash = crc32(implode('',$ids));
-}
-$log->debug("ids is:");
-$log->debug($ids);
-
-$cache_file_name = $id_hash."_outcome_by_month_".$current_language."_".crc32($date_start.$date_end).".png";
-$log->debug("cache file name is: $cache_file_name");
-
 if(isPermitted('Potentials','index')=="yes")
 {
-$draw_this = new jpgraph();
-$width = 850;
-$height = 500;
+$width = 1100;
+$height = 600;
 if(isset($_REQUEST['display_view']) && $_REQUEST['display_view'] == 'MATRIX')
 {
 	$width = 350;
 	$height = 250;
 }
 
-echo $draw_this->outcome_by_month($date_start, $date_end, $ids, $tmp_dir.$cache_file_name, $refresh,$width,$height);
+echo DashboardCharts::outcome_by_month($date_start, $date_end, $ids, $width, $height);
 echo "<P><font size='1'><em>".$current_module_strings['LBL_MONTH_BY_OUTCOME_DESC']."</em></font></P>";
 if (isset($_REQUEST['obm_edit']) && $_REQUEST['obm_edit'] == 'true') {
 	$cal_lang = "en";
@@ -163,26 +151,17 @@ Calendar.setup ({
 });
 </script>
 
-<?php } 
+<?php }
 else {
-	if (file_exists($tmp_dir.$cache_file_name)) {
-		$date = new DateTimeField(date('Y-m-d H:i', filemtime($tmp_dir.$cache_file_name)));
-		$file_date = $date->getDBInsertDateValue();
-	}
-	else {
-		$file_date = '';
-	}
 ?>
 <div align=right><FONT size='1'>
-<em><?php  echo $current_module_strings['LBL_CREATED_ON'].' '.$file_date; ?> 
-</em>[<a href="javascript:;" onClick="changeView('<?php echo vtlib_purify($_REQUEST['display_view']);?>');"><?php echo $current_module_strings['LBL_REFRESH'];?></a>]
-[<a href="index.php?module=<?php echo $currentModule;?>&action=index&obm_edit=true&display_view=<?php echo vtlib_purify($_REQUEST['display_view']);?>"><?php echo $current_module_strings['LBL_EDIT'];?></a>]
+[<a href="javascript:;" onClick="changeView('<?php echo isset($_REQUEST['display_view']) ? vtlib_purify($_REQUEST['display_view']) : '';?>');"><?php echo $current_module_strings['LBL_REFRESH'];?></a>]
+[<a href="index.php?module=<?php echo $currentModule;?>&action=index&obm_edit=true&display_view=<?php echo isset($_REQUEST['display_view']) ? vtlib_purify($_REQUEST['display_view']) : '';?>"><?php echo $current_module_strings['LBL_EDIT'];?></a>]
 </FONT></div>
-<?php } 
+<?php }
 }
 else
 {
 	echo $mod_strings['LBL_NO_PERMISSION'];	
 }
-echo get_validate_chart_js();
 ?>

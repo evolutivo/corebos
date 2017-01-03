@@ -74,7 +74,7 @@ class Emails extends CRMEntity {
 	function save_module($module) {
 		global $adb;
 		//Inserting into seactivityrel
-		if ($_REQUEST['module'] == "Emails" && $_REQUEST['smodule'] != 'webmails' && (!$this->plugin_save)) {
+		if ($_REQUEST['module'] == "Emails" && (!$this->plugin_save)) {
 			if ($_REQUEST['currentid'] != '') {
 				$actid = $_REQUEST['currentid'];
 			} else {
@@ -487,10 +487,10 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 	/**
 	 * Returns a list of the Emails to be exported
 	 */
-	function create_export_query(&$order_by, &$where) {
+	function create_export_query($where) {
 		global $log;
 		global $current_user;
-		$log->debug("Entering create_export_query(" . $order_by . "," . $where . ") method ...");
+		$log->debug("Entering create_export_query( $where ) method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -671,7 +671,8 @@ function get_to_emailids($module) {
 				   WHERE vtiger_crmentity.deleted=0 AND vtiger_vendor.vendorid IN ('.generateQuestionMarks($idlist).')';
 	}
 	$result = $adb->pquery($query,$idlist);
-	
+
+	$idlists = $mailids = '';
 	if($adb->num_rows($result)>0){
 		while($entityvalue = $adb->fetchByAssoc($result)){
 			$vtwsid = $entityvalue['id'];

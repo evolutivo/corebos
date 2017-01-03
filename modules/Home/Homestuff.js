@@ -330,6 +330,7 @@ function loadStuff(stuffid,stufftype){
 	}).done(function (response) {
 				var responseVal=response;
 				document.getElementById('stuffcont_'+stuffid).innerHTML=response;
+				vtlib_executeJavascriptInElement(document.getElementById('stuffcont_'+stuffid));
 				if(stufftype=="Module"){
 					if(document.getElementById('more_'+stuffid).value != null && document.getElementById('more_'+stuffid).value != '')
 						document.getElementById('a_'+stuffid).href = "index.php?module="+document.getElementById('more_'+stuffid).value+"&action=ListView&viewname="+document.getElementById('cvid_'+stuffid).value;
@@ -657,8 +658,8 @@ function fetch_homeDB(stuffid){
 		method: 'POST',
 		url: 'index.php?module=Dashboard&action=DashboardAjax&file=HomepageDB'
 	}).done(function (response) {
-				document.getElementById('stuffcont_'+stuffid).style.display = 'none';
 				document.getElementById('stuffcont_'+stuffid).innerHTML=response;
+				vtlib_executeJavascriptInElement(document.getElementById('stuffcont_'+stuffid));
 				document.getElementById('refresh_'+stuffid).innerHTML='';
 				jQuery('#stuffcont_'+stuffid).fadeIn();
 			}
@@ -777,18 +778,43 @@ function saveEditReportCharts(dashRowId){
 	var reportVal='';
 	var iter=0;
 	for(iter=0;iter<3;iter++){
-		if(document.getElementById('reportradio_'+iter).checked){
-			reportVal=document.getElementById('reportradio_'+iter).value;
+		if(document.getElementById('reportradio_'+dashRowId+'_'+iter).checked){
+			reportVal=document.getElementById('reportradio_'+dashRowId+'_'+iter).value;
 		}
 	}
-	stuffid=dashRowId;
 	jQuery.ajax({
 			method: 'POST',
-			url: 'index.php?module=Home&action=HomeAjax&file=HomestuffAjax&reportVal='+reportVal+'&stuffid='+stuffid
+			url: 'index.php?module=Home&action=HomeAjax&file=HomestuffAjax&reportVal='+reportVal+'&stuffid='+dashRowId
 	}).done(function (response) {
 				var responseVal=response;
 				eval(response);
-				document.getElementById('refresh_'+stuffid).innerHTML='';
+				document.getElementById('refresh_'+dashRowId).innerHTML='';
 			}
 	);
 }
+
+function changeGraphType(chartid,type) {
+	let ctype = 'pie';
+	switch (trim(type)) {
+	case 'piechart':
+		ctype = 'pie';
+		break;
+	case 'verticalbarchart':
+		ctype = 'bar';
+		break;
+	case 'horizontalbarchart':
+		ctype = 'horizontalBar';
+		break;
+	}
+	let chart_object = window['schart'+chartid];
+	chart_object.destroy();
+	window['doChart'+chartid](ctype);
+}
+
+function getRandomColor() {
+	return randomColor({
+		luminosity: 'dark',
+		hue: 'random'
+	});
+}
+

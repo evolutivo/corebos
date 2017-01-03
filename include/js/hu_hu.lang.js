@@ -299,6 +299,9 @@ var alert_arr = {
 	'LBL_CLOSE_TITLE' : 'Bezárás',
 	'LBL_SELECT' : 'Válaszd ki az alapértelmezett dobozokat a megjelenítéshez.',
 	'ERR_SELECT_ATLEAST_ONE_MERGE_CRITERIA_FIELD' : 'Válassz ki legalább egy mezőt az összefűzés feltételnek',
+	'LBL_MERGE_SHOULDHAVE_INFO' : 'Válassz ki legalább egy mezőt az Egyesítési feltételekhez',
+	'MAP_NAME_EXISTS' : 'A térkép név már létezik.  Felül akarod írni ezt?',
+	'MAP_DELETED_INFO' : 'Ezt a térképet töröltük. Ezt a térképet nem tudod újból használni.',
 	'ERR_PLEASE_MAP_MANDATORY_FIELDS' : 'Kérjük, hogy a következő kötelező mezőket használd a leképezésekben',
 	'ERR_MAP_NAME_ALREADY_EXISTS' : 'Ez a leképezés név már használt. Kérjük, hogy adj meg egy másik nevet.',
 	'ERR_MAP_NAME_CANNOT_BE_EMPTY' : 'A Leképezés neve mező nem lehet üres',
@@ -359,5 +362,12 @@ var alert_arr = {
 	'Products' : 'Products',
 	'Services' : 'Services',
 	'LBL_Hide' : 'Részletek elrejtése',
-	'LBL_Show' : 'Részletek mutatása'
+	'LBL_Show' : 'Részletek mutatása',
+	'ERR_INVALID_DATE_FORMAT' : 'A dátum formátuma legyen: éééé-hh-nn',
+	'ERR_INVALID_MONTH' : 'Adj meg létező hónapot.',
+	'ERR_INVALID_DAY' : 'Adj meg létező napot.',
+	'ERR_INVALID_YEAR' : 'Adj meg létező évet 4 számjeggyel.',
+	'ERR_INVALID_DATE' : 'Adj meg létező dátumot.',
+	'ERR_INVALID_HOUR' : 'Adj meg létező órát.',
+	'ERR_INVALID_TIME' : 'Adj meg létező időt.'
 };

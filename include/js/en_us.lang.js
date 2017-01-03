@@ -331,6 +331,9 @@ var alert_arr = {
 	'ERR_MAP_NAME_ALREADY_EXISTS' : 'Map name already exists. Please give a different name',
 	'ERR_MAP_NAME_CANNOT_BE_EMPTY' : 'Map name cannot be empty',
 	'ERR_FIELDS_MAPPED_MORE_THAN_ONCE' : 'Following field is mapped more than once. Please check the mapping.',
+	'LBL_MERGE_SHOULDHAVE_INFO' : 'Select at least one field for merge criteria',
+	'MAP_NAME_EXISTS' : 'This map name already exists. \n Do you want to overwrite it?',
+	'MAP_DELETED_INFO' : 'This map has been deleted. You cannot use this map again',
 
 	//arror messages for lead conversion
 	'ERR_SELECT_EITHER':'Select either Organization or Contact to convert the lead',
@@ -388,5 +391,12 @@ var alert_arr = {
 	'Products' : 'Products',
 	'Services' : 'Services',
 	'LBL_Hide' : 'Hide',
-	'LBL_Show' : 'Show'
+	'LBL_Show' : 'Show',
+	'ERR_INVALID_DATE_FORMAT'  :  'The date format must be: yyyy-mm-dd',
+	'ERR_INVALID_MONTH'  :  'Please enter a valid month.',
+	'ERR_INVALID_DAY'  :  'Please enter a valid day.',
+	'ERR_INVALID_YEAR'  :  'Please enter a valid 4 digit year.',
+	'ERR_INVALID_DATE'  :  'Please enter a valid date.',
+	'ERR_INVALID_HOUR'  :  'Please enter a valid hour.',
+	'ERR_INVALID_TIME'  :  'Please enter a valid time.'
 };

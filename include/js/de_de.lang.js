@@ -330,6 +330,9 @@ var alert_arr = {
 	'ERR_MAP_NAME_ALREADY_EXISTS' : 'Eine Zuweisung mit dieser Bezeichnung existiert bereits. Bitte wählen Sie eine andere Bezeichnung.',
 	'ERR_MAP_NAME_CANNOT_BE_EMPTY' : 'Bitte vergeben Sie eine Bezeichnung für die Zuweisung.',
 	'ERR_FIELDS_MAPPED_MORE_THAN_ONCE' : 'Das gewählte Felde wurde mehrfach zugewiesen. Bitte überprüfen Sie die Zuweisungen.',
+	'LBL_MERGE_SHOULDHAVE_INFO' : 'Bitte wenigstens ein Feld ausählen',
+	'MAP_NAME_EXISTS' : 'Dieser Name . \n Do you want to overwrite it?',
+	'MAP_DELETED_INFO' : 'Dieser Bezug wurde gelöscht.',
 
 	//arror messages for lead conversion
 	'ERR_SELECT_EITHER':'Wählen Sie eine Organisation oder eine Person um den Lead umzuwandeln',
@@ -387,5 +390,12 @@ var alert_arr = {
 	'Products' : 'Products',
 	'Services' : 'Services',
 	'LBL_Hide' : 'Verbergen',
-	'LBL_Show' : 'Anzeigen'
+	'LBL_Show' : 'Anzeigen',
+	'ERR_INVALID_DATE_FORMAT' : 'Das Datumsformat muss lauten: jj-mm-tt',
+	'ERR_INVALID_MONTH' : 'Bitte einen gültigen Monat eingeben.',
+	'ERR_INVALID_DAY' : 'Bitte einen gültigen Tag eingeben.',
+	'ERR_INVALID_YEAR' : 'Bitte ein gültiges 4-stelliges Jahr eingeben.',
+	'ERR_INVALID_DATE' : 'Bitte geben Sie ein gültiges Datum an.',
+	'ERR_INVALID_HOUR' : 'Bitte geben Sie eine gültige Stunde an.',
+	'ERR_INVALID_TIME' : 'Bitte geben Sie eine gültige Zeit ein.'
 };

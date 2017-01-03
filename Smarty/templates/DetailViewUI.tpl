@@ -82,7 +82,7 @@
                 </div>
 				<div id="internal_mailer_{$keyfldname}" style="display: none;">{$keyfldid}####{$smarty.session.internal_mailer}</div>
                                                   </td>
-	 {elseif (($keyid eq '15' && $keyfldname neq 'gvname') || $keyid eq '16' || $keyid eq '1613') && !picklistHasDependency($keyfldname,$MODULE)} <!--ComboBox-->
+	 {elseif (($keyid eq '15' && $keyfldname neq 'gvname') || $keyid eq '16' || $keyid eq '1613' || $keyid eq '1614') && !picklistHasDependency($keyfldname,$MODULE)} <!--ComboBox-->
 						{foreach item=arr from=$keyoptions}
 							{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE && $arr[2] eq 'selected'}
 								{assign var=keyval value=$APP.LBL_NOT_ACCESSIBLE}
@@ -92,12 +92,12 @@
 							{/if}
 						{/foreach}
 							<td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
-                                              		<a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}showPicklist('{$keyfldname}'){literal} || 'Empty' }}{/literal}</a>               
+                                                            <a href="#" ng-show ="!editable_logic('{$keyfldname}')" ><span id="dtlview_{$keyfldname}"><font color="{$fontval}">{literal}{{{/literal}showPicklist('{$keyfldname}'){literal} || 'Empty' }}{/literal}</font></span></a>               
                                                         <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" 
                                                                                                                 editable-select="{$keyfldname}"  
                                                                                                                 e-ng-options="s.value as s.text for s in {$keyfldname}_values | {$keyfldname}_filter :this" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')"
-                                                                                                                >
-                                                         {literal} {{{/literal}showPicklist('{$keyfldname}'){literal}}}{/literal}</a>
+                                                                                                                ><span id="dtlview_{$keyfldname}"><font color="{$fontval}">
+                                                                {literal} {{{/literal}showPicklist('{$keyfldname}'){literal}}}{/literal}</font></span></a>
                                                          <div id="editarea_{$label}" style="display:none;">
                     							   <select id="txtbox_{$label}" name="{$keyfldname}" class="small" style="width:280px;">
                     								{foreach item=arr from=$keyoptions}
@@ -142,18 +142,18 @@
                                               		   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     							</div>
                							</td>
-                                                {elseif $keyid eq '33' || $keyid eq '3313'}<!--Multi Select Combo box-->
+                                                {elseif $keyid eq '33' || $keyid eq '3313' || $keyid eq '3314'}<!--Multi Select Combo box-->
                                                     <!--code given by Neil start Ref:http://forums.vtiger.com/viewtopic.php?p=31096#31096-->
                                                     <!--{assign var="MULTISELECT_COMBO_BOX_ITEM_SEPARATOR_STRING" value=", "}  {* Separates Multi-Select Combo Box items *}
                                                     {assign var="DETAILVIEW_WORDWRAP_WIDTH" value="70"} {* No. of chars for word wrapping long lines of Multi-Select Combo Box items *}-->
                                                     <td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
-                                                            <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
+                                                            <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >&nbsp;<span id="dtlview_{$keyfldname}">{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}&nbsp;</span</a>               
                                                             <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" 
                                                                                             e-multiple
                                                                                             editable-select="{$keyfldname}"  
                                                                                             e-ng-options="s.value as s.text for s in {$keyfldname}_values | {$keyfldname}_filter {$MAP_RESPONSIBILE_FIELDS3} " onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')"
-                                                                                            >
-                                                            {literal} {{{/literal}showPicklistMulti('{$keyfldname}'){literal}}}{/literal}</a>
+                                                                                            >&nbsp;<span id="dtlview_{$keyfldname}">
+                                                                    {literal} {{{/literal}showPicklistMulti('{$keyfldname}'){literal}}}{/literal}&nbsp;</span></a>
                                                     </td>
 						{elseif $keyid eq '115'} <!--ComboBox Status edit only for admin Users-->
                							<td width=25% class="dvtCellInfo" align="left">{$keyval}</td>
@@ -195,7 +195,7 @@
                                                   </td>
                                              {elseif $keyid eq '19' || $keyid eq '20'} <!--TextArea/Description-->
 						<!-- we will empty the value of ticket and faq comment -->
-						{if $label eq $MOD.LBL_ADD_COMMENT}
+						{if isset($MOD.LBL_ADD_COMMENT) && $label eq $MOD.LBL_ADD_COMMENT}
 							{assign var=keyval value=''}
 						{/if}
 							<!--{assign var="DESCRIPTION_SEPARATOR_STRING" value=" "}  {* Separates Description *}-->
@@ -320,8 +320,8 @@
                     {elseif $keyid eq '56'} <!--CheckBox--> 
                       <td ng-show ="show_logic('{$keyfldname}')" width=30% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
                           &nbsp;
-                        <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
-                        <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-checkbox="{$keyfldname}" e-title="" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">{literal}{{{/literal}{$keyfldname}{literal} && 'Si' || 'No' }}{/literal}</a>
+                          <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >&nbsp;<span id="dtlview_{$keyfldname}">{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}&nbsp;</span></a>               
+                          <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-checkbox="{$keyfldname}" e-title="" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">&nbsp;<span id="dtlview_{$keyfldname}">{literal}{{{/literal}{$keyfldname}{literal} && 'Si' || 'No' }}{/literal}&nbsp;</span></a>
 
                       </td>
                     {elseif $keyid eq '156'} <!--CheckBox for is admin-->
@@ -399,7 +399,7 @@
 							{/if}
 							<input id="txtbox_{$keyfldname}" name="{$keyfldname}" type="hidden" value="{$data.extendedfieldinfo.entityid}">
 							<input id="{$keyfldname}_display" name="{$keyfldname}_display" readonly type="text" style="border:1px solid #bababa;" value="{$data.extendedfieldinfo.displayvalue}">&nbsp;
-							<img src="{'select.gif'|@vtiger_imageurl:$THEME}" tabindex="{$vt_tab}"
+							<img src="{'select.gif'|@vtiger_imageurl:$THEME}"
 								alt="{'LBL_SELECT'|@getTranslatedString}" title="{'LBL_SELECT'|@getTranslatedString}" onclick='return {$vtui10func}("DetailView","{$keyfldname}","{$MODULE}","{$ID}");' align="absmiddle" style='cursor:hand;cursor:pointer'>&nbsp;
 							<input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}"
 								alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedString}" onClick="document.getElementById('txtbox_{$keyfldname}').value='0'; document.getElementById('{$keyfldname}_display').value=''; return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>

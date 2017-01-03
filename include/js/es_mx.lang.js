@@ -326,6 +326,9 @@ var alert_arr = {
 	'ERR_MAP_NAME_ALREADY_EXISTS' : 'Nombre de vinculación ya existe. Introduce un nombre distinto',
 	'ERR_MAP_NAME_CANNOT_BE_EMPTY' : 'Nombre de vinculación no puede quedar vacío',
 	'ERR_FIELDS_MAPPED_MORE_THAN_ONCE' : 'El siguiente campo se ha vinculado más de una vez. Verifica la vinculación.',
+	'LBL_MERGE_SHOULDHAVE_INFO' : 'Selecciona al menos un campo como criterio de combinación',
+	'MAP_NAME_EXISTS' : 'Ya existe una Asignación con este nombre. ¿Sobrescribir?',
+	'MAP_DELETED_INFO' : 'Se ha eliminado este mapeo. No se puede volver a utilizar',
 	
 	//arror messages for lead conversion
 	'ERR_SELECT_EITHER':'Selecciona Cuenta o Contacto para convertir el Prospecto',
@@ -384,5 +387,12 @@ var alert_arr = {
 	'Products' : 'Productos',
 	'Services' : 'Servicios',
 	'LBL_Hide' : 'Esconder',
-	'LBL_Show' : 'Mostrar'
+	'LBL_Show' : 'Mostrar',
+	'ERR_INVALID_DATE_FORMAT'  :  'El formato de la fecha debe ser: aaaa-mm-dd',
+	'ERR_INVALID_MONTH'  :  ' Por favor, introduzca un mes válido.',
+	'ERR_INVALID_DAY'  :  'Por favor, introduzca un dia válido.',
+	'ERR_INVALID_YEAR'  :  'Por favor, introduzca un año de 4 dígitos.',
+	'ERR_INVALID_DATE'  :  'Por favor, introduzca una fecha válida',
+	'ERR_INVALID_HOUR'  :  'Por favor, introduzca una hora válida',
+	'ERR_INVALID_TIME'  :  'Por favor, introduzca un tiempo válido'
 };
