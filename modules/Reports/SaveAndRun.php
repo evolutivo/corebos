@@ -100,7 +100,7 @@ if($numOfRows > 0) {
 				//$groupByField = $oReportRun->GetFirstSortByField($reportid);
 				$queryReports = CustomReportUtils::getCustomReportsQuery($Report_ID,$filtersql);
 				$queryResult = $adb->pquery($queryReports,array());
-				if($adb->num_rows($queryResult)){
+				if($queryResult and $adb->num_rows($queryResult)){
 					$ChartDetails = ChartUtils::generateChartDataFromReports($queryResult, strtolower($module_field), $fieldDetails, $reportid);
 					$list_report_form->assign('CHARTDATA',$ChartDetails);
 				}
@@ -224,7 +224,7 @@ if($numOfRows > 0) {
  */
 function getPrimaryStdFilterHTML($module,$selected="")
 {
-	global $app_list_strings, $ogReport, $current_language;
+	global $ogReport, $current_language;
 	$ogReport->oCustomView=new CustomView();
 	$result = $ogReport->oCustomView->getStdCriteriaByModule($module);
 	$mod_strings = return_module_language($current_language,$module);
@@ -263,7 +263,7 @@ function getPrimaryStdFilterHTML($module,$selected="")
  *  This Returns a HTML sring
  */
 function getSecondaryStdFilterHTML($module,$selected='') {
-	global $app_list_strings, $ogReport, $current_language;
+	global $ogReport, $current_language;
 	$ogReport->oCustomView=new CustomView();
 	if($module != '') {
 		$secmodule = explode(":",$module);
@@ -293,7 +293,7 @@ function getSecondaryStdFilterHTML($module,$selected='') {
 }
 
 function getPrimaryColumns_AdvFilter_HTML($module, $ogReport, $selected='') {
-	global $app_list_strings, $current_language;
+	global $current_language;
 	$mod_strings = return_module_language($current_language,$module);
 	$block_listed = array();
 	$shtml = '';
@@ -333,7 +333,7 @@ function getPrimaryColumns_AdvFilter_HTML($module, $ogReport, $selected='') {
 }
 
 function getSecondaryColumns_AdvFilter_HTML($module, $ogReport, $selected="") {
-	global $app_list_strings, $current_language;
+	global $current_language;
 	$shtml = '';
 	if($module != '') {
 		$secmodule = explode(":",$module);

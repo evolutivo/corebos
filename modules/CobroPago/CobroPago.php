@@ -372,7 +372,6 @@ class CobroPago extends CRMEntity {
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/Activity.php");
 		$other = new Activity();
-		vtlib_setup_modulevars($related_module, $other);
 		$singular_modname = vtlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
@@ -433,12 +432,8 @@ class CobroPago extends CRMEntity {
 	 */
 	function get_payment_history($id)
 	{
-		global $log;
+		global $log, $adb, $app_strings;
 		$log->debug("Entering get_stage_history(".$id.") method ...");
-
-		global $adb;
-		global $mod_strings;
-		global $app_strings;
 
 		$query = 'select vtiger_potstagehistory.*, vtiger_cobropago.reference from vtiger_potstagehistory inner join vtiger_cobropago on vtiger_cobropago.cobropagoid = vtiger_potstagehistory.cobropagoid inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_cobropago.cobropagoid where vtiger_crmentity.deleted = 0 and vtiger_cobropago.cobropagoid = ?';
 		$result=$adb->pquery($query, array($id));
@@ -477,10 +472,9 @@ class CobroPago extends CRMEntity {
 			$entries_list[] = $entries;
 		}
 
-		$return_data = Array('header'=>$header,'entries'=>$entries_list);
+		$return_data = Array('header'=>$header,'entries'=>$entries_list,'navigation'=>array('',''));
 
 		$log->debug("Exiting get_stage_history method ...");
-
 		return $return_data;
 	}
 
@@ -524,7 +518,7 @@ class CobroPago extends CRMEntity {
 
 		$header[] = $adb->query_result($result,0,"reference");
 
-		$return_value = Array('header'=>$header,'entries'=>$splitval);
+		$return_value = Array('header'=>$header,'entries'=>$splitval,'navigation'=>array('',''));
 
 		$log->debug("Exiting from get_history_cobropago($cobropagoid) method ...");
 
