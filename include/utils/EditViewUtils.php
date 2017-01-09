@@ -1087,7 +1087,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 				$rate_symbol = getCurrencySymbolandCRate(getProductBaseCurrency($col_fields['record_id'],$module_name));
 				$currencySymbol = $rate_symbol['symbol'];
 			} else {
-				$currency_info = getInventoryCurrencyInfo($module, $col_fields['record_id']);
+				$currency_info = getInventoryCurrencyInfo($module_name, $col_fields['record_id']);
 				$currencySymbol = $currency_info['currency_symbol'];
 			}
 			$fieldvalue[] = $currencyField->getDisplayValue(null, true);
@@ -1564,7 +1564,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 			WHERE id=? ORDER BY sequence_no";
 			$params = array($focus->id);
 		if ($module != 'PurchaseOrder') {
-			if (GlobalVariable::getVariable('B2B', '1')=='1') {
+			if (GlobalVariable::getVariable('Application_B2B', '1')=='1') {
 				if($module == 'Issuecards')
 					$acvid = $focus->column_fields['accid'];
 				else

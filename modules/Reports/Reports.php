@@ -12,7 +12,7 @@ require_once('data/CRMEntity.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once 'modules/Reports/ReportUtils.php';
 require_once 'modules/Reports/ReportRun.php';
-global $app_strings,$mod_strings, $app_list_strings, $modules, $blocks, $adv_filter_options;
+global $app_strings,$mod_strings, $modules, $blocks, $adv_filter_options;
 global $log, $report_modules, $related_modules, $old_related_modules;
 
 $adv_filter_options = array(
@@ -1228,7 +1228,6 @@ function getEscapedColumns($selectedfields) {
 				{
 					$permitted_fields = $this->getaccesfield($module);
 				}
-				$querycolumns = $this->getEscapedColumns($selectedfields);
 				$fieldlabel = trim(str_replace($module," ",$module_field));
 				$mod_arr=explode('_',$fieldlabel);
 				$mod = ($mod_arr[0] == '')?$module:$mod_arr[0];
@@ -1519,7 +1518,7 @@ function getEscapedColumns($selectedfields) {
 					$options []= getTranslatedString($columntototalrow['tablabel'],$columntototalrow['tablabel']).' - '.getTranslatedString($columntototalrow['fieldlabel'],$columntototalrow['tablabel']);
 					if($selectedcolumn1[2] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_SUM:2")
 					{
-						$filters["checkboxes"][] = array("name"=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_SUM:2');
+						$filters["checkboxes"][] = array("name"=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_SUM:2',"checked"=>true);
 					}else
 					{
 						$filters["checkboxes"][] = array("name"=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_SUM:2');
@@ -1534,7 +1533,7 @@ function getEscapedColumns($selectedfields) {
 
 					if($selectedcolumn1[4] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_MIN:4")
 					{
-						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_MIN:4');
+						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_MIN:4',"checked"=>true);
 					}else
 					{
 						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_MIN:4');
@@ -1587,7 +1586,7 @@ function getEscapedColumns($selectedfields) {
  */
 function getReportsModuleList($focus)
 {
-	global $adb, $app_list_strings, $mod_strings;
+	global $adb, $mod_strings;
 	$modules = Array();
 	foreach($focus->module_list as $key=>$value) {
 		if(isPermitted($key,'index') == "yes") {
@@ -1605,7 +1604,7 @@ function getReportsModuleList($focus)
  */
 function getReportRelatedModules($module,$focus)
 {
-	global $app_list_strings, $related_modules, $mod_strings;
+	global $related_modules, $mod_strings;
 	$optionhtml = Array();
 	if(vtlib_isModuleActive($module)){
 		if(!empty($focus->related_modules[$module])) {

@@ -835,7 +835,7 @@ function getParentName($parent_id) {
 function getRelatedAccountContact($entityid,$module='') {
 	global $adb,$log,$current_user;
 	if ($module=='' or ($module!='Accounts' and $module!='Contacts')) {
-		if (GlobalVariable::getVariable('B2B', '1')) {
+		if (GlobalVariable::getVariable('Application_B2B', '1')) {
 			$module = 'Accounts';
 		} else {
 			$module = 'Contacts';
@@ -2618,7 +2618,6 @@ function getTranslatedString($str, $module = '') {
 	global $app_strings, $mod_strings, $log, $current_language;
 	$temp_mod_strings = ($module != '' ) ? return_module_language($current_language, $module) : $mod_strings;
 	$trans_str = (!empty($temp_mod_strings[$str]) ? $temp_mod_strings[$str] : (!empty($app_strings[$str]) ? $app_strings[$str] : $str));
-	$log->debug("function getTranslatedString($str) - translated to ($trans_str)");
 	return $trans_str;
 }
 
