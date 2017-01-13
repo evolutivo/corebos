@@ -64,14 +64,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 </script>
 	{include file='Buttons_List.tpl'}
 <!-- Contents -->
-{php}
-if(!empty($_REQUEST['ng_tab'])) {
-        $this->assign("ng_tab", $_REQUEST['ng_tab']);
-}
-include_once('vtlib/Vtiger/Link.php');
-$customlink_params = Array('MODULE'=>$this->get_template_vars('MODULE'), 'RECORD'=>$this->get_template_vars('ID'), 'ACTION'=>vtlib_purify('DetailView'));
-$this->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($this->get_template_vars('MODULE')), Array('RELATEDVIEWWIDGET'), $customlink_params));
-{/php}
+{ngtab2}
 <div id="editlistprice" style="position:absolute;width:300px;"></div>
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
 <tr>
@@ -138,7 +131,7 @@ $this->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($this->get_temp
                                                                                                             && $CUSTOM_LINK_DETAILVIEWWIDGET->related_tab eq $ng_tab}
                                                                                                                 <tr>
                                                                                                                     <td style="padding:5px;" >
-                                                                                                                        {php} echo vtlib_process_widget($this->_tpl_vars['CUSTOM_LINK_DETAILVIEWWIDGET'], $this->_tpl_vars); {/php}
+                                                                                                                        {dvwidget}
                                                                                                                         <br/>
                                                                                                                     </td>
                                                                                                                 </tr>

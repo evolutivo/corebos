@@ -570,7 +570,7 @@ function sendfile_email()
                                                                                                                                                     {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
                                                                                                                                             {/if}
                                                                                                                                             {if $customlink_href eq ''}
-                                                                                                                                                    {assign var="customlink_href" value=javascript:runAction("$RECORD$","$RECORD$","$RECORD$")}
+                                                                                                                                                    {assign var="customlink_href" value='javascript:runAction("$RECORD$","$RECORD$","$RECORD$")'}
                                                                                                                                             {/if}
                                                                                                                                             {if $CUSTOMLINK->linkicon}
                                                                                                                                                     <a class="webMnu" href="{$customlink_href}"><img hspace=5 align="absmiddle" width="18" height="18" border=0 src="{$CUSTOMLINK->linkicon}"></a>

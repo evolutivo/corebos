@@ -13,7 +13,7 @@
 -->*}
 <!-- Contents -->
 <!-- PUBLIC CONTENTS STARTS-->
-{include_php file="modules/NgBlock/ng_tab.php"}
+{ngtab}
 {foreach key=header item=detail from=$ng_tabs}
 <td class="dvtTabCache" >&nbsp;</td>
 <td {if $ng_tab neq $header}class="dvtUnSelectedCell"{else}class="dvtSelectedCell"{/if} align=center onmouseout="fnHideDrop('More_Information_{$header}');" onmouseover="fnDropDown(this,'More_Information_{$header}');" align="center" nowrap>
