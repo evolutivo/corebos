@@ -13,7 +13,7 @@ require_once('include/logging.php');
 require_once('include/utils/utils.php');
 require_once('modules/Reports/Reports.php');
 
-global $app_strings, $app_list_strings, $mod_strings;
+global $app_strings, $mod_strings;
 $current_module_strings = return_module_language($current_language, 'Reports');
 $log = LoggerManager::getLogger('report_list');
 global $currentModule, $image_path, $theme;
@@ -32,6 +32,7 @@ $repObj = new Reports ();
 $folderid = 0;
 if($recordid!=''){
 	$oRep = new Reports($recordid);
+	$sec_module = array();
 	if($oRep->secmodule!=''){
 		$sec_mod = explode(":",$oRep->secmodule);
 		$rel_modules = getReportRelatedModules($oRep->primodule,$oRep);
@@ -154,6 +155,7 @@ $BLOCKJS = $repObj->getCriteriaJS();
 $list_report_form->assign("BLOCKJS_STD",$BLOCKJS);
 $list_report_form->assign("DATEFORMAT",$current_user->date_format);
 $list_report_form->assign("JS_DATEFORMAT",parse_calendardate($app_strings['NTC_DATE_FORMAT']));
+$list_report_form->assign('MODULE','Reports');
 
 $list_report_form->display("ReportsStep0.tpl");
 ?>

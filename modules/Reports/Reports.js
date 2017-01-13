@@ -795,7 +795,7 @@ function fillReportColumnsTotal(block) {
 				td.append(b);
 				tr.append(td);
 				for(k=0;k<checkboxes.length;k++) {
-					var checkbox = $("<input>",{"type":"checkbox","value":checkboxes[k].value});
+					var checkbox = $("<input>",{"type":"checkbox","name":checkboxes[k].name});
 					if(checkboxes[k].hasOwnProperty('checked'))
 						checkbox.attr("checked",true);
 					var td = $("<td>");
@@ -1052,6 +1052,13 @@ function fillFilterInfo(response) {
 		add_grouping_criteria(response.CRITERIA_GROUPS);
 		updated_grouping_criteria = true;
 	}
+
+	if(response.hasOwnProperty("STARTDATE") && response.hasOwnProperty("ENDDATE")) {
+		$("#jscal_field_date_start").val(response.STARTDATE);
+		$("#jscal_field_date_end").val(response.ENDDATE);
+		$("#jscal_trigger_date_start").css("visibility","visible");
+		$("#jscal_trigger_date_end").css("visibility","visible");
+	}
 	return true;
 }
 
@@ -1068,7 +1075,9 @@ function fillGroupingInfo(response) {
 	set_Objects();
 	show_Options();
 	fillList(response.VISIBLECRITERIA,"stdtypeFilter");
-	if(response.hasOwnProperty("MEMBER"))
+	if(response.hasOwnProperty("MEMBER")) {
 		fillList(response.MEMBER,"columnsSelected");
+		toggleAssignType("Shared");
+	}
 	return true;
 }
