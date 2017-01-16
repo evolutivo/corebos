@@ -72,14 +72,15 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 	<td class="showPanelBg" valign=top width=100%>
 		<!-- PUBLIC CONTENTS STARTS-->
 		<div class="small" style="padding:20px">
-		{* Module Record numbering, used MOD_SEQ_ID instead of ID *}
-			<span class="lvtHeaderText"><font color="purple">[ {$MOD_SEQ_ID} ] </font>{$NAME} -  {$SINGLE_MOD} {$APP.LBL_MORE} {$APP.LBL_INFORMATION}</span> <br>
-			{$UPDATEINFO}
-			</span>&nbsp;&nbsp;<span id="vtbusy_info" style="display:none;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span><span id="vtbusy_info" style="visibility:hidden;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span>
-
-			<hr noshade size=1>
+			<table align="center" border="0" cellpadding="0" cellspacing="0" width="95%">
+				<tr><td>
+				{* Module Record numbering, used MOD_SEQ_ID instead of ID *}
+				{assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
+				{if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
+				<span class="dvHeaderText">[ {$USE_ID_VALUE} ] {$NAME} -  {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>&nbsp;&nbsp;&nbsp;<span class="small">{$UPDATEINFO}</span>&nbsp;<span id="vtbusy_info" style="display:none;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span>
+				</td></tr>
+			</table>
 			<br>
-
 			<!-- Account details tabs -->
 			<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
 			<tr>
@@ -89,22 +90,19 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 					{else}
 						{assign var="action" value="DetailView"}
 					{/if}
-					<div class="small detailview_utils_table_top">
+						<div class="small detailview_utils_table_top">
 						<div class="detailview_utils_table_tabs">
 							<div class="detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_top"><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></div>
 							{if isset($HASRELATEDPANES) && $HASRELATEDPANES eq 'true'}
 								{include file='RelatedPanes.tpl' tabposition='top'}
 							{else}
-								<td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
+								<div class="{if $smarty.request.ng_tab neq ''}detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_top{else}detailview_utils_table_tab detailview_utils_table_tab_selected detailview_utils_table_tab_selected_top{/if}">
+                                                                {if $smarty.request.ng_tab neq ''}<a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>{else}
+                                                                {$APP.LBL_MORE} {$APP.LBL_INFORMATION}{/if}</div>
 							{/if}
-							<td class="dvtTabCache" style="width:10px">&nbsp;</td>
-							<td {if empty($ng_tab)}class="dvtSelectedCell"{else}class="dvtUnSelectedCell"{/if} align=center nowrap>
-                                                            <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
-                                                        </td>
-                                                        {include file='RelatedListNg.tpl'}
-                                                        <td class="dvtTabCache" style="width:100%">&nbsp;</td>
-						</tr>
-					</table>
+						</div>{include file='RelatedListNg.tpl' SOURCE='RL'}
+						<div class="detailview_utils_table_tabactionsep detailview_utils_table_tabactionsep_top" id="detailview_utils_table_tabactionsep_top"></div>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -156,24 +154,20 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 			<tr>
 				<td>
 					<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
-						<tr>
-							{if $OP_MODE eq 'edit_view'}
-								{assign var="action" value="EditView"}
+                                            <tr><td><div class="small detailview_utils_table_bottom">
+						<div class="detailview_utils_table_tabs">
+							<div class="detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_bottom"><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></div>
+							{if $HASRELATEDPANES eq 'true'}
+								{include file='RelatedPanes.tpl' tabposition='bottom'}
 							{else}
-								{assign var="action" value="DetailView"}
+								<div class="{if $smarty.request.ng_tab neq ''}detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_bottom{else}detailview_utils_table_tab detailview_utils_table_tab_selected detailview_utils_table_tab_selected_bottom{/if}">													
+                                                                {if $smarty.request.ng_tab neq ''}<a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>{else}
+                                                                {$APP.LBL_MORE} {$APP.LBL_INFORMATION}{/if}</div>
 							{/if}
-							<td class="dvtTabCacheBottom" style="width:10px" nowrap>&nbsp;</td>
-							{if $MODULE eq 'Calendar'}
-								<td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&activity_mode={$ACTIVITY_MODE}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
-							{else}
-								<td class="dvtUnSelectedCell" align=center nowrap><a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a></td>
-							{/if}
-							<td class="dvtTabCacheBottom" style="width:10px">&nbsp;</td>
-							<td {if empty($ng_tab)}class="dvtSelectedCellBottom"{else}class="dvtUnSelectedCell"{/if} align=center nowrap>
-                                                            <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+						</div>{include file='RelatedListNg.tpl' SOURCE='RL'}
+						<div class="detailview_utils_table_tabactionsep detailview_utils_table_tabactionsep_bottom" id="detailview_utils_table_tabactionsep_bottom"></div>
+					        </div>
                                                         </td>
-                                                        {include file='RelatedListNg.tpl'}
-                                                        <td class="dvtTabCacheBottom" style="width:100%">&nbsp;</td>
 						</tr>
 					</table>
 				</td>

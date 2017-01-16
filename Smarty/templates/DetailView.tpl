@@ -211,7 +211,7 @@ function sendfile_email()
 													</div>
 												</td>
 											{/if}
-                                                                                        {include file='RelatedListNg.tpl'}
+                                                                                        {include file='RelatedListNg.tpl' SOURCE='DV'}
 											<td class="dvtTabCache" id="detailview_utils_thirdfiller" align="right" style="width:100%">
 
 												{if $EDIT_PERMISSION eq 'yes'}
