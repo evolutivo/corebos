@@ -39,7 +39,7 @@ $list_report_form = new vtigerCRM_Smarty;
 $sshtml = array();
 $totalhtml = '';
 $list_report_form->assign("DIRECT_OUTPUT", true);
-$list_report_form->assign_by_ref("__REPORT_RUN_INSTANCE", $oReportRun);
+$list_report_form->assignByRef("__REPORT_RUN_INSTANCE", $oReportRun);
 
 
 $list_report_form->assign("MOD", $mod_strings);

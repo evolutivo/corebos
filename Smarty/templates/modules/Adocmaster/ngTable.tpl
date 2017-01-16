@@ -1,9 +1,4 @@
-{php}
-	require_once('include/utils/UserInfoUtil.php');
-	global $current_user,$mod_strings;
-	$this->assign("ROLENAME", getRoleName($current_user->roleid));
-	$this->assign("MOD",$mod_strings);
-{/php}
+{ngtabadoc}
 <link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
 <link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/css/bootstrap.min.css">
@@ -33,21 +28,7 @@
 <option  data-ng-repeat="ttl in titles" value="{literal}{{ttl}}{/literal}">
 </datalist>
 selected: {literal}{{question_handset}}{/literal}-->
-{php}
-global $adb;
- $productsquery=$adb->query("select productname from vtiger_products");
-$prodname=array();
-for($i=0;$i<$adb->num_rows($productsquery);$i++){
-$prodname[$i]=$adb->query_result($productsquery,$i,'productname');
-//echo $prodname[$i];
-}
-//echo $prodname[2];
-
-require_once('Smarty_setup.php');
-$smarty = new vtigerCRM_Smarty;
-
-$smarty->assign('prodiri',$prodname);
-{/php}
+{ngtabadoc}
 <div id='adocactionbar' style='width:100%'>
 <span>
 <br> <button type="button" ng-click="addAdocdetail2(user.quantity2);">{$MOD.NGADDBUTTON}</button>&nbsp;&nbsp;
@@ -67,21 +48,6 @@ $smarty->assign('prodiri',$prodname);
 </span>
 </div>
 <!--<p><strong>Filter:</strong> {literal}{{tableParams.filter()|json}}{/literal}-->
-{php}
-//require_once('Smarty_setup.php');
-//require_once("modules/Adocmaster/Adocmaster.php");
-//global $adb;
-//$id2 =$_REQUEST['record'];
-//$id3=$_REQUEST['adoc_product2'];
-//echo $id3;
-  // $adocquery=$adb->pquery("select vtiger_pcdetails.pcdetailsid,vtiger_pcdetails.price,vtiger_pcdetails.quantity,vtiger_pcdetails.totalprice,vtiger_pcdetails.pcdescriptionname,vtiger_products.productid,vtiger_adocmaster.adocmasterid,vtiger_adocdetail.adocdtax,vtiger_adocdetail.adocdtotal,vtiger_adocdetail.adocdtotalamount,vtiger_adocdetail.adocdetailid,vtiger_adocdetail.adocdetailno,vtiger_adocdetail.adocdetailname,vtiger_adocdetail.adoc_product,vtiger_adocdetail.adoc_quantity,vtiger_adocdetail.adoc_price,vtiger_adocdetail.adoc_stock,vtiger_adocdetail.riferimento,vtiger_products.productname,vtiger_adocdetail.nrline from vtiger_adocdetail  join vtiger_crmentity on crmid=adocdetailid join vtiger_adocmaster on adocmasterid=adoctomaster left join vtiger_products on productid=adoc_product left join vtiger_pcdetails on richiestaparte=pcdetailsid
-    //where deleted=0 and adocmasterid=? and adoc_product=?",array($id2,$id3));
-//echo $id2;
-//$cmimi=$adb->query_result($adocquery,0,'adoc_price');
-//echo $cmimi;
-//$smarty->assign('cmimi',$cmimi);
-{/php}
-
 <!--another comment-->
 <!--<pre>Value: = {literal}{{user.adoc_product}}{/literal}</pre>-->
     <!--<p><strong>Page:</strong> {literal}{{tableParams.page()}}{/literal}
