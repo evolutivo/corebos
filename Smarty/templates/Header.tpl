@@ -90,7 +90,7 @@
 	<!-- END -->
 {/if}
     <!-- END -->
-{if $MODULE_NAME neq 'OpenStreetMap' && $MODULE_NAME neq 'evvtMap' && $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'Reports' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq  'ElasticSearch' }   
+{if $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' }   
         <script type="text/javascript" src="Smarty/angular/angular.js"></script>
         <script  src="Smarty/angular/ng-table.js"></script>
         <script src="Smarty/angular/angular-multi-select.js"></script>  
