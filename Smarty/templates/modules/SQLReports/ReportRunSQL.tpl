@@ -103,7 +103,7 @@ function goToURL( url )
 {
 	document.location.href = url;
 }
-					
+if(getObj('stdDateFilter')!=undefined){					
 var filter = getObj('stdDateFilter').options[document.NewReport.stdDateFilter.selectedIndex].value
     if( filter != "custom" )
     {
@@ -113,7 +113,7 @@ var filter = getObj('stdDateFilter').options[document.NewReport.stdDateFilter.se
 // If current user has no access to date fields, we should disable selection
 // Fix for: #4670
 standardFilterDisplay();
-
+}
 function generateReport(id)
 {
 	var stdDateFilterFieldvalue = '';
@@ -168,6 +168,7 @@ function selectSQLReport()
 function ReportInfor()
 {
 	var stdDateFilterFieldvalue = '';
+        if(document.NewReport.stdDateFilterField!=undefined){
 	if(document.NewReport.stdDateFilterField.selectedIndex != -1)
 		stdDateFilterFieldvalue = document.NewReport.stdDateFilterField.options  [document.NewReport.stdDateFilterField.selectedIndex].text;
 
@@ -192,7 +193,8 @@ function ReportInfor()
 	}else if(startdatevalue != '' && enddatevalue !='')
 	{
 	var reportinfr = 'Reporting  "'+stdDateFilterFieldvalue+'"  of  "'+stdDateFiltervalue+'"  ( '+startdatevalue+'  to  '+enddatevalue+' )';
-	}
+	}}
+        var reportinfr='';
 	getObj('report_info').innerHTML = reportinfr;
 }
 ReportInfor();
