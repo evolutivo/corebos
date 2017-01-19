@@ -13,8 +13,9 @@
 -->*}
 <!-- Contents -->
 <!-- PUBLIC CONTENTS STARTS-->
-{include_php file="modules/NgBlock/ng_tab.php"}
+{ngtab}
 {foreach key=header item=detail from=$ng_tabs}
+{if $SOURCE eq 'DV'}
 <td class="dvtTabCache" >&nbsp;</td>
 <td {if $ng_tab neq $header}class="dvtUnSelectedCell"{else}class="dvtSelectedCell"{/if} align=center onmouseout="fnHideDrop('More_Information_{$header}');" onmouseover="fnDropDown(this,'More_Information_{$header}');" align="center" nowrap>
     <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&ng_tab={$header}">{$detail.tab_name}</a>
@@ -26,7 +27,15 @@
             {/foreach}
         </table>
     </div>
-</td>
+</td>{else}
+<div class="detailview_utils_table_tab detailview_utils_table_tab_selected detailview_utils_table_tab_selected_top">
+{if $smarty.request.ng_tab neq ''}
+{$detail.tab_name}
+{else}
+<a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&ng_tab={$header}">{$detail.tab_name}</a>
+{/if}
+</div>
+{/if}
 {/foreach}
 <!-- PUBLIC CONTENTS STOPS-->
 

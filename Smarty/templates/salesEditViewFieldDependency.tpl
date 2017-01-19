@@ -1,4 +1,4 @@
-{include_php file="modules/Vtiger/DetailViewDep.php"}
+{dvfielddep}
 <script>
 var blocks ={$BlocksJson};
 var mapFieldDep ={$MapFieldDep};
@@ -11,9 +11,9 @@ var CurrProfiles ={$CurrProfiles};
 {foreach key=header item=data from=$BLOCKS}
 {foreach key=label item=subdata from=$data}
 {foreach key=mainlabel item=maindata from=$subdata}
-                {assign var="uitype" value="$maindata[0][0]"}
-		{assign var="fldname" value="$maindata[2][0]"}
-		{assign var="fldvalue" value="$maindata[3][0]"}
+                {assign var="uitype" value=$maindata[0][0]}
+		{assign var="fldname" value=$maindata[2][0]}
+		{assign var="fldvalue" value=$maindata[3][0]}
 		
         {if $uitype eq '15' || $uitype eq '16' || $uitype eq '31' || $uitype eq '32' || $uitype eq '33' || $uitype eq '1613'} 
                              

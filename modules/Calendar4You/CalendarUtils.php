@@ -786,4 +786,4 @@ function Calendar_getReferenceFieldColumnsList($module,$sort=true) {
 	}
 	return $ret_module_list;
 }
-?> 
+?>

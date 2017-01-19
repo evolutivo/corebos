@@ -1,4 +1,4 @@
-{include_php file="modules/Vtiger/DetailViewDep.php"}
+{dvfielddep}
 <script>
 var blocks ={$BlocksJson};
 var mapFieldDep ={$MapFieldDep};
@@ -13,8 +13,8 @@ angular.module('demoApp').run(function(editableOptions) {
 });
 {/literal}
 {foreach key=header item=detail from=$BLOCKS}
-{foreach item=detail from=$detail}
-{foreach key=label item=data from=$detail}
+{foreach item=detail1 from=$detail}
+{foreach key=label item=data from=$detail1}
             {assign var=keyid value=$data.ui}
             {assign var=keyfldname value=$data.fldname}
         {if $keyid eq '15' || $keyid eq '16' || $keyid eq '31' || $keyid eq '32' || $keyid eq '33' || $keyid eq '1613'} 

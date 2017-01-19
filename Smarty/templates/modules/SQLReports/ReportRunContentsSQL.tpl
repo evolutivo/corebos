@@ -50,10 +50,7 @@
 		{* Performance Optimization: Direct result output *}
 		{if $DIRECT_OUTPUT eq true}		
 			{if isset($__REPORT_RUN_INSTANCE)}
-				{php}
-					$__oReportRun = $this->_tpl_vars['__REPORT_RUN_INSTANCE'];
-					$__oReportRunReturnValue = $__oReportRun->GenerateReport("HTML", $__filterList, true);
-				{/php}
+				{sqlreports}
 			{/if}		
 		{elseif $ERROR_MSG eq ''}
 			{$REPORTHTML.0}
@@ -67,10 +64,8 @@
 		<tr><td colspan="2">&nbsp;</td></tr>
 		<tr><td colspan="2">
 		{* Performance Optimization: Direct result output *}
-		{if $DIRECT_OUTPUT eq true}
-			{php}
-				if(is_array($__oReportRunReturnValue)) { $__oReportRun->GenerateReport("TOTALHTML", $__filterList, true); }
-			{/php}
+		{if $DIRECT_OUTPUT eq true && !isset($__REPORT_RUN_INSTANCE) } 
+			{sqlreports}
 		{else}			
 			{$REPORTTOTHTML}
 		{/if}

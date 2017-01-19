@@ -9,18 +9,17 @@
   *
  ********************************************************************************/
 -->*}
-		{assign var="uitype" value="$maindata[0][0]"}
-		{assign var="fldlabel" value="$maindata[1][0]"}
-		{assign var="fldlabel_sel" value="$maindata[1][1]"}
-		{assign var="fldlabel_combo" value="$maindata[1][2]"}
-		{assign var="fldlabel_other" value="$maindata[1][3]"}
-		{assign var="fldname" value="$maindata[2][0]"}
-		{assign var="fldvalue" value="$maindata[3][0]"}
-		{assign var="secondvalue" value="$maindata[3][1]"}
-		{assign var="thirdvalue" value="$maindata[3][2]"}
-		{assign var="typeofdata" value="$maindata[4]"}
-	 	{assign var="vt_tab" value="$maindata[5][0]"}
-
+		{assign var="uitype" value=$maindata[0][0]}
+		{assign var="fldlabel" value=$maindata[1][0]}
+		{assign var="fldlabel_sel" value=$maindata[1][1]}
+		{assign var="fldlabel_combo" value=$maindata[1][2]}
+		{assign var="fldlabel_other" value=$maindata[1][3]}
+		{assign var="fldname" value=$maindata[2][0]}
+		{assign var="fldvalue" value=$maindata[3][0]}
+		{assign var="secondvalue" value=$maindata[3][1]}
+		{assign var="thirdvalue" value=$maindata[3][2]}
+		{assign var="typeofdata" value=$maindata[4]}
+	 	{assign var="vt_tab" value=$maindata[5][0]}
 		{if $typeofdata eq 'M'}
 			{assign var="mandatory_field" value="*"}
 		{else}
