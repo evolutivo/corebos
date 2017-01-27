@@ -766,8 +766,8 @@
 <changeSet>
         <author>albana</author>
         <description>Read BusinessActions as Links</description>
-        <filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
-        <classname>addFieldsToBA</classname>
+        <filename>build/changeSets/evolutivo/addFieldsToBusinessActionsconvertlink.php</filename>
+        <classname>addFieldsToBAconvertlink</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
