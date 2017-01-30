@@ -102,6 +102,8 @@
         <!-- xeditable   -->
         <link href="Smarty/angular/xeditable.css" rel="stylesheet">
         <script src="Smarty/angular/xeditable.js"></script>
+        <script type="text/javascript" src="Smarty/angular/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="Smarty/angular/sortable/dist/ng-sortable.js"></script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
         <script src='Smarty/angular/textAngular-rangy.min.js'></script>
@@ -135,7 +137,7 @@
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
-                                            'ngTagsInput','textAngular']);
+                                            'ngTagsInput','textAngular','ui.sortable','ngRoute']);
             </script>
     {else}
 	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small >
