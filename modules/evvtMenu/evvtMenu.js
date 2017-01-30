@@ -17,13 +17,13 @@
  *************************************************************************************************/
 
 function getMenuInfo(info){
-	$('#evvtmenuid').val(info['evvtmenuid']);
-	$('#mparent').val(info['mparent']);
-	$('#mtype').val(info['mtype']);
-	$('#mlabel').val(info['mlabel']);
-	if(info.mtype==='module') $('#modname').val(info['mvalue']);
-	if(info.mtype==='url') $('#mvalue').val(info['mvalue']);
-	$('#mpermission').val(info['mpermission'].split(','));
+	jQuery('#evvtmenuid').val(info['evvtmenuid']);
+	jQuery('#mparent').val(info['mparent']);
+	jQuery('#mtype').val(info['mtype']);
+	jQuery('#mlabel').val(info['mlabel']);
+	if(info.mtype==='module') jQuery('#modname').val(info['mvalue']);
+	if(info.mtype==='url') jQuery('#mvalue').val(info['mvalue']);
+	jQuery('#mpermission').val(info['mpermission'].split(','));
 	showFormParts(info['mtype']);
 }
 
