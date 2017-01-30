@@ -638,6 +638,32 @@ function getMapPermissionActions  (){
            return $target_fields;
        }
        
+       function getRendicontaConfig(){
+            $map=htmlspecialchars_decode($this->column_fields['content']);
+            $x = new crXml();
+            $x->loadXML($map);
+            $target_data=array();
+            $index=0;
+            foreach($x->map as $k=>$v) {
+                
+                if($k=='respmodule'){
+                    $respmodule=  (string)$v;
+                }
+                if($k=='statusfield'){
+                   $statusfield=  (string)$v;
+                }
+                if($k=='processtemp'){
+                   $processtemp=  (string)$v;
+                }
+                
+              }
+           $target_fields['respmodule']=  $respmodule;
+           $target_fields['statusfield']=  $statusfield;
+           $target_fields['processtemp']=  $processtemp;
+           
+           return $target_fields;
+       }
+       
        function getMapMenuStructure(){
             $default_language = 'it_it';
             global $current_language,$adb; 
