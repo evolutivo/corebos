@@ -1,0 +1,19 @@
+<div ng-controller="SprintController">
+    <table  ng-table="tableParams" style="background-color: white;" class="table  table-bordered table-responsive">            
+        <tr ng-repeat="user in $data"   >                
+              <td data-title="'RispostaNo'" >
+                  <a href="{{ user.href}}">{{ user.rispostano}}</a>                      
+              </td> 
+              <td data-title="'Domanda'" > 
+                  {{user.question}}
+              </td> 
+              <td data-title="'Risposta'" > 
+                  {{user.risposta}}
+              </td>  
+              <td data-title="'Validazione'" > 
+                  {{user.valid}}
+              </td>  
+            </tr>
+    </table>
+</div>
+
