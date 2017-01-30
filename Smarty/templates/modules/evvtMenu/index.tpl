@@ -8,9 +8,9 @@
     var ids = [];
     var parents = [];
     var positions = [];
-        $(function () {
+        jQuery(function () {
             // 6 create an instance when the DOM is ready
-            var inst = $('#jstree').jstree({
+            var inst = jQuery('#jstree').jstree({
                 "core" : {
                     "check_callback" : true,
                     "data" : {/literal}{$MENUSTRUCTURE}{literal},
@@ -40,7 +40,7 @@
                 ]
             });
             // 7 bind to events triggered on the tree
-            $('#jstree').on('move_node.jstree', function (e, data) {
+            jQuery('#jstree').on('move_node.jstree', function (e, data) {
                 var id = data.node.id;
                 var parentId = data.instance.get_node(data.node.parent).id;
                 var position = data.position + 1;
