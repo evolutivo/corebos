@@ -70,7 +70,7 @@
   `bluepay_secretkey` varchar(150) default NULL,
   `bluepay_mode` varchar(150) default NULL,
   `block_paid` varchar(3) default NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8]]></sql>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 </tables>
 <blocks>
