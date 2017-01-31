@@ -1429,4 +1429,32 @@
 	<classname>cleanoptimizedatabase_180</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add ProcessFlow module</description>
+	<filename>build/changeSets/evolutivo/addprocessflow.php</filename>
+	<classname>addprocessflow</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add ProcessTemplate module</description>
+	<filename>build/changeSets/evolutivo/addprocesstemplate.php</filename>
+	<classname>addprocesstemplate</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add Cases module</description>
+	<filename>build/changeSets/evolutivo/addcases.php</filename>
+	<classname>addcases</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add BPMDesigner module</description>
+	<filename>build/changeSets/evolutivo/addbpmdesigner.php</filename>
+	<classname>addbpmdesigner</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
