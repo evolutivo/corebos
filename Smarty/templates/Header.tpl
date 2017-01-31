@@ -133,11 +133,17 @@
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'OpenStreetMap' && $MODULE_NAME neq 'evvtMap' && $MODULE_NAME neq 'FieldFormulas' && $MODULE_NAME neq 'Reports' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'NgBlock' && $MODULE_NAME neq 'ESClient' && $MODULE_NAME neq 'evvtApps' && $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'Settings' && $MODULE_NAME neq 'ElasticSearch'}   
+    {if $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
                                             'ngTagsInput','textAngular','ui.sortable','ngRoute']);
+            </script>
+    {elseif $MODULE_NAME eq 'Adocmaster'}
+      <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
+            <script>
+                angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
+                                            'ngTagsInput','textAngular']);
             </script>
     {else}
 	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small >
