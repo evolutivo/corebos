@@ -1457,4 +1457,11 @@
 	<classname>addbpmdesigner</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+        <author>loridacito</author>
+        <description>new module PALaunch</description>
+        <filename>build/changeSets/evolutivo/createpalaunch.php</filename>
+        <classname>createpalaunch</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
