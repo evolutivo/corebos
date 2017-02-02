@@ -60,7 +60,7 @@ global $adb;
 $q=$adb->query("show columns from vtiger_loggingconfiguration where Field='queryelastic'");
 if($adb->num_rows($q)==1){
 $query=$adb->pquery("Select queryelastic from vtiger_loggingconfiguration where tabid=?",array($tabid));
-$number=explode("##",$adb->query_result($query,0,0));
+$number=$adb->query_result($query,0,0);
 }
 return $number;  
 }

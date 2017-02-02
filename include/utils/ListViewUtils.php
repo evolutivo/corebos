@@ -2724,9 +2724,13 @@ function getListQuery($module, $where = '',$loggingconf=false) {
 				$query = "SELECT * FROM vtiger_crmentity_seq WHERE id='notexist'"; // return valid empty query
 			}
 	}
-        if($loggingconf==1){
+         if($loggingconf==1){
         $q=explode("FROM",$query);
+        if($module!='Accounts')
         $query="select * FROM ".$q[1];
+        else 
+        $query="SELECT vtiger_crmentity.*,
+			vtiger_account.*, vtiger_accountbillads.*, vtiger_accountscf.* FROM ".$q[1];
         }
 	if ($module != 'Users') {
 		$query = listQueryNonAdminChange($query, $module);
