@@ -1471,4 +1471,11 @@
         <classname>createcbSignature</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+        <author>teozkoroveshi</author>
+        <description>new module cbValidations</description>
+        <filename>build/changeSets/evolutivo/createcbValidations.php</filename>
+        <classname>createcbValidations</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
