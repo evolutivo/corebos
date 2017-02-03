@@ -1464,4 +1464,11 @@
         <classname>createpalaunch</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+        <author>loridacito</author>
+        <description>new module Signature</description>
+        <filename>build/changeSets/evolutivo/createcbSignature.php</filename>
+        <classname>createcbSignature</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
