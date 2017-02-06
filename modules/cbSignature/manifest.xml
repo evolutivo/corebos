@@ -272,7 +272,7 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <relatedmodules>
-<relatedmodule>Map</relatedmodule>
+<relatedmodule>cbMap</relatedmodule>
 </relatedmodules>
 </field>
 <field>
@@ -295,7 +295,7 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <relatedmodules>
-<relatedmodule>Map</relatedmodule>
+<relatedmodule>cbMap</relatedmodule>
 </relatedmodules>
 </field>
 <field>
@@ -557,7 +557,7 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <relatedmodules>
-<relatedmodule>Map</relatedmodule>
+<relatedmodule>cbMap</relatedmodule>
 </relatedmodules>
 </field>
 <field>
@@ -623,7 +623,7 @@
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
 <relatedmodules>
-<relatedmodule>Map</relatedmodule>
+<relatedmodule>cbMap</relatedmodule>
 </relatedmodules>
 </field>
 <field>
@@ -797,14 +797,6 @@
 </sharingaccess>
 <customlinks>
 <customlink>
-<linktype></linktype>
-<linklabel></linklabel>
-<linkurl><![CDATA[]]></linkurl>
-<linkicon><![CDATA[]]></linkicon>
-<sequence></sequence>
-<handler_path><![CDATA[]]></handler_path>
-<handler_class><![CDATA[]]></handler_class>
-<handler><![CDATA[]]></handler>
 </customlink>
 </customlinks>
 <crons>
