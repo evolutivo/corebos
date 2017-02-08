@@ -35,6 +35,8 @@ class cbMapAddMapTypes extends cbupdaterWorker {
 				'Import',
 				'RelatedPanes',
                                 'RendicontaConfig',
+                                'CREATEVIEWPORTAL',
+                                'DETAILVIEWBLOCKPORTAL',
 			);
 			$moduleInstance = Vtiger_Module::getInstance('cbMap');
 			$field = Vtiger_Field::getInstance('maptype',$moduleInstance);
