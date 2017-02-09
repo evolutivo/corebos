@@ -2881,7 +2881,7 @@ class CRMEntity {
                 $entries=Array();
                 $ip=GlobalVariable::getVariable('ip_elastic_server', '');
                 $endpointUrl = "http://$ip:9200/$indextype/norm/_search?pretty&size=100"; 
-                $fields1 =array('query'=>array("term"=>array("$mainfld"=>$entityid)));
+                $fields1 =array('query'=>array("term"=>array("$mainfld"=>$entityid)),'sort'=>array("modifiedtime$moduleName"=>array("order"=>"desc")));
                 $channel1 = curl_init();
                 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
                 curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
@@ -2936,8 +2936,8 @@ class CRMEntity {
                     $newvl1=  getUserName($newvl);
                     if($newvl1=='')
                     $newvl1=  getGroupName($newvl);
-                    $oldvl=$oldvl1[0];
-                    $newvl=$newvl1[0];
+                    $oldvl=$oldvl1;
+                    $newvl=$newvl1;
                }
                 $fieldlabel = getTranslatedString($adb->query_result($res, 0, 0));
                 $lines[] = $moduleName ." changed value of '". $fieldlabel."' FROM ". $oldvl ."  TO  ". $newvl;
