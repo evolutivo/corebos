@@ -2927,7 +2927,7 @@ class CRMEntity {
                      else
                      $newvl=$newvl1;
                }
-               if (in_array($uitype,array(53)))
+               if (in_array($uitype,array(53)) || in_array($uitype,array(52)))
                {   if($oldvl!='')                    
                     $oldvl1=  getUserName($oldvl);
                     if($oldvl1=='')
