@@ -2726,11 +2726,20 @@ function getListQuery($module, $where = '',$loggingconf=false) {
 	}
          if($loggingconf==1){
         $q=explode("FROM",$query);
-        if($module!='Accounts')
-        $query="select * FROM ".$q[1];
-        else 
-        $query="SELECT vtiger_crmentity.*,
-			vtiger_account.*, vtiger_accountbillads.*, vtiger_accountscf.* FROM ".$q[1];
+        if($module==='Accounts')           
+        {                
+            $query="SELECT vtiger_crmentity.*, vtiger_account.*, vtiger_accountbillads.*, vtiger_accountscf.* FROM ".$q[1];            
+            
+        }            
+        else if($module==='Contacts')            
+        {   
+            $query="SELECT vtiger_crmentity.*, vtiger_contactdetails.*, vtiger_contactaddress.*, vtiger_contactsubdetails.*,  vtiger_contactscf.*, vtiger_customerdetails.* FROM ".$q[1];            
+        
+        }  
+        else            
+        {                
+            $query="select *, vtiger_crmentity.* FROM ".$q[1];            
+        }
         }
 	if ($module != 'Users') {
 		$query = listQueryNonAdminChange($query, $module);
