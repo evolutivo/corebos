@@ -2737,8 +2737,11 @@ function getListQuery($module, $where = '',$loggingconf=false) {
         
         }  
         else            
-        {                
-            $query="select *, vtiger_crmentity.* FROM ".$q[1];            
+        {		
+            $focus = CRMEntity::getInstance($module);                
+            $query = "SELECT vtiger_crmentity.*, $focus->table_name.*";		
+            if(!empty($focus->customFieldTable)) $query .= ", " . $focus->customFieldTable[0] . ".* ";                
+            $query.=" FROM ".$q[1];           
         }
         }
 	if ($module != 'Users') {
