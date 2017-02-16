@@ -28,7 +28,6 @@
 		right: 0;
 	}
 </style>
-<script src="include/js/json.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="include/js/advancefilter.js"></script>
 {if empty($JS_DATEFORMAT)}
 	{assign var="JS_DATEFORMAT" value=$APP.NTC_DATE_FORMAT|@parse_calendardate}
@@ -41,8 +40,11 @@
 	{if $SOURCE neq 'reports'}
 		var BLOCKJS = "";
 		var BLOCKCRITERIA = "";
-	{if $SOURCE neq 'customview'}	var COL_BLOCK =  '{$COLUMNS_BLOCK}';
-        {else} var COL_BLOCK =  "{$COLUMNS_BLOCK}" {/if};
+		{if $SOURCE neq 'customview'}
+			var COL_BLOCK = '{$COLUMNS_BLOCK}';
+		{else}
+			var COL_BLOCK = "{$COLUMNS_BLOCK}";
+		{/if};
 		var FOPTION_ADV = "";
 		var MOMENT = "";
 	{/if}
@@ -258,13 +260,14 @@ function add_grouping_criteria(grouping_criteria) {ldelim}
 					} else {
 						document.getElementById('fval'+advft_column_index_count).value = columnvalue;
 					}
-
-					if(document.getElementById('fcon'+key))
-						document.getElementById('fcon'+key).value = group_columns[key].column_condition;
+                                        var keyprev=key-1;
+					if(document.getElementById('fcon'+keyprev))
+						document.getElementById('fcon'+keyprev).value = group_columns[keyprev].column_condition;
 				}
 			}
-			if(document.getElementById('gpcon'+i))
-				document.getElementById('gpcon'+i).value = grouping_criteria[i].condition;
+                        var iprev=i-1;
+			if(document.getElementById('gpcon'+iprev))
+				document.getElementById('gpcon'+iprev).value = grouping_criteria[iprev].condition;
 		}
 	} else {
 		addNewConditionGroup('adv_filter_div');
@@ -285,7 +288,7 @@ function add_grouping_criteria(grouping_criteria) {ldelim}
 	</table>
 <script>
 	{if $SOURCE neq 'reports'}
-		{if $CRITERIA_GROUPS|@count > 0}
+		{if isset($CRITERIA_GROUPS) && $CRITERIA_GROUPS|@count > 0}
 			add_grouping_criteria({json_encode($CRITERIA_GROUPS)});
 		{else}
 			addNewConditionGroup('adv_filter_div');

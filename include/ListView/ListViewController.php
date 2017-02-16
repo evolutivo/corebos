@@ -704,7 +704,7 @@ class ListViewController {
 		//Appending view name while editing from ListView
 		$link = "index.php?module=$module&action=EditView&record=$recordId&return_module=$module".
 			"&return_action=$return_action&parenttab=$parent".$url."&return_viewname=".
-			(isset($_SESSION['lvs']) ? $_SESSION['lvs'][$module]["viewname"] : '');
+			((isset($_SESSION['lvs']) and isset($_SESSION['lvs'][$module])) ? $_SESSION['lvs'][$module]['viewname'] : '');
 
 		if($module == 'Calendar') {
 			if($activityType == 'Task') {
@@ -718,7 +718,7 @@ class ListViewController {
 
 	public function getListViewDeleteLink($module,$recordId) {
 		$parenttab = getParentTab();
-		$viewname = (isset($_SESSION['lvs']) ? $_SESSION['lvs'][$module]['viewname'] : '');
+		$viewname = ((isset($_SESSION['lvs']) and isset($_SESSION['lvs'][$module])) ? $_SESSION['lvs'][$module]['viewname'] : '');
 		//Added to fix 4600
 		$url = getBasic_Advance_SearchURL();
 		if($module == "Calendar")
@@ -774,6 +774,7 @@ class ListViewController {
 		//vtiger_field for arrow image and change order
 		$change_sorder = array('ASC'=>'DESC','DESC'=>'ASC');
 		$arrow_gif = array('ASC'=>'arrow_down.gif','DESC'=>'arrow_up.gif');
+		$default_sort_order = GlobalVariable::getVariable('Application_ListView_Default_Sort_Order','ASC',$module);
 		foreach($listViewFields as $fieldName) {
 			if (!empty($moduleFields[$fieldName])) {
 				$field = $moduleFields[$fieldName];
@@ -787,7 +788,7 @@ class ListViewController {
 					$temp_sorder = $change_sorder[$sorder];
 					$arrow = "&nbsp;<img src ='".vtiger_imageurl($arrow_gif[$sorder], $theme)."' border='0'>";
 				} else {
-					$temp_sorder = 'ASC';
+					$temp_sorder = $default_sort_order;
 				}
 				$label = getTranslatedString($field->getFieldLabelKey(), $module);
 				//added to display vtiger_currency symbol in listview header

@@ -47,13 +47,13 @@
 {elseif $MODULE eq 'Documents'}
 	<input type="hidden" name="max_file_size" value="{$MAX_FILE_SIZE}">
 	<input type="hidden" name="form">
-	<input type="hidden" name="email_id" value="{$EMAILID}">
-	<input type="hidden" name="ticket_id" value="{$TICKETID}">
-	<input type="hidden" name="fileid" value="{$FILEID}">
-	<input type="hidden" name="parentid" value="{$PARENTID}">
+	<input type="hidden" name="email_id" value="{if isset($EMAILID)}{$EMAILID}{/if}">
+	<input type="hidden" name="ticket_id" value="{if isset($TICKETID)}{$TICKETID}{/if}">
+	<input type="hidden" name="fileid" value="{if isset($FILEID)}{$FILEID}{/if}">
+	<input type="hidden" name="parentid" value="{if isset($PARENTID)}{$PARENTID}{/if}">
 
 {elseif $MODULE eq 'Products'}
-	<input type="hidden" name="activity_mode" value="{$ACTIVITY_MODE}">
+	<input type="hidden" name="activity_mode" value="{if isset($ACTIVITY_MODE)}{$ACTIVITY_MODE}{/if}">
 {/if}
 
 <input type="hidden" name="pagenumber" value="{if isset($smarty.request.start)}{$smarty.request.start|@vtlib_purify}{/if}">

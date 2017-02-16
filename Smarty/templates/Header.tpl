@@ -14,7 +14,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset={$APP.LBL_CHARSET}">
 	<title>{$USER} - {$MODULE_NAME|@getTranslatedString:$MODULE_NAME} - {$coreBOS_app_name}</title>
 	<link REL="SHORTCUT ICON" HREF="{$FAVICON}">
-	<style type="text/css">@import url("themes/{$THEME}/style.css?v={$VERSION}");</style>
+	<style type="text/css">@import url("themes/{$THEME}/style.css");</style>
 	{if $PRELOAD_JSCALENDAR neq 'false'}<link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">{/if}
 	<link rel="stylesheet" href="include/print.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="include/LD/assets/styles/salesforce-lightning-design-system.css" type="text/css" />
@@ -49,12 +49,11 @@
 	<script type="text/javascript" src="include/jquery/jquery.js"></script>
 	<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
 	<script type="text/javascript" src="include/js/meld.js"></script>
-	<script type="text/javascript" src="include/js/json.js"></script>
-	<script type="text/javascript" src="include/js/general.js?v={$VERSION}"></script>
+	<script type="text/javascript" src="include/js/general.js"></script>
 	<!-- vtlib customization: Javascript hook -->
-	<script type="text/javascript" src="include/js/vtlib.js?v={$VERSION}"></script>
+	<script type="text/javascript" src="include/js/vtlib.js"></script>
 	<!-- END -->
-	<script type="text/javascript" id="_current_language_" src="include/js/{$LANGUAGE}.lang.js?{$VERSION}"></script>
+	<script type="text/javascript" id="_current_language_" src="include/js/{$LANGUAGE}.lang.js"></script>
 	<script type="text/javascript" src="include/js/QuickCreate.js"></script>
 	{if $CALCULATOR_DISPLAY eq 'true'}
 	<script type="text/javascript" src="include/calculator/calc.js"></script>
@@ -149,13 +148,13 @@
 	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small >
     {/if}
 	{* PREFECTHING IMAGE FOR BLOCKING SCREEN USING VtigerJS_DialogBox API *}
-    <img src="{'layerPopupBg.gif'|@vtiger_imageurl:$THEME}" style="display: none;"/>
-    {* END *}
+	<img src="{'layerPopupBg.gif'|@vtiger_imageurl:$THEME}" style="display: none;"/>
 
 <TABLE border=0 cellspacing=0 cellpadding=0 width=100% class="small">
 	<tr>
-	<td valign=top align=left><img  src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td><td>			
-        <div align ="center" width ="50%" border='3' style="padding:5px;">
+		<td valign=top align=left><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
+		<td align="center" valign=bottom>
+			<div align ="center" width ="50%" border='3' style="padding:5px;" class="noprint">
 				<table border=0 cellspacing=0 cellpadding=0 id="search" align="center">
 					<tr>
 						<form name="UnifiedSearch" method="post" action="index.php" style="margin:0px" onsubmit="if (document.getElementById('query_string').value=='') return false; VtigerJS_DialogBox.block();">
@@ -183,7 +182,7 @@
 					<td valign="top" class="genHeaderSmall" style="padding-left:10px;padding-top:3px;">
 						<span class="userName">{$USER}</span>
 					</td>
-					<td class="small" valign="bottom" nowrap style="padding-bottom: 1em;"><a href="index.php?module=Users&action=DetailView&record={$CURRENT_USER_ID}&modechk=prefview"><img src="{$IMAGEPATH}user.PNG" border=0 style="padding: 0px;padding-left:5px" title="{$APP.LBL_MY_PREFERENCES}" alt="{$APP.LBL_MY_PREFERENCES}"></a></td>
+					<td class="small" valign="bottom" nowrap style="padding-bottom: 1em;"><a id="headerUser" class="headerlink" href="index.php?module=Users&action=DetailView&record={$CURRENT_USER_ID}&modechk=prefview"><img src="{$IMAGEPATH}user.PNG" border=0 style="padding: 0px;padding-left:5px" title="{$APP.LBL_MY_PREFERENCES}" alt="{$APP.LBL_MY_PREFERENCES}"></a></td>
 					{* vtlib customization: Header links on the top panel *}
 					{if $HEADERLINKS}
 						<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" nowrap>
@@ -210,20 +209,20 @@
 						</td>
 					{/if}
 				{if $HELP_URL}
-				<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" nowrap><a href="{$HELP_URL}" target="_blank"><img src="{$IMAGEPATH}info.PNG" border=0 style="padding: 0px;padding-left:5px" title="{$APP.LNK_HELP}"></a></td>
+				<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" nowrap><a id="headerHelp" class="headerlink" href="{$HELP_URL}" target="_blank"><img src="{$IMAGEPATH}info.PNG" border=0 style="padding: 0px;padding-left:5px" title="{$APP.LNK_HELP}"></a></td>
 				{/if}
 				{if $ADMIN_LINK neq ''}
-					<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" onmouseout="fnHideDrop('mainsettings');" onmouseover="fnDropDown(this,'mainsettings');" nowrap><a href="index.php?module=Settings&action=index&parenttab=" id="settingslink"><img src="{$IMAGEPATH}mainSettings.PNG" border=0 style="padding: 0px;padding-left:5px"></a></td>
+					<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" onmouseout="fnHideDrop('mainsettings');" onmouseover="fnDropDown(this,'mainsettings');" nowrap><a id="headerSettings" class="headerlink" href="index.php?module=Settings&action=index&parenttab=" id="settingslink"><img src="{$IMAGEPATH}mainSettings.PNG" border=0 style="padding: 0px;padding-left:5px"></a></td>
 				{/if}
-				<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" nowrap><a href="index.php?module=Users&action=Logout"> <img src="themes/images/logout.png" border=0 style="padding: 0px;padding-left:5px " title="{$APP.LBL_LOGOUT}" alt="{$APP.LBL_LOGOUT}"></a></td>
+				<td valign="bottom" nowrap style="padding-bottom: 1em;" class="small" nowrap><a id="headerLogout" class="headerlink" href="index.php?module=Users&action=Logout"> <img src="themes/images/logout.png" border=0 style="padding: 0px;padding-left:5px " title="{$APP.LBL_LOGOUT}" alt="{$APP.LBL_LOGOUT}"></a></td>
 			</tr>
 			</table>
-        </td>
+		</td>
 	</tr>
 </TABLE>
 {if $ANNOUNCEMENT}
 	<table width ="100%">
-		<tr  colspan="3" width="100%">
+		<tr colspan="3" width="100%">
 			<td width="90%" align=center>
 				<marquee id="rss" direction="left" scrolldelay="10" scrollamount="3" behavior="scroll" class="marStyle" onMouseOver="javascript:stop();" onMouseOut="javascript:start();">&nbsp;{$ANNOUNCEMENT}</marquee>
 			</td>
@@ -356,67 +355,6 @@
 <div id="UnifiedSearch_moduleformwrapper" style="position:absolute;width:417px;z-index:100002;display:none;"></div>
 <script type='text/javascript'>
 {literal}
-	function UnifiedSearch_SelectModuleForm(obj) {
-		if(jQuery('#UnifiedSearch_moduleform').length) {
-			// If we have loaded the form already.
-			UnifiedSearch_SelectModuleFormCallback(obj);
-		} else {
-			jQuery('#status').show();
-			jQuery.ajax({
-				method:"POST",
-				url:'index.php?module=Home&action=HomeAjax&file=UnifiedSearchModules&ajax=true'
-			}).done(function(response) {
-				jQuery('#status').hide();
-				jQuery('#UnifiedSearch_moduleformwrapper').html(response);
-				UnifiedSearch_SelectModuleFormCallback(obj);
-			});
-		}
-	}
-	function UnifiedSearch_SelectModuleFormCallback(obj) {
-		fnvshobjsearch(obj, 'UnifiedSearch_moduleformwrapper');
-	}
-	function UnifiedSearch_SelectModuleToggle(flag) {
-		jQuery('#UnifiedSearch_moduleform input[type=checkbox]').each(function() {
-					this.checked = flag;
-				}
-		);
-	}
-	function UnifiedSearch_SelectModuleCancel() {
-		jQuery('#UnifiedSearch_moduleformwrapper').hide();
-	}
-	function UnifiedSearch_SelectModuleSave() {
-		var UnifiedSearch_form = document.forms.UnifiedSearch;
-		UnifiedSearch_form.search_onlyin.value = jQuery('#UnifiedSearch_moduleform').serialize().replace(/search_onlyin=/g, '').replace(/&/g,',');
-		jQuery.ajax({
-			method:"POST",
-			url:'index.php?module=Home&action=HomeAjax&file=UnifiedSearchModulesSave&search_onlyin=' + encodeURIComponent(UnifiedSearch_form.search_onlyin.value)
-		}).done(function(response) {
-					// continue
-				}
-		);
-		UnifiedSearch_SelectModuleCancel();
-	}
-
-	function fetch_clock() {
-		jQuery.ajax({
-			method:"POST",
-			url:'index.php?module=Utilities&action=UtilitiesAjax&file=Clock'
-		}).done(function(response) {
-			jQuery("#clock_cont").html(response);
-			execJS(jQuery('#clock_cont'));
-		});
-	}
-
-	function fetch_calc() {
-		jQuery.ajax({
-			method:"POST",
-			url:'index.php?module=Utilities&action=UtilitiesAjax&file=Calculator'
-		}).done(function(response) {
-			jQuery("#calculator_cont").html(response);
-			execJS(jQuery('#calculator_cont'));
-		});
-	}
-
 	function QCreate(qcoptions){
 		var module = qcoptions.options[qcoptions.options.selectedIndex].value;
 		if(module != 'none'){
@@ -434,25 +372,24 @@
 				method:"POST",
 				url:'index.php?module='+module+'&action='+module+'Ajax&file=QuickCreate'+urlstr
 			}).done(function(response) {
-						document.getElementById("status").style.display="none";
-						document.getElementById("qcform").style.display="inline";
-						document.getElementById("qcform").innerHTML = response;
-						jQuery("#qcform").draggable();
-						// Evaluate all the script tags in the response text.
-						var scriptTags = document.getElementById("qcform").getElementsByTagName("script");
-						for(var i = 0; i< scriptTags.length; i++){
-							var scriptTag = scriptTags[i];
-							eval(scriptTag.innerHTML);
-						}
-						posLay(qcoptions, "qcform");
-					}
-			);
+				document.getElementById("status").style.display="none";
+				document.getElementById("qcform").style.display="inline";
+				document.getElementById("qcform").innerHTML = response;
+				jQuery("#qcform").draggable();
+				// Evaluate all the script tags in the response text.
+				var scriptTags = document.getElementById("qcform").getElementsByTagName("script");
+				for(var i = 0; i< scriptTags.length; i++){
+					var scriptTag = scriptTags[i];
+					eval(scriptTag.innerHTML);
+				}
+				posLay(qcoptions, "qcform");
+			});
 		}else{
 			hide('qcform');
 		}
 	}
-</script>
 {/literal}
+</script>
 
 <div id="status" style="position:absolute;display:none;left:850px;top:95px;height:27px;white-space:nowrap;"><img src="{'status.gif'|@vtiger_imageurl:$THEME}"></div>
 
@@ -461,7 +398,7 @@
 		<tr style="cursor:move;">
 			<td colspan="2" class="mailClientBg small" id="Track_Handle"><strong>{$APP.LBL_LAST_VIEWED}</strong></td>
 			<td align="right" style="padding:5px;" class="mailClientBg small">
-				<a href="javascript:;"><img src="{'close.gif'|@vtiger_imageurl:$THEME}" border="0"  onClick="fninvsh('tracker')" hspace="5" align="absmiddle"></a>
+				<a href="javascript:;"><img src="{'close.gif'|@vtiger_imageurl:$THEME}" border="0" onClick="fninvsh('tracker')" hspace="5" align="absmiddle"></a>
 			</td></tr>
 	</table>
 	<table border="0" cellpadding="5" cellspacing="0" width="200" class="hdrNameBg">
@@ -472,10 +409,6 @@
 		{/foreach}
 	</table>
 </div>
-
-<script>
-	jQuery('#tracker').draggable({ldelim} handle: "#Track_Handle" {rdelim});
-</script>
 
 <div id="mainsettings" class="drop_mnu_user" onmouseout="fnHideDrop('mainsettings');" onmouseover="fnvshNrm('mainsettings');" style="width:180px;">
 	<ul>
@@ -494,134 +427,28 @@
 	</ul>
 </div>
 <script type="text/javascript">
-{literal}
-	jQuery(document).ready(function() {
-		var evvtmenu={/literal}{$MENU}{literal};
-
-		function buildMainMenu(object){ //main menu
-			for (var i in object) {
-				if(object[i].items != null) {
-					jQuery('#cbmenu').append('<li class="slds-context-bar__item slds-context-bar__dropdown-trigger slds-dropdown-trigger slds-dropdown-trigger--hover" aria-haspopup="true"> \
-						<a href="javascript:void(0);" class="slds-context-bar__label-action" title="' + object[i].text + '">\
-						<span class="slds-truncate">' + object[i].text + '</span>\
-				</a>\
-				<div class="slds-context-bar__icon-action slds-p-left--none" tabindex="0">\
-					<svg aria-hidden="true" class="slds-button__icon">\
-					<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#chevrondown"></use>\
-					</svg>\
-				</div>\
-				<div class="slds-dropdown slds-dropdown--right">\
-				<ul class="slds-dropdown__list" role="menu" id="menu' + i + '">\
-				</ul>\
-				</div>\
-				</li>');
-				} else {
-					jQuery('#cbmenu').append('<li class="slds-context-bar__item">\
-							<a href="'+object[i].url+ '" class="slds-context-bar__label-action" title="'+object[i].text+'">\
-							<span class="slds-truncate">'+object[i].text+'</span>\
-							</a>\
-							</li>');
-				}
-				if(object[i].items != null) {
-					buildSubMenu(object[i].items, i)
-				}
-			}
-		}
-
-		function buildSubMenu(object, index){ //submenu
-			var menuid = 'menu'+index;
-			for (var i in object){
-				if (object[i].type == 'sep') {
-					jQuery('#' + menuid).append('<li class="slds-dropdown__header slds-has-divider--top-space" role="separator"></li>');
-				} else if (object[i].type == 'headtop') {
-					jQuery('#' + menuid).append('<li class="slds-dropdown__header slds-has-divider--top-space" role="separator">\
-						<span class="slds-text-title--caps">' + object[i].text + '</span></li>');
-				} else if (object[i].type == 'headbottom') {
-					jQuery('#' + menuid).append('<li class="slds-dropdown__header slds-has-divider--bottom-space" role="separator">\
-						<span class="slds-text-title--caps">' + object[i].text + '</span></li>');
-				} else {
-					if (object[i].items === undefined || object[i].items === null) {
-						jQuery('#' + menuid).append('<li class="slds-dropdown__item" role="presentation">\
-							<a href="' + object[i].url + '" role="menuitem" tabindex="-1">\
-							<span class="slds-truncate">' + object[i].text + '</span>\
-							</a>\
-							</li>');
-					} else {
-						jQuery('#' + menuid).append('<li class="slds-dropdown__item" role="presentation">\
-							<a href="' + (object[i].url == undefined ? 'javascript:void(0);' : object[i].url) + '" role="menuitem" tabindex="-1">\
-							<span class="slds-truncate" style="padding-right:20px">' + object[i].text + '</span>\
-							<svg aria-hidden="true" class="slds-button__icon">\
-							<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>\
-							</svg>\
-							</a>\
-							<ul class="moreMenu" id="submenu' + i + '-' + index+ '">\
-							</ul>\
-							</li>');
-						var pld = i + '-' + index;
-						buildMoreMenu(object[i].items, pld);//kallxom kur pe marron lvl3
-					}
-				}
-			}
-		}
-
-		function buildMoreMenu(object, index){ //pjest shtes qe duhen mmu shtu
-			var subMenuId = 'submenu' +index;
-			for (var i in object) {
-				if (object[i].items === undefined || object[i].items === null) {
-					jQuery('#' + subMenuId).append('<li class="slds-dropdown__item" role="presentation">\
-							<a href="' + object[i].url + '" role="menuitem" tabindex="-1">\
-							<span class="slds-truncate">' + object[i].text + '</span>\
-							</a>\
-							</li>');
-				} else {
-					jQuery('#' + subMenuId).append('<li class="slds-dropdown__item" role="presentation" id="test">\
-							<a href="' + object[i].url + '" role="menuitem" tabindex="-1" id="test">\
-							<span class="slds-truncate" style="padding-right:20px">' + object[i].text + '</span>\
-							<svg aria-hidden="true" class="slds-button__icon">\
-							<use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#chevronright"></use>\
-							</svg>\
-							<ul class="moreMenu2" id="submenu' + i + '-' + index + '">\
-							</ul>\
-							</a>\
-							</li>');
-					var pld = i + '-' + index;
-					buildMoreMenu(object[i].items, pld);
-				}
-			}
-		}
-		buildMainMenu(evvtmenu);
-
-		jQuery(function () {
-			jQuery(".slds-dropdown__item").hover(function () {
-				var id = jQuery(this).children('ul').attr('id');
-				if (id === undefined || id === null) {
-					id = jQuery(this).find('ul').attr('id');
-				}
-				jQuery(this).find('#' + id).toggle();
-			});
-		});
-	});
-{/literal}
+	jQuery('#tracker').draggable({ldelim} handle: "#Track_Handle" {rdelim});
+	var evvtmenu={$MENU};
 </script>
+<script type="text/javascript" src="modules/evvtMenu/evvtMenu.js"></script>
 </div>
 <!-- ActivityReminder Customization for callback -->
 <div class="lvtCol fixedLay1" id="ActivityRemindercallback" style="border: 0; right: 0px; bottom: 2px; display:none; padding: 2px; z-index: 10; font-weight: normal;" align="left">
 </div>
-<!-- End -->
 
 <!-- divs for asterisk integration -->
-<div class="lvtCol fixedLay1" id="notificationDiv" style="float: right;  padding-right: 5px; overflow: hidden; border-style: solid; right: 0px; border-color: rgb(141, 141, 141); bottom: 0px; display: none; padding: 2px; z-index: 10; font-weight: normal;" align="left">
+<div class="lvtCol fixedLay1" id="notificationDiv" style="float: right; padding-right: 5px; overflow: hidden; border-style: solid; right: 0px; border-color: rgb(141, 141, 141); bottom: 0px; display: none; padding: 2px; z-index: 10; font-weight: normal;" align="left">
 </div>
 
 <div id="OutgoingCall" style="display: none;position: absolute;z-index:200;" class="layerPopup">
-	<table  border='0' cellpadding='5' cellspacing='0' width='100%'>
+	<table border='0' cellpadding='5' cellspacing='0' width='100%'>
 		<tr style='cursor:move;' >
 			<td class='mailClientBg small' id='outgoing_handle'>
 				<b>{$APP.LBL_OUTGOING_CALL}</b>
 			</td>
 		</tr>
 	</table>
-	<table  border='0' cellpadding='0' cellspacing='0' width='100%' class='hdrNameBg'>
+	<table border='0' cellpadding='0' cellspacing='0' width='100%' class='hdrNameBg'>
 		</tr>
 		<tr><td style='padding:10px;' colspan='2'>
 			{$APP.LBL_OUTGOING_CALL_MESSAGE}

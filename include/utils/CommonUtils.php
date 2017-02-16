@@ -144,9 +144,8 @@ function get_options_array_seperate_key(&$label_list, &$key_list, $selected_key,
  * The values are the display strings.
  */
 function get_select_options_with_id_separate_key(&$label_list, &$key_list, $selected_key, $advsearch = 'false') {
-	global $log;
-	$log->debug("Entering get_select_options_with_id_separate_key(" . $label_list . "," . $key_list . "," . $selected_key . "," . $advsearch . ") method ...");
-	global $app_strings;
+	global $log, $app_strings;
+	$log->debug("Entering get_select_options_with_id_separate_key() method ...");
 	if ($advsearch == 'true')
 		$select_options = "\n<OPTION value=''>--NA--</OPTION>";
 	else
@@ -1718,7 +1717,7 @@ function setObjectValuesFromRequest($focus) {
 			$focus->column_fields[$fieldname] = $value;
 		}
 	}
-	if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'EditView') {
+	if (isset($_REQUEST['action']) && ($_REQUEST['action'] == 'EditView' || $_REQUEST['action'] == 'EventEditView')) {
 		$cbfrommodule = $moduleName;
 		$cbfrom = CRMEntity::getInstance($cbfrommodule);
 		$bmapname = $moduleName.'2'.$moduleName;
@@ -1928,7 +1927,7 @@ function QuickCreate($module) {
 	}
 	for ($i = 0, $j = 0; $i < count($qcreate_arr); $i = $i + 2, $j++) {
 		$key1 = $qcreate_arr[$i];
-		if (is_array($qcreate_arr[$i + 1])) {
+		if (isset($qcreate_arr[$i + 1]) and is_array($qcreate_arr[$i + 1])) {
 			$key2 = $qcreate_arr[$i + 1];
 		} else {
 			$key2 = array();
@@ -1979,7 +1978,7 @@ function getGroupslist() {
 	} else {
 		$result = get_group_options();
 	}
-
+	$groups_combo = array();
 	if ($result)
 		$nameArray = $adb->fetch_array($result);
 	if (!empty($nameArray)) {
@@ -3143,7 +3142,7 @@ function getActivityType($id) {
 function getOwnerName($id) {
 	global $log;
 	$log->debug("Entering getOwnerName( $id ) method ...");
-	$oname = '';
+	$oname = $id;
 	if (is_numeric($id) and $id>0) {
 		$ownerList = getOwnerNameList(array($id));
 		if (isset($ownerList[$id])) {

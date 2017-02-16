@@ -70,7 +70,7 @@ function chooseType(typeName){
 		document.getElementById('dashTypeRow').style.display="block";
 		document.getElementById('StuffTitleId').style.display="block";
 		document.getElementById('reportNameRow').style.display="none";
-        document.getElementById('reportTypeRow').style.display="none";
+		document.getElementById('reportTypeRow').style.display="none";
 		document.getElementById('homewidget').style.display="none";
 		//document.getElementById('homeURLField').style.display = "none";
 		jQuery.ajax({
@@ -633,7 +633,7 @@ function positionDivInAccord(targetDiv,stufftitle,stufftype){
 	}
 	var mainX = parseInt(document.getElementById("MainMatrix").style.width);
 	if(stufftitle != vtdashboard_defaultDashbaordWidgetTitle && stufftype != "DashBoard" && stufftype != "ReportCharts"){
-		var dx = mainX *  widgetWidth/ 100;
+		var dx = mainX * widgetWidth/ 100;
 	}else{
 		var dx = mainX * dashWidth / 100;
 	}
@@ -818,3 +818,18 @@ function getRandomColor() {
 	});
 }
 
+function firsttime_login_welcome(popuplayer,popupcontent) {
+	popuplayer.style.zIndex = parseInt((+new Date())/1000)+5; // To ensure z-Index is higher than the popup block
+	popuplayer.style.display = 'block';
+	jQuery.ajax({
+		method: 'POST',
+		url: 'index.php?module=Home&action=HomeAjax&file=welcome'
+	}).done(function (response) {
+		if (response=='') {
+			popuplayer.style.display = 'none';
+		} else {
+			popupcontent.innerHTML = response;
+			vtlib_executeJavascriptInElement(popupcontent);
+		}
+	});
+}

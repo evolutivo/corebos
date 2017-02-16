@@ -9,7 +9,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ********************************************************************************/
-
 require_once('include/database/PearDatabase.php');
 global $default_charset;
 
@@ -35,21 +34,19 @@ $handle = fopen($wordtemplatedownloadpath .$filename,"wb") ;
 fwrite($handle,base64_decode($fileContent),$filesize);
 fclose($handle);
 
-
 $query = "SELECT * FROM " .$adb->sql_escape_string($_REQUEST["module"]) ." WHERE id = ?";
 $result = $adb->pquery($query, array($_REQUEST['record']));
 
 $y=$adb->num_fields($result);
 
-for ($x=0; $x<$y; $x++)
-{
-    $columnNames[$x] = "CONTACT_".strtoupper($adb->field_name($result, $x));
-} 
+for ($x=0; $x<$y; $x++) {
+	$fld = $adb->field_name($result, $x);
+	$columnNames[$x] = 'CONTACT_'.strtoupper($fld->name);
+}
 
 $columnValues = $adb->fetch_array($result);
-for ($x=0; $x<$y; $x++)
-{
-    $columnValString[$x] = $columnValues[$x];
+for ($x=0; $x<$y; $x++) {
+	$columnValString[$x] = $columnValues[$x];
 }
 
 $columnString = implode(",",$columnNames);
@@ -63,23 +60,20 @@ var dSrc = '$columnValString';
 
 <OBJECT Name="vtigerVM" codebase="http://<?php echo $_SERVER["HTTP_HOST"] ?>/modules/Settings/vtigerVM.CAB#Version1,0,0,1"
 id="objMMPage" classid="clsid:42C50C38-1984-4393-A736-890357E7112B" width=0 height=0></object><!--METADATA TYPE="MsHtmlPageDesigner" endspan-->
-<Script>
-		if(objMMPage.bDLTempDoc("http://"+"<?php echo $_SERVER["HTTP_HOST"] ?>/test/wordtemplatedownload/"+"<?php echo $filename?>","MMTemplate.doc"))
-{
-	try
-	{
+<script>
+if (objMMPage.bDLTempDoc("http://"+"<?php echo $_SERVER["HTTP_HOST"] ?>/test/wordtemplatedownload/"+"<?php echo $filename?>","MMTemplate.doc")) {
+	try {
 		if(objMMPage.Init())
 		{
 			objMMPage.vLTemplateDoc();
 			//objMMPage.vGetHDSrc(dHdr,dSrc);
 			objMMPage.vBulkHDSrc(dHdr,dSrc);
-		   //objMMPage.vOpenDoc();
+			//objMMPage.vOpenDoc();
 			objMMPage.vBulkOpenDoc();
 			objMMPage.UnInit()
 			document.write("Template Document Merged with selected contacts data");
-		}		
-	}catch(errorObject)
-	{
+		}
+	} catch(errorObject) {
 	}
 }
 </Script>

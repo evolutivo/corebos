@@ -28,8 +28,8 @@
 			{foreach item=subdata from=$QUICKCREATE}
 				<tr>
 					{foreach key=mainlabel item=maindata from=$subdata}
-						{include file='EditViewUIMass.tpl'}							
-                                        {/foreach}
+						{if count($maindata)>0}{include file='EditViewUIMass.tpl'}{/if}
+					{/foreach}
 				</tr>
 			{/foreach}
 			</table>

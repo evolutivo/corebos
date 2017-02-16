@@ -867,7 +867,11 @@ class QueryGenerator {
 				if(empty($conditionInfo['value'])) {
 					$conditionInfo['value'] = '0';
 				}
-				$value = "'".$conditionInfo['value']."'";
+				if (!is_array($conditionInfo['value'])) {
+					$value = "'".$conditionInfo['value']."'";
+				} else {
+					$value = ''; // will get loaded below
+				}
 				switch($conditionInfo['operator']) {
 					case 'e': $sqlOperator = "=";
 						break;
@@ -960,17 +964,14 @@ class QueryGenerator {
 			$fieldSqlList[$index] = $fieldSql;
 		}global $log;
 		foreach ($this->manyToManyRelatedModuleConditions as $index=>$conditionInfo) {
-			$relatedModuleMeta = RelatedModuleMeta::getInstance($this->meta->getTabName(),
-					$conditionInfo['relatedModule']);
+			$relatedModuleMeta = RelatedModuleMeta::getInstance($this->meta->getTabName(), $conditionInfo['relatedModule']);
 			$relationInfo = $relatedModuleMeta->getRelationMeta();
                         /*if(empty($relationInfo)){
                             $relationInfo=$this->getRelationInfo($conditionInfo);
                         }*/
 			$relatedModule = $this->meta->getTabName();
-			$fieldSql = "(".$relationInfo['relationTable'].'.'.
-			$relationInfo[$conditionInfo['column']].$conditionInfo['SQLOperator'].
-			$conditionInfo['value'].")";
-                         if($fieldSql!='()' && $fieldSql!='( )')
+			$fieldSql = '('. $relationInfo['relationTable']. '.'. $relationInfo[$conditionInfo['column']]. $conditionInfo['SQLOperator']. $conditionInfo['value']. ')';
+                        if($fieldSql!='()' && $fieldSql!='( )')
 			$fieldSqlList[$index] = $fieldSql;
 		}
 
@@ -982,7 +983,11 @@ class QueryGenerator {
 				$fieldName = $conditionInfo['fieldName'];
                                 $fields = $meta->getModuleFields();
 				if ($fieldName=='id') {
-					$value = "'".$conditionInfo['value']."'";
+					if (!is_array($conditionInfo['value'])) {
+						$value = "'".$conditionInfo['value']."'";
+					} else {
+						$value = ''; // will get loaded below
+					}
 					switch($conditionInfo['SQLOperator']) {
 						case 'e': $sqlOperator = "=";
 							break;
@@ -1349,7 +1354,7 @@ class QueryGenerator {
 		if(is_string($value)) {
 			$value = trim($value);
 		} elseif(is_array($value)) {
-			$value = array_map(trim, $value);
+			$value = array_map('trim', $value);
 		}
 		return array('name'=>$fieldname,'value'=>$value,'operator'=>$operator);
 	}
@@ -1414,7 +1419,7 @@ class QueryGenerator {
 				}
 			}
 			$this->endGroup();
-		} elseif($input['type']=='dbrd') {
+		} elseif(isset($input['type']) and $input['type']=='dbrd') {
 			if($this->conditionInstanceCount > 0) {
 				$this->startGroup(self::$AND);
 			} else {
@@ -1458,8 +1463,7 @@ class QueryGenerator {
 			if(isset($input['search_text']) && $input['search_text']!="") {
 				// search other characters like "|, ?, ?" by jagi
 				$value = $input['search_text'];
-				$stringConvert = function_exists(iconv) ? @iconv("UTF-8",$default_charset,$value)
-						: $value;
+				$stringConvert = function_exists('iconv') ? @iconv('UTF-8',$default_charset,$value) : $value;
 				if(!$this->isStringType($type)) {
 					$value=trim($stringConvert);
 				}
@@ -1481,6 +1485,8 @@ class QueryGenerator {
 						$value = $currencyField->getDBInsertedValue();
 					}
 				}
+			} else {
+				$value = '';
 			}
 			if(!empty($input['operator'])) {
 				$operator = $input['operator'];

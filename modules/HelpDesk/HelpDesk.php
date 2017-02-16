@@ -132,9 +132,6 @@ class HelpDesk extends CRMEntity {
 		//Inserting into Ticket Comment Table
 		$this->insertIntoTicketCommentTable();
 
-		//Inserting into vtiger_attachments
-		$this->insertIntoAttachment($this->id,$module);
-
 		//service contract update
 		$return_action = $_REQUEST['return_action'];
 		$for_module = $_REQUEST['return_module'];
@@ -178,30 +175,6 @@ class HelpDesk extends CRMEntity {
 			$adb->pquery("update vtiger_troubletickets set commentadded='1' where ticketid=?",array($this->id));
 			$this->column_fields['commentadded'] = '1';
 		}
-	}
-
-	/**
-	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
-	 * @param int $id - entity id to which the files to be uploaded
-	 * @param string $module - the current module name
-	*/
-	function insertIntoAttachment($id,$module, $direct_import=false)
-	{
-		global $log, $adb;
-		$log->debug("Entering into insertIntoAttachment($id,$module) method.");
-
-		$file_saved = false;
-
-		foreach($_FILES as $fileindex => $files)
-		{
-			if($files['name'] != '' && $files['size'] > 0)
-			{
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex.'_hidden']);
-				$file_saved = $this->uploadAndSaveFile($id,$module,$files);
-			}
-		}
-
-		$log->debug("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/** Function to form the query to get the list of activities
@@ -479,10 +452,9 @@ class HelpDesk extends CRMEntity {
 		$sql = getPermittedFieldsQuery("HelpDesk", "detail_view");
 		$fields_list = getFieldsListFromQuery($sql);
 		//Ticket changes--5198
-		$fields_list = 	str_replace(",vtiger_ticketcomments.comments as 'Add Comment'",' ',$fields_list);
+		$fields_list = str_replace(",vtiger_ticketcomments.comments as 'Add Comment'",' ',$fields_list);
 
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-					'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
+		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=> 'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT $fields_list,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
 			FROM vtiger_crmentity
 			INNER JOIN vtiger_troubletickets ON vtiger_troubletickets.ticketid =vtiger_crmentity.crmid
@@ -492,6 +464,7 @@ class HelpDesk extends CRMEntity {
 			LEFT JOIN vtiger_ticketcf ON vtiger_ticketcf.ticketid=vtiger_troubletickets.ticketid
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 			LEFT JOIN vtiger_users ON vtiger_users.id=vtiger_crmentity.smownerid and vtiger_users.status='Active'
+			LEFT JOIN vtiger_users as vtigerCreatedBy ON vtiger_crmentity.smcreatorid = vtigerCreatedBy.id and vtigerCreatedBy.status='Active'
 			LEFT JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.crmid =vtiger_troubletickets.ticketid
 			LEFT JOIN vtiger_attachments ON vtiger_attachments.attachmentsid=vtiger_seattachmentsrel.attachmentsid
 			LEFT JOIN vtiger_products ON vtiger_products.productid=vtiger_troubletickets.product_id";
@@ -746,15 +719,15 @@ class HelpDesk extends CRMEntity {
 		$sql = "SELECT * FROM vtiger_ticketcf WHERE ticketid = ?";
 		$result = $adb->pquery($sql, array($entityId));
 		$cffields = $adb->getFieldsArray($result);
+		$sql = 'SELECT fieldlabel FROM vtiger_field WHERE columnname = ? and vtiger_field.presence in (0,2)';
 		foreach ($cffields as $cfOneField) {
 			if ($cfOneField != 'ticketid') {
 				$cfData = $adb->query_result($result, 0, $cfOneField);
-				$sql = "SELECT fieldlabel FROM vtiger_field WHERE columnname = ? and vtiger_field.presence in (0,2)";
-				$cfLabel = $adb->query_result($adb->pquery($sql, array($cfOneField)), 0, 'fieldlabel');
+				$rs = $adb->pquery($sql, array($cfOneField));
+				$cfLabel = $adb->query_result($rs, 0, 'fieldlabel');
 				$desc .= '<br><br>' . $cfLabel . ' : <br>' . $cfData;
 			}
 		}
-		// end of contribution
 		$desc .= '<br><br><br>';
 		$desc .= '<br>' . getTranslatedString("LBL_REGARDS", $moduleName) . ',<br>' . getTranslatedString("LBL_TEAM", $moduleName) . '.<br>';
 		return $desc;

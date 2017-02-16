@@ -54,6 +54,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_Allow_Exports',
 				'Application_ListView_Max_Text_Length',
 				'Application_ListView_PageSize',
+				'Application_ListView_Default_Sort_Order',
 				'Application_Upload_MaxSize',
 				'Application_Single_Pane_View',
 				'Application_Minimum_Cron_Frequency',
@@ -64,6 +65,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_UI_URL',
 				'Application_Group_Selection_Permitted',
 				'Application_B2B',
+				'Application_FirstTimeLogin_Template',
 
 				'Calendar_Modules_Panel_Visible',
 				'Calendar_Default_Reminder_Minutes',

@@ -77,10 +77,6 @@ $smarty->assign('HEADERSCRIPTS', $COMMONHDRLINKS['HEADERSCRIPT']);
 $smarty->assign('HEADERSCRIPTSUP', $COMMONHDRLINKSUP['HEADERSCRIPTUP']);
 $smarty->assign('HEADERCSS', $COMMONHDRLINKS['HEADERCSS']);
 
-// Pass on the version information
-global $vtiger_current_version;
-$smarty->assign('VERSION', $vtiger_current_version);
-
 // Pass on the authenticated user language
 global $current_language;
 $smarty->assign('LANGUAGE', $current_language);

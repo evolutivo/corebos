@@ -296,7 +296,7 @@ function getAllDefaultSharingAction()
 function createRole($roleName,$parentRoleId,$roleProfileArray)
 {
 	global $log,$adb;
-	$log->debug("Entering createRole(".$roleName.",".$parentRoleId.",".$roleProfileArray.") method ...");
+	$log->debug('Entering createRole('.$roleName.','.$parentRoleId.','.print_r($roleProfileArray,true).') method ...');
 	$parentRoleDetails=getRoleInformation($parentRoleId);
 	$parentRoleInfo=$parentRoleDetails[$parentRoleId];
 	$roleid_no=$adb->getUniqueId("vtiger_role");
@@ -332,7 +332,7 @@ function createRole($roleName,$parentRoleId,$roleProfileArray)
 function updateRole($roleId,$roleName,$roleProfileArray)
 {
 	global $log,$adb;
-	$log->debug("Entering updateRole(".$roleId.",".$roleName.",".$roleProfileArray.") method ...");
+	$log->debug('Entering updateRole('.$roleId.','.$roleName.','.print_r($roleProfileArray,true).') method ...');
 
 	// Invalidate any cached information
 	VTCacheUtils::clearRoleSubordinates($roleId);
@@ -1350,7 +1350,7 @@ function getProfileTabsPermission($profileid)
 	$num_rows = $adb->num_rows($result);
 	for($i=0; $i<$num_rows; $i++) {
 		$tab_id = $adb->query_result($result,$i,'tabid');
-		$per_id = $adb->query_result($result,$i,'permissions');
+		$per_id = (integer)$adb->query_result($result,$i,'permissions');
 		$copy[$tab_id] = $per_id;
 	}
 	// TODO This is temporarily required, till we provide a hook/entry point for Emails module.
@@ -1413,7 +1413,7 @@ function getProfileAllActionPermission($profileid)
 	$utilArr=getTabsUtilityActionPermission($profileid);
 	foreach($utilArr as $tabid=>$act_arr)
 	{
-		$act_tab_arr=$actionArr[$tabid];
+		$act_tab_arr = isset($actionArr[$tabid]) ? $actionArr[$tabid] : array();
 		foreach($act_arr as $utilid=>$util_perr)
 		{
 			$act_tab_arr[$utilid]=$util_perr;
@@ -3158,12 +3158,29 @@ function getSubordinateRoleAndUsers($roleId, $users = true)
 
 function getCurrentUserProfileList()
 {
-	global $log,$current_user;
+	global $adb,$log,$current_user;
 	$log->debug('Entering getCurrentUserProfileList() method ...');
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	$profList = array();
+	$profListTypeNoMobile = array();
 	foreach ($current_user_profiles as $profid) {
-		array_push($profList, $profid);
+		$profilename = '';
+		$resprofile = $adb->pquery("SELECT profilename FROM vtiger_profile WHERE profileid = ?",array($profid));
+		$profilename = $adb->query_result($resprofile, 0, 'profilename');
+		if(strpos($profilename, 'Mobile::') !== false){
+			if(defined('COREBOS_INSIDE_MOBILE')){
+				array_push($profList, $profid);
+			}
+		}else{
+			array_push($profListTypeNoMobile, $profid);
+			if(!defined('COREBOS_INSIDE_MOBILE')){
+				array_push($profList, $profid);
+			}
+		}
+	}
+	//Check if profile list is empty, because not exist any profile with name Mobile::, to asign the normal profiles
+	if(defined('COREBOS_INSIDE_MOBILE') && empty($profList)){
+		$profList = $profListTypeNoMobile;
 	}
 	$log->debug('Exiting getCurrentUserProfileList method ...');
 	return $profList;
@@ -3631,6 +3648,7 @@ function get_current_user_access_groups($module)
 	$sharing_write_group_list=getWriteSharingGroupsList($module);
 	$query ="select groupname,groupid from vtiger_groups";
 	$params = array();
+	$result = null;
 	if(count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0)
 	{
 		$query .= " where (groupid in (". generateQuestionMarks($current_user_group_list) .") or groupid in (". generateQuestionMarks($sharing_write_group_list) ."))";
@@ -3802,18 +3820,29 @@ function getModuleAccessArray() {
  */
 function getPermittedModuleNames()
 {
-	global $log;
+	global $log,$adb;
 	$log->debug("Entering getPermittedModuleNames() method ...");
 	global $current_user;
 	$permittedModules=Array();
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	include('tabdata.php');
 
+	if(defined('COREBOS_INSIDE_MOBILE')){
+		foreach ($current_user_profiles as $profid) {
+			$profilename = '';
+			$resprofile = $adb->pquery("SELECT profilename FROM vtiger_profile WHERE profileid = ?",array($profid));
+			$profilename = $adb->query_result($resprofile, 0, 'profilename');
+			if(strpos($profilename, 'Mobile::') !== false){
+				$profileTabsPermission=getProfileTabsPermission($profid);
+			}
+		}
+	}
+
 	if($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1)
 	{
 		foreach($tab_seq_array as $tabid=>$seq_value)
 		{
-			if($seq_value === 0 && $profileTabsPermission[$tabid] === 0)
+			if($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0)
 			{
 				$permittedModules[]=getTabModuleName($tabid);
 			}
@@ -3843,10 +3872,21 @@ function getPermittedModuleIdList() {
 	require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	include('tabdata.php');
 
+	if(defined('COREBOS_INSIDE_MOBILE')){
+		foreach ($current_user_profiles as $profid) {
+			$profilename = '';
+			$resprofile = $adb->pquery("SELECT profilename FROM vtiger_profile WHERE profileid = ?",array($profid));
+			$profilename = $adb->query_result($resprofile, 0, 'profilename');
+			if(strpos($profilename, 'Mobile::') !== false){
+				$profileTabsPermission=getProfileTabsPermission($profid);
+			}
+		}
+	}
+
 	if($is_admin == false && $profileGlobalPermission[1] == 1 &&
 			$profileGlobalPermission[2] == 1) {
 		foreach($tab_seq_array as $tabid=>$seq_value) {
-			if($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
+			if($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
 				$permittedModules[]=($tabid);
 			}
 		}

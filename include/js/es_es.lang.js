@@ -379,6 +379,8 @@ var alert_arr = {
 	'LBL_MORE_THAN_HOURS_LATER' : 'más de x horas después',
 	'LBL_EXISTS' : 'existe',
 	'MAXIMUM_OF_TWO_MODULES_PERMITTED' : 'Solo se permite relacionar con un máximo de dos módulos.',
+	'ONLY_ONE_MODULE_PERMITTED_FOR_REPORT' : 'Solo se permite relacionar con un módulo para este tipo de informe',
+	'MUST_SELECT_ONE_MODULE_FOR_REPORT' : 'Debes seleccionar un módulo relacionado para este tipo de informe',
 	'LBL_NEW_CONDITION' : 'Nueva condición',
 	'WF_UPDATE_MAP_ERROR' : '**ERROR**: Esta acción utiliza un campo que no está disponible: ',
 	'WF_UPDATE_MAP_ERROR_INFO' : 'Se cargará la acción con información INCORRECTA para que puedas arreglarla. NO ES CORRECTA!',
@@ -394,5 +396,7 @@ var alert_arr = {
 	'ERR_INVALID_YEAR'  :  'Por favor, introduzca un año de 4 dígitos.',
 	'ERR_INVALID_DATE'  :  'Por favor, introduzca una fecha válida',
 	'ERR_INVALID_HOUR'  :  'Por favor, introduzca una hora válida',
-	'ERR_INVALID_TIME'  :  'Por favor, introduzca un tiempo válido'
+	'ERR_INVALID_TIME'  :  'Por favor, introduzca un tiempo válido',
+	'ERR_EMAIL_WITH_NO_SUBJECT' : 'No has introducido un asunto para este email. Puedes añadir uno ahora.',
+	'EMAIL_SIN_ASUNTO' : '(sin-asunto)'
 };

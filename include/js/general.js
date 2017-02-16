@@ -4803,9 +4803,9 @@ function duplicate_record(module,record)
 
 function getITSMiniCal(url){
 	if(url == undefined)
-		url = 'module=Calendar4You&action=ActivityAjax&type=minical&ajax=true';
+		url = 'module=Calendar4You&action=ActivityAjax&file=ActivityAjax&type=minical&ajax=true';
 	else
-		url = 'module=Calendar4You&action=ActivityAjax&'+url+'&type=minical&ajax=true';
+		url = 'module=Calendar4You&action=ActivityAjax&file=ActivityAjax&'+url+'&type=minical&ajax=true';
 	jQuery.ajax({
 			method:"POST",
 			url:'index.php?'+ url
@@ -4834,7 +4834,129 @@ function changeCalendarDayDate(year,month,date){
 
 function changeCalendarDate(year,month,date){
 	if (jQuery('#calendar_div').fullCalendar == undefined) return false;
-        var date1= year+'-'+month+'-'+date;
+	var date1= year+'-'+month+'-'+date;
 	jQuery('#calendar_div').fullCalendar( 'gotoDate',date1);
 }
 
+function fetch_clock() {
+	jQuery.ajax({
+		method:"POST",
+		url:'index.php?module=Utilities&action=UtilitiesAjax&file=Clock'
+	}).done(function(response) {
+		jQuery("#clock_cont").html(response);
+		execJS(document.getElementById('clock_cont'));
+	});
+}
+
+function fetch_calc() {
+	jQuery.ajax({
+		method:"POST",
+		url:'index.php?module=Utilities&action=UtilitiesAjax&file=Calculator'
+	}).done(function(response) {
+		jQuery("#calculator_cont").html(response);
+		execJS(document.getElementById('calculator_cont'));
+	});
+}
+
+function UnifiedSearch_SelectModuleForm(obj) {
+	if(jQuery('#UnifiedSearch_moduleform').length) {
+		// If we have loaded the form already.
+		UnifiedSearch_SelectModuleFormCallback(obj);
+	} else {
+		jQuery('#status').show();
+		jQuery.ajax({
+			method:"POST",
+			url:'index.php?module=Home&action=HomeAjax&file=UnifiedSearchModules&ajax=true'
+		}).done(function(response) {
+			jQuery('#status').hide();
+			jQuery('#UnifiedSearch_moduleformwrapper').html(response);
+			UnifiedSearch_SelectModuleFormCallback(obj);
+		});
+	}
+}
+
+function UnifiedSearch_SelectModuleFormCallback(obj) {
+	fnvshobjsearch(obj, 'UnifiedSearch_moduleformwrapper');
+}
+
+function UnifiedSearch_SelectModuleToggle(flag) {
+	jQuery('#UnifiedSearch_moduleform input[type=checkbox]').each(function() {
+		this.checked = flag;
+	});
+}
+
+function UnifiedSearch_SelectModuleCancel() {
+	jQuery('#UnifiedSearch_moduleformwrapper').hide();
+}
+
+function UnifiedSearch_SelectModuleSave() {
+	var UnifiedSearch_form = document.forms.UnifiedSearch;
+	UnifiedSearch_form.search_onlyin.value = jQuery('#UnifiedSearch_moduleform').serialize().replace(/search_onlyin=/g, '').replace(/&/g,',');
+	jQuery.ajax({
+		method:"POST",
+		url:'index.php?module=Home&action=HomeAjax&file=UnifiedSearchModulesSave&search_onlyin=' + encodeURIComponent(UnifiedSearch_form.search_onlyin.value)
+	}).done(function(response) {
+		// continue
+	});
+	UnifiedSearch_SelectModuleCancel();
+}
+
+/**
+ * image pasting into canvas
+ * @param {string} canvas_id - canvas id
+ * @param {boolean} autoresize - if canvas will be resized
+ */
+function CLIPBOARD_CLASS(canvas_id, autoresize) {
+	var _self = this;
+	var canvas = document.getElementById(canvas_id);
+	var ctx = document.getElementById(canvas_id).getContext("2d");
+	var startImage = new Image();
+	startImage.onload = function () {
+		ctx.drawImage(startImage, 0, 0, 60, 60, 12, 12, 30, 30);
+	}
+	startImage.src = 'include/LD/assets/icons/utility/paste_60.png';
+	//handlers
+	document.addEventListener('paste', function (e) { _self.paste_auto(e); }, false);
+
+	//on paste
+	this.paste_auto = function (e) {
+		if (e.clipboardData && document.activeElement.id==canvas_id) {
+			var items = e.clipboardData.items;
+			if (!items) return;
+
+			//access data directly
+			for (var i = 0; i < items.length; i++) {
+				if (items[i].type.indexOf("image") !== -1) {
+					//image
+					var blob = items[i].getAsFile();
+					var URLObj = window.URL || window.webkitURL;
+					var source = URLObj.createObjectURL(blob);
+					this.paste_createImage(source);
+					e.preventDefault();
+					break;
+				}
+			}
+		}
+	};
+	//draw pasted image to canvas
+	this.paste_createImage = function (source) {
+		var pastedImage = new Image();
+		pastedImage.onload = function () {
+			if(autoresize == true){
+				//resize
+				canvas.width = pastedImage.width;
+				canvas.height = pastedImage.height;
+			}
+			else{
+				//clear canvas
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			}
+			ctx.drawImage(pastedImage, 0, 0);
+			var cnv_img = document.getElementById(canvas_id+'_image');
+			var cnv_img_set = document.getElementById(canvas_id+'_image_set');
+			if (cnv_img) cnv_img.value = canvas.toDataURL('image/png');
+			if (cnv_img_set) cnv_img_set.value = '1';
+		};
+		pastedImage.src = source;
+	};
+}

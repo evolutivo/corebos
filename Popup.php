@@ -24,15 +24,14 @@ $url = '';
 $popuptype = '';
 $popuptype = isset($_REQUEST['popuptype']) ? vtlib_purify($_REQUEST['popuptype']) : '';
 
-$theme_path="themes/".$theme."/";
-$image_path=$theme_path."images/";
 // Pass on the authenticated user language
 global $current_language;
 $smarty->assign('LANGUAGE', $current_language);
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("THEME", $theme);
-$smarty->assign("THEME_PATH",$theme_path);
+$smarty->assign('THEME_PATH', "themes/$theme/");
+$smarty->assign('IMAGE_PATH', "themes/$theme/images/");
 $smarty->assign("MODULE",$currentModule);
 $smarty->assign('coreBOS_uiapp_name', GlobalVariable::getVariable('Application_UI_Name',$coreBOS_app_name));
 // Gather the custom link information to display
@@ -80,6 +79,9 @@ if(isset($_REQUEST['popupmode']) && isset($_REQUEST['callback'])) {
 	$url = "&popupmode=".vtlib_purify($_REQUEST['popupmode'])."&callback=".vtlib_purify($_REQUEST['callback']);
 	$smarty->assign("POPUPMODE", vtlib_purify($_REQUEST['popupmode']));
 	$smarty->assign("CALLBACK", vtlib_purify($_REQUEST['callback']));
+} else {
+	$smarty->assign('POPUPMODE', '');
+	$smarty->assign('CALLBACK', '');
 }
 
 $focus = CRMEntity::getInstance($currentModule);
@@ -162,7 +164,7 @@ switch($currentModule)
 			$smarty->assign("RETURN_MODULE",vtlib_purify($_REQUEST['return_module']));
 		if (isset($_REQUEST['select'])) $smarty->assign("SELECT",'enable');
 		$alphabetical = AlphabeticalSearch($currentModule,'Popup','productname','true','basic',$popuptype,"","",$url);
-		$smarty->assign('Product_Default_Units', GlobalVariable::getVariable('Product_Default_Units', ''));
+		$smarty->assign('Product_Default_Units', GlobalVariable::getVariable('Product_Default_Units', '1'));
 		break;
 	case 'Vendors':
 		$smarty->assign("SINGLE_MOD",'Vendor');
@@ -234,7 +236,7 @@ switch($currentModule)
 			$smarty->assign("CURR_ROW", $curr_row);
 			$url_string .="&curr_row=".vtlib_purify($_REQUEST['curr_row']);
 		}
-		$smarty->assign('Service_Default_Units', GlobalVariable::getVariable('Service_Default_Units', ''));
+		$smarty->assign('Service_Default_Units', GlobalVariable::getVariable('Service_Default_Units', '1'));
 	// vtlib customization: Generic hook for Popup selection
 	default:
 		$smarty->assign("SINGLE_MOD", $currentModule);
@@ -303,16 +305,16 @@ else
 		$smarty->assign('recid_var_name', '');
 		$smarty->assign('recid_var_value', 0);
 	}
-	if($currentModule == 'Products' && !$_REQUEST['record_id'] && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po')){
+	if($currentModule == 'Products' && empty($_REQUEST['record_id']) && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po')){
 		$showSubproducts = GlobalVariable::getVariable('Product_Show_Subproducts_Popup', 'no');
 		if($showSubproducts == 'yes'){
 			$where_relquery .=" and vtiger_products.discontinued <> 0";
 		}else{
 			$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_products.productid NOT IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products'))";
 		}
-	}elseif($currentModule == 'Products' && $_REQUEST['record_id'] && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po'))
+	}elseif($currentModule == 'Products' && !empty($_REQUEST['record_id']) && ($popuptype == 'inventory_prod' || $popuptype == 'inventory_prod_po'))
 		$where_relquery .=" and vtiger_products.discontinued <> 0 AND (vtiger_products.productid IN (SELECT crmid FROM vtiger_seproductsrel WHERE setype='Products' AND productid=".$adb->sql_escape_string($_REQUEST['record_id'])."))";
-	elseif($currentModule == 'Products' && $_REQUEST['return_module'] != 'Products')
+	elseif($currentModule == 'Products' && (empty($_REQUEST['return_module']) || $_REQUEST['return_module'] != 'Products'))
 		$where_relquery .=" and vtiger_products.discontinued <> 0";
 
 	if(isset($_REQUEST['return_module']) && $_REQUEST['return_module'] == 'Products' && $currentModule == 'Products' && $_REQUEST['recordid']){
@@ -394,7 +396,7 @@ if(isset($order_by) && $order_by != '')
 // vtlib customization: To override module specific popup query for a given field
 $override_query = false;
 if(method_exists($focus, 'getQueryByModuleField')) {
-	$srcmodule = isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : vtlib_purify($_REQUEST['return_module']);
+	$srcmodule = isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : (isset($_REQUEST['return_module']) ? vtlib_purify($_REQUEST['return_module']) : '');
 	$forrecord = isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : (isset($_REQUEST['recordid']) ? vtlib_purify($_REQUEST['recordid']) : 0);
 	$forfield = isset($_REQUEST['forfield']) ? vtlib_purify($_REQUEST['forfield']) : '';
 	$override_query = $focus->getQueryByModuleField($srcmodule, $forfield, $forrecord, $query);
@@ -485,6 +487,12 @@ $validationArray = split_validationdataArray($validationData);
 $smarty->assign("VALIDATION_DATA_FIELDNAME",$validationArray['fieldname']);
 $smarty->assign("VALIDATION_DATA_FIELDDATATYPE",$validationArray['datatype']);
 $smarty->assign("VALIDATION_DATA_FIELDLABEL",$validationArray['fieldlabel']);
+
+if(isset($_REQUEST['cbcustompopupinfo'])){
+	$cbcustompopupinfo = explode(';', $_REQUEST['cbcustompopupinfo']);
+	$smarty->assign("CBCUSTOMPOPUPINFO_ARRAY",$cbcustompopupinfo);
+	$smarty->assign("CBCUSTOMPOPUPINFO",$_REQUEST['cbcustompopupinfo']);
+}
 
 if(isset($_REQUEST['ajax']) && $_REQUEST['ajax'] != '')
 	$smarty->display("PopupContents.tpl");
