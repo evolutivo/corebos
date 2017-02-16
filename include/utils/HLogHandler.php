@@ -48,14 +48,13 @@ class HistoryLogHandler extends VTEventHandler {
     {
       $log->debug("Enter Handler for beforesave event...");
       if(!empty($Id)) {
-        $listquery = getListQuery($moduleName,"and ".$tableid."=".$Id,1)  ;
-     
-        $query=$adb->query($listquery);
+      $listquery = getListQuery($moduleName,"and ".$tableid."=?",1);   
+      $query=$adb->pquery($listquery,array($Id));
         if($adb->num_rows($query) > 0) {
           for  ($i=0;$i<count($fields);$i++)
           {
             $entityData->old[$i]=$adb->query_result($query,0,$fields[$i]);
-               $log->debug('unepotani4 '.$entityData->old[$i].' '.$fields[$i]);
+            $log->debug('old fields '.$entityData->old[$i].' '.$fields[$i]);
           }
         }
       }
@@ -97,6 +96,7 @@ class HistoryLogHandler extends VTEventHandler {
      $act = "";
      $act1='';
      $cr=false;
+     $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
      for ($i=0;$i<count($fields);$i++)
       {  if($news[$i]!=$entityData->old[$i]) {         
       $act2='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
@@ -125,7 +125,6 @@ class HistoryLogHandler extends VTEventHandler {
     $fldlabel1=explode(",", $adb->query_result($fl,0,0));
     if(in_array('normalized',$type)) {
     $endpointUrl2 = "http://$ip:9200/$indextype/norm";
-    $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
     $eid=$entityData->getId();
     $fld=array();
     $fld['roles']=$roleid;
@@ -159,13 +158,13 @@ class HistoryLogHandler extends VTEventHandler {
     $getid=$entityData->getId();
     $endpointUrl12 = "http://$ip:9200/$indextype/denorm/_search?pretty";
     $pk=$this->modulesRegistered[$moduleName]['primarykey'];
-    $fields1 =array('query'=>array("term"=>array("$pk"=>"$getid")));
+    $fields11 =array('query'=>array("term"=>array("$pk"=>"$getid")));
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl12);
     curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($channel1, CURLOPT_POST, true);
     //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+    curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields11));
     curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
     curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
@@ -176,7 +175,6 @@ class HistoryLogHandler extends VTEventHandler {
     $ij=$response1->hits->hits[0]->_id;
     if($ij!='' && $ij!=null && $response1->hits->total!=0 ){
     $endpointUrl2 = "http://$ip:9200/$indextype/denorm/$ij";
-    $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
     $eid=$entityData->getId();
     $fld=array();
     $fld['roles']=$roleid;

@@ -1,5 +1,5 @@
 <?php
-class addFieldsToBA extends cbupdaterWorker {
+class addFieldsToBAconvertlink extends cbupdaterWorker {
 	function applyChange() {
 		global $adb;
 		if ($this->hasError()) $this->sendError();

@@ -2836,15 +2836,15 @@ class CRMEntity {
 		$moduleName = getTabModuleName($tabid);
                 $log->debug("Entering into get_log_historydenorm($entityid,$tabid) method ...");
                 include_once('modules/LoggingConf/LoggingUtils.php');
-                $queryel=getqueryelastic($tabid);
                 $indextype=getEntitylogindextype($tabid);
-                $mainfld=explode(".",$queryel[1]);
+                $ef=$adb->query("select entityidfield from vtiger_entityname where tabid=$tabid");
+                $mainfld=$adb->query_result($ef,0,0);
                 $header=Array();
                 $header[0] ="".getTranslatedString('LBL_ACTION');
                 $entries=Array();
                 $ip=GlobalVariable::getVariable('ip_elastic_server', '');
                 $endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty&size=100"; 
-                $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>$entityid)));
+                $fields1 =array('query'=>array("term"=>array("$mainfld"=>$entityid)));
                 $channel1 = curl_init();
                 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
                 curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
@@ -2872,9 +2872,9 @@ class CRMEntity {
 		$moduleName = getTabModuleName($tabid);
                 $log->debug("Entering into get_log_historynorm($entityid,$tabid) method ...");
                 include_once('modules/LoggingConf/LoggingUtils.php');
-                $queryel=getqueryelastic($tabid);
                 $indextype=getEntitylogindextype($tabid);
-                $mainfld=explode(".",$queryel[1]);
+                $ef=$adb->query("select entityidfield from vtiger_entityname where tabid=$tabid");
+                $mainfld=$adb->query_result($ef,0,0);
                 $header=Array();
                 $header[0] ="".getTranslatedString('LBL_ACTION');
                 $header[1] ="".getTranslatedString('LBL_DATE');
@@ -2883,7 +2883,7 @@ class CRMEntity {
                 $entries=Array();
                 $ip=GlobalVariable::getVariable('ip_elastic_server', '');
                 $endpointUrl = "http://$ip:9200/$indextype/norm/_search?pretty&size=100"; 
-                $fields1 =array('query'=>array("term"=>array("$mainfld[1]$moduleName"=>$entityid)));
+                $fields1 =array('query'=>array("term"=>array("$mainfld"=>$entityid)),'sort'=>array("modifiedtime$moduleName"=>array("order"=>"desc")));
                 $channel1 = curl_init();
                 curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
                 curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
@@ -2929,7 +2929,7 @@ class CRMEntity {
                      else
                      $newvl=$newvl1;
                }
-               if (in_array($uitype,array(53)))
+               if (in_array($uitype,array(53)) || in_array($uitype,array(52)))
                {   if($oldvl!='')                    
                     $oldvl1=  getUserName($oldvl);
                     if($oldvl1=='')
@@ -2938,8 +2938,8 @@ class CRMEntity {
                     $newvl1=  getUserName($newvl);
                     if($newvl1=='')
                     $newvl1=  getGroupName($newvl);
-                    $oldvl=$oldvl1[0];
-                    $newvl=$newvl1[0];
+                    $oldvl=$oldvl1;
+                    $newvl=$newvl1;
                }
                 $fieldlabel = getTranslatedString($adb->query_result($res, 0, 0));
                 $lines[] = $moduleName ." changed value of '". $fieldlabel."' FROM ". $oldvl ."  TO  ". $newvl;

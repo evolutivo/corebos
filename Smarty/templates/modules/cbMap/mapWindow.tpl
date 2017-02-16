@@ -98,7 +98,7 @@ jQuery( document ).ready(function() {
             selectedList: 1
     }).multiselectfilter();
     //if({/literal}"{$mode}"{literal} == "create")
-    addNewConditionGroup('where_filter_div',{/literal}"{$mode}",{$nrFields},{$originID},{$targetID},"{$originFieldsArr}","{$targetFieldsArr}","{$seldelimiter}"{literal});
+    addNewConditionGroup('where_filter_div',{/literal}"{$mode}",{$nrFields},'{$originID}','{$targetID}',"{$originFieldsArr}","{$targetFieldsArr}","{$seldelimiter}"{literal});
 });
 {/literal}
  </script>

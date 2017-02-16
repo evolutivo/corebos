@@ -766,8 +766,8 @@
 <changeSet>
         <author>albana</author>
         <description>Read BusinessActions as Links</description>
-        <filename>build/changeSets/evolutivo/addFieldsToBusinessActions.php</filename>
-        <classname>addFieldsToBA</classname>
+        <filename>build/changeSets/evolutivo/addFieldsToBusinessActionsconvertlink.php</filename>
+        <classname>addFieldsToBAconvertlink</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
@@ -1428,5 +1428,54 @@
 	<filename>build/changeSets/2017/cleanoptimizedatabase_180.php</filename>
 	<classname>cleanoptimizedatabase_180</classname>
 	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add ProcessFlow module</description>
+	<filename>build/changeSets/evolutivo/addprocessflow.php</filename>
+	<classname>addprocessflow</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add ProcessTemplate module</description>
+	<filename>build/changeSets/evolutivo/addprocesstemplate.php</filename>
+	<classname>addprocesstemplate</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add Cases module</description>
+	<filename>build/changeSets/evolutivo/addcases.php</filename>
+	<classname>addcases</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add BPMDesigner module</description>
+	<filename>build/changeSets/evolutivo/addbpmdesigner.php</filename>
+	<classname>addbpmdesigner</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+        <author>loridacito</author>
+        <description>new module PALaunch</description>
+        <filename>build/changeSets/evolutivo/createpalaunch.php</filename>
+        <classname>createpalaunch</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+        <author>loridacito</author>
+        <description>new module Signature</description>
+        <filename>build/changeSets/evolutivo/createcbSignature.php</filename>
+        <classname>createcbSignature</classname>
+        <systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+        <author>teozkoroveshi</author>
+        <description>new module cbValidations</description>
+        <filename>build/changeSets/evolutivo/createcbValidations.php</filename>
+        <classname>createcbValidations</classname>
+        <systemupdate>true</systemupdate>
 </changeSet>
 </updatesChangeLog>

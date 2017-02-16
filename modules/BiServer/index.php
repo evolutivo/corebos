@@ -57,6 +57,7 @@ $mapquery="SELECT mapname,cbmapid from vtiger_cbmap join vtiger_crmentity
           on crmid = cbmapid where deleted =0 and maptype = ? and map_logging=?";
 $resultmaps = $adb->pquery($mapquery,array("SQL",1));
 $num_rows =$adb->num_rows($resultmaps);
+$resLoggingMap='<option value="None">None</option>';
 if($num_rows!=0){
 for($i=0;$i<$num_rows;$i++)
 {

@@ -7155,6 +7155,7 @@ th.slds-is-sortable:hover .slds-button {
 
 .slds-grid {
   display: -ms-flexbox;
+  margin-bottom : 0px;
   display: flex; }
 
 .slds-grid--frame {

@@ -46,7 +46,7 @@
   KEY `postalcode` (`postalcode`),
   KEY `city` (`city`),
   KEY `state` (`state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;]]></sql>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;]]></sql>
 </table>
 <table>
 <name>vtiger_evvtmapdefaults</name>
