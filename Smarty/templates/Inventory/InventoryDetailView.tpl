@@ -144,7 +144,7 @@ function DeleteTag(id,recordid)
 				<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
 				   <tr>
 					<td>
-						<table border=0 cellspacing=0 cellpadding=3 width=100% class="small detailview_utils_table_top">
+						<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
 						   <tr>
 								<td class="dvtTabCache" id="detailview_utils_firstfiller" style="width:10px" nowrap>&nbsp;</td>
 								
@@ -163,6 +163,7 @@ function DeleteTag(id,recordid)
 										</div>
 									</td>
 								{/if}
+                                                                {include file='RelatedListNg.tpl' SOURCE='DV'}
 								<td class="dvtTabCache" id="detailview_utils_thirdfiller" align="right" style="width:100%">
 									{if $EDIT_PERMISSION eq 'yes'}
 									<input title="{$APP.LBL_EDIT_BUTTON_TITLE}" accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" class="crmbutton small edit" onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" type="button" name="Edit" value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">&nbsp;
