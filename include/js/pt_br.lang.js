@@ -380,6 +380,8 @@ var alert_arr = {
 	'LBL_MORE_THAN_HOURS_LATER' : 'more than hours later',
 	'LBL_EXISTS' : 'exists',
 	'MAXIMUM_OF_TWO_MODULES_PERMITTED' : 'A maximum of two modules is permitted.',
+	'ONLY_ONE_MODULE_PERMITTED_FOR_REPORT' : 'You can select only one related module for this type of report',
+	'MUST_SELECT_ONE_MODULE_FOR_REPORT' : 'You must select one related module for this type of report',
 	'LBL_NEW_CONDITION' : 'Nova Condição',
 	'WF_UPDATE_MAP_ERROR' : '**ERROR**: This task uses a field that does not exist: ',
 	'WF_UPDATE_MAP_ERROR_INFO' : 'The task will load with INCORRECT settings to permit you to fix it. It is NOT CORRECT!!',
@@ -395,5 +397,7 @@ var alert_arr = {
 	'ERR_INVALID_YEAR' : 'Por favor entre com 4 dígitos válidos para ano.',
 	'ERR_INVALID_DATE' : 'Por favor entre com uma data válida.',
 	'ERR_INVALID_HOUR' : 'Por favor entre com uma hora válida.',
-	'ERR_INVALID_TIME' : 'Por favor entre com horário válido.'
+	'ERR_INVALID_TIME' : 'Por favor entre com horário válido.',
+	'ERR_EMAIL_WITH_NO_SUBJECT' : 'You did not specify a subject from this email. If you would like to provide one, please type it now',
+	'EMAIL_SIN_ASUNTO' : '(no-Subject)'
 };

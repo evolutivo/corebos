@@ -143,9 +143,7 @@ function return_name(&$row, $first_column, $last_column)
 
 /** Function to return language
   * @returns $languages -- languages:: Type string
-  *
 */
-
 function get_languages()
 {
 	global $log;
@@ -158,10 +156,7 @@ function get_languages()
 /** Function to return language
   * @param $key -- key:: Type string
   * @returns $languages -- languages:: Type string
-  *
 */
-
-//seems not used
 function get_language_display($key)
 {
 	global $log;
@@ -174,13 +169,12 @@ function get_language_display($key)
 /** Function returns the user array
  * @param $assigned_user_id -- assigned_user_id:: Type string
  * @returns $user_list -- user list:: Type array
- *
 */
-function get_assigned_user_name(&$assigned_user_id)
+function get_assigned_user_name($assigned_user_id)
 {
 	global $log;
 	$log->debug("Entering get_assigned_user_name(".$assigned_user_id.") method ...");
-	$user_list = &get_user_array(false,"");
+	$user_list = get_user_array(false,"");
 	if(isset($user_list[$assigned_user_id]))
 	{
 		$log->debug("Exiting get_assigned_user_name method ...");
@@ -197,10 +191,7 @@ function get_assigned_user_name(&$assigned_user_id)
   * @param $assigned_user -- user id:: Type string
   * @param $private -- sharing type:: Type string
   * @returns $user_array -- user array:: Type array
-  *
 */
-
-//used in module file
 function get_user_array($add_blank=true, $status="Active", $assigned_user="",$private="")
 {
 	global $log;
@@ -262,7 +253,7 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 			$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
 		}
 
-		$user_array = &$temp_result;
+		$user_array = $temp_result;
 	}
 
 	$log->debug("Exiting get_user_array method ...");
@@ -331,7 +322,7 @@ function get_group_array($add_blank=true, $status="Active", $assigned_user="",$p
 			$temp_result[$row['groupid']] = $row['groupname'];
 		}
 
-		$group_array = &$temp_result;
+		$group_array = $temp_result;
 	}
 
 	$log->debug("Exiting get_group_array method ...");
@@ -3002,6 +2993,7 @@ function getRecordValues($id_array,$module) {
 					$value_pair['disp_value']=$ownername;
 				} elseif($ui_type ==57) {
 					$contact_id= $field_values[$j][$fld_name];
+					$contactname = '';
 					if($contact_id != '') {
 						$displayValueArray = getEntityName('Contacts', $contact_id);
 						if (!empty($displayValueArray)) {
@@ -3301,7 +3293,7 @@ function getDuplicateRecordsArr($module)
 		coreBOS_Session::set('dup_nav_start'.$module, 1);
 	else if(isset($_REQUEST["start"]) && $_REQUEST["start"] != "" && $_SESSION['dup_nav_start'.$module] != $_REQUEST["start"])
 		coreBOS_Session::set('dup_nav_start'.$module, ListViewSession::getRequestStartPage());
-	$start = ($_SESSION['dup_nav_start'.$module] != "")?$_SESSION['dup_nav_start'.$module]:1;
+	$start = (!empty($_SESSION['dup_nav_start'.$module]) ? $_SESSION['dup_nav_start'.$module] : 1);
 	$navigation_array = getNavigationValues($start, $no_of_rows, $list_max_entries_per_page);
 	$start_rec = $navigation_array['start'];
 	$end_rec = $navigation_array['end_val'];
@@ -4474,8 +4466,12 @@ function getRecordInfoFromID($id){
 		$setype = $adb->query_result($result, 0, "setype");
 		$data = getEntityName($setype, $id);
 	}
-	$data = array_values($data);
-	$data = $data[0];
+	if (count($data)>0) {
+		$data = array_values($data);
+		$data = $data[0];
+	} else {
+		$data = '';
+	}
 	return $data;
 }
 

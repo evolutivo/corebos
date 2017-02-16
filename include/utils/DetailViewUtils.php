@@ -573,10 +573,12 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	}
 	elseif ($uitype == 28) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
-		$attachmentid = $adb->query_result($adb->pquery("select * from vtiger_seattachmentsrel where crmid = ?", array($col_fields['record_id'])), 0, 'attachmentsid');
+		$rs = $adb->pquery('select * from vtiger_seattachmentsrel where crmid = ?', array($col_fields['record_id']));
+		$attachmentid = $adb->query_result($rs, 0, 'attachmentsid');
 		if ($col_fields[$fieldname] == '' && $attachmentid != '') {
-			$attachquery = "select * from vtiger_attachments where attachmentsid=?";
-			$col_fields[$fieldname] = $adb->query_result($adb->pquery($attachquery, array($attachmentid)), 0, 'name');
+			$attachquery = 'select * from vtiger_attachments where attachmentsid=?';
+			$adb->pquery($attachquery, array($attachmentid));
+			$col_fields[$fieldname] = $adb->query_result($rs, 0, 'name');
 		}
 		$org_filename = $col_fields[$fieldname];
 		// For Backward Compatibility version < 5.0.4
@@ -1355,6 +1357,7 @@ function getDetailAssociatedProducts($module, $focus) {
 		$entitytype = $adb->query_result($result, $i - 1, 'entitytype');
 		$productname = $adb->query_result($result, $i - 1, 'productname');
 		$productname = '<a href="index.php?action=DetailView&record='.$productid.'&module='.$entitytype.'">'.$productname.'</a>';
+		$productname.= "<span type='vtlib_metainfo' vtrecordid='{$productid}' vtfieldname='".($entitytype=='Products' ? 'productname' : 'servicename')."' vtmodule='$entitytype' style='display:none;'></span>";
 		if ($subprodname_str != '')
 			$productname .= "<br/><span style='color:#C0C0C0;font-style:italic;'>" . $subprodname_str . "</span>";
 		$comment = $adb->query_result($result, $i - 1, 'comment');
@@ -1375,7 +1378,7 @@ function getDetailAssociatedProducts($module, $focus) {
 			$productDiscount = $total * $discount_percent / 100;
 			$totalAfterDiscount = $total - $productDiscount;
 			//if discount is percent then show the percentage
-			$discount_info_message = "$discount_percent % of ".
+			$discount_info_message = "$discount_percent % " . $app_strings['LBL_LIST_OF'] . ' '.
 										CurrencyField::convertToUserFormat($total, null, true)." = ".
 										CurrencyField::convertToUserFormat($productDiscount, null, true);
 		} elseif ($discount_amount != 'NULL' && $discount_amount != '') {
@@ -1432,7 +1435,7 @@ function getDetailAssociatedProducts($module, $focus) {
 		//For Product Name
 		$output .= '
 			<tr valign="top" class="detailview_inventory_row">
-				<td class="crmTableRow small lineOnTop detailview_inventory_namecell">
+				<td class="crmTableRow small lineOnTop detailview_inventory_namecell" onmouseover="vtlib_listview.trigger(\'cell.onmouseover\', this);" onmouseout="vtlib_listview.trigger(\'cell.onmouseout\', this);">
 					' . $productname . '&nbsp;' . $sc_image_tag . '
 					<br>' . $comment . '
 				</td>';
@@ -1522,7 +1525,7 @@ function getDetailAssociatedProducts($module, $focus) {
 	//if($focus->column_fields['hdnDiscountPercent'] != '') - previously (before changing to prepared statement) the selected option (either percent or amount) will have value and the other remains empty. So we can find the non selected item by empty check. But now with prepared statement, the non selected option stored as 0
 	if ($focus->column_fields['hdnDiscountPercent'] != '0') {
 		$finalDiscount = ($netTotal * $focus->column_fields['hdnDiscountPercent'] / 100);
-		$final_discount_info = $focus->column_fields['hdnDiscountPercent'] . " % of ".CurrencyField::convertToUserFormat($netTotal, null, true).
+		$final_discount_info = $focus->column_fields['hdnDiscountPercent'] . ' % ' . $app_strings['LBL_LIST_OF'] . ' '.CurrencyField::convertToUserFormat($netTotal, null, true).
 											" = ". CurrencyField::convertToUserFormat($finalDiscount, null, true);
 	} elseif ($focus->column_fields['hdnDiscountAmount'] != '0') {
 		$finalDiscount = $focus->column_fields['hdnDiscountAmount'];
@@ -1681,6 +1684,7 @@ function getRelatedLists($module, $focus,$restrictedRelations=null) {
 	// END
 	$result = $adb->pquery($sql1, array($cur_tab_id));
 	$num_row = $adb->num_rows($result);
+	$focus_list = array();
 	for ($i = 0; $i < $num_row; $i++) {
 		$rel_tab_id = $adb->query_result($result, $i, "related_tabid");
 		$function_name = $adb->query_result($result, $i, "name");
@@ -1758,8 +1762,7 @@ function isPresentRelatedLists($module, $activity_mode='') {
 			if (empty($relatedTabId)) {
 				$retval[$relatedId] = $relationLabel;
 			} else {
-				$permitted = $tab_seq_array[$relatedTabId];
-				if ($permitted === 0) {
+				if (isset($tab_seq_array[$relatedTabId]) and $tab_seq_array[$relatedTabId] === 0) {
 					if ($is_admin || $profileTabsPermission[$relatedTabId] === 0) {
 						$retval[$relatedId] = $relationLabel;
 					}
@@ -1916,7 +1919,7 @@ function VT_detailViewNavigation($smarty, $recordNavigationInfo, $currrentRecord
 				}
 				if ($index == count($recordIdList) - 1) {
 					$smarty->assign('nextrecordstart', $start + 1);
-					$smarty->assign('nextrecord', $recordNavigationInfo[$start + 1][0]);
+					$smarty->assign('nextrecord', isset($recordNavigationInfo[$start + 1]) ? $recordNavigationInfo[$start + 1][0] : 0);
 				} else {
 					$smarty->assign('nextrecordstart', $start);
 					$smarty->assign('nextrecord', $recordIdList[$index + 1]);

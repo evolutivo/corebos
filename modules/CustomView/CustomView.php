@@ -7,7 +7,6 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ****************************************************************************** */
-
 global $app_strings, $mod_strings, $theme;
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
@@ -349,8 +348,7 @@ class CustomView extends CRMEntity {
 			$fieldtype = explode("~", $fieldtype);
 			$fieldtypeofdata = $fieldtype[0];
 			$fieldlabel = $adb->query_result($result, $i, "fieldlabel");
-			$field = $moduleFieldList[$fieldname];
-			if (!empty($field) && $field->getFieldDataType() == 'reference') {
+			if (!empty($moduleFieldList[$fieldname]) && $moduleFieldList[$fieldname]->getFieldDataType() == 'reference') {
 				$fieldtypeofdata = 'V';
 			} else {
 				//Here we Changing the displaytype of the field. So that its criteria will be
@@ -856,10 +854,14 @@ class CustomView extends CRMEntity {
 			if ($stdfilterrow["startdate"] != "0000-00-00" && $stdfilterrow["startdate"] != "") {
 				$startDateTime = new DateTimeField($stdfilterrow["startdate"] . ' ' . date('H:i:s'));
 				$stdfilterlist["startdate"] = $startDateTime->getDisplayDate();
+			} else {
+				$stdfilterlist['startdate'] = '';
 			}
 			if ($stdfilterrow["enddate"] != "0000-00-00" && $stdfilterrow["enddate"] != "") {
 				$endDateTime = new DateTimeField($stdfilterrow["enddate"] . ' ' . date('H:i:s'));
 				$stdfilterlist["enddate"] = $endDateTime->getDisplayDate();
+			} else {
+				$stdfilterlist['enddate'] = '';
 			}
 		} else { //if it is not custom get the date according to the selected duration
 			$datefilter = $this->getDateforStdFilterBytype($stdfilterrow["stdfilter"]);
@@ -1265,9 +1267,9 @@ class CustomView extends CRMEntity {
 			$value = $temp_value; // Hot fix: removed unbalanced closing bracket ")";
 		} elseif ($fieldname == "inventorymanager") {
 			$value = $tablename . "." . $fieldname . $this->getAdvComparator($comparator, getUserId_Ol($value), $datatype);
-		} elseif ($change_table_field[$fieldname] != '') {//Added to handle special cases
+		} elseif (!empty($change_table_field[$fieldname])) { //Added to handle special cases
 			$value = $change_table_field[$fieldname] . $this->getAdvComparator($comparator, $value, $datatype);
-		} elseif ($change_table_field[$tablename . "." . $fieldname] != '') {//Added to handle special cases
+		} elseif (!empty($change_table_field[$tablename . "." . $fieldname])) { //Added to handle special cases
 			$tmp_value = '';
 			if ((($comparator == 'e' || $comparator == 's' || $comparator == 'c') && trim($value) == '') || (($comparator == 'n' || $comparator == 'k') && trim($value) != '')) {
 				$tmp_value = $change_table_field[$tablename . "." . $fieldname] . ' IS NULL or ';

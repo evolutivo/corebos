@@ -147,13 +147,14 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 				//Avoid if and else check for every list field for arrow image and change order
 				$change_sorder = array('ASC' => 'DESC', 'DESC' => 'ASC');
 				$arrow_gif = array('ASC' => 'arrow_down.gif', 'DESC' => 'arrow_up.gif');
+				$default_sort_order = GlobalVariable::getVariable('Application_ListView_Default_Sort_Order','ASC',$module);
 				foreach ($focus->list_fields[$name] as $tab => $col) {
 					if (in_array($col, $focus->sortby_fields)) {
 						if ($order_by == $col) {
 							$temp_sorder = $change_sorder[$sorder];
 							$arrow = "&nbsp;<img src ='" . vtiger_imageurl($arrow_gif[$sorder], $theme) . "' border='0'>";
 						} else {
-							$temp_sorder = 'ASC';
+							$temp_sorder = $default_sort_order;
 						}
 						$lbl_name = getTranslatedString(decode_html($name), $module);
 						//added to display vtiger_currency symbol in listview header
@@ -258,6 +259,13 @@ function getSearchListViewHeader($focus, $module, $sort_qry = '', $sorder = '', 
 		'&forfield=' . (isset($_REQUEST['forfield']) ? vtlib_purify($_REQUEST['forfield']) : '').
 		'&srcmodule=' . (isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : '').
 		'&forrecord=' . (isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : '');
+	//Get custom paramaters to pass_url
+	if(isset($_REQUEST['cbcustompopupinfo']) && $_REQUEST['cbcustompopupinfo'] != ''){
+		$cbcustompopupinfo = explode(';',$_REQUEST['cbcustompopupinfo']);
+		foreach ($cbcustompopupinfo as $param_name) {
+			$pass_url .= '&'.$param_name.'=' . (isset($_REQUEST[$param_name]) ? vtlib_purify($_REQUEST[$param_name]) : '');
+		}
+	}
 
 	$bmapname = $module.'_ListColumns';
 	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
@@ -1373,7 +1381,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 			else
 				$temp_val = "<font color='red'>" . $app_strings['LBL_NOT_ACCESSIBLE'] . "</font>";
 		}
-		$value = ($current_module_strings[$temp_val] != '') ? $current_module_strings[$temp_val] : (($app_strings[$temp_val] != '') ? ($app_strings[$temp_val]) : $temp_val);
+		$value = (!empty($current_module_strings[$temp_val])) ? $current_module_strings[$temp_val] : ((!empty($app_strings[$temp_val])) ? ($app_strings[$temp_val]) : $temp_val);
 		if ($value != "<font color='red'>" . $app_strings['LBL_NOT_ACCESSIBLE'] . "</font>") {
 			$value = textlength_check($value);
 		}
@@ -2899,6 +2907,13 @@ function AlphabeticalSearch($module, $action, $fieldname, $query, $type, $popupt
 		'&srcmodule=' . (isset($_REQUEST['srcmodule']) ? vtlib_purify($_REQUEST['srcmodule']) : '').
 		'&forrecord=' . (isset($_REQUEST['forrecord']) ? vtlib_purify($_REQUEST['forrecord']) : '');
 
+	//Get custom paramaters to returnvalue
+	if(isset($_REQUEST['cbcustompopupinfo']) && $_REQUEST['cbcustompopupinfo'] != ''){
+		$cbcustompopupinfo = explode(';',$_REQUEST['cbcustompopupinfo']);
+		foreach ($cbcustompopupinfo as $param_name) {
+			$returnvalue .= '&'.$param_name.'=' . (isset($_REQUEST[$param_name]) ? vtlib_purify($_REQUEST[$param_name]) : '');
+		}
+	}
 	$list = '';
 	for ($var = 'A', $i = 1; $i <= 26; $i++, $var++)
 		$list .= '<td class="searchAlph" id="alpha_' . $i . '" align="center" onClick=\'alphabetic("' . $module . '","gname=' . $groupid . '&query=' . $query . '&search_field=' . $fieldname . '&searchtype=BasicSearch&operator=s&type=alpbt&search_text=' . $var . $flag . $popuptypevalue . $returnvalue . $append_url . '","alpha_' . $i . '")\'>' . $var . '</td>';
@@ -3202,6 +3217,14 @@ function getTableHeaderNavigation($navigation_array, $url_qry, $module = '', $ac
 	}
 	if ($module == 'Calendar' && $action_val != 'index') //added for the All link from the homepage -- ticket 5211
 		$url_string .= isset($_REQUEST['from_homepage']) ? "&from_homepage=" . vtlib_purify($_REQUEST['from_homepage']) : '';
+
+	//Get custom paramaters to url_string
+	if(isset($_REQUEST['cbcustompopupinfo']) && $_REQUEST['cbcustompopupinfo'] != ''){
+		$cbcustompopupinfo = explode(';',$_REQUEST['cbcustompopupinfo']);
+		foreach ($cbcustompopupinfo as $param_name) {
+			$url_string .= '&'.$param_name.'=' . (isset($_REQUEST[$param_name]) ? vtlib_purify($_REQUEST[$param_name]) : '');
+		}
+	}
 
 	if (($navigation_array['prev']) != 0) {
 		if ($module == 'Calendar' && $action_val == 'index') {
@@ -3735,7 +3758,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 
 	$jsHandler = "return VT_disableFormSubmit(event);";
 	$output .= "<input class='small' name='pagenum' type='text' value='{$navigation_array['current']}'
-		style='width: 3em;margin-right: 0.7em;' onchange=\"loadRelatedListBlock('{$urldata}&start='+this.value+'','{$target}','{$imagesuffix}');\"
+		style='width: 3em;margin-right: 0.7em;' onchange=\"loadRelatedListBlock('{$urldata}&relstart='+this.value+'','{$target}','{$imagesuffix}');\"
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
 	$computeCount = isset($_REQUEST['withCount']) ? $_REQUEST['withCount'] : '';
@@ -3743,7 +3766,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
 	} else {
 		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . $app_strings['LBL_HOME_COUNT'] . "'
-			onclick=\"loadRelatedListBlock('{$urldata}&withCount=true&start={$navigation_array['current']}','{$target}','{$imagesuffix}');\"
+			onclick=\"loadRelatedListBlock('{$urldata}&withCount=true&relstart={$navigation_array['current']}','{$target}','{$imagesuffix}');\"
 			align='absmiddle' name='" . $module . "_listViewCountRefreshIcon'/>
 			<img name='" . $module . "_listViewCountContainerBusy' src='" . vtiger_imageurl('vtbusy.gif', $theme) . "' style='display: none;'
 			align='absmiddle' alt='" . $app_strings['LBL_LOADING'] . "'>";
@@ -4110,6 +4133,14 @@ function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '
 	}
 	if ($module == 'Calendar' && $action_val != 'index') //added for the All link from the homepage -- ticket 5211
 		$url_string .= isset($_REQUEST['from_homepage']) ? "&from_homepage=" . vtlib_purify($_REQUEST['from_homepage']) : '';
+
+	//Get custom paramaters to url_string
+	if(isset($_REQUEST['cbcustompopupinfo']) && $_REQUEST['cbcustompopupinfo'] != ''){
+		$cbcustompopupinfo = explode(';',$_REQUEST['cbcustompopupinfo']);
+		foreach ($cbcustompopupinfo as $param_name) {
+			$url_string .= '&'.$param_name.'=' . (isset($_REQUEST[$param_name]) ? vtlib_purify($_REQUEST[$param_name]) : '');
+		}
+	}
 
 	if (($navigation_array['prev']) != 0) {
 		if ($module == 'Calendar' && $action_val == 'index') {

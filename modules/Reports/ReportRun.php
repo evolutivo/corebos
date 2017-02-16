@@ -734,7 +734,14 @@ class ReportRun extends CRMEntity {
 								$fieldSqls[] = $columnSql.$comparatorValue;
 							}
 							$fieldvalue = ' ('. implode(' OR ', $fieldSqls).') ';
-							} else {
+						//Commented, on test works, but is not necessary (for translations on picklist Values)
+//						} elseif(isPicklistUIType($fieldInfo['uitype'])) {
+//							$cmp = $this->getAdvComparator($comparator,trim($value),$datatype);
+//							if(!isValueInPicklist($value,$fieldInfo['fieldname']))
+//								$fieldvalue = $fieldInfo['tablename'].'.'.$fieldInfo['columnname'].$cmp;
+//							else
+//								$fieldvalue = $fieldInfo['tablename'].'.'.$fieldInfo['columnname'].$cmp;
+						} else {
 							$fieldvalue = $selectedfields[0].".".$selectedfields[1].$this->getAdvComparator($comparator,trim($value),$datatype);
 						}
 
@@ -1769,6 +1776,20 @@ class ReportRun extends CRMEntity {
 		return $query;
 	}
 
+	function sGetDirectSQL($reportid)
+	{
+		global $log, $adb;
+		$rptrs = $adb->pquery('select moreinfo from vtiger_report where reportid=?',array($reportid));
+		if ($rptrs and $adb->num_rows($rptrs)>0) {
+			$minfo = $adb->query_result($rptrs, 0, 0);
+			if (!empty($minfo)) {
+				$minfo = preg_replace('#\R+#', ' ', $minfo);
+				return $minfo;
+			}
+		}
+		return 'select 0'; // just return a valid empty SQL statement
+	}
+
 	/** function to get query for the given reportid,filterlist,type
 	 * @param $reportid : integer
 	 * @param $filtersql : Array
@@ -1780,6 +1801,32 @@ class ReportRun extends CRMEntity {
 	{
 		global $log;
 
+		if ($this->reporttype == 'directsql') {
+			$reportquery = $this->sGetDirectSQL($reportid);
+			$columnstotalsql = '';
+			if (stripos($reportquery, ' order by ')) {
+				$groupsquery = substr($reportquery, stripos($reportquery, ' order by ')+10);
+				$reportquery = substr($reportquery, 0, stripos($reportquery, ' order by '));
+			}
+			$basereportquery = $reportquery;
+			if (stripos($reportquery, ' group by ')) {
+				$groupbyquery = substr($reportquery, stripos($reportquery, ' group by '));
+				$reportquery = substr($reportquery, 0, stripos($reportquery, ' group by '));
+			} else {
+				$groupbyquery = '';
+			}
+			if (stripos($reportquery, ' where ')) {
+				$glue = ' AND ';
+			} else {
+				$glue = ' WHERE ';
+			}
+			if(isset($filtersql) && !empty($filtersql)) {
+				$wheresql = $advfiltersql = $glue . $filtersql;
+			} else {
+				$wheresql = $advfiltersql = '';
+			}
+			$reportquery .= $wheresql . $groupbyquery;
+		} else {
 		$columnlist = $this->getQueryColumnsList($reportid,$type);
 		$groupslist = $this->getGroupingList($reportid);
 		$groupTimeList = $this->getGroupByTimeList($reportid);
@@ -1787,8 +1834,8 @@ class ReportRun extends CRMEntity {
 		$columnstotallist = $this->getColumnsTotal($reportid,$columnlist);
 		$advfiltersql = $this->getAdvFilterSql($reportid);
 
+
 		$this->totallist = $columnstotallist;
-		global $current_user;
 		$tab_id = getTabid($this->primarymodule);
 		//Fix for ticket #4915.
 		$selectlist = $columnlist;
@@ -1839,7 +1886,7 @@ class ReportRun extends CRMEntity {
 		}
 
 		$reportquery = $basereportquery = $this->getReportsQuery($this->primarymodule, $type,$where_condition);
-
+		}
 		// If we don't have access to any columns, let us select one column and limit result to show we have no results
 		// Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4758 - Prasad
 		$allColumnsRestricted = false;
@@ -1878,8 +1925,7 @@ class ReportRun extends CRMEntity {
 				$totalsselectedcolumns = implode(', ',$totalsselectedcolumns);
 				$reportquery = "select ".$columnstotalsql.' from (select DISTINCT '.$totalsselectedcolumns.$_columnstotallistaddtoselect." ".$reportquery." ".$wheresql.') as summary_calcs';
 			}
-		}else
-		{
+		} elseif ($this->reporttype != 'directsql') {
 			if($selectedcolumns == '') { // Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4758 - Prasad
 				$selectedcolumns = "''"; // "''" to get blank column name
 				$allColumnsRestricted = true;

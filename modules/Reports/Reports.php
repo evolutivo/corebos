@@ -98,7 +98,7 @@ class Reports extends CRMEntity{
 	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
 	function __construct($reportid="") {
-		global $adb,$current_user,$theme,$mod_strings;
+		global $adb,$current_user,$theme,$mod_strings,$app_strings;
 		$current_user_parent_role_seq='';
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 		$this->initListOfModules();
@@ -167,7 +167,7 @@ class Reports extends CRMEntity{
 					$this->is_editable = 'true';
 				else
 					$this->is_editable = 'false';
-			} else {
+			} elseif($_REQUEST['module'] != 'Home') {
 				if($_REQUEST['mode'] != 'ajax')
 				{
 					include('modules/Vtiger/header.php');
@@ -177,7 +177,7 @@ class Reports extends CRMEntity{
 				<table border='0' cellpadding='5' cellspacing='0' width='98%'>
 				<tbody><tr>
 				<td rowspan='2' width='11%'><img src='". vtiger_imageurl('denied.gif', $theme) ."' ></td>
-				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>".$app_strings['LBL_NO_PERMISSION']."</span></td>
+				<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>".$app_strings['LBL_PERMISSION']."</span></td>
 				</tr>
 				<tr>
 				<td class='small' align='right' nowrap='nowrap'>
@@ -408,16 +408,18 @@ class Reports extends CRMEntity{
 		if(count($report)>0) {
 			do {
 				$report_details = Array();
-				$report_details ['customizable'] = $report["customizable"];
-				$report_details ['reportid'] = $report["reportid"];
-				$report_details ['primarymodule'] = $report["primarymodule"];
-				$report_details ['secondarymodules'] = $report["secondarymodules"];
-				$report_details ['state'] = $report["state"];
-				$report_details ['description'] = $report["description"];
-				$report_details ['reportname'] = $report["reportname"];
-				$report_details ['sharingtype'] = $report["sharingtype"];
+				$report_details['customizable'] = $report["customizable"];
+				$report_details['reportid'] = $report["reportid"];
+				$report_details['primarymodule'] = $report["primarymodule"];
+				$report_details['secondarymodules'] = $report["secondarymodules"];
+				$report_details['state'] = $report["state"];
+				$report_details['description'] = $report["description"];
+				$report_details['reportname'] = $report["reportname"];
+				$report_details['sharingtype'] = $report["sharingtype"];
+				$report_details['reporttype'] = $report['reporttype'];
+				$report_details['moreinfo'] = $report['moreinfo'];
 				if($is_admin==true || in_array($report["owner"],$subordinate_users) || $report["owner"]==$current_user->id)
-					$report_details ['editable'] = 'true';
+					$report_details['editable'] = 'true';
 				else
 					$report_details['editable'] = 'false';
 
@@ -441,7 +443,7 @@ class Reports extends CRMEntity{
 	 */
 	function getPriModuleColumnsList($module)
 	{
-		if (!isset($module)) return;
+		if (empty($module)) return;
 		foreach($this->module_list[$module] as $key=>$value)
 		{
 			$temp = $this->getColumnsListbyBlock($module,$key);
@@ -1493,14 +1495,14 @@ function getEscapedColumns($selectedfields) {
 
 					$columntototalrow['fieldlabel'] = str_replace(" ","_",$columntototalrow['fieldlabel']);
 					$options []= getTranslatedString($columntototalrow['tablabel'],$columntototalrow['tablabel']).' - '.getTranslatedString($columntototalrow['fieldlabel'],$columntototalrow['tablabel']);
-					if($selectedcolumn1[2] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_SUM:2")
+					if(isset($selectedcolumn1[2]) and $selectedcolumn1[2] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_SUM:2")
 					{
 						$filters["checkboxes"][] = array("name"=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_SUM:2',"checked"=>true);
 					}else
 					{
 						$filters["checkboxes"][] = array("name"=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_SUM:2');
 					}
-					if($selectedcolumn1[3] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_AVG:3")
+					if(isset($selectedcolumn1[3]) and $selectedcolumn1[3] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_AVG:3")
 					{
 						$filters["checkboxes"][] = array('name' => 'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_AVG:3','checked'=>true);
 					}else
@@ -1508,7 +1510,7 @@ function getEscapedColumns($selectedfields) {
 						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_AVG:3');
 					}
 
-					if($selectedcolumn1[4] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_MIN:4")
+					if(isset($selectedcolumn1[4]) and $selectedcolumn1[4] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_MIN:4")
 					{
 						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_MIN:4',"checked"=>true);
 					}else
@@ -1516,7 +1518,7 @@ function getEscapedColumns($selectedfields) {
 						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_MIN:4');
 					}
 
-					if($selectedcolumn1[5] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_MAX:5")
+					if(isset($selectedcolumn1[5]) and $selectedcolumn1[5] == "cb:".$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel']."_MAX:5")
 					{
 						$filters["checkboxes"][] = array('name'=>'cb:'.$columntototalrow['tablename'].':'.$columntototalrow['columnname'].':'.$columntototalrow['fieldlabel'].'_MAX:5','checked'=>true);
 					}else
@@ -1539,7 +1541,7 @@ function getEscapedColumns($selectedfields) {
 	}
 
 	/** Function to get the advanced filter criteria for an option
-	 *  This function accepts The option in the advenced filter as an argument
+	 *  This function accepts The option in the advanced filter as an argument
 	 *  This generate filter criteria for the advanced filter
 	 *  It returns a HTML string of combo values
 	 */

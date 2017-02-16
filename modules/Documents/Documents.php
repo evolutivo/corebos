@@ -185,7 +185,8 @@ class Documents extends CRMEntity {
 			$upload_file_path = decideFilePath();
 			$dirpermission = is_writable($upload_file_path);
 			$upload = is_uploaded_file($_FILES['filename']['tmp_name']);
-			if (!$dirpermission || ($_FILES['error']!=0 and $_FILES['error']!=4) || (!$upload and $_FILES['error']!=4)){
+			$ferror = (isset($_FILES['error']) ? $_FILES['error'] : $_FILES['filename']['error']);
+			if (!$dirpermission || ($ferror!=0 and $ferror!=4) || (!$upload and $ferror!=4)){
 				$saveerror = true;
 				$errmsg = getTranslatedString('LBL_FILEUPLOAD_FAILED','Documents');
 			}
@@ -342,6 +343,7 @@ class Documents extends CRMEntity {
 				LEFT JOIN vtiger_account ON vtiger_account.accountid=vtiger_senotesrel.crmid
 				LEFT JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid=vtiger_senotesrel.crmid
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id
+				LEFT JOIN vtiger_users as vtigerCreatedBy ON vtiger_crmentity.smcreatorid = vtigerCreatedBy.id and vtigerCreatedBy.status='Active'
 				LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid ";
 		$query .= getNonAdminAccessControlQuery('Documents',$current_user);
 		$where_auto=" vtiger_crmentity.deleted=0";

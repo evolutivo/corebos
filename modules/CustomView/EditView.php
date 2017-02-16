@@ -22,7 +22,7 @@ $image_path=$theme_path."images/";
 require_once('modules/CustomView/CustomView.php');
 
 $cv_module = vtlib_purify($_REQUEST['module']);
-$recordid = vtlib_purify($_REQUEST['record']);
+$recordid = isset($_REQUEST['record']) ? vtlib_purify($_REQUEST['record']) : '';
 
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("CATEGORY", getParentTab());
@@ -35,7 +35,9 @@ $smarty->assign("CVMODULE", $cv_module);
 $smarty->assign("CUSTOMVIEWID",$recordid);
 $smarty->assign("DATEFORMAT",$current_user->date_format);
 $smarty->assign("JS_DATEFORMAT",parse_calendardate($app_strings['NTC_DATE_FORMAT']));
-
+$smarty->assign('CHECKED','');
+$smarty->assign('MCHECKED','');
+$smarty->assign('STATUS','');
 if($recordid == "") {
 	$oCustomView = new CustomView();
 	$modulecollist = $oCustomView->getModuleColumnsList($cv_module);
@@ -64,6 +66,7 @@ if($recordid == "") {
 
 	$smarty->assign("MANDATORYCHECK",implode(",",array_unique($oCustomView->mandatoryvalues)));
 	$smarty->assign("SHOWVALUES",implode(",",$oCustomView->showvalues));
+	$smarty->assign('EXIST','false');
 	$data_type[] = $oCustomView->data_type;
 	$smarty->assign("DATATYPE",$data_type);
 } else {
@@ -300,10 +303,9 @@ function getStdFilterHTML($module,$selected="")
 * 	1 => array('value'=>$$tablename1:$colname1:$fieldname1:$fieldlabel1,'text'=>$mod_strings[$field label1],'selected'=>$selected),	
 * 	n => array('value'=>$$tablenamen:$colnamen:$fieldnamen:$fieldlabeln,'text'=>$mod_strings[$field labeln],'selected'=>$selected))	
 */
-function getAdvCriteriaHTML($selected="")
-{
+function getAdvCriteriaHTML($selected='') {
 	global $adv_filter_options;
-
+	$shtml = '';
 	foreach($adv_filter_options as $key=>$value) {
 		if($selected == $key)
 		{

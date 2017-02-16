@@ -108,7 +108,7 @@ $smarty->assign('DUPLICATE', $isduplicate);
 
 if($focus->mode == 'edit' || $isduplicate == 'true') {
 	$recordName = array_values(getEntityName($currentModule, $record));
-	$recordName = $recordName[0];
+	$recordName = isset($recordName[0]) ? $recordName[0] : '';
 	$smarty->assign('NAME', $recordName);
 	$smarty->assign('UPDATEINFO',updateInfo($record));
 }
@@ -158,7 +158,11 @@ if($focus->mode != 'edit' && $mod_seq_field != null) {
 		$smarty->assign("MOD_SEQ_ID",$autostr);
 	}
 } else {
-	$smarty->assign("MOD_SEQ_ID", $focus->column_fields[$mod_seq_field['name']]);
+	if (!empty($mod_seq_field) and !empty($mod_seq_field['name']) and !empty($focus->column_fields[$mod_seq_field['name']])) {
+		$smarty->assign('MOD_SEQ_ID', $focus->column_fields[$mod_seq_field['name']]);
+	} else {
+		$smarty->assign('MOD_SEQ_ID', '');
+	}
 }
 
 // Gather the help information associated with fields

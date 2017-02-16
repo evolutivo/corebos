@@ -224,6 +224,13 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'Number of rows per page in list views',
 ),
+'Application_ListView_Default_Sort_Order' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'string',
+	'category' => 'Application',
+	'values' => 'ASC | DESC',
+	'definition' => 'Initial sort order for records when clicking on list view header. The default is ASC',
+),
 'Application_Upload_MaxSize' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Integer',
@@ -762,6 +769,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => 'LDAP | AD | SQL',
 	'definition' => 'Login authentication type. Use the default SQL to login using the passwords stored in the database',
+),
+'Application_FirstTimeLogin_Template' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'String',
+	'category' => 'Application',
+	'values' => 'User based template string',
+	'definition' => 'HTML current user based workflow template that will be shown to user on first successful login',
 ),
 );
 

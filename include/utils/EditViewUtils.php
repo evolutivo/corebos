@@ -401,7 +401,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 				$roleid=$current_user->roleid;
 				$picklistValues = getAssignedPicklistValues('salutationtype', $roleid, $adb);
 				$pickcount = 0;
-				$salt_value = $col_fields["salutationtype"];
+				$salt_value = (isset($col_fields['salutationtype']) ? $col_fields['salutationtype'] : '');
 				foreach($picklistValues as $order=>$pickListValue){
 					if($salt_value == trim($pickListValue)){
 						$chk_val = "selected";
@@ -568,8 +568,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 	}
 	elseif($uitype == 28){
-		if($col_fields['record_id'] != '')
-		{
+		if (!(empty($col_fields['record_id']))) {
 			$attachmentid=$adb->query_result($adb->pquery("select * from vtiger_seattachmentsrel where crmid = ?", array($col_fields['record_id'])),0,'attachmentsid');
 			if($col_fields[$fieldname] == '' && $attachmentid != '')
 			{
@@ -581,7 +580,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$filename=' [ '.$value. ' ]';
 		elseif($value != '' && $module_name == 'Documents')
 			$filename= $value;
-		if($filename != '')
+		if (!empty($filename))
 			$fieldvalue[] = $filename;
 		if($value != '')
 			$fieldvalue[] = $value;
@@ -602,15 +601,17 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 					$imageattachment = 'Attachment';
 				}
 				$query="select vtiger_attachments.*,vtiger_crmentity.setype
-				 from vtiger_attachments
-				 inner join vtiger_seattachmentsrel on vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				 inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_attachments.attachmentsid
-				 where vtiger_crmentity.setype='$module_name $imageattachment'
-				  and vtiger_attachments.name = ?
-				  and vtiger_seattachmentsrel.crmid=?";
-				$params = array($col_fields[$fieldname],$col_fields['record_id']);
+					from vtiger_attachments
+					inner join vtiger_seattachmentsrel on vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
+					inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_attachments.attachmentsid
+					where vtiger_crmentity.setype='$module_name $imageattachment'
+						and vtiger_attachments.name = ?
+						and vtiger_seattachmentsrel.crmid=?";
+				global $upload_badext;
+				$params = array(sanitizeUploadFileName($col_fields[$fieldname], $upload_badext),$col_fields['record_id']);
 			}
 			$result_image = $adb->pquery($query, $params);
+			$image_array = array();
 			for($image_iter=0;$image_iter < $adb->num_rows($result_image);$image_iter++) {
 				$image_id_array[] = $adb->query_result($result_image,$image_iter,'attachmentsid');
 
@@ -621,7 +622,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 
 				$image_path_array[] = $adb->query_result($result_image,$image_iter,'path');
 			}
-			if(is_array($image_array))
+			if(count($image_array)>0)
 				for($img_itr=0;$img_itr<count($image_array);$img_itr++) {
 					$fieldvalue[] = array('name'=>$image_array[$img_itr],'path'=>$image_path_array[$img_itr].$image_id_array[$img_itr]."_","orgname"=>$image_orgname_array[$img_itr]);
 				}
@@ -1082,7 +1083,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	elseif($uitype == 71 || $uitype == 72) {
 		$currencyField = new CurrencyField($value);
 		// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
-		if($col_fields['record_id'] != '' && $uitype == 72) {
+		if(!empty($col_fields['record_id']) && $uitype == 72) {
 			if($fieldname == 'unit_price') {
 				$rate_symbol = getCurrencySymbolandCRate(getProductBaseCurrency($col_fields['record_id'],$module_name));
 				$currencySymbol = $rate_symbol['symbol'];
@@ -1319,8 +1320,10 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	elseif($uitype == 27){
 		if($value == 'E'){
 			$external_selected = "selected";
+			$internal_selected = '';
 			$filename = $col_fields['filename'];
 		} else {
+			$external_selected = '';
 			$internal_selected = "selected";
 			$filename = $col_fields['filename'];
 		}

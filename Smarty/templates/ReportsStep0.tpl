@@ -47,7 +47,6 @@
 	{include file='BrowserVariables.tpl'}
 	<script type="text/javascript" src="include/js/general.js"></script>
 	<script type="text/javascript" src="include/js/{$LANGUAGE}.lang.js"></script>
-	<script type="text/javascript" src="include/js/json.js"></script>
 	<script type="text/javascript" src="modules/Reports/Reports.js"></script>
 
 </head>
@@ -59,7 +58,7 @@
 		<input type="hidden" name="module" value="Reports">
 		<input type="hidden" name="primarymodule" value="{$REP_MODULE}">
 		<input type="hidden" name="secondarymodule" value>
-		<input type="hidden" name="record" id="record" value="{$RECORDID}">
+		<input type="hidden" name="record" id="record" value="{if isset($RECORDID)}{$RECORDID}{/if}">
 		<input type="hidden" name='folder' value="{$FOLDERID}"/>
 		<input type="hidden" name='reload' value='true'/>
 		<input type="hidden" name="action" value="Save">
@@ -266,7 +265,7 @@
 				save_as_button.html("save as");
 				var li = $("<li>",{"style":"display:none","id":"save_as_button"});
 				li.append(save_as_button);
-				$(".actions ul li:nth-child(3)").after(li);
+				$(".actions ul li:nth-child(1)").after(li);
 			}
 
 		},
@@ -486,10 +485,9 @@
 		},
 
 		onFinished: function (event, currentIndex) {
-	        saveAndRunReport();
-	    }
+			saveAndRunReport();
+		}
 	});
-
 </script>
 {/literal}
 </html>

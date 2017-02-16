@@ -11,11 +11,14 @@ require_once 'modules/Reports/ReportRun.php';
 require_once 'include/utils/ChartUtils.php';
 require_once 'include/utils/CommonUtils.php';
 
-Class CustomReportUtils {
+class CustomReportUtils {
 
 	public static function getCustomReportsQuery($reportid, $filterlist=null) {
 		global $current_user;
 		$reportnew = new ReportRun($reportid);
+		$cachedInfo = VTCacheUtils::lookupReport_Info($current_user->id, $reportid);
+		if($cachedInfo === false)
+			return '';
 		$groupby = $reportnew->getGroupingList($reportid);
 		$showcharts = false;
 		if (!empty($groupby)) {
@@ -38,7 +41,9 @@ Class CustomReportUtils {
 			break;
 		}
 		$queryReports = self::getCustomReportsQuery($reportid);
-
+		if($queryReports == ''){
+			return array('error' => "<h4>".getTranslatedString('LBL_PERMISSION')."</h4>");
+		}
 		$queryResult = $adb->pquery($queryReports, array());
 		if ($chartType == 'horizontalbarchart') {
 			$Chart = ChartUtils::generateChartDataFromReports($queryResult, strtolower($module_field), $fieldDetails, $reportid);
@@ -51,6 +56,7 @@ Class CustomReportUtils {
 	}
 
 	public static function IsDateField($reportColDetails) {
+		if ($reportColDetails=='none') return false;
 		list($tablename, $colname, $module_field, $fieldname, $typeOfData) = explode(":", $reportColDetails);
 		if ($typeOfData == "D") {
 			return true;

@@ -292,7 +292,6 @@ else
 $listview_entries = getListViewEntries($focus,"Task",$list_result,$navigation_array,"","","","",$oCustomView);
 
 $smarty->assign("LISTENTITY", $listview_entries);
-$smarty->assign("SELECT_SCRIPT", $view_script);
 
 } // end sqlerror
 
