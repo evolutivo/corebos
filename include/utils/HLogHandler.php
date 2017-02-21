@@ -96,7 +96,9 @@ class HistoryLogHandler extends VTEventHandler {
      $act = "";
      $act1='';
      $cr=false;
+     if($queryel!='' && $queryel!=null)
      $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
+     else $fields1=array();
      for ($i=0;$i<count($fields);$i++)
       {  if($news[$i]!=$entityData->old[$i]) {         
       $act2='fieldname='. $fields[$i]. ';oldvalue='. $entityData->old[$i].';newvalue='. $news[$i].";";
@@ -209,7 +211,6 @@ else {
  if($cr !=true){
  $cr=true;
  $endpointUrl2 = "http://$ip:9200/$indextype/denorm";
- $fields1=$adb->pquery("$queryel and $tableid=?",array($entityData->getId()));
     $eid=$entityData->getId();
     $fld=array();
     $fld['roles']=$roleid;
