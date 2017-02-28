@@ -4,6 +4,7 @@ ini_set('display_errors','On');
 include("include/database/PearDatabase.php");
 include("include/utils/utils.php");
 include_once("modules/Messages/Messages.php");
+include_once("modules/Thread/Thread.php");
 include_once("CONTEXTIO/class.contextio.php");
 global $adb;
 // define your API key and secret - find this https://console.context.io/#settings
@@ -24,7 +25,8 @@ $pergjnew=$r->getdecodedResponse();
 var_dump($pergjnew);
 foreach ($pergjnew as $key=>$value){
 $subject=$value["subject"];
-$emailid=$value["email_message_id"];
+$thread=$value["gmail_thread_id"];
+$gmailid=$value["gmail_message_id"];
 $sender=$value["addresses"]["from"]["email"];
 $content=$value["body"][0]["content"];
 if(array_key_exists(1,$value["body"])){
@@ -35,6 +37,18 @@ else {
 
 $str2=str_replace("\r\n","",$content);
 $str1 = str_replace("\r\n", "", $contenthtml);
+$th=$adb->query("select * from vtiger_thread join vtiger_crmentity on crmid=threadid where deleted=0 and threadlink='$thread'");
+if($adb->num_rows($th)>0){
+$thid=$adb->query_result($th,0,'threadid');
+}
+else {
+$focust =new Thread();
+$focust->column_fields['assigned_user_id']=1;
+$focust->column_fields['subject']=$subject;
+$focust->column_fields['threadlink']=$thread;
+$focust->saveentity("Thread");
+$thid=$focust->id;   
+}
 $focusnew =new Messages();
 $focusnew->mode='';
 $q=$adb->query("select * from vtiger_account join vtiger_crmentity on crmid=accountid where deleted=0 and email1='$sender'");
@@ -49,8 +63,7 @@ else $relid=$adb->query_result($q,0,'accountid');
 $focusnew->column_fields['assigned_user_id']=1;
 $focusnew->column_fields['messagesrelatedto']=$relid;
 $focusnew->column_fields['description']=mysql_escape_string($str1);
-//$focusnew->column_fields['emailtext']=mysql_escape_string($str2);
-//$focusnew->column_fields['inpout']='Input';
+$focusnew->column_fields['thread']=$thid;
 $focusnew->column_fields['messagesname']=$subject;
 $focusnew->column_fields['messagestype']='Email';
 $getrightcases=explode("::",$subject);
@@ -61,7 +74,6 @@ $newid=$focusnew->id;
 $params2=array('email_message_id'=>$emailid,'seen'=>true);
 $r2=$contextio->setMessageFlags(USER_ID,$params2);
 }
-mysql_close($conn);
 echo 'Finished Successfully';
 
 
