@@ -27,6 +27,7 @@ foreach ($pergjnew as $key=>$value){
 $subject=$value["subject"];
 $thread=$value["gmail_thread_id"];
 $gmailid=$value["gmail_message_id"];
+$emailid=$value["email_message_id"];
 $sender=$value["addresses"]["from"]["email"];
 $content=$value["body"][0]["content"];
 if(array_key_exists(1,$value["body"])){
