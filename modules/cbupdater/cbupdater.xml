@@ -1492,4 +1492,11 @@
 	<classname>addMoreInfoFieldToReports</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>add module thread and field thread in messages</description>
+	<filename>build/changeSets/2017/addthread.php</filename>
+	<classname>addthread</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

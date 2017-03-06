@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2017-02-28 16:41:36</exporttime>
+<exporttime>2015-11-25 13:39:59</exporttime>
 <name>Messages</name>
 <label>Messages</label>
 <parent>Inventory</parent>
@@ -8,6 +8,26 @@
 <vtiger_version>5.4.0</vtiger_version>
 <vtiger_max_version>5.*</vtiger_max_version>
 </dependencies>
+<license>
+<inline><![CDATA[/*************************************************************************************************
+ * Copyright 2014 Opencubed -- This file is a part of TSOLUCIO coreBOS customizations.
+ * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+ * Vizsage Public License (the "License"). You may not use this file except in compliance with the
+ * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+ * and share improvements. However, for proper details please read the full License, available at
+ * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+ * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+ * applicable law or agreed to in writing, any software distributed under the License is distributed
+ * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the
+ * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+ *************************************************************************************************
+ *  Module       : Messages
+ *  Version      : 5.4.0
+ *  Author       : OpenCubed
+ *************************************************************************************************/
+]]></inline>
+</license>
 <tables>
 <table>
 <name>vtiger_messages</name>
@@ -33,7 +53,6 @@
   `lead_message` int(11) DEFAULT NULL,
   `campaign_message` int(11) DEFAULT NULL,
   `email_tplid` int(11) DEFAULT NULL,
-  `thread` int(11) DEFAULT NULL,
   PRIMARY KEY (`messagesid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
@@ -231,7 +250,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -257,7 +276,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O~LE~10</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -277,7 +296,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O~LE~10</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -320,7 +339,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O~LE~10</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -340,7 +359,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O~LE~10</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -360,7 +379,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O~LE~10</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -380,7 +399,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O~LE~10</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -400,7 +419,7 @@
 <maximumlength>100</maximumlength>
 <typeofdata>V~O</typeofdata>
 <quickcreate>1</quickcreate>
-<quickcreatesequence></quickcreatesequence>
+<quickcreatesequence>0</quickcreatesequence>
 <displaytype>1</displaytype>
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
@@ -411,6 +430,106 @@
 <picklistvalue>Fax</picklistvalue>
 <picklistvalue>Print</picklistvalue>
 </picklistvalues>
+</field>
+<field>
+<fieldname>clicked</fieldname>
+<uitype>1</uitype>
+<columnname>clicked</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Clicked</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>I~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>dropped</fieldname>
+<uitype>56</uitype>
+<columnname>dropped</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Dropped</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>3</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>bounce</fieldname>
+<uitype>1</uitype>
+<columnname>bounce</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Bounce</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>4</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>I~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>open</fieldname>
+<uitype>1</uitype>
+<columnname>open</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Open</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>5</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>I~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>delivered</fieldname>
+<uitype>56</uitype>
+<columnname>delivered</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Delivered</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>6</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
 </field>
 <field>
 <fieldname>no_mail</fieldname>
@@ -451,6 +570,52 @@
 <info_type>BAS</info_type>
 <helpinfo><![CDATA[]]></helpinfo>
 <masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>spamreport</fieldname>
+<uitype>56</uitype>
+<columnname>spamreport</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Spam</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>9</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>C~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>status_message</fieldname>
+<uitype>15</uitype>
+<columnname>status_message</columnname>
+<tablename>vtiger_messages</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Status</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>10</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<picklistvalues>
+<picklistvalue>--None--</picklistvalue>
+<picklistvalue>Prospective</picklistvalue>
+<picklistvalue>Delivered</picklistvalue>
+<picklistvalue>Done</picklistvalue>
+</picklistvalues>
 </field>
 <field>
 <fieldname>lasturlclicked</fieldname>
@@ -587,29 +752,6 @@
 <relatedmodule>EmailsTemplates</relatedmodule>
 </relatedmodules>
 </field>
-<field>
-<fieldname>thread</fieldname>
-<uitype>10</uitype>
-<columnname>thread</columnname>
-<tablename>vtiger_messages</tablename>
-<generatedtype>2</generatedtype>
-<fieldlabel>Thread</fieldlabel>
-<readonly>0</readonly>
-<presence>2</presence>
-<defaultvalue></defaultvalue>
-<sequence>28</sequence>
-<maximumlength>100</maximumlength>
-<typeofdata>I~O</typeofdata>
-<quickcreate>1</quickcreate>
-<quickcreatesequence>0</quickcreatesequence>
-<displaytype>1</displaytype>
-<info_type>BAS</info_type>
-<helpinfo><![CDATA[]]></helpinfo>
-<masseditable>1</masseditable>
-<relatedmodules>
-<relatedmodule>Thread</relatedmodule>
-</relatedmodules>
-</field>
 </fields>
 </block>
 <block>
@@ -675,30 +817,6 @@
 <status>enabled</status>
 </action>
 </actions>
-<relatedlists>
-<relatedlist>
-<function>get_dependents_list</function>
-<label>Documents</label>
-<sequence>1</sequence>
-<presence>0</presence>
-<actions>
-<action>ADD</action>
-</actions>
-<relatedmodule>Documents</relatedmodule>
-</relatedlist>
-</relatedlists>
-<customlinks>
-<customlink>
-<linktype></linktype>
-<linklabel></linklabel>
-<linkurl><![CDATA[]]></linkurl>
-<linkicon><![CDATA[]]></linkicon>
-<sequence></sequence>
-<handler_path><![CDATA[]]></handler_path>
-<handler_class><![CDATA[]]></handler_class>
-<handler><![CDATA[]]></handler>
-</customlink>
-</customlinks>
 <crons>
 </crons>
 </module>
