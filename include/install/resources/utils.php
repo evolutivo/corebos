@@ -767,14 +767,12 @@ class Common_Install_Wizard_Utils {
 		'User Privileges Directory' => './user_privileges/',
 		'Smarty Cache Directory' => './Smarty/cache/',
 		'Smarty Compile Directory' => './Smarty/templates_c/',
-		'Email Templates Directory' => './modules/Emails/templates/',
 		'Modules Directory' => './modules/',
 		'Cron Modules Directory' => './cron/modules/',
 		'Vtlib Test Directory' => './test/vtlib/',
 		'Vtlib Test HTML Directory' => './test/vtlib/HTML',
 		'Backup Directory' => './backup/',
 		'Smarty Modules Directory' => './Smarty/templates/modules/',
-		'Mail Merge Template Directory' => './test/wordtemplatedownload/',
 		'Product Image Directory' => './test/product/',
 		'User Image Directory' => './test/user/',
 		'Contact Image Directory' => './test/contact/',
@@ -1257,6 +1255,17 @@ class Common_Install_Wizard_Utils {
 		if(!@rename("install/", $renamefile."install/")) {
 			if (@copy ("install/", $renamefile."install/")) {
 				if(!@unlink("install/")) {
+					$ins_dir_renamed = false;
+				}
+			} else {
+				$ins_dir_renamed = false;
+			}
+		}
+
+		$ins_dir_renamed = true;
+		if(!@rename("modules/Migration/", $renamefile."Migration/")) {
+			if (@copy ("modules/Migration/", $renamefile."Migration/")) {
+				if(!@unlink("modules/Migration/")) {
 					$ins_dir_renamed = false;
 				}
 			} else {

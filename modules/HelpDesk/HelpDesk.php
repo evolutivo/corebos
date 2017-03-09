@@ -133,9 +133,9 @@ class HelpDesk extends CRMEntity {
 		$this->insertIntoTicketCommentTable();
 
 		//service contract update
-		$return_action = $_REQUEST['return_action'];
-		$for_module = $_REQUEST['return_module'];
-		$for_crmid = $_REQUEST['return_id'];
+		$return_action = isset($_REQUEST['return_action']) ? $_REQUEST['return_action'] : false;
+		$for_module = isset($_REQUEST['return_module']) ? $_REQUEST['return_module'] : false;
+		$for_crmid = isset($_REQUEST['return_id']) ? $_REQUEST['return_id'] : false;
 		if ($return_action && $for_module && $for_crmid) {
 			if ($for_module == 'ServiceContracts') {
 				$on_focus = CRMEntity::getInstance($for_module);
@@ -206,12 +206,12 @@ class HelpDesk extends CRMEntity {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('ADD', $actions) && isPermitted($related_module,1, '') == 'yes') {
 				if(getFieldVisibilityPermission('Calendar',$current_user->id,'parent_id', 'readwrite') == '0') {
-					$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString('LBL_TODO', $related_module) ."' class='crmbutton small create'" .
+					$button .= "<input title='".getTranslatedString('LBL_ADD_NEW'). " ". getTranslatedString('LBL_TODO', $related_module) ."' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EventEditView\";this.form.module.value=\"Calendar4You\";this.form.return_module.value=\"$this_module\";this.form.activity_mode.value=\"Task\";' type='submit' name='button'" .
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_TODO', $related_module) ."'>&nbsp;";
 				}
 				if(getFieldVisibilityPermission('Events',$current_user->id,'parent_id', 'readwrite') == '0') {
-					$button .= "<input title='".getTranslatedString('LBL_NEW'). " ". getTranslatedString('LBL_EVENT', $related_module) ."' class='crmbutton small create'" .
+					$button .= "<input title='".getTranslatedString('LBL_ADD_NEW'). " ". getTranslatedString('LBL_EVENT', $related_module) ."' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EventEditView\";this.form.module.value=\"Calendar4You\";this.form.return_module.value=\"$this_module\";this.form.activity_mode.value=\"Events\";' type='submit' name='button'" .
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_EVENT', $related_module) ."'>";
 				}
@@ -659,7 +659,7 @@ class HelpDesk extends CRMEntity {
 			"Products" => array("vtiger_troubletickets"=>array("ticketid","product_id")),
 			"Services" => array("vtiger_crmentityrel"=>array("crmid","relcrmid"),"vtiger_troubletickets"=>"ticketid"),
 		);
-		return $rel_tables[$secmodule];
+		return isset($rel_tables[$secmodule]) ? $rel_tables[$secmodule] : '';
 	}
 
 	// Function to unlink an entity with given Id from another entity

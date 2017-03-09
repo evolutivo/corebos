@@ -534,7 +534,8 @@ function getSalesEntityType($crmid) {
 function getAccountName($account_id) {
 	global $log, $adb;
 	$log->debug("Entering getAccountName($account_id) method ...");
-	if ($account_id != '') {
+	$accountname = '';
+	if (!empty($account_id)) {
 		$sql = 'select accountname from vtiger_account where accountid=?';
 		$result = $adb->pquery($sql, array($account_id));
 		$accountname = $adb->query_result($result, 0, 'accountname');
@@ -2294,11 +2295,10 @@ function getMergedDescription($description, $id, $parent_type) {
 	$tokenDataPair = explode('$', $description);
 	$fields = Array();
 	for ($i = 1; $i < count($token_data_pair); $i+=2) {
-
 		$module = explode('-', $tokenDataPair[$i]);
 		$fields[$module[0]][] = $module[1];
 	}
-	if (is_array($fields['custom']) && count($fields['custom']) > 0) {
+	if (isset($fields['custom']) && is_array($fields['custom']) && count($fields['custom']) > 0) {
 		// Custom date & time fields
 		$description = getMergedDescriptionCustomVars($fields, $description);
 	}
@@ -2689,8 +2689,7 @@ function getTagCloudView($id = "") {
  * * Added to provide User based Tagcloud
  * */
 function SaveTagCloudView($id = "") {
-	global $log;
-	global $adb;
+	global $log, $adb;
 	$log->debug("Entering in function SaveTagCloudView($id)");
 	$tag_cloud_status = vtlib_purify($_REQUEST['tagcloudview']);
 
@@ -2700,9 +2699,7 @@ function SaveTagCloudView($id = "") {
 		$tag_cloud_view = 1;
 	}
 
-	if ($id == '') {
-		$tag_cloud_view = 1;
-	} else {
+	if (!empty($id)) {
 		$query = "update vtiger_homestuff set visible = ? where userid=? and stufftype='Tag Cloud'";
 		$adb->pquery($query, array($tag_cloud_view, $id));
 	}
@@ -3256,6 +3253,11 @@ function getEntityFieldNames($module) {
 		if (!(strpos($fieldsName, ',') === false)) {
 			$fieldsName = explode(',', $fieldsName);
 		}
+	} else {
+		$fieldsName = '';
+		$tableName = '';
+		$entityIdField = '';
+		$moduleName = '';
 	}
 	$data = array("tablename" => $tableName, "modulename" => $moduleName, "fieldname" => $fieldsName, "entityidfield" => $entityIdField);
 	return $data;
@@ -3385,19 +3387,19 @@ function getModuleSequenceNumber($module, $recordId) {
 	global $adb;
 	switch ($module) {
 		case "Invoice":
-			$res = $adb->query("SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = $recordId");
+			$res = $adb->pquery('SELECT invoice_no FROM vtiger_invoice WHERE invoiceid = ?',array($recordId));
 			$moduleSeqNo = $adb->query_result($res, 0, 'invoice_no');
 			break;
 		case "PurchaseOrder":
-			$res = $adb->query("SELECT purchaseorder_no FROM vtiger_purchaseorder WHERE purchaseorderid = $recordId");
+			$res = $adb->pquery('SELECT purchaseorder_no FROM vtiger_purchaseorder WHERE purchaseorderid = ?',array($recordId));
 			$moduleSeqNo = $adb->query_result($res, 0, 'purchaseorder_no');
 			break;
 		case "Quotes":
-			$res = $adb->query("SELECT quote_no FROM vtiger_quotes WHERE quoteid = $recordId");
+			$res = $adb->pquery('SELECT quote_no FROM vtiger_quotes WHERE quoteid = ?',array($recordId));
 			$moduleSeqNo = $adb->query_result($res, 0, 'quote_no');
 			break;
 		case "SalesOrder":
-			$res = $adb->query("SELECT salesorder_no FROM vtiger_salesorder WHERE salesorderid = $recordId");
+			$res = $adb->pquery('SELECT salesorder_no FROM vtiger_salesorder WHERE salesorderid = ?',array($recordId));
 			$moduleSeqNo = $adb->query_result($res, 0, 'salesorder_no');
 			break;
 	}
@@ -3455,12 +3457,11 @@ function getReturnPath($host, $from_email) {
 function picklistHasDependency($keyfldname,$modulename) {
 	global $adb;
 	$tabid = getTabid($modulename);
-	$result = $adb->query("SELECT * FROM vtiger_picklist_dependency WHERE tabid ='".$tabid."' AND (sourcefield = '".$keyfldname."' OR targetfield = '".$keyfldname."')");
+	$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid = ? AND (sourcefield = ? OR targetfield = ?)',array($tabid,$keyfldname,$keyfldname));
 	if($adb->num_rows($result) > 0)
 		return true;
 	else
-	return false;
-
+		return false;
 }
 
 function fetch_logo($type) {

@@ -188,12 +188,12 @@ if($foldercount > 0 )
 		$folder_id = $adb->query_result($result,$i,"folderid");
 		$query .= " and vtiger_notes.folderid = $folder_id";
 		$sorder = $focus->getSortOrderForFolder($folder_id);
-		if(!is_array($_SESSION['NOTES_FOLDER_SORT_ORDER'])) {
+		if (isset($_SESSION['NOTES_FOLDER_SORT_ORDER']) && !is_array($_SESSION['NOTES_FOLDER_SORT_ORDER'])) {
 			coreBOS_Session::set('NOTES_FOLDER_SORT_ORDER', array());
 		}
 		coreBOS_Session::set('NOTES_FOLDER_SORT_ORDER^'.$folder_id, $sorder);
 		$order_by = $focus->getOrderByForFolder($folder_id);
-		if(!is_array($_SESSION['NOTES_FOLDER_ORDER_BY'])) {
+		if(isset($_SESSION['NOTES_FOLDER_ORDER_BY']) && !is_array($_SESSION['NOTES_FOLDER_ORDER_BY'])) {
 			coreBOS_Session::set('NOTES_FOLDER_ORDER_BY', array());
 		}
 		coreBOS_Session::set('NOTES_FOLDER_ORDER_BY^'.$folder_id, $order_by);

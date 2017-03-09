@@ -132,7 +132,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$curr_time = '';
 		}
 		if (empty($disp_value)) $disp_value = '';
-		$fieldvalue[] = array($disp_value => $curr_time) ;
+		$fieldvalue[] = array($disp_value => $curr_time);
 		if($uitype == 5 || $uitype == 23)
 		{
 			if($module_name == 'Events' && $uitype == 23)
@@ -146,6 +146,31 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		{
 			$fieldvalue[] = array($date_format=>$current_user->date_format.' '.$app_strings['YEAR_MONTH_DATE']);
 		}
+	}
+	elseif($uitype == 50) {
+		if(empty($value)) {
+			if ($generatedtype != 2) {
+				$disp_value = getNewDisplayTime();
+			} else {
+				$disp_value = '';
+			}
+		} else {
+			$date = new DateTimeField($value);
+			$isodate = $date->getDBInsertDateTimeValue();
+			$date = new DateTimeField($isodate);
+			$disp_value = $date->getDisplayDateTimeValue();
+		}
+		$value = $disp_value;
+		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
+		$date_format = parse_calendardate($app_strings['NTC_DATE_FORMAT']).' '.($current_user->hour_format=='24' ? '%H' : '%I').':%M';
+		if(!empty($curr_time)) {
+			$curr_time = DateTimeField::convertToUserTimeZone($curr_time);
+			$curr_time = $curr_time->format('H:i');
+		} else {
+			$curr_time = '';
+		}
+		$fieldvalue[] = array($disp_value => $curr_time);
+		$fieldvalue[] = array($date_format=>$current_user->date_format.' '.$current_user->hour_format);
 	}
 	elseif($uitype == 16) {
 		require_once 'modules/PickList/PickListUtils.php';
@@ -348,7 +373,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		$fieldvalue[]=$users_combo;
 		$fieldvalue[] = $groups_combo;
 	}
-	elseif($uitype == 51 || $uitype == 50 || $uitype == 73)
+	elseif($uitype == 51 || $uitype == 73)
 	{
 		if(!isset($_REQUEST['convertmode']) || ($_REQUEST['convertmode'] != 'update_quote_val' && $_REQUEST['convertmode'] != 'update_so_val'))
 		{
@@ -589,8 +614,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	elseif($uitype == 69)
 	{
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
-		if( $col_fields['record_id'] != "")
-		{
+		if (!empty($col_fields['record_id'])) {
 			if($module_name == 'Products') {
 				$query = 'select vtiger_attachments.path, vtiger_attachments.attachmentsid, vtiger_attachments.name ,vtiger_crmentity.setype from vtiger_products left join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_products.productid inner join vtiger_attachments on vtiger_attachments.attachmentsid=vtiger_seattachmentsrel.attachmentsid inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_attachments.attachmentsid where vtiger_crmentity.setype="Products Image" and productid=?';
 				$params = array($col_fields['record_id']);
@@ -793,7 +817,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	//added by rdhital/Raju for better email support
 	elseif($uitype == 357)
 	{
-		$pmodule = $_REQUEST['pmodule'];
+		$pmodule = isset($_REQUEST['pmodule']) ? $_REQUEST['pmodule'] : null;
 		if(empty($pmodule))
 			$pmodule = $_REQUEST['par_module'];
 
@@ -1014,56 +1038,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		}
 	}
 	//end of rdhital/Raju
-	elseif($uitype == 68)
-	{
-		if(empty($value) && isset($_REQUEST['parent_id']) && $_REQUEST['parent_id'] != '')
-			$value = vtlib_purify($_REQUEST['parent_id']);
-
-		$account_selected = $contact_selected = $parent_name = '';
-		if($value != '')
-		{
-			$parent_module = getSalesEntityType($value);
-			if($parent_module == "Contacts")
-			{
-				$displayValueArray = getEntityName($parent_module, $value);
-				if (!empty($displayValueArray)) {
-					foreach ($displayValueArray as $key => $field_value) {
-						$parent_name = $field_value;
-					}
-				}
-				$contact_selected = "selected";
-			}
-			elseif($parent_module == "Accounts")
-			{
-				$sql = "select * from vtiger_account where accountid=?";
-				$result = $adb->pquery($sql, array($value));
-				$parent_name = $adb->query_result($result,0,"accountname");
-				$account_selected = "selected";
-			}
-			else
-			{
-				$parent_name = "";
-				$value = "";
-			}
-		}
-
-		$editview_label[0] = array();
-		$editview_label[1] = array();
-		$editview_label[2] = array();
-
-		if(vtlib_isModuleActive('Accounts')) {
-			array_push($editview_label[0],$app_strings['COMBO_ACCOUNTS']);
-			array_push($editview_label[1],$account_selected);
-			array_push($editview_label[2],"Accounts");
-		}
-		if(vtlib_isModuleActive('Contacts')) {
-			array_push($editview_label[0],$app_strings['COMBO_CONTACTS']);
-			array_push($editview_label[1],$contact_selected);
-			array_push($editview_label[2],"Contacts");
-		}
-		$fieldvalue[] = $parent_name;
-		$fieldvalue[] = $value;
-	}
 	elseif ($uitype == 9 || $uitype == 7) {
 		$editview_label[] = getTranslatedString($fieldlabel, $module_name);
 		$fldrs = $adb->pquery('select typeofdata from vtiger_field
@@ -1109,8 +1083,11 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		}
 		elseif(isset($_REQUEST['vendor_id']) && $_REQUEST['vendor_id'] != '')
 		{
-			$value = $_REQUEST['vendor_id'];
+			$value = vtlib_purify($_REQUEST['vendor_id']);
 			$vendor_name = getVendorName($value);
+		} else {
+			$value = 0;
+			$vendor_name = '';
 		}
 		$pop_type = 'specific';
 		if($uitype == 81)

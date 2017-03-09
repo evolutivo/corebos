@@ -45,6 +45,7 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 		$parentmodule = vtlib_purify($_REQUEST['module']);
 		$focus->list_fields = $cbMapLC->getListFieldsFor($parentmodule);
 		$focus->list_fields_name = $cbMapLC->getListFieldsNameFor($parentmodule);
+		$focus->list_link_field = $cbMapLC->getListLinkFor($parentmodule);
 		if ($parentmodule == 'Home' and $cbMapLC->issetListFieldsMappingFor('Home')) {
 			$oCv->list_fields = $focus->list_fields;
 			$oCv->list_fields_name = $focus->list_fields_name;
@@ -53,6 +54,7 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 	if ($oCv) {
 		if (isset($oCv->list_fields)) {
 			$focus->list_fields = $oCv->list_fields;
+			$focus->list_fields_name = $oCv->list_fields_name;
 		}
 	}
 
@@ -453,7 +455,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 	$tabid = getTabid($module);
 	$bmapname = $module.'_ListColumns';
 	$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
-	if ($cbMapid) {
+	if ($cbMapid && !$focus->__inactive_fields_filtered) {
 		$cbMap = cbMap::getMapByID($cbMapid);
 		$cbMapLC = $cbMap->ListColumns();
 		$parentmodule = vtlib_purify($_REQUEST['module']);
@@ -1339,7 +1341,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 				$time = getSingleFieldValue('vtiger_activity', $timeField, 'activityid', $entity_id);
 			}
 		}
-		if ($temp_val == '0000-00-00' || empty($temp_val)) {
+		if (empty($temp_val) || $temp_val == '0000-00-00') {
 			$value = '';
 		} else {
 			if (empty($time) && strpos($temp_val, ' ') == false) {
@@ -1353,6 +1355,14 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					$value = $date->getDisplayDateTimeValue();
 				}
 			}
+		}
+	} elseif ($uitype == 50) {
+		$temp_val = trim($temp_val);
+		if (empty($temp_val) || $temp_val == '0000-00-00 00:00') {
+			$value = '';
+		} else {
+			$date = new DateTimeField($temp_val);
+			$value = $date->getDisplayDateTimeValue();
 		}
 	} elseif ($uitype == 15 || ($uitype == 55 && $fieldname == "salutationtype")) {
 		$temp_val = decode_html_force($adb->query_result($list_result, $list_result_count, $colname));
@@ -1555,32 +1565,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 			$tablename = "vtiger_contactdetails";
 			$fieldname = "contactname";
 			$idname = "contactid";
-		}
-		if ($parentid != '') {
-			$sql = "SELECT * FROM $tablename WHERE $idname = ?";
-			$fieldvalue = $adb->query_result($adb->pquery($sql, array($parentid)), 0, $fieldname);
-
-			$value = '<a href=index.php?module=' . $parenttype . '&action=DetailView&record=' . $parentid . '&parenttab=' . urlencode($tabname) . '>' . textlength_check($fieldvalue) . '</a>';
-		}
-		else
-			$value = '';
-	}
-	elseif ($uitype == 68) {
-		$parentid = $adb->query_result($list_result, $list_result_count, "parent_id");
-		$parenttype = $adb->query_result($list_result, $list_result_count, "parent_type");
-
-		if ($parenttype == '' && $parentid != '')
-			$parenttype = getSalesEntityType($parentid);
-
-		if ($parenttype == "Contacts") {
-			$tablename = "vtiger_contactdetails";
-			$fieldname = "contactname";
-			$idname = "contactid";
-		}
-		if ($parenttype == "Accounts") {
-			$tablename = "vtiger_account";
-			$fieldname = "accountname";
-			$idname = "accountid";
 		}
 		if ($parentid != '') {
 			$sql = "SELECT * FROM $tablename WHERE $idname = ?";
@@ -2004,9 +1988,11 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission('email1', $module) == "true") {
 							$emailaddress = $adb->query_result($list_result, $list_result_count, "email1");
 							$email_check = 1;
-						}
-						else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
+						$emailaddress2 = '';
 						if ($emailaddress == '') {
 							if (CheckFieldPermission('email2', $module) == 'true') {
 								$emailaddress2 = $adb->query_result($list_result, $list_result_count, "email2");
@@ -2034,9 +2020,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission('email', $module) == "true") {
 							$emailaddress = $adb->query_result($list_result, $list_result_count, "email");
 							$email_check = 1;
-						}
-						else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery($querystr, array(getTabid($module)));
 						//Change this index 0 - to get the vtiger_fieldid based on email1 or email2
@@ -2051,9 +2038,11 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission('email', $module) == "true") {
 							$emailaddress = $adb->query_result($list_result, $list_result_count, "email");
 							$email_check = 1;
-						}
-						else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
+						$emailaddress2 = '';
 						if ($emailaddress == '') {
 							if (CheckFieldPermission('secondaryemail', $module) == 'true') {
 								$emailaddress2 = $adb->query_result($list_result, $list_result_count, "secondaryemail");
@@ -2082,8 +2071,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission ( 'email', $module ) == "true") {
 							$emailaddress = $adb->query_result ( $list_result, $list_result_count, "email" );
 							$email_check = 1;
-						} else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid ( $module ) ));
 						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
@@ -2097,8 +2088,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission ( 'email', $module ) == "true") {
 							$emailaddress = $adb->query_result ( $list_result, $list_result_count, "email" );
 							$email_check = 1;
-						} else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid ( $module )));
 						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
@@ -2112,8 +2105,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission ( 'email', $module ) == "true") {
 							$emailaddress = $adb->query_result ( $list_result, $list_result_count, "email" );
 							$email_check = 1;
-						} else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid( $module )));
 						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
@@ -2127,8 +2122,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						if (CheckFieldPermission ( 'email', $module ) == "true") {
 							$emailaddress = $adb->query_result ( $list_result, $list_result_count, "email" );
 							$email_check = 1;
-						} else
+						} else {
+							$emailaddress = '';
 							$email_check = 0;
+						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid( $module )));
 						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
@@ -3044,7 +3041,7 @@ function getRelatedTo($module, $list_result, $rset) {
 
 	$parent_module = $adb->query_result($evt_result, 0, 'setype');
 	$parent_id = $adb->query_result($evt_result, 0, 'crmid');
-
+	$parent_name = '';
 	if ($numrows > 1) {
 		$parent_module = 'Multiple';
 		$parent_name = $app_strings['LBL_MULTIPLE'];
@@ -3542,6 +3539,7 @@ function getRelCheckquery($currentmodule, $returnmodule, $recordid) {
 	$skip_id = Array();
 	$where_relquery = "";
 	$params = array();
+	$reltable = null;
 	if ($currentmodule == "Contacts" && $returnmodule == "Potentials") {
 		$reltable = 'vtiger_contpotentialrel';
 		$condition = 'WHERE potentialid = ?';
@@ -3822,13 +3820,13 @@ function getListViewEditLink($module, $entity_id, $relatedlist, $returnset, $res
 
 	$edit_link .= "&parenttab=" . $tabname . $url;
 	//Appending view name while editing from ListView
-	$edit_link .= "&return_viewname=" . $_SESSION['lvs'][$module]["viewname"];
+	$edit_link .= '&return_viewname=' . (isset($_SESSION['lvs'][$module]['viewname']) ? $_SESSION['lvs'][$module]['viewname'] : '');
 	if ($module == 'Emails')
 		$edit_link = 'javascript:;" onclick="OpenCompose(\'' . $entity_id . '\',\'edit\');';
 	return $edit_link;
 }
 
-/** 	Function to get the Del link details for ListView and RelatedListView
+/** Function to get the Del link details for ListView and RelatedListView
  * 	@param string 	$module 	- module name
  * 	@param int 	$entity_id 	- record id
  * 	@param string 	$relatedlist 	- string "relatedlist" or may be empty. if empty means ListView else relatedlist

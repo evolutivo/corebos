@@ -224,7 +224,7 @@
                                                        </div>
                                                   </td>
                                              {elseif $keyid eq '50' || $keyid eq '73' || $keyid eq '51'} <!--AccountPopup-->
-                                                  <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}">&nbsp;<a href="{$keyseclink}">{$keyval}</a>
+                                                  <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="vtlib_listview.trigger('cell.onmouseover', this);" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">&nbsp;<a href="{$keyseclink}">{$keyval}</a>
                                                   </td>
                                              {elseif $keyid eq '57'} <!--ContactPopup-->
 						<!-- Ajax edit link not provided for contact - Reports To -->
@@ -351,23 +351,23 @@
 							</tr>
 							{/foreach}
 
-				{elseif $keyid eq 5}
+				{elseif $keyid eq 5 || $keyid eq 50}
 					{* Initialize the date format if not present *}
 					{if empty($dateFormat)}
 						{assign var="dateFormat" value=$APP.NTC_DATE_FORMAT|@parse_calendardate}
 					{/if}
-					<td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">
-						&nbsp;&nbsp;<span id="dtlview_{$label}">
+					<td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');">
+						&nbsp;&nbsp;<span id="dtlview_{$keyfldname}">
 							{$keyval}
 						</span>
-						<div id="editarea_{$label}" style="display:none;">
-							<input style="border:1px solid #bababa;" size="11" maxlength="10" type="text" id="txtbox_{$label}" name="{$keyfldname}" maxlength='100' value="{$keyval|regex_replace:'/[^-]*(--)[^-]*$/':''}"></input>
+						<div id="editarea_{$keyfldname}" style="display:none;">
+							<input style="border:1px solid #bababa;" size="{if $keyid eq 5}10{else}16{/if}" maxlength="{if $keyid eq 5}10{else}16{/if}" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}"  value="{$keyval|regex_replace:'/[^-]*(--)[^-]*$/':''}"></input>
                                                         <img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}" id="jscal_trigger_{$keyfldname}">
-							<br><input name="button_{$label}" type="button" class="crmbutton small save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');"/> {$APP.LBL_OR}
-							<a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+							<br><input name="button_{$keyfldname}" type="button" class="crmbutton small save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();"/> {$APP.LBL_OR}
+							<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 							<script type="text/javascript">
 								Calendar.setup ({ldelim}
-									inputField : "txtbox_{$label}", ifFormat : '{$dateFormat}', showsTime : false, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1
+									inputField : "txtbox_{$keyfldname}", ifFormat : '{$dateFormat}{if $keyid eq 50} %H:%M{/if}', showsTime : {if $keyid eq 5}false{else}true{/if}, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1
 								{rdelim})
 							</script>
 						</div>

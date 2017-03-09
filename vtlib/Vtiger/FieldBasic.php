@@ -26,7 +26,6 @@ class Vtiger_FieldBasic {
 	var $uitype = 1;
 	var $typeofdata = 'V~O';
 	var	$displaytype   = 1;
-
 	var $generatedtype = 1;
 	var	$readonly      = 1;
 	var	$presence      = 2;
@@ -36,7 +35,6 @@ class Vtiger_FieldBasic {
 	var	$quickcreate   = 1;
 	var	$quicksequence = false;
 	var	$info_type     = 'BAS';
-
 	var $block;
 
 	/**
@@ -192,6 +190,22 @@ class Vtiger_FieldBasic {
 	 * @internal TODO
 	 */
 	function __update() {
+		$db = PearDatabase::getInstance();
+		$query = 'UPDATE vtiger_field SET typeofdata=?,presence=?,quickcreate=?,masseditable=?,defaultvalue=?';
+		$params = array($this->typeofdata, $this->presence, $this->quickcreate, $this->masseditable, $this->defaultvalue);
+
+		if (!empty($this->uitype)) {
+			$query .= ', uitype=?';
+			$params[] = $this->uitype;
+		}
+		if (!empty($this->label)) {
+			$query .= ', fieldlabel=?';
+			$params[] = decode_html($this->label);
+		}
+		$query .= ' WHERE fieldid=?';
+		$params[] = $this->id;
+
+		$db->pquery($query,$params);
 		self::log("Updating Field $this->name ... DONE");
 	}
 

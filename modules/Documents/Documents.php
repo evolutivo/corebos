@@ -91,7 +91,7 @@ class Documents extends CRMEntity {
 		$filetype_fieldname = $this->getFileTypeFieldName();
 		$filename_fieldname = $this->getFile_FieldName();
 		if($this->column_fields[$filetype_fieldname] == 'I' ){
-			if($_FILES[$filename_fieldname]['name'] != ''){
+			if (!empty($_FILES[$filename_fieldname]['name'])) {
 				$filedownloadcount = 0;
 				$errCode=$_FILES[$filename_fieldname]['error'];
 					if($errCode == 0){
@@ -288,8 +288,7 @@ class Documents extends CRMEntity {
 	function getSortOrderForFolder($folderId) {
 		if(isset($_REQUEST['sorder']) && $_REQUEST['folderid'] == $folderId) {
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
-		} elseif(is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) &&
-					!empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
+		} elseif(isset($_SESSION['NOTES_FOLDER_SORT_ORDER']) && is_array($_SESSION['NOTES_FOLDER_SORT_ORDER']) && !empty($_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId])) {
 				$sorder = $_SESSION['NOTES_FOLDER_SORT_ORDER'][$folderId];
 		} else {
 			$sorder = $this->default_sort_order;
@@ -308,8 +307,7 @@ class Documents extends CRMEntity {
 		}
 		if (isset($_REQUEST['order_by']) && $_REQUEST['folderid'] == $folderId) {
 			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
-		} elseif(is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) &&
-				!empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
+		} elseif(!empty($_SESSION['NOTES_FOLDER_ORDER_BY']) && is_array($_SESSION['NOTES_FOLDER_ORDER_BY']) && !empty($_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId])) {
 			$order_by = $_SESSION['NOTES_FOLDER_ORDER_BY'][$folderId];
 		} else {
 			$order_by = ($use_default_order_by);
@@ -419,7 +417,7 @@ class Documents extends CRMEntity {
 	 */
 	function setRelationTables($secmodule){
 		$rel_tables = array();
-		return $rel_tables[$secmodule];
+		return '';
 	}
 
 	// Function to unlink all the dependent entities of the given Entity by Id
@@ -535,7 +533,7 @@ class Documents extends CRMEntity {
 		$currentModule='Documents';
 		if(isPermitted($related_module,4, '') == 'yes') {
 			$button .= "<input title='".getTranslatedString('LBL_SELECT')." ". getTranslatedString($related_module). "' class='crmbutton small edit' " .
-					" type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id&parenttab=$parenttab','test','width=640,height=602,resizable=0,scrollbars=0');\"" .
+					" type='button' onclick=\"return window.open('index.php?module=$related_module&return_module=$currentModule&action=Popup&popuptype=detailview&select=enable&form=EditView&form_submit=false&recordid=$id','test','width=640,height=602,resizable=0,scrollbars=0');\"" .
 					" value='". getTranslatedString('LBL_SELECT'). " " . getTranslatedString($related_module, $related_module) ."'>&nbsp;";
 		}
 		$query = "select case when (vtiger_users.user_name not like '') then vtiger_users.user_name else vtiger_groups.groupname end as user_name,
@@ -571,7 +569,7 @@ class Documents extends CRMEntity {
 			$entries[] = $row['user_name'];
 			$entries_list[] = $entries;
 		}
-		$return_data = array('header'=>$header,'entries'=>$entries_list,'CUSTOM_BUTTON' => $button);
+		$return_data = array('header'=>$header,'entries'=>$entries_list,'CUSTOM_BUTTON' => $button,'navigation'=>array('',''));
 		$log->debug("Exiting getEntities method ...");
 		return $return_data;
 	}

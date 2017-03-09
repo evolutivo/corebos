@@ -18,7 +18,7 @@
 {if $PICKIST_DEPENDENCY_DATASOURCE neq ''}
 <script type="text/javascript">
 	jQuery(document).ready(function() {ldelim} (new FieldDependencies({$PICKIST_DEPENDENCY_DATASOURCE})).init() {rdelim});
-	var Inventory_ListPrice_ReadOnly = '{$Inventory_ListPrice_ReadOnly}';
+	var Inventory_ListPrice_ReadOnly = '{if isset($Inventory_ListPrice_ReadOnly)}{$Inventory_ListPrice_ReadOnly}{/if}';
 </script>
 {/if}
 
@@ -41,7 +41,7 @@
 			{/if}
 			{if $OP_MODE eq 'create_view'}
 				{if $DUPLICATE neq 'true'}
-					<span class="lvtHeaderText">{$APP.LBL_CREATING} {$APP.LBL_NEW} {$SINGLE_MOD|@getTranslatedString:$MODULE}</span> <br>
+					<span class="lvtHeaderText">{$APP.LBL_CREATING} {$SINGLE_MOD|@getTranslatedString:$MODULE}</span> <br>
 				{else}
 					<span class="lvtHeaderText">{$APP.LBL_DUPLICATING} "{$NAME}" </span> <br>
 				{/if}

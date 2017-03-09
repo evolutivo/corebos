@@ -376,13 +376,13 @@ class ListViewController {
 					}
 				}elseif($field->getFieldDataType() == 'date' ||
 						$field->getFieldDataType() == 'datetime') {
-					if($value != '' && $value != '0000-00-00') {
+					if(!empty($value) && $value != '0000-00-00' && $value != '0000-00-00 00:00') {
 						$date = new DateTimeField($value);
 						$value = $date->getDisplayDate();
 						if($field->getFieldDataType() == 'datetime') {
 							$value .= (' ' . $date->getDisplayTime());
 						}
-					} elseif ($value == '0000-00-00') {
+					} elseif (empty($value) || $value == '0000-00-00' || $value == '0000-00-00 00:00') {
 						$value = '';
 					}
 				} elseif($field->getFieldDataType() == 'currency') {
@@ -573,7 +573,7 @@ class ListViewController {
 					} else {
 						$parentModule = $this->typeList[$value];
 					}
-					if(!empty($value) && !empty($this->nameList[$fieldName]) && !empty($parentModule)) {
+					if(!empty($value) && !empty($this->nameList[$fieldName]) && !empty($this->nameList[$fieldName][$value]) && !empty($parentModule)) {
 						$parentMeta = $this->queryGenerator->getMeta($parentModule);
 						$value = textlength_check($this->nameList[$fieldName][$value]);
 						if ($parentMeta->isModuleEntity() && $parentModule != "Users") {
