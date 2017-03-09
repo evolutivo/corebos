@@ -150,7 +150,7 @@ var alert_arr = {
       'INVALID_QTY':'Cantidad Inválida',
       'LBL_SEARCH_WITHOUTSEARCH_CURRENTPAGE':'You have used search option but you have not selected without search & currentpage options.\n You can click [ok]to export  current page data or You can click [cancel] and try again with some other export criteria.',
       'LBL_SELECT_COLUMN':'Columna inválida.\nSelecciona columna.',
-      'LBL_NOT_ACCESSIBLE':'No Accesible',
+      'LBL_NOT_ACCESSIBLE':'Inaccesible',
       'LBL_FILENAME_LENGTH_EXCEED_ERR':'El nombre del fichero no puede contener más de 255 caracteres.',
       'LBL_DONT_HAVE_EMAIL_PERMISSION':'No tienes permiso para acceder al campo de email.',
       'LBL_NO_FEEDS_SELECTED':'No se ha seleccionado una difusión',
@@ -383,7 +383,7 @@ var alert_arr = {
 	'MUST_SELECT_ONE_MODULE_FOR_REPORT' : 'Debes seleccionar un módulo relacionado para este tipo de informe',
 	'LBL_NEW_CONDITION' : 'Nueva condición',
 	'WF_UPDATE_MAP_ERROR' : '**ERROR**: Esta acción utiliza un campo que no está disponible: ',
-	'WF_UPDATE_MAP_ERROR_INFO' : 'Se cargará la acción con información INCORRECTA para que puedas arreglarla. NO ES CORRECTA!',
+	'WF_UPDATE_MAP_ERROR_INFO' : 'Se cargará la acción con información INCORRECTA para que puedas arreglarla. La información mostrada NO ES CORRECTA!',
 	'MoveUp' : 'Mover Arriba',
 	'MoveDown' : 'Mover Abajo',
 	'Products' : 'Productos',
@@ -398,5 +398,6 @@ var alert_arr = {
 	'ERR_INVALID_HOUR'  :  'Por favor, introduzca una hora válida',
 	'ERR_INVALID_TIME'  :  'Por favor, introduzca un tiempo válido',
 	'ERR_EMAIL_WITH_NO_SUBJECT' : 'No has introducido un asunto para este email. Puedes añadir uno ahora.',
-	'EMAIL_SIN_ASUNTO' : '(sin-asunto)'
+	'EMAIL_WITH_NO_SUBJECT' : '(sin-asunto)',
+	'INTEGERVALS':'Solo están permitidos valores enteros'
 };

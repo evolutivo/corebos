@@ -105,9 +105,7 @@ class CRMEntity {
 		$this->db->println("TRANS saveentity starts $module");
 		$this->db->startTransaction();
 
-
 		foreach ($this->tab_name as $table_name) {
-
 			if ($table_name == "vtiger_crmentity") {
 				$this->insertIntoCrmEntity($module, $fileid);
 			} else {
@@ -134,7 +132,6 @@ class CRMEntity {
 				relateEntities($on_focus, $for_module, $for_crmid, $with_module, $with_crmid);
 			}
 		}
-		// END
 	}
 
 	function insertIntoAttachment($id, $module, $direct_import=false) {
@@ -325,9 +322,7 @@ class CRMEntity {
 	 * @param $module -- module:: Type varchar
 	 */
 	function insertIntoCrmEntity($module, $fileid = '') {
-		global $adb;
-		global $current_user;
-		global $log;
+		global $adb, $current_user, $log;
 
 		if ($fileid != '') {
 			$this->id = $fileid;
@@ -337,6 +332,15 @@ class CRMEntity {
 		$date_var = date("Y-m-d H:i:s");
 
 		$ownerid = $this->column_fields['assigned_user_id'];
+		if (strpos($ownerid,'x')>0) { // we have a WSid
+			$usrWSid = vtws_getEntityId('Users');
+			list($inputWSid,$inputCRMid) = explode('x',$ownerid);
+			if ($usrWSid==$inputWSid) {
+				$ownerid = $inputCRMid;
+			} else {
+				die('Invalid user id!');
+			}
+		}
 
 		$sql = "select ownedby from vtiger_tab where name=?";
 		$res = $adb->pquery($sql, array($module));
@@ -607,6 +611,13 @@ class CRMEntity {
 					} else {
 						$fldvalue = $this->column_fields[$fieldname];
 					}
+				} elseif ($uitype == 50) {
+					if (isset($current_user->date_format) && !$ajaxSave) {
+						$fldvalue = getValidDBInsertDateTimeValue($this->column_fields[$fieldname]);
+					} else {
+						$fldvalue = $this->column_fields[$fieldname];
+					}
+					if (empty($fldvalue)) $fldvalue = null;
 				//} elseif ($uitype == 7) {
 					//strip out the spaces and commas in numbers if given ie., in amounts there may be ,
 					//$fldvalue = str_replace(",", "", $this->column_fields[$fieldname]); //trim($this->column_fields[$fieldname],",");
@@ -706,11 +717,13 @@ class CRMEntity {
 			$dbvals = $result = array();
 			foreach ($this->tab_name_index as $table_name => $index) {
 				$result = $adb->pquery("select * from $table_name where $index=?", array($this->id));
-				$flds = $adb->fetch_array($result);
-				$dbvals = array_merge($dbvals,$flds);
+				if ($result and $adb->num_rows($result)>0) {
+					$flds = $adb->fetch_array($result);
+					$dbvals = array_merge($dbvals,$flds);
+				}
 			}
 			self::$dbvalues = $dbvals;
-			$dbvalue = self::$dbvalues[$fieldname];
+			$dbvalue = empty(self::$dbvalues[$fieldname]) ? 0 : self::$dbvalues[$fieldname];
 			$fldrs = $adb->pquery('select fieldname,typeofdata from vtiger_field
 				where vtiger_field.uitype in (7,9,71,72) and vtiger_field.tabid=?', array($tabid));
 			while ($fldinf = $adb->fetch_array($fldrs)) {
@@ -1151,20 +1164,20 @@ class CRMEntity {
 		$joinedTables[] = 'vtiger_users';
 		$joinedTables[] = 'vtiger_groups';
 
-		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
+		$linkedModulesQuery = $this->db->pquery("SELECT distinct tablename, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
 			" WHERE uitype='10' AND vtiger_fieldmodulerel.module=?", array($module));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for($i=0; $i<$linkedFieldsCount; $i++) {
 			$related_module = $this->db->query_result($linkedModulesQuery, $i, 'relmodule');
-			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
+			$tablename = $this->db->query_result($linkedModulesQuery, $i, 'tablename');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
 			$other = CRMEntity::getInstance($related_module);
 
 			if(!in_array($other->table_name, $joinedTables)) {
-				$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
+				$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $tablename.$columnname";
 				$joinedTables[] = $other->table_name;
 			}
 		}
@@ -1344,6 +1357,9 @@ class CRMEntity {
 	function trash($module, $id) {
 		global $log, $current_user, $adb;
 
+		if (getSalesEntityType($id)!=$module) { // security
+			return false;
+		}
 		require_once("include/events/include.inc");
 		$em = new VTEventsManager($adb);
 
@@ -1374,6 +1390,9 @@ class CRMEntity {
 	function unlinkDependencies($module, $id) {
 		global $log;
 
+		if (getSalesEntityType($id)!=$module) { // security
+			return false;
+		}
 		$fieldRes = $this->db->pquery('SELECT tabid, tablename, columnname FROM vtiger_field WHERE fieldid IN (
 			SELECT fieldid FROM vtiger_fieldmodulerel WHERE relmodule=?)', array($module));
 		$numOfFields = $this->db->num_rows($fieldRes);
@@ -1636,8 +1655,7 @@ class CRMEntity {
 			$fld_column = $adb->query_result($fieldinfo, 0, 'columnname');
 
 			if ($fld_table == $this->table_name) {
-				$records = $adb->query("SELECT $this->table_index AS recordid FROM $this->table_name " .
-						"WHERE $fld_column = '' OR $fld_column is NULL");
+				$records = $adb->query("SELECT $this->table_index AS recordid FROM $this->table_name WHERE $fld_column = '' OR $fld_column is NULL");
 
 				if ($records && $adb->num_rows($records)) {
 					$returninfo['totalrecords'] = $adb->num_rows($records);
@@ -2433,7 +2451,7 @@ class CRMEntity {
 	 *
 	 * @var Array
 	 */
-	protected $__inactive_fields_filtered = false;
+	public $__inactive_fields_filtered = false;
 
 	/**
 	 * Filter in-active fields based on type
@@ -2599,8 +2617,7 @@ class CRMEntity {
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$sharedTabId = null;
 		$query = '';
-		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 ||
-				count($sharingRuleInfo['GROUP']) > 0)) {
+		if (!empty($sharingRuleInfo) && (count($sharingRuleInfo['ROLE']) > 0 || count($sharingRuleInfo['GROUP']) > 0)) {
 			$query = " (SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per " .
 					"WHERE userid=$user->id AND tabid=$tabId) UNION (SELECT " .
 					"vtiger_tmp_read_group_sharing_per.sharedgroupid FROM " .

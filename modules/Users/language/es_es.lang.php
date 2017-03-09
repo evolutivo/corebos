@@ -117,6 +117,7 @@ $mod_strings = Array(
 'ERR_REENTER_PASSWORDS'=>"Por favor, vuelva a introducir sus contraseñas. Los valores de 'Nueva Contraseña' y 'Confirmar Contraseña' no coinciden.",
 'ERR_INVALID_PASSWORD'=>'Debe especificar un nombre de usuario y contraseña válidos.',
 'ERR_INVALID_ADMINIPLOGIN' => 'Administradores deben acceder desde dispositivos autorizados.',
+'ERR_INVALID_USERIPLOGIN' => 'Acceso restringido a personal autorizado.<br> Estás conectando desde una IP inválida.',
 'ERR_PASSWORD_CHANGE_FAILED_1'=>'El Cambio de contraseña ha fallado para ',
 'ERR_PASSWORD_CHANGE_FAILED_2'=>' Error. La nueva contraseña debe ser fijada.',
 'ERR_PASSWORD_INCORRECT_OLD'=>'Contraseña actual incorrecta para el usuario. Vuelva a introducir la información de las contraseñas.',
@@ -585,8 +586,6 @@ $mod_strings = Array(
 'LBL_TRANSFER_ROLES_TO_PROFILE'=>'Transferir Roles al Perfil',
 'LBL_PROFILE_TO_BE_DELETED'=>'Perfil para Borrar',
 
-//Added for disabling window Recalculate
-
 'LBL_RECALC_MSG'=>'¿Seguro que quiere Modificar los accesos compartidos?',
 'LBL_YES'=>'Si',
 'LBL_NO'=>'No',
@@ -594,19 +593,14 @@ $mod_strings = Array(
 'LBL_MANDATORY_MSG'=>'Campos Obligatorios',
 'LBL_DISABLE_FIELD_MSG'=>'Campos Deshabilitados desde Configuración de Acceso Global',
 
-//Added for About Us
-
 'LBL_CONTACT_US'=>'Contacte',
 'LBL_READ_LICENSE'=>'Leer Licencia',
 'LBL_VERSION'=>'Versión',
 'LBL_TEAM'=>'Equipo',
 'LBL_CREDITS'=>'Créditos',
 'LBL_THIRD_PARTY'=>'Paquetes de Terceros',
-'LBL_COMMUNITY'=>'Y Comunidad VTIGER',
 
 'LBL_ASSIGN_ROLE'=>'Asignar Rol',
-
-//Moved from Settings to here for Webmail client integration (for 5.0.3 release)
 
 'LBL_ADD_MAIL_ACCOUNT'=>'Añadir Cuenta de Correo',
 'LBL_NEW_MAIL_ACCOUNT_TITLE'=>'Nueva Cuenta de Correo [Alt+M]',
@@ -627,7 +621,7 @@ $mod_strings = Array(
 'LBL_IMAP4'=>'IMAP4',
 'LBL_POP'=>'POP',
 'LBL_IMAP'=>'IMAP',
-'LBL_MAIL_DISCLAIM'=>'Los elementos señalados con <font color="red">*</font> son obligatorios<br>Los elementos señalados con <font color="red">* *</font> no están soportados completamente',
+'LBL_MAIL_DISCLAIM'=>'Los elementos señalados con <font color="red">*</font> son obligatorios',
 'LBL_SSL_OPTIONS'=>'Opciones de SSL',
 'LBL_TLS'=>'TLS',
 'LBL_NO_TLS'=>'No TLS',
@@ -657,7 +651,6 @@ $mod_strings = Array(
 
 'LBL_ENTER_PROFILE'=>'Introducir Nombre del Perfil',
 'TITLE_USER_DOCUMENT'=>'Documento sin Nombre',
-'TITLE_VTIGER_CRM_5'=>'Open Source CRM',
 'ROLE_DRAG_ERR_MSG'=>'No puedes mover un Nodo Padre bajo un Nodo Hijo',
 
 'LBL_NOTIFICATION_ACTIVITY'=>'Notificación de Actividad',
@@ -691,7 +684,7 @@ $mod_strings = Array(
 //Fixed For Asterisk Configration
 'Asterisk Configuration' => 'Configuración Asterisk',
 'Asterisk Extension' => 'Extensión Asterisk',
-' Receive Incoming Calls' => 'Usar Asterisk',
+'Receive Incoming Calls' => 'Usar Asterisk',
 
 // Added for Create Custom Fields 
 'LBL_USER_CUSTOMFIELDS_DESCRIPTION' => 'Crear Campos Personalizados para Usuarios ',
@@ -816,7 +809,7 @@ $mod_strings = Array(
 'Decimal Separator' => 'Separador Decimal',
 'Digit Grouping Separator' => 'Separador de Grupo de dígitos',
 'Symbol Placement' => 'Posición de Símbolo',
-'Number Of Currency Decimals'  =>  'Number de Decimales',
+'Number Of Currency Decimals'  =>  'Número de Decimales',
 'PASSWORD REQUIREMENTS' => 'REQUISITOS CONTRASEÑA',
 'REQUIRED' => 'OBLIGATORIO',
 'Min. 8 characters' => 'Mínimo 8 caracteres',

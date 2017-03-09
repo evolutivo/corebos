@@ -46,6 +46,7 @@
 	<a name="top"></a>
 	<!-- header -->
 	<!-- header-vtiger crm name & RSS -->
+	<script type="text/javascript" src="include/sw-precache/service-worker-registration.js"></script>
 	<script type="text/javascript" src="include/jquery/jquery.js"></script>
 	<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
 	<script type="text/javascript" src="include/js/meld.js"></script>
@@ -302,6 +303,7 @@
 {/if}
 {$COREBOS_HEADER_PREMENU}
 <!-- header - master tabs -->
+<div class="noprint">
 <div class="slds-context-bar">
 	<div class="slds-context-bar__primary slds-context-bar__item--divider-right">
 		<div class="slds-context-bar__item slds-context-bar__dropdown-trigger slds-dropdown-trigger slds-dropdown-trigger--click slds-no-hover">
@@ -343,6 +345,7 @@
 			</div>
 		</div>
 	</nav>
+</div>
 </div>
 </td>
 

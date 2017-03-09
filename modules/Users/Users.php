@@ -328,16 +328,40 @@ class Users extends CRMEntity {
 
 		$this->loadPreferencesFromDB($row['user_preferences']);
 
+		// Make sure user is logging in from authorized IPs
+		$UserLoginIPs = GlobalVariable::getVariable('Application_UserLoginIPs','','Users',$this->id);
+		if ($UserLoginIPs != '') {
+			$user_ip_addresses = explode(',',$UserLoginIPs);
+			$the_ip = Vtiger_Request::get_ip();
+			if (!in_array($the_ip,$user_ip_addresses)) {
+				$row['status'] = 'Inactive';
+				$this->authenticated = false;
+				coreBOS_Session::set('login_error', getTranslatedString('ERR_INVALID_USERIPLOGIN','Users'));
+				$mailsubject = "[Security Alert]: User login attempt rejected for login: $usr_name from external IP: $the_ip";
+				$this->log->warn($mailsubject);
+				// Send email with authentification error.
+				$mailto = GlobalVariable::getVariable('Debug_Send_UserLoginIPAuth_Error','','Users');
+				if ($mailto != '') {
+					require_once('modules/Emails/mail.php');
+					require_once('modules/Emails/Emails.php');
+					$HELPDESK_SUPPORT_EMAIL_ID = GlobalVariable::getVariable('HelpDesk_Support_EMail','support@your_support_domain.tld','HelpDesk');
+					$HELPDESK_SUPPORT_NAME = GlobalVariable::getVariable('HelpDesk_Support_Name','your-support name','HelpDesk');
+					$mailcontent = $mailsubject. "\n";
+					send_mail('Emails',$mailto,$HELPDESK_SUPPORT_NAME,$HELPDESK_SUPPORT_EMAIL_ID,$mailsubject,$mailcontent);
+				}
+			}
+		}
 		// Make sure admin is logging in from authorized IPs
 		if ($row['is_admin'] == 'on' or $row['is_admin'] == '1') {
-			$AdminLoginIPs = GlobalVariable::getVariable('Application_AdminLoginIPs','','Users');
+			$AdminLoginIPs = GlobalVariable::getVariable('Application_AdminLoginIPs','','Users',$this->id);
 			if ($AdminLoginIPs != '') {
 				$admin_ip_addresses = explode(',',$AdminLoginIPs);
-				if (!in_array($_SERVER['REMOTE_ADDR'],$admin_ip_addresses)) {
+				$the_ip = Vtiger_Request::get_ip();
+				if (!in_array($the_ip,$admin_ip_addresses)) {
 					$row['status'] = 'Inactive';
 					$this->authenticated = false;
 					coreBOS_Session::set('login_error', getTranslatedString('ERR_INVALID_ADMINIPLOGIN','Users'));
-					$mailsubject = "[Security Alert]: Admin login attempt rejected for login: $usr_name from external IP: " . $_SERVER['REMOTE_ADDR'];
+					$mailsubject = "[Security Alert]: Admin login attempt rejected for login: $usr_name from external IP: $the_ip";
 					$this->log->warn($mailsubject);
 					// Send email with authentification error.
 					$mailto = GlobalVariable::getVariable('Debug_Send_AdminLoginIPAuth_Error','','Users');

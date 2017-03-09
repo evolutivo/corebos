@@ -97,19 +97,19 @@ class MailManager_Model_Message extends Vtiger_MailRecord {
 		// PARAMETERS
 		// get all parameters, like charset, filenames of attachments, etc.
 		$params = array();
-		if ($p->parameters) {
+		if (!empty($p->parameters)) {
 			foreach ($p->parameters as $x) $params[ strtolower( $x->attribute ) ] = $x->value;
 		}
-		if ($p->dparameters) {
+		if (!empty($p->dparameters)) {
 			foreach ($p->dparameters as $x) $params[ strtolower( $x->attribute ) ] = $x->value;
 		}
 
 		// ATTACHMENT
 		// Any part with a filename is an attachment,
 		// so an attached text file (type 0) is not mistaken as the message.
-		if ($params['filename'] || $params['name']) {
+		if (!empty($params['filename']) || !empty($params['name'])) {
 			// filename may be given as 'Filename' or 'Name' or both
-			$filename = ($params['filename'])? $params['filename'] : $params['name'];
+			$filename = (!empty($params['filename'])) ? $params['filename'] : $params['name'];
 			// filename may be encoded, so see imap_mime_header_decode()
 			if(!$this->_attachments) $this->_attachments = Array();
 			$this->_attachments[$filename] = $data;  // TODO: this is a problem if two files have same name

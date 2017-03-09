@@ -54,6 +54,9 @@ class Emails extends CRMEntity {
 	var $list_link_field = 'subject';
 	var $sortby_fields = Array('subject', 'date_start', 'saved_toid');
 
+	// For Alphabetical search
+	var $def_basicsearch_col = 'subject';
+
 	// Column value to use on detail view record text display
 	var $def_detailview_recname = 'subject';
 
@@ -108,22 +111,22 @@ class Emails extends CRMEntity {
 			}
 		} else {
 			if (isset($this->column_fields['parent_id']) && $this->column_fields['parent_id'] != '') {
-				$adb->pquery("DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ? ",
-						array($this->column_fields['parent_id'], $this->id));
+				$adb->pquery('DELETE FROM vtiger_seactivityrel WHERE crmid = ? AND activityid = ?', array($this->column_fields['parent_id'], $this->id));
 				//$this->insertIntoEntityTable('vtiger_seactivityrel', $module);
 				$sql = 'insert into vtiger_seactivityrel values(?,?)';
-				$params = array($this->column_fields['parent_id'], $this->id);
+				$realid = explode('@', $this->column_fields['parent_id']);
+				$mycrmid = $realid[0];
+				$params = array($mycrmid, $this->id);
 				$adb->pquery($sql, $params);
-			} elseif ($this->column_fields['parent_id'] == '' && $insertion_mode == "edit") {
+			} elseif ($this->column_fields['parent_id'] == '' && $this->mode == 'edit') {
 				$this->deleteRelation('vtiger_seactivityrel');
 			}
 		}
 
-
 		//Insert into cntactivity rel
 		if (isset($this->column_fields['contact_id']) && $this->column_fields['contact_id'] != '') {
 			$this->insertIntoEntityTable('vtiger_cntactivityrel', $module);
-		} elseif ($this->column_fields['contact_id'] == '' && $insertion_mode == "edit") {
+		} elseif (empty($this->column_fields['contact_id']) && $this->mode == 'edit') {
 			$this->deleteRelation('vtiger_cntactivityrel');
 		}
 
@@ -138,7 +141,7 @@ class Emails extends CRMEntity {
 		$file_saved = false;
 
 		//Added to send generated Invoice PDF with mail
-		$pdfAttached = $_REQUEST['pdf_attachment'];
+		$pdfAttached = isset($_REQUEST['pdf_attachment']) ? $_REQUEST['pdf_attachment'] : '';
 		//created Invoice pdf is attached with the mail
 		if (isset($_REQUEST['pdf_attachment']) && $_REQUEST['pdf_attachment'] != '') {
 			$file_saved = pdfAttach($this, $module, $pdfAttached, $id);
@@ -205,14 +208,13 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		if ($module == 'Emails' && isset($_REQUEST['doc_attachments']) && count($_REQUEST['doc_attachments']) > 0) {
 			$documentIds = $_REQUEST['doc_attachments'];
 			for ($i = 0; $i < count($documentIds); $i++) {
-				$query = "select attachmentsid from vtiger_seattachmentsrel where crmid={$documentIds[$i]}";
-				$res = $adb->query($query);
+				$query = 'select attachmentsid from vtiger_seattachmentsrel where crmid=?';
+				$res = $adb->pquery($query,array($documentIds[$i]));
 				$attachmentId = $adb->query_result($res, 0, 0);
-				$query = "insert into vtiger_seattachmentsrel values({$id}, {$attachmentId})";
-				$adb->query($query);
-$adb->pquery("Insert into vtiger_senotesrel values (?,?)",array($recordid,$attachmentId+1));
-$adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($attachmentId+1));
-
+				$query = 'insert into vtiger_seattachmentsrel values(?, ?)';
+				$adb->pquery($query,array($id,$attachmentId));
+                                $adb->pquery("Insert into vtiger_senotesrel values (?,?)",array($recordid,$attachmentId+1));
+                                $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($attachmentId+1));
 			}
 		}
 		if (isset($_REQUEST['att_module']) and $_REQUEST['att_module'] == 'Webmails') {
@@ -324,7 +326,7 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 			"Contacts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 			"Accounts" => array("vtiger_seactivityrel" => array("activityid", "crmid"), "vtiger_activity" => "activityid"),
 		);
-		return $rel_tables[$secmodule];
+		return isset($rel_tables[$secmodule]) ? $rel_tables[$secmodule] : '';
 	}
 
 	/** Returns a list of the associated contacts */
@@ -380,7 +382,7 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
 		else
-			$sorder = (($_SESSION['EMAILS_SORT_ORDER'] != '') ? ($_SESSION['EMAILS_SORT_ORDER']) : ($this->default_sort_order));
+			$sorder = (!empty($_SESSION['EMAILS_SORT_ORDER']) ? ($_SESSION['EMAILS_SORT_ORDER']) : ($this->default_sort_order));
 
 		$log->debug("Exiting getSortOrder method ...");
 		return $sorder;
@@ -403,7 +405,7 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		if (isset($_REQUEST['order_by']))
 			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
 		else
-			$order_by = (($_SESSION['EMAILS_ORDER_BY'] != '') ? ($_SESSION['EMAILS_ORDER_BY']) : ($use_default_order_by));
+			$order_by = (!empty($_SESSION['EMAILS_ORDER_BY']) ? ($_SESSION['EMAILS_ORDER_BY']) : ($use_default_order_by));
 
 		$log->debug("Exiting getOrderBy method ...");
 		return $order_by;
@@ -695,6 +697,7 @@ function pdfAttach($obj, $module, $file_name, $id) {
 	global $log, $adb, $current_user, $upload_badext;
 	$log->debug("Entering into pdfAttach() method.");
 
+	$file_name = basename($file_name);
 	$date_var = date('Y-m-d H:i:s');
 
 	$ownerid = $obj->column_fields['assigned_user_id'];

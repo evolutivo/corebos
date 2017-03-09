@@ -829,7 +829,7 @@ function deleteCustomField() {
 		$deltablequery_seq = 'drop table vtiger_'.$adb->sql_escape_string($colName).'_seq';
 		$adb->pquery($deltablequery_seq, array());
 		//Remove picklist dependencies
-		$adb->query("DELETE FROM vtiger_picklist_dependency WHERE vtiger_picklist_dependency.targetfield = '".$colName."'");
+		$adb->pquery('DELETE FROM vtiger_picklist_dependency WHERE vtiger_picklist_dependency.targetfield = ?',array($colName));
 	}
 	if($uitype == 10) {
 		$adb->pquery('DELETE FROM vtiger_fieldmodulerel WHERE fieldid=?',array($id));
@@ -911,11 +911,11 @@ function deleteBlock() {
 function addCustomField() {
 	global $current_user,$log,$adb;
 
-	$fldmodule=vtlib_purify($_REQUEST['fld_module']);
-	$fldlabel=vtlib_purify(trim($_REQUEST['fldLabel']));
-	$fldType= vtlib_purify($_REQUEST['fieldType']);
-	$parenttab=vtlib_purify($_REQUEST['parenttab']);
-	$mode=vtlib_purify($_REQUEST['mode']);
+	$fldmodule = vtlib_purify($_REQUEST['fld_module']);
+	$fldlabel = vtlib_purify(trim($_REQUEST['fldLabel']));
+	$fldType = vtlib_purify($_REQUEST['fieldType']);
+	$parenttab = isset($_REQUEST['parenttab']) ? vtlib_purify($_REQUEST['parenttab']) : '';
+	$mode = isset($_REQUEST['mode']) ? vtlib_purify($_REQUEST['mode']) : '';
 	$blockid = vtlib_purify($_REQUEST['blockid']);
 $numfields = vtlib_purify($_REQUEST['numfields']);
 if (empty($numfields)) $numfields=1;
@@ -1015,6 +1015,10 @@ if ($fldColName == ''){
 			$uichekdata='D~O';
 			$uitype = 5;
 			$type = "D"; // adodb type
+		}elseif($fldType == 'Datetime') {
+			$uichekdata='DT~O';
+			$uitype = 50;
+			$type = "T"; // adodb type
 		}elseif($fldType == 'Email') {
 			$uitype = 13;
 			$type = "C(50) default () "; //adodb type
@@ -1062,7 +1066,7 @@ if ($fldColName == ''){
 		}
 
 		if(is_numeric($blockid)) {
-			if($_REQUEST['fieldid'] == '') {
+			if(empty($_REQUEST['fieldid'])) {
 				$max_fieldsequence = "select max(sequence) as maxsequence from vtiger_field where block = ? ";
 				$res = $adb->pquery($max_fieldsequence,array($blockid));
 				$max_seq = $adb->query_result($res,0,'maxsequence');
@@ -1105,7 +1109,7 @@ if ($fldColName == ''){
 				if($fldType == 'Picklist' || $fldType == 'MultiSelectCombo') {
 					$columnName = $adb->sql_escape_string($columnName);
 					// Creating the PickList Table and Populating Values
-					if($_REQUEST['fieldid'] == '') {
+					if(empty($_REQUEST['fieldid'])) {
 						$qur = "CREATE TABLE vtiger_".$columnName." (
 							".$columnName."id int(19) NOT NULL auto_increment,
 							".$columnName." varchar(200) NOT NULL,

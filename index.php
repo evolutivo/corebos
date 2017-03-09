@@ -43,20 +43,6 @@ if(get_magic_quotes_gpc() == 1){
 	$_GET = array_map('stripslashes_checkstrings', $_GET);
 }
 
-// Allow for the session information to be passed via the URL for printing.
-if(isset($_REQUEST['PHPSESSID']))
-{
-	session_id($_REQUEST['PHPSESSID']);
-	//Setting the same session id to Forums as in CRM
-	$sid=$_REQUEST['PHPSESSID'];
-}
-
-if(isset($_REQUEST['view'])) {
-	//setcookie("view",$_REQUEST['view']);
-	$view = $_REQUEST["view"];
-	coreBOS_Session::set('view', $view);
-}
-
 /** Function to set, character set in the header, as given in include/language/*_lang.php */
 function insert_charset_header()
 {
@@ -71,6 +57,11 @@ function insert_charset_header()
 insert_charset_header();
 // Create or reestablish the current session
 coreBOS_Session::init(true);
+
+if(isset($_REQUEST['view'])) {
+	$view = $_REQUEST["view"];
+	coreBOS_Session::set('view', $view);
+}
 
 if (!is_file('config.inc.php')) {
 	header("Location: install.php");
@@ -208,8 +199,6 @@ $skipHeaders=false;
 $skipFooters=false;
 $viewAttachment = false;
 $skipSecurityCheck= false;
-//echo $module;
-// echo $action;
 
 if(isset($action) && isset($module))
 {
@@ -566,7 +555,6 @@ if($display == "no"
 		and !(($currentModule=='Tooltip' and $action==$module."Ajax" and $_REQUEST['file']=='ComputeTooltip')
 			or ($currentModule=='GlobalVariable' and $action==$module."Ajax" and $_REQUEST['file']=='SearchGlobalVar'))
 	) {
-	echo "<link rel='stylesheet' type='text/css' href='themes/$theme/style.css'>";
 	if ($action==$module."Ajax") {
 	echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'><tr><td align='center'>";
 	echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); position: relative; z-index: 10000000;'>
@@ -618,7 +606,7 @@ else if(!vtlib_isModuleActive($currentModule)
 // END
 else
 {
-	include($currentModuleFile);
+	include_once($currentModuleFile);
 }
 
 //added to get the theme . This is a bad fix as we need to know where the problem lies yet
