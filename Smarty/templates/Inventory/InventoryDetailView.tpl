@@ -201,16 +201,13 @@ function DeleteTag(id,recordid)
 
 							<td align=left style="padding:10px;"   ng-controller="detailViewng">
 							<!-- content cache -->
-								<form editable-form name="DetailView" id="form" >
-								{include file='DetailViewHidden.tpl'}
-                                                                </form>
 						
 								<table border=0 cellspacing=0 cellpadding=0 width=100%>
 													<tr valign=top>
 														<td style="padding:5px">
 															<!-- Command Buttons -->
 															<table border=0 cellspacing=0 cellpadding=0 width=100%>
-																<form action="index.php" method="post" name="DetailView" id="formDetailView">
+																<form editable-form action="index.php" method="post" name="DetailView" id="formDetailView">
 																	<input type="hidden" id="hdtxt_IsAdmin" value="{if isset($hdtxt_IsAdmin)}{$hdtxt_IsAdmin}{else}0{/if}">
 																	{include file='DetailViewHidden.tpl'}
 {foreach key=header item=detail from=$BLOCKS name=BLOCKS}
