@@ -156,6 +156,7 @@
 		<td valign=top align=left><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
 		<td align="center" valign=bottom>
 			<div align ="center" width ="50%" border='3' style="padding:5px;" class="noprint">
+                            {if $QCreateAction.QuickCreate eq 'yes'}
 				<table border=0 cellspacing=0 cellpadding=0 id="search" align="center">
 					<tr>
 						<form name="UnifiedSearch" method="post" action="index.php" style="margin:0px" onsubmit="if (document.getElementById('query_string').value=='') return false; VtigerJS_DialogBox.block();">
@@ -175,6 +176,7 @@
 						</form>
 					</tr>
 				</table>
+                            {/if}
 			</div>
 		</td>
 		<td class=small nowrap align="right" style="padding-right:10px;">
@@ -333,6 +335,7 @@
 		<div class="slds-context-bar__tertiary" style="float:left; margin-top:auto; margin-bottom:auto;">
 			<div class="slds-form-element">
 				<div class="slds-form-element__control">
+                                    {if $QCreateAction.QuickCreate eq 'yes'}
 					<div class="slds-select_container">
 						<select id="qccombo" class="slds-select" onchange="QCreate(this);">
 							<option value="none">{$APP.LBL_QUICK_CREATE}...</option>
@@ -341,6 +344,7 @@
 							{/foreach}
 						</select>
 					</div>
+                                    {/if}
 				</div>
 			</div>
 		</div>

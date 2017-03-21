@@ -536,45 +536,55 @@ class cbMap extends CRMEntity {
            return $target_fields;
         }
         
-function getMapPermissionActions  (){
-          $map=htmlspecialchars_decode($this->column_fields['content']);
-            $x = new crXml();
-            $x->loadXML($map);
-            $target_actions=array();
-            $target_actions==array();
-            $index=0;
-            foreach($x->map->fields->field->Orgfields[0] as $k=>$v) {
-               
-                if($k=='ResponsibleProfile'){
-                    foreach($v as $k1=>$v1) {
-                        if($k1=='values'){
-                            $target_profiles[]=  (string)$v1;
+        function getMapPermissionActions  (){
+                  $map=htmlspecialchars_decode($this->column_fields['content']);
+                    $x = new crXml();
+                    $x->loadXML($map);
+                    $target_actions=array();
+                    $target_actions==array();
+                    $target_roles==array();
+                    $index=0;
+                    foreach($x->map->fields->field->Orgfields[0] as $k=>$v) {
+
+                        if($k=='ResponsibleProfile'){
+                            foreach($v as $k1=>$v1) {
+                                if($k1=='values'){
+                                    $target_profiles[]=  (string)$v1;
+                                }
+                            }
                         }
-                    }
-                }
-                
-                if($k=='Actions'){
-                    foreach($v as $k1=>$v1) {
-                        if($k1=='values'){
-                            $target_actions[]=  (string)$v1;
+
+                        if($k=='ResponsibleRole'){
+                            foreach($v as $k1=>$v1) {
+                                if($k1=='values'){
+                                    $target_roles[]=  (string)$v1;
+                                }
+                            }
                         }
-                    }
-                }
-                
-                if($k=='View'){
-                    foreach($v as $k1=>$v1) {
-                        if($k1=='values'){
-                            $target_view[]=  (string)$v1;
+
+                        if($k=='Actions'){
+                            foreach($v as $k1=>$v1) {
+                                if($k1=='values'){
+                                    $target_actions[]=  (string)$v1;
+                                }
+                            }
                         }
-                    }
-                }
-              }
-           $target_fields['target_profiles'] = $target_profiles;
-           $target_fields['target_view'] = $target_view;
-           $target_fields['target_actions']=  $target_actions;
-                
-           return $target_fields;
-}
+
+                        if($k=='View'){
+                            foreach($v as $k1=>$v1) {
+                                if($k1=='values'){
+                                    $target_view[]=  (string)$v1;
+                                }
+                            }
+                        }
+                      }
+                   $target_fields['target_profiles'] = $target_profiles;
+                   $target_fields['target_roles'] = $target_roles;
+                   $target_fields['target_view'] = $target_view;
+                   $target_fields['target_actions']=  $target_actions;
+
+                   return $target_fields;
+        }
          function getMapMessageMailer(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();
@@ -621,14 +631,40 @@ function getMapPermissionActions  (){
                     $modulename=  (string)$v->name;
                     $field=  (string)$v->field;
                     $throughmodulename=array();
+                    $throughmodulename2=array();
+                    $condition=array();
                     // indirect related modules
                     $relmod=  (string)$v->step->throughmodule;
                     $throughfield=  (string)$v->step->throughfield;
                     if($relmod!==''){
                         $throughmodulename[$relmod]=  $throughfield;
                     }
+                    if(!empty($v->step2) && isset($v->step2) ){
+                        $relmod2=  (string)$v->step2->throughmodule;
+                        $throughfield2=  (string)$v->step2->throughfield;
+                        if($relmod2!==''){
+                            $throughmodulename2[$relmod2]=  $throughfield2;
+                        }
+                    }
+                    //condition
+                    $conditionfield=  (string)$v->condition->conditionfield;
+                    $conditionvalue=  (string)$v->condition->conditionvalue;
+                    $conditioncomparison=  (string)$v->condition->conditioncomparison;
+                    $ret_comp='=';
+                    if($conditioncomparison=='equal')
+                        $ret_comp='=';
+                    elseif($conditioncomparison=='notequal')
+                        $ret_comp='<>';
+                    elseif(!empty($conditioncomparison))
+                        $ret_comp=$conditioncomparison;
+                    
+                    if($conditionfield!==''){
+                        $condition[$conditionfield]=  array($ret_comp=>$conditionvalue);
+                    }
                     $rel_mod[$modulename]=array('field'=>$field,
-                        'throughmodule'=>$throughmodulename);
+                        'throughmodule'=>$throughmodulename,
+                        'throughmodule2'=>$throughmodulename2,
+                        'condition'=>$condition);
                 }
                 
               }

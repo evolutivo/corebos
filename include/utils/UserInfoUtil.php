@@ -533,6 +533,7 @@ function isPermittedBusinessRule($module,$actionname)
 {
     global $current_user,$adb;
     $userProfileArr = getUserProfile($current_user->id);
+    $roleid=$current_user->roleid;
     //check Button Control for current module 
     if(vtlib_isModuleActive('BusinessRules')){
     $q_business_rule="Select businessrule,linktomap"
@@ -546,23 +547,27 @@ function isPermittedBusinessRule($module,$actionname)
     $buttons = array();
     $res_business_rule = $adb->pquery($q_business_rule,array($module));
         if($adb->num_rows($res_business_rule)>0){
-            $linktomap = $adb->query_result($res_business_rule,$m,'linktomap');  
-            if(!empty($linktomap)) {
-                $mapfocus =  CRMEntity::getInstance("Map");
-                $mapfocus->retrieve_entity_info($linktomap,"Map");
-                $mapButtonControl = $mapfocus->getMapPermissionActions();
-                $profiles = $mapButtonControl['target_profiles']; 
-                $buttons = $mapButtonControl['target_actions'];
-                //we have a business rule for this user 
-                if(count(array_intersect($profiles ,$userProfileArr)) != 0)
-                { 
-                    if(in_array($actionname,$buttons)){
-                      return false;
-                    }
-                }   
+            for($count=0;$count<$adb->num_rows($res_business_rule);$count++){
+                $linktomap = $adb->query_result($res_business_rule,$count,'linktomap');  
+                if(!empty($linktomap)) {
+                    $mapfocus =  CRMEntity::getInstance("cbMap");
+                    $mapfocus->retrieve_entity_info($linktomap,"cbMap");
+                    $mapButtonControl = $mapfocus->getMapPermissionActions();
+                    $profiles = $mapButtonControl['target_profiles']; 
+                    $roles = $mapButtonControl['target_roles']; 
+                    $buttons = $mapButtonControl['target_actions'];
+                    //we have a business rule for this user 
+                    if((count(array_intersect($profiles ,$userProfileArr)) != 0 || in_array($roleid,$roles))
+                            )
+                    { 
+                        if(in_array($actionname,$buttons)){
+                          return false;
+                        }
+                    }   
+                }
             }
         }
-        } 
+    }
         return true;
 
 }

@@ -23,5 +23,8 @@ $operationInfo = array(
 	 	array('name' => 'module','type' => 'string'),
                 array('name' => 'fields','type' => 'encoded'),
                 array('name' => 'pickpay','type' => 'string'),
+                array('name' => 'limit','type' => 'string'),
+                array('name' => 'filter','type' => 'encoded'),
+                array('name' => 'orderby','type' => 'string'),
 	 )
 );

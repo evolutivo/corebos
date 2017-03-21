@@ -187,14 +187,14 @@
               {elseif $FIELD_UITYPE.$index eq '56'}
                       <input ng-model="user.{$fieldname}" ng-checked="user.{$fieldname}" name="{$fldname}" tabindex="{$vt_tab}" type="checkbox"> 
               {elseif $FIELD_UITYPE.$index eq '53'}
-                  <input type="hidden" ng-model="user.{$fieldname}"/>
+                  <input type="hidden" ng-model="user.{$fieldname}"/>{literal}{{{/literal}user.{$fieldname}_display2{literal}}}{/literal}
                   <select class="form-control" ng-model="user.{$fieldname}_display2" ng-change="put_ass('{$fieldname}');"
                           ng-options="op as op.crmname group by op.crmtype for op  in opt.{$fieldname} track by op.crmid"></select>
               {elseif in_array($FIELD_UITYPE.$index,array(69,105,28) )}
                   <input type="file" file-upload />
                         {literal}{{{/literal}user.{$fieldname}{literal}}}{/literal}
               {else}
-                  <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}"/>
+                  <input class="form-control" style="width:350px;" type="text" ng-model="user.{$fieldname}" placeholder="user.{$fieldname}_display2" />
               {/if}
                </td>
           </tr>
@@ -353,7 +353,7 @@ angular.module('demoApp')
       $scope.default_json={/literal}{$DEFAULT_VALUE_JSON}{literal};
       //$scope.map_field_dep={/literal}{$FLDDEP}{literal};
       //$scope.MAP_PCKLIST_TARGET={/literal}{$MAP_PCKLIST_TARGET}{literal};
-      var array_date = [5,6,23];
+      var array_date = ["5","6","23"];
       for(var i=0;i<$scope.col_json.length;i++){
           if(array_date.indexOf($scope.ui_json[i])!==-1){
               $scope.user[$scope.col_json[i]+'_display2']=($scope.user[$scope.col_json[i]] != undefined ? new Date($scope.user[$scope.col_json[i]]) : new Date());
@@ -364,22 +364,37 @@ angular.module('demoApp')
           else if($scope.ui_json[i]=='56'){
               $scope.user[$scope.col_json[i]]=($scope.user[$scope.col_json[i]]==1 ? true : false);
           }
-          if($scope.col_json[i]=='time_start'){
-              $scope.user[$scope.col_json[i]]=moment($scope.user[$scope.col_json[i]]).format('HH:mm');
-          }
-          if($scope.col_json[i]=='time_end'){
-              $scope.user[$scope.col_json[i]]=moment($scope.user[$scope.col_json[i]]).add(1, 'hours').format('HH:mm');
-          }
           if($scope.default_json[i]!=='' && type === 'create')
           {
               if(array_date.indexOf($scope.ui_json[i])!==-1){
-                  $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.default_json[i]);
+                  if(angular.isUndefined($scope.default_json[i]) || $scope.default_json[i] === null){
+                    var date = new Date();
+                    var startDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+                    $scope.user[$scope.col_json[i]+'_display2'] = new Date(startDate);
+                    $scope.user[$scope.col_json[i]] =  $filter('date')(new Date(), 'yyyy-MM-dd');
+
+                  }
+                  else{
+                    $scope.user[$scope.col_json[i]+'_display2']=new Date($scope.default_json[i]);
+                    $scope.user[$scope.col_json[i]]= $filter('date')(new Date(), 'yyyy-MM-dd');
+
+                  }
               }
               else if($scope.ui_json[i]=='53'){
                   $scope.user[$scope.col_json[i]+'_display2']={'crmid':$scope.default_json[i]};
               }
               else if($scope.ui_json[i]=='56'){
                   $scope.user[$scope.col_json[i]]=($scope.default_json[i]==1 ? true : false);
+              }
+              else if($scope.col_json[i]==='time_start'){
+                var date = new Date();
+                var startTime = date.getHours() + ':' + date.getMinutes();
+                $scope.user[$scope.col_json[i]] = startTime;
+              }
+              else if($scope.col_json[i]==='time_end'){
+                var date = new Date();
+                var endTime = (date.getHours()  + 1) + ':' + date.getMinutes();
+                $scope.user[$scope.col_json[i]] = endTime;
               }
               else
                   $scope.user[$scope.col_json[i]]=$scope.default_json[i];
