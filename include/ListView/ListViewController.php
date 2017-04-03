@@ -519,7 +519,7 @@ class ListViewController {
                                             $content="<a href='index.php?module=".$ret[0]['crmmodule']."&action=DetailView&record=".$value."'>".$ret[0]['crmname']."</a>";
 					}
 					$value = $content;
-				} elseif($field->getUIType() == 1024) {
+				} elseif ($field->getUIType() == 1024) {
 					$content=array();
 					if ($value != '') {
 						$arr_evo_actions=explode(' |##| ',$value);

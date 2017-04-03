@@ -129,6 +129,7 @@ if(!empty($_REQUEST['return_action'])) {
 } else {
 	$return_action = 'DetailView';
 }
+
 $req->set('return_record',$return_id);
 if(isset($_REQUEST['return_id']) && $_REQUEST['return_id'] != '') {
 	$req->set('return_record',$_REQUEST['return_id']);

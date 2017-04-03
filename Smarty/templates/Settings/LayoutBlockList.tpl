@@ -243,6 +243,7 @@ function getCreateCustomFieldFormold(modulename,blockid,mode)
 				}
 				gselected_fieldtype = '';}
 	});
+
 function getCreateCustomFieldForm(modulename,blockid,mode)
 {
    var check = validate(blockid);
