@@ -630,7 +630,7 @@ function getLeadName($lead_id) {
  */
 function getFullNameFromQResult($result, $row_count, $module) {
 	global $log, $adb, $current_user;
-	$log->info("In getFullNameFromQResult(" . print_r($result, true) . " - " . $row_count . "-" . $module . ") method ...");
+	$log->info('In getFullNameFromQResult(');
 
 	$rowdata = $adb->query_result_rowdata($result, $row_count);
 	$entity_field_info = getEntityFieldNames($module);
@@ -1513,6 +1513,7 @@ function getProductImages($id) {
  * This function is used to save the Images
  * It acceps the File lists,modulename,id and the mode as arguments
  * It returns the array details of the upload
+ * Note: this is not used anywhere. deprecated?
  */
 function SaveImage($files, $module, $id, $mode) {
 	global $log, $root_directory;
@@ -2164,12 +2165,12 @@ function decideFilePath() {
 
 	if (!is_dir($filepath . $year)) {
 		//create new folder
-		mkdir($filepath . $year);
+		@mkdir($filepath . $year);
 	}
 
 	if (!is_dir($filepath . $year . "/" . $month)) {
 		//create new folder
-		mkdir($filepath . "$year/$month");
+		@mkdir($filepath . "$year/$month");
 	}
 
 	if ($day > 0 && $day <= 7)
@@ -2185,12 +2186,12 @@ function decideFilePath() {
 
 	if (!is_dir($filepath . $year . "/" . $month . "/" . $week)) {
 		//create new folder
-		mkdir($filepath . "$year/$month/$week");
+		@mkdir($filepath . "$year/$month/$week");
 	}
 
 	$filepath = $filepath . $year . "/" . $month . "/" . $week . "/";
 	$log->debug("Year=$year & Month=$month & week=$week && filepath=\"$filepath\"");
-			break;
+		break;
 	}
 
 	$log->debug("Exiting from decideFilePath() method ...");
@@ -2854,28 +2855,24 @@ function ChangeTypeOfData_Filter($table_name, $column_name, $type_of_data) {
 }
 
 /** Returns the URL for Basic and Advance Search
- * Added to fix the issue 4600
  */
 function getBasic_Advance_SearchURL() {
 	$url = '';
 	if (!isset($_REQUEST['searchtype'])) return $url;
+	$url .= (isset($_REQUEST['query'])) ? '&query=' . urlencode(vtlib_purify($_REQUEST['query'])) : '';
+	$url .= (isset($_REQUEST['searchtype'])) ? '&searchtype=' . urlencode(vtlib_purify($_REQUEST['searchtype'])) : '';
 	if ($_REQUEST['searchtype'] == 'BasicSearch') {
-		$url .= (isset($_REQUEST['query']) && $_REQUEST['query'] == 'true') ? '&query=true' : '';
-		$url .= (isset($_REQUEST['search_field'])) ? '&search_field=' . vtlib_purify($_REQUEST['search_field']) : '';
+		$url .= (isset($_REQUEST['search_field'])) ? '&search_field=' . urlencode(vtlib_purify($_REQUEST['search_field'])) : '';
 		$url .= (isset($_REQUEST['search_text'])) ? '&search_text=' . to_html(vtlib_purify($_REQUEST['search_text'])) : '';
-		$url .= (isset($_REQUEST['searchtype'])) ? '&searchtype=' . vtlib_purify($_REQUEST['searchtype']) : '';
 		$url .= (isset($_REQUEST['type'])) ? '&type=' . vtlib_purify($_REQUEST['type']) : '';
-	}
-	if ($_REQUEST['searchtype'] == 'advance') {
-		$url .= (isset($_REQUEST['query'])) ? '&query=' . vtlib_purify($_REQUEST['query']) : '';
+	} elseif ($_REQUEST['searchtype'] == 'advance') {
 		$count = empty($_REQUEST['search_cnt']) ? 0 : vtlib_purify($_REQUEST['search_cnt']);
 		for ($i = 0; $i < $count; $i++) {
 			$url .= (isset($_REQUEST['Fields' . $i])) ? '&Fields' . $i . '=' . stripslashes(str_replace("'", "", vtlib_purify($_REQUEST['Fields' . $i]))) : '';
 			$url .= (isset($_REQUEST['Condition' . $i])) ? '&Condition' . $i . '=' . vtlib_purify($_REQUEST['Condition' . $i]) : '';
 			$url .= (isset($_REQUEST['Srch_value' . $i])) ? '&Srch_value' . $i . '=' . to_html(vtlib_purify($_REQUEST['Srch_value' . $i])) : '';
 		}
-		$url .= (isset($_REQUEST['searchtype'])) ? '&searchtype=' . vtlib_purify($_REQUEST['searchtype']) : '';
-		$url .= (isset($_REQUEST['search_cnt'])) ? '&search_cnt=' . vtlib_purify($_REQUEST['search_cnt']) : '';
+		$url .= (isset($_REQUEST['search_cnt'])) ? '&search_cnt=' . urlencode(vtlib_purify($_REQUEST['search_cnt'])) : '';
 		$url .= (isset($_REQUEST['matchtype'])) ? '&matchtype=' . vtlib_purify($_REQUEST['matchtype']) : '';
 	}
 	return $url;
@@ -3201,9 +3198,7 @@ function getSettingsBlockId($label) {
 // and if the module is an entity module
 // and the module has a Settings.php file within it
 function isModuleSettingPermitted($module) {
-	if (file_exists("modules/$module/Settings.php") &&
-			isPermitted('Settings', 'index', '') == 'yes') {
-
+	if (file_exists("modules/$module/Settings.php") && isPermitted('Settings', 'index', '') == 'yes') {
 		return 'yes';
 	}
 	return 'no';

@@ -436,7 +436,7 @@ $mod_strings = array (
 		'LBL_TRANSFER_USER_ROLE' => 'Changer le rôle du collaborateur',
 		'LBL_DELETE_ROLE' => 'Supprimer rôle',
 		'LBL_MORE_INFORMATION' => 'Informations complémentaires',
-		'LBL_USERLOGIN_ROLE' => 'Informations',
+		'LBL_USERLOGIN_ROLE' => 'Informations générales',
 		'LBL_USER_IMAGE_INFORMATION' => 'Ma photo',
 		'Role' => 'Rôle',
 		'Email' => 'Email',
@@ -546,7 +546,6 @@ $mod_strings = array (
 		'TITLE_USER_DOCUMENT' => 'Document sans titre',
 		'ROLE_DRAG_ERR_MSG' => 'Vous ne pouvez pas déplacer un noeud parent dans un noeud enfant',
 		'LBL_NOTIFICATION_ACTIVITY' => 'Notification activité',
-		'LBL_NOTIFICATION_EMAIL_INFO' => 'Information de notification email',
 		'LBL_GOTO_LISTVIEW_BUTTON' => 'Aller à la liste',
 		'LBL_SSL' => 'SSL',
 		'LBL_USERNAME_EXIST' => 'Nom d\'utilisateur déjà existant',
@@ -571,11 +570,11 @@ $mod_strings = array (
 		// Added for Create Custom Fields 
 		'LBL_USER_CUSTOMFIELDS_DESCRIPTION' => 'Champs personnalisés pour les collaborateurs',
 		'LBL_USER_CUSTOMFIELDS' => 'Champs personnalisés des collaborateurs',
-		'LBL_CURRENCY_CONFIGURATION' => 'Configuration des devises et monnaies',
+		'LBL_CURRENCY_CONFIGURATION' => 'Configuration devises',
 		'Digit Grouping Pattern' => 'Format de groupe de chiffre',
 		'Decimal Separator' => 'Séparateur de décimales',
 		'Digit Grouping Separator' => 'Séparateur de groupe de chiffre',
-		'Symbol Placement' => 'Position du symbole monétaire',
+		'Symbol Placement' => 'Position du symbole',
 		'Number Of Currency Decimals'  =>  'Nombre de décimales',
 
 		//Time zones-Dont change any value

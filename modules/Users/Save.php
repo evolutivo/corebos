@@ -38,6 +38,7 @@ if(isset($_REQUEST['dup_check']) && $_REQUEST['dup_check'] != '')
 }
 if(!empty($_REQUEST['user_role']) && !is_admin($current_user) && $_REQUEST['user_role'] != $current_user->roleid){
 	$log->fatal("SECURITY:Non-Admin user:". $current_user->id . " attempted to change user role");
+	$theme = basename(vtlib_purify($theme));
 	echo "<link rel='stylesheet' type='text/css' href='themes/$theme/style.css'>";
 	echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
 	echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 55%; position: relative; z-index: 10000000;'>
@@ -186,11 +187,11 @@ if(isset($_REQUEST['mode']) and $_REQUEST['mode'] == 'create') {
 		$error_str = getMailErrorString($mail_status_str);
 	}
 }
-$location = "Location: index.php?action=".vtlib_purify($return_action)."&module=".vtlib_purify($return_module)."&record=".vtlib_purify($return_id);
+$location = 'Location: index.php?action='.urlencode(vtlib_purify($return_action)).'&module='.urlencode(vtlib_purify($return_module)).'&record='.urlencode(vtlib_purify($return_id));
 
 if ($error_str != '') {
 	$user = $focus->column_fields['user_name'];
-	$location .= "&user=$user&$error_str";
+	$location .= '&user=' . urlencode($user) . '&' . $error_str;
 }
 
 header($location);

@@ -164,7 +164,7 @@ switch($currentModule)
 			$smarty->assign("RETURN_MODULE",vtlib_purify($_REQUEST['return_module']));
 		if (isset($_REQUEST['select'])) $smarty->assign("SELECT",'enable');
 		$alphabetical = AlphabeticalSearch($currentModule,'Popup','productname','true','basic',$popuptype,"","",$url);
-		$smarty->assign('Product_Default_Units', GlobalVariable::getVariable('Product_Default_Units', '1'));
+		$smarty->assign('Product_Default_Units', GlobalVariable::getVariable('Inventory_Product_Default_Units', '1'));
 		break;
 	case 'Vendors':
 		$smarty->assign("SINGLE_MOD",'Vendor');
@@ -236,7 +236,7 @@ switch($currentModule)
 			$smarty->assign("CURR_ROW", $curr_row);
 			$url_string .="&curr_row=".vtlib_purify($_REQUEST['curr_row']);
 		}
-		$smarty->assign('Service_Default_Units', GlobalVariable::getVariable('Service_Default_Units', '1'));
+		$smarty->assign('Service_Default_Units', GlobalVariable::getVariable('Inventory_Service_Default_Units', '1'));
 	// vtlib customization: Generic hook for Popup selection
 	default:
 		$smarty->assign("SINGLE_MOD", $currentModule);
@@ -262,6 +262,11 @@ if($currentModule == 'PriceBooks' && isset($_REQUEST['productid']))
 	if (!empty($productid)) {
 		$query.= ' and vtiger_pricebookproductrel.productid='.$adb->sql_escape_string($productid);
 	}
+	$smarty->assign('recid_var_value', '');
+	$smarty->assign('mod_var_name', '');
+	$smarty->assign('mod_var_value', '');
+	$smarty->assign('recid_var_name', '');
+	$smarty->assign('recid_var_value', 0);
 }
 else
 {

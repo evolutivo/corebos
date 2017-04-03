@@ -10,6 +10,8 @@
 require_once('include/utils/Session.php');
 require_once('include/utils/Request.php');
 require_once('include/database/PearDatabase.php');
+require_once('include/utils/cbSettings.php');
+require_once('include/cbmqtm/cbmqtm_loader.php');
 require_once('include/events/include.inc');
 require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
 require_once 'modules/GlobalVariable/GlobalVariable.php';
@@ -1028,16 +1030,16 @@ function getActionid($action) {
 	global $log, $adb;
 	$log->debug("Entering getActionid(".$action.") method ...");
 	$actionid = '';
-	if(file_exists('tabdata.php') && (filesize('tabdata.php') != 0)) {
+	if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0)) {
 		include('tabdata.php');
-		$actionid= $action_id_array[$action];
-	} else {
+		$actionid = (isset($action_id_array[$action]) ? $action_id_array[$action] : '');
+	}
+	if ($actionid == '') {
 		$query="select * from vtiger_actionmapping where actionname=?";
 		$result =$adb->pquery($query, array($action));
 		$actionid=$adb->query_result($result,0,'actionid');
 	}
-	$log->info("action id selected is ".$actionid );
-	$log->debug("Exiting getActionid method ...");
+	$log->debug('Exiting getActionid method: id selected is '.$actionid);
 	return $actionid;
 }
 
@@ -1048,16 +1050,12 @@ function getActionid($action) {
 function getActionname($actionid) {
 	global $log, $adb;
 	$log->debug("Entering getActionname(".$actionid.") method ...");
-
 	$actionname='';
-
-	if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0))
-	{
+	if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0)) {
 		include('tabdata.php');
-		$actionname= $action_name_array[$actionid];
+		$actionname = (isset($action_name_array[$actionid]) ? $action_name_array[$actionid] : '');
 	}
-	else
-	{
+	if ($actionname == '') {
 		$query="select * from vtiger_actionmapping where actionid=? and securitycheck=0";
 		$result =$adb->pquery($query, array($actionid));
 		$actionname=$adb->query_result($result,0,"actionname");
@@ -3879,12 +3877,12 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 	$sql = "insert into vtiger_crmentity values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	$params = array($crmID, $userID, $userID, 0, "PBXManager", "", $timeOfCall, $timeOfCall, NULL, NULL, 0, 1, 0);
 	$adb->pquery($sql, $params);
-
+	$unknownCaller = GlobalVariable::getVariable('PBX_Unknown_CallerID', 'Unknown', 'PBXManager');
 	if(empty($callfrom)){
-		$callfrom = "Unknown";
+		$callfrom = $unknownCaller;
 	}
 	if(empty($callto)){
-		$callto = "Unknown";
+		$callto = $unknownCaller;
 	}
 
 	if($status == 'outgoing'){
@@ -3898,7 +3896,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 
 		$receiver = $useCallerInfo;
 		if(empty($receiver)){
-			$receiver = "Unknown";
+			$receiver = $unknownCaller;
 		}else{
 			$receiver = "<a href='index.php?module=".$receiver['module']."&action=DetailView&record=".$receiver['id']."'>".$receiver['name']."</a>";
 		}
@@ -3912,7 +3910,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
 		}
 		$callerName = $useCallerInfo;
 		if(empty($callerName)){
-			$callerName = "Unknown $callfrom";
+			$callerName = $unknownCaller.' '.$callfrom;
 		}else{
 			$callerName = "<a href='index.php?module=".$callerName['module']."&action=DetailView&record=".$callerName['id']."'>".decode_html($callerName['name'])."</a>";
 		}

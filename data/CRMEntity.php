@@ -251,9 +251,9 @@ class CRMEntity {
 
 		//upload the file in server
 		if ($direct_import or !is_uploaded_file($filetmp_name)) {
-			$upload_status = copy($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
+			$upload_status = @copy($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
 		} else {
-			$upload_status = move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
+			$upload_status = @move_uploaded_file($filetmp_name, $upload_file_path . $current_id . "_" . $binFile);
 		}
 		if ($upload_status) {
 			$description_val = empty($this->column_fields['description']) ? '' : $this->column_fields['description'];
@@ -1200,6 +1200,9 @@ class CRMEntity {
 		$sql = getPermittedFieldsQuery($thismodule, "detail_view");
 
 		$fields_list = getFieldsListFromQuery($sql);
+		if ($thismodule=='Faq') {
+			$fields_list = str_replace(",vtiger_faqcomments.comments as 'Add Comment'",' ',$fields_list);
+		}
 
 		$query = "SELECT $fields_list, vtiger_users.user_name AS user_name
 			FROM vtiger_crmentity INNER JOIN $this->table_name ON vtiger_crmentity.crmid=$this->table_name.$this->table_index";
@@ -1583,8 +1586,8 @@ class CRMEntity {
 		} else if ($mode == "increment") {
 			list($mode, $module, $req_str, $req_no, $result, $returnResult) = cbEventHandler::do_filter('corebos.filter.ModuleSeqNumber.increment', array($mode, $module, $req_str, $req_no, '', false));
 			if ($returnResult) return $result;
-			//when we save new invoice we will increment the invoice id and write
-			$check = $adb->pquery("select cur_id,prefix from vtiger_modentity_num where semodule=? and active = 1", array($module));
+			//when we save new record we will increment the autonumber field
+			$check = $adb->pquery('select cur_id,prefix from vtiger_modentity_num where semodule=? and active = 1 FOR UPDATE', array($module));
 			$prefix = $adb->query_result($check, 0, 'prefix');
 			$curid = $adb->query_result($check, 0, 'cur_id');
 			$prev_inv_no = $prefix . $curid;
@@ -2659,7 +2662,7 @@ class CRMEntity {
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
 		$tabId = getTabid($module);
-		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
+		if ($is_admin == false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && isset($defaultOrgSharingPermission[$tabId]) && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
 			$sharingRuleInfo = $$sharingRuleInfoVariable;

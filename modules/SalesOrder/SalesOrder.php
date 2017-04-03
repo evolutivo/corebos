@@ -121,7 +121,7 @@ class SalesOrder extends CRMEntity {
 		$updateInventoryProductRel_deduct_stock = true;
 		//Checking if quote_id is present and updating the quote status
 		if($this->column_fields['quote_id'] != '') {
-			$newStatus = GlobalVariable::getVariable('QuoteStatusOnSalesOrderSave', 'Accepted');
+			$newStatus = GlobalVariable::getVariable('Quote_StatusOnSalesOrderSave', 'Accepted');
 			if ($newStatus!='DoNotChange') {
 				$qt_id = $this->column_fields['quote_id'];
 				$query1 = 'update vtiger_quotes set quotestage=? where quoteid=?';
@@ -400,8 +400,14 @@ class SalesOrder extends CRMEntity {
 			left join vtiger_soshipads on vtiger_salesorder.salesorderid=vtiger_soshipads.soshipaddressid
 			left join vtiger_currency_info as vtiger_currency_info$secmodule on vtiger_currency_info$secmodule.id = vtiger_salesorder.currency_id ";
 		if(($type !== 'COLUMNSTOTOTAL') || ($type == 'COLUMNSTOTOTAL' && $where_condition == 'add')) {
-			$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelSalesOrder on vtiger_salesorder.salesorderid = vtiger_inventoryproductrelSalesOrder.id
-			left join vtiger_products as vtiger_productsSalesOrder on vtiger_productsSalesOrder.productid = vtiger_inventoryproductrelSalesOrder.productid
+			if($module == 'Products'){
+				$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelSalesOrder on vtiger_salesorder.salesorderid = vtiger_inventoryproductrelSalesOrder.id and vtiger_inventoryproductrelSalesOrder.productid=vtiger_products.productid ";
+			}elseif($module == 'Services'){
+				$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelSalesOrder on vtiger_salesorder.salesorderid = vtiger_inventoryproductrelSalesOrder.id and vtiger_inventoryproductrelSalesOrder.productid=vtiger_service.serviceid ";
+			}else{
+				$query .= " left join vtiger_inventoryproductrel as vtiger_inventoryproductrelSalesOrder on vtiger_salesorder.salesorderid = vtiger_inventoryproductrelSalesOrder.id ";
+			}
+			$query .= " left join vtiger_products as vtiger_productsSalesOrder on vtiger_productsSalesOrder.productid = vtiger_inventoryproductrelSalesOrder.productid
 			left join vtiger_service as vtiger_serviceSalesOrder on vtiger_serviceSalesOrder.serviceid = vtiger_inventoryproductrelSalesOrder.productid ";
 		}
 		$query .= " left join vtiger_groups as vtiger_groupsSalesOrder on vtiger_groupsSalesOrder.groupid = vtiger_crmentitySalesOrder.smownerid

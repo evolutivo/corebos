@@ -147,7 +147,7 @@ $GlobalVariableDefinitons = array(
 	'values' => 'Text to show',
 	'definition' => 'Shows a scrolling header text as a system wide announcement',
 ),
-'preload_jscalendar' => array(
+'Application_JSCalendar_Load' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'String',
 	'category' => 'Development',
@@ -294,13 +294,6 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'URL for customer portal (Example: http://your_support_domain.tld/portal). Used mostly for email template communications.',
 ),
-'Home_Display_Empty_Blocks' => array(
-	'status' => 'Implemented',
-	'valuetype' => 'Boolean',
-	'category' => 'Application',
-	'values' => '0 | 1',
-	'definition' => 'Option to hide empty home blocks if it contains no entries.',
-),
 'Debug_Calculate_Response_Time' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
@@ -371,7 +364,7 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'Show Documents list view as separate folders or as a normal listview. Default is 1 = Folder view.',
 ),
-'Tax_Type_Default' => array(
+'Inventory_Tax_Type_Default' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'String',
 	'category' => 'Application',
@@ -392,21 +385,21 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'If set to true all the related bundle products will be copied to the new product on duplicate. In other words, when you duplicate a product, its bundle is also duplicated.',
 ),
-'Product_Default_Units' => array(
+'Inventory_Product_Default_Units' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Decimal',
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'Number of units that is set when creating a new product line in inventory modules. Default value is 1.',
 ),
-'Service_Default_Units' => array(
+'Inventory_Service_Default_Units' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Decimal',
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'Number of units that is set when creating a new product line in inventory modules. Default value is 1.',
 ),
-'product_service_default' => array(
+'Inventory_ProductService_Default' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'String',
 	'category' => 'Application',
@@ -434,7 +427,7 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'Maximum number of rows permitted for a full length HTML report. The default value is 5000.',
 ),
-'Maximum_Scheduled_Workflows' => array(
+'Workflow_Maximum_Scheduled' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Integer',
 	'category' => 'Workflows',
@@ -454,6 +447,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'The number the user has to dial to get a line. This will be prefixed to the number that has to be dialed.',
+),
+'PBX_Unknown_CallerID' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'String',
+	'category' => 'Application',
+	'values' => '',
+	'definition' => 'When calling or receiving a call to an unknown party this string will used as the record name identifier next to the number dialed. The default value is Unknown',
 ),
 'Mobile_Module_by_default' => array(
 	'status' => 'Implemented',
@@ -511,14 +511,14 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'Number of days after which the user will be forced to change his password. To switch on this feature you must activate the Expire Password scheduled task.',
 ),
-'SalesOrderStatusOnInvoiceSave' => array(
+'SalesOrder_StatusOnInvoiceSave' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'string',
 	'category' => 'Application',
 	'values' => 'Valid SalesOrder status picklist values',
 	'definition' => 'When saving an Invoice related to a SalesOrder, the status of the salesorder will be set to the value contained in this variable. The special value "DoNotChange" will deactivate this functionality and no change will be done.',
 ),
-'QuoteStatusOnSalesOrderSave' => array(
+'Quote_StatusOnSalesOrderSave' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'string',
 	'category' => 'Application',
@@ -609,21 +609,21 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'Whether or not to show events assigned to the users groups.',
 ),
-'calendar_call_default_duration' => array(
+'Calendar_call_default_duration' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Integer: minutes',
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'Initial number of minutes assigned to a call when creating. The default is 15 minutes.',
 ),
-'calendar_other_default_duration' => array(
+'Calendar_other_default_duration' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Integer: minutes',
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'Initial number of minutes assigned to a call when creating. The default is 15 minutes.',
 ),
-'calendar_sort_users_by' => array(
+'Calendar_sort_users_by' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'String: CSV of column names',
 	'category' => 'Application',
@@ -686,6 +686,13 @@ $GlobalVariableDefinitons = array(
 	'values' => 'false | true',
 	'definition' => 'If set to the string "true", Accounts will be selected as the destination to transfer related information when converting a Lead. By default the information will be transferred to the Contact.',
 ),
+'Lead_Convert_OpportunitySelected' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'String',
+	'category' => 'Application',
+	'values' => 'false | true',
+	'definition' => 'If set to the string "true", the Opportunity section will be selected when converting a Lead. By default the section is not selected.',
+),
 'Product_Show_Subproducts_Popup' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
@@ -728,28 +735,28 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'For GeoDistance calculation workflow functions, this variable sets the default country to use if none is given. Useful when the company has a local area of influence.',
 ),
-'Billing_Address_Checked' => array(
+'Application_Billing_Address_Checked' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
 	'category' => 'Application',
 	'values' => '0 | 1',
 	'definition' => 'When selecting an Account/Contact in the popup window, the application asks if it must fill in addresses. This variable sets the Billing Address checkbox.',
 ),
-'Shipping_Address_Checked' => array(
+'Application_Shipping_Address_Checked' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
 	'category' => 'Application',
 	'values' => '0 | 1',
 	'definition' => 'When selecting an Account/Contact in the popup window, the application asks if it must fill in addresses. This variable sets the Shipping Address checkbox.',
 ),
-'Show_Copy_Adress_Header' => array(
+'Application_Show_Copy_Address' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
 	'category' => 'Application',
 	'values' => '0 | 1',
 	'definition' => 'This variable activates or deactivates the "Copy Address" functionality present on Accounts, Contacts and Inventory modules. Useful when one of the addresses is hidden due to business requirements.',
 ),
-'Report.Excel.Export.RowHeight' => array(
+'Report_Excel_Export_RowHeight' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Integer',
 	'category' => 'Application',

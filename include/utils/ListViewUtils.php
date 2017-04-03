@@ -3633,7 +3633,7 @@ function getRelCheckquery($currentmodule, $returnmodule, $recordid) {
 		$field = $selectfield = 'vendorid';
 		$table = 'vtiger_vendor';
 	}
-	//end
+	$query = '';
 	if ($reltable != null) {
 		$query = "SELECT " . $selectfield . " FROM " . $reltable . " " . $condition;
 	} elseif ($currentmodule != $returnmodule && $returnmodule != "") { // If none of the above relation matches, then the relation is assumed to be stored in vtiger_crmentityrel
@@ -4083,7 +4083,7 @@ function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '
 	global $log, $app_strings, $theme, $current_user;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
-	if ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents')) {
+	if ($module == 'Documents' and GlobalVariable::getVariable('Document_Folder_View',1,'Documents') and isset($_REQUEST['action']) and $_REQUEST['action']!='UnifiedSearch') {
 		$output = '<td class="mailSubHeader" width="40%" align="right">';
 	} else {
 		$output = '<td align="right" style="padding: 5px;">';

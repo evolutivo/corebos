@@ -1548,4 +1548,53 @@
 	<classname>fixAsteriskLabelOnUsersModule</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Add database index to PBXManager</description>
+	<filename>build/changeSets/2017/addDatabaseIndex2PBXManager.php</filename>
+	<classname>addDatabaseIndex2PBXManager</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>set PBXManager timeofcall to uiyype 50 so it can be searched on filters and reports</description>
+	<filename>build/changeSets/2017/fixPBXManagerUITypes.php</filename>
+	<classname>fixPBXManagerUITypes</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete Integration extension</description>
+	<filename>build/changeSets/2017/delIntegration.php</filename>
+	<classname>delIntegration</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Delete uitype 50 as reference from Webservice</description>
+	<filename>build/changeSets/2017/uitype50DateTimeinWebservice2.php</filename>
+	<classname>uitype50DateTimeinWebservice2</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Add WebForm Domain validation field</description>
+	<filename>build/changeSets/2017/addWebdomainWebFormscb.php</filename>
+	<classname>addWebdomainWebFormscb</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>coreBOS Message Queue and Task Manager database tables</description>
+	<filename>build/changeSets/2017/cbmqtmdbdistributortables.php</filename>
+	<classname>cbmqtmdbdistributortables</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Generic coreBOS Settings and Configuration database table</description>
+	<filename>build/changeSets/2017/corebossettingstable.php</filename>
+	<classname>corebossettingstable</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

@@ -133,7 +133,7 @@ $GlobalVariableDefinitons = array(
 	'values' => 'Text to show',
 	'definition' => 'Shows a scrolling header text as a system wide announcement',
 ),
-'preload_jscalendar' => array(
+'Application_JSCalendar_Load' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'String',
 	'category' => 'Development',
@@ -271,13 +271,6 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'URL for customer portal (Example: http://your_support_domain.tld/portal). Used mostly for email template communications.',
-),
-'Home_Display_Empty_Blocks' => array(
-	'status' => 'Implemented',
-	'valuetype' => 'Boolean',
-	'category' => 'Application',
-	'values' => '0 | 1',
-	'definition' => 'Option to hide empty home blocks if it contains no entries.',
 ),
 'Debug_Calculate_Response_Time' => array(
 	'status' => 'Implemented',
@@ -463,21 +456,21 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => '',
 ),
-'calendar_call_default_duration' => array(
+'Calendar_call_default_duration' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'calendar_other_default_duration' => array(
+'Calendar_other_default_duration' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'calendar_sort_users_by' => array(
+'Calendar_sort_users_by' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
@@ -624,77 +617,77 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => '',
 ),
-'Maximum_Scheduled_Workflows' => array(
+'Workflow_Maximum_Scheduled' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Billing_Address_Checked' => array(
+'Application_Billing_Address_Checked' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Shipping_Address_Checked' => array(
+'Application_Shipping_Address_Checked' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Show_Copy_Adress_Header' => array(
+'Application_Show_Copy_Address' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Tax_Type_Default' => array(
+'Inventory_Tax_Type_Default' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'product_service_default' => array(
+'Inventory_ProductService_Default' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Product_Default_Units' => array(
+'Inventory_Product_Default_Units' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Service_Default_Units' => array(
+'Inventory_Service_Default_Units' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'SalesOrderStatusOnInvoiceSave' => array(
+'SalesOrder_StatusOnInvoiceSave' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'QuoteStatusOnSalesOrderSave' => array(
+'Quote_StatusOnSalesOrderSave' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',
 	'values' => '',
 	'definition' => '',
 ),
-'Report.Excel.Export.RowHeight' => array(
+'Report_Excel_Export_RowHeight' => array(
 	'status' => 'Implemented',
 	'valuetype' => '',
 	'category' => '',

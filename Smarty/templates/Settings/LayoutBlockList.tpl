@@ -34,7 +34,7 @@ function getCustomFieldList(customField)
 	{rdelim}).done(function(response) {ldelim}
 				document.getElementById("cfList").innerHTML=response;
 	{rdelim}
-	);	
+	);
 {rdelim}
 
 function changeFieldorder(what_to_do,fieldid,blockid,modulename)
@@ -47,7 +47,7 @@ function changeFieldorder(what_to_do,fieldid,blockid,modulename)
 				document.getElementById("cfList").innerHTML=response;
 				document.getElementById('vtbusy_info').style.display = "none";
 	{rdelim}
-	);	
+	);
 {rdelim}
 
 function changeShowstatus(tabid,blockid,modulename)
@@ -107,7 +107,7 @@ function deleteCustomBlock(module,blockid,no){
 			}).done(function(response) {
 					document.getElementById("cfList").innerHTML=response;
 					document.getElementById('vtbusy_info').style.display = "none";
-			});	
+			});
 		}
 	}
 }
@@ -184,7 +184,7 @@ function saveFieldInfo(fieldid,module,sub_mode,typeofdata){
 		}
 		urlstring = urlstring + '&defaultvalue=' + encodeURIComponent(defaultvalue);
 	}
-	
+
 	document.getElementById('vtbusy_info').style.display = "block";
 	jQuery.ajax({
 			method:"POST",
@@ -243,8 +243,6 @@ function getCreateCustomFieldFormold(modulename,blockid,mode)
 				}
 				gselected_fieldtype = '';}
 	});
-
-}
 function getCreateCustomFieldForm(modulename,blockid,mode)
 {
    var check = validate(blockid);
@@ -352,7 +350,7 @@ function changeRelatedListorder(what_to_do,tabid,sequence,id,module)
 			document.getElementById("relatedlistdiv").innerHTML=response;
 			document.getElementById('vtbusy_info').style.display = "none";
 	});
-}	
+}
 
 function deleteRelatedList(tabid,sequence,id,module) {
 	document.getElementById('vtbusy_info').style.display = "block";

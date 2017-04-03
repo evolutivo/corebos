@@ -208,6 +208,7 @@ else {
 	$smarty->assign('ROWCOUNT', '1');
 }
 $cbMap = cbMap::getMapByName($currentModule.'InventoryDetails','MasterDetailLayout');
+$smarty->assign('moreinfofields','');
 if ($cbMap!=null) {
 	$cbMapFields = $cbMap->MasterDetailLayout();
 	$smarty->assign('moreinfofields', "'".implode("','",$cbMapFields['detailview']['fieldnames'])."'");
@@ -302,12 +303,12 @@ $picklistDependencyDatasource = Vtiger_DependencyPicklist::getPicklistDependency
 $smarty->assign("PICKIST_DEPENDENCY_DATASOURCE", json_encode($picklistDependencyDatasource));
 
 //Get Service or Product by default when create
-$smarty->assign('PRODUCT_OR_SERVICE', GlobalVariable::getVariable('product_service_default', 'Products', $currentModule, $current_user->id));
+$smarty->assign('PRODUCT_OR_SERVICE', GlobalVariable::getVariable('Inventory_ProductService_Default', 'Products', $currentModule, $current_user->id));
 $smarty->assign('Inventory_ListPrice_ReadOnly', GlobalVariable::getVariable('Inventory_ListPrice_ReadOnly', '0', $currentModule, $current_user->id));
 //Set taxt type group or individual by default when create
-$smarty->assign('TAX_TYPE', GlobalVariable::getVariable('Tax_Type_Default', 'individual', $currentModule, $current_user->id));
+$smarty->assign('TAX_TYPE', GlobalVariable::getVariable('Inventory_Tax_Type_Default', 'individual', $currentModule, $current_user->id));
 //Show or not the Header to copy address to left or right
-$smarty->assign('SHOW_COPY_ADDRESS', GlobalVariable::getVariable('Show_Copy_Adress_Header', 'yes', $currentModule, $current_user->id));
+$smarty->assign('SHOW_COPY_ADDRESS', GlobalVariable::getVariable('Application_Show_Copy_Address', 1, $currentModule, $current_user->id));
 
 $smarty->display('Inventory/InventoryEditView.tpl');
 ?>

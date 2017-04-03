@@ -2339,6 +2339,9 @@ class ReportRun extends CRMEntity {
 					'current_page' => $this->page,
 					'error' => false,
 				);
+				if (GlobalVariable::getVariable('Debug_Report_Query', '0')=='1') {
+					$resp['sql'] = $sSQL;
+				}
 				if($outputformat == 'JSONPAGED') {
 					$rowsperpage = GlobalVariable::getVariable('Report_ListView_PageSize',40);
 					$resp['per_page'] = $rowsperpage;
@@ -3254,6 +3257,7 @@ class ReportRun extends CRMEntity {
 
 		if(isset($arr_val)) {
 			foreach($arr_val as $wkey=>$warray_value) {
+				$w_inner_array = array();
 				foreach($warray_value as $whd=>$wvalue) {
 					if(strlen($wvalue) < strlen($whd)) {
 						$w_inner_array[] = strlen($whd);
@@ -3264,7 +3268,7 @@ class ReportRun extends CRMEntity {
 				$warr_val[] = $w_inner_array;
 				unset($w_inner_array);
 			}
-
+			$farr_val = array();
 			foreach($warr_val[0] as $fkey=>$fvalue) {
 				foreach($warr_val as $wkey=>$wvalue) {
 					$f_inner_array[] = $warr_val[$wkey][$fkey];
@@ -3273,7 +3277,7 @@ class ReportRun extends CRMEntity {
 				$farr_val[] = $f_inner_array;
 				unset($f_inner_array);
 			}
-
+			$col_width = array();
 			foreach($farr_val as $skkey=>$skvalue) {
 				if($skvalue[count($arr_val)-1] == 1) {
 					$col_width[] = ($skvalue[count($arr_val)-1] * 35);
@@ -3366,7 +3370,7 @@ class ReportRun extends CRMEntity {
 		$mod_strings = return_module_language($current_language, $currentModule);
 
 		require_once('include/PHPExcel/PHPExcel.php');
-		$xlsrowheight = GlobalVariable::getVariable('Report.Excel.Export.RowHeight', 20);
+		$xlsrowheight = GlobalVariable::getVariable('Report_Excel_Export_RowHeight', 20);
 		$workbook = new PHPExcel();
 		$worksheet = $workbook->setActiveSheetIndex(0);
 		$fieldinfo = array();
