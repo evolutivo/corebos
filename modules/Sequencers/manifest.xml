@@ -31,14 +31,14 @@
 <table>
 <name>vtiger_sequencers</name>
 <sql><![CDATA[CREATE TABLE `vtiger_sequencers` (
-  `sequencersid` int(11) default NULL,
+  `sequencersid` int(11) NOT NULL,
   `sequencers_no` varchar(56) default NULL,
   `sequencersname` varchar(255) default NULL,
   `reference` varchar(100) DEFAULT NULL,
   `sequencers_status` varchar(100) DEFAULT NULL,
   `datestart` date DEFAULT NULL,
   `datestop` date DEFAULT NULL,
-  `tags` text,
+  `tags` TEXT,
   `evo_actions` varchar(100) DEFAULT NULL,
   `sequencer_type` varchar(100) DEFAULT NULL,
   `crontab` varchar(250) DEFAULT '',

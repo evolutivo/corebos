@@ -11,10 +11,11 @@
 <table>
 <name>vtiger_thread</name>
 <sql><![CDATA[CREATE TABLE `vtiger_thread` (
-  `threadid` int(11) DEFAULT NULL,
+  `threadid` int(11) NOT NULL,
   `thread` varchar(60) DEFAULT NULL,
   `threadlink` varchar(250) DEFAULT NULL,
-  `subject` varchar(250) DEFAULT ''
+  `subject` varchar(250) DEFAULT '',
+   PRIMARY KEY (`threadid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>

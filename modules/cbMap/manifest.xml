@@ -31,7 +31,7 @@
 <table>
 <name>vtiger_cbmap</name>
 <sql><![CDATA[CREATE TABLE `vtiger_cbmap` (
-  `cbmapid` int(11) NOT NULL DEFAULT '0',
+  `cbmapid` int(11) NOT NULL,
   `mapname` varchar(255) DEFAULT NULL,
   `mapnumber` varchar(100) DEFAULT NULL,
   `maptype` varchar(100) DEFAULT NULL,
@@ -332,6 +332,9 @@
 <handler><![CDATA[]]></handler>
 </customlink>
 </customlinks>
+<sharingaccess>
+<default>private</default>
+</sharingaccess>
 <crons>
 </crons>
 </module>

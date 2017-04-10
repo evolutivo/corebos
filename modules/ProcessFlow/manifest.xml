@@ -31,7 +31,7 @@
 <table>
 <name>vtiger_processflow</name>
 <sql><![CDATA[CREATE TABLE `vtiger_processflow` (
-  `processflowid` int(11) default NULL,
+  `processflowid` int(11) NOT NULL,
   `processflowname` varchar(255) default NULL,
   `procflowid` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,

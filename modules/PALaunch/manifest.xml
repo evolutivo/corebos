@@ -11,7 +11,7 @@
 <table>
 <name>vtiger_palaunch</name>
 <sql><![CDATA[CREATE TABLE `vtiger_palaunch` (
-  `palaunchid` int(11) NOT NULL DEFAULT '0',
+  `palaunchid` int(11) NOT NULL,
   `plannedaction_id` int(11) DEFAULT NULL,
   `related_id` int(11) DEFAULT NULL,
   `recipient_id` int(11) DEFAULT NULL,

@@ -31,7 +31,7 @@
 <table>
 <name>vtiger_businessactions</name>
 <sql><![CDATA[CREATE TABLE `vtiger_businessactions` (
-  `businessactionsid` int(11) default NULL,
+  `businessactionsid` int(11) NOT NULL,
   `businessactions_no` varchar(56) default NULL,
   `businessactionsname` varchar(255) default NULL,
   `reference` varchar(100) DEFAULT NULL,
@@ -53,9 +53,9 @@
   `sequencers` varchar(100) DEFAULT NULL,
   `output_type` varchar(100) DEFAULT NULL,
   `threshold` varchar(250) DEFAULT '',
-  `budymessage` text,
+  `budymessage` TEXT,
   `crontab` varchar(250) DEFAULT '',
-  `iomap` varchar(100) default null,
+  `iomap` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`businessactionsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>

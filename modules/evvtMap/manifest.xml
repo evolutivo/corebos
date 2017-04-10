@@ -34,7 +34,7 @@
 <table>
 <name>vtiger_evvtmap</name>
 <sql><![CDATA[CREATE TABLE IF NOT EXISTS `vtiger_evvtmap` (
-  `evvtmapid` int(11) NOT NULL DEFAULT '0',
+  `evvtmapid` int(11) NOT NULL,
   `state` varchar(100) NOT NULL,
   `city` varchar(100) NOT NULL,
   `postalcode` varchar(100) NOT NULL,
@@ -68,6 +68,9 @@
 (0, 25, 7, 'politico', 'defloc', 'defloc', 0);]]></sql>
 </table>
 </tables>
+<sharingaccess>
+<default>private</default>
+</sharingaccess>
 <crons>
 <cron>
 <name>evvtMapGetCoordinates</name>

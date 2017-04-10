@@ -17,10 +17,11 @@
 <table>
 <name>vtiger_sqlreports</name>
 <sql><![CDATA[CREATE TABLE `vtiger_sqlreports` (
-  `sqlreportsid` int(11) DEFAULT NULL,
+  `sqlreportsid` int(11) NOT NULL,
   `reportnum` varchar(100) DEFAULT NULL,
   `reportname` varchar(300) DEFAULT NULL,
-  `reportsql` text
+  `reportsql` TEXT,
+   PRIMARY KEY (`sqlreportsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 DEFAULT COLLATE
 utf8_general_ci]]></sql>
 </table>
@@ -255,6 +256,9 @@ utf8_general_ci]]></sql>
 <handler><![CDATA[]]></handler>
 </customlink>
 </customlinks>
+<sharingaccess>
+<default>private</default>
+</sharingaccess>
 <crons>
 </crons>
 </module>
