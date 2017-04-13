@@ -12,11 +12,17 @@
 * either express or implied. See the License for the specific language governing
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
- *  Module       : PIVOTTABLE
+ *  Module       : BPMDesigner
  *  Version      : 5.4.0
  *  Author       : OpenCubed
  *************************************************************************************************/
 $mod_strings = array(
-'Pivottable' => 'Pivot Dashboard',
+'BPMDesigner' => 'BPM Designer',
+'ProcTmp'=>'Template Processo',
+'New'=>'Nuovo',
+'Addstatus'=>'Aggiungi Stato',
+'CrFlow'=>'Crea Flusso',
+'Start'=>'Inizio',
+'End'=>'Fine'
 );
 ?>

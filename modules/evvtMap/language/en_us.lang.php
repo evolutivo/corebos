@@ -13,13 +13,13 @@ $mod_strings = Array(
 	'SINGLE_evvtMap' => 'Map',
 	'Map' => 'Map',
 	'Maps' => 'Maps',
-    'Show' => 'Show',
-    'Clear directions' => 'Clear directions',
-    'Results' => 'Results',
-    'Head office' => 'Head office',
-    'From' => 'From',
-    'To' => 'To',
-    'Reload' => 'Reload Coor.',
+        'Show' => 'Show',
+        'Clear directions' => 'Clear directions',
+        'Results' => 'Results',
+        'Head office' => 'Head office',
+        'From' => 'From',
+        'To' => 'To',
+        'Reload' => 'Reload Coor.',
 	'Direction' => 'Direction',
 	'Direction between marks' => 'Direction between marks',
 	'Start' => 'Start point',
@@ -56,5 +56,4 @@ $mod_strings = Array(
         'NewClient'=>'New Client',
 	'OVER_QUERY_LIMIT' => 'You have arrived to the request limit to Google Maps. To do new requests you have to wait a period of 24 - 72 hours',
 );
-
 ?>

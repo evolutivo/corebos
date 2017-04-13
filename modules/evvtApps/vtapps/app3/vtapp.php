@@ -19,10 +19,13 @@ class vtAppcomTSolucioAppStore extends vtApp {
 	var $wheight = 110;
 
 	public function getContent($lang) {
-		$output = "<br><b>This vtApp will permit the user to connect to the vtApp market place, search for vtApps, buy/pay them and directly download and install them.</b>";
+                global $current_language;
+                include_once("modules/evvtApps/vtapps/app3/language/$current_language.lang.php");
+
+                $output = "<br><b>".$vtapps_strings['thisvtapp']."</b>";
 		$output.= '<br><form method="post" style="width:60%">
                 <div>
-                	<br>Upload a vtApp to have it installed:<br>
+                	<br>'.$vtapps_strings['UploadIns'].':<br>
                     <input name="vtinstall" id="vtinstall" type="file" />
 		            <script language="javascript">
 		            $("#vtinstall").kendoUpload({
@@ -34,7 +37,7 @@ class vtAppcomTSolucioAppStore extends vtApp {
 		            </script>               
                 </div>
                 <div>
-                	<br>Upload a vtApp to have it updated:<br>
+                	<br>'.$vtapps_strings['UploadUpd'].':<br>
                     <input name="vtupdate" id="vtupdate" type="file" />
 		            <script language="javascript">
 		            $("#vtupdate").kendoUpload({

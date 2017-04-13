@@ -9,14 +9,14 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Nome Modulo',
-	'SINGLE_ModuleName' => 'Nome Modulo',
-	'ModuleName ID' => 'ID Nome Modulo',
-
-	'LBL_CUSTOM_INFORMATION' => 'Informazione Personalizzata',
-	'LBL_MODULEBLOCK_INFORMATION' => 'Informazione Blocco del Modulo',
-
-	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
-);
-
+        'Thread'=>'Thread',
+        'SINGLE_Thread'=>'Thread',
+        'LBL_THREAD_DETAIL'=>'Informazione Thread',
+	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'LBL_THREAD_INFORMATION' => 'Informazione Thread',
+	'LBL_DESCRIPTION_INFORMATION'=>'Informazione Descrizione',
+        'Thread No'=>'No Thread',
+        'Thread Link'=>'Link Thread',
+        'Oggetto'=>'Oggetto'
+    );
 ?>

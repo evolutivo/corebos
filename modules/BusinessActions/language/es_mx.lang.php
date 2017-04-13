@@ -12,11 +12,9 @@ $mod_strings = Array(
 	'BusinessActions' => 'Marketing Actions',
 	'SINGLE_BusinessActions' => 'Marketing Action',
 	'BusinessActions ID' => 'Marketing Action ID',
-
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_BUSINESSACTIONS_INFORMATION' => 'Marketing Action Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
-
 	'reference' => 'Marketing Action Name',
 	'actions_status' => 'Status',
 	'actions_type' => 'Type',
@@ -29,7 +27,6 @@ $mod_strings = Array(
 	'Email' => 'Email',
 	'Active' => 'Active',
 	'Inactive' => 'Inactive',
-
 	'LBL_MODULE_NAME' => 'Marketing Actions',
 	'LBL_EMAIL_TEMPLATE'=>'Email Template',
 	'LBL_EDIT'=>'Editing',
@@ -44,6 +41,25 @@ $mod_strings = Array(
 	'LBL_USER_FIELDS'=>'User Fields',
 	'LBL_GENERAL_FIELDS'=>'General Fields',
 	'LBL_SELECTACTIONTEMPLATE_BUTTON_TITLE' => 'Select Marketing Action',
+        'subject' => 'Subject',
+	'Module' => 'Module',
+	'Business Rules' => 'Business Rules',
+	'Element Type' => 'Element Type',
+	'Actions Block' => 'Actions Block',
+	'Script Name' => 'Script Name',
+	'Script Parameter' => 'Script Parameter',
+        'businessactions_no'=>'No Business Actions',
+        'Actions Name'=>'Nome Actions',
+        'Map'=>'Map',
+        'IOMap'=>'Map IO',
+        'Action Function'=>'Action Function',
+        'Node Exec'=>'Node Exec',
+        'Stock Parameters'=>'Stock Parameters',
+        'Output Type'=>'Output Type',
+        'Action Image'=>'Action Image',
+        'Sequence'=>'Sequence',
+        'BR Condition'=>'BR Condition',
+        'BudyMessage'=>'Body Message',
         'LISTVIEWBASIC' => 'List View Basic',
 	'LISTVIEW' => 'List View Drop Down',
         'DETAILVIEW' => 'Detail View Drop Down',
@@ -53,7 +69,5 @@ $mod_strings = Array(
         'HEADERCSS' => 'Header Css',
         'HEADERLINK' => 'Header Link',
         'HEADERSCRIPTUP' => 'Header Script Up',
-
 );
-
 ?>

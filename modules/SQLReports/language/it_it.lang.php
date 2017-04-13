@@ -9,24 +9,19 @@
  * All Rights Reserved.
  ************************************************************************************/
 $mod_strings = Array (
-'SQLReports' => 'SQL Reports',
-'LBL_SQLREPORTS_INFORMATION' => 'SQL Report Information',
-'LBL_SQL_CODE' => 'SQL Code',
-'Assigned To' => 'Assigned To',
-'Created Time' => 'Created Time',
-'Modified Time' => 'Modified Time',
-'reportnum' => 'Report ID',
-'reportname' => 'Report Name',
-'reportsql' => 'Report SQL Code',
-'LBL_RUN_REPORT' => 'Run Report',
-'LBL_BACK_TO_REPORTS' => 'Return to Detail View',
-'LBL_EXPORTPDF_BUTTON' => 'Create PDF',
-'LBL_EXPORTXL_BUTTON' => 'Export to Excel',
-'LBL_PRINT_REPORT' => 'Print Report',
-'SINGLE_SQLReports' => 'SQL Report',
-'Sqlreports Information' => 'SQL Report Information',
-'LBL_REPORT_GENERATION_FAILED' => 'Error during report execution',
-
+'SQLReports' => 'Rapporti SQL',
+'LBL_SQLREPORTS_INFORMATION' => 'Informazione Rapporti SQL',
+'LBL_SQL_CODE' => 'Codice SQL',
+'reportnum' => 'ID Rapporto',
+'reportname' => 'Nome Rapporto',
+'reportsql' => 'Codice SQL Rapporto',
+'LBL_RUN_REPORT' => 'Esegui Rapporto',
+'LBL_BACK_TO_REPORTS' => 'Ritorna nella Detail View',
+'LBL_EXPORTPDF_BUTTON' => 'Crea PDF',
+'LBL_EXPORTXL_BUTTON' => 'Esporta in Excel',
+'LBL_PRINT_REPORT' => 'Stampa Rapporto',
+'SINGLE_SQLReports' => 'Rapporto SQL',
+'Sqlreports Information' => 'Informazione Rapporto SQL',
+'LBL_REPORT_GENERATION_FAILED' => 'Errore durante eseguzione del rapporto',
 );
-
 ?>

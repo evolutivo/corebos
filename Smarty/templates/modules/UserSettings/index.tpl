@@ -10,7 +10,7 @@
 		<table border=0 cellspacing=0 cellpadding=0 width=100% height=400px>
 			<tr>
 				<td class="settingsTabHeader" height="50px">
-					Users &amp; Access Management
+					{$ACCESSMANAG}
 				</td>
 			</tr>
 			<tr>

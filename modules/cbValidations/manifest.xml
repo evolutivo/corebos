@@ -331,7 +331,7 @@
 </customview>
 </customviews>
 <sharingaccess>
-<default>public_readwritedelete</default>
+<default>private</default>
 </sharingaccess>
 <customlinks>
 <customlink>
@@ -345,9 +345,6 @@
 <handler><![CDATA[]]></handler>
 </customlink>
 </customlinks>
-<sharingaccess>
-<default>private</default>
-</sharingaccess>
 <crons>
 </crons>
 </module>

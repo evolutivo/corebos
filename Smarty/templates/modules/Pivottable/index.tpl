@@ -145,15 +145,15 @@ function tableToExcel2 (table) {
                 <tr><td style="height:2px"><br/><br/>
                     <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
                         ng-if="isAdmin=='on'"  ng-click="open_addnew(reports,'create','');"/>
-                    <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
+                    <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">{'listall'|@getTranslatedString:'listall'}</button>
                     <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
                     <div id="inline_cbApps" ng-show="show_inline">
                         <div class="modal-header">
-                             <button class="btn btn-warning" ng-show="pivot_type=='report'" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">Recalculate</button>
-                             <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">Export csv</button>
-                             <button class="btn btn-warning"  onclick="tableToExcel2('testTable')">Export Pivot to Excel</button>
-                             <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
-                             <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config_as(cbAppid,repid,reports)" >Save As</button>
+                             <button class="btn btn-warning" ng-show="pivot_type=='report'" ng-click="put_inline(cbAppid,repid,name,pivot_type,'true')">{'recalc'|@getTranslatedString:'recalc'}</button>
+                             <button class="btn btn-warning" ng-click="export(cbAppid,repid,name,pivot_type)">{'exportcsv'|@getTranslatedString:'exportcsv'}</button>
+                             <button class="btn btn-warning"  onclick="tableToExcel2('testTable')">{'exportexcel'|@getTranslatedString:'exportexcel'}</button>
+                             <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >{'saveconfig'|@getTranslatedString:'saveconfig'}</button>
+                             <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config_as(cbAppid,repid,reports)" >{'Save'|@getTranslatedString:'Save'}</button>
                         </div>
                              <div style="height:1100px" id="dyn_content">  
                                </div>
@@ -176,8 +176,8 @@ function tableToExcel2 (table) {
                              </div>
                                  <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
                              <br/>{literal}{{report.desc_pivot}}{/literal}
-                             <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
-                                 | <b><span style="text-align:left;" ng-click="open_addnew(reports,'edit',report.cbAppsid)">Edit</span><b/>
+                             <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">{'Delete'|@getTranslatedString:'Delete'}</span><b/>
+                                 | <b><span style="text-align:left;" ng-click="open_addnew(reports,'edit',report.cbAppsid)">{'Edit'|@getTranslatedString:'Edit'}</span><b/>
                         </div>
                      </td>                
                  </tr>
@@ -215,7 +215,7 @@ function tableToExcel2 (table) {
         </tr>
         <tr>
             <td align="center">
-                <h5>Nome </h5>
+                <h5>{'Nome'|@getTranslatedString:'Nome'} </h5>
             </td>
             <td align="left" colspan="2">
                 <input type="text" name="name_pivot" ng-model="name_pivot" >
@@ -223,7 +223,7 @@ function tableToExcel2 (table) {
         </tr>
         <tr>
             <td align="center">
-                <h5>Descrizione </h5>
+                <h5>{'Descrizione'|@getTranslatedString:'Descrizione'} </h5>
             </td>
             <td align="left" colspan="2">
                 <input type="text" name="desc_pivot" ng-model="desc_pivot" >
@@ -231,7 +231,7 @@ function tableToExcel2 (table) {
         </tr>
         <tr ng-if="type_pivot.name=='elastic'">
             <td align="center">
-                <h5>Type Elastic</h5>
+                <h5>{'Elastic'|@getTranslatedString:'Elastic'}</h5>
             </td>
             <td align="left" colspan="2">
                 <select id="elastic_types" ng-model="elastic_type.name" ng-options="opt for opt  in elastictypes">
@@ -242,10 +242,10 @@ function tableToExcel2 (table) {
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='create'" >Add New Config</button> 
-   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='edit'" >Edit Config</button>
-   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
-   <button class="btn btn-warning" ng-click="cancel()">Close</button>
+   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='create'" >{'Addnew'|@getTranslatedString:'Addnew'}</button> 
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='edit'" >{'modconfig'|@getTranslatedString:'modconfig'}</button>
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >{'Save'|@getTranslatedString:'Save'}</button>
+   <button class="btn btn-warning" ng-click="cancel()">{'Close'|@getTranslatedString:'Close'}</button>
 </div>
 </script>
 <style>

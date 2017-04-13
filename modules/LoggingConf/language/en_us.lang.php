@@ -30,6 +30,7 @@ $mod_strings = Array(
  'LBL_DEL'=>'Delete',
  'LBL_SAVE'=>'Save',
  'LBL_CANCEL'=>'Cancel', 
+ 'Please'=>'Please Select a Module',
+ 'Add'=>'Add',
 );
-
 ?>

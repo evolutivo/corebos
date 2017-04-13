@@ -9,14 +9,32 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-        'ProcessFlow' => 'ProcessFlow',
-	'SINGLE_ProcessFlow' => 'ProcessFlow',
-	'ModuleName ID' => 'ID Nome Modulo',
-
+        'ProcessFlow' => 'Flusso Processo',
+	'SINGLE_ProcessFlow' => 'Flusso Processo',
+	'ProcessFlow ID' => 'ID Flusso Processo',
 	'LBL_CUSTOM_INFORMATION' => 'Informazione Personalizzata',
-	'LBL_PROCESSFLOW_INFORMATION' => 'Informazione Process Flow',
-
-	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo'
+	'LBL_PROCESSFLOW_INFORMATION' => 'Informazione Flusso Processo',
+        'Alerting system'=>'Sistema Alerting',
+        'Create Task from Flow'=>'Crea Task da Flusso',
+        'Create message from flow'=>'Crea Messaggio da Flusso',
+        'Link to Process Template'=>'Relazionato a Template Processo',
+        'ProcessFlow Name'=>'Nome Flusso Processo',
+        'Start Task name'=>'Nome Task di inizio',
+        'Start Task Substatus'=>'Substatus task di inizio',
+        'End Task Name'=>'Nome Task fine',
+        'End Task Substatus'=>'Substatus Task fine',
+        'process flow case'=>'Caso Flusso Processo',
+        'Proc Flow ID'=>'ID Flusso Processo',
+        'TaskSLA'=>'SLA Task',
+        'Alert Setting Model'=>'Modello Alert Settings',
+        'Sequencer'=>'Sequencer',
+        'Move Stock Sequencer'=>'Sequencer Move Stock',
+        'Flusso Paralello'=>'Flusso Paralello',
+        'Related Action'=>'Azione Relazionata',
+        'Manual'=>'Manuale',
+        'PF Security'=>'Sicurezza Flusso Processo',
+        'Questionario'=>'Questionario',
+        'Livello'=>'Livello',
+        'Attivo'=>'Attivo'
 );
-
 ?>

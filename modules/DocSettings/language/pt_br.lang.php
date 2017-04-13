@@ -9,15 +9,19 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Nome Módulo',
-	'SINGLE_ModuleName' => 'Nome Módulo',
-	'ModuleName ID' => 'ID Nome Módulo',
-
-	'LBL_CUSTOM_INFORMATION' => 'Imformação Customizada',
-	'LBL_MODULEBLOCK_INFORMATION' => 'Informação Bloco Módulo',
-	'LBL_DESCRIPTION_INFORMATION' => 'Descrição',
-
-	'ModuleFieldLabel' => 'Texto Etiqueta Campo Módulo',
+	'DocSettings' => 'Doc Settings',
+	'SINGLE_DocSettings' => 'Doc Setting',
+	'DocSettings ID' => 'ID Doc Settings',
+	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'LBL_DOCSETTINGS_INFORMATION' => 'Doc Settings Information',
+        'DocSettings Name'=>'Doc Settings Name',
+        'Nome template PDF'=>'PDF Template Name',
+        'Pagine da a'=>'Pages from to',
+        'Righe da a'=>'Rows from to',
+        'Tipo'=>'Type',
+        'DocSettings Number'=>'Doc Settings Number',
+        'Map Master'=>'Map Master',
+        'Map Detail'=>'Map Detail',
+        'Documento'=>'Document'   
 );
-
 ?>

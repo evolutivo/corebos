@@ -13,13 +13,13 @@ $mod_strings = Array(
 	'SINGLE_evvtMap' => 'Carte',
 	'Map' => 'Carte',
 	'Maps' => 'Cartes',
-    'Show' => 'Montrer',
-    'Clear directions' => 'Effacer itinéraires',
-    'Results' => 'Résultats',
-    'Head office' => 'Siège',
-    'From' => 'De',
-    'To' => 'A',
-    'Reload' => 'Actualiser la position.',
+        'Show' => 'Montrer',
+        'Clear directions' => 'Effacer itinéraires',
+        'Results' => 'Résultats',
+        'Head office' => 'Siège',
+        'From' => 'De',
+        'To' => 'A',
+        'Reload' => 'Actualiser la position.',
 	'Direction' => 'Direction',
 	'Around'=>'Autour de',
 	'DrawCircle'=>'Dessiner un cercle',
@@ -52,5 +52,4 @@ $mod_strings = Array(
 	'RESTRICT_USER' => 'Restreint à l\'utilisateur',
 	'OVER_QUERY_LIMIT' => 'You have arrived to the request limit to Google Maps. To do new requests you have to wait a period of 24 - 72 hours',
 );
-
 ?>

@@ -9,15 +9,17 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Module Name',
-	'SINGLE_ModuleName' => 'Module Name',
-	'ModuleName ID' => 'Module Name ID',
-
+	'BusinessRules' => 'Business Rules',
+	'SINGLE_BusinessRules' => 'Business Rules',
+	'BusinessRules ID' => 'Business Rules ID',
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Verkoopkans omschrijving',
-
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+	'LBL_BUSINESSRULES_INFORMATION' => 'Business Rules Information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description',
+	'Business Rules Name' => 'Business Rules Name',
+	'Business Rules Number' => 'Business Rules Number',
+	'Business Rule' => 'Business Rule',
+	'Module' => 'Module',
+	'Map' => 'Map',
+	'Permitted Roles' => 'Permitted Roles',
 );
-
 ?>

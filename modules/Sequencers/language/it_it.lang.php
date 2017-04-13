@@ -9,28 +9,28 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'Sequencers' => 'Marketing Plans',
-	'SINGLE_Sequencers' => 'Marketing Plan',
-	'Sequencers ID' => 'ID Marketing Plans',
-
-	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_SEQUENCERS_INFORMATION' => 'Marketing Plan Information',
-	'LBL_DESCRIPTION_INFORMATION' => 'Description',
-
-	'reference' => 'Marketing Plan Name',
-	'datestart' => 'Activation Start',
-	'datestop' => 'Activation Stop',
-	'sequencers_status' => 'Status',
-	'description' => 'Description',
+	'Sequencers' => 'Sequencers',
+	'SINGLE_Sequencers' => 'Sequencer',
+	'Sequencers ID' => 'ID Sequencers',
+	'LBL_CUSTOM_INFORMATION' => 'Informazione Personalizzata',
+	'LBL_SEQUENCERS_INFORMATION' => 'Informazione Sequencers',
+	'LBL_DESCRIPTION_INFORMATION' => 'Descrizione',
+	'reference' => 'Referenza',
+        'Sequencers Name'=>'Nome Sequencer',
+        'sequencers_no'=>'No Sequencers',
+        'Element type'=>'Tipo Elemento',
+        'Sequencer Type'=>'Tipo Sequencer',
+	'datestart' => 'Inizio attivazione',
+	'datestop' => 'Stop attivazione',
+	'sequencers_status' => 'Stato',
+	'description' => 'Descrizione',
 	'tags' => 'Tags',
-	
-	'datestart_tooltip' => 'Activation date for the plan when status is active.',
-	'datestop_tooltip' => 'Deactivation date for the plan when status is active.',
-	'sequencers_status_tooltip' => 'When this field is set to “Inactive” or “Obsolete” no action will be executed. When this field is set to “Active” actions programmed inside the date range defined by Activation Start and Activation Stop will be executed',
-	'Assign Contacts To' => 'Assign Contacts To',
-	'SelectSequencers' => 'Select Marketing Plans',
-	'Add Relation' => 'Add Relation',
-	'Delete Relation' => 'Delete Relation',
+	'datestart_tooltip' => 'Data attivazione per il sequencer se stato attivo.',
+	'datestop_tooltip' => 'Data disattivazione per il sequencer se stato attivo.',
+	'sequencers_status_tooltip' => 'Quando questo campo verrà impostato come Inattivo o Obsoleto, nessuna azione verrà eseguita. Quando questo campo verrà impostato come Attivo, le azioni programmate nel range prestabilito da Inizio e Stop Attivazione verranno eseguite',
+	'Assign Contacts To' => 'Assegna Contatti a',
+	'SelectSequencers' => 'Seleziona Sequencer',
+	'Add Relation' => 'Aggiungi Relazione',
+	'Delete Relation' => 'Cancella Relazione',
 );
-
 ?>

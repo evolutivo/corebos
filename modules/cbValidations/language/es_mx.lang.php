@@ -9,12 +9,15 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'cbValidations',
-	'SINGLE_ModuleName' => 'cbValidations',
-	'ModuleName ID' => 'cbValidations ID',
-
+	'cbValidations' => 'Validations',
+	'SINGLE_cbValidations' => 'Validation',
+	'cbValidations ID' => 'Validations ID',
+        'cbvalidations No'=>'Validations No',
+        'cbValidations Name'=>'Validations Name',
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
-	'LBL_CBVALIDATIONS_INFORMATION' => 'Cb Validation',
+	'LBL_CBVALIDATIONS_INFORMATION' => 'Validations Information',
+        'Field Name'=>'Field Name',
+        'Table Name'=>'Table Name'
 );
 ?>

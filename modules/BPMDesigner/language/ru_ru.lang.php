@@ -12,6 +12,12 @@
  * IMPORTANT: save file with UTF-8 without BOM!
  **/
 $mod_strings = array(
-'Pivottable' => 'Pivot Dashboard',
+'BPMDesigner' => 'BPM Designer',
+'ProcTmp'=>'Process Template',
+'New'=>'New',
+'Addstatus'=>'Add State',
+'CrFlow'=>'Create Flow',
+'Start'=>'Start',
+'End'=>'End'
 );
 ?>

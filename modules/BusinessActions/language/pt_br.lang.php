@@ -54,5 +54,4 @@ $mod_strings = Array(
         'HEADERLINK' => 'Header Link',
         'HEADERSCRIPTUP' => 'Header Script Up',
 );
-
 ?>

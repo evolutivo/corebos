@@ -9,21 +9,17 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'BusinessRules' => 'Reglas de Negocio',
-	'SINGLE_BusinessRules' => 'Regla de Negocio',
-	'BusinessRules ID' => 'ID Regla de Negocio',
-
-	'LBL_CUSTOM_INFORMATION' => 'Información Personalizada',
-	'LBL_BUSINESSRULES_INFORMATION' => 'Información Regla de Negocio',
-	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
-
-	'Business Rules Name' => 'Nombre Regla de Negocio',
-	'Business Rules Number' => 'Nº Regla de Negocio',
-	'Business Rule' => 'Regla de Negocio',
-	'Module' => 'Módulo',
-	'Map' => 'Mapa',
-	'Permitted Roles' => 'Permitida en Roles',
-
+	'BusinessRules' => 'Business Rules',
+	'SINGLE_BusinessRules' => 'Business Rules',
+	'BusinessRules ID' => 'Business Rules ID',
+	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+	'LBL_BUSINESSRULES_INFORMATION' => 'Business Rules Information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description',
+	'Business Rules Name' => 'Business Rules Name',
+	'Business Rules Number' => 'Business Rules Number',
+	'Business Rule' => 'Business Rule',
+	'Module' => 'Module',
+	'Map' => 'Map',
+	'Permitted Roles' => 'Permitted Roles',
 );
-
 ?>

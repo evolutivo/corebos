@@ -25,6 +25,9 @@ $mod_strings = Array(
         'Created Time'=>'Created Time',
         'Modified Time'=>'Modified Time',
         'Description'=>'Description',
+        'lasturlclicked'=>'Last URL Clicked',
+        'no_mail'=>'No Mail',
+        'email_tplid'=>'Template ID'
          
 );
 

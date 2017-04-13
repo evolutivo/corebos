@@ -18,5 +18,30 @@
  *************************************************************************************************/
 $mod_strings = array(
 'ESClient' => 'ElasticSearch Client',
+'Configuration'=>'Configurazione',
+'Search'=>'Ricerca',
+'Upload'=>'Carica in ES',
+'From'=>'Da',
+'Size'=>'Numero',
+'Searchtype'=>'Tipo di Ricerca',
+'defaultop'=>'Operatore di Default',
+'Querytype'=>'Tipo di Query',
+'Enableindex'=>'Attiva cancellazione di Index/Type',
+'showjson'=>'Visualizza Risultati JSON',
+'showmapping'=>'Visualizza Info di Mappatura',
+'jsonres'=>'I risultati JSON si possono vedere qui',
+'lowercase'=>'Lowercase expanded terms',
+'analyze'=>'Analyze Wildcard',
+'notconnected'=>'Cluster non connesso',
+'choosefile'=>'Scegli file',
+'drop'=>'Cancella Index/Type',
+'deleteid'=>'Cancella per Id',
+'deletequery'=>'Cancella da Query',
+'searchindex'=>'Cerca Index',
+'routing'=>'Chiave di Routing',
+'chooseindex'=>'Scegli Index',
+'choosetype'=>'Scegli Tipo',
+'searchfields'=>'Cerca campi',
+'sortfields'=>'Ordina campi'
 );
 ?>

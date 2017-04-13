@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * 
  * ***********************************************************
-*  Module       : PIVOTTABLE
+*  Module       : BPMDesigner
 *  Language     : ES Spanish
 *  Version      : vt5.4.0
 *  Created Date : 2012-02-27
@@ -16,6 +16,12 @@
 *  License      : MPL 1.1
  ************************************************************************************/
 $mod_strings = array(
-'Pivottable' => 'Pivot Dashboard',
+'BPMDesigner' => 'BPM Designer',
+'ProcTmp'=>'Process Template',
+'New'=>'New',
+'Addstatus'=>'Add State',
+'CrFlow'=>'Create Flow',
+'Start'=>'Start',
+'End'=>'End'
 );
 ?>
