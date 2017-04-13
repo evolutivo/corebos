@@ -94,7 +94,7 @@
 </field>
 <field>
 <fieldname>starttasksubstatus</fieldname>
-<uitype>1023</uitype>
+<uitype>1</uitype>
 <columnname>starttasksubstatus</columnname>
 <tablename>vtiger_processflow</tablename>
 <generatedtype>1</generatedtype>
@@ -114,7 +114,7 @@
 </field>
 <field>
 <fieldname>processflowcase</fieldname>
-<uitype>1023</uitype>
+<uitype>1</uitype>
 <columnname>processflowcase</columnname>
 <tablename>vtiger_processflow</tablename>
 <generatedtype>1</generatedtype>
@@ -189,7 +189,7 @@
 </field>
 <field>
 <fieldname>end_subst</fieldname>
-<uitype>1023</uitype>
+<uitype>1</uitype>
 <columnname>end_subst</columnname>
 <tablename>vtiger_processflow</tablename>
 <generatedtype>1</generatedtype>
