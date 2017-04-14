@@ -1,0 +1,33 @@
+{ "name": "evolutivo/evolutivocore",
+"description":"Telemarketing Perspective",
+"license": "MIT",
+ "repositories": [
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/composerinstall/"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/cbperspectivecs/"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/cbperspectivecstelemarketing/"
+  },
+
+    
+  {
+            "packagist": false
+  }
+  ],
+
+  "require": {
+    "evolutivo/composerinstall": "dev-master",
+    "evolutivo/cbperspectivecs": "dev-master",
+    "evolutivo/cbperspectivecstelemarketing": "dev-master"
+  },
+    "scripts": {
+    "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
+    "post-update-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageUpdate"
+  }
+}
