@@ -17,7 +17,7 @@
  *  Author       : OpenCubed
  *************************************************************************************************/
 $mod_strings = array(
-'ESClient' => 'ElasticSearch Client',
+'ESClient' => 'Cerca informazioni',
 'Configuration'=>'Configurazione',
 'Search'=>'Ricerca',
 'Upload'=>'Carica in ES',

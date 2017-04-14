@@ -131,7 +131,7 @@ function tableToExcel2 (table) {
     <tr><td style="height:7px"></td></tr>
     <tr>
         <td style="padding-left:10px;padding-right:50px" class="moduleName" nowrap>
-            <a class="hdrLink" href="index.php?action=index&module=Pivottable">Pivot Dashboard</a>
+            <a class="hdrLink" href="index.php?action=index&module=Pivottable">{'Pivottable'|@getTranslatedString:'Pivottable'}</a>
         </td>
     </tr>
 </table>

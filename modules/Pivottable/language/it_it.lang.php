@@ -17,7 +17,7 @@
  *  Author       : OpenCubed
  *************************************************************************************************/
 $mod_strings = array(
-'Pivottable' => 'Pivot Dashboard',
+'Pivottable' => 'Analisi Multidimensionale',
 'Nome'=>'Nome',
 'Descrizione'=>'Descrizione',
 'Elastic'=>'Tipo Elastic',
