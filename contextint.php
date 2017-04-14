@@ -6,15 +6,17 @@ include("include/utils/utils.php");
 include_once("modules/Messages/Messages.php");
 include_once("modules/Thread/Thread.php");
 include_once("CONTEXTIO/class.contextio.php");
+include_once("modules/GlobalVariable/GlobalVariable.php");
 global $adb;
+$current_user->id=1;
 // define your API key and secret - find this https://console.context.io/#settings
-define('CONSUMER_KEY', 'j3uld0yj');
-define('CONSUMER_SECRET', 'rm69G9nQYcMWVZaM');
+define('CONSUMER_KEY', GlobalVariable::getVariable('ContextIOKey', ''));
+define('CONSUMER_SECRET', GlobalVariable::getVariable('ContextIOSecret', ''));
 
 // instantiate the contextio object
 $contextio = new ContextIO(CONSUMER_KEY, CONSUMER_SECRET);
 
-define('USER_ID', '58b581018ba4025f515ff442');
+define('USER_ID', GlobalVariable::getVariable('ContextIOUserId', ''));
 
 define('LABEL', '0'); 
     
@@ -46,21 +48,29 @@ else {
 $focust =new Thread();
 $focust->column_fields['assigned_user_id']=1;
 $focust->column_fields['subject']=$subject;
+$focust->column_fields['thrsender']=$sender;
+$focust->column_fields['description']=mysql_escape_string($str1);
 $focust->column_fields['threadlink']=$thread;
 $focust->saveentity("Thread");
 $thid=$focust->id;   
 }
 $focusnew =new Messages();
 $focusnew->mode='';
-$q=$adb->query("select * from vtiger_account join vtiger_crmentity on crmid=accountid where deleted=0 and email1='$sender'");
-if($adb->num_rows($q)==0)
-{
 $q=$adb->query("select * from vtiger_contactdetails join vtiger_crmentity on crmid=contactid where deleted=0 and email='$sender'");  
 if($adb->num_rows($q)>0) $relid=$adb->query_result($q,0,'contactid');
-else $relid='';
+else {
+$qacc=$adb->query("select * from vtiger_account join vtiger_crmentity on crmid=accountid where deleted=0 and email1='$sender'");
+if($adb->num_rows($qacc)>0)
+$relaccid=$adb->query_result($qacc,0,'accountid');
+else $relaccid='';
+$focusc =new Contacts();
+$focusc->column_fields['assigned_user_id']=1;
+$focusc->column_fields['lastname']=$sender;
+$focusc->column_fields['account_id']=$relaccid;
+$focusc->column_fields['email']=$sender;
+$focusc->saveentity("Contacts");
+$relid=$focusc->id;
 }
-else $relid=$adb->query_result($q,0,'accountid');
-
 $focusnew->column_fields['assigned_user_id']=1;
 $focusnew->column_fields['messagesrelatedto']=$relid;
 $focusnew->column_fields['description']=mysql_escape_string($str1);
@@ -76,6 +86,4 @@ $params2=array('email_message_id'=>$emailid,'seen'=>true);
 $r2=$contextio->setMessageFlags(USER_ID,$params2);
 }
 echo 'Finished Successfully';
-
-
 ?>

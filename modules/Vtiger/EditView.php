@@ -112,7 +112,7 @@ if($focus->mode == 'edit' || $isduplicate == 'true') {
 	$smarty->assign('NAME', $recordName);
 	$smarty->assign('UPDATEINFO',updateInfo($record));
 }
-if($currentModule=='Messages'){
+if($currentModule=='Messages' || $currentModule=='Thread'){
 $USE_RTE = vt_hasRTE();
 if(getFieldVisibilityPermission('Messages',$current_user->id,'description') != '0')
 $USE_RTE = false;

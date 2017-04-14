@@ -17,6 +17,7 @@ $mod_strings = Array(
 	'LBL_DESCRIPTION_INFORMATION'=>'Informazione Descrizione',
         'Thread No'=>'No Thread',
         'Thread Link'=>'Link Thread',
-        'Oggetto'=>'Oggetto'
+        'Oggetto'=>'Oggetto',
+        'Sender'=>'Mittente'
 );
 ?>
