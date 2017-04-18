@@ -278,8 +278,8 @@ class BusinessActions extends CRMEntity {
 
         }
         
-        function runBusinessLogic() {
-        global $current_user, $record, $adb, $log;
+        function runBusinessLogic($record) {
+        global $current_user, $adb, $log;
         $params = array();
         $allelements = array("CURRENT_USER" => $current_user->id, "CURRENT_RECORD" => $record);
         $businessrules_action = $this->column_fields['businessrules_action'];
