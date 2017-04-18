@@ -1,11 +1,11 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{Action}} Evo Field {{user.name}}</h3>
+    <h3 class="modal-title">{{Action}} {{translations['Evo Field']}} {{user.name}}</h3>
 </div>
 <div class="modal-body"> 
     <table>
         <tr>
             <td> 
-                Module Name
+                {{translations['Module Name']}}
             </td>
             <td>
               <select class="form-control" ng-click="user.module_name=mod_sel.tablabel" ng-model="mod_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
@@ -13,17 +13,17 @@
         </tr>
         <tr>
             <td> 
-                Evo Field
+                {{translations['Evo Field']}}
             </td> 
             <td>
-                <input type="checkbox" ng-disabled="act=='edit_ng_field'" ng-model="user.existing"  />Use Existing Field<br/>
+                <input type="checkbox" ng-disabled="act=='edit_ng_field'" ng-model="user.existing"  />{{translations['existing_field']}}<br/>
                 <input class="form-control" type="text" ng-if="!user.existing" ng-model="user.fieldname" />
                 <select class="form-control" ng-disabled="act=='edit_ng_field'"  ng-if="user.existing" ng-click="user.pointing_field_name=pointing_field_name_sel.columnname" ng-model="pointing_field_name_sel" ng-options="opt.fieldlabel for opt  in  pointing_field | filter_source_fields:user track by opt.columnname"></select>
              </td> 
         </tr>
         <tr ng-if="!user.existing">
             <td > 
-                Pointing Block
+                {{translations['Pointing Block']}}
             </td> 
             <td> 
                 <select class="form-control"  ng-click="user.pointing_block_name=pointing_block_name_sel.id" ng-model="pointing_block_name_sel" ng-options="opt.label2 for opt  in  blocks | filter_blocks:user  track by opt.label"></select>
@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <td> 
-                Type
+                {{translations.Type}}
             </td> 
             <td> 
                 <select class="form-control" ng-click="user.type=type.id" ng-model="type" ng-options="opt.name for opt  in  type_opt  track by opt.id"></select>
@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td> 
-                Pointing Module
+                {{translations['Pointing Module']}}
             </td> 
             <td> 
                <select class="form-control" ng-click="user.pointing_module_name=pointing_module_name_sel.tablabel;refresh_columns_shown();refresh_columns_search();refresh_br();" ng-model="pointing_module_name_sel" ng-options="opt.tabtrans for opt  in modules track by opt.tablabel"></select>
@@ -47,7 +47,7 @@
         </tr>
         <tr>
             <td> 
-                Pointing Module Fields to be shown
+                {{translations['pointing_shown']}}
             </td> 
             <td> 
                 <!--<input type="time" id="exampleInput" name="input" ng-model="value"
@@ -66,7 +66,7 @@
         </tr>
         <tr>
             <td> 
-                Pointing Module Fields to search in
+                {{translations['pointing_search_in']}}
             </td> 
             <td> 
                 <!--<input type="time" id="exampleInput" name="input" ng-model="value"
@@ -86,7 +86,7 @@
         <tr>
             <td colspan="2" style="background-color:  #428bca;text-align: center"> 
                 <input type="checkbox" ng-model="autofill"  />
-                AutoFill Destination Fields From Source Fields
+                {{translations['autofill_source']}}
                 <img  ng-click="addsourcedest()" ng-show="autofill" src="themes/softed/images/select.gif" alt="Add" title="Add" >
             </td> 
         </tr>
@@ -97,10 +97,10 @@
                         <td style="text-align: center"> 
                         </td>
                         <td style="text-align: center"> 
-                            <b>Source Field</b>
+                            <b>{{translations['Source Field']}}</b>
                         </td> 
                         <td style="text-align: center"> 
-                           <b> Destination Field</b>
+                           <b> {{translations['Destination Field']}}</b>
                         </td> 
                     </tr>
                     <tr ng-repeat="src in source">
@@ -119,14 +119,14 @@
         </tr>
         <tr>
             <td> 
-                Condition
+                {{translations.Condition}}
             </td>
             <td>
                 <br/>
                 <table width="100%" border="0">
                     <tr>
                     <td>
-                        Choose the BusinessRule  for the Query
+                        {{translations.br_query}}
                     </td></tr>
                     <tr>
                         <td colspan="5">
@@ -148,6 +148,6 @@
     </table>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="setEditId(user)">Save</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="setEditId(user)">{{translations.Save}}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{translations.Cancel}}</button>
 </div>

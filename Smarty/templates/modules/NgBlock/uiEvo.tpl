@@ -20,22 +20,22 @@
 <table ng-controller="ng_EvoFields" ng-table="tableParams" class="table  table-bordered table-responsive" width=100% >
     <tr>
         <td colspan="5">
-             <button class="btn btn-primary" ng-click="open2(new_user,'add')">Add New Evo Field</button>
+             <button class="btn btn-primary" ng-click="open2(new_user,'add')">{'Add New Evo Field'|@getTranslatedString:'Add New Evo Field'}</button>
         </td>
     </tr>
     <tr style="background-color:#c9dff0">
         <th style="align:center">
         </th> <th style="text-align: center">
-            Name
+            {'Name'|@getTranslatedString:'Name'}
         </th>
         <th style="text-align: center">
-            Module
+            {'Module'|@getTranslatedString:'Module'}
         </th>
         <th style="text-align: center">
-            Shown Fields
+            {'Shown Fields'|@getTranslatedString:'Shown Fields'}
         </th>
         <th style="text-align: center">
-            Searchable Fields
+            {'Searchable Fields'|@getTranslatedString:'Searchable Fields'}
         </th>
     </tr> 
     <tr ng-repeat="user in $data" >
@@ -44,7 +44,7 @@
               <tr>
                   <th>
                       <img ng-if="!user.$edit" width="20" height="20" ng-click="open2(user,'edit')" src="themes/images/editfield.gif" /> 
-                      <a ng-click="open2(user,'edit')">Edit</a> 
+                      <a ng-click="open2(user,'edit')">{'Edit'|@getTranslatedString:'Edit'}</a> 
                   </th>
                   <!--<th>
                       <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record2(user)" src="themes/images/delete.gif" />

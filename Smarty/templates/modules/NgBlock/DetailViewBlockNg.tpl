@@ -61,13 +61,13 @@
                 <td>
                     <img width="20" height="20" ng-click="open(user,'create')" src="themes/softed/images/btnL3Add.gif" />
                     {if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
-                        <a ng-click="open(user,'create')">Crea Nota</a> 
+                        <a ng-click="open(user,'create')">{'Crea Nota'|@getTranslatedString:'Crea Nota'}</a> 
                     {else}
-                        <a ng-click="open(user,'create')">Add New {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                        <a ng-click="open(user,'create')">{'Add New'|@getTranslatedString:'Add New'} {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
                     {/if}
                 </td> 
                 <td colspan="{$nr_col}">
-                    <a ng-click="open(user,'choose')">Choose {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+                    <a ng-click="open(user,'choose')">{'Choose'|@getTranslatedString:'Choose'} {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
                 </td>
             </tr>
             {/if}
@@ -204,12 +204,12 @@
 </div>
 <div class="modal-footer">
     {if $POINTING_MODULE neq 'Messages'}
-        <button class="btn btn-primary" ng-click="setEditId(user)" ng-disabled="processing" ng-if="type!='choose'">Save</button>
+        <button class="btn btn-primary" ng-click="setEditId(user)" ng-disabled="processing" ng-if="type!='choose'">{'Save'|@getTranslatedString:'Save'}</button>
     {else}
-        <button class="btn btn-primary" ng-click="setEditId(user)" ng-if="type!='choose'">Send</button>
+        <button class="btn btn-primary" ng-click="setEditId(user)" ng-if="type!='choose'">{'Send'|@getTranslatedString:'Send'}</button>
     {/if}
-    <button class="btn btn-primary" ng-click="setRelation(choosen_entity)" ng-if="type=='choose'">Set Relation</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="setRelation(choosen_entity)" ng-if="type=='choose'">{'Set Relation'|@getTranslatedString:'Set Relation'}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{'Cancel'|@getTranslatedString:'Cancel'}</button>
 </div>
 </script>
 <style>
