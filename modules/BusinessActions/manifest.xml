@@ -522,6 +522,7 @@
 <picklistvalue>WS</picklistvalue>
 <picklistvalue>LISTVIEWBASIC</picklistvalue>
 <picklistvalue>LISTVIEW</picklistvalue>
+<picklistvalue>LISTVIEWENTRY</picklistvalue>
 <picklistvalue>DETAILVIEW</picklistvalue>
 <picklistvalue>DETAILVIEWBASIC</picklistvalue>
 <picklistvalue>DETAILVIEWWIDGET</picklistvalue>

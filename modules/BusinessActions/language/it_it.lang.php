@@ -62,6 +62,7 @@ $mod_strings = Array(
         'BudyMessage'=>'Corpo del messaggio',
         'LISTVIEWBASIC' => 'List View Basic',
 	'LISTVIEW' => 'List View Drop Down',
+        'LISTVIEWENTRY' => 'List View Each Record',
         'DETAILVIEW' => 'Detail View Drop Down',
         'DETAILVIEWBASIC' => 'Detail View Link',
         'DETAILVIEWWIDGET' => 'Detail View Widget',
