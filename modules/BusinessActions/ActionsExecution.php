@@ -168,12 +168,15 @@ class ActionsExecution extends BusinessActions {
 
     function executeNewAction($params) {
         $this->log->debug("Entering before script execution");
+        $res_logic=$this->runBusinessLogic2($this->id);
+        if($res_logic){
         $this->log->debug($params);
         $fullScriptPath = $this->column_fields['script_name'];
         $this->log->debug("action path name");
         $this->log->debug($fullScriptPath);
         $scriptResponse=shell_exec("php $fullScriptPath.php $params"); 
         $data=json_decode($scriptResponse,true);
+        }
         return $data;
     }
     

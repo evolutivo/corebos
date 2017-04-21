@@ -209,7 +209,8 @@ class BusinessActions extends CRMEntity {
             function executeAction($recordid,$outputType,$recarray=null,$confirmVal,$actionid,$palid){
             global $root_directory,$log;
              include_once('data/CRMEntity.php');
-
+            $res_logic=$this->runBusinessLogic2($this->id);
+            if($res_logic){
             $businessrules_action=$this->column_fields['businessrules_action'];
             $moduleactions=$this->column_fields['moduleactions'];
             $reference=$this->column_fields['reference'];
@@ -251,12 +252,15 @@ class BusinessActions extends CRMEntity {
             else{
                 
             }
+            }
             return $result;
         }
         
         function executeAction1($parameters){
             global $root_directory,$log;
             include_once('data/CRMEntity.php');
+            $res_logic=$this->runBusinessLogic2($this->id);
+            if($res_logic){
             $businessrules_action=$this->column_fields['businessrules_action'];
             $moduleactions=$this->column_fields['moduleactions'];
             $reference=$this->column_fields['reference'];
@@ -274,12 +278,12 @@ class BusinessActions extends CRMEntity {
             $action_param=array('map'=>$map,'actiontype'=>$actiontype,
                 'parameter1'=>$parameter1,'causale'=>$causale);
             $parameters=array_merge($parameters,$action_param);
+          }
             return $scriptName($parameters);
-
-        }
+          }
         
-        function runBusinessLogic() {
-        global $current_user, $record, $adb, $log;
+        function runBusinessLogic($record) {
+        global $current_user, $adb, $log;
         $params = array();
         $allelements = array("CURRENT_USER" => $current_user->id, "CURRENT_RECORD" => $record);
         $businessrules_action = $this->column_fields['businessrules_action'];

@@ -129,6 +129,8 @@ class ActionsNodeExecution extends BusinessActions {
     function executeNodeAction($params){
         $this->log->debug("Entering before script execution");
         $this->log->debug($params);
+        $res_logic=$this->runBusinessLogic2($this->id);
+        if($res_logic){
         $fullScriptPath = $this->column_fields['script_name'];
         $this->log->debug("action path name");
         $this->log->debug($fullScriptPath);
@@ -141,6 +143,7 @@ class ActionsNodeExecution extends BusinessActions {
         //$scriptResponse=$functionName($params); 
        // }
         //$data=json_decode($scriptResponse,true);
+        }
         return $data;
     }
     function run(){

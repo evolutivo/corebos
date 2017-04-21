@@ -199,11 +199,11 @@ class BusinessRules extends CRMEntity {
     }
     function isRolePermitted() {
         global $current_user;
-        $roles_array = $this->column_fields["br_allowedroles"];
+        $roles_array = $this->column_fields["busrule_roles"];
         $currentRole = $current_user->roleid;
         $allowed = false;
         if (!empty($roles_array)) {
-            $roles_array = explode(',', $this->column_fields["br_allowedroles"]);
+            $roles_array = explode(',', $this->column_fields["busrule_roles"]);
             if (in_array($currentRole, $roles_array)) {
                 $allowed = true;
             } else {
