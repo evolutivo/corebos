@@ -361,6 +361,7 @@ class Vtiger_Link {
 		global $adb,$log,$current_user;
                 self::__initSchema();
                 $module=  $parameters['MODULE'];
+                $record=  $parameters['RECORD'];
 
 		$multitype = false;
                 $orderby = ' order by elementtype_action,sequence,sequence_ngblock'; //MSL
@@ -456,7 +457,7 @@ class Vtiger_Link {
                         $actionfocus=CRMEntity::getInstance("BusinessActions");
                         $actionfocus->retrieve_entity_info($instance->businessactionsid,"BusinessActions");                                
                             if($instance->linktobrules!='' && $instance->linktobrules!=0)
-                            $res_logic=$actionfocus->runBusinessLogic(); 
+                            $res_logic=$actionfocus->runBusinessLogic($record); 
                             if($res_logic || $instance->linktobrules=='' || $instance->linktobrules==0){ // temporarly condition for showing actions not related to BR
                                 if($multitype) {
                                         $instances[$instance->linktype][] = $instance;

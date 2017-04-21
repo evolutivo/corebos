@@ -323,21 +323,21 @@ jQuery(document).ready(function() {
                        selectable: true,
                        //toolbar: ["create"],
                   columns: [
-                { field: "name" , title:"Script Name", width: "25%",headerAttributes: { "class": "center-header"},editor:function(){}},
-                { field: "folder" , title:"Folder" , width: "8%",editor:function(){}},
-                { field: "period" , title:"Period" , width: "8%"},
-                { field: "active" , title:"Active", width: "8%",
+                { field: "name" , title:"{/literal}{$MOD.Script_Name}{literal}", width: "25%",headerAttributes: { "class": "center-header"},editor:function(){}},
+                { field: "folder" , title:"{/literal}{$MOD.Folder}{literal}" , width: "8%",editor:function(){}},
+                { field: "period" , title:"{/literal}{$MOD.Period}{literal}" , width: "8%"},
+                { field: "active" , title:"{/literal}{$MOD.Active}{literal}", width: "8%",
                     template: "<img  src= #= active ? '"+check_yes+"' : '"+check_no+"' #  >"},
-                { command: [{ text: 'Export', template: export_csv}], title: " ", width: "8%"},
+                { command: [{ text: '{/literal}{$MOD.Export}{literal}', template: export_csv}], title: " ", width: "8%"},
                 { command: [ "destroy"], title: " ", width: "8%" },
-                { command: [{ text: 'Execute', template: executeTemplate},
-                            { text: "Add Cron" , template: addcron},
-                            { text: "Remove Cron" , template: removecron}
+                { command: [{ text: '{/literal}{$MOD.Execute}{literal}', template: executeTemplate},
+                            { text: "{/literal}{$MOD.Add_Cron}{literal}" , template: addcron},
+                            { text: "{/literal}{$MOD.Remove_Cron}{literal}" , template: removecron}
                            ], title: " ", width: "240px"}
                 ],
                  editable: {
                  mode:"popup",
-                 confirmation: "Are you sure you want to delete this"
+                 confirmation: "{/literal}{$MOD.are_sure}{literal}"
                  }
             });
         jQuery('#cron_script_time').timepicker({ 'timeFormat': 'H:i' });
@@ -845,18 +845,18 @@ Problem in creation');
                     <ul>
                         
                         <li class="k-state-active">
-                           BI Server
+                           {$MOD.BI_SERVER}
                         </li>
                         {if $is_admin}
                         <li >
-                           BI Server Security
+                           {$MOD.BI_SERVER_SECURITY}
                         </li>
                         {/if}
                         <li >
-                           BI Server Email Report
+                           {$MOD.BI_SERVER_MAIL_REPORT}
                         </li>
                          <li >
-                           Actions
+                           {$MOD.BI_ACTIONS}
                         </li>
                          <li >
                           {$MOD.CREATEMVINDEX}
@@ -936,16 +936,16 @@ Problem in creation');
                                     <div id="cron_script_exec" title="Parameters of Cron Execution" style = "display:none">
                                         <table>
                                             <tr>
-                                                <td>Time</td>
+                                                <td>{$MOD.Time}</td>
                                                 <td><input id="cron_script_time" name="cron_script_time" type="text"></td>
                                             </tr>
                                             <tr>
-                                                <td>Periodicity</td>
+                                                <td>{$MOD.Periodicity}</td>
                                                 <td>
                                                     <select id="periodicity" name="periodicity">
-                                                        <option>hourly</option> 
-                                                        <option>daily</option> 
-                                                        <option>monthly</option> 
+                                                        <option>{$MOD.hourly}</option> 
+                                                        <option>{$MOD.daily}</option> 
+                                                        <option>{$MOD.monthly}</option> 
                                                     </select>
                                                 </td>
                                             </tr>

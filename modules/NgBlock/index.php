@@ -241,6 +241,9 @@ elseif($kaction=='add'){
     
      }
 else{
+       global $app_strings, $mod_strings, $log, $current_language;
+       $temp_mod_strings = ($module != '' ) ? return_module_language($current_language, 'NgBlock') : $mod_strings;
+       $smarty->assign('translations', json_encode($temp_mod_strings));
        $smarty->display("modules/NgBlock/index.tpl");
  
     }
