@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
  *************************************************************************************************
- *  Module       : Pivottable
+ *  Module       : ESClient
  *  Version      : 5.5.0
  *  Author       : OpenCubed.
  *************************************************************************************************/
@@ -22,35 +22,32 @@
 <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="Smarty/angular/angular-multi-select.js"></script>  
 <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
-{if $currTab eq 'sorting'}
-    <script type="text/javascript" src="modules/Pivottable/pivotNew/Scripts/jquery-2.1.3.min.js"></script>
-    <script src="modules/Pivottable/pivotNew/Scripts/jquery-ui-1.9.2.custom.min.js"></script>
-    <script src="modules/Pivottable/pivotNew/Scripts/jquery.ui.touch-punch.min.js"></script>	
-    <script src="modules/Pivottable/pivotNew/Scripts/pivottable/pivot.js"></script>
-    <script src="modules/Pivottable/pivotNew/Scripts/pivottable/export_renderers.min.js"></script>
-    <script src="modules/Pivottable/pivotNew/Scripts/pivottable/nrecopivottableext.js"></script>
-    <link href="modules/Pivottable/pivotNew/Scripts/pivottable/pivot.css" rel="stylesheet" />	
-    <link href="modules/Pivottable/pivotNew/Scripts/pivottable/nrecopivottableext.css" rel="stylesheet" />
-    <script type="text/javascript">
-    var j2=jQuery.noConflict();
-    </script>
-{else}
-    <link rel="stylesheet" type="text/css" href="modules/Pivottable/pivottable-master2/dist/pivot.css">
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/d3.v3.min.js"></script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/jsapi.js"></script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript">
-    var j2=jQuery.noConflict();
-    </script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/jquery-ui-1.9.2.custom.min.js"></script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/jquery.csv-0.71.min.js"></script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/pivot.js"></script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/gchart_renderers.js"></script>
-    <script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/d3_renderers.js"></script>
-    <script src="modules/Pivottable/pivottable-master2/dist/nrecopivot.js"></script>
-{/if}
+
+<link rel="stylesheet" type="text/css" href="modules/Pivottable/pivottable-master2/dist/pivot.css">
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/d3.v3.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+var j2=jQuery.noConflict();
+</script>
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/jquery-ui-1.9.2.custom.min.js"></script>
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/examples/ext/jquery.csv-0.71.min.js"></script>
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/pivot.js"></script>
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/gchart_renderers.js"></script>
+<script type="text/javascript" src="modules/Pivottable/pivottable-master2/dist/d3_renderers.js"></script>
+<script src="modules/Pivottable/pivottable-master2/dist/nrecopivot.js"></script>	
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
     {literal}
+  $( function() {
+    $( "#tabs" ).tabs({
+        active: 1
+        });
+  });
+        
     var tableToExcel = (function() {            
       var uri = 'data:application/vnd.ms-excel;base64,'
         , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">\n\
@@ -137,18 +134,6 @@ function tableToExcel2 (table) {
     
 
 }
-#myProgress {
-    width: 100%;
-    background-color: grey;
-}
-#myBar {
-    width: 10%;
-    height: 30px;
-    background-color: #fbb450;
-    text-align: center; /* To center it horizontally (if you want) */
-    line-height: 30px; /* To center it vertically */
-    color: white; 
-}
 </style>
 {/literal}
 <table  border=0 cellspacing=0 cellpadding=0 width=100% class=small >
@@ -168,12 +153,8 @@ function tableToExcel2 (table) {
         <td class="showPanelBg" valign="top" width=100% style="padding:10px;">
              <table   width=100% align=center border="0" >
                 <tr><td style="height:2px"><br/><br/>
-                    <p>
-                        <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
-                                ng-if="isAdmin=='on'"  ng-click="open_addnew(reports,'create','');"/>
-                        <button class="btn" onclick="window.location='index.php?action=index&module=Pivottable';" ng-show="show_list" ng-disabled="'{$currTab}'!=='sorting'">Multi Aggregates Pivot</button>
-                        <button class="btn" onclick="window.location='index.php?action=index&module=Pivottable&currTab=sorting';" ng-show="show_list" ng-disabled="'{$currTab}'=='sorting'">Sorting  Pivot</button>
-                    </p>
+                    <img src="themes/softed/images/btnL3Add.gif" alt="Add new Pivot Config" 
+                            ng-if="isAdmin=='on'"  ng-click="open_addnew(reports,'create','');"/>
                     <br/>
                     <button class="btn btn-warning" ng-click="cancel()" ng-show="show_inline">List All Reports</button>
                     <span style="padding:400px;text-align:center;" ng-show="show_inline"><b>{literal}{{name}}{/literal}</b></span>
@@ -185,39 +166,43 @@ function tableToExcel2 (table) {
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config(cbAppid)" >Save Configuration</button>
                              <button class="btn btn-warning" ng-if="isAdmin=='on'" ng-click="save_config_as(cbAppid,repid,reports)" >Save As</button>
                         </div>
-                        <div id="myProgress" >
-                          <div id="myBar">10%</div>
-                        </div>
-                        <div style="height:1100px" id="dyn_content">  
-                        </div>
+                             <div style="height:1100px" id="dyn_content">  
+                               </div>
                     </div>
                     </td>
                 </tr>
-            </table>
-            <p>
-            <table   width=68% align=center border="0" ng-show="show_list">
-                <tr>
-                    <td style="height:2px"><br/><br/>
-                    </td>
-                </tr>
-                <tr ng-repeat="(findex,report) in reports" ng-if="findex % 4 === 0">               
-                     <td style="width:30px;" ng-repeat="i in [0,1,2,3]" >
-                         <div class="widget" ng-if="findex+i<reports.length">
-                             <div class="widget-header">
-                                 <p>
-                                     <b>{literal}{{reports[findex+i].reportname}}{/literal}</b>
-                                     <!--<b><span style="text-align:right;"  ng-click="open(report.cbAppsid,report.reportid,report.reportname,report.pivot_type)">Popup</span><b/>-->
-                                 </p>
-                             </div>
-                             <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(reports[findex+i].cbAppsid,reports[findex+i].reportid,reports[findex+i].reportname,reports[findex+i].pivot_type,'false');" style="width:100px;height:80px;" />
-                             <br/>{literal}{{reports[findex+i].desc_pivot}}{/literal}
-                             <br/><b><span style="text-align:left;color:red" ng-click="delete(reports[findex+i].cbAppsid)">Delete</span><b/>
-                                 | <b><span style="text-align:left;" ng-click="open_addnew(reports,'edit',reports[findex+i].cbAppsid)">Edit</span><b/>
-                        </div>
-                     </td>                
-                 </tr>
-            </table>
-          </p>
+             </table>
+                    <div id="tabs">
+                      <ul>
+                        <li><a href="index.php?action=index&module=Pivottable">Multi Aggregates Pivot</a></li>
+                        <li><a href="index.php?action=index&module=Pivottable&currTab=sorting">Sorting  Pivot</a></li>
+                      </ul>
+                      <div id="tabs-1">
+                        <p>
+                        <table   width=68% align=center border="0" ng-show="show_list">
+                            <tr><td style="height:2px"><br/><br/></td>
+                            </tr>
+                            <tr>               
+                                 <td style="width:30px;" ng-repeat="report in reports">
+                                     <div class="widget" >
+                                         <div class="widget-header">
+                                             <p>
+                                                 <b>{literal}{{report.reportname}}{/literal}</b>
+
+                                                 <!--<b><span style="text-align:right;"  ng-click="open(report.cbAppsid,report.reportid,report.reportname,report.pivot_type)">Popup</span><b/>-->
+                                             </p>
+                                         </div>
+                                             <br/><img src="modules/Pivottable/report_cbApp1.jpg " ng-click="put_inline(report.cbAppsid,report.reportid,report.reportname,report.pivot_type,'false');" style="width:100px;height:80px;" />
+                                         <br/>{literal}{{report.desc_pivot}}{/literal}
+                                         <br/><b><span style="text-align:left;color:red" ng-click="delete(report.cbAppsid)">Delete</span><b/>
+                                             | <b><span style="text-align:left;" ng-click="open_addnew(reports,'edit',report.cbAppsid)">Edit</span><b/>
+                                    </div>
+                                 </td>                
+                             </tr>
+                        </table>
+                      </p>
+                      </div>
+                    </div>
          </td>
      </tr>
 </table>
@@ -273,22 +258,13 @@ function tableToExcel2 (table) {
                 </select>
             </td>
         </tr>
-        <tr>
-            <td align="center">
-                <h5>Pivot Type</h5>
-            </td>
-            <td align="left" colspan="2">
-                <select id="pivotMacroType" ng-model="pivotMacroType" ng-options="opt for opt  in pivotMacroTypes">
-                </select>
-            </td>
-        </tr>
 
     </table>
 </div>
 <div class="modal-footer">
-   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot,elastic_type,pivotMacroType)" ng-disabled="processing" ng-if="edit_type=='create'" >Add New Config</button> 
-   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type,pivotMacroType)" ng-disabled="processing" ng-if="edit_type=='edit'" >Edit Config</button>
-   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,'',pivotMacroType)" ng-disabled="processing" ng-if="edit_type=='saveas'" >Save As</button>
+   <button class="btn btn-primary" ng-click="new_config(type_pivot.name,name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='create'" >Add New Config</button> 
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot,elastic_type)" ng-if="edit_type=='edit'" >Edit Config</button>
+   <button class="btn btn-primary" ng-click="edit_config(name_pivot,desc_pivot)" ng-if="edit_type=='saveas'" >Save As</button>
    <button class="btn btn-warning" ng-click="cancel()">Close</button>
 </div>
 </script>
@@ -301,11 +277,10 @@ function tableToExcel2 (table) {
 {/literal}
 </style>
 <script>
-var width = 1;
-{if $currTab neq 'sorting'}
-    google.load("visualization", "1", {ldelim}packages:["corechart", "charteditor"]{rdelim});
-{/if}
-{literal}  
+{literal}
+       
+google.load("visualization", "1", {packages:["corechart", "charteditor"]});
+    
 angular.module('demoApp',['ngTable','ui.bootstrap','multi-select']) 
 .filter('filter_elastic_type', function() {
       return function(elastictypes,elastic_opt) {
@@ -325,24 +300,11 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
 .controller('Pivottable', function($scope, $http, $modal) {
 
             $scope.show_inline=false;
-            var elem = document.getElementById("myBar"); 
-            elem.style.display = 'none';
             $scope.show_list=true;
             $scope.reports={/literal}{$reports}{literal};
             $scope.isAdmin='{/literal}{$isAdmin}{literal}';
             
             $scope.put_inline =  function(cbAppid,repid,name,pivot_type,recalculate) {
-                elem.style.visibility = 'visible';
-                elem.style.display = 'block';
-                width = 1;
-                var id = setInterval(frame, 30);
-                function frame() {
-                    if (width < 50) {
-                        width++; 
-                        elem.style.width = width + '%'; 
-                        elem.innerHTML = width * 1 + '%';
-                    }
-                }
                 $scope.show_inline=true;
                 $scope.show_list=false;
                 $scope.repid=repid;
@@ -365,16 +327,9 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                     url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAppsid='+cbAppid+'&reportid='+repid+'&cbAction=retrieveElastic';
                 }
                     
+
                 $http.get(url+recalc).
                     success(function(data, status) {
-                        var id = setInterval(frame, 40);
-                        function frame() {
-                            if (width < 80) {
-                                width++; 
-                                elem.style.width = width + '%'; 
-                                elem.innerHTML = width * 1 + '%';
-                            }
-                        }
                         var resp_arr=data;
                         var derivers = j2.pivotUtilities.derivers;
                         j2.getJSON("report"+$scope.cbAppid+".json", function(mps) {
@@ -395,37 +350,18 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
 		var wrappedRenderers = j2.extend( {}, j2.pivotUtilities.renderers);
 		j2.each(stdRendererNames, function() {
 			var rName = this;
-                        wrappedRenderers[rName] = 
-                                nrecoPivotExt.wrapPivotExportRenderer(
-                                        nrecoPivotExt.wrapTableRenderer(wrappedRenderers[rName]));
+			wrappedRenderers[rName] = nrecoPivotExt.wrapTableRenderer(wrappedRenderers[rName]);
 		});
-                j2("#output"+$scope.cbAppid).pivotUI(mps, {
-                        renderers: wrappedRenderers,
-                        rows: resp_arr.selectedColumnsX,
-                        cols: resp_arr.selectedColumnsY,
-                        rendererName: resp_arr.type,//aggregatorKeys
-                        {/literal}
-                        {if $currTab neq 'sorting'}
-                            aggregatorName: resp_arr.aggregatorName,
-                        {else}
-                            aggregatorName: resp_arr.vals[0],
-                        {/if}
-                        {literal}
-                        vals: resp_arr.vals
+                        j2("#output"+$scope.cbAppid).pivotUI(mps, {
+                                renderers: wrappedRenderers,
+                                rows: resp_arr.selectedColumnsX,
+                                cols: resp_arr.selectedColumnsY,
+                                rendererName: resp_arr.type,//aggregatorKeys
+                                aggregatorName: resp_arr.aggregatorName,
+                                vals: resp_arr.vals
+                            });
                     });
-                    var id = setInterval(frame, 30);
-                    function frame() {
-                        if (width < 100) {
-                            width++; 
-                            elem.style.width = width + '%'; 
-                            elem.innerHTML = width * 1 + '%';
-                        }
-                        else{
-                            elem.style.display = 'none';
-                        }
-                    }
-                });
-            });
+                    });
 
             };
                         
@@ -485,59 +421,27 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                     }                     
                 }
                 var vals=Array();
-                var aggrcount=Array();
-                if(document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0)){
-                    var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split("<nobr>");
-                    var i=0;
-                    for(j=0;j<a.length;j++){
-                        var pos=a[j].indexOf('</nobr>');
-                        if(pos !==-1){
-                            var str=a[j].substr(0,pos);
-                            vals[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-                    var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split('<select class="');
-                    var i=0;
-                    for(j=1;j<a.length;j++){
-                        var pos=a[j].indexOf('"');
-                        var selectname=a[j].substr(0,pos);//alert(pos);alert(selectname);
-                        var t=document.getElementsByClassName(selectname).item(0).options[document.getElementsByClassName(selectname).item(0).selectedIndex].value;
-                        //alert(t);
-                        aggrcount[i]=t;
+                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<a.length;j++){
+                    var pos=a[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=a[j].substr(0,pos);
+                        vals[i]=str;//.replace('pvtAttr','').replace('"">','');
                         i++;
-                    }
+                    }                     
                 }
-                else{
-                    var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split('<span class="pvtAttr">');
-                    var i=0;console.log(hz);
-                    for(j=0;j<hz.length;j++){
-                        var pos=hz[j].indexOf('<span class="pvtTriangle">');
-                        if(pos !==-1){
-                            var str=hz[j].substr(0,pos);
-                            horiz[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-                    var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split('<span class="pvtAttr">');
-                    var i=0;
-                    for(j=0;j<v.length;j++){
-                        var pos=v[j].indexOf('<span class="pvtTriangle">');
-                        if(pos !==-1){
-                            var str=v[j].substr(0,pos);
-                            vert[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-                    
-                    var t=document.getElementsByClassName('pvtAggregator').item(0).options[document.getElementsByClassName('pvtAggregator').item(0).selectedIndex].value;
-                    vals[0]=t;console.log(t);
-                    if(document.getElementsByClassName("pvtAttrDropdown").item(0)){
-                        var pvtAttrDropdown=document.getElementsByClassName("pvtAttrDropdown").item(0).options[document.getElementsByClassName("pvtAttrDropdown").item(0).selectedIndex].value;
-                        aggrcount[0]=pvtAttrDropdown;
-                    }
+                var aggrcount=Array();
+                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split('<select class="');
+                var i=0;console.log(a);
+                for(j=1;j<a.length;j++){
+                    var pos=a[j].indexOf('"');
+                    var selectname=a[j].substr(0,pos);//alert(pos);alert(selectname);
+                    var t=document.getElementsByClassName(selectname).item(0).options[document.getElementsByClassName(selectname).item(0).selectedIndex].value;
+                    //alert(t);
+                    aggrcount[i]=t;
+                    i++;
                 }
-                
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
                 var typebar=document.getElementById('typechart').value;
@@ -551,81 +455,48 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
             
             $scope.save_config_as = function (cbAppid,repid,reports) {
                 var horiz=Array();
-                var vert=Array();
-                var vals=Array();
-                var aggrcount=Array();
-                if(document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0)){
-                    var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<nobr>");
-                    var i=0;
-                    for(j=0;j<hz.length;j++){
-                        var pos=hz[j].indexOf('</nobr>');
-                        if(pos !==-1){
-                            var str=hz[j].substr(0,pos);
-                            horiz[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-
-                    var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<nobr>");
-                    var i=0;
-                    for(j=0;j<v.length;j++){
-                        var pos=v[j].indexOf('</nobr>');
-                        if(pos !==-1){
-                            var str=v[j].substr(0,pos);
-                            vert[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-
-                    var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split("<nobr>");
-                    var i=0;
-                    for(j=0;j<a.length;j++){
-                        var pos=a[j].indexOf('</nobr>');
-                        if(pos !==-1){
-                            var str=a[j].substr(0,pos);
-                            vals[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-
-                    var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split('<select class="');
-                    var i=0;console.log(a);
-                    for(j=1;j<a.length;j++){
-                        var pos=a[j].indexOf('"');
-                        var selectname=a[j].substr(0,pos);//alert(pos);alert(selectname);
-                        var t=document.getElementsByClassName(selectname).item(0).options[document.getElementsByClassName(selectname).item(0).selectedIndex].value;
-                        //alert(t);
-                        aggrcount[i]=t;
+                var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<hz.length;j++){
+                    var pos=hz[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=hz[j].substr(0,pos);
+                        horiz[i]=str;//.replace('pvtAttr','').replace('"">','');
                         i++;
-                    }
+                    }                     
                 }
-                else{
-                    var hz=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtCols ui-sortable').item(0).innerHTML.split('<span class="pvtAttr">');
-                    var i=0;console.log(hz);
-                    for(j=0;j<hz.length;j++){
-                        var pos=hz[j].indexOf('<span class="pvtTriangle">');
-                        if(pos !==-1){
-                            var str=hz[j].substr(pos);
-                            horiz[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-                    var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split('<span class="pvtAttr">');
-                    var i=0;
-                    for(j=0;j<v.length;j++){
-                        var pos=v[j].indexOf('<span class="pvtTriangle">');
-                        if(pos !==-1){
-                            var str=v[j].substr(pos);
-                            vert[i]=str;//.replace('pvtAttr','').replace('"">','');
-                            i++;
-                        }                     
-                    }
-                    var t=document.getElementsByClassName('pvtAggregator').item(0).options[document.getElementsByClassName('pvtAggregator').item(0).selectedIndex].value;
-                    vals[0]=t;
-                    if(document.getElementsByClassName("pvtAttrDropdown").item(0)){
-                        var pvtAttrDropdown=document.getElementsByClassName("pvtAttrDropdown").item(0).options[document.getElementsByClassName("pvtAttrDropdown").item(0).selectedIndex].value;
-                        aggrcount[0]=pvtAttrDropdown;
-                    }
+                var vert=Array();
+                var v=document.getElementsByClassName('pvtAxisContainer pvtRows ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<v.length;j++){
+                    var pos=v[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=v[j].substr(0,pos);
+                        vert[i]=str;//.replace('pvtAttr','').replace('"">','');
+                        i++;
+                    }                     
+                }
+                var vals=Array();
+                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split("<nobr>");
+                var i=0;
+                for(j=0;j<a.length;j++){
+                    var pos=a[j].indexOf('</nobr>');
+                    if(pos !==-1){
+                        var str=a[j].substr(0,pos);
+                        vals[i]=str;//.replace('pvtAttr','').replace('"">','');
+                        i++;
+                    }                     
+                }
+                var aggrcount=Array();
+                var a=document.getElementsByClassName('pvtAxisContainer pvtHorizList pvtVals ui-sortable').item(0).innerHTML.split('<select class="');
+                var i=0;console.log(a);
+                for(j=1;j<a.length;j++){
+                    var pos=a[j].indexOf('"');
+                    var selectname=a[j].substr(0,pos);//alert(pos);alert(selectname);
+                    var t=document.getElementsByClassName(selectname).item(0).options[document.getElementsByClassName(selectname).item(0).selectedIndex].value;
+                    //alert(t);
+                    aggrcount[i]=t;
+                    i++;
                 }
                 var selectedY =horiz.join(",");
                 var selectedX =vert.join(",");  
@@ -796,8 +667,6 @@ angular.module('demoApp')
     $scope.cbAppsid=cbAppsid;
     $scope.action=(edit_type=='edit' ? 'Edit' : 'Add');
     $scope.elastictypes={};
-    $scope.pivotMacroTypes=['multiaggregate','sorting'];
-    $scope.processing=false;
     
     for(var i = reports.length - 1; i >= 0; i--){
         if(reports[i].cbAppsid == $scope.cbAppsid){
@@ -805,7 +674,6 @@ angular.module('demoApp')
             $scope.name_pivot=reports[i]['reportname'];
             $scope.desc_pivot=reports[i]['desc_pivot'];
             $scope.pivot_type=reports[i]['pivot_type'];
-            $scope.pivotMacroType=reports[i]['macrotype'];
             if($scope.pivot_type=='elastic'){
                 $scope.type_pivot={name:'elastic'};
                 $scope.elastic_type={name:reports[i]['elastic_type']};
@@ -826,8 +694,7 @@ angular.module('demoApp')
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
       };
-    $scope.new_config = function (type_piv,name_pivot,desc_pivot,elastic_type,pivotMacroType) {
-        $scope.processing=true;
+    $scope.new_config = function (type_piv,name_pivot,desc_pivot,elastic_type) {
        var repid=document.getElementById('report_opt').options[document.getElementById('report_opt').selectedIndex].value;
        var repname=document.getElementById('report_opt').options[document.getElementById('report_opt').selectedIndex].text;
        if(document.getElementById('mv_opt').selectedIndex!=-1){
@@ -855,49 +722,27 @@ angular.module('demoApp')
            elastic_params='&elastic_type='+elastic_p;
        }
        if(name_pivot!='')repname=name_pivot;
-       url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid
-           +'&reportname='+name_pivot+'&reportdesc='+desc_pivot+elastic_params
-           +'&macrotype='+pivotMacroType;
+       url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction='+typ+'&reportid='+repid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+elastic_params;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
-                $scope.processing=false;
-                if(pivotMacroType=='sorting' && '{/literal}{$currTab}{literal}' !== 'sorting'){
-                    window.location.href="index.php?action=index&module=Pivottable&currTab=sorting";
-                }
-                else if(pivotMacroType=='multiaggregate' && '{/literal}{$currTab}{literal}' === 'sorting'){
-                    window.location.href="index.php?action=index&module=Pivottable";
-                }
-                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv,'desc_pivot':desc_pivot,'elastic_type':elastic_p,'macrotype':pivotMacroType});
+                reports.push({'cbAppsid':lastid,'reportid':repid,'reportname':repname,'pivot_type':type_piv,'desc_pivot':desc_pivot,'elastic_type':elastic_p});
                 $modalInstance.close();
 
       });
     }
     
-    $scope.edit_config = function (name_pivot,desc_pivot,elastic_type,pivotMacroType) {
-        $scope.processing=true;
-       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot
-                   +'&elastic_type='+elastic_type.name.typename
-                   +'&macrotype='+pivotMacroType;
+    $scope.edit_config = function (name_pivot,desc_pivot,elastic_type) {
+       var url='index.php?module=Pivottable&action=PivottableAjax&file=index&cbAction=updateReportName&cbAppsid='+$scope.cbAppsid+'&reportname='+name_pivot+'&reportdesc='+desc_pivot+'&elastic_type='+elastic_type.name.typename;
        $http.get(url).
             success(function(data, status) {
                 var lastid=data;
-                $scope.processing=false;
                 for(var i = reports.length - 1; i >= 0; i--){
                     if(reports[i].cbAppsid == $scope.cbAppsid){
                         reports[i]['reportname']=name_pivot;
                         reports[i]['desc_pivot']=desc_pivot;
                         reports[i]['elastic_type']=elastic_type.name.typename;
-                        if(reports[i]['macrotype']!==pivotMacroType){
-                            reports.splice(i,1);
-                        }
                     }
-                }
-                if(pivotMacroType=='sorting' && '{/literal}{$currTab}{literal}' !== 'sorting'){
-                    window.location.href="index.php?action=index&module=Pivottable&currTab=sorting";
-                }
-                else if(pivotMacroType=='multiaggregate' && '{/literal}{$currTab}{literal}' === 'sorting'){
-                    window.location.href="index.php?action=index&module=Pivottable";
                 }
                 $modalInstance.close();
 
