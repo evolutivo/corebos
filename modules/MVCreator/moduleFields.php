@@ -14,7 +14,7 @@ function getModFields($module, $dbname)
 	global $current_user;
 	global $mod_strings,$app_strings;
         $OPTION_SET.= '<optgroup label="'.$module.'">';
-	$tabid = getTabid($module,$dbname);
+	     $tabid = getTabid($module,$dbname);
         if($tabid==9)
                 $tabid="9,16";
 
@@ -151,6 +151,9 @@ if(isset($_REQUEST['mod'])){
  $module = $m;
 $result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
 $link = $adb->query_result($result,0,"entityidfield");
+//echo $m;
+//exit();
+
 }
 $a =getModFields($module, $acno.$dbname);
 
@@ -159,9 +162,9 @@ $a =getModFields($module, $acno.$dbname);
 //    else if($m == "Accounts") $tbl = "vtiger_account";
 //    else if($m == "Contacts") $tbl = "vtiger_contactdetails";
 //    else $tbl = "vtiger_".strtolower($m);
-//if($m == "Accounts")    
+//if($m == "Accounts")
 //$query="SELECT fieldid, fieldlabel,columnname,tablename from  vtiger_field
-//        join  vtiger_tab on  vtiger_field.tabid= vtiger_tab.tabid 
+//        join  vtiger_tab on  vtiger_field.tabid= vtiger_tab.tabid
 //        where name='$m' and fieldname<>'createdtime'and fieldname<>'modifiedtime'";
 //else {
 //$query="SELECT fieldid, fieldlabel,columnname,tablename from  vtiger_field
@@ -171,7 +174,7 @@ $a =getModFields($module, $acno.$dbname);
 //$result = $adb->query($query);
 //$num_rows=$adb->num_rows($result);
 //    if($num_rows!=0){
-// 
+//
 //	for($i=1;$i<=$num_rows;$i++)
 //	{
 //		$f = getTranslatedString($adb->query_result($result,$i-1,'fieldlabel'));
@@ -187,5 +190,6 @@ $a =getModFields($module, $acno.$dbname);
 //}
 //}
 $a.=";".$num_rows.";".$link.";";
+
 echo $a;
 ?>

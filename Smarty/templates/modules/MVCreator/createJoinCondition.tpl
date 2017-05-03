@@ -185,7 +185,7 @@
     var value = selectObject.value; 
 	//alert(value);
 	getSecModule(value);
-	//getFirstModuleFields(value);
+	getFirstModuleFields(value);
 }
 //function for second combo second module
  function GetSecondModuleCombo(selectObject) {

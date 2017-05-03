@@ -987,10 +987,10 @@ var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod
             var str1=s[0];
             var str2=s[1];
             var str3=s[2];  
-//        console.log(str1);
+        console.log(str1);
         if(jQuery('#selectableFields optgroup[label= '+v+']').html() == null)
         jQuery('#selectableFields').append(str1).change();
-
+			//alert("");
           jQuery('#selField1').val(str3);
         }
      });
@@ -1021,7 +1021,7 @@ var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod
             var str2=s[1];
             if(jQuery('#selectableFields optgroup[label= '+secModule+']').html() == null)
             jQuery('#selectableFields').append(str1).change();
-//            console.log(str1)
+            console.log(str1)
             if(invers == 1){
             jQuery('#selField1').val(index);
             jQuery('#selField2').val(s[2]);
