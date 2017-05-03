@@ -9,20 +9,5 @@
  ************************************************************************************/
 $mod_strings = array(
 'Pivottable' => 'Pivot Dashboard',
-'Nome'=>'Name',
-'Descrizione'=>'Description',
-'Elastic'=>'Elastic Type',
-'Addnew'=>'Add New Config',
-'modconfig'=>'Edit Config',
-'Save'=>'Save As',
-'Close'=>'Close',
-'Add'=>'Add',
-'Delete'=>'Delete',
-'Edit'=>'Edit',
-'listall'=>'List All Reports',
-'recalc'=>'Recalculate',
-'exportcsv'=>'Export CSV',
-'exportexcel'=>'Export Pivot to Excel',
-'saveconfig'=>'Save Configuration'
 );
 ?>

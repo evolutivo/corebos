@@ -1611,4 +1611,11 @@
 	<classname>addmvcreator</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add macrotype field to pivot</description>
+	<filename>build/changeSets/2017/addFieldPivotMacroType.php</filename>
+	<classname>addFieldPivotMacroType</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
