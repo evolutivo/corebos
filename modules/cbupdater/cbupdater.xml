@@ -1604,4 +1604,11 @@
 	<classname>addfieldsthread</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>edmondkacaj</author>
+	<description>Add MVCreator</description>
+	<filename>build/changeSets/evolutivo/addmvcreator.php</filename>
+	<classname>addmvcreator</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
