@@ -18,7 +18,8 @@
     <li><a href="javascript:void(0);" id="deleteLast" name="radio"  onclick="deleteLastJoin();" class="slds-navigation-list--vertical__action slds-text-link--reset" aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>
     <li><a href="javascript:void(0);" id="create" name="radio"   onclick="creaVista();" class="slds-navigation-list--vertical__action slds-text-link--reset" aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
     <li><a href="javascript:void(0);" id="createscript" name="radio"  onclick="generateScript();" class="slds-navigation-list--vertical__action slds-text-link--reset" aria-describedby="entity-header">{$MOD.CreateScript}</a></li>
-    <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="generateMap();" class="slds-navigation-list--vertical__action slds-text-link--reset" aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
+    <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();" class="slds-navigation-list--vertical__action slds-text-link--reset" aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
+     <li><a href="javascript:void(0);" id="saveasmap" name="radio" onclick="SaveasMap();" class="slds-navigation-list--vertical__action slds-text-link--reset" aria-describedby="entity-header">{$MOD.SaveAsMap}</a></li>
   </ul>
   
 </div>
@@ -89,6 +90,7 @@
 					<select id="selectableFields" multiple="multiple" name="selectableFields[]">
 					</select>
 				  </div>
+                    <input type="hidden" name="MapID" value="" id="MapID" >
 				</div>
                 {*<select id="selectableFields" multiple="multiple" name="selectableFields[]"></select>
                 <ol id="leftValues">
@@ -259,17 +261,19 @@ function addCondition(){
       //                                             getSecModuleFields(ui.item);
      //                                             }})
      // .selectmenu("menuWidget" )
-      
-      
+
+
+
+
       jQuery("#selField1").button();
       jQuery("#selField2").button();
     var selectMultiple = jQuery("#selectableFields").bsmSelect({
-        showEffect: function($el){ $el.fadeIn(); },
+       showEffect: function($el){ $el.fadeIn(); },
         hideEffect: function($el){ $el.fadeOut(function(){ jQuery(this).remove();}); },
         plugins: [jQuery.bsmSelect.plugins.sortable()],
         title: 'Select Fields',
         highlight: 'highlight',
-        addItemTarget: 'original',
+        addItemTarget: 'top',
         removeLabel: '<strong>X</strong>',
         containerClass: 'bsmContainer',                // Class for container that wraps this widget
         listClass: 'bsmList-custom',                   // Class for the list ($ol)
@@ -277,6 +281,7 @@ function addCondition(){
         listItemLabelClass: 'bsmListItemLabel-custom', // Class for the label text that appears in list items
         removeClass: 'bsmListItemRemove-custom',       // Class given to the "remove" link
         extractLabel: function($o) {
+
             if(typeof $o.parents('optgroup').attr('label') !== "undefined")
             return $o.parents('optgroup').attr('label') + "&nbsp;>&nbsp;" + $o.html();
             else {
@@ -287,6 +292,6 @@ function addCondition(){
             }
         }
       });
-      
+
 </script>
 {/literal}
