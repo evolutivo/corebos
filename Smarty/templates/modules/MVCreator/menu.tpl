@@ -48,7 +48,7 @@
   </script>
 {/literal}
 <div id="mvtitle">{$MOD.MVCreator}</div>
-<div /*id="tabs"*/ class="slds-tabs--default" style="width: 60%; margin-left: 20%; margin-top: 2%; height:auto">
+<div /*id="tabs"*/ class="slds-tabs--default" style="width: 70%; margin-left: 20%; margin-top: 2%; height:auto">
   <ul class="slds-tabs--default__nav" role="tablist">
     <li class="slds-tabs--default__item slds-text-heading--label slds-active" title="{$MOD.CreateView}" role="presentation">
        <a class="slds-tabs--default__link" href="" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item" onclick="selectTab(this);">{$MOD.CreateView}</a>
@@ -56,7 +56,7 @@
 
     <li class="slds-tabs--default__item slds-text-heading--label" title="Load  Map"
               role="presentation">
-              <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2" id="tab-default-2__item" onclick="selectTab(this);">Load Map</a>
+              <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2" id="tab-default-2__item" onclick="selectTab(this);">{$MOD.LoadMap}</a>
     </li>
 
     {*<li><a href="#tabs-2">{$MOD.GestioneViste}</a></li>*}

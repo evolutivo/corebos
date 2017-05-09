@@ -43,7 +43,8 @@ $mod_strings = Array(
  'DeleteQuery'=>'Cancella query',
  'CreateMaterializedView'=>'Crea vista materializzata',
  'CreateScript'=>'Crea Script',
- 'CreateMap'=>'Crea Map',
+ 'CreateMap'=>'Salva mappa',
+ 'SaveAsMap'=>'salvare come mappa',
  'SelectSModule'=>'Selezionare il secondo modulo:',
  'SelectField'=>'Seleziona Campi',
  'Query'=>'Query',
@@ -58,6 +59,7 @@ $mod_strings = Array(
  'LBL_DELETE_GROUP'=>"Delete Group",
  "FIELDLIST"=>"Lista dei Campi",
  "Moduli"=>'Moduli',
+ "LoadMap"=>'Carica la mappa',
   	
 );
 
