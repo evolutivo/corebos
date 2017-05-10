@@ -249,16 +249,16 @@ function generateMap(){
 	nameView= (document.getElementById('nameView').value);
 	querygenerate=$('#generatedjoin').text();
 	querygeneratecondition=$('#generatedConditions').text();
- var campiSelezionati = [];
+     var campiSelezionati = [];
   jQuery('#rightValues option').each(function() {
     campiSelezionati.push(jQuery(this).val());
-});
-if(jQuery("#condition").val() != 'undefined'){
-jQuery("#condition").trigger("change");
-var whereCondition = jQuery("#condition").val();
-console.log(whereCondition);}
-var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
-var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=generateMap";
+    });
+     if(jQuery("#condition").val() != 'undefined'){
+    jQuery("#condition").trigger("change");
+    var whereCondition = jQuery("#condition").val();
+    console.log(whereCondition);}
+    var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
+    var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=generateMap";
                 jQuery.ajax({
                     type: "POST",
                     url: url,
@@ -778,8 +778,8 @@ function openMenuJoin(){
      
 }
 
-function openMenuJoin2(){
-    jQuery("#firstStep").hide();
+function openMenuJoin2hghgh(){
+    // jQuery("#firstStep").hide();
     selTab1 = [];
     selField1 = [];
     selTab2 = [];
@@ -803,7 +803,7 @@ function openMenuJoin2(){
                 dataType: "html",
                 async:false,
                 success: function(msg)
-                {
+                 {
                       jQuery("#content").html(msg); 
                 },
                 error: function()
@@ -1036,3 +1036,161 @@ var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod
      });
 
 }
+
+
+// function to send value for create new or eddit a map
+function SaveMap(){
+    var campiSelezionati = [];
+    var campiSelezionatiLabels = [];
+    var sel =  jQuery('#selectableFields');
+    var MapID= $('#MapID').val();
+    var querygenerate=$('#generatedjoin').text();
+    var querygeneratecondition=$('#generatedConditions').text();
+// console.log(sel);
+    var optionsCombo = sel[0].innerHTML;
+    for (var i=0, len=sel[0].options.length; i<len; i++) {
+        opt = sel[0].options[i];
+        if(opt.selected)
+            campiSelezionati.push(opt.value);
+    }
+    if (campiSelezionati.length != 0){
+        var primoCampo = document.getElementById('selField1').value;
+        var secondoCampo = document.getElementById('selField2').value;
+        selField1.push(primoCampo);
+        selField2.push(secondoCampo);
+        selTab1.push(firstModule);
+        selTab2.push(secModule);
+        nameView= (document.getElementById('nameView').value);
+       // url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
+        var url="index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            async:false,
+            data: {
+                selTab1:selTab1,
+                fmodule:firstModule,
+                smodule:secModule,
+                selField1:selField1,
+                selTab2:selTab2,
+                selField2:selField2,
+                installationID:installationID,
+                html:optionsCombo,
+                campiSelezionati:campiSelezionati,
+                nameView:nameView,
+                QueryGenerate:querygenerate+querygeneratecondition,
+                MapId:MapID
+            },
+            dataType: "html",
+            success: function(msg)
+            {
+                jQuery("#MapID").val(msg);
+                if (!$.trim(msg)){
+                    alert("The map is generate successful");
+                    if (box) box.remove();
+                }
+                else{
+                    alert("The map is generate successful");
+                    if (box) box.remove();
+                }
+                //jQuery("#MapID").val(msg);alert(msg); if (box) box.remove();
+
+            },
+            error: function()
+            {
+                alert("Chiamata fallita, si prega di riprovare...");
+            }
+        });
+       // getFirstModule(selTab2);
+    }
+}
+
+// function to send value for create new  map
+function SaveasMap(){
+    var campiSelezionati = [];
+    var campiSelezionatiLabels = [];
+    var sel =  jQuery('#selectableFields');
+    var MapID= $('#MapID').val();
+    var querygenerate=$('#generatedjoin').text();
+    var querygeneratecondition=$('#generatedConditions').text();
+// console.log(sel);
+    var optionsCombo = sel[0].innerHTML;
+    for (var i=0, len=sel[0].options.length; i<len; i++) {
+        opt = sel[0].options[i];
+        if(opt.selected)
+            campiSelezionati.push(opt.value);
+    }
+    if (campiSelezionati.length != 0){
+        var primoCampo = document.getElementById('selField1').value;
+        var secondoCampo = document.getElementById('selField2').value;
+        selField1.push(primoCampo);
+        selField2.push(secondoCampo);
+        selTab1.push(firstModule);
+        selTab2.push(secModule);
+        nameView= (document.getElementById('nameView').value);
+        // url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
+        var url="index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
+        jQuery.ajax({
+            type: "POST",
+            url: url,
+            async:false,
+            data: {
+                selTab1:selTab1,
+                fmodule:firstModule,
+                smodule:secModule,
+                selField1:selField1,
+                selTab2:selTab2,
+                selField2:selField2,
+                installationID:installationID,
+                html:optionsCombo,
+                campiSelezionati:campiSelezionati,
+                nameView:nameView,
+                QueryGenerate:querygenerate+querygeneratecondition
+
+            },
+            dataType: "html",
+            success: function(msg)
+            {
+                jQuery("#MapID").val(msg);
+                if (!$.trim(msg)){
+                    alert("The map is generate successful");
+                    if (box) box.remove();
+                }
+                else{
+                    alert("The map is generate successful");
+                    if (box) box.remove();
+                }
+                //jQuery("#MapID").val(msg);alert(msg); if (box) box.remove();
+
+            },
+            error: function()
+            {
+                alert("Chiamata fallita, si prega di riprovare...");
+            }
+        });
+        // getFirstModule(selTab2);
+    }
+}
+
+//this function load a combo with all maps
+// function  LoadPickerMap() {
+//     var filter="SQL";
+//     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=GetMap";
+//     jQuery.ajax({
+//         type: "POST",
+//         url: url,
+//         dataType:"nameView="+filter,
+//         success: function(str)
+//         {
+//             jQuery('#modscriptsel').html('<option value="None">None</option>'+str);
+//             jQuery("#modscriptsel").selectmenu("refresh");
+//         },
+//         error: function()
+//         {
+//             alert("error");
+//         }
+//     });
+//
+// }
