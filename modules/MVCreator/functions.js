@@ -1175,22 +1175,45 @@ function SaveasMap(){
 }
 
 //this function load a combo with all maps
-// function  LoadPickerMap() {
-//     var filter="SQL";
-//     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=GetMap";
-//     jQuery.ajax({
-//         type: "POST",
-//         url: url,
-//         dataType:"nameView="+filter,
-//         success: function(str)
-//         {
-//             jQuery('#modscriptsel').html('<option value="None">None</option>'+str);
-//             jQuery("#modscriptsel").selectmenu("refresh");
-//         },
-//         error: function()
-//         {
-//             alert("error");
-//         }
-//     });
-//
-// }
+function  LoadPickerMap() {
+    var filter="SQL";
+    var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=GetMap";
+    jQuery.ajax({
+        type: "POST",
+        url: url,
+        data:"Filter="+filter,
+        success: function(str)
+        {
+            jQuery('#GetALLMaps').html('<option value="None">None</option>'+str);
+            jQuery("#GetALLMaps").selectmenu("refresh");
+        },
+        error: function()
+        {
+            alert("error");
+        }
+    });
+
+}
+
+
+//this function open and set value from map ia choose
+function NextAndLoadFromMap(){
+    jQuery("#LoadfromMapFirstStep").hide();
+    var SelectPicker=$( "#GetALLMaps" ).val();
+             jQuery.ajax({
+                type: "POST",
+                url: "index.php?module=MVCreator&action=MVCreatorAjax&file=XmlContent",
+                data: "MapID=" + SelectPicker ,
+                dataType: "html",
+                async:false,
+                success: function(msg)
+                {
+                    jQuery("#LoadfromMapSecondStep").html(msg);
+                    //alert("Funkionon");
+                },
+                error: function()
+                {
+                    alert("Chiamata fallita, si prega di riprovare...");
+                }
+            });
+}

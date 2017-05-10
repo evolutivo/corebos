@@ -99,6 +99,7 @@ $mod_strings = Array(
     "Moduli"=>'Modulo',
     "LoadMap"=>'Load Map',
     "ChoseMapTXT"=>'Choose a map to continue',
+    "OptionsText"=>'Generate From XML',
 );
 
 
