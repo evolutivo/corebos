@@ -98,7 +98,7 @@ $mod_strings = Array(
     "FIELDLIST"=>"List of Fields",
     "Moduli"=>'Modulo',
     "LoadMap"=>'Load Map',
-
+    "ChoseMapTXT"=>'Choose a map to continue',
 );
 
 

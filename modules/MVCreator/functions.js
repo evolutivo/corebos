@@ -779,7 +779,7 @@ function openMenuJoin(){
 }
 
 function openMenuJoin2(){
-    // jQuery("#firstStep").hide();
+    jQuery("#firstStep").hide();
     selTab1 = [];
     selField1 = [];
     selTab2 = [];
