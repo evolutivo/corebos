@@ -778,7 +778,7 @@ function openMenuJoin(){
      
 }
 
-function openMenuJoin2hghgh(){
+function openMenuJoin2(){
     // jQuery("#firstStep").hide();
     selTab1 = [];
     selField1 = [];
