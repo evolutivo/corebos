@@ -4,7 +4,7 @@ include "modules/MVCreator/dbclass.php";
 $connect = new MysqlClass();
 $connect->connettiMysql();
 echo "<div id='divView'>";
-echo "<div class='allinea' id='labelNameView'><p>Nome della vista fffffffffff</p></div>";
+echo "<div class='allinea' id='labelNameView'><p>Nome della vista </p></div>";
 echo "<div class='allinea' type='text' id='nameViewDiv'><input id='nameView' name='nameView'></div>";
 echo "</div>";
 echo showInstallationDb();

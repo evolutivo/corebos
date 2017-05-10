@@ -7,7 +7,7 @@
 <script type="text/javascript" src="modules/MVCreator/functions.js"></script>
 {literal}
 <style>
-#mvtitle{ 
+#mvtitle{
   height: 50px;
   font-weight: bold;
   text-align: center;
@@ -27,15 +27,15 @@
             // slds-active
             $(elmnt).parent("li").siblings(".slds-active").removeClass("slds-active");
             $(elmnt).parent("li").addClass("slds-active");
-        
+
             // tabindex
             $(elmnt).parent("li").siblings().children("a").attr("tabindex", -1);
             $(elmnt).attr("tabindex", 0);
-        
+
             // aria-selected
             $(elmnt).parent("li").siblings().children("a").attr("aria-selected", false);
             $(elmnt).attr("aria-selected", true);
-        
+
             // hiding previouly selected tab (slds-show/slds-hide)
             $(elmnt).closest(".slds-tabs--default").children("div[role='tabpanel'].slds-show").addClass("slds-hide");
             $(elmnt).closest(".slds-tabs--default").children("div[role='tabpanel'].slds-show").removeClass("slds-show");
@@ -43,7 +43,6 @@
             $(elmnt).closest(".slds-tabs--default").children("div[aria-labelledby='"+elmnt.id+"']").addClass("slds-show");
             $(elmnt).closest(".slds-tabs--default").children("div[aria-labelledby='"+elmnt.id+"']").removeClass("slds-hide");
         }
-
 
   </script>
 {/literal}
@@ -69,12 +68,21 @@
              {include file="modules/MVCreator/createView.tpl"}
     </div>
    <div id="tab-default-2" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-2__item">
-         <div style="margin-top: 30px;" role="status" class="slds-spinner slds-spinner--medium">
-        <span class="slds-assistive-text">Loading</span>
-        <div class="slds-spinner__dot-a"></div>
-        <div class="slds-spinner__dot-b"></div>
-      </div>
-        
+
+       <div class="slds-form-element" style="margin-left:20%;margin-right: 20%; ">
+           <label class="slds-form-element__label" for="select-01">{$MOD.ChoseMapTXT}</label>
+           <div class="slds-form-element__control">
+               <div class="slds-select_container">
+                   <select id="select-01" class="slds-select">
+                       <option>Option One</option>
+                       <option>Option Two</option>
+                       <option>Option Three</option>
+                   </select>
+               </div>
+           </div>
+
+       </div>
+       <button style="margin-left:80%;margin-top: 30px;" class="slds-button slds-button--neutral">Button Neutral</button>
    </div>
-  
+
 </div>
