@@ -779,7 +779,7 @@ function openMenuJoin(){
 }
 
 function openMenuJoin2(){
-    jQuery("#firstStep").hide();
+    // jQuery("#firstStep").hide();
     selTab1 = [];
     selField1 = [];
     selTab2 = [];
@@ -1175,22 +1175,22 @@ function SaveasMap(){
 }
 
 //this function load a combo with all maps
-function  LoadPickerMap() {
-    var filter="SQL";
-    var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=GetMap";
-    jQuery.ajax({
-        type: "POST",
-        url: url,
-        dataType:"filter="+filter,
-        success: function(str)
-        {
-            jQuery('#modscriptsel').html('<option value="None">None</option>'+str);
-            jQuery("#modscriptsel").selectmenu("refresh");
-        },
-        error: function()
-        {
-            alert("error");
-        }
-    });
-
-}
+// function  LoadPickerMap() {
+//     var filter="SQL";
+//     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=GetMap";
+//     jQuery.ajax({
+//         type: "POST",
+//         url: url,
+//         dataType:"nameView="+filter,
+//         success: function(str)
+//         {
+//             jQuery('#modscriptsel').html('<option value="None">None</option>'+str);
+//             jQuery("#modscriptsel").selectmenu("refresh");
+//         },
+//         error: function()
+//         {
+//             alert("error");
+//         }
+//     });
+//
+// }

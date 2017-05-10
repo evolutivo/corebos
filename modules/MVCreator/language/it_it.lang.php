@@ -60,7 +60,6 @@ $mod_strings = Array(
  "FIELDLIST"=>"Lista dei Campi",
  "Moduli"=>'Moduli',
  "LoadMap"=>'Carica la mappa',
- "ChoseMapTXT"=>'Scegli una mappa per proseguire',
   	
 );
 

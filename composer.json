@@ -8,13 +8,8 @@
   },
     {
     "type": "vcs",
-    "url": "https://bitbucket.org/evolutivo/cbperspectivecs/"
+    "url": "https://bitbucket.org/evolutivo/querybuilder"
   },
-    {
-    "type": "vcs",
-    "url": "https://bitbucket.org/evolutivo/cbperspectivecstelemarketing/"
-  },
-
     
   {
             "packagist": false
@@ -23,8 +18,7 @@
 
   "require": {
     "evolutivo/composerinstall": "dev-master",
-    "evolutivo/cbperspectivecs": "dev-master",
-    "evolutivo/cbperspectivecstelemarketing": "dev-master"
+    "evolutivo/querybuilder": "dev-master"
   },
     "scripts": {
     "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
