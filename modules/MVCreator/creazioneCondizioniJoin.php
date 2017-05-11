@@ -1,4 +1,10 @@
 <?php
+$MapId = "";
+if (isset($_POST['MapID'])) {
+    $MapId = $_POST['MapID'];
+}
+
+//echo "<h2>".$MapId."</h2>";
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme,$adb,$root_directory,$current_user;
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
@@ -11,6 +17,7 @@ require_once ('data/Tracker.php');
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
+$smarty->assign("MapID", $MapId);
 $output = $smarty->fetch('modules/MVCreator/createJoinCondition.tpl');
 echo $output;
 ?>

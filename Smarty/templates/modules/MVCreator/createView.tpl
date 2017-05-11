@@ -16,7 +16,7 @@
 <center>
 <div class='selDataBase' id='selDb' style="padding-left: 1%;">
 {*    <div>
-            <input type="hidden" id='accid' name="accid" value="" >  
+            <input type="hidden" id='accid' name="accid" value="" >
                 <label class="font-style">Installation: </label>  <select id="dbList" name="dbList" onchange="connect(this.id,this.value);" multiple class="singlecombofilter">
                  {foreach from=$allacc key="k" item="c"}
                      <option value="{$k}">{$c}</option>
@@ -59,7 +59,7 @@
   .overflow { height: 200px; }
     </style>
      <script>
-      function connect(id,value) { 
+      function connect(id,value) {
            var allelems = value.split("-");
             jQuery('#accid').val(allelems[0]);
             installationID = allelems[0];
@@ -67,7 +67,7 @@
              $("#dbName").val(nameDb);
         }
      jQuery( "#dbList")
-     .selectmenu({change: function( event, ui ) { 
+     .selectmenu({change: function( event, ui ) {
                                                  var dataDb = ui.item.value.split("-");
                                                    installationID = dataDb[0];
                                                    nameDb = dataDb[1];

@@ -4,6 +4,8 @@
 <script type="text/javascript" src="modules/MVCreator/jquery/script.js"></script>
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/css/jquery.bsmselect.css">
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/examples/example.css">
+<link rel="stylesheet" type="text/css" href="kendoui/styles/kendo.common.min.css">
+
 <div id="LoadingImage" style="display: none">
     <img src=""/>
 </div>
@@ -59,16 +61,16 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        {if !empty($FirstSecModule)}
-                            <select id="mod" name="mod" class="slds-select">
-                                {foreach from=$FirstSecModule item=v}
-                                    <option value="{$v['FmoduleName']}">{$v['FmoduleName']}</option>
-                                {/foreach}
-                            </select>
-                        {else}
+                        {*{if !empty($FirstSecModule)}*}
+                            {*<select id="mod" name="mod" class="slds-select">*}
+                                {*{foreach from=$FirstSecModule item=v}*}
+                                    {*<option value="{$v['FmoduleName']}">{$v['FmoduleName']}</option>*}
+                                {*{/foreach}*}
+                            {*</select>*}
+                        {*{else}*}
                             <select id="mod" name="mod" onchange="GetFirstModuleCombo(this)" class="slds-select">
                             </select>
-                        {/if}
+                        {*{/if}*}
                     </div>
                 </div>
             </div>
@@ -76,15 +78,15 @@
                    <select class="sel" id="selTab1" name="selTab1" onchange="updateSel('selTab1','selField1')">*}
             {*<option selected="selected" disabled="disabled" >Selezionare la prima tabella :</option>
             </select>*}
-            {if !empty($FirstSecModule)}
-                {foreach from=$FirstSecModule item=v}
-                    <input type="button" value="{$v['FmoduleID']}" class="slds-button slds-button--neutral sel"
-                           id="selField1" name="selField1" style="padding:0px;">
-                {/foreach}
-            {else}
+            {*{if !empty($FirstSecModule)}*}
+                {*{foreach from=$FirstSecModule item=v}*}
+                    {*<input type="button" value="{$v['FmoduleID']}" class="slds-button slds-button--neutral sel"*}
+                           {*id="selField1" name="selField1" style="padding:0px;">*}
+                {*{/foreach}*}
+            {*{else}*}
                 <input type="button" class="slds-button slds-button--neutral sel" id="selField1" name="selField1"
                        style="padding:0px;">
-            {/if}
+            {*{/if}*}
         </div>
 
         <div style="float:left; overflow: hidden;width:3%; margin-left: 2%; margin-right: 2%;" id="centerJoin"> =</div>
@@ -93,18 +95,18 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        {if !empty($FirstSecModule)}
-                            <select id="secmodule" name="secmodule" class="slds-select">
-                                {foreach from=$FirstSecModule item=v}
-                                    <option value="{$v['SecmoduleName']}">{$v['SecmoduleName']}</option>
-                                {/foreach}
-                            </select>
-                        {else}
+                        {*{if !empty($FirstSecModule)}*}
+                            {*<select id="secmodule" name="secmodule" class="slds-select">*}
+                                {*{foreach from=$FirstSecModule item=v}*}
+                                    {*<option value="{$v['SecmoduleName']}">{$v['SecmoduleName']}</option>*}
+                                {*{/foreach}*}
+                            {*</select>*}
+                        {*{else}*}
                             <select id="secmodule" name="secmodule" onchange="GetSecondModuleCombo(this)"
                                     class="slds-select">
 
                             </select>
-                        {/if}
+                        {*{/if}*}
                     </div>
                 </div>
             </div>
@@ -112,15 +114,15 @@
                    <select class="sel" id="selTab2" name="selTab2" onchange="updateSel('selTab2','selField2')">
                    <option selected="selected" disabled="disabled" >{$MOD.SelectSModule}</option>*}
             </select>
-            {if !empty($FirstSecModule)}
-                {foreach from=$FirstSecModule item=v}
-                    <input type="button" value="{$v['SecmoduleID']}" class="slds-button slds-button--neutral sel"
-                           id="selField2" name="selField2" style="padding:0px;">
-                {/foreach}
-            {else}
+            {*{if !empty($FirstSecModule)}*}
+                {*{foreach from=$FirstSecModule item=v}*}
+                    {*<input type="button" value="{$v['SecmoduleID']}" class="slds-button slds-button--neutral sel"*}
+                           {*id="selField2" name="selField2" style="padding:0px;">*}
+                {*{/foreach}*}
+            {*{else}*}
                 <input type="button" class="slds-button slds-button--neutral sel" id="selField2" name="selField2"
                        style="padding:0px;">
-            {/if}
+            {*{/if}*}
         </div>
     </div>
     <br><br>
@@ -135,29 +137,30 @@
                 <div class="slds-form-element">
                     <label class="slds-form-element__label" for="select-01">Select Label</label>
                     <div class="slds-form-element__control">
-                        {if !empty($Fields)}
-                            <select id="selectableFields" multiple="multiple" name="selectableFields[]">
-                                <optgroup label="{$MOD.OptionsText}">
-                                    {foreach from=$Fields item=v}
-                                        <option value="{$v['fieldname']}">{$v['fieldname']}</option>
-                                    {/foreach}
-                                </optgroup>
+                        {*{if !empty($Fields)}*}
+                            {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
+                                {*<optgroup label="{$MOD.OptionsText}">*}
+                                    {*{foreach from=$Fields item=v}*}
+                                        {*<option value="{$v['fieldname']}">{$v['fieldname']}</option>*}
+                                    {*{/foreach}*}
+                                {*</optgroup>*}
+                            {*</select>*}
+                        {*{else}*}
+                            <select  id="selectableFields" multiple="multiple" name="selectableFields[]">
                             </select>
-                        {else}
-                            <select id="selectableFields" multiple="multiple" name="selectableFields[]">
-                            </select>
-                        {/if}
+                        {*{/if}*}
                     </div>
-                    {if !empty($FirstSecModule)}
+                    {*{if !empty($FirstSecModule)}*}
+                        {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
+                    {*{else}*}
                         <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-                    {else}
-                        <input type="hidden" name="MapID" value="" id="MapID">
-                    {/if}
+                    {*{/if}*}
 
                 </div>
                 {*<select id="selectableFields" multiple="multiple" name="selectableFields[]"></select>
                 <ol id="leftValues">
                 </ol>*}
+
             </div>
             {*            <div class="allinea" id="center">
                             <input type="button" id="btnRight" value="&gt;&gt;" />
@@ -282,6 +285,9 @@
     </style>
     <script>
 
+
+
+
         //function for first combo first module
         function GetFirstModuleCombo(selectObject) {
             var value = selectObject.value;
@@ -330,7 +336,7 @@
         });
 
         jQuery('#selectableFields').dblclick(function () {
-//add where conditions
+                //add where conditions
             var txt = this.id;
             var box = jQuery("#condition");
             box.val(box.val() + txt);
@@ -347,6 +353,13 @@
             var box = jQuery("#condition");
             box.val(box.val() + txt);
         }
+//        jQuery('#selectableFields').multiSelect({
+//            columns: 4,
+//            placeholder: 'Select Languages',
+//            search: true,
+//            selectAll: true
+//        });
+
         /// jQuery( "#mode")
         //.selectmenu({change: function( event, ui ) {
         //                                            getSecModule(ui.item);
