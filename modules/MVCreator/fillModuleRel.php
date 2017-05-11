@@ -53,7 +53,12 @@ if ($num_rows != 0) {
         $log->debug("Fillim$i" . $modul1);
         $column = $adb->query_result($result, $i - 1, 'columnname');
         $fl = $adb->query_result($result, $i - 1, 'fieldlabel');
-        $a .= '<option value="' . $modul1 . ';' . $column . '">edmondi' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+        if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+            $a .= '<option seleceted value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+        } else {
+            $a .= '<option value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+        }
+        echo $modul1;
     }
 }
 $query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 
@@ -71,7 +76,11 @@ if ($num_rows1 != 0) {
         $modul1 = $adb->query_result($result1, $i - 1, 'module');
         $column = $adb->query_result($result1, $i - 1, 'columnname');
         $fl = $adb->query_result($result1, $i - 1, 'fieldlabel');
-        $a .= '<option value="' . $modul1 . '(many);' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+        if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+            $a .= '<option selected value="' . $modul1 . '(many);' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+        } else {
+            $a .= '<option value="' . $modul1 . '(many);' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+        }
     }
 }
 $query2 = "SELECT uitype, columnname, fieldlabel from  vtiger_field 
@@ -119,12 +128,21 @@ if ($num_rows2 != 0) {
         if ($modul2 != '') {
             $mo2 = $adb->query("select * from  vtiger_tab where name='$modul2' and presence=0");
         }
-        if ($adb->num_rows($mo) != 0)
-            $a .= '<option value="' . $modul1 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-
+        if ($adb->num_rows($mo) != 0) {
+            if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                $a .= '<option selected value="' . $modul1 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+            } else {
+                $a .= '<option value="' . $modul1 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+            }
+        }
         if ($modul2 != '' && $adb->num_rows($mo2) != 0)
-            $a .= '<option value="' . $modul2 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul2)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul2)) . '</option>';
-    }
+            if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul2) {
+                $a .= '<option selected value="' . $modul2 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul2)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul2)) . '</option>';
+            }
+            else {
+                $a .= '<option value="' . $modul2 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul2)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul2)) . '</option>';
+            }
+        }
 
 }
 
@@ -144,8 +162,13 @@ if ($m == "Accounts") {
             $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
             $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
             if ($adb->num_rows($mo) != 0)
-                $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-        }
+                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                    $a .= '<option selected value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+                else {
+                    $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+            }
     }
 }
 if ($m == "Contacts") {
@@ -164,8 +187,13 @@ if ($m == "Contacts") {
             $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
             $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
             if ($adb->num_rows($mo) != 0)
-                $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-        }
+                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                    $a .= '<option selected value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+                else {
+                    $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+            }
     }
 }
 if ($m == "Produts") {
@@ -186,8 +214,12 @@ if ($m == "Produts") {
             $mo = $adb->query("select *  from vtiger_tab where name='$modul1' and presence=0");
 
             if ($adb->num_rows($mo) != 0)
-                $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-
+                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                    $a .= '<option selected value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+                else {
+                    $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
 
         }
     }
@@ -209,8 +241,12 @@ if ($m == "Campaigns") {
             $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
 
             if ($adb->num_rows($mo) != 0)
-                $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-
+                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                    $a .= '<option selected value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+                else {
+                    $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
         }
     }
 }
@@ -232,8 +268,12 @@ if ($m == "Potentials") {
             $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
 
             if ($adb->num_rows($mo) != 0)
-                $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-
+                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                    $a .= '<option selected value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+                else {
+                    $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
         }
     }
 }
@@ -254,8 +294,12 @@ if ($m == "Quotes") {
             $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
 
             if ($adb->num_rows($mo) != 0)
-                $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
-
+                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                    $a .= '<option selected value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
+                else {
+                    $a .= '<option value="' . $modul1 . '(many); ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+                }
 
         }
     }

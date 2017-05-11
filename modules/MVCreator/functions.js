@@ -788,7 +788,7 @@ function openMenuJoin2() {
     else {
         alert("Il nome della vista scelto e' gia' stato utilizzato!");
     }
-   getFirstModule();
+    getFirstModule();
     //getFirstModule("","");
 }
 
@@ -835,12 +835,12 @@ function selDBViews() {
 
 function getFirstModule(selTab2, Mapid) {
     ///console.log("ne fillim te funksionit");firstModule != "" && firstModule !== undefined &&
-    if ( Mapid==undefined) {
+    if (Mapid == undefined) {
         console.log("mbas if per var");
-         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID ;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID;
     }
     else {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID+ '&MapID=' + Mapid;//+'&MapID=' + Mapid;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID + '&MapID=' + Mapid;//+'&MapID=' + Mapid;
         console.log("mbas else per var");
     }
     jQuery.ajax({
@@ -850,14 +850,28 @@ function getFirstModule(selTab2, Mapid) {
         async: false,
         success: function (msg) {
             if (msg != '') {
-               jQuery('#mod').html('<option value="None">None</option>' + msg);
+                jQuery('#mod').html('<option value="None">None</option>' + msg);
+                console.log("map id eshte deklarua pra ka vlere");
+                var SelectPicker = $("#mod").val();
+                //alert("prova  =   "+SelectPicker);
+                getSecModule(SelectPicker);
+                getFirstModuleFields(SelectPicker);
                 jQuery("#mod").selectmenu("refresh");
+            }
+            if (Mapid != undefined) {
+                console.log("map id eshte deklarua pra ka vlere");
+                var SelectPicker = $("#mod").val();
+                alert("prova  =   "+SelectPicker);
+                getSecModule(SelectPicker);
+            } else {
+                console.log("map id nuk eshte deklarua pra nuk ka vlere");
             }
         },
         error: function () {
             alert("error");
         }
     });
+
 }
 
 function dispalyModules() {
@@ -905,9 +919,9 @@ function getSecModule(obj) {
     var v = obj;
     firstModule = obj;
     var MapIDtext = $('#MapID').val();
-    if (MapIDtext.length!=0){
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v+"&MapId=" + MapIDtext + "&installationID=" + installationID;
-    }else {
+    if (MapIDtext.length != 0) {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + MapIDtext + "&installationID=" + installationID;
+    } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&installationID=" + installationID;
     }
     //alert("edmondi"+MapIDtext);
@@ -918,12 +932,24 @@ function getSecModule(obj) {
         dataType: "html",
         success: function (str) {
             jQuery('#secmodule').html('<option value="None">None</option>' + str);
+            console.log("map id eshte deklarua pra ka vlere");
+            var SelectPicker = $("#secmodule").val();
+            //alert("prova  =   "+SelectPicker);
+            getSecModuleFields(SelectPicker);
             jQuery("#secmodule").selectmenu("refresh");
         },
         error: function () {
             alert("error");
         }
     });
+    if (Mapid.length() !== 0) {
+        console.log("map id eshte deklarua pra ka vlere");
+        var SelectPicker = $("#").val();
+        //alert("prova  =   "+SelectPicker);
+        getSecModule(SelectPicker);
+    } else {
+        console.log("map id nuk eshte deklarua pra nuk ka vlere");
+    }
 }
 
 function populateReport(reportSelectId) {
@@ -1169,13 +1195,14 @@ function NextAndLoadFromMap() {
         success: function (msg) {
             jQuery("#LoadfromMapSecondStep").html(msg);
 
+
             //alert("Funkionon");
         },
         error: function () {
             alert("Chiamata fallita, si prega di riprovare...");
         }
     });
-    getFirstModule("",SelectPicker);
+    getFirstModule("", SelectPicker);
 
 
 }
