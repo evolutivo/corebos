@@ -9,7 +9,7 @@ include 'XmlContent.php';
 $FirstmoduleXML ="";
 if (isset( $_REQUEST['MapId'])) {
     $mapid =  $_REQUEST['MapId'];
-    $FirstmoduleXML = takeFirstMOduleFromXMLMap($mapid);
+    $FirstmoduleXML = takeSecondMOduleFromXMLMap($mapid);
 }
 
 

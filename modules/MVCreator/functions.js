@@ -835,7 +835,7 @@ function selDBViews() {
 
 function getFirstModule(selTab2, Mapid) {
     ///console.log("ne fillim te funksionit");firstModule != "" && firstModule !== undefined &&
-    if (Mapid == undefined) {
+    if (Mapid === undefined) {
         console.log("mbas if per var");
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID;
     }
@@ -851,21 +851,24 @@ function getFirstModule(selTab2, Mapid) {
         success: function (msg) {
             if (msg != '') {
                 jQuery('#mod').html('<option value="None">None</option>' + msg);
-                console.log("map id eshte deklarua pra ka vlere");
-                var SelectPicker = $("#mod").val();
-                //alert("prova  =   "+SelectPicker);
-                getSecModule(SelectPicker);
-                getFirstModuleFields(SelectPicker);
-                jQuery("#mod").selectmenu("refresh");
-            }
-            if (Mapid != undefined) {
-                console.log("map id eshte deklarua pra ka vlere");
+                //console.log("map id eshte deklarua pra ka vlere");
                 var SelectPicker = $("#mod").val();
                 alert("prova  =   "+SelectPicker);
-                getSecModule(SelectPicker);
-            } else {
-                console.log("map id nuk eshte deklarua pra nuk ka vlere");
+                if (Mapid != undefined) {
+                    console.log("map id eshte deklarua pra ka vlere   =  "+SelectPicker);
+                    getSecModule(SelectPicker,Mapid);
+                    getFirstModuleFields(SelectPicker);
+                }
+                jQuery("#mod").selectmenu("refresh");
             }
+            // if (Mapid != undefined) {
+            //     console.log("map id eshte deklarua pra ka vlere");
+            //     var SelectPicker = $("#mod").val();
+            //     alert("prova  =   " + SelectPicker);
+            //     getSecModule(SelectPicker);
+            // } else {
+            //     console.log("map id nuk eshte deklarua pra nuk ka vlere");
+            // }
         },
         error: function () {
             alert("error");
@@ -915,12 +918,12 @@ function getInstallationModules(dataItem) {
     }
 }
 
-function getSecModule(obj) {
+function getSecModule(obj,Mapid) {
     var v = obj;
     firstModule = obj;
-    var MapIDtext = $('#MapID').val();
-    if (MapIDtext.length != 0) {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + MapIDtext + "&installationID=" + installationID;
+   // var MapIDtext = $('#MapID').val();
+    if (Mapid != undefined) {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + Mapid + "&installationID=" + installationID;
     } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&installationID=" + installationID;
     }
@@ -932,24 +935,27 @@ function getSecModule(obj) {
         dataType: "html",
         success: function (str) {
             jQuery('#secmodule').html('<option value="None">None</option>' + str);
-            console.log("map id eshte deklarua pra ka vlere");
+           // console.log("map id eshte deklarua pra ka vlere");
             var SelectPicker = $("#secmodule").val();
-            //alert("prova  =   "+SelectPicker);
-            getSecModuleFields(SelectPicker);
+            alert("prova  =   "+SelectPicker);
+            if (Mapid != undefined) {
+               // console.log("map id eshte deklarua pra ka vlere");
+                getSecModuleFields(SelectPicker);
+            }
             jQuery("#secmodule").selectmenu("refresh");
         },
         error: function () {
             alert("error");
         }
     });
-    if (Mapid.length() !== 0) {
-        console.log("map id eshte deklarua pra ka vlere");
-        var SelectPicker = $("#").val();
-        //alert("prova  =   "+SelectPicker);
-        getSecModule(SelectPicker);
-    } else {
-        console.log("map id nuk eshte deklarua pra nuk ka vlere");
-    }
+    // if (Mapid.length() !== 0) {
+    //     console.log("map id eshte deklarua pra ka vlere");
+    //     var SelectPicker = $("#").val();
+    //     //alert("prova  =   "+SelectPicker);
+    //     getSecModule(SelectPicker);
+    // } else {
+    //     console.log("map id nuk eshte deklarua pra nuk ka vlere");
+    // }
 }
 
 function populateReport(reportSelectId) {
@@ -970,6 +976,7 @@ function populateReport(reportSelectId) {
 
 function getFirstModuleFields(obj) {
     var v = obj;
+    console.log("prova per vleren " + v);
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID;
     jQuery.ajax({
         type: "POST",

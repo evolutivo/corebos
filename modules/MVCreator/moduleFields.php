@@ -5,7 +5,7 @@ require_once('include/database/PearDatabase.php');
 require_once('database/DatabaseConnection.php');
 require_once ('include/CustomFieldUtil.php');
 require_once ('data/Tracker.php');
-
+//echo "edmondi 1";
 function getModFields($module, $dbname)
 {
 	global $log;
@@ -51,7 +51,7 @@ function getModFields($module, $dbname)
 	$noofrows = $adb->num_rows($result);
 	$block = '';
 	$select_flag = '';
-
+    //echo "edmondi 2";
 	for($i=0; $i<$noofrows; $i++)
 	{
 		$fieldtablename = $adb->query_result($result,$i,"tablename");
@@ -149,6 +149,7 @@ $acno=$adb->query_result($ai,0,"acin_no"); */
 if(isset($_REQUEST['mod'])){
  $m = $_REQUEST['mod'];
  $module = $m;
+ echo $module;
 $result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
 $link = $adb->query_result($result,0,"entityidfield");
 //echo $m;
@@ -190,6 +191,6 @@ $a =getModFields($module, $acno.$dbname);
 //}
 //}
 $a.=";".$num_rows.";".$link.";";
-
+//echo "edmondi 3".$link;
 echo $a;
 ?>
