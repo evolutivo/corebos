@@ -157,7 +157,7 @@ function generateJoin() {
     //     if (opt.selected)
     //         campiSelezionati.push(opt.value);
     // }
-    alert(campiSelezionati);
+    //alert(campiSelezionati);
     if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
@@ -1003,6 +1003,7 @@ function getFirstModuleFields(obj, Mapid) {
             var str3 = s[2];
             console.log(str1);
             if (jQuery('#selectableFields optgroup[label= ' + v + ']').html() == null)
+                $('#selectableFields').empty();
                 jQuery('#selectableFields').append(str1).change();
             //alert("");
             jQuery('#selField1').val(str3);
@@ -1036,7 +1037,8 @@ function getSecModuleFields(obj,MapId) {
             var str1 = s[0];
             var str2 = s[1];
             if (jQuery('#selectableFields optgroup[label= ' + secModule + ']').html() == null)
-                jQuery('#selectableFields').append(str1).change();
+              //  $("#selectableFields").empty();
+            jQuery('#selectableFields').append(str1).change();
             console.log(str1)
             if (invers == 1) {
                 jQuery('#selField1').val(index);
