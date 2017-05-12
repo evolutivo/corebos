@@ -196,7 +196,7 @@ function generateJoin() {
                 alert("Chiamata fallita, si prega di riprovare...");
             }
         });
-        getFirstModule();
+       // getFirstModule();
     }
 }
 /*
