@@ -11,6 +11,9 @@ require_once('include/database/PearDatabase.php');
 require_once('database/DatabaseConnection.php');
 require_once('include/CustomFieldUtil.php');
 require_once('data/Tracker.php');
+
+
+
 //global $log, $adb;
 
 //if (isset($_POST['MapID'])){
@@ -79,6 +82,27 @@ function takeSecondMOduleFromXMLMap($MapID)
    }
 
 }
+
+function takeAllFileds($MapID)
+{
+    global $log, $adb;
+    if (isset($MapID)) {
+        $query = $adb->query("select description from vtiger_crmentity where crmid=$MapID");
+        $description = $adb->query_result($query, 0, "description");
+        $movies = new SimpleXMLElement($description);
+        $Fields=array();
+        foreach($movies->fields->field as $field => $value) {
+            $Fields[]=  $value;//  $field->fieldname;
+
+
+        }
+        return $Fields;
+    }else{
+        return "";
+    }
+
+}
+
 
 //$theme_path="themes/".$theme."/";
 //$image_path=$theme_path."images/";

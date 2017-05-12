@@ -142,14 +142,22 @@ function addJoin(action) {
 function generateJoin() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-    var sel = jQuery('#selectableFields');
+    var sel = document.getElementById("selectableFields");
 // console.log(sel);
     var optionsCombo = sel[0].innerHTML;
-    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-        opt = sel[0].options[i];
-        if (opt.selected)
-            campiSelezionati.push(opt.value);
+    for (var i = 0; i < sel.options.length; i++) {
+        if(sel.options[i].selected ==true){
+            //alert(x.options[i].value);
+            //dd=x.options[i].value;
+            campiSelezionati.push(sel.options[i].value);
+        }
     }
+    // for (var i = 0, len = sel[0].options.length; i < len; i++) {
+    //     opt = sel[0].options[i];
+    //     if (opt.selected)
+    //         campiSelezionati.push(opt.value);
+    // }
+    alert(campiSelezionati);
     if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
@@ -179,6 +187,7 @@ function generateJoin() {
             },
             dataType: "html",
             success: function (msg) {
+                document.getElementById('results').innerHTML = "";
                 jQuery("#results").html(msg);
                 if (box) box.remove();
 
@@ -853,11 +862,11 @@ function getFirstModule(selTab2, Mapid) {
                 jQuery('#mod').html('<option value="None">None</option>' + msg);
                 //console.log("map id eshte deklarua pra ka vlere");
                 var SelectPicker = $("#mod").val();
-                alert("prova  =   "+SelectPicker);
+               // alert("prova  =   "+SelectPicker);
                 if (Mapid != undefined) {
-                    console.log("map id eshte deklarua pra ka vlere   =  "+SelectPicker);
-                    getSecModule(SelectPicker,Mapid);
-                    getFirstModuleFields(SelectPicker);
+                    console.log("map id eshte deklarua pra ka vlere   =  " + SelectPicker);
+                    getSecModule(SelectPicker, Mapid);
+                    getFirstModuleFields(SelectPicker, Mapid);
                 }
                 jQuery("#mod").selectmenu("refresh");
             }
@@ -918,10 +927,10 @@ function getInstallationModules(dataItem) {
     }
 }
 
-function getSecModule(obj,Mapid) {
+function getSecModule(obj, Mapid) {
     var v = obj;
     firstModule = obj;
-   // var MapIDtext = $('#MapID').val();
+    // var MapIDtext = $('#MapID').val();
     if (Mapid != undefined) {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + Mapid + "&installationID=" + installationID;
     } else {
@@ -935,11 +944,11 @@ function getSecModule(obj,Mapid) {
         dataType: "html",
         success: function (str) {
             jQuery('#secmodule').html('<option value="None">None</option>' + str);
-           // console.log("map id eshte deklarua pra ka vlere");
+            // console.log("map id eshte deklarua pra ka vlere");
             var SelectPicker = $("#secmodule").val();
-            alert("prova  =   "+SelectPicker);
+            //alert("prova  =   "+SelectPicker);
             if (Mapid != undefined) {
-               // console.log("map id eshte deklarua pra ka vlere");
+                // console.log("map id eshte deklarua pra ka vlere");
                 getSecModuleFields(SelectPicker);
             }
             jQuery("#secmodule").selectmenu("refresh");
@@ -974,10 +983,14 @@ function populateReport(reportSelectId) {
     });
 }
 
-function getFirstModuleFields(obj) {
+function getFirstModuleFields(obj, Mapid) {
     var v = obj;
     console.log("prova per vleren " + v);
-    var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID;
+    if (Mapid != undefined) {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID + "&MapId=" + Mapid;
+    } else {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID;
+    }
     jQuery.ajax({
         type: "POST",
         url: url,
@@ -997,7 +1010,7 @@ function getFirstModuleFields(obj) {
     });
 }
 
-function getSecModuleFields(obj) {
+function getSecModuleFields(obj,MapId) {
     var v1 = obj;
     var sp = v1.split(";");
     var mod = sp[0].split("(many)");
@@ -1009,6 +1022,9 @@ function getSecModuleFields(obj) {
         invers = 1;
     }
     if (sp[1] != "undefined") index = sp[1];
+    if (MapId !=undefined){
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID +"&MapId="+MapId;
+    }
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID;
     jQuery.ajax({
         type: "POST",

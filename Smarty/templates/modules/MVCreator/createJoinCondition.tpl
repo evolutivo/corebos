@@ -62,14 +62,14 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                         {*{if !empty($FirstSecModule)}*}
-                            {*<select id="mod" name="mod" class="slds-select">*}
-                                {*{foreach from=$FirstSecModule item=v}*}
-                                    {*<option value="{$v['FmoduleName']}">{$v['FmoduleName']}</option>*}
-                                {*{/foreach}*}
-                            {*</select>*}
+                        {*<select id="mod" name="mod" class="slds-select">*}
+                        {*{foreach from=$FirstSecModule item=v}*}
+                        {*<option value="{$v['FmoduleName']}">{$v['FmoduleName']}</option>*}
+                        {*{/foreach}*}
+                        {*</select>*}
                         {*{else}*}
-                            <select id="mod" name="mod" onchange="GetFirstModuleCombo(this)" class="slds-select">
-                            </select>
+                        <select id="mod" name="mod" onchange="GetFirstModuleCombo(this)" class="slds-select">
+                        </select>
                         {*{/if}*}
                     </div>
                 </div>
@@ -79,13 +79,13 @@
             {*<option selected="selected" disabled="disabled" >Selezionare la prima tabella :</option>
             </select>*}
             {*{if !empty($FirstSecModule)}*}
-                {*{foreach from=$FirstSecModule item=v}*}
-                    {*<input type="button" value="{$v['FmoduleID']}" class="slds-button slds-button--neutral sel"*}
-                           {*id="selField1" name="selField1" style="padding:0px;">*}
-                {*{/foreach}*}
+            {*{foreach from=$FirstSecModule item=v}*}
+            {*<input type="button" value="{$v['FmoduleID']}" class="slds-button slds-button--neutral sel"*}
+            {*id="selField1" name="selField1" style="padding:0px;">*}
+            {*{/foreach}*}
             {*{else}*}
-                <input type="button" class="slds-button slds-button--neutral sel" id="selField1" name="selField1"
-                       style="padding:0px;">
+            <input type="button" class="slds-button slds-button--neutral sel" id="selField1" name="selField1"
+                   style="padding:0px;">
             {*{/if}*}
         </div>
 
@@ -96,16 +96,16 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                         {*{if !empty($FirstSecModule)}*}
-                            {*<select id="secmodule" name="secmodule" class="slds-select">*}
-                                {*{foreach from=$FirstSecModule item=v}*}
-                                    {*<option value="{$v['SecmoduleName']}">{$v['SecmoduleName']}</option>*}
-                                {*{/foreach}*}
-                            {*</select>*}
+                        {*<select id="secmodule" name="secmodule" class="slds-select">*}
+                        {*{foreach from=$FirstSecModule item=v}*}
+                        {*<option value="{$v['SecmoduleName']}">{$v['SecmoduleName']}</option>*}
+                        {*{/foreach}*}
+                        {*</select>*}
                         {*{else}*}
-                            <select id="secmodule" name="secmodule" onchange="GetSecondModuleCombo(this)"
-                                    class="slds-select">
+                        <select id="secmodule" name="secmodule" onchange="GetSecondModuleCombo(this)"
+                                class="slds-select">
 
-                            </select>
+                        </select>
                         {*{/if}*}
                     </div>
                 </div>
@@ -115,13 +115,13 @@
                    <option selected="selected" disabled="disabled" >{$MOD.SelectSModule}</option>*}
             </select>
             {*{if !empty($FirstSecModule)}*}
-                {*{foreach from=$FirstSecModule item=v}*}
-                    {*<input type="button" value="{$v['SecmoduleID']}" class="slds-button slds-button--neutral sel"*}
-                           {*id="selField2" name="selField2" style="padding:0px;">*}
-                {*{/foreach}*}
+            {*{foreach from=$FirstSecModule item=v}*}
+            {*<input type="button" value="{$v['SecmoduleID']}" class="slds-button slds-button--neutral sel"*}
+            {*id="selField2" name="selField2" style="padding:0px;">*}
+            {*{/foreach}*}
             {*{else}*}
-                <input type="button" class="slds-button slds-button--neutral sel" id="selField2" name="selField2"
-                       style="padding:0px;">
+            <input type="button" class="slds-button slds-button--neutral sel" id="selField2" name="selField2"
+                   style="padding:0px;">
             {*{/if}*}
         </div>
     </div>
@@ -135,25 +135,36 @@
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>
                 <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">Select Label</label>
+                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + right mouse ) multiple select</label>
                     <div class="slds-form-element__control">
                         {*{if !empty($Fields)}*}
-                            {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
-                                {*<optgroup label="{$MOD.OptionsText}">*}
-                                    {*{foreach from=$Fields item=v}*}
-                                        {*<option value="{$v['fieldname']}">{$v['fieldname']}</option>*}
-                                    {*{/foreach}*}
-                                {*</optgroup>*}
-                            {*</select>*}
+                        {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
+                        {*<optgroup label="{$MOD.OptionsText}">*}
+                        {*{foreach from=$Fields item=v}*}
+                        {*<option value="{$v['fieldname']}">{$v['fieldname']}</option>*}
+                        {*{/foreach}*}
+                        {*</optgroup>*}
+                        {*</select>*}
                         {*{else}*}
-                            <select  id="selectableFields" multiple="multiple" name="selectableFields[]">
-                            </select>
+                        <select id="selectableFields" style="margin-left: 20px;width: 200px;height: 230px;"
+                                multiple="multiple" name="selectableFields[]">
+                            {*<option selected>select the module to fill this </option>*}
+                        </select>
+                        {*<button style="margin-top:-250px;" class="slds-button slds-button--icon-border-filled" title="Select ">*}
+                            {*<svg class="slds-button__icon" aria-hidden="true">*}
+                                {*<use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>*}
+                            {*</svg>*}
+                            {*<span class="slds-assistive-text">select</span>*}
+                        {*</button>*}
+                        {*<select id="selectableFields1" style="margin-left: 10px;width: 200px;height: 230px;"*}
+                                {*multiple="multiple" name="selectableFields1[]">*}
+                        {*</select>*}
                         {*{/if}*}
                     </div>
                     {*{if !empty($FirstSecModule)}*}
-                        {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
+                    {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
                     {*{else}*}
-                        <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
                     {*{/if}*}
 
                 </div>
@@ -285,9 +296,18 @@
     </style>
     <script>
 
+        //        $('#selectableFields').on('change', function() {
+        //            var value = $(this).val();
+        //            $('#selectableFields1').val(value);
+        //        });
 
-
-
+//        $(document).ready(function () {
+//
+//            $("#selectableFields option:selected").click(function (e) {
+//                alert('click');
+//            });
+//
+//        });
         //function for first combo first module
         function GetFirstModuleCombo(selectObject) {
             var value = selectObject.value;
@@ -335,12 +355,12 @@
             jQuery("#leftValues").append(selectedItem);
         });
 
-        jQuery('#selectableFields').dblclick(function () {
-                //add where conditions
-            var txt = this.id;
-            var box = jQuery("#condition");
-            box.val(box.val() + txt);
-        });
+        //        jQuery('#selectableFields').dblclick(function () {
+        //                //add where conditions
+        //            var txt = this.id;
+        //            var box = jQuery("#condition");
+        //            box.val(box.val() + txt);
+        //        });
         jQuery(document).on('click', '.addWhereCond', function () {
             var txt = this.id;
             console.log(txt);
@@ -353,12 +373,12 @@
             var box = jQuery("#condition");
             box.val(box.val() + txt);
         }
-//        jQuery('#selectableFields').multiSelect({
-//            columns: 4,
-//            placeholder: 'Select Languages',
-//            search: true,
-//            selectAll: true
-//        });
+        //        jQuery('#selectableFields').multiSelect({
+        //            columns: 4,
+        //            placeholder: 'Select Languages',
+        //            search: true,
+        //            selectAll: true
+        //        });
 
         /// jQuery( "#mode")
         //.selectmenu({change: function( event, ui ) {
@@ -377,37 +397,37 @@
 
         jQuery("#selField1").button();
         jQuery("#selField2").button();
-        var selectMultiple = jQuery("#selectableFields").bsmSelect({
-            showEffect: function ($el) {
-                $el.fadeIn();
-            },
-            hideEffect: function ($el) {
-                $el.fadeOut(function () {
-                    jQuery(this).remove();
-                });
-            },
-            plugins: [jQuery.bsmSelect.plugins.sortable()],
-            title: 'Select Fields',
-            highlight: 'highlight',
-            addItemTarget: 'top',
-            removeLabel: '<strong>X</strong>',
-            containerClass: 'bsmContainer',                // Class for container that wraps this widget
-            listClass: 'bsmList-custom',                   // Class for the list ($ol)
-            listItemClass: 'bsmListItem-custom',           // Class for the <li> list items
-            listItemLabelClass: 'bsmListItemLabel-custom', // Class for the label text that appears in list items
-            removeClass: 'bsmListItemRemove-custom',       // Class given to the "remove" link
-            extractLabel: function ($o) {
-
-                if (typeof $o.parents('optgroup').attr('label') !== "undefined")
-                    return $o.parents('optgroup').attr('label') + "&nbsp;>&nbsp;" + $o.html();
-                else {
-                    var optval = ($o[0].value).split(":");
-                    var tabl = optval[0].split("_");
-                    optgr = tabl[1].charAt(0).toUpperCase() + tabl[1].substr(1).toLowerCase();
-                    return optgr + "&nbsp;>&nbsp;" + $o.html();
-                }
-            }
-        });
+        //        var selectMultiple = jQuery("#selectableFields").bsmSelect({
+        //            showEffect: function ($el) {
+        //                $el.fadeIn();
+        //            },
+        //            hideEffect: function ($el) {
+        //                $el.fadeOut(function () {
+        //                    jQuery(this).remove();
+        //                });
+        //            },
+        //            plugins: [jQuery.bsmSelect.plugins.sortable()],
+        //            title: 'Select Fields',
+        //            highlight: 'highlight',
+        //            addItemTarget: 'top',
+        //            removeLabel: '<strong>X</strong>',
+        //            containerClass: 'bsmContainer',                // Class for container that wraps this widget
+        //            listClass: 'bsmList-custom',                   // Class for the list ($ol)
+        //            listItemClass: 'bsmListItem-custom',           // Class for the <li> list items
+        //            listItemLabelClass: 'bsmListItemLabel-custom', // Class for the label text that appears in list items
+        //            removeClass: 'bsmListItemRemove-custom',       // Class given to the "remove" link
+        //            extractLabel: function ($o) {
+        //
+        //                if (typeof $o.parents('optgroup').attr('label') !== "undefined")
+        //                    return $o.parents('optgroup').attr('label') + "&nbsp;>&nbsp;" + $o.html();
+        //                else {
+        //                    var optval = ($o[0].value).split(":");
+        //                    var tabl = optval[0].split("_");
+        //                    optgr = tabl[1].charAt(0).toUpperCase() + tabl[1].substr(1).toLowerCase();
+        //                    return optgr + "&nbsp;>&nbsp;" + $o.html();
+        //                }
+        //            }
+        //        });
 
     </script>
 {/literal}
