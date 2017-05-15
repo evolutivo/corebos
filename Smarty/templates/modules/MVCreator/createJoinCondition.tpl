@@ -197,6 +197,8 @@
             border: 1px solid black;
             margin-right: 5px;
             margin-top: 0px;
+            width: initial;
+            height: inherit;
         }
 
         #LDSstyle a:hover {
