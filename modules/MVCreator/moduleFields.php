@@ -104,50 +104,96 @@ if (isset($_REQUEST['MapId'])) {
                 if ($mod_fieldlabel == "") $mod_fieldlabel = $fieldlabel;
 
                 if ($fieldlabel == "Product Code") {
+                    $checkexist=false;
                     foreach ($FieldsArrays as $item) {//$item->fieldname
                         if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                            $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                            $checkexist=true;
+                            //$OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
                         } else {
-                            $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                           // $checkexist=false;
+                            //$OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
                         }
+                    }
+                    if ($checkexist) {
+                        $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                    } else {
+                        $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
                     }
 
                 }
                 if ($fieldlabel == "Reports To") {
+                    $checkexist=false;
                     foreach ($FieldsArrays as $item) {//$item->fieldname
+
                         if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                            $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . " - " . $mod_strings['LBL_LIST_LAST_NAME'] . "</option>";
+                            $checkexist=true;
+                            //$OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . " - " . $mod_strings['LBL_LIST_LAST_NAME'] . "</option>";
                         } else {
-                            $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . " - " . $mod_strings['LBL_LIST_LAST_NAME'] . "</option>";
+                        // $checkexist=false;
+                         //   $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . " - " . $mod_strings['LBL_LIST_LAST_NAME'] . "</option>";
                         }
                     }
+                    if ($checkexist) {
+                        $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . " - " . $mod_strings['LBL_LIST_LAST_NAME'] . "</option>";
+                    } else {
+                        $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . " - " . $mod_strings['LBL_LIST_LAST_NAME'] . "</option>";
+                    }
                 } elseif ($fieldcolname == "contactid" || $fieldcolname == "contact_id") {
+                    $checkexist=false;
                     foreach ($FieldsArrays as $item) {//$item->fieldname
+                        $checkexist=false;
                         if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                            $OPTION_SET .= "<option selected value='vtiger_contactdetails:lastname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $app_strings['LBL_CONTACT_LAST_NAME'] . "</option>";
-                            $OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:" . $fieldname . "::" . $fieldtypeofdata . "'>" . $app_strings['LBL_CONTACT_FIRST_NAME'] . "</option>";
+                            $checkexist=true;
+                            //$OPTION_SET .= "<option selected value='vtiger_contactdetails:lastname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $app_strings['LBL_CONTACT_LAST_NAME'] . "</option>";
+                            //$OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:" . $fieldname . "::" . $fieldtypeofdata . "'>" . $app_strings['LBL_CONTACT_FIRST_NAME'] . "</option>";
                         } else {
-                            $OPTION_SET .= "<option value='vtiger_contactdetails:lastname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $app_strings['LBL_CONTACT_LAST_NAME'] . "</option>";
-                            $OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:" . $fieldname . "::" . $fieldtypeofdata . "'>" . $app_strings['LBL_CONTACT_FIRST_NAME'] . "</option>";
+                           // $OPTION_SET .= "<option value='vtiger_contactdetails:lastname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $app_strings['LBL_CONTACT_LAST_NAME'] . "</option>";
+                           // $OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:" . $fieldname . "::" . $fieldtypeofdata . "'>" . $app_strings['LBL_CONTACT_FIRST_NAME'] . "</option>";
                         }
+                    }
+                    if ($checkexist) {
+                        $OPTION_SET .= "<option selected value='vtiger_contactdetails:lastname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $app_strings['LBL_CONTACT_LAST_NAME'] . "</option>";
+                        $OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:" . $fieldname . "::" . $fieldtypeofdata . "'>" . $app_strings['LBL_CONTACT_FIRST_NAME'] . "</option>";
+                    } else {
+                        $OPTION_SET .= "<option value='vtiger_contactdetails:lastname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $app_strings['LBL_CONTACT_LAST_NAME'] . "</option>";
+                        $OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:" . $fieldname . "::" . $fieldtypeofdata . "'>" . $app_strings['LBL_CONTACT_FIRST_NAME'] . "</option>";
                     }
 
 
                 } elseif ($fieldcolname == "campaignid") {
+                    $checkexist=false;
                     foreach ($FieldsArrays as $item) {//$item->fieldname
+
                         if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                            $OPTION_SET .= "<option selected value='vtiger_campaign:campaignname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                            $checkexist=true;
+                            //$OPTION_SET .= "<option selected value='vtiger_campaign:campaignname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $mod_fieldlabel . "</option>";
                         } else {
-                            $OPTION_SET .= "<option   value='vtiger_campaign:campaignname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                           // $checkexist=false;
+                            //$OPTION_SET .= "<option   value='vtiger_campaign:campaignname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $mod_fieldlabel . "</option>";
                         }
                     }
+                    if ($checkexist) {
+                       // $checkexist=true;
+                        $OPTION_SET .= "<option selected value='vtiger_campaign:campaignname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                    } else {
+                        //$checkexist=false;
+                        $OPTION_SET .= "<option   value='vtiger_campaign:campaignname:" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                    }
                 } else {
+                    $checkexist=false;
                     foreach ($FieldsArrays as $item) {//$item->fieldname
                         if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                            $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . str_replace("'", "`", $fieldlabel) . "</option>";
+                            $checkexist=true;
+                            //$OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . str_replace("'", "`", $fieldlabel) . "</option>";
                         } else {
-                            $OPTION_SET .= "<option   value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . str_replace("'", "`", $fieldlabel) . "</option>";
+                           // $checkexist=false;
+                            //$OPTION_SET .= "<option   value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . str_replace("'", "`", $fieldlabel) . "</option>";
                         }
+                    }
+                    if ($checkexist) {
+                        $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . str_replace("'", "`", $fieldlabel) . "</option>";
+                    } else {
+                        $OPTION_SET .= "<option   value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "' " . $select_flag . ">" . str_replace("'", "`", $fieldlabel) . "</option>";
                     }
                 }
 
@@ -157,25 +203,38 @@ if (isset($_REQUEST['MapId'])) {
         if ($module == 'HelpDesk') {
             $mod_fieldlabel = $mod_strings['Ticket ID'];
             if ($mod_fieldlabel == "") $mod_fieldlabel = 'Ticket ID';
+            $checkexist=false;
             foreach ($FieldsArrays as $item) {//$item->fieldname
                 if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                    $OPTION_SET .= "<option selected value=\'vtiger_crmentity:crmid:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
+                   $checkexist=true;
+                    // $OPTION_SET .= "<option selected value=\'vtiger_crmentity:crmid:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
                 } else {
-                    $OPTION_SET .= "<option value=\'vtiger_crmentity:crmid:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
+                    //$OPTION_SET .= "<option value=\'vtiger_crmentity:crmid:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
                 }
+            }
+            if ($checkexist) {
+                $OPTION_SET .= "<option selected value=\'vtiger_crmentity:crmid:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
+            } else {
+                $OPTION_SET .= "<option value=\'vtiger_crmentity:crmid:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
             }
         }
         //Added to include activity type in activity advance search
         if ($module == 'Activities') {
             $mod_fieldlabel = $mod_strings['Activity Type'];
             if ($mod_fieldlabel == "") $mod_fieldlabel = 'Activity Type';
-
+            $checkexist=false;
             foreach ($FieldsArrays as $item) {//$item->fieldname
                 if (strlen($item->fieldname) != 0 && strpos($item->fieldname, $fieldcolname) !== false) {
-                    $OPTION_SET .= "<option selected value=\'vtiger_activity.activitytype:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
+                    $checkexist=true;
+                    //$OPTION_SET .= "<option selected value=\'vtiger_activity.activitytype:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
                 } else {
-                    $OPTION_SET .= "<option value=\'vtiger_activity.activitytype:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
+                    //$OPTION_SET .= "<option value=\'vtiger_activity.activitytype:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
                 }
+            }
+            if ($checkexist) {
+                $OPTION_SET .= "<option selected value=\'vtiger_activity.activitytype:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
+            } else {
+                $OPTION_SET .= "<option value=\'vtiger_activity.activitytype:" . $fieldname . "::" . $fieldtypeofdata . "\'>" . $mod_fieldlabel . "</option>";
             }
         }
         $log->debug("Exiting getAdvSearchfields method ...");
