@@ -135,7 +135,8 @@
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>
                 <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + right mouse ) multiple select</label>
+                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + right mouse )
+                        multiple select</label>
                     <div class="slds-form-element__control">
                         {*{if !empty($Fields)}*}
                         {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
@@ -151,13 +152,13 @@
                             {*<option selected>select the module to fill this </option>*}
                         </select>
                         {*<button style="margin-top:-250px;" class="slds-button slds-button--icon-border-filled" title="Select ">*}
-                            {*<svg class="slds-button__icon" aria-hidden="true">*}
-                                {*<use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>*}
-                            {*</svg>*}
-                            {*<span class="slds-assistive-text">select</span>*}
+                        {*<svg class="slds-button__icon" aria-hidden="true">*}
+                        {*<use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>*}
+                        {*</svg>*}
+                        {*<span class="slds-assistive-text">select</span>*}
                         {*</button>*}
                         {*<select id="selectableFields1" style="margin-left: 10px;width: 200px;height: 230px;"*}
-                                {*multiple="multiple" name="selectableFields1[]">*}
+                        {*multiple="multiple" name="selectableFields1[]">*}
                         {*</select>*}
                         {*{/if}*}
                     </div>
@@ -195,15 +196,26 @@
 
         #LDSstyle {
             border: 1px solid black;
-            margin-right: 5px;
+            margin-right: 0px;
             margin-top: 0px;
-            width: initial;
-            height: inherit;
+            width: 100%;
+            height: 100%;
+        }
+
+        /*@media(width:1024px){*/
+            /*#LDSstyle {*/
+                /*font-size: 10*/
+            /*}*/
+        /*}*/
+
+        #LDSstyle li {
+            margin: 0px;
+            padding: 0px;
         }
 
         #LDSstyle a:hover {
             background: #c3cede;
-            margin-right: 2px;
+            /*margin-right: 2px;*/
         }
 
         .ajax_loader {
@@ -303,13 +315,13 @@
         //            $('#selectableFields1').val(value);
         //        });
 
-//        $(document).ready(function () {
-//
-//            $("#selectableFields option:selected").click(function (e) {
-//                alert('click');
-//            });
-//
-//        });
+        //        $(document).ready(function () {
+        //
+        //            $("#selectableFields option:selected").click(function (e) {
+        //                alert('click');
+        //            });
+        //
+        //        });
         //function for first combo first module
         function GetFirstModuleCombo(selectObject) {
             var value = selectObject.value;
