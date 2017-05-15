@@ -76,6 +76,7 @@ for (i = 0; i < acc.length; i++) {
     var panel = this.nextElementSibling;
     if (panel.style.maxHeight){
       panel.style.maxHeight = null;
+      panel.style['padding-top'] = "0px";
     } else {
       panel.style.maxHeight = panel.scrollHeight + "px";
       panel.style['padding-top'] = "5px";
