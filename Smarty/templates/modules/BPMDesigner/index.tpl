@@ -20,6 +20,7 @@
 <script type="text/javascript" src="Smarty/templates/modules/BPMDesigner/cytoscape/dist/cytoscape.js"></script>
 <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
 <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.1.2/cytoscape-dagre.js"></script>
+<link rel="stylesheet" href="modules/BPMDesigner/BPMDesigner.css" type="text/css" />
 
 <table width=96% align=center border="0" ng-app="demoApp" ng-controller="BPMDesigner" style="padding:10px;">
     <tr><td style="height:2px"><br/><br/></td></tr>
@@ -32,42 +33,68 @@
             <div class="demo" style="display: flex;flex-direction: row;">
                 <div id="cy"></div>
                 <div id="params" >
-                    <b>{'ProcTmp'|@getTranslatedString:'ProcTmp'} </b>
-                    <select id="processtemplate" ng-options="op.id as op.name for op in procestempList" ng-model="procestemp" ng-click="reloadContent()"></select>
+                    <input type="button" value="{'SaveGraphConfig'|@getTranslatedString:'SaveGraphConfig'}" id="add_node" class="crmbutton small create" ng-click="saveGraph();" /> 
                     <div id="blocks">
-                        {'New'|@getTranslatedString:'New'}<input type="text" id="status" ng-model="status" /><br/>
-                        <input type="button" value="{'Addstatus'|@getTranslatedString:'Addstatus'}" id="add_node" class="crmbutton small create" ng-click="addStatus();"/> 
+                        <b>{'ProcTmp'|@getTranslatedString:'ProcTmp'} </b>
+                        <select id="processtemplate" ng-options="op.id as op.name for op in procestempList" ng-model="procestemp" ng-click="reloadContent()"></select>
                     </div>
-                    <div id="blocks">
+                    <button class="accordion">{'Addstatus'|@getTranslatedString:'Addstatus'}</button>
+                    <div class="panel_acc">
+                        <p>
+                        <input type="text" id="status" ng-model="status" />
+                        <input type="button" value="{'Addstatus'|@getTranslatedString:'Addstatus'}" id="add_node" class="crmbutton small create" ng-click="addStatus();"/> 
+                        </p>
+                    </div>
+                    <button class="accordion">{'CrFlow'|@getTranslatedString:'CrFlow'}</button>
+                    <div class="panel_acc">
+                        <p>
                         {'Start'|@getTranslatedString:'Start'}<select ng-options="op for op in allnodes" ng-model="start_status" ></select><br/>
-                        {'End'|@getTranslatedString:'End'}<select ng-options="op for op in allnodes" ng-model="end_status" ></select>
+                        {'End'|@getTranslatedString:'End'}<select ng-options="op for op in allnodes" ng-model="end_status" ></select><br/>
                         <input type="button" value="{'CrFlow'|@getTranslatedString:'CrFlow'}" id="add_node" class="crmbutton small create" ng-click="addRelation();" /> 
+                        </p>
+                    </div>
+                    <button class="accordion">{'Delete'|@getTranslatedString:'Delete'}</button>
+                    <div class="panel_acc">
+                        <p>
+                        <input type="button" value="{'DeleteNode'|@getTranslatedString:'DeleteNode'}" id="add_node" class="crmbutton small create" ng-click="deleteNode();" /> 
+                        <input type="button" value="{'DeleteEdge'|@getTranslatedString:'DeleteEdge'}" id="add_node" class="crmbutton small create" ng-click="deleteEdge();" /> 
+                        </p>
                     </div>
                 </div>                
             </div>
         </td>
      </tr>
 </table>
-
+<script>
+{literal}
+var acc = document.getElementsByClassName("accordion");
+var i;
+console.log(acc.length);
+for (i = 0; i < acc.length; i++) {
+  acc[i].onclick = function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      panel.style['padding-top'] = "5px";
+    } 
+  }
+}
+{/literal}
+</script>
 <style>
 {literal}
 #cy {
     width: 80%;
     height: 700px;
     border: 1px solid #ccc;
-    //position: absolute;
-    //left: 50;
-    //top: 80;
-    //z-index: 999;
 }
 #params {
     width: 20%;
     height: 700px;
     border: 1px solid #ccc;
-    //position: absolute;
-    //left: 50;
-    //top: 80;
-    //z-index: 999;
 }
 #blocks {
     border: 1px solid #ccc;
@@ -86,7 +113,7 @@ function test(cy){
     console.log(collection);
 }
 angular.module('demoApp')
-.controller('BPMDesigner', function($scope, $http, $modal, ngTableParams) {
+.controller('BPMDesigner', function($scope, $http) {
     $scope.procestemp='{/literal}{$PROCESSTEMP_ID}{literal}';
     $scope.procestempList={/literal}{$PROCESSTEMP|@json_encode}{literal};   
     $scope.status='';
@@ -98,7 +125,7 @@ angular.module('demoApp')
                     var cy=cytoscape({
                         container: document.getElementById('cy'),
                         layout: {
-                                name: 'dagre'
+                                name: 'preset'
                         },
                         style: [
                                 {
@@ -121,10 +148,8 @@ angular.module('demoApp')
                                     }
                                 }
                         ],
-                        elements: {
-                            nodes: data.nodes,
-                            edges: data.edges
-                            }
+                        elements: 
+                            data.nodes
                         });
                     //cy.reset();
                     cy.zoom(1);
@@ -132,19 +157,44 @@ angular.module('demoApp')
                       x: 50,
                       y: 50 
                     });
-                    var handler = function(){
-                      //console.log( cy.json() );
-                    };
-                    cy.on("tap", handler);
-                    cy.on('tap', function(evt){
-                      console.log( 'tap ' );
-                      //console.log(evt.cyTarget._private);
+                    cy.on('click', 'node', function(evt){
+                          console.log(  this.position() );
                     });
                     $scope.addStatus=function(){
                         cy.add([
                             { group: "nodes", data: { id: $scope.status }, position: { x: 0, y: 0 } }
                         ]);
                         $scope.allnodes.push($scope.status);
+                    };
+                    $scope.deleteNode=function(){
+                        if(confirm("{/literal}{'AreYouSure'|@getTranslatedString:'AreYouSure'}{literal}")){
+                        var graph=cy.json();
+                        var params=encodeURIComponent(JSON.stringify(graph));
+                        $http.get('index.php?module=BPMDesigner&action=BPMDesignerAjax&file=operations&kaction=deleteNode&models='+params).
+                                success(function(data, status) {
+                                    alert("{/literal}{'Done'|@getTranslatedString:'Done'}{literal}");
+                                });
+                    }
+                    };
+                    $scope.deleteEdge=function(){
+                        if(confirm("{/literal}{'AreYouSure'|@getTranslatedString:'AreYouSure'}{literal}")){
+                        var graph=cy.json();
+                        var params=encodeURIComponent(JSON.stringify(graph));
+                        $http.get('index.php?module=BPMDesigner&action=BPMDesignerAjax&file=operations&kaction=deleteEdge&models='+params).
+                                success(function(data, status) {
+                                    alert("{/literal}{'Done'|@getTranslatedString:'Done'}{literal}");
+                                });
+                    }
+                    };
+                    $scope.saveGraph=function(){
+                        if(confirm("{/literal}{'AreYouSure'|@getTranslatedString:'AreYouSure'}{literal}")){
+                        var graph=cy.json();
+                        var params=encodeURIComponent(JSON.stringify(graph));
+                        $http.get('index.php?module=BPMDesigner&action=BPMDesignerAjax&file=operations&kaction=saveGraph&models='+params).
+                                success(function(data, status) {
+                                    alert("{/literal}{'Done'|@getTranslatedString:'Done'}{literal}");
+                                });
+                    }
                     };
                     $scope.addRelation=function(){
                         var id=$scope.start_status+'_'+$scope.end_status;

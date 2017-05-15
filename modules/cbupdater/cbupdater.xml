@@ -1618,4 +1618,11 @@
 	<classname>addFieldPivotMacroType</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add PF positions</description>
+	<filename>build/changeSets/2017/addPFPosition.php</filename>
+	<classname>addPFPosition</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
