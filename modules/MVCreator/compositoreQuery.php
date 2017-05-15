@@ -1,20 +1,26 @@
 <?php
-global  $adb;
+global $adb;
 $selField1 = $_POST['selField1'];//stringa con tutte i campi scelti in selField1
 $selField2 = $_POST['selField2'];//stringa con tutte i campi scelti in selField1
-$nameView=$_POST['nameView'];//nome della vista
+$nameView = $_POST['nameView'];//nome della vista
 $campiSelezionati = $_POST['campiSelezionati'];
 
 $optionsCombo = $_POST['html'];
 $optionValue = array();
 $optgroup = array();
-for($j=0; $j<count($campiSelezionati);$j++){
-    $expdies = explode(":",$campiSelezionati[$j]);
-    array_push($optionValue,$expdies[0].".".$expdies[1]);
+for ($j = 0; $j < count($campiSelezionati); $j++) {
+    $expdies = explode(":", $campiSelezionati[$j]);
+    array_push($optionValue, $expdies[0] . "." . $expdies[1]);
 }
 
 $firstmodule = $_POST['fmodule'];
 $secmodule = $_POST['smodule'];
+$Moduls = array();
+array_push($Moduls, $firstmodule);
+array_push($Moduls, $secmodule);
+//print_r($Moduls);
+//echo inerJoionwithCrmentity($Moduls);
+//exit();
 //$selField1 = explode(',',$stringaselField1);
 //$selField2 = explode(',',$stringaselField2);
 $stringaFields = implode(",", $optionValue);
@@ -25,68 +31,97 @@ $query = $adb->query("select entityidfield,tablename from vtiger_entityname wher
 $entityidfield = $adb->query_result($query, 0, "entityidfield");
 $tablename = $adb->query_result($query, 0, "tablename");
 //echo "edmondi". $entityidfield.$tablename;
-$entityidfields=$tablename.".".$entityidfield;
-$generatetQuery = showJoinArray($selField1, $selField2, $nameView,$stringaFields,$selTab1,$selTab2,$entityidfields);
+$entityidfields = $tablename . "." . $entityidfield;
+$generatetQuery = showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTab1, $selTab2, $entityidfields, $Moduls);
 
-//echo "optionValue <br>";
-//print_r($optionValue);
-//echo "<br>";
-//echo "stringfileds <br>";
-//print_r($stringaFields);
-//echo "<br>";
-//echo "selftab <br>";
-//print_r($selTab1);
-//echo "<br>";
-//echo "seltab2 <br>";
-//print_r($selTab2);
-//echo "<br>";
-//echo "selfield1 <br>";
-//print_r($selField2);
-//echo "<br>";
-//echo "selfields2 <br>";
-//print_r($selField2);
-//echo "<br>";
-//echo $nameView;
-//echo "<br>";
-//echo "campiselezionati <br>";
-//print_r($campiSelezionati);
-//echo "<br>";
+
 /*
  * Stampa a video nel <div> con id="results" la query per la creazione della vista materializzata
  */
-function showJoinArray( $selField1, $selField2, $nameView, $stringaFields,$selTab1,$selTab2,$primarySelectID){
-   $acc = 0;
-   $strQuery = '' ;
-   global $log;
-    for($i=0;$i<count($selTab1);$i++){
-    if($selTab1[$i] == "Potentials") {$selTab1[$i] = "vtiger_potential";}
-    else if($selTab1[$i]== "Accounts") {$selTab1[$i] = "vtiger_account";}
-    else if($selTab1[$i]== "Contacts"){ $selTab1[$i] = "vtiger_contactdetails";}
-    else { $selTab1[$i] = "vtiger_".strtolower($selTab1[$i]);}
-     if($selTab2[$i] == "Potentials") $selTab2[$i] = "vtiger_potential";
-    else if($selTab2[$i]== "Accounts") $selTab2[$i] = "vtiger_account";
-    else if($selTab2[$i] == "Contacts") $selTab2[$i] = "vtiger_contactdetails";
-    else $selTab2[$i] = "vtiger_".strtolower($selTab2[$i]);
-        if($i==0){
-			/* <b> CREATE TABLE </b>'.$nameView.'<b>  */
-         $strQuery.= '<b> SELECT </b>'.$primarySelectID.",".$stringaFields.'<b> FROM </b>'.strtolower($selTab1[$i]).'<b> INNER JOIN </b>'.strtolower($selTab2[$i]).'<b> ON </b>'.strtolower($selTab1[$i]).'.'.$selField1[$i].'<b> = </b>'.strtolower($selTab2[$i]).'.'.$selField2[$i];
-            if($selTab1[$i] == "vtiger_account" && $acc == 0){
-            $strQuery.=' <b> inner join </b> vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid';
-             $strQuery.='<b>  inner join </b> vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid';
-            $acc =1;
-           }
-       }
-            else{
-                $strQuery.='<b> INNER JOIN </b>'.$selTab2[$i].'<b> ON </b>'.strtolower($selTab1[$i]).'.'.$selField1[$i].'<b> = </b>'.strtolower($selTab2[$i]).'.'.$selField2[$i];
-                if($selTab2[$i] == "vtiger_account" && $acc == 0){ 
-                $strQuery.='<b> inner </b> join vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid';
-                 $strQuery.=' <b> inner join </b> vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid';
-                $acc =1;
-                }
+function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTab1, $selTab2, $primarySelectID, $Moduls)
+{
+    $acc = 0;
+    $strQuery = '';
+    global $log;
+    for ($i = 0; $i < count($selTab1); $i++) {
+        if ($selTab1[$i] == "Potentials") {
+            $selTab1[$i] = "vtiger_potential";
+        } else if ($selTab1[$i] == "Accounts") {
+            $selTab1[$i] = "vtiger_account";
+        } else if ($selTab1[$i] == "Contacts") {
+            $selTab1[$i] = "vtiger_contactdetails";
+        } else {
+            $selTab1[$i] = "vtiger_" . strtolower($selTab1[$i]);
         }
-            
+        if ($selTab2[$i] == "Potentials") $selTab2[$i] = "vtiger_potential";
+        else if ($selTab2[$i] == "Accounts") $selTab2[$i] = "vtiger_account";
+        else if ($selTab2[$i] == "Contacts") $selTab2[$i] = "vtiger_contactdetails";
+        else $selTab2[$i] = "vtiger_" . strtolower($selTab2[$i]);
+        if ($i == 0) {
+            /* <b> CREATE TABLE </b>'.$nameView.'<b>  */
+            $strQuery .= '<b> SELECT </b>' . $primarySelectID . "," . $stringaFields . '<b> FROM </b>' . strtolower($selTab1[$i]) . '<b> INNER JOIN </b>' . strtolower($selTab2[$i]) . '<b> ON </b>' . strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
+            $strQuery .= inerJoionwithCrmentity($Moduls);
+            if ($selTab1[$i] == "vtiger_account" && $acc == 0) {
+                $strQuery .= ' <b> inner join </b> vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid';
+                $strQuery .= '<b>  inner join </b> vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid';
+                $acc = 1;
+            }
+        } else {
+            $strQuery .= '<b> INNER JOIN </b>' . $selTab2[$i] . '<b> ON </b>' . strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
+            if ($selTab2[$i] == "vtiger_account" && $acc == 0) {
+                $strQuery .= '<b> inner </b> join vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid';
+                $strQuery .= ' <b> inner join </b> vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid';
+                $acc = 1;
+            }
+        }
+
     }
-     return $strQuery;
+    return $strQuery;
+}
+
+
+function inerJoionwithCrmentity($Moduls)
+{
+    global $adb;
+    $joinCrmentity = '';
+    $nr = 1;
+    foreach ($Moduls as $modul) {
+
+
+        $joinCrmentity .= '  <b>JOIN</b>   ';
+        $query = $adb->query("select entityidfield,tablename from vtiger_entityname where modulename='$modul'");
+        $Module_entityidfield = $adb->query_result($query, 0, "entityidfield");
+        $Module_tablename = $adb->query_result($query, 0, "tablename");
+        $JoinCondition = $Module_tablename . "." . $Module_entityidfield;
+        if (!empty($JoinCondition)) {
+            $joinCrmentity .= 'vtiger_crmentity <b>as</b> ' . 'crm_' . $nr;
+            $joinCrmentity.='  <b>ON</b>  ';
+            $joinCrmentity .= ' crm'.$nr.'.crmid = ' . $JoinCondition;
+            $joinCrmentity .= ' <b>AND</b> crm_'.$nr.'.deleted = 0   ';
+
+        }
+        $nr++;
+    }
+    return $joinCrmentity;
+
+
+//    $querysecondmodule = $adb->query("select entityidfield,tablename from vtiger_entityname where modulename='$modul2'");
+//    $SecModule_entityidfield = $adb->query_result($querysecondmodule, 0, "entityidfield");
+//    $SecModule_tablename = $adb->query_result($querysecondmodule, 0, "tablename");
+
+
+//    $joinCrmentity = '  <b>JOIN</b>   ';
+//    if (!empty($FirstCondition) && !empty($SecondCondition)) {
+//
+//        $joinCrmentity .= 'vtiger_crmentity <b>ON</b>';
+//        $joinCrmentity .= ' vtiger_crmentity.crmid = ' . $FirstCondition;
+//        $joinCrmentity .= '  <b>JOIN</b>  ';
+//        $joinCrmentity .= 'vtiger_crmentity <b>ON</b>';
+//        $joinCrmentity .= ' vtiger_crmentity.crmid = ' . $SecondCondition;
+//        return $joinCrmentity;
+//    } else {
+//        return "";
+//    }
 }
 
 
@@ -180,16 +215,16 @@ function showJoinArray( $selField1, $selField2, $nameView, $stringaFields,$selTa
 //    return $allFields;
 //}
 require_once('Smarty_setup.php');
-global $app_strings, $mod_strings, $current_language, $currentModule, $theme,$adb,$root_directory,$current_user;
-$theme_path="themes/".$theme."/";
-$image_path= $theme_path."images/";
+global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
+$theme_path = "themes/" . $theme . "/";
+$image_path = $theme_path . "images/";
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
-$smarty->assign("MODULE",$currentModule);
-$smarty->assign("IMAGE_PATH",$image_path);
-$smarty->assign("DATEFORMAT",$current_user->date_format);
-$smarty->assign("QUERY",$generatetQuery);
+$smarty->assign("MODULE", $currentModule);
+$smarty->assign("IMAGE_PATH", $image_path);
+$smarty->assign("DATEFORMAT", $current_user->date_format);
+$smarty->assign("QUERY", $generatetQuery);
 
 //$optString = "";
 //foreach ($optgroup as  $key => $v1) {
@@ -199,9 +234,9 @@ $smarty->assign("QUERY",$generatetQuery);
 //    }
 //    $optString.='</optgroup>';
 //}
-$smarty->assign("FIELDS",$optionsCombo);
-$smarty->assign("FIELDLABELS",$campiSelezionatiLabels);
-$smarty->assign("JS_DATEFORMAT",parse_calendardate($app_strings['NTC_DATE_FORMAT']));
+$smarty->assign("FIELDS", $optionsCombo);
+$smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
+$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
 $smarty->display("modules/MVCreator/WhereCondition.tpl");
 ?>
 
