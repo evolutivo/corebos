@@ -1597,4 +1597,25 @@
 	<classname>corebossettingstable</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>omarllorens</author>
+	<description>mysqlStrict support for product field in Assets module</description>
+	<filename>build/changeSets/2017/mysqlstrictAssets.php</filename>
+	<classname>mysqlstrictAssets</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Support for Import, Export and Deduplication on ModComments</description>
+	<filename>build/changeSets/2017/ModCommentsImportExport.php</filename>
+	<classname>ModCommentsImportExport</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>mysqlStrict support for google calendar and contacts authorization</description>
+	<filename>build/changeSets/2017/mysqlstrictGoogleSync.php</filename>
+	<classname>mysqlstrictGoogleSync</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

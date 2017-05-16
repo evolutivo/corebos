@@ -38,6 +38,7 @@ class cbMapAddMapTypes extends cbupdaterWorker {
                                 'CREATEVIEWPORTAL',
                                 'DETAILVIEWBLOCKPORTAL',
                                 'Divide EditCreate',
+				'FieldInfo',
 			);
 			$moduleInstance = Vtiger_Module::getInstance('cbMap');
 			$field = Vtiger_Field::getInstance('maptype',$moduleInstance);
