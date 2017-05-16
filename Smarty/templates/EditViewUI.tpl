@@ -1047,11 +1047,12 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
                                placeholder="Select..." 
                                typeahead="entity as entity.crmname for entity in loadTags($viewValue)" 
                                typeahead-on-select="functionClick($item, $model, $label)"
-                               class="form-control">  
+                               class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off">  
                     </div>
                     </td>
                     <script>
                         {literal}
+                        document.getElementById('{/literal}{$fldname}{literal}_display').setAttribute("autocomplete","off");
                         angular.module('demoApp')
                        .controller('mainCtrl_{/literal}{$fldname}{literal}', function ($scope, $http) {
                             $scope.new_entry=false;
