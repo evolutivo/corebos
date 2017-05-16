@@ -135,7 +135,7 @@
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>
                 <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + right mouse )
+                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + left click )
                         multiple select</label>
                     <div class="slds-form-element__control">
                         {*{if !empty($Fields)}*}

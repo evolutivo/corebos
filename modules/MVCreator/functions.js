@@ -140,18 +140,41 @@ function addJoin(action) {
 
 
 function generateJoin() {
+    var JoinOptgroupWithValue=[];
+    $('#selectableFields').find("option:selected").each(function(){
+        //optgroup label
+        var optlabel = $(this).parent().attr("label");
+       // gets the value
+        var ValueselectedArray=[];
+        var Valueselected=$(this).val();
+        var res = Valueselected.split(":");
+        ValueselectedArray=ValueselectedArray.concat(res);
+        // for (i = 0; i < prov.length; i++) {
+            JoinOptgroupWithValue.push(optlabel+":"+ValueselectedArray[0]+":"+ValueselectedArray[1]);
+        // }
+       // labeli.push(label);
+
+    });
+   // console.log(labeli);
+   // alert(JoinOptgroupWithValue);
+
+
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
     var sel = document.getElementById("selectableFields");
 // console.log(sel);
     var optionsCombo = sel[0].innerHTML;
+
+    //label.push($('#selectableFields :selected').parent().attr('label'));
     for (var i = 0; i < sel.options.length; i++) {
         if(sel.options[i].selected ==true){
             //alert(x.options[i].value);
             //dd=x.options[i].value;
             campiSelezionati.push(sel.options[i].value);
+
         }
     }
+
     // for (var i = 0, len = sel[0].options.length; i < len; i++) {
     //     opt = sel[0].options[i];
     //     if (opt.selected)
@@ -181,6 +204,7 @@ function generateJoin() {
                 selTab2: selTab2,
                 selField2: selField2,
                 installationID: installationID,
+                JoinOV:JoinOptgroupWithValue,
                 html: optionsCombo,
                 campiSelezionati: campiSelezionati,
                 nameView: nameView
