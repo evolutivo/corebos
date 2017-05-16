@@ -42,7 +42,8 @@
   `f_tablename` varchar(250) DEFAULT NULL,
   `f_format` varchar(255) DEFAULT NULL,
   `f_mandatory` varchar(250)DEFAULT NULL,
-  `f_dipendent` varchar(200) DEFAULT NULL
+  `f_dipendent` varchar(200) DEFAULT NULL,
+   PRIMARY KEY (`cbvalidationsid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>
@@ -330,7 +331,7 @@
 </customview>
 </customviews>
 <sharingaccess>
-<default>public_readwritedelete</default>
+<default>private</default>
 </sharingaccess>
 <customlinks>
 <customlink>

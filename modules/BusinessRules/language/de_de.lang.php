@@ -12,12 +12,14 @@ $mod_strings = Array(
 	'BusinessRules' => 'Business Rules',
 	'SINGLE_BusinessRules' => 'Business Rules',
 	'BusinessRules ID' => 'Business Rules ID',
-
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_BUSINESSRULES_INFORMATION' => 'Business Rules Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
-
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+	'Business Rules Name' => 'Business Rules Name',
+	'Business Rules Number' => 'Business Rules Number',
+	'Business Rule' => 'Business Rule',
+	'Module' => 'Module',
+	'Map' => 'Map',
+	'Permitted Roles' => 'Permitted Roles',
 );
-
 ?>

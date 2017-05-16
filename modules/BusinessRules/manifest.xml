@@ -31,13 +31,14 @@
 <table>
 <name>vtiger_businessrules</name>
 <sql><![CDATA[CREATE TABLE `vtiger_businessrules` (
-  `businessrulesid` int(11) DEFAULT NULL,
+  `businessrulesid` int(11) NOT NULL,
   `businessrules_name` varchar(255) DEFAULT NULL,
   `businessrules_number` varchar(100) DEFAULT NULL,
   `businessrule` varchar(255) DEFAULT NULL,
   `module_rules` varchar(200) DEFAULT NULL,
   `linktomap` int(11) DEFAULT NULL,
-  `busrule_roles` varchar(500) DEFAULT NULL
+  `busrule_roles` varchar(500) DEFAULT NULL,
+   PRIMARY KEY (`businessrulesid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>

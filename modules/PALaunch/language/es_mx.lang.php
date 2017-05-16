@@ -11,11 +11,9 @@
 $mod_strings = Array(
 	'PALaunch' => 'PALaunch',
 	'SINGLE_PALaunch' => 'PALaunch',
-
 	'LBL_CUSTOM_INFORMATION' => 'Información personalizada',
 	'LBL_PALAUNCH_INFORMATION' => 'Información de PALaunch',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
-
 	'Planned Action' => 'Acción de MKt Programada',
 	'Related To' => 'Relacionado con',
 	'Recipient' => 'Destinatario',
@@ -24,6 +22,7 @@ $mod_strings = Array(
 	'Processed Date' => 'Fecha procesada',
 	'Status' => 'Estado',
 	'Descrition' => 'Descripción',
+        'Parameters'=>'Parameters',
+        'Number of Execution'=>'Number of Execution'
 );
-
 ?>

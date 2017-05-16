@@ -34,7 +34,7 @@
         <form method="POST" id="generatedoc" name="generatedoc">
             <table class="layerHeadingULine" cellpadding="5" width="100%">
                 <tr>
-                <td class="genHeaderSmall" width="90%" align="left">Please Select a Module!</td>
+                <td class="genHeaderSmall" width="90%" align="left">{'Please'|@getTranslatedString:'Please'}!</td>
                 <td width="10%" align="right"><img src="themes//images/close.gif" onclick="hide('undermodules');hide('getmodules');" id="closegetmodule" border="0"></td>
                 </tr>
             </table>
@@ -44,7 +44,7 @@
         <tr><td class="small" align="center">
                 <input name='modulefrom' type='hidden'  value='{$MODULE}'>
                 <input name='recordval' id='recordval' type='hidden'>
-                <input type='button' class='crmbutton small edit' value='Add' onclick="addModuleToLog();"></td></tr>
+                <input type='button' class='crmbutton small edit' value='{'Add'|@getTranslatedString:'Add'}' onclick="addModuleToLog();"></td></tr>
         </table>
         </form>
 

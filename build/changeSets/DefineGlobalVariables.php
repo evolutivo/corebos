@@ -124,6 +124,10 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'HelpDesk_Support_Reply_EMail',
 				'Document_Folder_View',
 				'User_AuthenticationType',
+                                 
+                                'ContextIOKey',
+                                'ContextIOSecret',
+                                'ContextIOUserId',
 
 				'Report_Send_Scheduled_ifEmpty',
 				'Report_ListView_PageSize',

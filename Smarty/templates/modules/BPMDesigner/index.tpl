@@ -32,16 +32,16 @@
             <div class="demo" style="display: flex;flex-direction: row;">
                 <div id="cy"></div>
                 <div id="params" >
-                    <b>Process Template </b>
+                    <b>{'ProcTmp'|@getTranslatedString:'ProcTmp'} </b>
                     <select id="processtemplate" ng-options="op.id as op.name for op in procestempList" ng-model="procestemp" ng-click="reloadContent()"></select>
                     <div id="blocks">
-                        New<input type="text" id="status" ng-model="status" /><br/>
-                        <input type="button" value="Add Status" id="add_node" class="crmbutton small create" ng-click="addStatus();"/> 
+                        {'New'|@getTranslatedString:'New'}<input type="text" id="status" ng-model="status" /><br/>
+                        <input type="button" value="{'Addstatus'|@getTranslatedString:'Addstatus'}" id="add_node" class="crmbutton small create" ng-click="addStatus();"/> 
                     </div>
                     <div id="blocks">
-                        Start<select ng-options="op for op in allnodes" ng-model="start_status" ></select><br/>
-                        End<select ng-options="op for op in allnodes" ng-model="end_status" ></select>
-                        <input type="button" value="Create Flow" id="add_node" class="crmbutton small create" ng-click="addRelation();" /> 
+                        {'Start'|@getTranslatedString:'Start'}<select ng-options="op for op in allnodes" ng-model="start_status" ></select><br/>
+                        {'End'|@getTranslatedString:'End'}<select ng-options="op for op in allnodes" ng-model="end_status" ></select>
+                        <input type="button" value="{'CrFlow'|@getTranslatedString:'CrFlow'}" id="add_node" class="crmbutton small create" ng-click="addRelation();" /> 
                     </div>
                 </div>                
             </div>

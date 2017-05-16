@@ -138,12 +138,14 @@ elseif($cbAction=='updateReportName'){
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
     $elastic_type=$_REQUEST['elastic_type'];
+    $macrotype=$_REQUEST['macrotype'];
 
     $adb->pquery("Update vtiger_cbApps "
             . " set name_pivot=?,"
             . " desc_pivot=?,"
-            . " elastic_type=?"
-            . " where cbappsid=?",array($reportname,$reportdesc,$elastic_type,$cbAppsid));
+            . " elastic_type=?,"
+            . " macrotype=?"
+            . " where cbappsid=?",array($reportname,$reportdesc,$elastic_type,$macrotype,$cbAppsid));
     
 }
 elseif($cbAction=='newReport'){
@@ -151,8 +153,9 @@ elseif($cbAction=='newReport'){
     $reportid=$_REQUEST['reportid'];
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
-            . " values (".$reportid.",'Table','report','$reportname','$reportdesc')",array());
+    $macrotype=$_REQUEST['macrotype'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,macrotype)"
+            . " values (".$reportid.",'Table','report','$reportname','$reportdesc',?)",array($macrotype));
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createReport($reportid,$cbAppsid);
@@ -163,8 +166,9 @@ elseif($cbAction=='newMV'){
     $reportid=$_REQUEST['reportid'];
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot)"
-            . " values (".$reportid.",'Table','mv','$reportname','$reportdesc')",array());
+    $macrotype=$_REQUEST['macrotype'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,macrotype)"
+            . " values (".$reportid.",'Table','mv','$reportname','$reportdesc',?)",array($macrotype));
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     createMV($reportid,$cbAppsid);
@@ -176,8 +180,9 @@ elseif($cbAction=='newElastic'){
     $reportname=$_REQUEST['reportname'];
     $reportdesc=$_REQUEST['reportdesc'];
     $elastic_type=$_REQUEST['elastic_type'];
-        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,elastic_type)"
-            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc','$elastic_type')",array());
+    $macrotype=$_REQUEST['macrotype'];
+        $adb->pquery("Insert into vtiger_cbApps (reportid,type,pivot_type,name_pivot,desc_pivot,elastic_type,macrotype)"
+            . " values (".$reportid.",'Table','elastic','$reportname','$reportdesc','$elastic_type',?)",array($macrotype));
     $cbAppsid=$adb->query_result($adb->query("Select max(cbappsid) as lastid"
             . " from vtiger_cbApps "),0,'lastid');
     //createElastic($reportid,$cbAppid);
@@ -223,11 +228,18 @@ else{
     if($isadmin !='on'){
         $wh=' and  sharingtype="Public" ';
     }
+    $macrotype='';
+    if(!empty($_REQUEST['currTab']) && $_REQUEST['currTab']!=''){
+        $macrotype='  and macrotype="'.$_REQUEST['currTab'].'" ';
+    }
+    else{
+        $macrotype='  and (macrotype <> "sorting" OR macrotype is null)';
+    }
     $reports=array();
     $result=$adb->pquery("Select *"
             . " from vtiger_cbApps "
             . " join vtiger_report on vtiger_report.reportid=vtiger_cbApps.reportid"
-            . " where pivot_type='report' OR pivot_type='' OR pivot_type is null ".$wh
+            . " where (pivot_type='report' OR pivot_type='' OR pivot_type is null) ".$wh.$macrotype
             ,array());
     for($count_rep=0;$count_rep<$adb->num_rows($result);$count_rep++){
 
@@ -239,12 +251,13 @@ else{
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $focus->reportname),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
             'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
+            'macrotype'=>$adb->query_result($result,$count_rep,'macrotype'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
             . " from vtiger_cbApps "
             . " join vtiger_scripts on vtiger_scripts.id=vtiger_cbApps.reportid"
-            . " where pivot_type = 'mv'"
+            . " where pivot_type = 'mv'".$macrotype
             ,array());
     for($count_rep=0;$count_rep<$adb->num_rows($result);$count_rep++){
 
@@ -255,12 +268,13 @@ else{
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'name')),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
             'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
+            'macrotype'=>$adb->query_result($result,$count_rep,'macrotype'),
             'pivot_type'=>($adb->query_result($result,$count_rep,'pivot_type')=='' ? 'report' : $adb->query_result($result,$count_rep,'pivot_type')));
     }
     $result=$adb->pquery("Select *"
             . " from vtiger_cbApps "
             . " join vtiger_elastic_indexes on vtiger_elastic_indexes.id=vtiger_cbApps.reportid"
-            . " where pivot_type='elastic' "
+            . " where pivot_type='elastic' ".$macrotype
             ,array());
     for($count_rep=0;$count_rep<$adb->num_rows($result);$count_rep++){
 
@@ -271,7 +285,8 @@ else{
             'reportname'=>($adb->query_result($result,$count_rep,'name_pivot')!='' ? $adb->query_result($result,$count_rep,'name_pivot') : $adb->query_result($result,$count_rep,'elasticname')),
             'desc_pivot'=>$adb->query_result($result,$count_rep,'desc_pivot'),
             'elastic_type'=>$adb->query_result($result,$count_rep,'elastic_type'),
-            'pivot_type'=>$adb->query_result($result,$count_rep,'pivot_type'));
+            'pivot_type'=>$adb->query_result($result,$count_rep,'pivot_type'),
+            'macrotype'=>$adb->query_result($result,$count_rep,'macrotype'));
     }
     $list_rep_res=$adb->query("Select *"
             . " from vtiger_report");
@@ -281,6 +296,7 @@ else{
     }
     
     $current_role=$current_user->roleid;
+    $is_superadmin=($current_user->user_name== 'superadmin' ? true : false);
     $srcfile=$root_directory.'modules/BiServer/';
     $files = scandir($srcfile);
     $i=0;
@@ -306,24 +322,27 @@ else{
                           $nr_file=$adb->num_rows($query);
 
                           if($nr_file!=0){
-                          $active=$adb->query_result($query,0,'active');
-                          $period=$adb->query_result($query,0,'period');
-                          $scriptid=$adb->query_result($query,0,'id');
-                          $deleted_script=$adb->query_result($query,0,'deleted_script');
-                          $query_sec=$adb->pquery("SELECT *
-                                                  from  vtiger_scripts
-                                                  join vtiger_scripts_security on id=scriptid
-                                                  where name = ?
-                                                  ",array($file));
-                          $roleid=$adb->query_result($query_sec,0,'roleid');
-                          $export_scr=$adb->query_result($query_sec,0,'export_scr');
-                          $delete_scr=$adb->query_result($query_sec,0,'delete_scr');
-                          $execute_scr=$adb->query_result($query_sec,0,'execute_scr');
-                          if(  ($roleid!=$current_role &&  !$is_superadmin) || 
-                                  ($deleted_script==1 && !$is_superadmin)  )
-                              continue;
-                          $opt_mv.='<option value="'.$scriptid.'">'.$file.'</option>';
-                          $i=$i+1;
+                              $active=$adb->query_result($query,0,'active');
+                              $period=$adb->query_result($query,0,'period');
+                              $scriptid=$adb->query_result($query,0,'id');
+                              $deleted_script=$adb->query_result($query,0,'deleted_script');
+                              $query_sec=$adb->pquery("SELECT *
+                                                      from  vtiger_scripts
+                                                      join vtiger_scripts_security on id=scriptid
+                                                      where name = ? and roleid = ?
+                                                      ",array($file,$current_role));
+                              $nr_roles=$adb->num_rows($query_sec);
+                              if($nr_roles>0 || $is_superadmin){
+                                  $roleid=$adb->query_result($query_sec,0,'roleid');
+                                  $export_scr=$adb->query_result($query_sec,0,'export_scr');
+                                  $delete_scr=$adb->query_result($query_sec,0,'delete_scr');
+                                  $execute_scr=$adb->query_result($query_sec,0,'execute_scr');
+                                  if(  ($roleid!=$current_role &&  !$is_superadmin) || 
+                                          ($deleted_script==1 && !$is_superadmin)  )
+                                      continue;
+                                  $opt_mv.='<option value="'.$scriptid.'">'.$file.'</option>';
+                                  $i=$i+1;
+                              }
                           }
                     }
 
@@ -365,6 +384,7 @@ else{
     $smarty->assign('options_mv', $opt_mv);
     $smarty->assign('options_elastic', $opt_elastic);
     $smarty->assign('isAdmin', $isadmin);
+    $smarty->assign('currTab', $_REQUEST['currTab']);
     $smarty->display('modules/Pivottable/index.tpl');
 }
 
@@ -398,7 +418,7 @@ function createReport($reportid,$cbAppid){
     }	
     $sqlfor1=$focus->sGetSQLforReport($reportid,$filtersql);
     $sSQL = explode(" from ",$sqlfor1,2);
-//    var_dump($sSQL);
+    //var_dump($sSQL);
     $rows = array();
     $sSQL1=explode(",",str_replace("select DISTINCT","",$sSQL[0]));
     for($i=0;$i<sizeof($sSQL1);$i++){
@@ -410,7 +430,7 @@ function createReport($reportid,$cbAppid){
     $arr22=implode(",",$arr);
 
     $sSQL="select DISTINCT $arr22 from ".$sSQL[1];
-
+//var_dump($sSQL);
     $query=sqltojson($sSQL,$reportid);
     //echo $query;
     createjson($query,$cbAppid); 

@@ -43,10 +43,10 @@
               <div  layout="column" class="demo" >
                 <md-content class="md-padding">
                     <md-tabs md-dynamic-height md-border-bottom>
-                      <md-tab label="NgBLocks">
+                      <md-tab label="{'NgBlocks'|@getTranslatedString:'NgBlocks'}">
                         <md-content ng-controller="ng_Block" class="md-padding">
-                          <h5 >Manage NgBlocks</h5><br/>
-                          <button class="btn btn-primary" ng-click="open(new_user,'add')">Add new NgBlock</button>
+                          <h5 >{'Manage NgBlocks'|@getTranslatedString:'Manage NgBlocks'}</h5><br/>
+                          <button class="btn btn-primary" ng-click="open(new_user,'add')">{'Add new NgBlock'|@getTranslatedString:'Add new NgBlock'}</button>
                           <table ng-table="tableParams" show-filter="true" class="table  table-bordered table-responsive" width=90% >
                             <tr ng-repeat="user in $data" >
                               <td>                
@@ -64,75 +64,75 @@
                                       </tr>             
                                   </table>
                               </td>
-                              <td title="'Name'" filter="{literal}{ name: 'text'}{/literal}"> 
+                              <td title="'{'Name'|@getTranslatedString:'Name'}'" filter="{literal}{ name: 'text'}{/literal}"> 
                                   {literal}  {{user.name}}{/literal}                                                                   
                               </td> 
-                              <td title="'Module Name'" filter="{literal}{ module_name_trans: 'text'}{/literal}"> 
+                              <td title="'{'Module Name'|@getTranslatedString:'Module Name'}'" filter="{literal}{ module_name_trans: 'text'}{/literal}"> 
                                   {literal}  {{user.module_name_trans}}{/literal}
                               </td> 
-                              <td title="'Pointing Block'" > 
+                              <td title="'{'Pointing Block'|@getTranslatedString:'Pointing Block'}'" > 
                                   {literal}  {{user.pointing_block_name_trans}}{/literal}
                               </td> 
-                              <td title="'Pointing Module'" filter="{literal}{ pointing_module_name_trans: 'text'}{/literal}"> 
+                              <td title="'{'Pointing Module'|@getTranslatedString:'Pointing Module'}'" filter="{literal}{ pointing_module_name_trans: 'text'}{/literal}"> 
                                   {literal}  {{user.pointing_module_name_trans}}{/literal}
                               </td> 
-                              <td title="'Columns'" > 
+                              <td title="'{'Columns'|@getTranslatedString:'Columns'}'" > 
                                   {literal}  {{user.columns_disp}}{/literal}
                               </td> 
-                              <td  data-title="'BR'" > 
+                              <td  data-title="'{'BR'|@getTranslatedString:'BR'}'" > 
                                   <a ng-if="user.br_id!=''&& user.br_id!=null && user.br_id!=undefined" href="index.php?module=BusinessRules&action=DetailView&record={literal}{{user.br_id}}{/literal}">BR</a>
                               </td>
-                              <td title="'Add Record'" > 
+                              <td title="'{'Add Record'|@getTranslatedString:'Add Record'}'" > 
                                   <img ng-if="user.add_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.add_record!=1" width="20" height="20" src="themes/images/no.gif" />  
                               </td> 
-                              <td title="'Order'"> 
+                              <td title="'{'Order'|@getTranslatedString:'Order'}'"> 
                                   {literal}  {{user.sort}}{/literal}
                               </td> 
-                              <td  title="'Edit'"> 
+                              <td  title="'{'Edit'|@getTranslatedString:'Edit'}'"> 
                                   <img ng-if="user.edit_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.edit_record!=1" width="20" height="20" src="themes/images/no.gif" />
                               </td> 
-                              <td  title="'Delete'"> 
+                              <td  title="'{'Delete'|@getTranslatedString:'Delete'}'"> 
                                   <img ng-if="user.delete_record==1" width="20" height="20" src="themes/images/yes.gif" />
                                   <img ng-if="user.delete_record!=1" width="20" height="20" src="themes/images/no.gif" />
                               </td> 
-                              <td  data-title="'Sequence'"> 
+                              <td  data-title="'{'Sequence'|@getTranslatedString:'Sequence'}'"> 
                                   {literal}  {{user.sequence_ngblock}}{/literal}
                               </td> 
-                              <td  data-title="'Destination'"> 
+                              <td  data-title="'{'Destination'|@getTranslatedString:'Destination'}'"> 
                                   {literal}  {{user.destination}}{/literal}
                               </td> 
-                              <td  data-title="'Type'"> 
+                              <td  data-title="'{'Type'|@getTranslatedString:'Type'}'"> 
                                   {literal}  {{user.type}}{/literal}
                               </td> 
-                              <td  data-title="'Respective Action'" > 
-                                  <a href="index.php?module=BusinessActions&action=DetailView&record={literal}{{user.respective_act}}{/literal}">Action</a>
+                              <td  data-title="'{'Action'|@getTranslatedString:'Action'}'" > 
+                                  <a href="index.php?module=BusinessActions&action=DetailView&record={literal}{{user.respective_act}}{/literal}">{'Action'|@getTranslatedString:'Action'}</a>
                               </td> 
                               
                             </tr>
                         </table>
                         </md-content>
                       </md-tab>
-                      <md-tab label="RL Tabs">
+                      <md-tab label="{'RL Tabs'|@getTranslatedString:'RL Tabs'}">
                         <md-content class="md-padding">
-                          <h5 class="md-display-5">Manage Tabs of Related Lists</h5>
+                          <h5 class="md-display-5">{'Manage Tabs of Related Lists'|@getTranslatedString:'Manage Tabs of Related Lists'}</h5>
                             <table ng-controller="ng_Block" ng-table="tableParamsTabs" class="table  table-bordered table-responsive" width=100% >
                                 <tr >
                                     <td colspan="4">
-                                         <button class="btn btn-primary" ng-click="open2(new_user,'add')">Add New Tab RL</button>
+                                         <button class="btn btn-primary" ng-click="open2(new_user,'add')">{'Add New Tab RL'|@getTranslatedString:'Add New Tab RL'}</button>
                                     </td>
                             </tr>
                             <tr style="background-color:#c9dff0">
                                 <th style="align:center">
                                 </th> <th style="text-align: center">
-                                    Name
+                                    {'Name'|@getTranslatedString:'Name'}
                                 </th>
                                 <th style="text-align: center">
-                                    Module
+                                    {'Module'|@getTranslatedString:'Module'}
                                 </th>
                                 <th style="text-align: center">
-                                    Sequence
+                                    {'Sequence'|@getTranslatedString:'Sequence'}
                                 </th>
                             </tr> 
                             <tr ng-repeat="user in $data" >
@@ -141,11 +141,11 @@
                                       <tr>
                                           <th>
                                               <img ng-if="!user.$edit" width="20" height="20" ng-click="open2(user,'edit')" src="themes/images/editfield.gif" /> 
-                                              <a ng-click="open2(user,'edit')">Edit</a> 
+                                              <a ng-click="open2(user,'edit')">{'Edit'|@getTranslatedString:'Edit'}</a> 
                                           </th>
                                           <th>
                                               <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record2(user)" src="themes/images/delete.gif" />
-                                              <a ng-click="delete_record2(user)">Delete</a>
+                                              <a ng-click="delete_record2(user)">{'Delete'|@getTranslatedString:'Delete'}</a>
                                           </th>   
                                       </tr>             
                                       </table>
@@ -163,18 +163,13 @@
                             </table>
                         </md-content>
                       </md-tab>
-                      <md-tab label="Manage UiType Evo">
+                      <md-tab label="{'Manage UiType Evo'|@getTranslatedString:'Manage UiType Evo'}">
                         <md-content class="md-padding">
-                          <h5 class="md-display-5">Manage UiType Evo Fields</h5>
+                          <h5 class="md-display-5">{'Manage UiType Evo Fields'|@getTranslatedString:'Manage UiType Evo Fields'}</h5>
                           {include file="modules/NgBlock/uiEvo.tpl"}
                         </md-content>
                       </md-tab>
-                      <md-tab label="NgForm Creator">
-                        <md-content class="md-padding">
-                          <h5 class="md-display-5">Form Creator Parameter Setting</h5>
-                          {include file="modules/NgBlock/ngFormCreator.tpl"}
-                        </md-content>
-                      </md-tab>            
+                                
                     </md-tabs>
                   </md-content>
                 </div>
@@ -309,6 +304,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select','ngMaterial'])
 angular.module('demoApp')
 .controller('ModalInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
 
+      $scope.translations = {/literal}{$translations}{literal};console.log($scope.translations);
       $scope.user = (type === 'add' ? {} : user);
       $scope.selected = {
         item: 0
@@ -519,6 +515,7 @@ angular.module('demoApp')
 angular.module('demoApp')
 .controller('TabInstanceCtrl',function ($scope,$http,$modalInstance,user,type,tbl) {
 
+      $scope.translations = {/literal}{$translations}{literal};console.log($scope.translations);
       $scope.user = (type === 'add' ? {} : user);
       $scope.selected = {
         item: 0
@@ -550,6 +547,7 @@ angular.module('demoApp')
 .controller('ng_EvoFields', function($scope, $http, $modal, ngTableParams) {
 
     $scope.new_user={};
+    $scope.translations = {/literal}{$translations}{literal};console.log($scope.translations);
 
     $scope.tableParams = new ngTableParams({
         page: 1,            // show first page
@@ -613,6 +611,7 @@ angular.module('demoApp')
         "columns_search":"","columns_shown":"",
         "br_id":"","type":""
         ,"existing":false,source:[]} : user);
+    $scope.translations = {/literal}{$translations}{literal};console.log($scope.translations);
       $scope.selected = {
         item: 0
       };

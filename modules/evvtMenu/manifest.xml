@@ -47,6 +47,9 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;]]></sql>
 </table>
 </tables>
+<sharingaccess>
+<default>private</default>
+</sharingaccess>
 <crons>
 </crons>
 </module>

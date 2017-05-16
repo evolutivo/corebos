@@ -11,7 +11,7 @@
 <table>
 <name>vtiger_adocdetail</name>
 <sql><![CDATA[CREATE TABLE `vtiger_adocdetail` (
-  `adocdetailid` int(11) DEFAULT NULL,
+  `adocdetailid` int(11) NOT NULL,
   `adocdetailno` varchar(100) DEFAULT NULL,
   `adocdetailname` varchar(255) DEFAULT NULL,
   `nrline` varchar(255) DEFAULT NULL,
@@ -33,7 +33,8 @@
   `adocdtotal` varchar(100) DEFAULT NULL,
   `nota` text,
   `richiestaparte` varchar(100) DEFAULT NULL,
-  `codice_articoloadoc` decimal(9,0) DEFAULT NULL
+  `codice_articoloadoc` decimal(9,0) DEFAULT NULL,
+   PRIMARY KEY (`adocdetailid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>

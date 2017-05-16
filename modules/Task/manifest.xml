@@ -31,7 +31,7 @@
 <table>
 <name>vtiger_task</name>
 <sql><![CDATA[CREATE TABLE `vtiger_task` (
-  `taskid` int(11) DEFAULT NULL,
+  `taskid` int(11) NOT NULL,
   `taskname` varchar(255) DEFAULT NULL,
   `linktoentity` int(10) DEFAULT NULL,
   `taskdescription` text,
@@ -49,7 +49,8 @@
   `campaign` varchar(250) DEFAULT NULL,
   `multius` varchar(250) DEFAULT NULL,
   `multicont` varchar(250) DEFAULT NULL,
-  `linktolead` int(11) DEFAULT NULL
+  `linktolead` int(11) DEFAULT NULL,
+   PRIMARY KEY (`taskid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <table>

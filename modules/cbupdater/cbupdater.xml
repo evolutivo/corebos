@@ -1618,4 +1618,25 @@
 	<classname>mysqlstrictGoogleSync</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add fields to thread</description>
+	<filename>build/changeSets/evolutivo/addfieldsthread.php</filename>
+	<classname>addfieldsthread</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>edmondkacaj</author>
+	<description>Add MVCreator</description>
+	<filename>build/changeSets/evolutivo/addmvcreator.php</filename>
+	<classname>addmvcreator</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>Add macrotype field to pivot</description>
+	<filename>build/changeSets/2017/addFieldPivotMacroType.php</filename>
+	<classname>addFieldPivotMacroType</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

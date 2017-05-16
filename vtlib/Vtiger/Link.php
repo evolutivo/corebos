@@ -361,6 +361,7 @@ class Vtiger_Link {
 		global $adb,$log,$current_user;
                 self::__initSchema();
                 $module=  $parameters['MODULE'];
+                $record=  $parameters['RECORD'];
 
 		$multitype = false;
                 $orderby = ' order by elementtype_action,sequence,sequence_ngblock'; //MSL
@@ -456,7 +457,7 @@ class Vtiger_Link {
                         $actionfocus=CRMEntity::getInstance("BusinessActions");
                         $actionfocus->retrieve_entity_info($instance->businessactionsid,"BusinessActions");                                
                             if($instance->linktobrules!='' && $instance->linktobrules!=0)
-                            $res_logic=$actionfocus->runBusinessLogic(); 
+                            $res_logic=$actionfocus->runBusinessLogic($record); 
                             if($res_logic || $instance->linktobrules=='' || $instance->linktobrules==0){ // temporarly condition for showing actions not related to BR
                                 if($multitype) {
                                         $instances[$instance->linktype][] = $instance;
@@ -469,6 +470,46 @@ class Vtiger_Link {
 //                        }
                         
 		}
+                require_once 'include/utils/LightRendicontaUtils.php';
+                if(isset($record) && $record!=null && $record !=''){
+                    $resultPF=readPFActions($record);
+                }
+                if($resultPF){
+                while($resultPF && $row = $adb->fetch_array($resultPF)){
+                        $return = cbEventHandler::do_filter('corebos.filter.link.show', array($row, $type, $parameters));
+			if($return == false) continue;
+			$instance = new self();
+			$instance->initialize_BA($row);
+			if(!empty($row['handler_path']) && isFileAccessible($row['handler_path'])) {
+				checkFileAccessForInclusion($row['handler_path']);
+				require_once $row['handler_path'];
+				$linkData = new Vtiger_LinkData($instance, $current_user);
+				$ignore = call_user_func(array($row['handler_class'], $row['handler']), $linkData);
+				if(!$ignore) {
+					self::log("Ignoring Link ... ".var_export($row, true));
+					continue;
+				}
+			}
+			if($parameters) {
+				$instance->linkurl = $strtemplate->merge($instance->linkurl);
+				$instance->linkicon= $strtemplate->merge($instance->linkicon);
+			}
+                        $res_logic=false;
+                        include_once('modules/BusinessActions/BusinessActions.php');
+                        $actionfocus=CRMEntity::getInstance("BusinessActions");
+                        $actionfocus->retrieve_entity_info($instance->businessactionsid,"BusinessActions");                                
+                            if($instance->linktobrules!='' && $instance->linktobrules!=0)
+                            $res_logic=$actionfocus->runBusinessLogic(); 
+                            if($res_logic || $instance->linktobrules=='' || $instance->linktobrules==0){ // temporarly condition for showing actions not related to BR
+                                if($multitype) {
+                                        $instances[$instance->linktype][] = $instance;
+                                } else {
+                                        $instances[] = $instance;
+                                }
+                                $instance_block[$instance->actions_block]++;
+                            }
+		}
+                }
                 if($tabid != self::IGNORE_MODULE) {
                     $qry_block="select *  from  vtiger_actions_block "
                             . " where module_id = ?";

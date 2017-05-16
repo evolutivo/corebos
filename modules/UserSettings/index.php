@@ -10,7 +10,8 @@
 
 require_once('Smarty_setup.php');
 require_once("include/utils/utils.php");
-
+global $current_language;
+include_once("modules/Settings/language/$current_language.lang.php");
 // Users amd Access Management
 
 $items = array();
@@ -18,31 +19,32 @@ $items = array();
 $items[] = array(
 	"img" => "ico-users.gif",
 	"link" => "index.php?module=Users&action=index&parenttab=Settings",
-	"label" => "Users",
-	"description" => 'Manage users who can access the application'
+	"label" => $mod_strings['LBL_USERS'],
+	"description" => $mod_strings['LBL_USER_DESCRIPTION']
 );
 
 $items[] = array(
 	"img" => "ico-roles.gif",
 	"link" => "index.php?module=Settings&action=listroles&parenttab=Settings",
-	"label" => "Roles",
-	"description" => 'Set up hierarchy of roles and assign to the users'
+	"label" => $mod_strings['LBL_ROLES'],
+	"description" => $mod_strings['LBL_ROLE_DESCRIPTION']
 );
 
 $items[] = array(
 	"img" => "ico-profile.gif",
 	"link" => "index.php?module=Settings&action=ListProfiles&parenttab=Settings",
-	"label" => "Profiles",
-	"description" => 'Manage user-specific modules access to different Roles'
+	"label" => $mod_strings['LBL_PROFILES'],
+	"description" => $mod_strings['LBL_PROFILE_DESCRIPTION']
 );
 
 $items[] = array(
 	"img" => "ico-groups.gif",
 	"link" => "index.php?module=Settings&action=listgroups&parenttab=Settings",
-	"label" => "Groups",
-	"description" => 'Manage different types of teams based on roles, users, and profiles'
+	"label" => $mod_strings['LBL_GROUPS'],
+	"description" => $mod_strings['LBL_GROUP_DESCRIPTION']
 );
 
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("ITEMS",$items);
+$smarty->assign('ACCESSMANAG',$mod_strings['LBL_USER_MANAGEMENT']);
 $smarty->display("modules/UserSettings/index.tpl");

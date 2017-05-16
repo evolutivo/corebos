@@ -8,6 +8,6 @@
  * All Rights Reserved.
  ************************************************************************************/
 $mod_strings = Array(
-'VtappSecurity' => 'Vtapp Security',
+'VtappSecurity' => 'Sicurezza Vtapp',
 );
 ?>

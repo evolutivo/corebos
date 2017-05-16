@@ -131,12 +131,15 @@ class ActionsJSONExecution extends BusinessActions {
         $params=json_decode($params,true);
         $this->log->debug("Entering before script execution");
         $this->log->debug($params);
+        $res_logic=$this->runBusinessLogic2($this->id);
+        if($res_logic){
         $fullScriptPath = $this->column_fields['script_name'];
         $this->log->debug("action path name");
         $this->log->debug($fullScriptPath);
         $functionName = basename("$fullScriptPath");
         include_once "$fullScriptPath.php";    
         $data = $functionName($params);
+        }
         return $data;
     }
     function run(){

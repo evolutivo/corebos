@@ -7,16 +7,14 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-
 $mod_strings = Array(
-	'ModuleName' => 'Nome Modulo',
-	'SINGLE_ModuleName' => 'Nome Modulo',
-	'ModuleName ID' => 'ID Nome Modulo',
+'evvtApps' => 'vtApps',
+'SINGLE_evvtApps' => 'vtApps',
 
-	'LBL_CUSTOM_INFORMATION' => 'Informazione Personalizzata',
-	'LBL_MODULEBLOCK_INFORMATION' => 'Informazione Blocco del Modulo',
-
-	'ModuleFieldLabel' => 'Testo Etichetta Campo Modulo',
 );
-
+$vtapps_js = Array(
+'ReallyDelete'=>'Do you really want to uninstall this vtApp?',
+'vtAppUninstalled'=>'vtApp uninstalled correctly.',
+'vtAppNotUninstalled'=>'vtApp could not be uninstalled correctly.',
+);
 ?>

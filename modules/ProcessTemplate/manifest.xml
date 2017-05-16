@@ -33,7 +33,7 @@
 <table>
 <name>vtiger_processtemplate</name>
 <sql><![CDATA[CREATE TABLE `vtiger_processtemplate` (
-  `processtemplateid` int(11) default NULL,
+  `processtemplateid` int(11) NOT NULL,
   `processtemplatename` varchar(255) default NULL,
   `proctemplateid` varchar(100) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,

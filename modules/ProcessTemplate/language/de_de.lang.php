@@ -9,15 +9,19 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ProcessTemplate' => 'ProcessTemplate',
-	'SINGLE_ProcessTemplate' => 'ProcessTemplate',
-	'ProcessTemplate ID' => 'ProcessTemplate ID',
-
+	'ProcessTemplate' => 'Process Template',
+	'SINGLE_ProcessTemplate' => 'Process Template',
+	'ProcessTemplate ID' => 'Process Template ID',
 	'LBL_CUSTOM_INFORMATION' => 'zusätzliche Information',
-	'LBL_PROCESSTEMPLATE_INFORMATION' => 'ProcessTemplate Information',
+	'LBL_PROCESSTEMPLATE_INFORMATION' => 'Process Template Information',
         'LBL_DESCRIPTION_INFORMATION' => 'Description',
-
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',	
+        'Process Template Name'=>'Process Template Name',
+        'Proc Template ID'=>'Process Template ID',
+        'Code'=>'Code',
+        'endtasksubstatus'=>'End Task Substatus',
+        'Process SLA Start'=>'Process SLA Start',
+        'Process SLA End'=>'Process SLA End',
+        'PT Security'=>'Process Template Security',
+        'Giorni chiusura cliente'=>'Client days from closing'     
 );
-
 ?>

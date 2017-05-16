@@ -37,9 +37,10 @@ class vtAppcomTSolucioConfiguration extends vtApp {
 				include_once $this->apppath."/../app$appid/vtapp.php";
 				$newclass=array_diff(get_declared_classes(), $loadedclases);
 				$newclass=array_pop($newclass);
+                                if($newclass!='dUnzip2'){
 				$newApp=new $newclass($appid);
 				$apps[]='{ appID: '.$appid.', appName: "'.$newApp->getAppName($current_language).'", appDescription: "'.$newApp->getDescription($current_language).'"}';
-			}
+                        }}
 		}
 		$apps=implode(',', $apps);
 		$smarty->assign('APPS',"[$apps]");

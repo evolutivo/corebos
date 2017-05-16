@@ -225,41 +225,41 @@ $(document).ready(function () {
 	$("#defOperator option[value='" + Config.DEFAULT_OPERATOR + "']").attr("selected", 1);
 	$("#defOperator").multiselect("refresh");
 	$("#index").multiselect({
-	   noneSelectedText: "Choose Index",
+	   noneSelectedText: "{/literal}{'chooseindex'|@getTranslatedString:'chooseindex'}{literal}",
 	   multiple: true,
 	   show: ['slide', 500],
 	   minWidth: 250,
 	   selectedList: 2
 	  }).multiselectfilter();
 	$("#MappingIndex").multiselect({
-	   noneSelectedText: "Choose Index",
+	   noneSelectedText: "{/literal}{'chooseindex'|@getTranslatedString:'chooseindex'}{literal}",
 	   multiple: false,
 	   show: ['slide', 500],
 	   minWidth: 250,
 	   selectedList: 2
 	  }).multiselectfilter();	  
 	$("#indexTypes").multiselect({
-	   noneSelectedText: "Choose Type",
+	   noneSelectedText: "{/literal}{'choosetype'|@getTranslatedString:'choosetype'}{literal}",
 	   multiple: false,
 	   show: ['slide', 500],
 	   minWidth: 250,
 	   selectedList: 1
 	  }).multiselectfilter();
 	$("#MappingIndexTypes").multiselect({
-	   noneSelectedText: "Choose Type",
+	   noneSelectedText: "{/literal}{'choosetype'|@getTranslatedString:'choosetype'}{literal}",
 	   multiple: false,
 	   show: ['slide', 500],
 	   minWidth: 250,
 	   selectedList: 1
 	  }).multiselectfilter();	  
 	$("#indexFields").multiselect({
-	   noneSelectedText: "Search Fields",
+	   noneSelectedText: "{/literal}{'searchfields'|@getTranslatedString:'searchfields'}{literal}",
 	   multiple: true,
 	   show: ['slide', 500],
 	   minWidth: 250
 	  }).multiselectfilter();
 	$("#sortFields").multiselect({
-	   noneSelectedText: "Sort Fields",
+	   noneSelectedText: "{/literal}{'sortfields'|@getTranslatedString:'sortfields'}{literal}",
 	   multiple: false,
 	   show: ['slide', 500],
 	   minWidth: 250,
@@ -385,7 +385,7 @@ $(document).ready(function () {
 							<button id="refreshConn" onclick="refreshConnection()" style="display: none; float: right; width: 25; height: 27px; margin-left: .5em;" title="Reconnect and refresh" >
 								<img src="modules/ESClient/media/images/refresh.png" height="17" width="20">
 							</button>						
-							<div id="cluster"><strong>Cluster not connected</strong></div>
+							<div id="cluster"><strong>{'notconnected'|@getTranslatedString:'notconnected'}</strong></div>
 						</p>
 					</div>
 				</div>			
@@ -396,11 +396,11 @@ $(document).ready(function () {
 
 <div id="tabs" style="margin-left:2%;margin-right:2%;">
   <ul>
-    <li><a href="#config-tab">Configuration</a></li>
-    <li><a href="#search-tab">Search</a></li>
-    <li><a href="#upload-tab">Upload in ES</a></li>
+    <li><a href="#config-tab">{'Configuration'|@getTranslatedString:'Configuration'}</a></li>
+    <li><a href="#search-tab">{'Search'|@getTranslatedString:'Search'}</a></li>
+    <li><a href="#upload-tab">{'Upload'|@getTranslatedString:'Upload'}</a></li>
   </ul>	
-    <div id='upload-tab'>Choose file: {$sel} &nbsp;&nbsp;<input type="button" name="button" value="Upload" onclick="uploadelastic()"></div>
+    <div id='upload-tab'>{'choosefile'|@getTranslatedString:'choosefile'}: {$sel} &nbsp;&nbsp;<input type="button" name="button" value="{'Upload'|@getTranslatedString:'Upload'}" onclick="uploadelastic()"></div>
 <div id="search-tab">
 <table width="70%" border="0">
 		<tr>
@@ -411,7 +411,7 @@ $(document).ready(function () {
 			</td>
 			<td  colspan="2" align="left">	
 						<div id="dropIndexDiv">
-							<button style="width: 140px; height: 30px;" id="dropIndex" onclick="confirmIndexDelete()">Drop Index/Type</button>
+							<button style="width: 140px; height: 30px;" id="dropIndex" onclick="confirmIndexDelete()">{'drop'|@getTranslatedString:'drop'}</button>
 						</div>						
 			</td>			
 		</tr>
@@ -423,7 +423,7 @@ $(document).ready(function () {
 			</td>
 			<td  colspan="2" align="left">	
 						<div>
-							<button  style="width: 140px; height: 30px;" id="delete" onclick="confirmDelete()">Delete By Id</button>
+							<button  style="width: 140px; height: 30px;" id="delete" onclick="confirmDelete()">{'deleteid'|@getTranslatedString:'deleteid'}</button>
 						</div>						
 			</td>
 		</tr>
@@ -448,7 +448,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="4">
 					<div>
-						  <label for="query"><strong>Routing key:</strong></label>
+						  <label for="query"><strong>{'routing'|@getTranslatedString:'routing'}:</strong></label>
 					</div>
 			</td>
 		</tr>		
@@ -460,7 +460,7 @@ $(document).ready(function () {
 			</td>
 			<td  colspan="2" align="left">	
 						<div>
-							<button  style="width: 140px; height: 30px;" id="queryDelete" onclick="confirmDeleteByQuery()">Delete By Query</button>
+							<button  style="width: 140px; height: 30px;" id="queryDelete" onclick="confirmDeleteByQuery()">{'deletequery'|@getTranslatedString:'deletequery'}</button>
 						</div>						
 			</td>			
 		</tr>		
@@ -480,7 +480,7 @@ $(document).ready(function () {
 			</td>
 			<td  colspan="2" align="left">	
 					<div>
-						<button style="width: 140px; height: 30px;" id="search" onclick="validateQueryAndSearch()">Search Index</button>
+						<button style="width: 140px; height: 30px;" id="search" onclick="validateQueryAndSearch()">{'searchindex'|@getTranslatedString:'searchindex'}</button>
 					</div>						
 			</td>				
 		</tr>		
@@ -535,7 +535,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>From:</strong></label>
+						  <label><strong>{'From'|@getTranslatedString:'From'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -550,7 +550,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Size:</strong></label>
+						  <label><strong>{'Size'|@getTranslatedString:'Size'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -565,7 +565,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Search Type:</strong></label>
+						  <label><strong>{'Searchtype'|@getTranslatedString:'Searchtype'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -585,7 +585,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Default Operator:</strong></label>
+						  <label><strong>{'defaultop'|@getTranslatedString:'defaultop'}:</strong></label>
 					</div>					
 			</td>	
 			<td	colspan="1" width="5%" align="left">
@@ -603,7 +603,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>lowercase_expanded_terms:</strong></label>
+						  <label><strong>{'lowercase'|@getTranslatedString:'lowercase'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -618,7 +618,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>analyze_wildcard:</strong></label>
+						  <label><strong>{'analyze'|@getTranslatedString:'analyze'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -633,7 +633,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Query Type:</strong></label>
+						  <label><strong>{'Querytype'|@getTranslatedString:'Querytype'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -648,7 +648,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Enable Index/Type Dropping:</strong></label>
+						  <label><strong>{'Enableindex'|@getTranslatedString:'Enableindex'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -663,7 +663,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Show JSON Results:</strong></label>
+						  <label><strong>{'showjson'|@getTranslatedString:'showjson'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -678,7 +678,7 @@ $(document).ready(function () {
 		<tr>
 			<td colspan="2" align="left"  width="30%">	
 					<div>
-						  <label><strong>Show Mapping Info:</strong></label>
+						  <label><strong>{'showmapping'|@getTranslatedString:'showmapping'}:</strong></label>
 					</div>					
 			</td>
 			<td	colspan="1" width="5%" align="left">
@@ -694,7 +694,7 @@ $(document).ready(function () {
 </table>
 </div>
 <div id="json-tab" style="height:500px; display: none; overflow:scroll">
-	<div id="jsonResults">Json results are shown here</div>
+	<div id="jsonResults">{'jsonres'|@getTranslatedString:'jsonres'}</div>
 </div>
 <div id="mapping-tab" style="height:500px; display: none; overflow:scroll" >
 	<div style="width: 25%; float:left; text-align: left;">

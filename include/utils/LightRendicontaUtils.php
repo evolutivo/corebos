@@ -8,7 +8,7 @@
 function rendicontaConfig($module){
     
     global $adb;
-    
+    $mapRendicontaConfig=array('respmodule'=>'','statusfield'=>'','processtemp'=>'');
     $q_business_rule="Select businessrule,linktomap "
             . " from vtiger_businessrules"
             . " join vtiger_cbmap on vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid"
@@ -17,10 +17,12 @@ function rendicontaConfig($module){
             . " where module_rules=?"
             . " and maptype =? and vtiger_crmentity.deleted=0 and c2.deleted=0 ";
     $res_business_rule=$adb->pquery($q_business_rule,array($module,'RendicontaConfig'));
-    $linktomap=$adb->query_result($res_business_rule,$m,'linktomap');  
-    $mapfocus=  CRMEntity::getInstance("cbMap");
-    $mapfocus->retrieve_entity_info($linktomap,"cbMap");
-    $mapRendicontaConfig=$mapfocus->getRendicontaConfig();
+    if($adb->num_rows($res_business_rule)>0){
+        $linktomap=$adb->query_result($res_business_rule,$m,'linktomap');  
+        $mapfocus=  CRMEntity::getInstance("cbMap");
+        $mapfocus->retrieve_entity_info($linktomap,"cbMap");
+        $mapRendicontaConfig=$mapfocus->getRendicontaConfig();
+    }
     
     return $mapRendicontaConfig;
 }
@@ -165,3 +167,32 @@ function s_datediff( $str_interval, $dt_menor, $dt_maior, $relative=false){
                return -1 * $total;
        else    return $total;
    }
+function readPFActions($id){
+    global $adb;
+    
+    $currentModule=  getSalesEntityType($id);
+    require_once "modules/$currentModule/$currentModule.php";
+    $focus_currMod= CRMEntity::getInstance($currentModule);
+    $focus_currMod->id=$id;
+    $focus_currMod->retrieve_entity_info($id,$currentModule);
+    $mapRendicontaConfig=rendicontaConfig($currentModule);
+    $statusfield=$mapRendicontaConfig['statusfield'];
+    $processtemp=$mapRendicontaConfig['processtemp'];
+    $processtemp_val=$focus_currMod->column_fields["$processtemp"];
+    $statusfield_val=$focus_currMod->column_fields["$statusfield"];
+
+    $pfquery=false;
+    if($processtemp_val!='' && $statusfield_val!='' && $statusfield!='')
+    {  
+        $pfquery=$adb->pquery("SELECT vtiger_businessactions.* 
+                    FROM vtiger_processflow AS pf
+                    JOIN vtiger_processtemplate AS pt ON pf.linktoprocesstemplate = pt.processtemplateid
+                    JOIN vtiger_businessactions  ON pf.mailer_action = vtiger_businessactions.businessactionsid
+                    JOIN vtiger_crmentity AS c ON c.crmid = pt.processtemplateid 
+                    JOIN vtiger_crmentity AS c2 ON c2.crmid = pf.processflowid
+                    JOIN vtiger_crmentity AS c3 ON c3.crmid = vtiger_businessactions.businessactionsid and c3.deleted =0
+                    WHERE processtemplateid = ? AND starttasksubstatus =? AND c.deleted =0 
+                    AND c2.deleted =0",array($processtemp_val,$statusfield_val));
+    }
+    return $pfquery;
+}

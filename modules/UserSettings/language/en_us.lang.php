@@ -7,9 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-$mod_strings = Array (
-	
-	'UserSettings' => 'UserSettings',
+$mod_strings = Array (	
+	'UserSettings' => 'User Settings',
 );
-
 ?>

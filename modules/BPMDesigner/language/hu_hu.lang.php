@@ -14,6 +14,12 @@
  * Contributor(s): Istvan Holbok,  e-mail: holbok@gmail.com , mobil: +3670-3420900 , Skype: holboki 
  ************************************************************************************/
 $mod_strings = array(
-'Pivottable' => 'Pivot Dashboard',
+'BPMDesigner' => 'BPM Designer',
+'ProcTmp'=>'Process Template',
+'New'=>'New',
+'Addstatus'=>'Add State',
+'CrFlow'=>'Create Flow',
+'Start'=>'Start',
+'End'=>'End'
 );
 ?>

@@ -8,6 +8,12 @@
  * Contributor(s): Valmir Carlos Trindade/Translate to Brazilian Portuguese|30/12/2010|Curitiba/Paraná/Brasil.|www.ttcasolucoes.com.br
  ************************************************************************************/
 $mod_strings = array(
-'Pivottable' => 'Pivot Dashboard',
+'BPMDesigner' => 'BPM Designer',
+'ProcTmp'=>'Process Template',
+'New'=>'New',
+'Addstatus'=>'Add State',
+'CrFlow'=>'Create Flow',
+'Start'=>'Start',
+'End'=>'End'
 );
 ?>
