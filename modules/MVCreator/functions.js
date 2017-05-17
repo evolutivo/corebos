@@ -138,43 +138,45 @@ function addJoin(action) {
     }
 }
 
-
+function selectHtml() {
+    var sel = jQuery('#selectableFields');
+    console.log(sel[0].innerHTML);
+    return sel[0].innerHTML;
+}
 function generateJoin() {
-    var JoinOptgroupWithValue=[];
-    $('#selectableFields').find("option:selected").each(function(){
+    var JoinOptgroupWithValue = [];
+    $('#selectableFields').find("option:selected").each(function () {
         //optgroup label
         var optlabel = $(this).parent().attr("label");
-       // gets the value
-        var ValueselectedArray=[];
-        var Valueselected=$(this).val();
+        // gets the value
+        var ValueselectedArray = [];
+        var Valueselected = $(this).val();
         var res = Valueselected.split(":");
-        ValueselectedArray=ValueselectedArray.concat(res);
-        // for (i = 0; i < prov.length; i++) {
-            JoinOptgroupWithValue.push(optlabel+":"+ValueselectedArray[0]+":"+ValueselectedArray[1]);
-        // }
-       // labeli.push(label);
+        ValueselectedArray = ValueselectedArray.concat(res);
+        JoinOptgroupWithValue.push(optlabel + ":" + ValueselectedArray[0] + ":" + ValueselectedArray[1]);
 
     });
-   // console.log(labeli);
-   // alert(JoinOptgroupWithValue);
-
 
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-    var sel = document.getElementById("selectableFields");
-// console.log(sel);
-    var optionsCombo = sel[0].innerHTML;
+    var valuei = [];
+    var texti = [];
 
-    //label.push($('#selectableFields :selected').parent().attr('label'));
+    var sel = document.getElementById("selectableFields");
     for (var i = 0; i < sel.options.length; i++) {
-        if(sel.options[i].selected ==true){
+        if (sel.options[i].selected == true) {
             //alert(x.options[i].value);
             //dd=x.options[i].value;
             campiSelezionati.push(sel.options[i].value);
-
         }
+
+
+        valuei.push(sel.options[i].value+'!'+sel.options[i].text);
+        //texti.push(sel.options[i].text);
     }
 
+    // alert(prova1);
+    // console.log(prova1);
     // for (var i = 0, len = sel[0].options.length; i < len; i++) {
     //     opt = sel[0].options[i];
     //     if (opt.selected)
@@ -189,6 +191,9 @@ function generateJoin() {
         selTab1.push(firstModule);
         selTab2.push(secModule);
         nameView = (document.getElementById('nameView').value);
+        // var sel123 =  jQuery('#selectableFields');
+        // console.log(sel);
+        // var optionsCombo = sel123[0].innerHTML;
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
 
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
@@ -197,6 +202,7 @@ function generateJoin() {
             url: url,
             async: false,
             data: {
+                PRovatjeter: selectHtml(),
                 selTab1: selTab1,
                 fmodule: firstModule,
                 smodule: secModule,
@@ -204,8 +210,9 @@ function generateJoin() {
                 selTab2: selTab2,
                 selField2: selField2,
                 installationID: installationID,
-                JoinOV:JoinOptgroupWithValue,
-                html: optionsCombo,
+                JoinOV: JoinOptgroupWithValue,
+                Valueli:valuei,
+               // Texti:texti,
                 campiSelezionati: campiSelezionati,
                 nameView: nameView
             },
@@ -220,7 +227,7 @@ function generateJoin() {
                 alert("Chiamata fallita, si prega di riprovare...");
             }
         });
-       // getFirstModule();
+        // getFirstModule();
     }
 }
 /*
@@ -886,7 +893,7 @@ function getFirstModule(selTab2, Mapid) {
                 jQuery('#mod').html('<option value="None">None</option>' + msg);
                 //console.log("map id eshte deklarua pra ka vlere");
                 var SelectPicker = $("#mod").val();
-               // alert("prova  =   "+SelectPicker);
+                // alert("prova  =   "+SelectPicker);
                 if (Mapid != undefined) {
                     console.log("map id eshte deklarua pra ka vlere   =  " + SelectPicker);
                     getSecModule(SelectPicker, Mapid);
@@ -1028,14 +1035,14 @@ function getFirstModuleFields(obj, Mapid) {
             console.log(str1);
             if (jQuery('#selectableFields optgroup[label= ' + v + ']').html() == null)
                 $('#selectableFields').empty();
-                jQuery('#selectableFields').append(str1).change();
+            jQuery('#selectableFields').append(str1).change();
             //alert("");
             jQuery('#selField1').val(str3);
         }
     });
 }
 
-function getSecModuleFields(obj,MapId) {
+function getSecModuleFields(obj, MapId) {
     var v1 = obj;
     var sp = v1.split(";");
     var mod = sp[0].split("(many)");
@@ -1047,8 +1054,8 @@ function getSecModuleFields(obj,MapId) {
         invers = 1;
     }
     if (sp[1] != "undefined") index = sp[1];
-    if (MapId !=undefined){
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID +"&MapId="+MapId;
+    if (MapId != undefined) {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID + "&MapId=" + MapId;
     }
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID;
     jQuery.ajax({
@@ -1061,8 +1068,8 @@ function getSecModuleFields(obj,MapId) {
             var str1 = s[0];
             var str2 = s[1];
             if (jQuery('#selectableFields optgroup[label= ' + secModule + ']').html() == null)
-              //  $("#selectableFields").empty();
-            jQuery('#selectableFields').append(str1).change();
+            //  $("#selectableFields").empty();
+                jQuery('#selectableFields').append(str1).change();
             console.log(str1)
             if (invers == 1) {
                 jQuery('#selField1').val(index);

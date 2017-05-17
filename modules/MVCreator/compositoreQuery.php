@@ -5,9 +5,19 @@ $selField2 = $_POST['selField2'];//stringa con tutte i campi scelti in selField1
 $nameView = $_POST['nameView'];//nome della vista
 $campiSelezionati = $_POST['campiSelezionati'];
 $OptVAl = $_REQUEST['JoinOV'];
-//print_r($OptVAl);
-//exit();
-$optionsCombo = $_POST['html'];
+$sendarray=array();
+
+$valuecombo=$_POST['Valueli'];
+
+for ($j = 0; $j < count($valuecombo); $j++) {
+    $expdies = explode("!", $valuecombo[$j]);
+    $sendarray[]=array(
+        'Values'=>$expdies[0],
+        'Texti'=>$expdies[1],
+    );
+   // array_push($optionValue, $expdies[0] . "." . $expdies[1]);
+}
+
 $optionValue = array();
 $optgroup = array();
 for ($j = 0; $j < count($campiSelezionati); $j++) {
@@ -15,11 +25,6 @@ for ($j = 0; $j < count($campiSelezionati); $j++) {
     array_push($optionValue, $expdies[0] . "." . $expdies[1]);
 }
 
-
-//echo selectValues($OptVAl);$Module_modulename = $adb->query_result($query, 0, "modulename");
-
-//print_r($optionValue);
-//exit();
 
 $firstmodule = $_POST['fmodule'];
 $secmodule = $_POST['smodule'];
@@ -199,25 +204,27 @@ function inerJoionwithCrmentity($Moduls,$OptVAl)
  * i nomi dei campi in essa contenuta.
  */
 
-//function getCampi($table){
-//        global $db;
-//        $fields = mysql_list_fields($db, $table);
-//        $numColumn= mysql_num_fields($fields);
-//        for ($i = 0; $i < $numColumn; $i++){
-//            $fieldList[$i]=mysql_field_name($fields,$i);
-//        }
-//        return $fieldList;
-//}
+function getCampi($table)
+{
+    global $db;
+    $fields = mysql_list_fields($db, $table);
+    $numColumn = mysql_num_fields($fields);
+    for ($i = 0; $i < $numColumn; $i++) {
+        $fieldList[$i] = mysql_field_name($fields, $i);
+    }
+    return $fieldList;
+}
 
 /*
- * Riceve in ingresso un array e un intero, e restituisce un sub array 
+ * Riceve in ingresso un array e un intero, e restituisce un sub array
  */
-//function prelevaArray($array, $indice){
-//    for($i=0; $i<$indice;$i++){
-//        $subArray[$i]=$array[$i];
-//    }
-//    return $subArray;
-//}
+function prelevaArray($array, $indice)
+{
+    for ($i = 0; $i < $indice; $i++) {
+        $subArray[$i] = $array[$i];
+    }
+    return $subArray;
+}
 
 
 /*
@@ -225,61 +232,62 @@ function inerJoionwithCrmentity($Moduls,$OptVAl)
  */
 //function concatenaAllField($allFields)
 //{
-//      for($i=0;$i<count($allFields);$i++){
-//         if($i==0){
-//             $stringa=$allFields[$i];
-//         }
-//         else{
-//             $stringa=$stringa.', '.$allFields[$i];
-//         }
-//       }
+//    for ($i = 0; $i < count($allFields); $i++) {
+//        if ($i == 0) {
+//            $stringa = $allFields[$i];
+//        } else {
+//            $stringa = $stringa . ', ' . $allFields[$i];
+//        }
+//    }
 //    return $stringa;
 //}
 /* Prende in ingresso due liste di tabelle.
  * $tableList1 corrisponde alle tabelle inserite nel selField1
  * $tableList2 corrisponde alle tabelle inserite nel selField2
- * 
- * La funzione, prende il primo elemento della lista di $tableList1, perchè 
- * gli altri elemnti sono già presenti, e lo inserisce in $tableList2, 
+ *
+ * La funzione, prende il primo elemento della lista di $tableList1, perchè
+ * gli altri elemnti sono già presenti, e lo inserisce in $tableList2,
  * in questo modo si ha un unico array.
- * Successivamente si scorre tutto l'array con un for, e con un'altro si scorre 
+ * Successivamente si scorre tutto l'array con un for, e con un'altro si scorre
  * nuovamente il tutto.
- * In questo modo, per ogni tabella, si prende ogni campo, e si controlla se esistono 
+ * In questo modo, per ogni tabella, si prende ogni campo, e si controlla se esistono
  * tabelle con campi con lo stesso nome, e se si, si rinominano.
  * Successivamente, ogni campo modificato, e non modificato, viene inserito nell'array
  * $allFields, che poi è il valore di ritorno della funzione.
- * 
+ *
  */
-
-//function getAllFields($tableList1, $tableList2){
+//echo $generatetQuery;
+//exit();
+//function getAllFields($tableList1, $tableList2)
+//{
 //    $allFields = array();
-//    $num=0;
-//    $tableList2[count($tableList2)]=$tableList1[0];
+//    $num = 0;
+//    $tableList2[count($tableList2)] = $tableList1[0];
 //
-//    for($i=0;$i<count($tableList2);$i++){
-//        if(!(in_array($tableList2[$i],prelevaArray($tableList2,$i) ) || ((in_array($tableList2[$i],prelevaArray($tableList1,$i)))&& $tableList2[$i]!=$tableList1[0]))){
-//            $fields=getCampi($tableList2[$i]);
-//                for($j=0;$j<(count($tableList2));$j++){
-//                    if($tableList2[$i]!=$tableList2[$j]){
-//                        for($k=0;$k<count($fields);$k++){
-//                            $fieldsTabList2=getCampi($tableList2[$j]);
-//                                 if(in_array($fields[$k], $fieldsTabList2)){
-//                                    $stringa=$tableList2[$i].'.'.$fields[$k].' <b>AS</b> '.$tableList2[$i].'_'.$fields[$k];
-//                                    for($u=0;$u<count($fieldsTabList2);$u++){
-//                                        if($fieldsTabList2[$u]==$fields[$k]){
-//                                            $fieldsList2[$u]=$tableList2[$j].'.'.$fieldsList2[$k].' <b>AS</b> '.$tableList2[$j].'_'.$fieldsList2[$k];
-//                                        }
-//                                    }
-//                                    $fields[$k]=$stringa;
-//                                 }
+//    for ($i = 0; $i < count($tableList2); $i++) {
+//        if (!(in_array($tableList2[$i], prelevaArray($tableList2, $i)) || ((in_array($tableList2[$i], prelevaArray($tableList1, $i))) && $tableList2[$i] != $tableList1[0]))) {
+//            $fields = getCampi($tableList2[$i]);
+//            for ($j = 0; $j < (count($tableList2)); $j++) {
+//                if ($tableList2[$i] != $tableList2[$j]) {
+//                    for ($k = 0; $k < count($fields); $k++) {
+//                        $fieldsTabList2 = getCampi($tableList2[$j]);
+//                        if (in_array($fields[$k], $fieldsTabList2)) {
+//                            $stringa = $tableList2[$i] . '.' . $fields[$k] . ' <b>AS</b> ' . $tableList2[$i] . '_' . $fields[$k];
+//                            for ($u = 0; $u < count($fieldsTabList2); $u++) {
+//                                if ($fieldsTabList2[$u] == $fields[$k]) {
+//                                    $fieldsList2[$u] = $tableList2[$j] . '.' . $fieldsList2[$k] . ' <b>AS</b> ' . $tableList2[$j] . '_' . $fieldsList2[$k];
+//                                }
+//                            }
+//                            $fields[$k] = $stringa;
 //                        }
-//                     }
+//                    }
 //                }
-//                for($s=0;$s<count($fields);$s++){
-//                    $allFields[$num]=$fields[$s];
-//                    $num++;
-//                }
-//       }
+//            }
+//            for ($s = 0; $s < count($fields); $s++) {
+//                $allFields[$num] = $fields[$s];
+//                $num++;
+//            }
+//        }
 //    }
 //    return $allFields;
 //}
@@ -303,7 +311,12 @@ $smarty->assign("QUERY", $generatetQuery);
 //    }
 //    $optString.='</optgroup>';
 //}
-$smarty->assign("FIELDS", $optionsCombo);
+
+$PRovatjeter = '<option value="test">test</option>';
+//$smarty->assign("FIELDS", $PRovatjeter);
+$smarty->assign("valueli", $sendarray);
+//$smarty->assign("texticombo", $texticombo);
+//$smarty->assign("FOPTION", '');
 $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
 $smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
 $smarty->display("modules/MVCreator/WhereCondition.tpl");

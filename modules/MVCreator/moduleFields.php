@@ -16,7 +16,7 @@ if (isset($_REQUEST['MapId'])) {
     //echo "brenda kushtit mapID ".$mapid;
     function getModFields($module, $dbname, $FieldsArrays)
     {
-        global $log;
+        global $log,$OPTION_SET;
         $log->debug("Entering getAdvSearchfields(" . $module . ") method ...");
         global $adb;
         global $current_user;
@@ -408,7 +408,7 @@ $acno=$adb->query_result($ai,0,"acin_no"); */
 if(isset($_REQUEST['mod'])){
  $m = $_REQUEST['mod'];
  $module = $m;
- echo $module;
+// echo $module;
 $result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
 $link = $adb->query_result($result,0,"entityidfield");
 //echo $m;
