@@ -476,6 +476,10 @@ class Vtiger_Link {
                 }
                 if($resultPF){
                 while($resultPF && $row = $adb->fetch_array($resultPF)){
+                        $processflowsecurity=explode(' |##| ',$row['processflowsecurity']);
+                        $roleid=$current_user->roleid;    
+                        $belong2role=in_array($roleid,$processflowsecurity);
+                        if(!$belong2role) continue;
                         $return = cbEventHandler::do_filter('corebos.filter.link.show', array($row, $type, $parameters));
 			if($return == false) continue;
 			$instance = new self();

@@ -35,10 +35,14 @@ function fetchUserRole($userid)
 {
 	global $log, $adb;
 	$log->debug("Entering fetchUserRole(".$userid.") method ...");
-	$sql = "select roleid from vtiger_user2role where userid=?";
+	$key = 'fetchUserRole' . $userid;
+	list($roleid,$cached) = VTCacheUtils::lookupCachedInformation($key);
+	if ($cached) return $roleid;
+	$sql = 'select roleid from vtiger_user2role where userid=?';
 	$result = $adb->pquery($sql, array($userid));
-	$roleid=  $adb->query_result($result,0,"roleid");
-	$log->debug("Exiting fetchUserRole method ...");
+	$roleid = $adb->query_result($result,0,'roleid');
+	VTCacheUtils::updateCachedInformation($key, $roleid);
+	$log->debug('Exiting fetchUserRole method ...');
 	return $roleid;
 }
 
@@ -620,7 +624,7 @@ function _vtisPermitted($module,$actionname,$record_id='') {
 	//Checking the Access for the Settings Module
 	if($module == 'Settings' || $module == 'Administration' || $module == 'Users' || $parenttab == 'Settings')
 	{
-		if(! $is_admin)
+		if (!$is_admin)
 		{
 			$permission = "no";
 
@@ -652,7 +656,7 @@ function _vtisPermitted($module,$actionname,$record_id='') {
 	}
 
 	//Checking whether the user is admin
-	if($is_admin)
+	if ($is_admin)
 	{
 		$permission ="yes";
 		$log->debug("Exiting isPermitted method ...");
@@ -999,11 +1003,9 @@ function isReadPermittedBySharing($module,$tabid,$actionid,$record_id)
 		}
 	}
 	//Checking for the Related Sharing Permission
-	$relatedModuleArray=$related_module_share[$tabid];
-	if(is_array($relatedModuleArray))
-	{
-		foreach($relatedModuleArray as $parModId)
-		{
+	$relatedModuleArray = (isset($related_module_share[$tabid]) ? $related_module_share[$tabid] : '');
+	if (is_array($relatedModuleArray)) {
+		foreach ($relatedModuleArray as $parModId) {
 			$parRecordOwner=getParentRecordOwner($tabid,$parModId,$record_id);
 			if(sizeof($parRecordOwner) > 0)
 			{
@@ -1327,6 +1329,7 @@ function getProfileTabsPermission($profileid)
 	$sql = 'select * from vtiger_profile2tab where profileid=?';
 	$result = $adb->pquery($sql, array($profileid));
 	$num_rows = $adb->num_rows($result);
+	$copy=Array();
 	for($i=0; $i<$num_rows; $i++) {
 		$tab_id = $adb->query_result($result,$i,'tabid');
 		$per_id = (integer)$adb->query_result($result,$i,'permissions');
@@ -2016,7 +2019,7 @@ function getAllGroupInfo()
 function createGroup($groupName,$groupMemberArray,$description)
 {
 	global $log, $adb;
-	$log->debug("Entering createGroup(".$groupName.",".$groupMemberArray.",".$description.") method ...");
+	$log->debug("Entering createGroup(".$groupName.",".print_r($groupMemberArray,true).",".$description.") method ...");
 	$groupId=$adb->getUniqueId("vtiger_users");
 	//Insert into group vtiger_table
 	$query = 'insert into vtiger_groups values(?,?,?)';
@@ -2274,7 +2277,7 @@ function getGroupRelatedUsers($groupId)
 function updateGroup($groupId,$groupName,$groupMemberArray,$description)
 {
 	global $log, $adb;
-	$log->debug("Entering updateGroup(".$groupId.",".$groupName.",".$groupMemberArray.",".$description.") method ...");
+	$log->debug("Entering updateGroup(".$groupId.",".$groupName.",".print_r($groupMemberArray,true).",".$description.") method ...");
 	$query="update vtiger_groups set groupname=?, description=? where groupid=?";
 	$adb->pquery($query, array($groupName, $description, $groupId));
 
@@ -2922,6 +2925,9 @@ function getUserProfile($userId)
 {
 	global $log, $adb;
 	$log->debug("Entering getUserProfile(".$userId.") method ...");
+	$key = 'getUserProfile' . $userId;
+	list($profArr,$cached) = VTCacheUtils::lookupCachedInformation($key);
+	if ($cached) return $profArr;
 	$roleId=fetchUserRole($userId);
 	$profArr=Array();
 	$sql1 = "select profileid from vtiger_role2profile where roleid=?";
@@ -2931,6 +2937,7 @@ function getUserProfile($userId)
 		$profileid=  $adb->query_result($result1,$i,"profileid");
 		$profArr[]=$profileid;
 	}
+	VTCacheUtils::updateCachedInformation($key, $profArr);
 	$log->debug("Exiting getUserProfile method ...");
 	return $profArr;
 }
@@ -3058,6 +3065,9 @@ function getParentRole($roleId)
 {
 	global $log;
 	$log->debug("Entering getParentRole(".$roleId.") method ...");
+	$key = 'getParentRole' . $roleId;
+	list($parentRoleArr,$cached) = VTCacheUtils::lookupCachedInformation($key);
+	if ($cached) return $parentRoleArr;
 	$roleInfo=getRoleInformation($roleId);
 	$parentRole=$roleInfo[$roleId][1];
 	$tempParentRoleArr=explode('::',$parentRole);
@@ -3069,6 +3079,7 @@ function getParentRole($roleId)
 			$parentRoleArr[]=$role_id;
 		}
 	}
+	VTCacheUtils::updateCachedInformation($key, $parentRoleArr);
 	$log->debug("Exiting getParentRole method ...");
 	return $parentRoleArr;
 }
@@ -3885,14 +3896,13 @@ function getPermittedModuleIdList() {
 	return $permittedModules;
 }
 
-/** Function to recalculate the Sharing Rules for all the vtiger_users
+/** Function to recalculate the Sharing Rules for all the users
   * This function will recalculate all the sharing rules for all the users in the Organization and will write them in flat files
  */
 function RecalculateSharingRules()
 {
-	global $log;
+	global $log, $adb;
 	$log->debug("Entering RecalculateSharingRules() method ...");
-	global $adb;
 	require_once('modules/Users/CreateUserPrivilegeFile.php');
 	$query="select id from vtiger_users where deleted=0";
 	$result=$adb->pquery($query, array());
@@ -3904,7 +3914,6 @@ function RecalculateSharingRules()
 		createUserSharingPrivilegesfile($id);
 	}
 	$log->debug("Exiting RecalculateSharingRules method ...");
-
 }
 
 /** Function to get the list of module for which the user defined sharing rules can be defined

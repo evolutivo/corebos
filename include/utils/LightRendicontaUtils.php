@@ -184,7 +184,7 @@ function readPFActions($id){
     $pfquery=false;
     if($processtemp_val!='' && $statusfield_val!='' && $statusfield!='')
     {  
-        $pfquery=$adb->pquery("SELECT vtiger_businessactions.* 
+        $pfquery=$adb->pquery("SELECT vtiger_businessactions.* ,pf.processflowsecurity
                     FROM vtiger_processflow AS pf
                     JOIN vtiger_processtemplate AS pt ON pf.linktoprocesstemplate = pt.processtemplateid
                     JOIN vtiger_businessactions  ON pf.mailer_action = vtiger_businessactions.businessactionsid

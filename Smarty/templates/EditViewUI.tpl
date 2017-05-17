@@ -163,6 +163,27 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{if $fldlabel eq $i18nSolution}
 				<input type="hidden" name="helpdesk_solution" id="helpdesk_solution" value='{$fldvalue}'>
 				{/if}
+				{if ($fldname eq 'notecontent') || (isset($maindata['extendedfieldinfo']) && isset($maindata['extendedfieldinfo']['RTE']) && $maindata['extendedfieldinfo']['RTE'] && vt_hasRTE())}
+				<script>
+					CKEDITOR.replace('{$fldname}',
+					{ldelim}
+						extraPlugins : 'uicolor',
+						uiColor: '#dfdff1',
+							on : {ldelim}
+								instanceReady : function( ev ) {ldelim}
+									 this.dataProcessor.writer.setRules( 'p',  {ldelim}
+										indent : false,
+										breakBeforeOpen : false,
+										breakAfterOpen : false,
+										breakBeforeClose : false,
+										breakAfterClose : false
+								{rdelim});
+							{rdelim}
+						{rdelim}
+					{rdelim});
+					var oCKeditor{$fldname} = CKEDITOR.instances[{$fldname}];
+				</script>
+				{/if}
 			</td>
 		{elseif $uitype eq 21 || $uitype eq 24}
 			<td ng-show ="show_logic('{$fldname}')" width=20% class="dvtCellLabel{if $mandatory_field == '*'} mandatory_field_label{/if}" align=right>
@@ -1047,11 +1068,12 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
                                placeholder="Select..." 
                                typeahead="entity as entity.crmname for entity in loadTags($viewValue)" 
                                typeahead-on-select="functionClick($item, $model, $label)"
-                               class="form-control">  
+                               class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off">  
                     </div>
                     </td>
                     <script>
                         {literal}
+                        document.getElementById('{/literal}{$fldname}{literal}_display').setAttribute("autocomplete","off");
                         angular.module('demoApp')
                        .controller('mainCtrl_{/literal}{$fldname}{literal}', function ($scope, $http) {
                             $scope.new_entry=false;

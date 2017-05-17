@@ -101,9 +101,10 @@ class Import_Index_Controller {
 			$moduleFields = $this->getAccessibleFields($moduleName);
 			$importableFields = array();
 			foreach($moduleFields as $fieldName => $fieldInstance) {
-				if(($this->isEditableField($fieldInstance)
-							&& ($fieldInstance->getTableName() != 'vtiger_crmentity' || $fieldInstance->getColumnName() != 'modifiedby')
-						) || ($fieldInstance->getUIType() == '70' && $fieldName != 'modifiedtime')) {
+
+				if(($this->isEditableField($fieldInstance) && ($fieldInstance->getTableName() != 'vtiger_crmentity' || $fieldInstance->getColumnName() != 'modifiedby'))
+						|| ($fieldInstance->getUIType() == '70' && $fieldName != 'modifiedtime') || in_array($fieldName, $mergeFields)
+						|| ($fieldInstance->getUIType() == '52')) {
 					$importableFields[$fieldName] = $fieldInstance;
 				}
 			}

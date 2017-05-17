@@ -25,7 +25,18 @@ angular.module('demoApp').controller('KanbanController', ['$scope','$rootScope',
         document.getElementById('selectedprocessflow').setAttribute('value',pfid);
         document.getElementById('currentprocessflow').setAttribute('value',cpfid);
     }
-    $scope.fill_sortable();            
+    $scope.fill_sortable();  
+    //an array of files selected
+    $scope.files = [];
+    $scope.executingAction={state:false};
+    //listen for the file selected event
+    $scope.$on("fileSelected", function (event, args) {
+        $scope.$apply(function () {            
+            //add the file object to the scope's files collection
+            $scope.files.push(args.file);
+            console.log($scope.files);
+        });
+    });
     
     $scope.$on('handleBroadcast', function() {
         $http.get('index.php?module=Utilities&action=UtilitiesAjax&kaction=retrieveProcessFlow&file=get_substatuses&id='+document.getElementsByName('record').item(0).value).success(function(data) {
@@ -52,7 +63,23 @@ angular.module('demoApp').controller('KanbanController', ['$scope','$rootScope',
         BoardService.removeCard($scope.kanbanBoard, column, card);
     };
 
-    $scope.addNewCard = function (column) {
-        BoardService.addNewCard($scope.kanbanBoard, column);
+    $scope.addNewCard = function (column,files) {
+        $scope.executingAction.state=true;
+        BoardService.addNewCard($scope.kanbanBoard, column,files,$scope.executingAction);
     };
-}]);
+}])
+.directive('fileUpload', function () {
+    return {
+        scope: true,        //create a new scope
+        link: function (scope, el, attrs) {
+            el.bind('change', function (event) {
+                var files = event.target.files;
+                //iterate files since 'multiple' may be specified on the element
+                for (var i = 0;i<files.length;i++) {
+                    //emit event upward
+                    scope.$emit("fileSelected", { file: files[i] });
+                }                                       
+            });
+        }
+    };
+  });;

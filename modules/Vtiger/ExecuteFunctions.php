@@ -124,6 +124,7 @@ switch ($functiontocall) {
 			$op = 'startswith';
 		}
 		$ret = newEvoAutocomplete($new_value, $op, $searchinmodule, $limit, $current_user,$field);
+		break;
 	case 'getFieldValuesFromRecord':
 		$crmid = vtlib_purify($_REQUEST['getFieldValuesFrom']);
 		$module = getSalesEntityType($crmid);
