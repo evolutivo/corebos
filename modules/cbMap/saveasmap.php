@@ -19,6 +19,11 @@ $MapID = $_POST['MapId'];
 //echo 23;
 //exit();
 $QueryGenerate=$_POST['QueryGenerate'];
+
+$dd=str_replace("SELECT","",$QueryGenerate);
+$dd="\"".$dd."\"";
+//echo str_replace("  ","",$dd);
+//exit();
 $campiSelezionati = $_POST['campiSelezionati'];
 $nrmaps = count($campiSelezionati);
 $optionValue = array();
@@ -134,7 +139,7 @@ if (empty($_POST["MapId"])){
     $focust->column_fields['mapname'] = $nameview;
     $focust->column_fields['content']=$QueryGenerate;
     $focust->column_fields['description'] = $xml->saveXML();
-    $focust->column_fields['selected_fields'] ="\"".$QueryGenerate."\"";
+    $focust->column_fields['selected_fields'] =str_replace("  ","",$dd);
     $focust->column_fields['maptype'] = "SQL";
     //echo "know we inicialize value for insert in database";
     $log->debug(" we inicialize value for insert in database ");
@@ -159,7 +164,7 @@ else{
     $map_focus->retrieve_entity_info($MapID,"cbMap");
     $map_focus->column_fields['content']= $QueryGenerate;
     $map_focus->column_fields['description'] = $xml->saveXML();
-    $map_focus->column_fields['selected_fields'] ="\"".$QueryGenerate."\"";
+    $map_focus->column_fields['selected_fields'] =str_replace("  ","",$dd);
     $map_focus->mode = "edit";
     $map_focus->save("cbMap");
     echo $MapID;
