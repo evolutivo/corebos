@@ -897,18 +897,11 @@ function getFirstModule(selTab2, Mapid) {
                 if (Mapid != undefined) {
                     console.log("map id eshte deklarua pra ka vlere   =  " + SelectPicker);
                     getSecModule(SelectPicker, Mapid);
-                    getFirstModuleFields(SelectPicker, Mapid);
+                     getFirstModuleFields(SelectPicker, Mapid);
                 }
                 jQuery("#mod").selectmenu("refresh");
             }
-            // if (Mapid != undefined) {
-            //     console.log("map id eshte deklarua pra ka vlere");
-            //     var SelectPicker = $("#mod").val();
-            //     alert("prova  =   " + SelectPicker);
-            //     getSecModule(SelectPicker);
-            // } else {
-            //     console.log("map id nuk eshte deklarua pra nuk ka vlere");
-            // }
+
         },
         error: function () {
             alert("error");

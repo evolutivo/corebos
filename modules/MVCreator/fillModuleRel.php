@@ -15,7 +15,7 @@ if (isset( $_REQUEST['MapId'])) {
 
 //echo $FirstmoduleXML;
 //exit();
-
+//
 
 global $log, $mod_strings;
 $m = $_REQUEST['mod'];
@@ -54,11 +54,11 @@ if ($num_rows != 0) {
         $column = $adb->query_result($result, $i - 1, 'columnname');
         $fl = $adb->query_result($result, $i - 1, 'fieldlabel');
         if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
-            $a .= '<option seleceted value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
+            $a .= '<option selected value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
         } else {
             $a .= '<option value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
         }
-        echo $modul1;
+       // echo $modul1;
     }
 }
 $query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 
