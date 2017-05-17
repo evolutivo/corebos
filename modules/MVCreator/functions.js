@@ -106,7 +106,6 @@ function addJoin(action) {
                     }
                     if (jQuery("#condition").val() != 'undefined')
                         var whereCondition = jQuery("#condition").val();
-                    console.log("ketu" + whereCondition);
                     nameView = (document.getElementById('nameView').value);
                     nameDb = (document.getElementById('nameDb').value);
                     if (action == "join") url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery&mod=" + firstModule;
@@ -140,7 +139,6 @@ function addJoin(action) {
 
 function selectHtml() {
     var sel = jQuery('#selectableFields');
-    console.log(sel[0].innerHTML);
     return sel[0].innerHTML;
 }
 function generateJoin() {
@@ -165,7 +163,6 @@ function generateJoin() {
     var sel = document.getElementById("selectableFields");
     for (var i = 0; i < sel.options.length; i++) {
         if (sel.options[i].selected == true) {
-            //alert(x.options[i].value);
             //dd=x.options[i].value;
             campiSelezionati.push(sel.options[i].value);
         }
@@ -175,14 +172,6 @@ function generateJoin() {
         //texti.push(sel.options[i].text);
     }
 
-    // alert(prova1);
-    // console.log(prova1);
-    // for (var i = 0, len = sel[0].options.length; i < len; i++) {
-    //     opt = sel[0].options[i];
-    //     if (opt.selected)
-    //         campiSelezionati.push(opt.value);
-    // }
-    //alert(campiSelezionati);
     if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
@@ -192,7 +181,6 @@ function generateJoin() {
         selTab2.push(secModule);
         nameView = (document.getElementById('nameView').value);
         // var sel123 =  jQuery('#selectableFields');
-        // console.log(sel);
         // var optionsCombo = sel123[0].innerHTML;
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
 
@@ -288,7 +276,6 @@ function generateMap() {
     if (jQuery("#condition").val() != 'undefined') {
         jQuery("#condition").trigger("change");
         var whereCondition = jQuery("#condition").val();
-        console.log(whereCondition);
     }
     var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=generateMap";
@@ -529,7 +516,6 @@ function choose_fields3() {
     var v = val[val.selectedIndex].value;
     var rec1 = document.getElementById('mod1');
     var rec = rec1[rec1.selectedIndex].value;
-    console.log(rec);
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fields";
     jQuery.ajax({
         type: "POST",
@@ -874,14 +860,11 @@ function selDBViews() {
 }
 
 function getFirstModule(selTab2, Mapid) {
-    ///console.log("ne fillim te funksionit");firstModule != "" && firstModule !== undefined &&
     if (Mapid === undefined) {
-        console.log("mbas if per var");
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID;
     }
     else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID + '&MapID=' + Mapid;//+'&MapID=' + Mapid;
-        console.log("mbas else per var");
     }
     jQuery.ajax({
         type: "POST",
@@ -891,11 +874,8 @@ function getFirstModule(selTab2, Mapid) {
         success: function (msg) {
             if (msg != '') {
                 jQuery('#mod').html('<option value="None">None</option>' + msg);
-                //console.log("map id eshte deklarua pra ka vlere");
                 var SelectPicker = $("#mod").val();
-                // alert("prova  =   "+SelectPicker);
                 if (Mapid != undefined) {
-                    console.log("map id eshte deklarua pra ka vlere   =  " + SelectPicker);
                     getSecModule(SelectPicker, Mapid);
                      getFirstModuleFields(SelectPicker, Mapid);
                 }
@@ -960,7 +940,6 @@ function getSecModule(obj, Mapid) {
     } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&installationID=" + installationID;
     }
-    //alert("edmondi"+MapIDtext);
 
     jQuery.ajax({
         type: "POST",
@@ -968,12 +947,8 @@ function getSecModule(obj, Mapid) {
         dataType: "html",
         success: function (str) {
             jQuery('#secmodule').html('<option value="None">None</option>' + str);
-            // console.log("map id eshte deklarua pra ka vlere");
             var SelectPicker = $("#secmodule").val();
-            //alert("prova  =   "+SelectPicker);
             if (Mapid != undefined) {
-                // console.log("map id eshte deklarua pra ka vlere");
-                //alert(Mapid);
                 getSecModuleFields(SelectPicker,Mapid);
             }
             jQuery("#secmodule").selectmenu("refresh");
@@ -982,14 +957,6 @@ function getSecModule(obj, Mapid) {
             alert("error");
         }
     });
-    // if (Mapid.length() !== 0) {
-    //     console.log("map id eshte deklarua pra ka vlere");
-    //     var SelectPicker = $("#").val();
-    //     //alert("prova  =   "+SelectPicker);
-    //     getSecModule(SelectPicker);
-    // } else {
-    //     console.log("map id nuk eshte deklarua pra nuk ka vlere");
-    // }
 }
 
 function populateReport(reportSelectId) {
@@ -1010,7 +977,6 @@ function populateReport(reportSelectId) {
 
 function getFirstModuleFields(obj, Mapid) {
     var v = obj;
-    console.log("prova per vleren " + v);
     if (Mapid != undefined) {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID + "&MapId=" + Mapid;
     } else {
@@ -1026,18 +992,15 @@ function getFirstModuleFields(obj, Mapid) {
             var str1 = s[0];
             var str2 = s[1];
             var str3 = s[2];
-            console.log(str1);
             if (jQuery('#selectableFields optgroup[label= ' + v + ']').html() == null)
                 $('#selectableFields').empty();
             jQuery('#selectableFields').append(str1).change();
-            //alert("");
             jQuery('#selField1').val(str3);
         }
     });
 }
 
 function getSecModuleFields(obj, MapId) {
-   //alert('second module'+MapId);
     var v1 = obj;
     var sp = v1.split(";");
     var mod = sp[0].split("(many)");
@@ -1067,7 +1030,6 @@ function getSecModuleFields(obj, MapId) {
             if (jQuery('#selectableFields optgroup[label= ' + secModule + ']').html() == null)
             //  $("#selectableFields").empty();
                 jQuery('#selectableFields').append(str1).change();
-            console.log(str1)
             if (invers == 1) {
                 jQuery('#selField1').val(index);
                 jQuery('#selField2').val(s[2]);
@@ -1091,7 +1053,6 @@ function SaveMap() {
     var MapID = $('#MapID').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
-// console.log(sel);
     var optionsCombo = sel[0].innerHTML;
     for (var i = 0, len = sel[0].options.length; i < len; i++) {
         opt = sel[0].options[i];
@@ -1131,14 +1092,14 @@ function SaveMap() {
             success: function (msg) {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
-                    alert("The map is generate successful");
+                    alert("The map has been generated successfully");
                     if (box) box.remove();
                 }
                 else {
-                    alert("The map is generate successful");
+                    alert("The map has been generated successfully");
                     if (box) box.remove();
                 }
-                //jQuery("#MapID").val(msg);alert(msg); if (box) box.remove();
+                //jQuery("#MapID").val(msg);if (box) box.remove();
 
             },
             error: function () {
@@ -1157,7 +1118,6 @@ function SaveasMap() {
     var MapID = $('#MapID').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
-// console.log(sel);
     var optionsCombo = sel[0].innerHTML;
     for (var i = 0, len = sel[0].options.length; i < len; i++) {
         opt = sel[0].options[i];
@@ -1197,14 +1157,14 @@ function SaveasMap() {
             success: function (msg) {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
-                    alert("The map is generate successful");
+                    alert("The map has been generated successfully");
                     if (box) box.remove();
                 }
                 else {
-                    alert("The map is generate successful");
+                    alert("The map has been generated successfully");
                     if (box) box.remove();
                 }
-                //jQuery("#MapID").val(msg);alert(msg); if (box) box.remove();
+                //jQuery("#MapID").val(msg); if (box) box.remove();
 
             },
             error: function () {
@@ -1247,9 +1207,6 @@ function NextAndLoadFromMap() {
         async: false,
         success: function (msg) {
             jQuery("#LoadfromMapSecondStep").html(msg);
-
-
-            //alert("Funkionon");
         },
         error: function () {
             alert("Chiamata fallita, si prega di riprovare...");
