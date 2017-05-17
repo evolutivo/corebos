@@ -5,19 +5,19 @@ $selField2 = $_POST['selField2'];//stringa con tutte i campi scelti in selField1
 $nameView = $_POST['nameView'];//nome della vista
 $campiSelezionati = $_POST['campiSelezionati'];
 $OptVAl = $_REQUEST['JoinOV'];
-$sendarray=array();
-
-$valuecombo=$_POST['Valueli'];
+$sendarray = array();
+$valuecombo = $_REQUEST['Valueli'];
 
 for ($j = 0; $j < count($valuecombo); $j++) {
     $expdies = explode("!", $valuecombo[$j]);
-    $sendarray[]=array(
-        'Values'=>$expdies[0],
-        'Texti'=>$expdies[1],
+    $sendarray[] = array(
+        'Values' => $expdies[0],
+        'Texti' => $expdies[1],
     );
-   // array_push($optionValue, $expdies[0] . "." . $expdies[1]);
 }
 
+//echo $PRovatjeter;
+//exit();
 $optionValue = array();
 $optgroup = array();
 for ($j = 0; $j < count($campiSelezionati); $j++) {
@@ -32,7 +32,8 @@ $Moduls = array();
 array_push($Moduls, $firstmodule);
 array_push($Moduls, $secmodule);
 
-//print_r(selectValues($OptVAl,$Moduls));
+//print_r($sendarray);
+//exit();
 
 
 //print_r($Moduls);
@@ -40,10 +41,8 @@ array_push($Moduls, $secmodule);
 //exit();
 //$selField1 = explode(',',$stringaselField1);
 //$selField2 = explode(',',$stringaselField2);
-$stringaFields = implode(",", selectValueswithoutjoincrmentity($OptVAl,$Moduls));
-$stringaFields2 = implode(",", selectValueswithjoincrmentity($OptVAl,$Moduls));
-//echo $stringaFields.$stringaFields2;
-//exit();
+$stringaFields = implode(",", selectValueswithoutjoincrmentity($OptVAl, $Moduls));
+$stringaFields2 = implode(",", selectValueswithjoincrmentity($OptVAl, $Moduls));
 $selTab1 = $_POST['selTab1'];
 $selTab2 = $_POST['selTab2'];
 
@@ -52,7 +51,7 @@ $entityidfield = $adb->query_result($query, 0, "entityidfield");
 $tablename = $adb->query_result($query, 0, "tablename");
 //echo "edmondi". $entityidfield.$tablename;
 $entityidfields = $tablename . "." . $entityidfield;
-$generatetQuery = showJoinArray($selField1, $selField2, $nameView, $stringaFields2, $selTab1, $selTab2, $entityidfields, $Moduls);
+$generatetQuery = showJoinArray($selField1, $selField2, $nameView, substr($stringaFields2, 0, -2), $selTab1, $selTab2, $entityidfields, $Moduls);
 
 
 /*
@@ -109,7 +108,7 @@ function selectValueswithjoincrmentity($params, $Moduls)
             foreach ($Moduls as $modul) {
 
                 $splitvalues = explode(":", $params[$i]);
-                if ( $splitvalues[1] == "vtiger_crmentity") {
+                if ($splitvalues[1] == "vtiger_crmentity") {
                     array_push($Querysplit, "CRM_" . strtolower($modul) . "." . $splitvalues[2]);
 
                 } else {
@@ -125,6 +124,7 @@ function selectValueswithjoincrmentity($params, $Moduls)
         return array_unique($Querysplit);
     }
 }
+
 function selectValueswithoutjoincrmentity($params, $Moduls)
 {
     $Querysplit = array();
@@ -135,7 +135,7 @@ function selectValueswithoutjoincrmentity($params, $Moduls)
             foreach ($Moduls as $modul) {
 
                 $splitvalues = explode(":", $params[$i]);
-                if ( $splitvalues[1] != "vtiger_crmentity") {
+                if ($splitvalues[1] != "vtiger_crmentity") {
                     array_push($Querysplit, $splitvalues[1] . "." . $splitvalues[2]);
                 }
 //                } else {
@@ -151,7 +151,8 @@ function selectValueswithoutjoincrmentity($params, $Moduls)
         return $Querysplit;
     }
 }
-function inerJoionwithCrmentity($Moduls,$OptVAl)
+
+function inerJoionwithCrmentity($Moduls, $OptVAl)
 {
     global $adb;
     $joinCrmentity = '';
@@ -169,14 +170,13 @@ function inerJoionwithCrmentity($Moduls,$OptVAl)
             $joinCrmentity .= 'vtiger_crmentity <b>as</b> ' . 'CRM_' . strtolower($modul);
             $joinCrmentity .= '  <b>ON</b>  ';
             $joinCrmentity .= ' CRM_' . strtolower($modul) . '.crmid = ' . $JoinCondition;
-            $joinCrmentity .= ' <b>AND</b> CRM_' .  strtolower($modul) . '.deleted = 0   ';
+            $joinCrmentity .= ' <b>AND</b> CRM_' . strtolower($modul) . '.deleted = 0   ';
 
         }
         $nr++;
     }
 
     return $joinCrmentity;
-
 
 
 //    $querysecondmodule = $adb->query("select entityidfield,tablename from vtiger_entityname where modulename='$modul2'");
@@ -312,7 +312,6 @@ $smarty->assign("QUERY", $generatetQuery);
 //    $optString.='</optgroup>';
 //}
 
-$PRovatjeter = '<option value="test">test</option>';
 //$smarty->assign("FIELDS", $PRovatjeter);
 $smarty->assign("valueli", $sendarray);
 //$smarty->assign("texticombo", $texticombo);
