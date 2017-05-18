@@ -96,7 +96,7 @@
         <script src="Smarty/angular/angular-multi-select.js"></script>  
         <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
         <link rel="stylesheet" href="Smarty/angular/ng-table.css" />
-        <script src="Smarty/angular/ui-bootstrap-tpls-0.6.0.js"></script>
+        <script src="Smarty/angular/ui-bootstrap-tpls-0.13.4.js"></script>
         <link rel="stylesheet" href="Smarty/angular/ng-tags-input.min.css" />
         <script src="Smarty/angular/ng-tags-input.min.js"></script>
         <!-- xeditable   -->
