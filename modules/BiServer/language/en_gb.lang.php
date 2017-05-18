@@ -21,7 +21,6 @@
  ********************************************************************************/
  
 $mod_strings = Array(
-
     'CREATETABLE'=>'Create MV',
     'CREATEMVINDEX'=>'Create MV/INDEX',   
     'CREATELOGGINGINDEX'=>'CREATE LOGGING INDEX',
@@ -38,7 +37,6 @@ $mod_strings = Array(
     'LBL_BISERVER_DESCRIPTION' => 'Bi Server ',
     'Script_Name'=>'Script Name',
     'Folder'=>'Folder',
-    
     'Period'=>'Period',
     'Active'=>'Active',
     'Export'=>'Export',
@@ -46,9 +44,29 @@ $mod_strings = Array(
     'Add_Cron'=>'Add Cron',
     'Remove_Cron'=>'Remove Cron',
     'are_sure'=>'Are you sure you want to delete this',
-    'Script_Name'=>'Script Name',
-    'Folder'=>'Folder',
-
+    'Map'=>'Map',
+    'Report'=>'Report',
+    'TableName'=>'Table Name',
+    'DELETED'=>'Deleted',
+    'MVSource'=>'Map or Report',
+    'CREATEINDEX'=>'Create ELASTIC INDEX',
+    'fieldlist'=>'Field List',
+    'fieldlabels'=>'Field Labels',
+    'analyzed'=>'Analyzed',
+    'role'=>'Role',
+    'delete'=>'Delete',
+    'last'=>'Last <br> execution',
+    'address'=>'Address',
+    'subject'=>'Subject',
+    'Content'=>'Content',
+    'zipped'=>'Zipped',
+    'deletecron'=>'Script is in cron,you can not delete without removing from cron !',
+    'success'=>'Script executed successfully',
+    'permission'=>'You don\'t have permission to delete this script',
+    'exportsucc'=>'Script exported successfully',
+    'reportnotexist'=>'The report does not exist.\n\Problem in creation',
+    'exportpermission'=>'You don\'t have permission to export this script',
+    'reportcreated'=>'Report Created',
+    'indexcreated'=>'Index Created'
 );
-
 ?>
