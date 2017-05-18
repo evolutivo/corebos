@@ -11,7 +11,7 @@ $image_path=$theme_path."images/";
 require_once ('include/utils/utils.php');
 require_once('Smarty_setup.php');
 require_once('include/database/PearDatabase.php');
-require_once('database/DatabaseConnection.php');
+//require_once('database/DatabaseConnection.php');
 require_once ('include/CustomFieldUtil.php');
 require_once ('data/Tracker.php');
 $smarty = new vtigerCRM_Smarty();

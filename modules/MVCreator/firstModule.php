@@ -11,7 +11,7 @@ if (isset($_REQUEST['MapID'])) {
 }
 //echo "Jashtekushtit mapID ";
 //echo $FirstmoduleXML;
-////echo '<option  selected>'.$FirstmoduleXML.' </option>';
+//echo '<option  selected>'.$FirstmoduleXML.' </option>';
 //exit();
 if (isset($_REQUEST['secModule']) && isset($_REQUEST['firstModule'])) {
     $secModule = implode(',', array_keys(array_flip(explode(',', $_REQUEST['secModule']))));

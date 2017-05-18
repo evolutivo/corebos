@@ -5,9 +5,19 @@ $selField2 = $_POST['selField2'];//stringa con tutte i campi scelti in selField1
 $nameView = $_POST['nameView'];//nome della vista
 $campiSelezionati = $_POST['campiSelezionati'];
 $OptVAl = $_REQUEST['JoinOV'];
-//print_r($OptVAl);
+$sendarray = array();
+$valuecombo = $_REQUEST['Valueli'];
+
+for ($j = 0; $j < count($valuecombo); $j++) {
+    $expdies = explode("!", $valuecombo[$j]);
+    $sendarray[] = array(
+        'Values' => $expdies[0],
+        'Texti' => $expdies[1],
+    );
+}
+
+//echo $PRovatjeter;
 //exit();
-$optionsCombo = $_POST['html'];
 $optionValue = array();
 $optgroup = array();
 for ($j = 0; $j < count($campiSelezionati); $j++) {
@@ -16,18 +26,14 @@ for ($j = 0; $j < count($campiSelezionati); $j++) {
 }
 
 
-//echo selectValues($OptVAl);$Module_modulename = $adb->query_result($query, 0, "modulename");
-
-//print_r($optionValue);
-//exit();
-
 $firstmodule = $_POST['fmodule'];
 $secmodule = $_POST['smodule'];
 $Moduls = array();
 array_push($Moduls, $firstmodule);
 array_push($Moduls, $secmodule);
 
-//print_r(selectValues($OptVAl,$Moduls));
+//print_r($sendarray);
+//exit();
 
 
 //print_r($Moduls);
@@ -35,10 +41,8 @@ array_push($Moduls, $secmodule);
 //exit();
 //$selField1 = explode(',',$stringaselField1);
 //$selField2 = explode(',',$stringaselField2);
-$stringaFields = implode(",", selectValueswithoutjoincrmentity($OptVAl,$Moduls));
-$stringaFields2 = implode(",", selectValueswithjoincrmentity($OptVAl,$Moduls));
-//echo $stringaFields.$stringaFields2;
-//exit();
+//$stringaFields = implode(",", selectValueswithoutjoincrmentity($OptVAl, $Moduls)); substr($stringaFields2, 0, -2)
+//$stringaFields2 = implode(",", selectValueswithjoincrmentity($OptVAl, $Moduls));
 $selTab1 = $_POST['selTab1'];
 $selTab2 = $_POST['selTab2'];
 
@@ -47,15 +51,14 @@ $entityidfield = $adb->query_result($query, 0, "entityidfield");
 $tablename = $adb->query_result($query, 0, "tablename");
 //echo "edmondi". $entityidfield.$tablename;
 $entityidfields = $tablename . "." . $entityidfield;
-$generatetQuery = showJoinArray($selField1, $selField2, $nameView, $stringaFields2, $selTab1, $selTab2, $entityidfields, $Moduls);
-
-
+$generatetQuery = showJoinArray($selField1, $selField2, $nameView,$OptVAl, $selTab1, $selTab2, $entityidfields, $Moduls);
 /*
  * Stampa a video nel <div> con id="results" la query per la creazione della vista materializzata
  */
 function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTab1, $selTab2, $primarySelectID, $Moduls)
 {
     $acc = 0;
+    $index = 0;
     $strQuery = '';
     global $log;
     for ($i = 0; $i < count($selTab1); $i++) {
@@ -74,84 +77,98 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
         else $selTab2[$i] = "vtiger_" . strtolower($selTab2[$i]);
         if ($i == 0) {
             /* <b> CREATE TABLE </b>'.$nameView.'<b>  */
-            $strQuery .= '<b> SELECT </b>' . $primarySelectID . "," . $stringaFields . '<b> FROM </b>' . strtolower($selTab1[$i]) . '<b> INNER JOIN </b>' . strtolower($selTab2[$i]) . '<b> ON </b>' . strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
-            $strQuery .= inerJoionwithCrmentity($Moduls);
+            $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index));
+            $strQuery .= '<b> SELECT </b>' . $primarySelectID . "," . substr($stringaFields2, 0, -2) . '<b> FROM </b>' . strtolower($selTab1[$i]) . '<b> INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'.'. $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selField2[$i];
+            $strQuery .= inerJoionwithCrmentity($Moduls,$stringaFields,$index);
             if ($selTab1[$i] == "vtiger_account" && $acc == 0) {
-                $strQuery .= ' <b> inner join </b> vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid';
-                $strQuery .= '<b>  inner join </b> vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid';
-                $acc = 1;
+                $strQuery .= ' <b> INNER JOIN </b> vtiger_accountbillads <b> ON </b>  vtiger_account_'.$index.'.accountid=vtiger_accountbillads.accountaddressid';
+                $strQuery .= '<b>  INNER JOIN </b> vtiger_accountshipads <b> ON </b>  vtiger_account_'.$index.'.accountid=vtiger_accountshipads.accountaddressid';
+                $acc =$acc+ 1;
             }
+            $index++;
         } else {
-            $strQuery .= '<b> INNER JOIN </b>' . $selTab2[$i] . '<b> ON </b>' . strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
+            $strQuery .= '<b> INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . $selTab2[$i].'_'.$index . '<b> ON </b>' . strtolower($selTab1[$i]). '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selField2[$i];
+            //$strQuery1 .= '<b> INNER JOIN </b>' . $selTab2[$i] . '<b> ON </b>' ;//. strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
             if ($selTab2[$i] == "vtiger_account" && $acc == 0) {
-                $strQuery .= '<b> inner </b> join vtiger_accountbillads on vtiger_account.accountid=vtiger_accountbillads.accountaddressid';
-                $strQuery .= ' <b> inner join </b> vtiger_accountshipads on vtiger_account.accountid=vtiger_accountshipads.accountaddressid';
-                $acc = 1;
+                $strQuery .= '<b> INNER </b> join vtiger_accountbillads <b> ON </b> vtiger_account_'.$index.'.accountid=vtiger_accountbillads.accountaddressid';
+                $strQuery .= ' <b> INNER join </b> vtiger_accountshipads <b> ON </b>  vtiger_account_'.$index.'.accountid=vtiger_accountshipads.accountaddressid';
+                $acc =$acc+ 1;
             }
+            $index++;
         }
 
     }
     return $strQuery;
 }
-
-function selectValueswithjoincrmentity($params, $Moduls)
+function selectValueswithjoincrmentity($params, $Moduls,$nr)
 {
+    global $adb;
+    $query = $adb->query("select tablename from vtiger_entityname where modulename='$Moduls[1]'");
+    $tablename = $adb->query_result($query, 0, "tablename");
+
     $Querysplit = array();
     if (!empty($params)) {
-        $nr2 = 1;
+        $index = 0;
 
         for ($i = 0; $i <= count($params); $i++) {
             foreach ($Moduls as $modul) {
 
                 $splitvalues = explode(":", $params[$i]);
-                if ( $splitvalues[1] == "vtiger_crmentity") {
+                if ($splitvalues[1] == "vtiger_crmentity") {
                     array_push($Querysplit, "CRM_" . strtolower($modul) . "." . $splitvalues[2]);
 
-                } else {
-                    array_push($Querysplit, $splitvalues[1] . "." . $splitvalues[2]);
+                }
+                elseif ($splitvalues[1]==$tablename){
+                    array_push($Querysplit,  $splitvalues[1]."_".$nr . "." . $splitvalues[2]);
+                }
+                else {
+                    array_push($Querysplit,  $splitvalues[1] . "." . $splitvalues[2]);//($nr > 0 ? $splitvalues[1]."_".$nr . "." . $splitvalues[2] : $splitvalues[1] . "." . $splitvalues[2]);
                 }
 
 
             }
-            $nr2++;
+            $index++;
 //            return $Querysplit;
         }
 
         return array_unique($Querysplit);
     }
 }
-function selectValueswithoutjoincrmentity($params, $Moduls)
-{
-    $Querysplit = array();
-    if (!empty($params)) {
-        $nr2 = 1;
 
-        for ($i = 0; $i <= count($params); $i++) {
-            foreach ($Moduls as $modul) {
-
-                $splitvalues = explode(":", $params[$i]);
-                if ( $splitvalues[1] != "vtiger_crmentity") {
-                    array_push($Querysplit, $splitvalues[1] . "." . $splitvalues[2]);
-                }
-//                } else {
+//function selectValueswithoutjoincrmentity($params, $Moduls)
+//{
+//    $Querysplit = array();
+//    if (!empty($params)) {
+//        $nr2 = 1;
+//
+//        for ($i = 0; $i <= count($params); $i++) {
+//            foreach ($Moduls as $modul) {
+//
+//                $splitvalues = explode(":", $params[$i]);
+//                if ($splitvalues[1] != "vtiger_crmentity") {
 //                    array_push($Querysplit, $splitvalues[1] . "." . $splitvalues[2]);
 //                }
+////                } else {
+////                    array_push($Querysplit, $splitvalues[1] . "." . $splitvalues[2]);
+////                }
+//
+//
+//            }
+//            $nr2++;
+////            return $Querysplit;
+//        }
+//
+//        return $Querysplit;
+//    }
+//}
 
-
-            }
-            $nr2++;
-//            return $Querysplit;
-        }
-
-        return $Querysplit;
-    }
-}
-function inerJoionwithCrmentity($Moduls,$OptVAl)
+function inerJoionwithCrmentity($Moduls, $OptVAl,$nr)
 {
     global $adb;
     $joinCrmentity = '';
-    $nr = 1;
+    //$nr = 1;
     $prova = array();
+    $index=0;
     foreach ($Moduls as $modul) {
 
 //        $prova= selectValues($OptVAl, $modul, $nr);
@@ -163,15 +180,15 @@ function inerJoionwithCrmentity($Moduls,$OptVAl)
         if (!empty($JoinCondition)) {
             $joinCrmentity .= 'vtiger_crmentity <b>as</b> ' . 'CRM_' . strtolower($modul);
             $joinCrmentity .= '  <b>ON</b>  ';
-            $joinCrmentity .= ' CRM_' . strtolower($modul) . '.crmid = ' . $JoinCondition;
-            $joinCrmentity .= ' <b>AND</b> CRM_' .  strtolower($modul) . '.deleted = 0   ';
+            $joinCrmentity .= ' CRM_' . strtolower($modul) . '.crmid = ' . ($index > 0 ? $Module_tablename.'_'.$nr  . "." . $Module_entityidfield : $JoinCondition);
+            $joinCrmentity .= ' <b>AND</b> CRM_' . strtolower($modul) . '.deleted = 0   ';
 
         }
-        $nr++;
+        //$nr++;
+        $index++;
     }
 
     return $joinCrmentity;
-
 
 
 //    $querysecondmodule = $adb->query("select entityidfield,tablename from vtiger_entityname where modulename='$modul2'");
@@ -199,25 +216,27 @@ function inerJoionwithCrmentity($Moduls,$OptVAl)
  * i nomi dei campi in essa contenuta.
  */
 
-//function getCampi($table){
-//        global $db;
-//        $fields = mysql_list_fields($db, $table);
-//        $numColumn= mysql_num_fields($fields);
-//        for ($i = 0; $i < $numColumn; $i++){
-//            $fieldList[$i]=mysql_field_name($fields,$i);
-//        }
-//        return $fieldList;
-//}
+function getCampi($table)
+{
+    global $db;
+    $fields = mysql_list_fields($db, $table);
+    $numColumn = mysql_num_fields($fields);
+    for ($i = 0; $i < $numColumn; $i++) {
+        $fieldList[$i] = mysql_field_name($fields, $i);
+    }
+    return $fieldList;
+}
 
 /*
- * Riceve in ingresso un array e un intero, e restituisce un sub array 
+ * Riceve in ingresso un array e un intero, e restituisce un sub array
  */
-//function prelevaArray($array, $indice){
-//    for($i=0; $i<$indice;$i++){
-//        $subArray[$i]=$array[$i];
-//    }
-//    return $subArray;
-//}
+function prelevaArray($array, $indice)
+{
+    for ($i = 0; $i < $indice; $i++) {
+        $subArray[$i] = $array[$i];
+    }
+    return $subArray;
+}
 
 
 /*
@@ -225,61 +244,62 @@ function inerJoionwithCrmentity($Moduls,$OptVAl)
  */
 //function concatenaAllField($allFields)
 //{
-//      for($i=0;$i<count($allFields);$i++){
-//         if($i==0){
-//             $stringa=$allFields[$i];
-//         }
-//         else{
-//             $stringa=$stringa.', '.$allFields[$i];
-//         }
-//       }
+//    for ($i = 0; $i < count($allFields); $i++) {
+//        if ($i == 0) {
+//            $stringa = $allFields[$i];
+//        } else {
+//            $stringa = $stringa . ', ' . $allFields[$i];
+//        }
+//    }
 //    return $stringa;
 //}
 /* Prende in ingresso due liste di tabelle.
  * $tableList1 corrisponde alle tabelle inserite nel selField1
  * $tableList2 corrisponde alle tabelle inserite nel selField2
- * 
- * La funzione, prende il primo elemento della lista di $tableList1, perchè 
- * gli altri elemnti sono già presenti, e lo inserisce in $tableList2, 
+ *
+ * La funzione, prende il primo elemento della lista di $tableList1, perchè
+ * gli altri elemnti sono già presenti, e lo inserisce in $tableList2,
  * in questo modo si ha un unico array.
- * Successivamente si scorre tutto l'array con un for, e con un'altro si scorre 
+ * Successivamente si scorre tutto l'array con un for, e con un'altro si scorre
  * nuovamente il tutto.
- * In questo modo, per ogni tabella, si prende ogni campo, e si controlla se esistono 
+ * In questo modo, per ogni tabella, si prende ogni campo, e si controlla se esistono
  * tabelle con campi con lo stesso nome, e se si, si rinominano.
  * Successivamente, ogni campo modificato, e non modificato, viene inserito nell'array
  * $allFields, che poi è il valore di ritorno della funzione.
- * 
+ *
  */
-
-//function getAllFields($tableList1, $tableList2){
+//echo $generatetQuery;
+//exit();
+//function getAllFields($tableList1, $tableList2)
+//{
 //    $allFields = array();
-//    $num=0;
-//    $tableList2[count($tableList2)]=$tableList1[0];
+//    $num = 0;
+//    $tableList2[count($tableList2)] = $tableList1[0];
 //
-//    for($i=0;$i<count($tableList2);$i++){
-//        if(!(in_array($tableList2[$i],prelevaArray($tableList2,$i) ) || ((in_array($tableList2[$i],prelevaArray($tableList1,$i)))&& $tableList2[$i]!=$tableList1[0]))){
-//            $fields=getCampi($tableList2[$i]);
-//                for($j=0;$j<(count($tableList2));$j++){
-//                    if($tableList2[$i]!=$tableList2[$j]){
-//                        for($k=0;$k<count($fields);$k++){
-//                            $fieldsTabList2=getCampi($tableList2[$j]);
-//                                 if(in_array($fields[$k], $fieldsTabList2)){
-//                                    $stringa=$tableList2[$i].'.'.$fields[$k].' <b>AS</b> '.$tableList2[$i].'_'.$fields[$k];
-//                                    for($u=0;$u<count($fieldsTabList2);$u++){
-//                                        if($fieldsTabList2[$u]==$fields[$k]){
-//                                            $fieldsList2[$u]=$tableList2[$j].'.'.$fieldsList2[$k].' <b>AS</b> '.$tableList2[$j].'_'.$fieldsList2[$k];
-//                                        }
-//                                    }
-//                                    $fields[$k]=$stringa;
-//                                 }
+//    for ($i = 0; $i < count($tableList2); $i++) {
+//        if (!(in_array($tableList2[$i], prelevaArray($tableList2, $i)) || ((in_array($tableList2[$i], prelevaArray($tableList1, $i))) && $tableList2[$i] != $tableList1[0]))) {
+//            $fields = getCampi($tableList2[$i]);
+//            for ($j = 0; $j < (count($tableList2)); $j++) {
+//                if ($tableList2[$i] != $tableList2[$j]) {
+//                    for ($k = 0; $k < count($fields); $k++) {
+//                        $fieldsTabList2 = getCampi($tableList2[$j]);
+//                        if (in_array($fields[$k], $fieldsTabList2)) {
+//                            $stringa = $tableList2[$i] . '.' . $fields[$k] . ' <b>AS</b> ' . $tableList2[$i] . '_' . $fields[$k];
+//                            for ($u = 0; $u < count($fieldsTabList2); $u++) {
+//                                if ($fieldsTabList2[$u] == $fields[$k]) {
+//                                    $fieldsList2[$u] = $tableList2[$j] . '.' . $fieldsList2[$k] . ' <b>AS</b> ' . $tableList2[$j] . '_' . $fieldsList2[$k];
+//                                }
+//                            }
+//                            $fields[$k] = $stringa;
 //                        }
-//                     }
+//                    }
 //                }
-//                for($s=0;$s<count($fields);$s++){
-//                    $allFields[$num]=$fields[$s];
-//                    $num++;
-//                }
-//       }
+//            }
+//            for ($s = 0; $s < count($fields); $s++) {
+//                $allFields[$num] = $fields[$s];
+//                $num++;
+//            }
+//        }
 //    }
 //    return $allFields;
 //}
@@ -303,7 +323,11 @@ $smarty->assign("QUERY", $generatetQuery);
 //    }
 //    $optString.='</optgroup>';
 //}
-$smarty->assign("FIELDS", $optionsCombo);
+
+//$smarty->assign("FIELDS", $PRovatjeter);
+$smarty->assign("valueli", $sendarray);
+//$smarty->assign("texticombo", $texticombo);
+//$smarty->assign("FOPTION", '');
 $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
 $smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
 $smarty->display("modules/MVCreator/WhereCondition.tpl");
