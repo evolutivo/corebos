@@ -671,16 +671,13 @@ class ListViewController {
                         global $adb;
                         $customlink_params = Array('MODULE'=>$module, 'RECORD'=>$recordId, 'ACTION'=>vtlib_purify($_REQUEST['action']));
                         $CUSTOM_LINKS=Vtiger_Link::getAllByType(getTabid($module), Array('LISTVIEWENTRY'), $customlink_params);
-                        foreach($CUSTOM_LINKS as $link){
-                            if($link ==null) continue; 
-                            foreach($link as $link_item){
-                               $linktomapmodule=$link_item->linktomapmodule;
-                               $parameters = '';
-                               if($link_item->linktype==null)continue;
-                               $actionLinkInfo .= " | <a href='javascript:runJSONAction(\"".$link_item->linkid."\",\"recordid=".$recordId."\",\"".$link_item->output_type."\")' title='".$link_item->linklabel."'>
-                                      <img hspace=5 align='absmiddle' border=0 src=\"$link_item->linkicon\" width='20' height='20'> 
-                                       </a>";
-                            }
+                        foreach($CUSTOM_LINKS['LISTVIEWENTRY'] as $link_item){
+                           $linktomapmodule=$link_item->linktomapmodule;
+                           $parameters = '';
+                           if($link_item->linktype==null)continue;
+                           $actionLinkInfo .= " | <a href='javascript:runJSONAction(\"".$link_item->linkid."\",\"recordid=".$recordId."\",\"".$link_item->output_type."\")' title='".$link_item->linklabel."'>
+                                  <img hspace=5 align='absmiddle' border=0 src=\"$link_item->linkicon\" width='20' height='20'> 
+                                   </a>";
                         }
 			// END
 			if($actionLinkInfo != "" && !$skipActions) {
