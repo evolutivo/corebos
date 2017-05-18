@@ -63,10 +63,10 @@ $mod_strings = Array(
     'zipped'=>'Zipped',
     'deletecron'=>'Script is in cron,you can not delete without removing from cron !',
     'success'=>'Script executed successfully',
-    'permission'=>'You don\'t have permission to delete this script',
+    'permission'=>"You don\'t have permission to delete this script",
     'exportsucc'=>'Script exported successfully',
     'reportnotexist'=>'The report does not exist.\n\Problem in creation',
-    'exportpermission'=>'You don\'t have permission to export this script',
+    'exportpermission'=>"You don\'t have permission to export this script",
     'reportcreated'=>'Report Created',
     'indexcreated'=>'Index Created'
 );
