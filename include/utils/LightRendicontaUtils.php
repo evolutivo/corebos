@@ -8,7 +8,7 @@
 function rendicontaConfig($module){
     
     global $adb;
-    $mapRendicontaConfig=array('respmodule'=>'','statusfield'=>'','processtemp'=>'');
+    $mapRendicontaConfig=array('respmodule'=>'','statusfield'=>'','processtemp'=>'','causalefield'=>'');
     $q_business_rule="Select businessrule,linktomap "
             . " from vtiger_businessrules"
             . " join vtiger_cbmap on vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid"
@@ -85,6 +85,37 @@ function pickFlow($pfid,$data){
     if($sequencer!=''){
        $response=doAction($sequencer,$data);
     }
+    return $response;
+}
+function pickFlowCausale($data){
+    
+    global $adb,$log;
+    $response=array();
+    $pfquery=$adb->pquery("SELECT pf.* ,pt.* 
+                    FROM vtiger_processflow AS pf
+                    JOIN vtiger_processtemplate AS pt ON pf.linktoprocesstemplate = pt.processtemplateid
+                    JOIN vtiger_crmentity AS c ON c.crmid = pt.processtemplateid 
+                    JOIN vtiger_crmentity AS c2 ON c2.crmid = pf.processflowid
+                    WHERE processtemplateid = ? AND starttasksubstatus =? 
+                    AND processflowcase=?
+                    AND c.deleted =0  AND c2.deleted =0",array($data['actual_processtemp'],$data['actual_substatus']
+                                                            ,$data['actual_causale']));
+    if($adb->num_rows($pfquery)>0){
+        $data['next_substatus']=$adb->query_result($pfquery,0,'end_subst');
+        updateStatusFld($data);
+        $sequencer=$adb->query_result($pfquery,0,'sequencer');
+        $mailer_action=$adb->query_result($pfquery,0,'mailer_action');
+        $data['tasksla']=$adb->query_result($pfquery,0,'tasksla');
+        $data['alertsettingmodel']=$adb->query_result($pfquery,0,'alertsettingmodel');
+
+        if($mailer_action!=''){
+           $response=doAction($mailer_action,$data);
+        }
+        if($sequencer!=''){
+           $response=doAction($sequencer,$data);
+        } 
+    }
+    
     return $response;
 }
 function doAction($actionid,$param){

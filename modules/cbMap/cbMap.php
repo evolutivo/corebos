@@ -666,11 +666,15 @@ class cbMap extends CRMEntity {
                 if($k=='processtemp'){
                    $processtemp=  (string)$v;
                 }
+                if($k=='causalefield'){
+                   $causalefield=  (string)$v;
+                }
                 
               }
            $target_fields['respmodule']=  $respmodule;
            $target_fields['statusfield']=  $statusfield;
            $target_fields['processtemp']=  $processtemp;
+           $target_fields['causalefield']=  $causalefield;
            
            return $target_fields;
        }
