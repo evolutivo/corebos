@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updatesChangeLog>
+<changeSet>
+	<author>Brisilda Munguli</author>
+	<description>Add mapid to logging conf BiServer</description>
+	<filename>build/changeSets/evolutivo/addFieldLoggingConf.php</filename>
+	<classname>addfieldtologgconf</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+</updatesChangeLog>

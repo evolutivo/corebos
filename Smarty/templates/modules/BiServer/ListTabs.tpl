@@ -29,19 +29,19 @@
         </div>
 </script>
 <script id="export_csv-template" type="text/x-kendo-template">
-   <a class="k-button k-button-icontext k-grid-export" href="\#" onclick="export_script();">Export</a>
+   <a class="k-button k-button-icontext k-grid-export" href="\#" onclick="export_script();">{$MOD.Export}</a>
 </script>
 
 <script id="execute-template" type="text/x-kendo-template">
-   <a class="k-button k-button-icontext k-grid-execute" href="\#" onclick="execute_script();">Execute</a>
+   <a class="k-button k-button-icontext k-grid-execute" href="\#" onclick="execute_script();">{$MOD.Execute}</a>
 </script>
 
 <script id="add-cron" type="text/x-kendo-template">
-   <a class="k-button k-button-icontext k-grid-addcron" href="\#" onclick="cron('add');">Add Cron</a>
+   <a class="k-button k-button-icontext k-grid-addcron" href="\#" onclick="cron('add');">{$MOD.Add_Cron}</a>
 </script>
 
 <script id="remove-cron" type="text/x-kendo-template">
-   <a class="k-button k-button-icontext k-grid-removecron" href="\#" onclick="cron('remove');">Remove Cron</a>
+   <a class="k-button k-button-icontext k-grid-removecron" href="\#" onclick="cron('remove');">{$MOD.Remove_Cron}</a>
 </script>
 <script id="execute-email" type="text/x-kendo-template">
    <a class="k-button k-button-icontext k-grid-email" href="\#" onclick="send_email_now();">Send Email Now</a>
@@ -147,7 +147,7 @@ function choose_fields(divId){
                 var res = response.split("$$");
                 jQuery("#count").val(res[1]);
                 jQuery("#"+divId).empty();
-                jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" name="allids" id="allids"  class="k-checkbox" onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allids">  Field List </label></b></td><td  width="30%"><b>Field labels</b></td><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidsanalyzed" id="allidsanalyzed"  onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allidsanalyzed"> Analyzed </label></b></td> </tr>');
+                jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" name="allids" id="allids"  class="k-checkbox" onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allids">  {/literal}{$MOD.fieldlist}{literal} </label></b></td><td  width="30%"><b>{/literal}{$MOD.fieldlabels}{literal}</b></td><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidsanalyzed" id="allidsanalyzed"  onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allidsanalyzed"> {/literal}{$MOD.analyzed}{literal} </label></b></td> </tr>');
                 jQuery("#"+divId).append(res[0]);
             }
         });
@@ -175,9 +175,9 @@ function showMapFields(id,type){
              jQuery("#"+count).val(res[1]);
              jQuery("#"+divId).empty();
              if(type !== "index")
-             jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidslogg" id="allidslogg"  onchange=\'checkvalues("'+divId+'",this.id)\'><label class="k-checkbox-label" for="allidslogg">  Field List </label></b></td><td  width="30%"><b>Field labels</b></td><td width="35%" ><b><input type="checkbox" class="k-checkbox" name="allidsanalyzedlogg" id="allidsanalyzedlogg"  onchange=\'checkvalues("'+divId+'",this.id)\'><label class="k-checkbox-label" for="allidsanalyzedlogg"> Analyzed </label></b></td></tr>');
+             jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidslogg" id="allidslogg"  onchange=\'checkvalues("'+divId+'",this.id)\'><label class="k-checkbox-label" for="allidslogg">  {/literal}{$MOD.fieldlist}{literal}</label></b></td><td  width="30%"><b>{/literal}{$MOD.fieldlabels}{literal}</b></td><td width="35%" ><b><input type="checkbox" class="k-checkbox" name="allidsanalyzedlogg" id="allidsanalyzedlogg"  onchange=\'checkvalues("'+divId+'",this.id)\'><label class="k-checkbox-label" for="allidsanalyzedlogg"> {/literal}{$MOD.analyzed}{literal} </label></b></td></tr>');
              else  
-              jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" name="allids" id="allids"  class="k-checkbox" onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allids">  Field List </label></b></td><td  width="30%"><b>Field labels</b></td><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidsanalyzed" id="allidsanalyzed"  onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allidsanalyzed"> Analyzed </label></b></td> </tr>');
+              jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" name="allids" id="allids"  class="k-checkbox" onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allids">  {/literal}{$MOD.fieldlist}{literal} </label></b></td><td  width="30%"><b>{/literal}{$MOD.fieldlabels}{literal}</b></td><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidsanalyzed" id="allidsanalyzed"  onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allidsanalyzed"> {/literal}{$MOD.analyzed}{literal} </label></b></td> </tr>');
              jQuery("#"+divId).append(res[0]);
             }
         });
@@ -366,7 +366,7 @@ jQuery(document).ready(function() {
                                  type: "POST",
                                  complete: function(e) {
                                  if(e.responseText==true)
-                                 {alert('Script is in cron,you can not delete without removing from cron !');
+                                 {alert('{/literal}{$MOD.deletecron}{literal}');
                                  jQuery("#scripts_security").data("kendoGrid").dataSource.read();}
                                  else{
 			         jQuery("#scripts_security").data("kendoGrid").dataSource.read();
@@ -418,7 +418,7 @@ jQuery(document).ready(function() {
                        filterable: true,
                        toolbar: ["create"],
                   columns: [
-                { field: "scriptid" , title:"Script Name",template:'#= name # ', width: "100px",
+                { field: "scriptid" , title:"{/literal}{$MOD.Script_Name}{literal}",template:'#= name # ', width: "100px",
                     editor:function(container, options) {
                                     jQuery('<input name="' + options.field + '"/>').appendTo(container).kendoDropDownList({
                                     dataSource:{
@@ -434,7 +434,7 @@ jQuery(document).ready(function() {
                                         autobind: false
                                      });
                               }},
-                { field: "roleid" , title:"Role" ,template:'#= rolename # ', width: "50px",
+                { field: "roleid" , title:"{/literal}{$MOD.role}{literal}" ,template:'#= rolename # ', width: "50px",
                     editor:function(container, options) {
                                     jQuery('<input name="' + options.field + '" />').appendTo(container).kendoDropDownList({
                                     dataSource:{
@@ -452,16 +452,16 @@ jQuery(document).ready(function() {
                               }},
                 { field: "export_scr" , title:"Export", width: "50px",
                     template:"<img  src= #= export_scr ? '"+check_yes+"' : '"+check_no+"' #  >"},
-                { field: "delete_scr" , title:"Delete", width: "50px",
+                { field: "delete_scr" , title:"{/literal}{$MOD.delete}{literal}", width: "50px",
                     template: "<img  src= #= delete_scr ? '"+check_yes+"' : '"+check_no+"' #  >"},
-                { field: "execute_scr" , title:"Execute", width: "50px",
+                { field: "execute_scr" , title:"{/literal}{$MOD.Execute}{literal}", width: "50px",
                     template: "<img  src= #= execute_scr ? '"+check_yes+"' : '"+check_no+"' #  >"},
                 { command: [ "edit","destroy"], title: " ", width: "100px"},
                 
                 ],
                  editable: {
                  mode:"popup",
-                 confirmation: "Are you sure you want to delete this"
+                 confirmation: "{/literal}{$MOD.are_sure}{literal}"
                  }
             });
             
@@ -488,7 +488,7 @@ jQuery(document).ready(function() {
                                  type: "POST",
                                  complete: function(e) {
                                  if(e.responseText==true)
-                                 {alert('Script is in cron,you can not delete without removing from cron !');
+                                 {alert('{/literal}{$MOD.deletecron}{literal}');
                                  jQuery("#scripts_email").data("kendoGrid").dataSource.read();}
                                  else
 			         jQuery("#scripts_email").data("kendoGrid").dataSource.read();
@@ -542,8 +542,8 @@ jQuery(document).ready(function() {
                        filterable: true,
                        toolbar: ["create"],
                   columns: [
-                  { field: "name" ,editable:false,editor:function(){}, title:"Script Name",template:'#= name # ', width: "70px"},
-                { field: "scriptid" ,hidden: true, title:"Script Name",template:'#= name # ', width: "65px",
+                  { field: "name" ,editable:false,editor:function(){}, title:"{/literal}{$MOD.Script_Name}{literal}",template:'#= name # ', width: "70px"},
+                { field: "scriptid" ,hidden: true, title:"{/literal}{$MOD.Script_Name}{literal}",template:'#= name # ', width: "65px",
                     editor:function(container, options) {
                                     jQuery('<input name="' + options.field + '"  style="width:300px;" />').appendTo(container).kendoDropDownList({
                                     dataSource:{
@@ -559,25 +559,25 @@ jQuery(document).ready(function() {
                                         autobind: false
                                      });
                               }},
-                { field: "time" , title:"Time" ,template:'#= time # ', width: "15px",editor:function(container, options){
+                { field: "time" , title:"{/literal}{$MOD.Time}{literal}" ,template:'#= time # ', width: "15px",editor:function(container, options){
                                     jQuery('<input class="k-input" type="text" style="width:300px;" data-bind="value: ' + options.field + '"/>').appendTo(container);
 
                                     }},
                // { field: "frecuency" , title:"Frecuency", width: "20px"},
-                { field: "last_execute" , title:"Last<br/> Execution", width: "20px"},
-                { field: "emails" , title:"Address", width: "50px",template:'#= emails_temp # ',editor:function(container, options){
+                { field: "last_execute" , title:"{/literal}{$MOD.last}{literal}", width: "20px"},
+                { field: "emails" , title:"{/literal}{$MOD.address}{literal}", width: "50px",template:'#= emails_temp # ',editor:function(container, options){
                                     jQuery('<input class="k-input" type="text" style="width:300px;" data-bind="value: ' + options.field + '"/>').appendTo(container);
                         }},
-                { field: "subject" , title:"Subject", width: "30px",editor:function(container, options){
+                { field: "subject" , title:"{/literal}{$MOD.subject}{literal}", width: "30px",editor:function(container, options){
                                     jQuery('<input class="k-input" type="text" style="width:300px;" data-bind="value: ' + options.field + '"/>').appendTo(container);
                           }},
-                { field: "cont" , title:"Content", width: "35px",editor:function(container, options){
+                { field: "cont" , title:"{/literal}{$MOD.Content}{literal}", width: "35px",editor:function(container, options){
                     jQuery('<textarea class="k-input" style="height:100px;width:300px;" data-bind="value: ' + options.field + '"></textarea>').appendTo(container);
                     }
                 },
-                { field: "zipped" , title:"Zipped", width: "15px",
+                { field: "zipped" , title:"{/literal}{$MOD.zipped}{literal}", width: "15px",
                     template: "<img  src= #= zipped ? '"+check_yes+"' : '"+check_no+"' #  >"},
-                { field: "execution_cron" , title:"Active", width: "15px",
+                { field: "execution_cron" , title:"{/literal}{$MOD.Active}{literal}", width: "15px",
                     template: "<img  src= #= execution_cron ? '"+check_yes+"' : '"+check_no+"' #  >"},
                 //{ command: [{ text: 'Send Mail Now', template: sendemail}], title: " ", width: "50px"},
                 { command: [ "edit","destroy"], title: " ", width: "50px"},
@@ -585,7 +585,7 @@ jQuery(document).ready(function() {
                 ],
                  editable: {
                  mode:"popup",
-                 confirmation: "Are you sure you want to delete this",
+                 confirmation: "{/literal}{$MOD.are_sure}{literal}",
                  width: '800px'
                  }
             });
@@ -658,12 +658,12 @@ jQuery(document).ready(function() {
 		success: function(response) {
                           //alert(response.responseText);
                           
-                          alert('Script executed successfully');
+                          alert('{/literal}{$MOD.success}{literal}');
                           VtigerJS_DialogBox.unblock();
                	}
                 }
             );}
-            else alert('You don\'t have permission to execute this script');
+            else alert('{/literal}{$MOD.permission}{literal}');
         }
         
        function export_script() {
@@ -684,12 +684,11 @@ jQuery(document).ready(function() {
                           var resp=response;
                           if(resp.indexOf("ERROR")!==-1)
                           {
-                              alert('The report does not exist.\n\
-Problem in creation');
+                              alert('{/literal}{$MOD.reportnotexist}{literal}');
                           }
                           else
                           {
-                          alert('Script exported successfully');
+                          alert('{/literal}{$MOD.exportsucc}{literal}');
                           //alert(response.responseText);
                           var uriContent=response;
                           var myWindow = window.open(uriContent,"_self");
@@ -701,7 +700,7 @@ Problem in creation');
                 }
             );
            }
-           else alert('You don\'t have permission to export this script');
+           else alert('{/literal}{$MOD.exportpermission}{literal}');
         }
         
        function cron(type) {
@@ -1024,16 +1023,16 @@ Problem in creation');
                                                 <br><br>
                                                 <center>
                                                  <input type="submit" name="button2" id="button2" style="margin-right: 60px;" class="k-button" value="{$MOD.CREATETABLE}" onclick="createSqlMv('reportTable');return false;">
-                                                 <input type="submit" name="createindex2" id="createindex2" style="margin-right: 60px;" class="k-button" value="{$MOD.CREATEINDEX2}" onclick="createElasticIndex(this.id);return false;">
+                                                 <input type="submit" name="createindex2" id="createindex2" style="margin-right: 60px;" class="k-button" value="{$MOD.CREATEINDEX}" onclick="createElasticIndex(this.id);return false;">
                                                 </center>
                                                     <div id="screated"> </div>
-                                                  <div id="dialog-message" title="Report created" style = "display:none">
+                                                  <div id="dialog-message" title="{$MOD.reportcreated}" style = "display:none">
                                                   <p>
                                                     <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
                                                    {$MOD.MSG_MV_CREATED}
                                                   </p>
                                                 </div>
-                                                 <div id="dialog-elasticindex" title="Report created" style = "display:none">
+                                                 <div id="dialog-elasticindex" title="{$MOD.indexcreated}" style = "display:none">
                                                   <p>
                                                     <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
                                                      {$MOD.MSG_INDEX_CREATED}
@@ -1077,7 +1076,7 @@ Problem in creation');
                                             <center>
                                          <input type="submit" name="createindex" id="createindex" style="margin-right: 60px;" class="k-button" value="{$MOD.CREATEINDEX}" onclick="createElasticIndex(this.id);return false;">
                                           </center>
-                                             <div id="dialog-elasticindex" title="Report created" style = "display:none">
+                                             <div id="dialog-elasticindex" title="{$MOD.indexcreated}" style = "display:none">
                                               <p>
                                                 <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
                                                  {$MOD.MSG_INDEX_CREATED}

@@ -418,7 +418,7 @@ if($mvtype == "report"){
         }
         insertElasticIndex($index,$lanbelsToInsert,$typreofindex);
         if($actionTodo == "createindex"){
-        updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields);
+        updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields,$mapid);
         }
   }
   else{
@@ -426,7 +426,7 @@ if($mvtype == "report"){
       if($actionTodo == "createindex"){
           //Update Elastic Tables
           updateElasticLabels($index,$lanbelsToInsert);
-          updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields);
+          updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields,$mapid);
           
           //Update Elastic Mapping
       }
@@ -458,9 +458,9 @@ if($mvtype == "report"){
       $adb->pquery("Update vtiger_elastic_indexes set fieldlabel = ? where id = ?",array($fields,$elasticId));
   }
   
-  function updateLoggingConf($index,$query,$elasticTabid,$mapFields){
+  function updateLoggingConf($index,$query,$elasticTabid,$mapFields,$mapid){
       global $adb;
-      $adb->pquery("Update vtiger_loggingconfiguration set indextype=?,queryelastic=? where  tabid =?",array($index,$query,$elasticTabid));   
+      $adb->pquery("Update vtiger_loggingconfiguration set indextype=?,queryelastic=?, mapid =? where  tabid =?",array($index,$query,$mapid,$elasticTabid));   
   }
   
   function getTabIdFromQuery($idfield){
