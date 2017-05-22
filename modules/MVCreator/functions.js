@@ -1094,6 +1094,7 @@ function SaveMap() {
                 if (!$.trim(msg)) {
                     alert("The map has been generated successfully");
                     if (box) box.remove();
+
                 }
                 else {
                     alert("The map has been generated successfully");
@@ -1116,6 +1117,7 @@ function SaveasMap() {
     var campiSelezionatiLabels = [];
     var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
+    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
     var optionsCombo = sel[0].innerHTML;
@@ -1146,6 +1148,7 @@ function SaveasMap() {
                 selField1: selField1,
                 selTab2: selTab2,
                 selField2: selField2,
+                SaveasMapTextImput: SaveasMapTextImput,
                 installationID: installationID,
                 html: optionsCombo,
                 campiSelezionati: campiSelezionati,

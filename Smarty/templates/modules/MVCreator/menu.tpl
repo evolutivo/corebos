@@ -62,7 +62,12 @@
            aria-controls="tab-default-2" id="tab-default-2__item"
            onclick="selectTab(this);LoadPickerMap();">{$MOD.LoadMap}</a>
     </li>
-
+    <li class="slds-tabs--default__item slds-text-heading--label" style="margin-left:50%;" title="Load  Map"
+        role="presentation">
+        <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false"
+           aria-controls="tab-default-2" id="tab-default-2__item"
+           onclick="closeView();"><img src="http://img.villaggiomusicale.com/avt_s/223942.jpg" alt="Close view" style="width:50px;height:42px;"></a>
+    </li>
     {*<li><a href="#tabs-2">{$MOD.GestioneViste}</a></li>*}
     {*<li><a href="index.php?module=MVCreator&action=MVCreatorAjax&file=createView&todo=createReportTable">{$MOD.CreateScriptReport}</a></li>*}
     {*<li><a href="index.php?module=MVCreator&action=MVCreatorAjax&file=createView&todo=createReportTable2">{$MOD.CreateScriptNameReport}</a></li>*}
@@ -96,3 +101,18 @@
 </div>
 
 </div>
+
+
+<script>
+
+    function  closeView() {
+        if (confirm('Are you sure you want to close this page')) {
+            location.reload();
+        } else {
+            // Do nothing!
+        }
+
+    }
+
+
+</script>
