@@ -74,17 +74,17 @@
                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
                                 <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
                             </svg>
-                            <span class="slds-assistive-text">Close</span>
+                            <span class="slds-assistive-text">{$MOD.close}</span>
                         </button>
-                        <h2 class="slds-text-heading--medium">Insert a name for map</h2>
+                        <h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
                     </div>
                     <div class="slds-modal__content slds-p-around--medium">
                         <div>
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-unique-id">
-                                    <abbr id="ErrorVAlues" class="slds-required" title="This imput is required">*</abbr>Required</label>
+                                    <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
                                 <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
-                                       class="slds-input" placeholder="Insert the name for map">
+                                       class="slds-input" placeholder="{$MOD.mapname}">
                                 <div class="slds-form-element__control">
 
                                 </div>
@@ -92,10 +92,10 @@
                         </div>
                     </div>
                     <div class="slds-modal__footer">
-                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">Cancel
+                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
                         </button>
                         <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
-                            Save
+                            {$MOD.save}
                         </button>
                     </div>
                 </div>
@@ -188,8 +188,7 @@
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>
                 <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + left click )
-                        multiple select</label>
+                    <label class="slds-form-element__label" for="select-01">{$MOD.selectlabel}</label>
                     <div class="slds-form-element__control">
                         {*{if !empty($Fields)}*}
                         {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
@@ -276,7 +275,7 @@
                 SaveasMap();
             }
             else {
-                $('#ErrorVAlues').text('You need to insert a name more 5 characters ');
+                $('#ErrorVAlues').text('{/literal}{$MOD.morefivechars}{literal}');
             }
         }
         function closeModalwithoutcheck() {
@@ -476,7 +475,6 @@
                 //console.log(idd+firmod+secmod);
                 var alerstdiv = alertsdiv(idd, firmod, secmod);
                 $('#AlertsAddDiv').append(alerstdiv);
-                //alert(JSONForCOndition[ii].idJSON);
             }
 
         }
@@ -493,7 +491,6 @@
 
         function closeAlertsAndremoveJoin(remuveid) {
 
-            alert(remuveid);
             var check = false;
             for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
                 if (ii == remuveid) {
@@ -507,7 +504,7 @@
                 $('#selectableFields option:selected').attr("selected", null);
             }
             else {
-                alert("This Condition not exist or something was wrong");
+                alert("{/literal}{$MOD.conditionwrong}{literal}");
             }
 
         }
@@ -516,7 +513,6 @@
         //function for first combo first module
         function GetFirstModuleCombo(selectObject) {
             var value = selectObject.value;
-            //alert(value);
             getSecModule(value);
             getFirstModuleFields(value);
         }

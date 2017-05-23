@@ -4,6 +4,7 @@
 <link type="text/css" href="modules/MVCreator/css/style.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css" rel="stylesheet"/>
+<script type="text/javascript" src="modules/MVCreator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MVCreator/functions.js"></script>
 {literal}
     <style>
@@ -62,7 +63,7 @@
            aria-controls="tab-default-2" id="tab-default-2__item"
            onclick="selectTab(this);LoadPickerMap();">{$MOD.LoadMap}</a>
     </li>
-    <li class="slds-tabs--default__item slds-text-heading--label" style="margin-left:50%;" title="Load  Map"
+    <li class="slds-tabs--default__item slds-text-heading--label" style="margin-left:30%;" title="{$MOD.exit}"
         role="presentation">
         <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false"
            aria-controls="tab-default-2" id="tab-default-2__item"

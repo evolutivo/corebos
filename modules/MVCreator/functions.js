@@ -27,7 +27,7 @@ function deleteLastJoin() {
 
     if (campiSelezionati.length === 0) {
 
-        alert("E' necessario inserire i campi!");
+        alert(mv_arr.inserirecampi);
 
 
     } else {
@@ -51,7 +51,7 @@ function deleteLastJoin() {
                     jQuery("#results").html(msg);
                 },
                 error: function () {
-                    alert("Chiamata fallita, si prega di riprovare...");
+                    alert(mv_arr.failedcall);
                 }
             });
         }
@@ -80,7 +80,7 @@ function addJoin(action) {
         campiSelezionati.push(jQuery(this).text());
     });
     if (campiSelezionati.length === 0) {
-        alert("E' necessario inserire i campi!");
+        alert(mv_arr.inserirecampi);
     } else {
         primaTab = document.getElementById('selTab1').value;
         secondaTab = document.getElementById('selTab2').value;
@@ -120,19 +120,19 @@ function addJoin(action) {
                             if (action == "join") jQuery("#results").html(msg);
                         },
                         error: function () {
-                            alert("Chiamata fallita, si prega di riprovare...");
+                            alert(mv_arr.failedcall);
                         }
                     });
                 }
                 else {
-                    alert("E' necessario inserire i campi per la condizione di Join!");
+                    alert(mv_arr.inserirecampi);
                 }
             }
             else {
-                alert("Il join deve essere fatto su due tabelle diverse!");
+                alert(mv_arr.differenttabs);
             }
         } else {
-            alert("Questo Join è già stato inserito");
+            alert(mv_arr.joininserted);
         }
     }
 }
@@ -212,7 +212,7 @@ function generateJoin() {
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
         // getFirstModule();
@@ -259,7 +259,7 @@ function generateScript() {
                 if (box) box.remove();
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
     }
@@ -288,11 +288,11 @@ function generateMap() {
         success: function (msg) {
             if (box) {
                 box.remove();
-                alert("La mappa viene generata");
+                alert(mv_arr.mapgenerated);
             }
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 }
@@ -318,7 +318,7 @@ function updateSel(id, field) {
             jQuery("#null").html(msg);
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -342,7 +342,7 @@ function creaVista() {
             jQuery("#results").html(msg);
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -447,12 +447,12 @@ function updateView() {
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
     }
     else {
-        alert("E' necessario selezionare una vista!");
+        alert(mv_arr.selectview);
     }
 }
 
@@ -471,12 +471,12 @@ function deleteView() {
                 jQuery("#textmessage").html(msg);
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
     }
     else {
-        alert("E' necessario selezionare una vista!");
+        alert(mv_arr.selectview);
     }
 }
 
@@ -559,7 +559,7 @@ function openMenuCreaView() {
 
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -696,7 +696,7 @@ function openMenuManage() {
 
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -757,20 +757,20 @@ function openMenuJoin() {
                         jQuery("#content").html(msg);
                     },
                     error: function () {
-                        alert("Chiamata fallita, si prega di riprovare...");
+                        alert(mv_arr.failedcall);
                     }
                 });
             }
             else {
-                alert("E' necessario selezionare almeno due tabelle!");
+                alert(mv_arr.atleasttwo);
             }
         }
         else {
-            alert("Inserire il nome della vista");
+            alert(mv_arr.addviewname);
         }
     }
     else {
-        alert("Il nome della vista scelto e' gia' stato utilizzato!");
+        alert(mv_arr.namealreadyused);
     }
 
 }
@@ -803,16 +803,16 @@ function openMenuJoin2() {
                     jQuery("#content").html(msg);
                 },
                 error: function () {
-                    alert("Chiamata fallita, si prega di riprovare...");
+                    alert(mv_arr.failedcall);
                 }
             });
         }
         else {
-            alert("Inserire il nome della vista");
+            alert(mv_arr.addviewname);
         }
     }
     else {
-        alert("Il nome della vista scelto e' gia' stato utilizzato!");
+        alert(mv_arr.namealreadyused);
     }
     getFirstModule();
     //getFirstModule("","");
@@ -835,7 +835,6 @@ function selDB(obj) {
 //        },
 //        error: function()
 //        {
-//            alert("Chiamata fallita, si prega di riprovare...");
 //        }
 //     });
 }
@@ -853,7 +852,7 @@ function selDBViews() {
 
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -884,7 +883,7 @@ function getFirstModule(selTab2, Mapid) {
 
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 
@@ -902,7 +901,7 @@ function dispalyModules() {
                 jQuery("#modscriptsel").selectmenu("refresh");
             },
             error: function () {
-                alert("error");
+                alert(mv_arr.error);
             }
         });
 // 
@@ -922,7 +921,7 @@ function getInstallationModules(dataItem) {
                 jQuery("#modscriptsel").selectmenu("refresh");
             },
             error: function () {
-                alert("error");
+                alert(mv_arr.error);
             }
         });
     }
@@ -954,7 +953,7 @@ function getSecModule(obj, Mapid) {
             jQuery("#secmodule").selectmenu("refresh");
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 }
@@ -970,7 +969,7 @@ function populateReport(reportSelectId) {
             jQuery("#" + reportSelectId).selectmenu("refresh");
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 }
@@ -1038,7 +1037,7 @@ function getSecModuleFields(obj, MapId) {
                 jQuery('#selField2').val(index);
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 
@@ -1092,19 +1091,19 @@ function SaveMap() {
             success: function (msg) {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
-                    alert("The map has been generated successfully");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
 
                 }
                 else {
-                    alert("The map has been generated successfully");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
                 //jQuery("#MapID").val(msg);if (box) box.remove();
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
         // getFirstModule(selTab2);
@@ -1160,18 +1159,18 @@ function SaveasMap() {
             success: function (msg) {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
-                    alert("The map has been generated successfully");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
                 else {
-                    alert("The map has been generated successfully");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
                 //jQuery("#MapID").val(msg); if (box) box.remove();
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
         getFirstModule(selTab2, MapID);
@@ -1191,7 +1190,7 @@ function LoadPickerMap() {
             jQuery("#GetALLMaps").selectmenu("refresh");
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 
@@ -1212,7 +1211,7 @@ function NextAndLoadFromMap() {
             jQuery("#LoadfromMapSecondStep").html(msg);
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
     getFirstModule("", SelectPicker);

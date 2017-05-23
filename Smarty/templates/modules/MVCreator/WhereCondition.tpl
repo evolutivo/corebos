@@ -237,14 +237,14 @@
         {rdelim}
 </script>
 <div id="accordion">
-    <h3>Query</h3>
+    <h3>{$MOD.Query}</h3>
     <div id="joinquery">
         <p id="generatedjoin">
             {$QUERY}
         </p>
         <p id="generatedConditions"></p>
     </div>
-    <h3>Conditions</h3>
+    <h3>{$MOD.conditions}</h3>
     <div id="queryfilters">
         <div style="overflow:auto;" id='where_filter_div' name='where_filter_div'>
             <article class="slds-card">
@@ -265,7 +265,7 @@
                     </div>
                     <div class="slds-no-flex">
                         <button class="slds-button slds-button--neutral" name="addwhereconditions"
-                                onClick="return validateCV();">Generate
+                                onClick="return validateCV();">{$MOD.generate}
                         </button>
                     </div>
                 </div>
@@ -510,7 +510,7 @@
                     if (box) box.remove();
                 },
                 error: function () {
-                    alert("Chiamata fallita, si prega di riprovare...");
+                    alert("{/literal}{$MOD.failedcall}{literal}");
                 }
             });
             return true;
