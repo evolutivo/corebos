@@ -79,6 +79,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $arr["$selTab1[$i]"]=strtolower($selTab1[$i]).'_0';
             $arr["$selTab2[$i]"]=strtolower($selTab2[$i]).'_'.$index;
             $maintab=strtolower($selTab1[$i]);
+            $selTabmain=$selTab1[$i];
             $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index,$arr));
             $selectquery='<b> SELECT </b>'.strtolower($selTab1[$i]).'_0.'. $primarySelectID . "," . substr($stringaFields2, 0, -2);
             $strQuery .= '<b> FROM </b>' . strtolower($selTab1[$i]) .' as '.strtolower($selTab1[$i]).'_0 join vtiger_crmentity CRM_'.strtolower($selTab1[$i]).'_0 on CRM_'.strtolower($selTab1[$i]).'_0.crmid='.strtolower($selTab1[$i]).'_0.'.$firsttblid.' <b>INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'_0.'. $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selField2[$i].' join vtiger_crmentity CRM_'.strtolower($selTab2[$i]).'_'.$index.' on CRM_'.strtolower($selTab2[$i]).'_'.$index.'.crmid='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid;
@@ -92,6 +93,10 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $index2=$index;
             $index++;
         } else {  
+            if($selTab1[$i]==$selTabmain)
+            {
+            $index2--;
+            }
             $arr["$selTab1[$i]"]=strtolower($selTab1[$i]).'_'.$index2;
             $arr["$selTab2[$i]"]=strtolower($selTab2[$i]).'_'.$index;
             $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index,$arr));
