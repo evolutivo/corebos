@@ -27,13 +27,12 @@ $mod_strings = Array(
     'choosew'=>'Workflow Module',
     'funct'=>'Group by',
     'cli'=>'Client',
-    'CreateView'=>'Create new view',
-    'GestioneViste'=>'Views Management',
+    'CreateView'=>'Create new query',
+    'GestioneViste'=>'Query Management',
     'CreateScriptReport'=>'Report script creation',
     'CreateScriptNameReport'=>'Create Name Report script',
     'CreazioneScriptFS'=>'FS script creation',
-    'MVCreator'=>'Creator of materialized views',
-    'NameView'=>'Name of view',
+    'NameView'=>'Name of query',
     'CreateJoinCondition'=>'Join Conditions',
     'AddJoin'=>'Add Join',
     'DeleteLastJoin'=>"Delete the last Join",
@@ -59,7 +58,19 @@ $mod_strings = Array(
     "LoadMap"=>'Load Map',
     "ChoseMapTXT"=>'Choose a map to continue',
     "OptionsText"=>'Generate From XML',
+    'conditionwrong'=>'This condition is wrong or something went wrong',
+    'failedcall'=>'Call failed please retry...',
+    'addviewname'=>'Insert query name',
+    'mapname'=>'Insert map name',
+    'close'=>'Close',
+    'required'=>'Required',
+    'requiredstring'=>'This field is required',
+    'cancel'=>'Cancel',
+    'save'=>'Save',
+    'morefivechars'=>'You need a more than 5 characters name',
+    'selectlabel'=>'Select Label (use ctrl + left click ) multiple select',
+    'generate'=>'Generate',
+    'conditions'=>'Conditions',
+    'exit'=>'Exit'
 );
-
-
-//?>
+?>

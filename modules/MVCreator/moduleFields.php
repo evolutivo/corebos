@@ -8,7 +8,7 @@ global $log,$adb;
 
 include 'XmlContent.php';
 
-$FieldsArray=array();//"edmondi" . $_POST['MapID'];
+$FieldsArray=array();
 if (isset($_REQUEST['MapId'])) {
     $mapid = $_REQUEST['MapId'];
 
@@ -391,14 +391,6 @@ else{
         return $OPTION_SET;
     }
 }
-//echo "jashte kushtit ska mapid";
-//foreach ($FieldsArray as $item ){
-//    echo $item->fieldname."<br>";
-//}
-//
-//exit();
-
-
 
 $rec=$_REQUEST['installationID'];
 /* $ai=$adb->query("select * from vtiger_accountinstallation join vtiger_crmentity on crmid=accountinstallationid

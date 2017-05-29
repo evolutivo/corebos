@@ -11,5 +11,6 @@ require_once ('data/Tracker.php');
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
+$smarty->assign("currlang",$current_language);
 $smarty->display('modules/MVCreator/MVCreator.tpl');
 ?>

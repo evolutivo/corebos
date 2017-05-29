@@ -8,7 +8,7 @@
 <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.NameView}:</h3></div>
 {*<div class='allinea' type='text' id='nameViewDiv'><input id='nameView' name='nameView'></div>*}
 <div class="slds-form-element__control allinea" id='nameViewDiv'>
-    <input type="text" id="nameView" class="slds-input" name='nameView' placeholder="Inserire nome della vista" />
+    <input type="text" id="nameView" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />
   </div>
 </div>
 </center>
