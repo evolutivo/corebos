@@ -27,14 +27,24 @@
             {/foreach}
         </table>
     </div>
-</td>{else}
-<div class="detailview_utils_table_tab detailview_utils_table_tab_selected detailview_utils_table_tab_selected_top">
-{if $smarty.request.ng_tab neq ''}
-{$detail.tab_name}
+</td>
 {else}
-<a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&ng_tab={$header}">{$detail.tab_name}</a>
-{/if}
-</div>
+    {if $smarty.request.ng_tab eq $header}
+        <div class="detailview_utils_table_tab detailview_utils_table_tab_selected detailview_utils_table_tab_selected_top">
+            {$detail.tab_name}
+    {else}
+        <div class="detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_top" onmouseout="fnHideDrop('More_Information_{$header}');" onmouseover="fnDropDown(this,'More_Information_{$header}');">
+            <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&ng_tab={$header}">{$detail.tab_name}</a>
+            <div onmouseover="fnShowDrop('More_Information_{$header}')" onmouseout="fnHideDrop('More_Information_{$header}')"
+                 id="More_Information_{$header}" class="drop_mnu" style="left: 502px; top: 76px; display: none;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    {foreach key=_RELATION_ID item=_RELATED_MODULE from=$detail.items}
+                        <tr><td><a class="drop_down" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&selected_header={$_RELATED_MODULE.relatedmodule}&relation_id={$_RELATED_MODULE.id}&ng_tab={$header}">{$_RELATED_MODULE.name}</a></td></tr>
+                    {/foreach}
+                </table>
+            </div>
+    {/if}
+    </div>
 {/if}
 {/foreach}
 <!-- PUBLIC CONTENTS STOPS-->
