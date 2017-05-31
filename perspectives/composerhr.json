@@ -1,0 +1,46 @@
+{ "name": "evolutivo/evolutivocore",
+"description":"try to install query buider",
+"license": "MIT",
+ "repositories": [
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/composerinstall/"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/personalskills"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/candidates"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/jobdescription"
+  },
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/jobtraining"
+  },  
+   {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/skills"
+  },
+  {
+            "packagist": false
+  }
+  ],
+
+  "require": {
+    "evolutivo/composerinstall": "dev-master",
+    "evolutivo/personalskills": "dev-master",
+    "evolutivo/candidates": "dev-master",
+    "evolutivo/jobdescription": "dev-master",
+    "evolutivo/jobtraining": "dev-master",
+    "evolutivo/skills": "dev-master"
+  },
+    "scripts": {
+    "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
+    "post-update-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageUpdate"
+  }
+}
