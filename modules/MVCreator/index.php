@@ -8,6 +8,7 @@ require_once('include/database/PearDatabase.php');
 //require_once('database/DatabaseConnection.php');
 require_once ('include/CustomFieldUtil.php');
 require_once ('data/Tracker.php');
+coreBOS_Session::set('selectedfields','');
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);

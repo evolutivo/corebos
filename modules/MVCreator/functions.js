@@ -141,6 +141,17 @@ function selectHtml() {
     var sel = jQuery('#selectableFields');
     return sel[0].innerHTML;
 }
+function emptycombo(){
+    var select = document.getElementById("selectableFields");
+    var length = select.options.length;
+    var j=0;
+    while(select.options.length!=0){
+    for (var i1 = 0; i1 < length; i1++) {
+        select.options[i1] = null;
+    }
+}
+}
+
 function generateJoin() {
     var JoinOptgroupWithValue = [];
     $('#selectableFields').find("option:selected").each(function () {
@@ -216,7 +227,7 @@ function generateJoin() {
             }
         });
         // getFirstModule();
-    }
+    emptycombo(); }
 }
 /*
  * Invia i dati delle <section> relative alle tabelle actions/dataUpadate.php,
