@@ -98,12 +98,12 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
                 $strQuery .= ' <b> INNER join </b> vtiger_accountshipads as vtiger_accountshipads_'.$index.' <b> ON </b>  vtiger_account_'.$index.'.accountid=vtiger_accountshipads_'.$index.'.accountaddressid';
                 $acc =$acc+ 1;
             }
-            if ($selTab2[$i] == "vtiger_contactdetails" && $cont == 0) {
+            if (($selTab2[$i] == "vtiger_contactdetails" || $selTab1[$i] == "vtiger_contactdetails" ) && $cont == 0) {
                 $strQuery .= ' <b> INNER JOIN </b> vtiger_contactaddress as vtiger_contactaddress_'.$index.' <b> ON </b>  vtiger_contactdetails_'.$index.'.contactid=vtiger_contactaddress_'.$index.'.contactaddressid';
                 $strQuery .= '<b>  INNER JOIN </b> vtiger_contactsubdetails as vtiger_contactsubdetails_'.$index.' <b> ON </b>  vtiger_contactdetails_'.$index.'.contactid=vtiger_contactsubdetails_'.$index.'.contactsubscriptionid';
                 $cont =$cont+ 1;
             }
-            if ($selTab2[$i] == "vtiger_leaddetails" && $lead == 0) {
+            if (($selTab2[$i] == "vtiger_leaddetails" || $selTab1[$i] == "vtiger_leaddetails" ) && $lead == 0) {
                 $strQuery .= ' <b> INNER JOIN </b>vtiger_leadaddress as vtiger_leadaddress_'.$index.' <b> ON </b>  vtiger_leaddetails_'.$index.'.leadid=vtiger_leadaddress_'.$index.'.leadaddressid';
                 $strQuery .= '<b>  INNER JOIN </b>vtiger_leadsubdetails as vtiger_leadsubdetails_'.$index.' <b> ON </b>  vtiger_leaddetails_'.$index.'.leadid=vtiger_leadsubdetails_'.$index.'.leadsubscriptionid';
                 $lead =$lead+ 1;

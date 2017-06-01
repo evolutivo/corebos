@@ -1059,17 +1059,17 @@ function getSecModuleFields(obj, MapId) {
 function SaveMap() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-    var sel = jQuery('#selectableFields');
+    //var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
-    var optionsCombo = sel[0].innerHTML;
-    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-        opt = sel[0].options[i];
-        if (opt.selected)
-            campiSelezionati.push(opt.value);
-    }
-    if (campiSelezionati.length != 0) {
+//    var optionsCombo = sel[0].innerHTML;
+//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
+//        opt = sel[0].options[i];
+//        if (opt.selected)
+//            campiSelezionati.push(opt.value);
+//    }
+//    if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
         selField1.push(primoCampo);
@@ -1092,8 +1092,8 @@ function SaveMap() {
                 selTab2: selTab2,
                 selField2: selField2,
                 installationID: installationID,
-                html: optionsCombo,
-                campiSelezionati: campiSelezionati,
+            //    html: optionsCombo,
+             //   campiSelezionati: campiSelezionati,
                 nameView: nameView,
                 QueryGenerate: querygenerate + querygeneratecondition,
                 MapId: MapID
@@ -1118,25 +1118,25 @@ function SaveMap() {
             }
         });
         // getFirstModule(selTab2);
-    }
+    //}
 }
 
 // function to send value for create new  map
 function SaveasMap() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-    var sel = jQuery('#selectableFields');
+   // var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
     var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
-    var optionsCombo = sel[0].innerHTML;
-    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-        opt = sel[0].options[i];
-        if (opt.selected)
-            campiSelezionati.push(opt.value);
-    }
-    if (campiSelezionati.length != 0) {
+//    var optionsCombo = sel[0].innerHTML;
+//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
+//        opt = sel[0].options[i];
+//        if (opt.selected)
+//            campiSelezionati.push(opt.value);
+//    }
+//    if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
         selField1.push(primoCampo);
@@ -1160,8 +1160,8 @@ function SaveasMap() {
                 selField2: selField2,
                 SaveasMapTextImput: SaveasMapTextImput,
                 installationID: installationID,
-                html: optionsCombo,
-                campiSelezionati: campiSelezionati,
+               // html: optionsCombo,
+      //          campiSelezionati: campiSelezionati,
                 nameView: nameView,
                 QueryGenerate: querygenerate + querygeneratecondition
 
@@ -1185,7 +1185,7 @@ function SaveasMap() {
             }
         });
         getFirstModule(selTab2, MapID);
-    }
+    //}
 }
 
 //this function load a combo with all maps
