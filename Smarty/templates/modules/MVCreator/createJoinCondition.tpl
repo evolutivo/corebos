@@ -22,7 +22,7 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
-            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="generateJoin(); openalertsJoin();"
+            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
             <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
@@ -45,6 +45,9 @@
         </ul>
 
     </div>
+   <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:70px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
+   <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
+   </select><br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="hide('userorgroup');generateJoin(); openalertsJoin();"></center></div>               
     {*
     <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">

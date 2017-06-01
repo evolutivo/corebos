@@ -71,6 +71,7 @@ $mod_strings = Array(
     'selectlabel'=>'Select Label (use ctrl + left click ) multiple select',
     'generate'=>'Generate',
     'conditions'=>'Conditions',
-    'exit'=>'Exit'
+    'exit'=>'Exit',
+    'addjoin'=>'Add Join Smownerid'
 );
 ?>

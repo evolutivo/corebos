@@ -71,6 +71,7 @@ $mod_strings = Array(
     'selectlabel'=>'Seleziona etichetta (usa ctrl + left click) per selezione multipla',
     'generate'=>'Genera',
     'conditions'=>'Condizioni',
-    'exit'=>'Esci'
+    'exit'=>'Esci',
+    'addjoin'=>'Aggiungi Join Smownerid'
 );
 ?>

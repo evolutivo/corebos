@@ -151,7 +151,25 @@ function emptycombo(){
     }
 }
 }
-
+function posLay(obj,Lay){
+	var tagName = document.getElementById(Lay);
+	var leftSide = findPosX(obj);
+	var topSide = findPosY(obj)-200;
+	var maxW = tagName.style.width;
+	var widthM = maxW.substring(0,maxW.length-2);
+	var getVal = eval(leftSide) + eval(widthM);
+	if(getVal > document.body.clientWidth ){
+		leftSide = eval(leftSide) - eval(widthM);
+		tagName.style.left = leftSide + 'px';
+	}
+	else
+		tagName.style.left= leftSide + 'px';
+	tagName.style.top= topSide + 'px';
+}
+function showform(form){
+    fnvshobj(form,'userorgroup');
+    posLay(form, "userorgroup");
+}
 function generateJoin() {
     var JoinOptgroupWithValue = [];
     $('#selectableFields').find("option:selected").each(function () {
@@ -170,7 +188,7 @@ function generateJoin() {
     var campiSelezionatiLabels = [];
     var valuei = [];
     var texti = [];
-
+    var userorgroup=document.getElementById('usergroup').value;
     var sel = document.getElementById("selectableFields");
     for (var i = 0; i < sel.options.length; i++) {
         if (sel.options[i].selected == true) {
@@ -211,6 +229,7 @@ function generateJoin() {
                 installationID: installationID,
                 JoinOV: JoinOptgroupWithValue,
                 Valueli:valuei,
+                userorgroup:userorgroup,
                // Texti:texti,
                 campiSelezionati: campiSelezionati,
                 nameView: nameView
