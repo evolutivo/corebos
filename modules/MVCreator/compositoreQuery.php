@@ -84,6 +84,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $maintab=strtolower($selTab1[$i]);
             $selTabmain=$selTab1[$i];
             $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index,$arr,$maintab));
+            $strf=substr($stringaFields2, 0, -2);
             if($usergroup=='user')
             {
             $qjoin=' JOIN vtiger_users User_'.strtolower($selTab1[$i]).'_0 on User_'.strtolower($selTab1[$i]).'_0.id=CRM_'.strtolower($selTab1[$i]).'_0.smownerid ';
@@ -133,6 +134,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $arr["$selTab1[$i]"]=strtolower($selTab1[$i]).'_'.$index2;
             $arr["$selTab2[$i]"]=strtolower($selTab2[$i]).'_'.$index;
             $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index,$arr, $maintab));
+            $strf2=substr($stringaFields2, 0, -2);
             if($usergroup=='user')
             {
             $qjoin1=' JOIN vtiger_users User_'.$selTab2[$i].'_'.$index.' on User_'.$selTab2[$i].'_'.$index.'.id=CRM_'.$selTab2[$i].'_'.$index.'.smownerid ';

@@ -170,7 +170,7 @@ function showform(form){
     fnvshobj(form,'userorgroup');
     posLay(form, "userorgroup");
 }
-function generateJoin() {
+function generateJoin(SelectedValue="",History=0) {
     var JoinOptgroupWithValue = [];
     $('#selectableFields').find("option:selected").each(function () {
         //optgroup label
@@ -231,12 +231,16 @@ function generateJoin() {
                 Valueli:valuei,
                 userorgroup:userorgroup,
                // Texti:texti,
-                campiSelezionati: campiSelezionati,
+                campiSelezionati:SelectedValue.length!=0 ? SelectedValue : campiSelezionati,
                 nameView: nameView
             },
             dataType: "html",
             success: function (msg) {
                 document.getElementById('results').innerHTML = "";
+                if (History==1) 
+                 {
+                     document.getElementById('generatedjoin').innerHTML = "";
+                 }
                 jQuery("#results").html(msg);
                 if (box) box.remove();
 
@@ -253,7 +257,14 @@ function generateJoin() {
  * dove poi ci saranno delle funzioni che inseriranno tutti i campi delle
  * rispettive tabelle nei rispettivi <section> per i campi.
  */
-
+function empty_element(elementByID){
+      $(elementByID).html("");
+ }
+ 
+ function newValue_element(elementByID,valueinsert){
+     $(elementByID).html("");
+      $(elementByID).html(valueinsert);
+  }
 function generateScript() {
     var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
     var campiSelezionati = [];
