@@ -8,10 +8,6 @@
   },
     {
     "type": "vcs",
-    "url": "https://bitbucket.org/evolutivo/cbperspectivecs/"
-  },
-    {
-    "type": "vcs",
     "url": "https://bitbucket.org/evolutivo/cbperspectivecstelemarketing/"
   },
 
@@ -23,7 +19,6 @@
 
   "require": {
     "evolutivo/composerinstall": "dev-master",
-    "evolutivo/cbperspectivecs": "dev-master",
     "evolutivo/cbperspectivecstelemarketing": "dev-master"
   },
     "scripts": {
