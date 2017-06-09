@@ -13,15 +13,10 @@
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
-include "modules/MVCreator/dbclass.php";
-$db=$_POST['nameDb'];
-$selTab='';
-$connect = new MysqlClass();
-$connect->connetti($db);
-$tabella=$connect->getTableList($db);
-$connect->disconnettiMysql();
-for($i=0;$i<count($tabella);$i++){ 
-    $selTab=$selTab."<li><label for=".$tabella[$i]."><input type='checkbox' name='myCheck[]' id='myCheck' value='".$tabella[$i]."' class='checkbox'>".$tabella[$i]."</label></li>";      
-}
-echo $selTab;
-?>
+$data=json_decode($_POST['fields']);
+$queryid=$_POST['queryid'];
+global $adb;
+$q=$adb->query("select sequence from mvqueryhistory where id='$queryid' order by sequence DESC Limit 1");
+$seq=$adb->query_result($q,0,0)+1;
+$adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->ValuesParagraf,$seq));
+echo 'ok';

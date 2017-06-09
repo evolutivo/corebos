@@ -229,7 +229,8 @@
                     {*{if !empty($FirstSecModule)}*}
                     {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
                     {*{else}*}
-                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">                    
+                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
                     {*{/if}*}
 
 
@@ -484,6 +485,14 @@
                 // selectedfields: JSONARRAY,
                 //selectedfields: {JSONARRAY}
             });
+            jQuery.ajax({
+				type : 'POST',
+				data : {'fields':JSON.stringify(JSONForCOndition),'queryid':document.getElementById('queryid').value},
+				url : "index.php?module=MVCreator&action=MVCreatorAjax&file=savequeryhistory"
+			}).done(function(msg) {
+                        
+                        }
+                        );
              console.log(JSONForCOndition);
         }
 
