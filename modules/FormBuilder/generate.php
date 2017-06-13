@@ -70,7 +70,7 @@ function InsertFormExt($mv){
     if($mv->type=='TypeForm' || $mv->type=='Kibi'){ 
         $adb->pquery("INSERT INTO dashboardbuilder_entities(name,entity,entityname,index_type) "
             . " VALUES(?,?,?,?)", 
-            array($name,$mv->type, $mv->elastic_name,'denorm'));
+            array($name,$mv->type, $mv->modules[0]->elastic_name,'denorm'));
     }
     else{
         for($i=0;$i<sizeof($mv->modules);$i++){
