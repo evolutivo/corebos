@@ -105,7 +105,7 @@ function UpdateFormExt($mv){
                 . " where name <> ?", 
                 array($mv->name));
     }
-    if($mv->type=='TypeForm'){ 
+    if($mv->type=='TypeForm' || $mv->type=='Kibi'){ 
         if(empty($mv->modules[0]->dsid)){
             $adb->pquery("INSERT INTO dashboardbuilder_entities(name,entity,entityname,index_type) "
                 . " VALUES(?,?,?,?)", 
@@ -118,14 +118,6 @@ function UpdateFormExt($mv){
                 . " where dsid=?", 
                 array($mv->type, $mv->modules[0]->elastic_name,'denorm',$mv->modules[0]->dsid));
         }
-    }
-    elseif($mv->type=='Kibi'){ 
-            $adb->pquery("Update dashboardbuilder_entities"
-                    . " set entity=?,"
-                    . " entityname=?,"
-                    . " index_type=? "
-                . " where dsid=?", 
-                array($mv->type, $mv->elastic_name,'denorm',$mv->modules[0]->dsid));
     }
     else{
         for($i=0;$i<sizeof($mv->modules);$i++){
