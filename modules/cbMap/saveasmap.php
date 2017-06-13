@@ -27,7 +27,7 @@ $selField2 = $_POST['selField2'];//stringa con tutti i campi scelti in selField1
 $nameview = $_POST['nameView'];//nome della vista
 $MapID = $_POST['MapId'];
 $QueryGenerate=$_POST['QueryGenerate'];
-
+$queryid = $_REQUEST['queryid'];
 $dd=str_replace("SELECT","",$QueryGenerate);
 $withoutselect="\"".$dd."\"";
 $onlyselect=explode("FROM",$withoutselect);
@@ -141,6 +141,7 @@ if (empty($_POST["MapId"])){
     $focust->column_fields['assigned_user_id'] = 1;
     $focust->column_fields['mapname'] = $SaveasMapTextImput;
     $focust->column_fields['content']=$QueryGenerate;
+    $focust->column_fields['mvqueryid']=$queryid;
     $focust->column_fields['description'] = $xml->saveXML();
     $focust->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
     $focust->column_fields['maptype'] = "SQL";

@@ -899,12 +899,12 @@ function selDBViews() {
 
 }
 
-function getFirstModule(selTab2, Mapid) {
+function getFirstModule(selTab2, Mapid, queryid) {
     if (Mapid === undefined) {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID;
     }
     else {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID + '&MapID=' + Mapid;//+'&MapID=' + Mapid;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID + '&MapID=' + Mapid + '&queryid=' +queryid;//+'&MapID=' + Mapid;
     }
     jQuery.ajax({
         type: "POST",
@@ -916,8 +916,8 @@ function getFirstModule(selTab2, Mapid) {
                 jQuery('#mod').html('<option value="None">None</option>' + msg);
                 var SelectPicker = $("#mod").val();
                 if (Mapid != undefined) {
-                    getSecModule(SelectPicker, Mapid);
-                     getFirstModuleFields(SelectPicker, Mapid);
+                    getSecModule(SelectPicker, Mapid,queryid);
+                     getFirstModuleFields(SelectPicker, Mapid,queryid);
                 }
                 jQuery("#mod").selectmenu("refresh");
             }
@@ -971,12 +971,12 @@ function getInstallationModules(dataItem) {
     }
 }
 
-function getSecModule(obj, Mapid) {
+function getSecModule(obj, Mapid, queryid) {
     var v = obj;
     firstModule = obj;
     // var MapIDtext = $('#MapID').val();
     if (Mapid != undefined) {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + Mapid + "&installationID=" + installationID;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + Mapid + "&installationID=" + installationID + "&queryid="+queryid;
     } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&installationID=" + installationID;
     }
@@ -989,7 +989,7 @@ function getSecModule(obj, Mapid) {
             jQuery('#secmodule').html('<option value="None">None</option>' + str);
             var SelectPicker = $("#secmodule").val();
             if (Mapid != undefined) {
-                getSecModuleFields(SelectPicker,Mapid);
+                getSecModuleFields(SelectPicker,Mapid,queryid);
             }
             jQuery("#secmodule").selectmenu("refresh");
         },
@@ -1015,10 +1015,10 @@ function populateReport(reportSelectId) {
     });
 }
 
-function getFirstModuleFields(obj, Mapid) {
+function getFirstModuleFields(obj, Mapid, queryid) {
     var v = obj;
     if (Mapid != undefined) {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID + "&MapId=" + Mapid;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID + "&MapId=" + Mapid+ "&queryid="+queryid;
     } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID;
     }
@@ -1108,7 +1108,7 @@ function SaveMap() {
         selTab2.push(secModule);
         nameView = (document.getElementById('nameView').value);
         // url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
-        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap&queryid="+document.getElementById('queryid').value;
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
         jQuery.ajax({
             type: "POST",
@@ -1242,10 +1242,11 @@ function LoadPickerMap() {
 function NextAndLoadFromMap() {
     jQuery("#LoadfromMapFirstStep").hide();
     var SelectPicker = $("#GetALLMaps").val();
+    var mapid=SelectPicker.split("##");
     jQuery.ajax({
         type: "POST",
         url: "index.php?module=MVCreator&action=MVCreatorAjax&file=creazioneCondizioniJoin",
-        data: "MapID=" + SelectPicker,
+        data: "MapID=" + mapid[0]+"&queryid="+mapid[1],
         dataType: "html",
         async: false,
         success: function (msg) {
@@ -1255,7 +1256,7 @@ function NextAndLoadFromMap() {
             alert(mv_arr.failedcall);
         }
     });
-    getFirstModule("", SelectPicker);
+    getFirstModule("", mapid[0],mapid[1]);
 
 
 }

@@ -1653,4 +1653,11 @@
 	<classname>addquerytable</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>add map field for mvquery</description>
+	<filename>build/changeSets/evolutivo/addfieldformvquery.php</filename>
+	<classname>addfieldformvquery</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

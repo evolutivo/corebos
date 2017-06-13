@@ -17,7 +17,11 @@ $MapId = "";
 if (isset($_POST['MapID'])) {
     $MapId = $_POST['MapID'];
 }
-
+if(isset($_POST['queryid'])){
+$queryid=$_POST['queryid'];   
+}
+else 
+$queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
 //echo "<h2>".$MapId."</h2>";
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme,$adb,$root_directory,$current_user;
 $theme_path="themes/".$theme."/";
@@ -32,7 +36,6 @@ $smarty = new vtigerCRM_Smarty();
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("MapID", $MapId);
-$queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
 $smarty->assign("queryid", $queryid);
 $output = $smarty->fetch('modules/MVCreator/createJoinCondition.tpl');
 echo $output;

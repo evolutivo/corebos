@@ -16,15 +16,16 @@
 if(isset($_REQUEST['Filter']) ){
     $SQL=$_POST['Filter'];
    // echo "".$SQL;
-    $query="SELECT cb.*,cr.* FROM `vtiger_cbmap` cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 AND  maptype='$SQL'";
+    $query="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 AND  maptype='$SQL'";
     $result = $adb->query($query);
     $num_rows=$adb->num_rows($result);
     if($num_rows!=0){
         for($i=1;$i<=$num_rows;$i++)
         {
             $MapID = $adb->query_result($result,$i-1,'cbmapid');
+            $queryid = $adb->query_result($result,$i-1,'mvqueryid');
             $MapName = $adb->query_result($result,$i-1,'mapname');
-            $a.='<option value="'.$MapID.'">'.$MapName.'</option>';
+            $a.='<option value="'.$MapID.'##'.$queryid.'">'.$MapName.'</option>';
         }
     }
     echo $a;
