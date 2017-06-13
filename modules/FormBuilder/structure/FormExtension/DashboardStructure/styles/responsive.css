@@ -1,0 +1,310 @@
+/* Login Page Design
+================================================== */
+
+#wrapp-login-page {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url(../images/main_bg_login.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#main-login-form {
+	width:80%;
+	max-width:800px;
+	margin: 0 auto;
+	margin-top:5%;
+}
+
+#main-login-form .main-logo {
+  width: 100%;
+  max-width: 800px;
+  height: 50px;
+}
+#main-login-form .main-logo img {
+  width: 100%;
+  max-width: 239px;
+  height: auto;
+}
+
+#main-login-form .left-photo-login {
+	float:left;
+	width:48%;
+	max-width:390px;
+	height:350px;
+	border:2px solid #fff;
+	background: url(../images/login-keyboard.jpg) no-repeat top center;
+  
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+
+-webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.40);
+-moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.40);
+box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.40);
+}
+
+#main-login-form .form-login {
+	float: right;
+	width:50%;
+	max-width:400px;
+	min-height:350px;
+	background: #fff;
+	border:2px solid #fff;
+  
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+
+-webkit-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.40);
+-moz-box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.40);
+box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.40);
+}
+
+#main-login-form .form-login .alert {
+	margin-left:20px;
+	margin-right:20px;
+}
+
+.form-login .header-form {
+	background:#dfdfdf; 
+	height:60px;
+	padding:15px;
+}
+
+#main-login-form .form-group {
+  margin-bottom: 20px;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+#main-login-form form label {
+  display: none;
+}
+
+#main-login-form input.form-control {
+  border-radius: 0px!important;
+  height: 45px!important;
+  line-height:45px!important;
+  border-top:none!important;
+  border-left:none!important;
+  border-right:none!important;
+  border-bottom:1px solid #ccc;
+  outline:none!important;
+  padding: 6px 12px;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  
+    -webkit-box-shadow: inset 0px 0px rgba(0,0,0,.075);
+    box-shadow: inset 0 0px 0px rgba(0,0,0,.075);
+}
+
+#main-login-form input.form-control:focus {
+  border-bottom: 1px solid #f78f1e;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+#main-login-form input.username {
+	padding-left:30px;
+	background: url(../images/emaili-login-icon.png) no-repeat left center;
+}
+
+#main-login-form input.password {
+	padding-left:30px;
+	background: url(../images/password-login-icon.png) no-repeat left center;
+}
+
+#main-login-form .form-submit-login {
+  padding-left:20px;
+  padding-right:20px;
+}
+
+#main-login-form .btn.btn-primary {
+  color: #fff;
+  background-color: #f78f1e;
+  border-color: none;
+  padding: 15px 12px;
+  margin-bottom: 0;
+  margin-top: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 0px;
+  font-family: 'Open Sans', "Helvetica", Arial;
+  -webkit-font-smoothing: antialiased;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+#main-login-form .btn.btn-primary:hover {
+  color: #fff;
+  background-color: #919295;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+#main-login-form .sign-up {
+	line-height:70px;
+	height:70px;
+	padding-right:20px;
+	text-align:right;
+	width: 100%;
+    display: inline-block;
+	font-size:14px;
+	color:#333;
+}
+
+#main-login-form .sign-up:hover {
+	text-decoration:underline;
+}
+
+#main-login-form .sign-up span{
+	height:50px;
+	font-size:14px;
+	padding-left:10px;
+	background:#eee;
+}
+
+#wrapp-login-page .footer-login {
+	min-height:40px;
+	padding-top:10px;
+	padding-bottom:10px;
+	width:100%;
+	position:fixed;
+	left:0;
+	right:0;
+	bottom:5%;
+	background:rgba(255,255,255,0.7);
+}
+
+#wrapp-login-page .footer-login .logos {
+	width:80%;
+	max-width:800px;
+	margin: 0 auto;
+	text-align:center;
+}
+
+#wrapp-login-page .footer-login .logos img {
+	display:inline-block;
+	max-height:50px;
+	text-align:center;
+	margin-left:7px;
+	margin-right:7px;
+}
+
+/* End of Login Page Design------------------------------------------ */
+
+
+/* MObile Menu
+================================================== */
+
+
+/* Smaller Then Desktop
+================================================== */
+
+@media only screen and (max-width: 959px) {}
+
+/* Tablet (Portrait)
+================================================== */
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {}
+
+/* Mobile (Portrait & Landscape)
+================================================== */
+
+@media only screen and (max-width: 767px) {
+  .ng-scope {
+    width: 80%;
+    margin-left: 0px;
+    margin-top: 50px;
+    margin: 0 auto;
+  }
+  #topHeader #profileWrapper {
+    width: 50%;
+    float: left;
+    display: inline-block;
+  }
+  #topHeader #add_new_actions {
+    width: 48%;
+    float: right;
+    display: inline-block;
+    margin-right: 0px;
+  }
+  #topHeader #add_new_actions #more_actions {
+    padding-bottom: 30px;
+  }
+  #pageWrapper {
+    display: block;
+  }
+  .pageLeft {
+    width: 100%;
+    display: block;
+    float: none;
+  }
+  #pageWrapper #pageHeader h2 {
+    padding-left: 30%;
+  }
+  #pageWrapper .pageLeft #pageHeader .button-add {
+    padding-right: 0px;
+    width: 100%;
+    display: block;
+    padding-bottom: 10px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+  #pageWrapper .pageLeft #pageHeader .button-add a {
+    font-size: 50%;
+    padding-left: 50px;
+    margin-left: 0px;
+  }
+  .toggleHide #pageWrapper {
+    margin-top: 30px;
+  }
+  #pageWrapper #profileCol {
+    width: 100%;
+    min-width: 120px;
+    display: block;
+    text-align: center;
+  }
+  #pageWrapper .pageRight {
+    width: 100%;
+    display: block;
+    margin-top: 20px;
+    padding: 0px;
+  }
+  #pageWrapper .pageRight ul {
+    padding: 5px;
+  }
+}
+
+/* Mobile (Landscape)
+================================================== */
+
+@media only screen and (min-width: 480px) and (max-width: 767px) {}

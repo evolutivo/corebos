@@ -1,0 +1,603 @@
+<div ng-controller="ng_FormCreator">
+    
+    <div ng-if="view=='list'">
+        <button class="btn btn-primary" ng-click="open(new_config,'add')">Add Extension</button>
+        <table  ng-table="tableParams" show-filter="true" class="table  table-bordered table-responsive" width=90% >
+            <tr ng-repeat="user in $data" >
+              <td>                
+                  <table>
+                      <tr>
+                          <th>
+                              <img alt="Edit" title="Edit" ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'edit')" src="themes/images/editfield.gif" /> 
+                          </th>
+                      </tr>             
+                  </table>
+              </td>
+              <td title="'Extension Name'" > 
+                  {literal}  {{user.name}}{/literal}                                                                   
+              </td> 
+              <td title="'Extension Label'"> 
+                  {literal}  {{user.label}}{/literal}
+              </td> 
+              <td title="'Extension Type'" > 
+                  {literal}  {{user.type}}{/literal}
+              </td> 
+              <td title="'Parent Tab'"> 
+                  {literal}  {{user.parenttab}}{/literal}
+              </td> 
+              <td title="'Default'"> 
+                  {literal}  {{user.default_form_str}}{/literal}
+              </td> 
+            </tr>
+        </table>
+    </div>   
+    <div ng-if="view=='detail'" style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+        <button class="btn btn-primary" ng-click="back()" style="align-self: flex-start;">List Extensions</button>
+        <accordion class="accordion"  close-others="false" style="width:100%">
+            <accordion-group heading="General" is-open="true">
+                <div>
+                    <table width="100%" border="0">
+                        <tr>
+                            <td align=right width=25%>
+                               Extension Label 
+                            </td>
+                            <td width=25% align="left">
+                                <input class="form-control" type="text" ng-model="formconfig.name" />
+                            </td>
+                            <td align=right width=25%>
+                               Type
+                            </td>
+                            <td width=25% align="left">
+                                <select class="form-control"  ng-model="formconfig.type" ng-options="opt for opt in type_opt"></select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align=right width=25%>
+                               Parent Tab
+                            </td>
+                            <td width=25% align="left">
+                                <select class="form-control" ng-model="formconfig.parenttab" ng-options="opt for opt in parenttab"></select>
+                            </td>
+                            <td align=right width=25%>
+                               Default
+                            </td>
+                            <td width=25% align="left">
+                                <input type="checkbox" ng-model="formconfig.default_form">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Define Modules/Index">
+                <div ng-if="formconfig.type=='Modules'">
+                    <table width="100%" border="0">
+                        <tr>
+                            <td align=center colspan="4">
+                                <div ng-repeat="mod in formconfig.modules" style="display: flex;align-items: left;justify-content: left;flex-direction: rows;">
+                                    <div style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        Module:
+                                        <select class="form-control"  ng-model="mod['moduleid']" ng-options="opt.tabid as opt.tabtrans for opt  in modules"></select> &nbsp;
+                                    </div>
+                                    <div style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        Level:
+                                        <select class="form-control" ng-model="mod['level']" ng-options="lev for lev in levels"></select> &nbsp;
+                                    </div>
+                                    <div ng-if="formconfig.modules[$index]['level']=='Master'" style="display: flex;align-items: center;justify-content: center;flex-direction: row;">
+                                        Master Record Id:
+                                        <input id="savedid" name="savedid" type="text" class="form-control" ng-model="mod['savedid']">&nbsp;
+                                        <input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}"
+                                                alt="Clear" title="Clear" LANGUAGE=javascript	onClick="document.getElementById('savedid').value='';return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
+                                    </div>
+                                    <div ng-if="formconfig.modules[$index]['level']=='Detail'" style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        Parent:
+                                        <select class="form-control" ng-model="mod['parent']" ng-options="opt.tabid as opt.tabtrans for opt  in modules | filter_parent:formconfig.modules  "></select> &nbsp;                                  
+                                    </div>
+                                    <div ng-if="formconfig.modules[$index]['level']=='Detail'" style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        Pointing Field:
+                                        <select class="form-control" ng-model="mod['pointingfield']" ng-options="opt.fieldname as opt.fieldlabel for opt  in pointingfields | filter:{literal}{ tabid : mod.moduleid }:true{/literal}"></select> &nbsp;
+                                    </div>  
+                                    <!--<div ng-if="formconfig.modules[$index]['level']=='Master'" style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        On Open
+                                        <select class="form-control" ng-model="mod['pointingfield']" ng-options="opt.fieldname as opt.fieldlabel for opt  in pointingfields | filter:{literal}{ tabid : mod.moduleid }:true{/literal}"></select> &nbsp;
+                                    </div>  
+                                    <div ng-if="formconfig.modules[$index]['level']=='Master'" style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        On Save:
+                                        <select class="form-control" ng-model="mod['pointingfield']" ng-options="opt.fieldname as opt.fieldlabel for opt  in pointingfields | filter:{literal}{ tabid : mod.moduleid }:true{/literal}"></select> &nbsp;
+                                    </div>  -->
+                                    &nbsp;<div style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        <input type="button" value="+" ng-click="add_module()" />
+                                    </div>
+                                    <div style="display: flex;align-items: center;justify-content: center;flex-direction: column;">
+                                        <input type="button" value="-" ng-click="remove_module($index)" style="display: flex;align-items: center;justify-content: center;flex-direction: column;"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="formconfig.type=='TypeForm'">
+                    <table width="50%" border="0" align="left">
+                        <tr>
+                            <td align=right width=25%>
+                               Select Index
+                            </td>
+                            <td width=25% align="left">
+                                <div ng-repeat="mod in formconfig.modules" style="display: flex;align-items: center;justify-content: center;flex-direction: rows;">
+                                    <select class="form-control"  ng-model="mod['elastic_name']" ng-options="opt for opt  in listElastic"></select>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="formconfig.type=='Kibi'">
+                    <table width="50%" border="0" align="left">
+                        <tr>
+                            <td align=right width=25%>
+                               IFrame Url
+                            </td>
+                            <td width=25% align="left">
+                                <textarea class="form-control"  ng-model="formconfig['elastic_name']" ></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Steps" ng-if="type=='edit'">
+                <div>
+                    <button class="btn btn-primary" ng-click="open_entity(empty,'add','Blocks')">Add Steps</button>
+                    <table  ng-table="tableParamsBlocks" show-filter="true" class="table  table-bordered table-responsive" width=90% >
+                        <tr ng-repeat="user in $data" >
+                          <td>                
+                              <table>
+                                  <tr>
+                                      <th>
+                                          <img alt="Edit" title="Edit" ng-if="!user.$edit" width="20" height="20" ng-click="open_entity(user,'edit','Blocks')" src="themes/images/editfield.gif" /> 
+                                      </th>
+                                  </tr>             
+                              </table>
+                          </td>
+                          <td title="'Step Name'" > 
+                              {literal}  {{user.block_label}}{/literal}                                                                   
+                          </td> 
+                          <td title="'Step Sequence'"> 
+                              {literal}  {{user.block_sequence}}{/literal}
+                          </td> 
+                          <td title="'Module'" > 
+                              {literal}  {{user.block_module_label}}{/literal}
+                          </td> 
+                        </tr>
+                    </table>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Fields" ng-if="type=='edit'">
+                <div>
+                    <button class="btn btn-primary" ng-click="open_entity(empty,'add','Fields')">Add Fields</button>
+                    <table  ng-table="tableParamsFields" show-filter="true" class="table  table-bordered table-responsive" width=90% >
+                        <tr ng-repeat="user in $data" >
+                          <td>                
+                              <table>
+                                  <tr>
+                                      <th>
+                                          <img alt="Edit" title="Edit" ng-if="!user.$edit" width="20" height="20" ng-click="open_entity(user,'edit','Fields')" src="themes/images/editfield.gif" /> 
+                                      </th>
+                                  </tr>             
+                              </table>
+                          </td>
+                          <td title="'Block'"> 
+                              {literal}  {{user.blockname}}{/literal}
+                          </td>
+                          <td title="'Field Name'" > 
+                              {literal}  {{user.fieldname}}{/literal}                                                                   
+                          </td>
+                          <td title="'Field Sequence'" > 
+                              {literal}  {{user.field_sequence}}{/literal}
+                          </td> 
+                        </tr>
+                    </table>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Settings" ng-if="type=='edit'">
+                <div>
+                    <table width="100%" border="0">
+                        <tr>
+                            <td align=right width=25%>
+                               On Open
+                            </td>
+                            <td width=25% align="left">
+                                <select class="form-control"  ng-model="formconfig.onopen" ng-options="opt for opt  in onopen"></select>
+                            </td>
+                            <td align=right width=25%>
+                                On Submit
+                            </td>
+                            <td width=25% align="left">
+                                <select class="form-control"  ng-model="formconfig.onsave" ng-options="opt.value as opt.label for opt  in onsave "></select>
+                                <span style="color:red" ng-if="formconfig.onsave!='Refresh'">Remember to create/update BR DetailView for this Form<br/>with fields of the chosen Module</span>
+                                <!--<form name="EditView" ng-if="formconfig.onsave!='Refresh'">
+                                  <input id="dv_br_display" name="dv_br_display" type="text" class="form-control" ng-model="formconfig.dv_br_display" style="width:400px;">&nbsp;
+                                  <input id="dv_br" name="dv_br" type="hidden" class="form-control" ng-model="formconfig.dv_br" value="formconfig.dv_br">&nbsp;
+                                  <img src="themes/images/select.gif" alt="Select" title="Select" LANGUAGE=javascript  onclick='return window.open("index.php?module=BusinessRules&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield=brid&srcmodule=FormBuilder","test","width=640,height=602,resizable=0,scrollbars=0,top=150,left=200");' align="absmiddle" style='cursor:hand;cursor:pointer'>
+                                  <input type="image" src="themes/images/clear_field.gif" alt="Clear" title="Clear" LANGUAGE=javascript onClick="document.getElementById('dv_br').value='';document.getElementById('dv_br_display').value='';return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
+                              </form>-->
+                            </td>
+                        </tr>
+                    </table>                    
+                </div>
+            </accordion-group>
+            <accordion-group heading="Actions" ng-if="type=='edit'">
+                <div>
+                    <button class="btn btn-primary" ng-click="open_entity(empty,'add','Actions')">Add Actions</button>
+                    <table  ng-table="tableParamsActions" show-filter="true" class="table  table-bordered table-responsive" width=90% >
+                        <tr ng-repeat="user in $data" >
+                          <td>                
+                              <table>
+                                  <tr>
+                                      <th>
+                                          <img alt="Edit" title="Edit" ng-if="!user.$edit" width="20" height="20" ng-click="open_entity(user,'edit','Actions')" src="themes/images/editfield.gif" /> 
+                                      </th>
+                                  </tr>             
+                              </table>
+                          </td>
+                          <td title="'Action Name'" > 
+                              {literal}  {{user.name}}{/literal}                                                                   
+                          </td> 
+                          <td title="'Action Label'" > 
+                              {literal}  {{user.label}}{/literal}                                                                   
+                          </td> 
+                          <td title="'Sequence'"> 
+                              {literal}  {{user.sequence}}{/literal}
+                          </td> 
+                          <td title="'Type'" > 
+                              {literal}  {{user.action_type}}{/literal}
+                          </td>
+                          <td title="'Module'" > 
+                              {literal}  {{user.action_module_label}}{/literal}
+                          </td>
+                          <td title="'Step'" > 
+                              {literal}  {{user.blockname}}{/literal}
+                          </td>
+                          <td title="'Mandatory'" > 
+                              {literal}  {{user.mandatory_action}}{/literal}
+                          </td>
+                        </tr>
+                    </table>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Templating" ng-if="type=='edit'">
+                <div>
+                </div>
+            </accordion-group>
+        </accordion>    
+    <button class="btn btn-primary" ng-click="generate(formconfig)" align="center" >{literal}{{Action}}{/literal}</button>
+    </div>
+</div>
+
+<script>
+{literal}
+angular.module('FormBuilderApp',['ngTable','ui.bootstrap','multi-select','ngMaterial'])
+.controller('ng_FormCreator', function($scope, $http, $modal, ngTableParams) {
+    $scope.formconfig={};
+    $scope.new_config={'modules':[{'moduleid':'6','level':'Master'}]};
+    $scope.Action='Generate';
+    $scope.view='list';
+    $scope.type='add';
+    $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrieve_module').
+            success(function(data, status) {
+              $scope.modules = data;
+    });
+    $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrieve_elastic').
+            success(function(data, status) {
+              $scope.listElastic = data;
+    });
+    $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=pointingfields').
+            success(function(data, status) {
+              $scope.pointingfields = data;
+    });
+    $scope.type_opt=['TypeForm','Modules','Kibi']; 
+    $scope.levels=['Master','Detail']; 
+    $scope.onopen=['Create','Show']; 
+    $scope.onsave=[{'label':'Restart','value':'Restart'}]; 
+        
+    $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=parenttablist').
+            success(function(data, status) {
+              $scope.parenttab=data;
+    });
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+            $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrieveextension').
+                success(function(data, status) {
+                  var orderedData = data;
+                  params.total(data.length);
+                  $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+            });
+        }
+    });
+    
+    $scope.tableParamsBlocks = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+            $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrieveblock&dsName='+$scope.formconfig.name+'&entityName=Blocks').
+                success(function(data, status) {
+                  var orderedData = data;
+                  $scope.formconfig['blocks']=data;
+                  params.total(data.length);
+                  $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+            });
+        }
+    });
+    
+    $scope.tableParamsFields = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+            $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrievefield&dsName='+$scope.formconfig.name+'&entityName=Fields').
+                success(function(data, status) {
+                  var orderedData = data;
+                  params.total(data.length);
+                  $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+            });
+        }
+    });
+    
+    $scope.tableParamsActions = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+
+    }, {
+       counts: [5,15], 
+        getData: function($defer, params) {
+            $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrieveactions&dsName='+$scope.formconfig.name+'&entityName=Actions').
+                success(function(data, status) {
+                  var orderedData = data;
+                  params.total(data.length);
+                  $defer.resolve(orderedData.slice((params.page() - 1) * params.count(),params.page() * params.count()));
+            });
+        }
+    });
+    
+    $scope.name_form_dashb='';
+    $scope.open =  function(user,type) {
+        $scope.view='detail'; 
+        if(type=='edit'){
+            $scope.Action='Update';
+            $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrievemodulesentities&dsName='+user.name+'&entityName='+user.type).
+                    success(function(data, status) {
+                    var arr={
+                        'modules':data,
+                        'name':user.name,
+                        'type':user.type,
+                        'parenttab':user.parenttab,
+                        'elastic_name':user.elastic_name,
+                        'default_form':user.default_form,
+                        'onopen':user.onopen,
+                        'onsave':user.onsave
+                    };
+                    $scope.formconfig=arr;
+                    var filterEvent=[{'label':'Restart Creation','value':'Restart'}];
+                    if($scope.formconfig.modules!=undefined){
+                        for (var i = 0;i < $scope.formconfig.modules.length; i++){
+                            filterEvent.push({'label':'Go To Detail Of '+$scope.formconfig.modules[i]['modulename_trans'],'value':$scope.formconfig.modules[i]['modulename']});
+                        }  
+                        $scope.onsave=filterEvent;
+                    }
+                    $scope.tableParamsBlocks.reload();
+                    $scope.tableParamsFields.reload();
+                    $scope.tableParamsActions.reload();
+            });
+        }
+        else{
+            $scope.formconfig=user;
+        }
+        $scope.type=type;
+        $scope.name_form_dashb=user.name;
+    };
+    
+    $scope.add_module =  function() {
+        $scope.formconfig.modules.push({});
+    };
+    
+    $scope.remove_module=function(index){
+        console.log($scope.formconfig.modules);
+        for (var i = 0;i < $scope.formconfig.modules.length; i++){
+            if(i===index){  
+                if($scope.formconfig.modules[i]['dsid']!=undefined){
+                    var data_send =JSON.stringify($scope.formconfig.modules[i]);
+                    $scope.formconfig.modules.splice(i,1);
+                    $http.post('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=delmoduleentity',
+                         data_send)
+                        .success(function(data, status) {
+                            
+                         });
+                }
+            }
+        }
+    };
+    $scope.back =  function() {
+        $scope.view='list'; 
+    };
+    // delete selected record
+    $scope.delete_record =  function(user) {
+     if(confirm('Are you sure you want to delete?'))
+     {
+         var data_send =JSON.stringify(user);
+         $http.post('index.php?module=FormBuilder&action=FormBuilderAjax&file=ng_fields&kaction=delete&models='+data_send
+        )
+        .success(function(data, status) {
+              $scope.tableParams.reload();
+
+         });
+        }
+    };
+     
+    // generate extension
+    $scope.generate=  function(formconfig) {
+        console.log(formconfig);
+     if(confirm('Are you sure you want to proceed?'))
+     {
+         var data_send =JSON.stringify(formconfig);
+         $http.post('index.php?module=FormBuilder&action=FormBuilderAjax&file=generate&kaction='+$scope.type,
+             data_send)
+        .success(function(data, status) {
+              alert(data);
+         });
+        }
+    };
+    $scope.empty={};
+    $scope.open_entity = function (us,type,entity) {
+          
+        var modalInstance = $modal.open({
+          templateUrl: 'Smarty/templates/modules/FormBuilder/edit_entities.html',
+          controller: 'ng_Edit',
+          resolve: {
+            entity :function () {
+              return entity;
+            },
+            type :function () {
+              return type;
+            },
+            array :function () {
+              return us;
+            },
+            name_form_dashb:function () {
+              return $scope.name_form_dashb;
+            },
+            tableParamsBlocks:function () {
+              return $scope.tableParamsBlocks;
+            },
+            tableParamsFields:function () {
+              return $scope.tableParamsFields;
+            },
+            formconfig:function () {
+              return $scope.formconfig;
+            },
+            tableParamsActions () {
+              return $scope.tableParamsActions;
+            }
+          }
+        });
+
+        modalInstance.result.then(function (selectedItem) {
+          $scope.selected = selectedItem;
+        }, function () {
+          //$log.info('Modal dismissed at: ' + new Date());
+        });
+      };
+})
+.controller('ng_Edit', function($scope, $http, $modal, ngTableParams,$modalInstance,$filter,entity,type,array,name_form_dashb,tableParamsBlocks,tableParamsFields,formconfig,tableParamsActions) {
+    
+    $scope.info=array;
+    $scope.Action = (type === 'add' ? 'Create' : 'Edit');
+    $scope.entity =entity;
+    $scope.array =(type === 'add' ? {} : array);
+    $scope.name_form_dashb=name_form_dashb;
+    var arr_mod=Array();
+    angular.forEach(formconfig.modules, function(value, key) {
+        arr_mod.push(value.moduleid);
+    });
+    var act_mod=arr_mod.join(',');
+    $scope.action_types=['OnSaveEntity','InCreateWidget','BeforeSave','AfterSave']; 
+    $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=businessactionslist&kmodules='+act_mod).
+        success(function(data, status) {
+            $scope.actionsoptions = data;    
+    });
+    $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=getfields&kmodules='+act_mod).
+        success(function(data, status) {
+            $scope.fieldsoptions = data;    
+          
+        $http.get('index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&kaction=retrieve_module').
+            success(function(data, status) {
+                $scope.modules = data;    
+                if(entity=='Blocks'){
+                    $scope.fields=[{'name':'block_label','type':'text','label':'Block Label'},
+                               {'name':'block_sequence','type':'number','label':'Block Sequence'},
+                               {'name':'block_module','type':'select_block','label':'Block Module','options':$filter('filter_parent')($scope.modules, formconfig.modules) },
+                               {'name':'brid','type':'brid','label':'BusinessRules'},
+                               {'name':'doc_widget','type':'boolean','label':'Document Widget'}];
+                }
+                else if(entity=='Fields'){
+                    $scope.fields=[{'name':'blockid','type':'select_field_block','label':'Block','options':formconfig.blocks },
+                               {'name':'fieldname','type':'select_field','label':'Field Name','options':$scope.fieldsoptions  },
+                               {'name':'field_sequence','type':'number','label':'Field Sequence'}];
+                }
+                else if(entity=='Actions'){
+                    $scope.fields=[{'name':'reference','type':'select_actions','label':'Action Name','options':$scope.actionsoptions},
+                        {'name':'label','type':'text','label':'Action Label'},
+                        {'name':'action_type','type':'select_action_type','label':'Type','options':$scope.action_types  },
+                        {'name':'block','type':'select_field_block','label':'Block','options':formconfig.blocks },
+                        {'name':'action_module','type':'select_block','label':'Module','options':$filter('filter_parent')($scope.modules, formconfig.modules) },
+                        {'name':'sequence','type':'number','label':'Action Sequence'},
+                        {'name':'mandatory_action','type':'boolean','label':'Mandatory'}];
+                }
+        });//list modules
+    });  //list fields
+    // edit selected record
+    $scope.setEditId =  function(user) {
+        if(document.getElementById('brid')!=null)
+            user.brid=document.getElementById('brid').value;
+        user =JSON.stringify(user);
+        var url='';var kaction='';
+        if($scope.entity=='Blocks'){
+            kaction=(type === 'add' ? 'createblock' : 'updateblock');
+        }else if($scope.entity=='Fields'){
+            kaction=(type === 'add' ? 'createfield' : 'updatefield');
+        }
+        else if($scope.entity=='Actions'){
+            kaction=(type === 'add' ? 'createactions' : 'updateactions');
+        }
+        url='index.php?module=FormBuilder&action=FormBuilderAjax&file=parameters&dsName='+$scope.name_form_dashb+'&kaction='+kaction;
+        $http.post(url+'&models='+encodeURIComponent(user)
+            )
+            .success(function(data, status) {
+                tableParamsBlocks.reload();
+                tableParamsFields.reload();
+                tableParamsActions.reload();
+                  $modalInstance.close();
+             });
+    };
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      };
+})
+.filter('filter_fields', function() {
+          return function(options,blockval,blockopt) {
+            var filterEvent = [];
+            var mod='';
+            for (var j = 0;j < blockopt.length; j++){
+                    if(blockopt[j]['id']==blockval ){
+                        mod=blockopt[j]['block_module'];
+                    }
+                }
+            for (var i = 0;i < options.length; i++){
+                if(options[i]['tabid']==mod){
+                    filterEvent.push(options[i]);
+                }
+            }
+            return filterEvent;
+        }
+    })
+.filter('filter_parent', function() {
+          return function(modules,user) {
+            var filterEvent = [];
+            for (var i = 0;i < modules.length; i++){
+                for (var j = 0;j < user.length; j++){
+                    if(modules[i]['tabid']==user[j].moduleid ){
+                        filterEvent.push(modules[i]);
+                    }
+                }
+            }
+            return filterEvent;
+        }
+});
+{/literal}
+</script>

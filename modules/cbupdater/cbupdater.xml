@@ -1660,4 +1660,11 @@
 	<classname>addfieldformvquery</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albana</author>
+	<description>AddFormBuilder</description>
+	<filename>build/changeSets/evolutivo/AddFormBuilder.php</filename>
+	<classname>AddFormBuilder</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
