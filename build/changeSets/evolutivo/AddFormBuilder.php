@@ -31,45 +31,7 @@ class AddFormBuilder extends cbupdaterWorker {
 				}
 			}
                         $this->ExecuteQuery("
-                               -- phpMyAdmin SQL Dump
--- version 3.5.8.2
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Apr 15, 2015 at 02:53 PM
--- Server version: 5.1.73
--- PHP Version: 5.3.3
-
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table 'formbuilder_extensions'
---
-
--- phpMyAdmin SQL Dump
--- version 4.0.6deb1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Oct 23, 2015 at 03:01 PM
--- Server version: 5.5.37-0ubuntu0.13.10.1
--- PHP Version: 5.5.3-1ubuntu2.6
-
-
-
-
---
--- Database: 'subito'
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_actions'
---
-
+                               
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_actions' (
   'id' int(11) NOT NULL,
   'name' varchar(255) NOT NULL,
@@ -80,11 +42,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_actions' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_blocks'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_blocks' (
   'id' int(11) NOT NULL,
@@ -99,12 +56,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_blocks' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_entities'
---
-
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_entities' (
   'dsid' int(11) NOT NULL AUTO_INCREMENT,
   'name' varchar(255) NOT NULL,
@@ -115,11 +66,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_entities' (
   PRIMARY KEY ('dsid')
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=102 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_extensions'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_extensions' (
   'id' int(11) NOT NULL AUTO_INCREMENT,
@@ -133,11 +79,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_extensions' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_fieldparams'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_fieldparams' (
   'id' int(11) NOT NULL,
@@ -153,11 +94,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_fieldparams' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_fields'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_fields' (
   'id' int(11) NOT NULL,
@@ -174,12 +110,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_fields' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_parameters'
---
-
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_parameters' (
   'id' int(11) NOT NULL,
   'name' varchar(255) NOT NULL,
@@ -191,11 +121,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_parameters' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_results'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_results' (
   'userid' int(11) NOT NULL,
@@ -206,11 +131,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_results' (
   KEY 'userid' ('userid','selected')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_results_config'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_results_config' (
   'id' int(11) NOT NULL AUTO_INCREMENT,
@@ -222,11 +142,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_results_config' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=136 ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table 'dashboardbuilder_tabs'
---
 
 CREATE TABLE IF NOT EXISTS 'dashboardbuilder_tabs' (
   'id' int(11) NOT NULL,
@@ -238,9 +153,6 @@ CREATE TABLE IF NOT EXISTS 'dashboardbuilder_tabs' (
   PRIMARY KEY ('id')
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 ALTER TABLE  'dashboardbuilder_entities' ADD  'entityname' TEXT NULL ,
 ADD  'index_type' VARCHAR( 50 ) NULL ,
