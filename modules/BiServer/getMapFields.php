@@ -42,7 +42,9 @@ $typ='<input type="hidden" name="maptypef'.$i.'" id="maptypef'.$i.'" value="fiel
            . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldLabel\">";
             $a.="</td>";
              $a.= "<td><input type='checkbox'  id='checkanalyzed$i' name='checkanalyzed$i'  class='k-checkbox'>";
-                   $a.="<label class='k-checkbox-label' for='checkanalyzed$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;     
+                   $a.="<label class='k-checkbox-label' for='checkanalyzed$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;  
+            $a.="<td><input type=\"text\" id=\"modulfieldtype$i\" name=\"modulfieldtype$i\"  value=\"$fldType\">";
+            $a.="</td>";
                    $a.= "</tr>";
 }
 else {
@@ -60,11 +62,11 @@ else {
                              <input type=\"hidden\" value='$alias' id='colaliasname$i' name='colaliasname$i'>"
                     . "</td>"
            . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldLabel\">";
-            $a.="</td>"
-            . "<td><input type=\"text\" id=\"modulfieldtype$i\" name=\"modulfieldtype$i\"  value=\"$fldType\">";
             $a.="</td>";
              $a.= "<td><input type='checkbox'  id='checkanalyzedlogg$i' name='checkanalyzedlogg$i'  class='k-checkbox'>";
-                   $a.="<label class='k-checkbox-label' for='checkanalyzedlogg$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;     
+                   $a.="<label class='k-checkbox-label' for='checkanalyzedlogg$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;    
+            $a.="<td><input type=\"text\" id=\"modulfieldtype$i\" name=\"modulfieldtype$i\"  value=\"$fldType\">";
+            $a.="</td>";
                    $a.= "</tr>";  
 }
  }
