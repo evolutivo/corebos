@@ -198,6 +198,7 @@ elseif($kaction=='rendiconta'){
     
     $next_sub=$_REQUEST['next_sub'];
     $pfid=$_REQUEST['pfid'];
+    $questions=json_decode($_REQUEST['questions'],true);
 
     $focus_currMod->mode = 'edit';
     $actual_substatus=$focus_currMod->column_fields["$statusfield"];
@@ -221,6 +222,7 @@ elseif($kaction=='rendiconta'){
         'statusfield'=>$statusfield,
         'currentModule'=>$currentModule);
     updateStatusFld($processlog);
+    saveAnswers($processlog,$questions);
     //createProcessLog($processlog);
     if($currentModule=='SalesOrderMaster'){
         $processlog['current_date_crm'] =  $dt_crm;

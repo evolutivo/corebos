@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/css/jquery.bsmselect.css">
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/examples/example.css">
 <link rel="stylesheet" type="text/css" href="kendoui/styles/kendo.common.min.css">
+<link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
 
 {*<link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
 {*<link type="text/css" href="modules/MVCreator/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
@@ -22,7 +23,7 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
-            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="generateJoin(); openalertsJoin();"
+            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
             <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
@@ -45,6 +46,9 @@
         </ul>
 
     </div>
+   <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:70px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
+   <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
+   </select><br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick=" generateJoin();hide('userorgroup');openalertsJoin();"></center></div>               
     {*
     <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">
@@ -225,7 +229,8 @@
                     {*{if !empty($FirstSecModule)}*}
                     {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
                     {*{else}*}
-                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">                    
+                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
                     {*{/if}*}
 
 
@@ -289,7 +294,7 @@
         .alerts {
             padding: 10px;
             background-color: #808080;
-            margin: 5px;
+            margin: 20px;
             color: white;
         }
 
@@ -421,6 +426,34 @@
         .overflow {
             height: 200px;
         }
+
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            right: 105%;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
     </style>
     <script>
 
@@ -436,20 +469,62 @@
         //            });
         //
         //        });
-
+        $( function() {
+            $( document ).tooltip();
+          } );
 
         var JSONForCOndition = [];
-        function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval, SecondModuleJSONtxt, SecondModuleJSONval, JSONARRAY) {
+        function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval, SecondModuleJSONtxt, SecondModuleJSONval,Valueparagrafi, JSONARRAY) {
             JSONForCOndition.push({
                 idJSON: JSONForCOndition.length + 1,
                 FirstModuleJSONtext: FirstModuleJSONtxt,
                 FirstModuleJSONvalue: FirstModuleJSONval,
                 SecondModuleJSONtext: SecondModuleJSONtxt,
+                ValuesParagraf:Valueparagrafi,
                 SecondModuleJSONvalue: SecondModuleJSONval,
-                selectedfields: {JSONARRAY}
+                // selectedfields: JSONARRAY,
+                //selectedfields: {JSONARRAY}
             });
+            jQuery.ajax({
+				type : 'POST',
+				data : {'fields':JSON.stringify(JSONForCOndition),'queryid':document.getElementById('queryid').value},
+				url : "index.php?module=MVCreator&action=MVCreatorAjax&file=savequeryhistory"
+			}).done(function(msg) {
+                        
+                        }
+                        );
              console.log(JSONForCOndition);
         }
+
+        //FUNCTIO GET VALUE FROM SELECTED Fields
+        function selectHtml() {
+            //var sel = jQuery('#selectableFields');
+           // return sel[0].innerHTML;
+             var campiSelezionati = [];
+            var sel = document.getElementById("selectableFields");
+            for (var n = 0; n < sel.options.length; n++) {
+                if (sel.options[n].selected == true) {
+                    //dd=x.options[i].value;
+                    campiSelezionati.push(sel.options[n].value);
+
+                }
+            }
+            return campiSelezionati;
+        }
+
+
+        function emptycombo(){
+            var select = document.getElementById("selectableFields");
+            var length = select.options.length;
+            var j=0;
+            while(select.options.length!=0){
+                for (var i1 = 0; i1 < length; i1++) {
+                    select.options[i1] = null;
+                }
+            }
+        }
+
+
         function openalertsJoin() {
             $('#AlertsAddDiv div').remove();
            // var idJSON = 1;
@@ -464,48 +539,144 @@
             }
 
             var FrirstMOduleval = $('#mod option:selected').val();// $('#mod').value;
-            var FrirstMOduletxt = $('#mod option:selected').text();// $('#mod').value;
+            var FrirstMOduletxt = $('#mod option:selected').text();// $('#mod').value;generatedConditions
             var SecondMOduleval = $('#secmodule option:selected').val();
             var SecondMOduletxt = $('#secmodule option:selected').text();
-            addINJSON(FrirstMOduletxt, FrirstMOduleval, SecondMOduletxt, SecondMOduleval, campiSelezionati);
+            var generatedjoin=$( "#generatedjoin" ).html();
+            var generatedConditions=$( "#generatedConditions" ).html();
+            addINJSON(FrirstMOduletxt, FrirstMOduleval, SecondMOduletxt, SecondMOduleval,generatedjoin, selectHtml());
+			// console.log(FrirstMOduletxt);
+			// console.log(FrirstMOduleval);
+			// console.log(SecondMOduletxt);
+			// console.log(SecondMOduleval);
+			// console.log(selectHtml);
+            var check=false;
+            var length_history=JSONForCOndition.length;
+            //alert(length_history-1);
             for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
-                var idd = JSONForCOndition[ii].idJSON;
+                var idd =ii// JSONForCOndition[ii].idJSON;
                 var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
                 var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
-                //console.log(idd+firmod+secmod);
-                var alerstdiv = alertsdiv(idd, firmod, secmod);
+                var selectedfields = JSONForCOndition[ii].ValuesParagraf;
+                // console.log(idd+firmod+secmod);
+                // console.log(selectedfields);
+                if (ii==(length_history-1)) 
+                {
+                    check=true;
+                     
+                }
+                else{
+                   check=false; 
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
                 $('#AlertsAddDiv').append(alerstdiv);
+                // generateJoin();
+                // emptycombo();
             }
 
         }
 
-        function alertsdiv(Idd, Firstmodulee, secondmodule) {
+        function ReturnAllDataHistory(){
 
-            var INSertAlerstJOIN = '<div class="alerts">';
+              $('#AlertsAddDiv div').remove();
+              $( "#generatedjoin" ).html("");
+             var check=false;
+             var valuehistoryquery;
+            var length_history=JSONForCOndition.length;
+            //alert(length_history-1);
+            for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                var idd =ii// JSONForCOndition[ii].idJSON;
+                var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+                var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+                valuehistoryquery=JSONForCOndition[ii].ValuesParagraf;
+                // console.log(idd+firmod+secmod);
+                // console.log(selectedfields);
+                if (ii==(length_history-1)) 
+                {
+                    check=true;
+                     
+                }
+                else{
+                   check=false; 
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+                $('#AlertsAddDiv').append(alerstdiv);
+
+                $( "#generatedjoin" ).html(valuehistoryquery);
+                
+            }
+
+        }
+
+        function alertsdiv(Idd, Firstmodulee, secondmodule,last_check) {
+
+            var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
             INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');">&times;</span>';
             INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> ' + Firstmodulee + '=>' + secondmodule;
+            if (last_check==true) {//icono-plusCircle
+            INSertAlerstJOIN +='<span title="You are here " style="float:right;margin-top:-10px;margin-right:-76px;"><i class="icono-checkCircle"></i></span>';
+            }
+            else{
+                INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-76px;"><i class="icono-plusCircle"></i></span>'; 
+            }
             INSertAlerstJOIN += '</div';
             return INSertAlerstJOIN;
         }
 
+       
 
+       function show_query_History(id_history){
+         $('#AlertsAddDiv div').remove();
+         for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                var idd =ii// JSONForCOndition[ii].idJSON;
+                //valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+                 var idd =ii// JSONForCOndition[ii].idJSON;
+                var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+                var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+                 //console.log(idd+firmod+secmod);
+                //console.log(selectedfields);
+                if (ii==id_history) 
+                {
+                    check=true;
+                     valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+                      $( "#generatedjoin" ).html(valuehistoryquery);
+                     
+                }
+                else{
+                   check=false; 
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+                $('#AlertsAddDiv').append(alerstdiv);
+
+                
+                
+            }
+
+       }
         function closeAlertsAndremoveJoin(remuveid) {
 
             var check = false;
+            
             for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
                 if (ii == remuveid) {
+                     //JSONForCOndition.remove(remuveid);
+                     JSONForCOndition.splice(remuveid,1);
                     check = true
-                }
+					//console.log(remuveid);
+                   // console.log(ReturnAllDataHistory());
+                 }
             }
-
             if (check) {
-                var localvar = JSONForCOndition[remuveid].selectedfields.JSONARRAY;
-                console.log(localvar);
-                $('#selectableFields option:selected').attr("selected", null);
+              var remuvediv="#alerts_"+remuveid;
+              $( "div" ).remove( remuvediv);
+              ReturnAllDataHistory();
+               
+               // $('#selectableFields option:selected').attr("selected", null);
             }
             else {
                 alert("{/literal}{$MOD.conditionwrong}{literal}");
             }
+
 
         }
 

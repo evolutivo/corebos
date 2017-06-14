@@ -8,7 +8,7 @@
   },
     {
     "type": "vcs",
-    "url": "https://bitbucket.org/evolutivo/querybuilder"
+    "url": "https://bitbucket.org/evolutivo/elasticsearchextension"
   },
     
   {
@@ -18,7 +18,7 @@
 
   "require": {
     "evolutivo/composerinstall": "dev-master",
-    "evolutivo/querybuilder": "dev-master"
+    "evolutivo/elasticsearchextension": "dev-master"
   },
     "scripts": {
     "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",

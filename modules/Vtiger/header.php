@@ -37,7 +37,13 @@ $smarty->assign("QCreateAction", $check_button);
 
 $cnt = count($qc_modules);
 $smarty->assign("CNT", $cnt);
-
+global $adb;
+$allDashboards=array();
+$dashboardExtensions=$adb->pquery("SELECT * FROM dashboardbuilder_extensions WHERE generated=1",array());
+while($dashboardExtensions && $row=$adb->fetch_array($dashboardExtensions)){
+    $allDashboards[]=$row['name'];
+}
+$smarty->assign("ALLDASHBOARDS", $allDashboards);
 $smarty->assign("MODULE_NAME", $currentModule);
 $date = new DateTimeField(null);
 $smarty->assign("DATE", $date->getDisplayDateTimeValue());

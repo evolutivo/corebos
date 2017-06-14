@@ -1,0 +1,23 @@
+<div class="popover" tabindex="-1" ng-show="content">
+  <div class="arrow"></div>
+  <h3 class="popover-title" ng-bind-html="title" ng-show="title"></h3>
+  <div class="popover-content">
+    <form name="popoverForm">
+      <p style="min-width:300px"></p>
+    <div class="form-group">
+        <input type="text" ng-model="searchTextEvo.$" placeholder="{{'Select'}}..."/>
+        <table ng-table="tableParamsEvo{{wizardfield}}" class="table  table-bordered table-responsive">
+            <tr ng-repeat="user in $data" class="dvtCellLabel" >
+                <td ng-click="refEvoUpdated(user,$model, wizardfield);$hide();searchTextEvo.$='';">
+                    {{user.crmname}}<br/>
+                </td> 
+            </tr>
+        </table>
+      
+    </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-primary" style="border-radius: 0px;" ng-click="$hide()">{{'Close'}}</button>
+      </div>
+    </form>
+  </div>
+</div>

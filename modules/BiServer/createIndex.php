@@ -203,7 +203,7 @@ if($mvtype == "report"){
  }
  else{
      //Create index from mv
-     //create index -for logging ondex creation
+     //create index -for logging index creation
     if($actionTodo == "createindex")
      $mapid = $_REQUEST['maploggingsql'];   
     else $mapid = $_REQUEST['mapsql'];

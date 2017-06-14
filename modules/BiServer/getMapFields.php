@@ -17,7 +17,10 @@ $nr = count($sqlQueryfields);
      $fselect=explode(" AS ",$getSqlFields[$k]);
      $fselect2 =explode(" as ",$fselect[0]);
      $fldtblnamearr = explode(".",$sqlQueryfields[$k]);
-     $fldLabel = getColumnLabel($fldtblnamearr[1],$fldtblnamearr[0]);
+     $fldLabel = $fieldinfo[0];
+     $fieldinfo = explode(";",getColumnLabel($fldtblnamearr[1],$fldtblnamearr[0]));
+     $fldType= $fieldinfo[1];
+     $fldLabel = $fieldinfo[0];
      $fldLabel = getTranslatedString($fldLabel);
      if($fldLabel == "") $fldLabel = $fldtblnamearr[1];
      $sqlFields[$k] = trim($fselect2[0]).' AS '.trim($fldtblnamearr[0]).'_'.$fldtblnamearr[1];
@@ -57,6 +60,8 @@ else {
                              <input type=\"hidden\" value='$alias' id='colaliasname$i' name='colaliasname$i'>"
                     . "</td>"
            . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldLabel\">";
+            $a.="</td>"
+            . "<td><input type=\"text\" id=\"modulfieldtype$i\" name=\"modulfieldtype$i\"  value=\"$fldType\">";
             $a.="</td>";
              $a.= "<td><input type='checkbox'  id='checkanalyzedlogg$i' name='checkanalyzedlogg$i'  class='k-checkbox'>";
                    $a.="<label class='k-checkbox-label' for='checkanalyzedlogg$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;     
@@ -68,9 +73,10 @@ else {
   global $adb;
        $fldname = trim($fldname);
        $fldtable = trim($fldtable);
-       $sql = $adb->pquery("select fieldlabel from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
+       $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
        $fieldLabel = $adb->query_result($sql,0,'fieldlabel');
-    return $fieldLabel;
+       $typeofdata= $adb->query_result($sql,0,'typeofdata');
+    return $fieldLabel.";".$typeofdata;
  }
  echo $a.'$$'.$nr;
 ?>

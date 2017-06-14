@@ -1,0 +1,15 @@
+<md-bottom-sheet class="md-list md-has-header">
+    <md-subheader>
+        Contracts
+    </md-subheader>
+
+    <div layout="" layout-sm="column" layout-padding >
+        <span flex="" layout="column">
+          <md-input-container ng-repeat="wizardblock in vm.user">
+            <label>{{wizardblock.fieldlabel}}</label>                
+            <input ng-change="" ng-model="vm.moduleData[wizardblock.fieldname]">
+          </md-input-container>  
+        </span>                        
+    </div>
+    <a class="btn btn-default" ng-click="vm.save_repeat(vm.moduleData,1)">Save</a>    
+</md-bottom-sheet>

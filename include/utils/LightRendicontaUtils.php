@@ -43,6 +43,31 @@ function updateStatusFld($data){
     $focus_currMod->column_fields['assigned_user_id']=$focus_currMod->column_fields['assigned_user_id'];
     $focus_currMod->save($currentModule);
 }
+function saveAnswers($data,$answers){
+    
+    global $current_user,$adb;
+    $currentModule=$data['currentModule'];
+    $id=$data['recordid'];
+    $statusfield=$data['statusfield'];
+    $next_sub=$data['next_substatus'];
+    for($i=0;$i<sizeof($answers);$i++){
+        $questionid=$answers[$i]['qid'];
+        $questiontype=$answers[$i]['questiontype'];
+        $result=$adb->pquery("Select answer_fieldname from vtiger_preguntas"
+                . " where preguntasid=?",array($questionid));
+        if($result && $adb->num_rows($result)>0){
+            $answer_fieldname=$adb->query_result($result,0,'answer_fieldname');
+            if($answer_fieldname!='' && $questiontype!=='documento'){
+                $focus_currMod= CRMEntity::getInstance($currentModule);
+                $focus_currMod->id=$id;
+                $focus_currMod->retrieve_entity_info($id,$currentModule);
+                $focus_currMod->mode = 'edit';   
+                $focus_currMod->column_fields["$answer_fieldname"]=$answers[$i]['answers'];
+                $focus_currMod->saveentity($currentModule);
+            }
+        }
+    }
+}
 function createProcessLog($data){
     
     require_once 'modules/ProcessLog/ProcessLog.php';
@@ -79,10 +104,10 @@ function pickFlow($pfid,$data){
     $data['tasksla']=$adb->query_result($pfquery,0,'tasksla');
     $data['alertsettingmodel']=$adb->query_result($pfquery,0,'alertsettingmodel');
 
-    if($mailer_action!=''){
+    if($mailer_action!='' && $mailer_action!=0  && !empty($mailer_action) && $mailer_action !=null){
        $response=doAction($mailer_action,$data);
     }
-    if($sequencer!=''){
+    if($sequencer!='' && $sequencer!=0 && !empty($sequencer) && $sequencer!=null){
        $response=doAction($sequencer,$data);
     }
     return $response;
@@ -108,10 +133,10 @@ function pickFlowCausale($data){
         $data['tasksla']=$adb->query_result($pfquery,0,'tasksla');
         $data['alertsettingmodel']=$adb->query_result($pfquery,0,'alertsettingmodel');
 
-        if($mailer_action!=''){
+        if($mailer_action!='' && $mailer_action!=0  && !empty($mailer_action) && $mailer_action !=null){
            $response=doAction($mailer_action,$data);
         }
-        if($sequencer!=''){
+        if($sequencer!='' && $sequencer!=0 && !empty($sequencer) && $sequencer!=null){
            $response=doAction($sequencer,$data);
         } 
     }
