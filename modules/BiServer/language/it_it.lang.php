@@ -53,6 +53,7 @@ $mod_strings = Array(
     'fieldlist'=>'Lista Campi',
     'fieldlabels'=>'Etichette Campi',
     'analyzed'=>'Analizzati',
+    'fieldtypes'=>'Tippo di campo',
     'role'=>'Ruolo',
     'delete'=>'Cancella',
     'last'=>'Ultima <br> esecuzione',
