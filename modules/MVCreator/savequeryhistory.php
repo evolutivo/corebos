@@ -16,7 +16,9 @@
 $data=json_decode($_POST['fields']);
 $queryid=$_POST['queryid'];
 global $adb;
-$q=$adb->query("select sequence from mvqueryhistory where id='$queryid' order by sequence DESC Limit 1");
+$q=$adb->query("select sequence from mvqueryhistory where id='$queryid' order by sequence DESC");
+$nr=$adb->num_rows($q);
 $seq=$adb->query_result($q,0,0)+1;
-$adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->ValuesParagraf,$seq));
+$adb->query("update mvqueryhistory set active=0 where id='$queryid'");
+$adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->ValuesParagraf,$seq,'1'));
 echo 'ok';

@@ -1100,6 +1100,7 @@ function SaveMap() {
 //            campiSelezionati.push(opt.value);
 //    }
 //    if (campiSelezionati.length != 0) {
+        var querysequence=document.getElementById('querysequence').value;
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
         selField1.push(primoCampo);
@@ -1108,7 +1109,7 @@ function SaveMap() {
         selTab2.push(secModule);
         nameView = (document.getElementById('nameView').value);
         // url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
-        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap&queryid="+document.getElementById('queryid').value;
+        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
         jQuery.ajax({
             type: "POST",
@@ -1122,6 +1123,8 @@ function SaveMap() {
                 selTab2: selTab2,
                 selField2: selField2,
                 installationID: installationID,
+                queryid:document.getElementById('queryid').value,
+                querysequence:document.getElementById('querysequence').value,
             //    html: optionsCombo,
              //   campiSelezionati: campiSelezionati,
                 nameView: nameView,
