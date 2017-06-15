@@ -26,9 +26,9 @@
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
-            <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
+        <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>
+                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
             <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
@@ -231,6 +231,7 @@
                     {*{else}*}
                     <input type="hidden" name="MapID" value="{$MapID}" id="MapID">                    
                     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+                    <input type="hidden" name="querysequence" id="querysequence" value="">
                     {*{/if}*}
 
 
@@ -627,6 +628,7 @@
 
        function show_query_History(id_history){
          $('#AlertsAddDiv div').remove();
+         document.getElementById('querysequence').value=id_history+1;
          for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
                 var idd =ii// JSONForCOndition[ii].idJSON;
                 //valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
