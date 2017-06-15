@@ -28,7 +28,8 @@ class addquerytable extends cbupdaterWorker {
                   secondmodule varchar(250) NOT NULL,
                   secondmoduletext varchar(250) NOT NULL,
                   query text NOT NULL,
-                  sequence INT NOT NULL 
+                  sequence INT NOT NULL,
+                  active VARCHAR(2) NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 		}
 		$this->finishExecution();
