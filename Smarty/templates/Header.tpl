@@ -330,26 +330,6 @@
 			</span>
 		</div>
 	</div>
-	<nav class="slds-context-bar__secondary" role="navigation">
-		<ul class="slds-grid" id="cbmenu">
-		</ul>
-		<div class="slds-context-bar__tertiary" style="float:left; margin-top:auto; margin-bottom:auto;">
-			<div class="slds-form-element">
-				<div class="slds-form-element__control">
-                                    {if $QCreateAction.QuickCreate eq 'yes'}
-					<div class="slds-select_container">
-						<select id="qccombo" class="slds-select" onchange="QCreate(this);">
-							<option value="none">{$APP.LBL_QUICK_CREATE}...</option>
-							{foreach item=detail from=$QCMODULE}
-								<option value="{$detail.1}">{$APP.NEW}&nbsp;{$detail.0}</option>
-							{/foreach}
-						</select>
-					</div>
-                                    {/if}
-				</div>
-			</div>
-		</div>
-	</nav>
 {call cbmenu menu=$MENU}
 </div>
 </div>
