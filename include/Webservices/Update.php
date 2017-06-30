@@ -10,7 +10,7 @@
 	
 	function vtws_update($element,$user){
 		
-		global $log,$adb;
+		global $log,$adb,$root_directory;
 		$idList = vtws_getIdComponents($element['id']);
 		$webserviceObject = VtigerWebserviceObject::fromId($adb,$idList[0]);
 		$handlerPath = $webserviceObject->getHandlerPath();
@@ -21,6 +21,21 @@
 		$handler = new $handlerClass($webserviceObject,$user,$adb,$log);
 		$meta = $handler->getMeta();
 		$entityName = $meta->getObjectEntityName($element['id']);
+
+	    if (!empty($element['attachments'])) {
+	      foreach ($element['attachments'] as $fieldname => $attachment){
+	        $filepath = $root_directory.'storage/'.$attachment['name'];
+	        file_put_contents($filepath, base64_decode($attachment['content']));
+	        $_FILES[$fieldname] = array(
+	            'name' => $attachment['name'],
+	            'type' => $attachment['type'],
+	            'tmp_name' => $filepath,
+	            'error' => 0,
+	            'size' => $attachment['size']
+	        );
+	      }
+	      unset($element['attachments']);
+	    }
 		
 		$types = vtws_listtypes(null, $user);
 		if(!in_array($entityName,$types['types'])){
@@ -42,17 +57,16 @@
 		if($meta->hasWriteAccess()!==true){
 			throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED,"Permission to write is denied");
 		}
-		
+
 		$referenceFields = $meta->getReferenceFieldDetails();
-		foreach($referenceFields as $fieldName=>$details){
-			if(isset($element[$fieldName]) && strlen($element[$fieldName]) > 0){
+		foreach ($referenceFields as $fieldName=>$details) {
+			if (isset($element[$fieldName]) && strlen($element[$fieldName]) > 0) {
 				$ids = vtws_getIdComponents($element[$fieldName]);
 				$elemTypeId = $ids[0];
 				$elemId = $ids[1];
 				$referenceObject = VtigerWebserviceObject::fromId($adb,$elemTypeId);
 				if (!in_array($referenceObject->getEntityName(),$details)){
-					throw new WebServiceException(WebServiceErrorCode::$REFERENCEINVALID,
-						"Invalid reference specified for $fieldName");
+					throw new WebServiceException(WebServiceErrorCode::$REFERENCEINVALID, "Invalid reference specified for $fieldName");
 				}
 				if ($referenceObject->getEntityName() == 'Users') {
 					if(!$meta->hasAssignPrivilege($element[$fieldName])) {
@@ -63,11 +77,11 @@
 					throw new WebServiceException(WebServiceErrorCode::$ACCESSDENIED,
 						"Permission to access reference type is denied ".$referenceObject->getEntityName());
 				}
-			}else if($element[$fieldName] !== NULL){
+			} else if (isset($element[$fieldName]) and $element[$fieldName] !== NULL) {
 				unset($element[$fieldName]);
 			}
 		}
-		
+
 		$meta->hasMandatoryFields($element);
 		
 		$ownerFields = $meta->getOwnerFields();
@@ -79,8 +93,9 @@
 				}
 			}
 		}
-		//  Product line support
-		if(in_array($entityName, getInventoryModules()) && (is_array($element['pdoInformation']))) {
+		// Product line support
+		if (in_array($entityName, getInventoryModules()) && isset($element['pdoInformation']) && (is_array($element['pdoInformation']))) {
+			$elementType = $entityName;
 			include_once 'include/Webservices/ProductLines.php';
 		} else {
 			$_REQUEST['action'] = $entityName.'Ajax';
@@ -96,6 +111,11 @@
 			$adb->pquery('update vtiger_troubletickets set update_log=? where ticketid=?', array($updlog, $idList[1]));
 		}
 		VTWS_PreserveGlobal::flush();
+        if(!empty($_FILES)){
+            foreach ($_FILES as $field => $file) {
+                unlink($file['tmp_name']);
+            }
+        }
 		return $entity;
 	}
 	

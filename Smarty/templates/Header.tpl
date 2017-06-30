@@ -42,6 +42,7 @@
 	<!-- End -->
 </head>
 {include file='BrowserVariables.tpl'}
+{include file="Components.tpl"}
 <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small>
 	<a name="top"></a>
 	<!-- header -->
@@ -349,6 +350,7 @@
 			</div>
 		</div>
 	</nav>
+{call cbmenu menu=$MENU}
 </div>
 </div>
 </td>
@@ -435,7 +437,6 @@
 </div>
 <script type="text/javascript">
 	jQuery('#tracker').draggable({ldelim} handle: "#Track_Handle" {rdelim});
-	var evvtmenu={$MENU};
 </script>
 <script type="text/javascript" src="modules/evvtMenu/evvtMenu.js"></script>
 </div>

@@ -343,7 +343,7 @@ function deleteInventoryProductDetails($focus)
 			}
 		}
 	}
-	$updateInventoryProductRel_update_product_array = $focus->update_product_array;
+	$updateInventoryProductRel_update_product_array = (isset($focus->update_product_array) ? $focus->update_product_array : array());
 	$adb->pquery("delete from vtiger_inventoryproductrel where id=?", array($focus->id));
 	$adb->pquery("delete from vtiger_inventorysubproductrel where id=?", array($focus->id));
 	$adb->pquery("delete from vtiger_inventoryshippingrel where id=?", array($focus->id));
@@ -614,7 +614,7 @@ function saveInventoryProductDetails(&$focus, $module, $update_prod_stock='false
 	if (isset($_REQUEST['adjustmentType']) and $_REQUEST['adjustmentType'] == '-')
 		$adjustmentType = vtlib_purify($_REQUEST['adjustmentType']);
 
-	$adjustment = vtlib_purify($_REQUEST['adjustment']);
+	$adjustment = (isset($_REQUEST['adjustment']) ? vtlib_purify($_REQUEST['adjustment']) : 0);
 	$updatequery .= " adjustment=?,";
 	array_push($updateparams, floatval($adjustmentType.$adjustment));
 
@@ -1041,6 +1041,7 @@ function updateProductStockFromDatabase($recordId,$add=true) {
 
 function createRecords($obj) {
 	global $adb, $VTIGER_BULK_SAVE_MODE;
+	$previousBulkSaveMode = isset($VTIGER_BULK_SAVE_MODE) ? $VTIGER_BULK_SAVE_MODE : false;
 	$moduleName = $obj->module;
 
 	$moduleHandler = vtws_getModuleHandlerFromName($moduleName, $obj->user);
@@ -1072,8 +1073,9 @@ function createRecords($obj) {
 
 	$tableName = Import_Utils::getDbTableName($obj->user);
 	$sql = 'SELECT subject FROM ' . $tableName . ' WHERE status = '. Import_Data_Controller::$IMPORT_RECORD_NONE .' GROUP BY subject';
-	if($obj->batchImport) {
+	if ($obj->batchImport) {
 		$importBatchLimit = GlobalVariable::getVariable('Import_Batch_Limit', 100);
+		if (!is_numeric($importBatchLimit)) $importBatchLimit = 100;
 		$sql .= ' LIMIT '. $importBatchLimit;
 	}
 	$result = $adb->query($sql);
@@ -1146,7 +1148,7 @@ function createRecords($obj) {
 							try{
 								$VTIGER_BULK_SAVE_MODE = false;
 								$psInfo = vtws_create($referenceModuleName, $pdoinfo, $obj->user);
-								$VTIGER_BULK_SAVE_MODE = true;
+								$VTIGER_BULK_SAVE_MODE = $previousBulkSaveMode;
 								$entityId = $psInfo['id'];
 							} catch (Exception $e){
 								continue 2; // ignore this line
