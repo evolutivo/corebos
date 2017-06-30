@@ -23,6 +23,12 @@ $mod_strings = array(
 'Addstatus'=>'Aggiungi Stato',
 'CrFlow'=>'Crea Flusso',
 'Start'=>'Inizio',
-'End'=>'Fine'
+'End'=>'End',
+'SaveGraphConfig'=>'Save Graph Positions',
+'DeleteFlow'=>'Delete Flow',
+'AreYouSure'=>'Are you sure?',
+'Done'=>'Successfully completed operation',
+'DeleteNode'=>'Delete the Flows related with this status',
+'DeleteEdge'=>'Delete the specific Flow',
 );
 ?>

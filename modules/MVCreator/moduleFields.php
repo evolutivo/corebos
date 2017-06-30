@@ -1,4 +1,18 @@
 <?php
+/*************************************************************************************************
+ * Copyright 2014 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
+* Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
+* file except in compliance with the License. You can redistribute it and/or modify it
+* under the terms of the License. JPL TSolucio, S.L. reserves all rights not expressly
+* granted by the License. coreBOS distributed by JPL TSolucio S.L. is distributed in
+* the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Unless required by
+* applicable law or agreed to in writing, software distributed under the License is
+* distributed on an "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND,
+* either express or implied. See the License for the specific language governing
+* permissions and limitations under the License. You may obtain a copy of the License
+* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
+*************************************************************************************************/
 global $log,$adb;
 //require_once ('include/utils/utils.php');
 //require_once('include/database/PearDatabase.php');
@@ -8,7 +22,7 @@ global $log,$adb;
 
 include 'XmlContent.php';
 
-$FieldsArray=array();//"edmondi" . $_POST['MapID'];
+$FieldsArray=array();
 if (isset($_REQUEST['MapId'])) {
     $mapid = $_REQUEST['MapId'];
 
@@ -16,7 +30,7 @@ if (isset($_REQUEST['MapId'])) {
     //echo "brenda kushtit mapID ".$mapid;
     function getModFields($module, $dbname, $FieldsArrays)
     {
-        global $log;
+        global $log,$OPTION_SET;
         $log->debug("Entering getAdvSearchfields(" . $module . ") method ...");
         global $adb;
         global $current_user;
@@ -391,14 +405,6 @@ else{
         return $OPTION_SET;
     }
 }
-//echo "jashte kushtit ska mapid";
-//foreach ($FieldsArray as $item ){
-//    echo $item->fieldname."<br>";
-//}
-//
-//exit();
-
-
 
 $rec=$_REQUEST['installationID'];
 /* $ai=$adb->query("select * from vtiger_accountinstallation join vtiger_crmentity on crmid=accountinstallationid
@@ -408,7 +414,7 @@ $acno=$adb->query_result($ai,0,"acin_no"); */
 if(isset($_REQUEST['mod'])){
  $m = $_REQUEST['mod'];
  $module = $m;
- echo $module;
+// echo $module;
 $result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
 $link = $adb->query_result($result,0,"entityidfield");
 //echo $m;

@@ -7,8 +7,6 @@ $content=array();
 $kaction=$_REQUEST['kaction'];
 
 if($kaction=='savePF'){
-    include_once('modules/ProcessFlow/ProcessFlow.php');
-    
     $processTemp=$_REQUEST['processTemp'];
     $start_status=$_REQUEST['start_status'];
     $end_status=$_REQUEST['end_status'];
@@ -22,5 +20,44 @@ if($kaction=='savePF'){
     $focus->column_fields['linktoprocesstemplate']=$processTemp;
     $focus->column_fields['processflowname']=$start_status.' -> '.$end_status;
     $focus->save("ProcessFlow"); 
+}
+elseif($kaction=='saveGraph'){
+    global $adb;
+    $models = $_REQUEST['models'];
+    $mv = json_decode($models);
+    for($i=0;$i<sizeof($mv->elements->nodes);$i++){
+        $node=$mv->elements->nodes[$i];
+        if ($node->data->id!=''){
+            $x=$node->position->x;
+            $y=$node->position->y;
+            $query="Update vtiger_processflow"
+            . " set positionstart=?"
+            . " where starttasksubstatus=? ";
+            $adb->pquery($query,array($x.','.$y,$node->data->id));
+            $query="Update vtiger_processflow"
+            . " set positionend=?"
+            . " where  end_subst=?";
+            $adb->pquery($query,array($x.','.$y,$node->data->id));
+        }
+    }
+}
+elseif($kaction=='deleteNode'){
+    global $adb;
+    $models = $_REQUEST['models'];
+    $mv = json_decode($models);
+    $node=$mv->elements->nodes[$i];
+    if ($node->data->id!=''){
+        $x=$node->position->x;
+        $y=$node->position->y;
+        $query="delete from  vtiger_processflow"
+        . " where starttasksubstatus=? ";
+        $adb->pquery($query,array($x.','.$y,$node->data->id));
+        $query="Update vtiger_processflow"
+        . " where  end_subst=?";
+        $adb->pquery($query,array($x.','.$y,$node->data->id));
+    }
+}
+elseif($kaction=='deleteEdge'){
+    
 }
 ?> 

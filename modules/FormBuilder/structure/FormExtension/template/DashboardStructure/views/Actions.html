@@ -1,0 +1,14 @@
+<div>
+    <div class="edit-profile-block" id="executingAction" style="display:none;"></div>
+    <md-toolbar ng-if="relatedmodules.DETAILVIEWBASICFORM.length>0" style="background-color: steelblue;border-style: solid;border-spacing: 1px;border-color: white;border-width: 1px;">
+      <div class="md-toolbar-tools" >
+        <md-button class="md-raised" ng-repeat="mitem in relatedmodules.DETAILVIEWBASICFORM"
+                   ng-click="executeAction(mitem.linkid,mitem.output_type);" >
+            <md-tooltip md-direction="top">
+              {{mitem.linklabel}}
+            </md-tooltip>
+            {{mitem.linklabel}}
+        </md-button>
+      </div>
+    </md-toolbar>
+</div>

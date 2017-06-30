@@ -12,7 +12,7 @@ angular.module('demoApp').service('BoardService', ['$injector','$modal', 'BoardM
       }
     },
 
-    addNewCard: function (board, column) {
+    addNewCard: function (board, column,files,executingAction) {
       var modalInstance = $modal.open({
         templateUrl: 'Smarty/angular/sortable/views/partials/newCard.html',
         controller: 'NewCardController',
@@ -20,14 +20,17 @@ angular.module('demoApp').service('BoardService', ['$injector','$modal', 'BoardM
         resolve: {
           column: function () {              
             return column;
+          },
+          files: function () {              
+            return files;
+          },
+          executingAction: function () {              
+            return executingAction;
           }
         }
       });
       modalInstance.result.then(function (cardDetails) {
-          
-          BoardManipulator.prepForBroadcast();
-     
-    //$scope.fill_sortable ();   
+          //BoardManipulator.prepForBroadcast();
         if (cardDetails) {
           BoardManipulator.addCardToColumn(board, cardDetails.column, cardDetails.title, cardDetails.details,cardDetails.ptname,cardDetails.pfid,cardDetails.currentid);
         }

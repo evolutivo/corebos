@@ -1,0 +1,72 @@
+<md-tabs md-dynamic-height md-border-bottom>
+    
+  <md-tab label="{{mitem.name}}" ng-click="showNgBlockWidget(mitem.linklabel,mitem.linktype,mitem.type)" ng-repeat="mitem in relatedmodules.DETAILVIEWWIDGETFORM">
+    <md-content class="md-padding">
+        <div layout="row" layout-sm="column" layout-align="space-around"  ng-show="loadingNgBlock">
+          <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+        </div>
+        <p ng-show="!loadingNgBlock">
+      <div ng-if="ngblockType=='Table'">
+                    <table ng-table-dynamic="tableParams{{mitem.linklabel}} with fields" show-filter="true" class="table table-bordered table-striped">
+                         <tbody ng-repeat="(fIndex,row) in $data "  >
+                            <tr>
+                                <td ng-repeat="col in $columns" >
+                                    <span ng-if="col.field=='expand'" style="cursor: pointer;" id="row.id" data-ng-click="selectTableRow(fIndex,row.id)">
+                                        ⬍
+                                    </span>
+                                    <span ng-if="col.field!='expand' && $index==1 && row['no_link']!=='1'"><a href="index.php?module={{form_name}}&action={{action_name}}&record={{row.id}}&onOpenView=detail">{{row[col.field+'_display']}}</a></span>
+                                    <span ng-if="col.field!='expand' && $index==1 && row['no_link']=='1'">{{row[col.field+'_display']}}</span>
+                                    <span ng-if="col.field!='expand' && $index!=1">
+                                        {{row[col.field+'_display']}}
+                                    </span>
+                                    <span ng-if="col.field=='filename'">
+                                        <a ng-click="downloadfile(row['preview'])"><br/><b>Preview</a>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr ng-if="dayDataCollapse[$index] && row.SubDetails.records.length>0">
+                                <td style="padding-bottom:0px;">&nbsp;</td>
+                                <td colspan="7" style="padding-bottom:0px;">
+                                    <div class="span12 pull-right" style="margin-left:0px;width:100%;">
+                                        <table class="table table-bordered table-striped" style="margin-left:0px;width:100%;">
+                                            <thead>
+                                                <tr>
+                                                    <td ng-repeat="col in row.SubDetails.fieldsLabels"><b>{{col}}</b></td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                             <tbody ng-repeat="record in row.SubDetails.records "  >
+                                                <tr>
+                                                    <td ng-repeat="col in row.SubDetails.fields" >{{record[col]}}</td>
+                                                    <td></td>
+                                                </tr>
+                                             </tbody>
+                                        </table>
+                                    </div>
+                                </td>
+                            </tr>
+                         </tbody>
+                    </table>
+                </div> 
+      <div ng-if="ngblockType=='Graph'"></div>
+      <div ng-if="ngblockType=='Custom'">
+          <div ng-include="'Smarty/templates/modules/'+module+'/views/Rendiconta.tpl'" ></div>
+      </div>
+      <div ng-if="ngblockType=='FATHERDV'">
+        <div ng-include="'Smarty/templates/modules/'+module+'/views/FatherDV.tpl'" ></div>
+      </div>
+    </p>
+    </md-content>
+  </md-tab>
+</md-tabs>
+<!--<md-toolbar style="background-color: steelblue;border-style: solid;border-spacing: 1px;border-color: white;border-width: 1px;">
+  <div class="md-toolbar-tools">
+        <md-button ng-click="showNgBlockWidget(module,'','PORTALSV')" >
+          Main Info
+        </md-button>
+        <md-button class="md-raised" ng-repeat="mitem in relatedmodules.DETAILVIEWWIDGETFORM"
+                   ng-click="showNgBlockWidget(mitem.linklabel,mitem.linktype,mitem.type)">
+          {{mitem.name}}
+        </md-button>
+  </div>
+</md-toolbar> -->

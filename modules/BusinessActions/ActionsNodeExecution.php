@@ -129,20 +129,16 @@ class ActionsNodeExecution extends BusinessActions {
     function executeNodeAction($params){
         $this->log->debug("Entering before script execution");
         $this->log->debug($params);
-        $res_logic=$this->runBusinessLogic2($this->id);
+        $res_logic=$this->runBusinessLogic2($params['recordid']);
+        $data = array();
+        $data['result']=$params;
         if($res_logic){
-        $fullScriptPath = $this->column_fields['script_name'];
-        $this->log->debug("action path name");
-        $this->log->debug($fullScriptPath);
-        include_once 'modules/BusinessActions/wsExecution.php';
-        $methodName=basename("$fullScriptPath");
-        $data=wsExecution("$methodName", $params);
-        //include_once "$fullScriptPath.php";
-        //
-       // if(!function_exists($functionName)){
-        //$scriptResponse=$functionName($params); 
-       // }
-        //$data=json_decode($scriptResponse,true);
+            $fullScriptPath = $this->column_fields['script_name'];
+            $this->log->debug("action path name");
+            $this->log->debug($fullScriptPath);
+            include_once 'modules/BusinessActions/wsExecution.php';
+            $methodName=basename("$fullScriptPath");
+            $data=wsExecution("$methodName", $params);
         }
         return $data;
     }

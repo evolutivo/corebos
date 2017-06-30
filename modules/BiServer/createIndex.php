@@ -58,7 +58,6 @@ if($mvtype == "report"){
               $replacedColumnsContainingDots[] = $selectedReportColumns[$i] ;
             }
             $colname[$i] = $_REQUEST['colname'.$j];
-            //get Field type 
            $analyzedChecked = $_REQUEST['checkanalyzed'.$j];
            if($analyzedChecked == "on" || $analyzedChecked==1)
                  $analyzed = "analyzed";
@@ -203,7 +202,7 @@ if($mvtype == "report"){
  }
  else{
      //Create index from mv
-     //create index -for logging ondex creation
+     //create index -for logging index creation
     if($actionTodo == "createindex")
      $mapid = $_REQUEST['maploggingsql'];   
     else $mapid = $_REQUEST['mapsql'];
@@ -249,6 +248,7 @@ if($mvtype == "report"){
             }
             $colname[$k1] = $_REQUEST['colname'.$j];
             $analyzedChecked = $_REQUEST['checkanalyzed'.$j];
+            //get Field type 
             if($analyzedChecked == "on" || $analyzedChecked==1)
                 $analyzed = "analyzed";
             else $analyzed = "not_analyzed";
@@ -263,6 +263,8 @@ if($mvtype == "report"){
         $tabname = trim(str_replace(range(0,9),'',$fldArr[0]));
         if($i == 0) $entityfield = $clname;
         $col = getColumnname('',$clname,$tabname);
+        $fldtype =  $_REQUEST['modulfieldtype'.$j];
+        if($fldtype != "") $col[1] = $fldtype;
         if(substr($col[1],0,1)=='N')
         {
             $coltype='double';
@@ -418,7 +420,7 @@ if($mvtype == "report"){
         }
         insertElasticIndex($index,$lanbelsToInsert,$typreofindex);
         if($actionTodo == "createindex"){
-        updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields);
+        updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields,$mapid);
         }
   }
   else{
@@ -426,7 +428,7 @@ if($mvtype == "report"){
       if($actionTodo == "createindex"){
           //Update Elastic Tables
           updateElasticLabels($index,$lanbelsToInsert);
-          updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields);
+          updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields,$mapid);
           
           //Update Elastic Mapping
       }
@@ -458,9 +460,9 @@ if($mvtype == "report"){
       $adb->pquery("Update vtiger_elastic_indexes set fieldlabel = ? where id = ?",array($fields,$elasticId));
   }
   
-  function updateLoggingConf($index,$query,$elasticTabid,$mapFields){
+  function updateLoggingConf($index,$query,$elasticTabid,$mapFields,$mapid){
       global $adb;
-      $adb->pquery("Update vtiger_loggingconfiguration set indextype=?,queryelastic=? where  tabid =?",array($index,$query,$elasticTabid));   
+      $adb->pquery("Update vtiger_loggingconfiguration set indextype=?,queryelastic=?, mapid =? where  tabid =?",array($index,$query,$mapid,$elasticTabid));   
   }
   
   function getTabIdFromQuery($idfield){

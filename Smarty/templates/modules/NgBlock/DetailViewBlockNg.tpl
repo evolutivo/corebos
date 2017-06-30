@@ -214,10 +214,6 @@
 </script>
 <style>
 {literal}
-.app-modal-window .modal-dialog {
-    width: 500px;
-    margin-left:-190px;
-    }
 .ta-editor {
     min-height: 50px;
     height: auto;

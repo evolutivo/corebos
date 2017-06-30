@@ -8,7 +8,7 @@
 function rendicontaConfig($module){
     
     global $adb;
-    $mapRendicontaConfig=array('respmodule'=>'','statusfield'=>'','processtemp'=>'');
+    $mapRendicontaConfig=array('respmodule'=>'','statusfield'=>'','processtemp'=>'','causalefield'=>'');
     $q_business_rule="Select businessrule,linktomap "
             . " from vtiger_businessrules"
             . " join vtiger_cbmap on vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid"
@@ -42,6 +42,31 @@ function updateStatusFld($data){
     $focus_currMod->column_fields["rendicontato_da"]=$current_user->id;
     $focus_currMod->column_fields['assigned_user_id']=$focus_currMod->column_fields['assigned_user_id'];
     $focus_currMod->save($currentModule);
+}
+function saveAnswers($data,$answers){
+    
+    global $current_user,$adb;
+    $currentModule=$data['currentModule'];
+    $id=$data['recordid'];
+    $statusfield=$data['statusfield'];
+    $next_sub=$data['next_substatus'];
+    for($i=0;$i<sizeof($answers);$i++){
+        $questionid=$answers[$i]['qid'];
+        $questiontype=$answers[$i]['questiontype'];
+        $result=$adb->pquery("Select answer_fieldname from vtiger_preguntas"
+                . " where preguntasid=?",array($questionid));
+        if($result && $adb->num_rows($result)>0){
+            $answer_fieldname=$adb->query_result($result,0,'answer_fieldname');
+            if($answer_fieldname!='' && $questiontype!=='documento'){
+                $focus_currMod= CRMEntity::getInstance($currentModule);
+                $focus_currMod->id=$id;
+                $focus_currMod->retrieve_entity_info($id,$currentModule);
+                $focus_currMod->mode = 'edit';   
+                $focus_currMod->column_fields["$answer_fieldname"]=$answers[$i]['answers'];
+                $focus_currMod->saveentity($currentModule);
+            }
+        }
+    }
 }
 function createProcessLog($data){
     
@@ -79,12 +104,43 @@ function pickFlow($pfid,$data){
     $data['tasksla']=$adb->query_result($pfquery,0,'tasksla');
     $data['alertsettingmodel']=$adb->query_result($pfquery,0,'alertsettingmodel');
 
-    if($mailer_action!=''){
+    if($mailer_action!='' && $mailer_action!=0  && !empty($mailer_action) && $mailer_action !=null){
        $response=doAction($mailer_action,$data);
     }
-    if($sequencer!=''){
+    if($sequencer!='' && $sequencer!=0 && !empty($sequencer) && $sequencer!=null){
        $response=doAction($sequencer,$data);
     }
+    return $response;
+}
+function pickFlowCausale($data){
+    
+    global $adb,$log;
+    $response=array();
+    $pfquery=$adb->pquery("SELECT pf.* ,pt.* 
+                    FROM vtiger_processflow AS pf
+                    JOIN vtiger_processtemplate AS pt ON pf.linktoprocesstemplate = pt.processtemplateid
+                    JOIN vtiger_crmentity AS c ON c.crmid = pt.processtemplateid 
+                    JOIN vtiger_crmentity AS c2 ON c2.crmid = pf.processflowid
+                    WHERE processtemplateid = ? AND starttasksubstatus =? 
+                    AND processflowcase=?
+                    AND c.deleted =0  AND c2.deleted =0",array($data['actual_processtemp'],$data['actual_substatus']
+                                                            ,$data['actual_causale']));
+    if($adb->num_rows($pfquery)>0){
+        $data['next_substatus']=$adb->query_result($pfquery,0,'end_subst');
+        updateStatusFld($data);
+        $sequencer=$adb->query_result($pfquery,0,'sequencer');
+        $mailer_action=$adb->query_result($pfquery,0,'mailer_action');
+        $data['tasksla']=$adb->query_result($pfquery,0,'tasksla');
+        $data['alertsettingmodel']=$adb->query_result($pfquery,0,'alertsettingmodel');
+
+        if($mailer_action!='' && $mailer_action!=0  && !empty($mailer_action) && $mailer_action !=null){
+           $response=doAction($mailer_action,$data);
+        }
+        if($sequencer!='' && $sequencer!=0 && !empty($sequencer) && $sequencer!=null){
+           $response=doAction($sequencer,$data);
+        } 
+    }
+    
     return $response;
 }
 function doAction($actionid,$param){
@@ -184,7 +240,7 @@ function readPFActions($id){
     $pfquery=false;
     if($processtemp_val!='' && $statusfield_val!='' && $statusfield!='')
     {  
-        $pfquery=$adb->pquery("SELECT vtiger_businessactions.* 
+        $pfquery=$adb->pquery("SELECT vtiger_businessactions.* ,pf.processflowsecurity
                     FROM vtiger_processflow AS pf
                     JOIN vtiger_processtemplate AS pt ON pf.linktoprocesstemplate = pt.processtemplateid
                     JOIN vtiger_businessactions  ON pf.mailer_action = vtiger_businessactions.businessactionsid

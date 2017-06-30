@@ -511,6 +511,200 @@ class cbMap extends CRMEntity {
            return $target_fields;
         }
         
+        function getMapFieldDependecyForm(){
+            $map=htmlspecialchars_decode($this->column_fields['content']);
+            $x = new crXml();
+            $x->loadXML($map);
+            $target_picklist=array();
+            $target_roles=array();
+            $target_profiles=array();
+            $target_piclist_values=array();
+            $target_mode='';
+            $mandatory=array();
+            $automatic=array();
+            $targetfield=array();
+            $respfield=array();
+            $index=0;
+            foreach($x->map->fields->field->Orgfields[0] as $k=>$v) {
+                
+                if($k=='Orgfield'){
+                    $targetfield[]=  (string)$v->fieldname;
+                    $action[]=  (string)$v->fieldaction;
+                    $targetvalue[]=  (string)$v->fieldvalue;
+                    $ismand=false;$isautomatic=false;$isautomatic_fieldname=false;
+                    $isautomatic_copy=false;
+                    $haspatterns=false;
+    //                if($v->fieldlength){
+    //                        $fieldlength[]=  (string)$v->fieldlength;
+    //                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='mandatory'){
+                            $mandatory[]=  (string)$v_r;
+                            $ismand=true;
+                        }                    
+                    }
+                    if(!$ismand){
+                        $mandatory[]='';
+                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='automatic'){
+                            $temp1=(string)$v_r;
+                            if($temp1==='true')
+                                $temp1=true;
+                            $automatic[]=  $temp1;
+                            $isautomatic=true;
+                        }                    
+                    }
+                    if(!$isautomatic){
+                        $automatic[]='';
+                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='automatic_fieldname'){
+                            $automatic_fieldname[]=  (string)$v_r;
+                            $isautomatic_fieldname=true;
+                        }                    
+                    }
+                    if(!$isautomatic_fieldname){
+                        $automatic_fieldname[]='';
+                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='automatic_copy'){
+                            $automatic_copy[]=  (string)$v_r;
+                            $isautomatic_copy=true;
+                        }                    
+                    }
+                    if(!$isautomatic_copy){
+                        $automatic_copy[]='';
+                    }
+                  foreach($v as $k_r=>$v_r) { 
+                    if($k_r=='patterns'){
+                     	    $patternval=array();
+                	        $messagetext=array();
+                        	foreach($v_r as $k_p=>$v_p) {
+                        		if($k_p=='pattern'){
+                        		$hasvalidation=false;
+                                $hasmessagetext=false;
+                        		foreach($v_p as $k_pv=>$v_pv){
+                                  if($k_pv=='patternvalue'){
+                                      $patternval[]=  (string)trim($v_pv);
+                                      $hasvalidation=true;
+                                  }
+                                  if($k_pv=='messagetext'){
+                                      $messagetext[]=  (string)trim($v_pv);
+                                      $hasmessagetext=true;
+                                  }
+                               }
+
+                               if(!$hasvalidation){
+                                  $patternval[]='';
+                               } 
+                               if(!$hasmessagetext){
+                                  $messagetext[]='';
+                               }
+
+                            }
+                        }
+                        $patterns[]=array('pattern'=> $patternval,'messagetext'=> $messagetext);
+                        $haspatterns=true;
+
+                      }
+
+                    }
+                    if(!$haspatterns){
+                        $patterns[]=array('notset'=>true);
+                    }
+                    foreach($v as $k_r=>$v_r) {
+                        if($k_r=='confirm_editability'){
+                            $confirm_editability[]=  (string)$v_r;
+                            $isconfirm_editability=true;
+                        }                    
+                    }
+                    if(!$isconfirm_editability){
+                        $confirm_editability[]='';
+                    }
+                                 
+                }
+                                 
+                if($k=='Responsiblefield'){
+                $respfield[]=  (string)$v->fieldname;
+                $r_values=array();
+                foreach($v as $k_r=>$v_r) {
+                    if($k_r=='fieldvalue')
+                        $r_values[]=  (string)$v_r;
+                }
+                $respvalue[]='"'. implode('","',$r_values).'"';;
+                $respvalue_portal[]=$r_values;
+                $comp=(string)$v->comparison;
+                $ret_comp='==';
+                if($comp=='equal')
+                    $ret_comp='==';
+                elseif($comp=='notequal')
+                    $ret_comp='!=';
+                elseif(!empty($comp))
+                    $ret_comp=$comp;
+                $respcomparison[]=  $ret_comp;
+                }
+
+                if($k=='Picklist'){
+                $target_picklist[]=  (string)$v->fieldname;
+                $target_piclist_values_temp=array();
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_piclist_values_temp[]=  (string)$v1;
+                        }
+                    }
+                    $target_piclist_values[(string)$v->fieldname]=  $target_piclist_values_temp;
+                }
+                
+                if($k=='ResponsibleRole'){
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_roles[]=  (string)$v1;
+                        }
+                    }
+                }
+                
+                if($k=='ResponsibleProfile'){
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_profiles[]=  (string)$v1;
+                        }
+                    }
+                }
+                
+                if($k=='ResponsibleMode'){
+                    foreach($v as $k1=>$v1) {
+                        if($k1=='values'){
+                            $target_mode=  (string)$v1;
+                        }
+                    }
+                }
+              }
+           $target_fields['targetfield']=  $targetfield;
+           $target_fields['action']=  $action;
+           $target_fields['targetvalue']=  $targetvalue;
+           $target_fields['fieldlength']=  $fieldlength;
+           $target_fields['mandatory']=  $mandatory;
+           $target_fields['automatic']=  $automatic;
+           $target_fields['automatic_fieldname']=  $automatic_fieldname;
+           $target_fields['automatic_copy']=  $automatic_copy;
+           $target_fields['patterns']= $patterns;
+           $target_fields['confirm_editability']= $confirm_editability;
+           
+           $target_fields['respfield']=  $respfield;
+           $target_fields['respvalue']=  $respvalue;
+           $target_fields['respvalue_portal']=  $respvalue_portal;
+           $target_fields['comparison']=  $respcomparison;
+           
+           $target_fields['target_picklist']=  $target_picklist;
+           $target_fields['target_picklist_values']=  $target_piclist_values;           
+           $target_fields['target_roles'] = $target_roles;           
+           $target_fields['target_profiles'] = $target_profiles;           
+           $target_fields['target_mode']=  $target_mode;
+                
+           return $target_fields;
+        }
+        
         function getMapPermissionActions  (){
                   $map=htmlspecialchars_decode($this->column_fields['content']);
                     $x = new crXml();
@@ -666,11 +860,15 @@ class cbMap extends CRMEntity {
                 if($k=='processtemp'){
                    $processtemp=  (string)$v;
                 }
+                if($k=='causalefield'){
+                   $causalefield=  (string)$v;
+                }
                 
               }
            $target_fields['respmodule']=  $respmodule;
            $target_fields['statusfield']=  $statusfield;
            $target_fields['processtemp']=  $processtemp;
+           $target_fields['causalefield']=  $causalefield;
            
            return $target_fields;
        }

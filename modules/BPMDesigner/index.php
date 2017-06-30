@@ -43,9 +43,25 @@ function loadContent($procesTemp){
     for($i=0;$i<$adb->num_rows($result);$i++){
         $starttasksubstatus=$adb->query_result($result,$i,'starttasksubstatus');
         $end_subst=$adb->query_result($result,$i,'end_subst');
-        $items['nodes'][]=array('data'=>array('id'=>$starttasksubstatus));
-        $items['nodes'][]=array('data'=>array('id'=>$end_subst));
-        $items['edges'][]=array('data'=>array('source'=>$starttasksubstatus,'target'=>$end_subst));
+        $positionstart=$adb->query_result($result,$i,'positionstart');
+        $positionend=$adb->query_result($result,$i,'positionend');
+        if(strpos($positionstart,',')){
+            $arTemp=explode(',',$positionstart);
+            $arrStart=array('data'=>array('id'=>$starttasksubstatus),'position'=>array('x'=>intval($arTemp[0]),'y'=>intval($arTemp[1])));
+        }
+        else{
+            $arrStart=array('data'=>array('id'=>$starttasksubstatus));
+        }
+        if(strpos($positionend,',')){
+            $arTemp=explode(',',$positionend);
+            $arrEnd=array('data'=>array('id'=>$end_subst),'position'=>array('x'=>intval($arTemp[0]),'y'=>intval($arTemp[1])));
+        }
+        else{
+            $arrEnd=array('data'=>array('id'=>$end_subst));
+        }
+        $items['nodes'][]=$arrStart;
+        $items['nodes'][]=$arrEnd;
+        $items['nodes'][]=array('data'=>array('source'=>$starttasksubstatus,'target'=>$end_subst));
         if(!in_array($starttasksubstatus, $items['allnodes']))
             $items['allnodes'][]=$starttasksubstatus;
         if(!in_array($end_subst, $items['allnodes']))

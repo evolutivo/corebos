@@ -91,13 +91,13 @@
 	<!-- END -->
 {/if}
     <!-- END -->
-{if $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' }   
+{if $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' && !in_array($MODULE_NAME, $ALLDASHBOARDS) && $MODULE_NAME neq 'FormBuilder'}   
         <script type="text/javascript" src="Smarty/angular/angular.js"></script>
         <script  src="Smarty/angular/ng-table.js"></script>
         <script src="Smarty/angular/angular-multi-select.js"></script>  
         <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
         <link rel="stylesheet" href="Smarty/angular/ng-table.css" />
-        <script src="Smarty/angular/ui-bootstrap-tpls-0.6.0.js"></script>
+        <script src="Smarty/angular/ui-bootstrap-tpls-0.13.4.js"></script>
         <link rel="stylesheet" href="Smarty/angular/ng-tags-input.min.css" />
         <script src="Smarty/angular/ng-tags-input.min.js"></script>
         <!-- xeditable   -->
@@ -134,7 +134,7 @@
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch'}   
+    {if $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch' && !in_array($MODULE_NAME, $ALLDASHBOARDS) && $MODULE_NAME neq 'FormBuilder'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
