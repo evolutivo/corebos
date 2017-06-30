@@ -130,7 +130,7 @@ $smarty->assign('EVENT_PERMISSION',CheckFieldPermission('parent_id','Events'));
 $smarty->assign('EDIT_PERMISSION', isPermitted($currentModule, 'EditView', $record));
 $smarty->assign('CHECK', $tool_buttons);
 
-if(PerformancePrefs::getBoolean('DETAILVIEW_RECORD_NAVIGATION', true) && isset($_SESSION[$currentModule.'_listquery'])){
+if (GlobalVariable::getVariable('Application_DetailView_Record_Navigation', 1) && isset($_SESSION[$currentModule.'_listquery'])){
 	$recordNavigationInfo = ListViewSession::getListViewNavigation($focus->id);
 	VT_detailViewNavigation($smarty,$recordNavigationInfo,$focus->id);
 } else {
@@ -167,10 +167,16 @@ if($singlepane_view == 'true' or $isPresentRelatedListBlock) {
 	}
 }
 
-if(isPermitted($currentModule, 'CreateView', $record) == 'yes')
+if (isPermitted($currentModule, 'CreateView', $record) == 'yes') {
 	$smarty->assign('CREATE_PERMISSION', 'permitted');
-if(isPermitted($currentModule, 'Delete', $record) == 'yes')
+} else {
+	$smarty->assign('CREATE_PERMISSION', '');
+}
+if (isPermitted($currentModule, 'Delete', $record) == 'yes') {
 	$smarty->assign('DELETE', 'permitted');
+} else {
+	$smarty->assign('DELETE', '');
+}
 
 $blocks = getBlocks($currentModule,'detail_view','',$focus->column_fields);
 $smarty->assign('BLOCKS', $blocks);
@@ -211,5 +217,5 @@ $smarty->assign('Module_Popup_Edit',isset($_REQUEST['Module_Popup_Edit']) ? vtli
 // Record Change Notification
 $focus->markAsViewed($current_user->id);
 
-$smarty->assign('DETAILVIEW_AJAX_EDIT', PerformancePrefs::getBoolean('DETAILVIEW_AJAX_EDIT', true));
+$smarty->assign('DETAILVIEW_AJAX_EDIT', GlobalVariable::getVariable('Application_DetailView_Inline_Edit', 1));
 ?>

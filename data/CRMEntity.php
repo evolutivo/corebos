@@ -13,6 +13,7 @@ require_once('data/Tracker.php');
 require_once('include/utils/utils.php');
 require_once('include/utils/UserInfoUtil.php');
 require_once('modules/com_vtiger_workflow/VTWorkflowManager.inc');
+$VTIGER_BULK_SAVE_MODE = false; // mass create/import global variable
 
 class CRMEntity {
 
@@ -171,7 +172,7 @@ class CRMEntity {
 				$upd = "update $tblname set $colname=? where ".$this->tab_name_index[$tblname].'=?';
 				$adb->pquery($upd, array($files['original_name'],$this->id));
 				$this->column_fields[$fldname] = $files['original_name'];
-				$file_saved = $this->uploadAndSaveFile($id,$module,$files,$attachmentname, $direct_import);
+				$file_saved = $this->uploadAndSaveFile($id,$module,$files,$attachmentname, $direct_import, $fldname);
 				// Remove the deleted attachments from db
 				if($file_saved && !empty($old_attachmentid)) {
 					$setypers = $adb->pquery('select setype from vtiger_crmentity where crmid=?', array($old_attachmentid));
@@ -200,7 +201,7 @@ class CRMEntity {
 					'error' => 0,
 					'size' => 0
 				);
-				$file_saved = $this->uploadAndSaveFile($id,$module,$fi,'', true);
+				$file_saved = $this->uploadAndSaveFile($id,$module,$fi,'', true,$fileindex);
 				$result = $adb->pquery($sql, array($fileindex,$tabid));
 				$tblname = $adb->query_result($result, 0, 'tablename');
 				$colname = $adb->query_result($result, 0, 'columnname');
@@ -219,7 +220,7 @@ class CRMEntity {
 	 * @param array $file_details  - array which contains the file information(name, type, size, tmp_name and error)
 	 * return void
 	 */
-	function uploadAndSaveFile($id, $module, $file_details, $attachmentname='', $direct_import=false) {
+	function uploadAndSaveFile($id, $module, $file_details, $attachmentname='', $direct_import=false, $forfield='') {
 		global $log, $adb, $current_user, $upload_badext;
 		$fparams = print_r($file_details,true);
 		$log->debug("Entering into uploadAndSaveFile($id,$module,$fparams) method.");
@@ -257,7 +258,7 @@ class CRMEntity {
 		}
 		if ($upload_status) {
 			$description_val = empty($this->column_fields['description']) ? '' : $this->column_fields['description'];
-			if ($module == 'Contacts' || $module == 'Products') {
+			if (($module == 'Contacts' || $module == 'Products') and $forfield=='imagename') {
 				$sql1 = "insert into vtiger_crmentity (crmid,smcreatorid,smownerid,setype,description,createdtime,modifiedtime) values(?, ?, ?, ?, ?, ?, ?)";
 				$params1 = array($current_id, $current_user->id, $ownerid, $module . " Image", $description_val, $adb->formatDate($date_var, true), $adb->formatDate($date_var, true));
 			} else {
@@ -1714,7 +1715,7 @@ class CRMEntity {
 					$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
 				}
 				if (!$racbr or $racbr->hasRelatedListPermissionTo('create',$related_module)) {
-					$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
+					$button .= "<input type='hidden' name='createmode' value='link' />" .
 						"<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
 						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "'>&nbsp;";
@@ -1961,7 +1962,7 @@ class CRMEntity {
 					$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
 				}
 				if (!$racbr or $racbr->hasRelatedListPermissionTo('create',$related_module)) {
-					$button .= "<input type='hidden' name='createmode' id='createmode' value='link' />" .
+					$button .= "<input type='hidden' name='createmode' value='link' />" .
 						"<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname) . "' class='crmbutton small create'" .
 						" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
 						" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "'>&nbsp;";
@@ -2762,8 +2763,8 @@ class CRMEntity {
 		$sorder = $this->default_sort_order;
 		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
-		else if(!empty($_SESSION[$currentModule.'_Sort_Order']))
-			$sorder = $_SESSION[$currentModule.'_Sort_Order'];
+		else if (!empty($_SESSION[$currentModule.'_Sort_Order']))
+			$sorder = $this->db->sql_escape_string($_SESSION[$currentModule.'_Sort_Order']);
 		$log->debug("Exiting getSortOrder() method ...");
 		return $sorder;
 	}
@@ -2777,15 +2778,15 @@ class CRMEntity {
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (GlobalVariable::getVariable('Application_ListView_Default_Sorting', 0, $currentModule)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
 		$order_by = $use_default_order_by;
-		if(isset($_REQUEST['order_by']))
+		if (isset($_REQUEST['order_by']))
 			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
-		else if(!empty($_SESSION[$currentModule.'_Order_By']))
-			$order_by = $_SESSION[$currentModule.'_Order_By'];
+		else if (!empty($_SESSION[$currentModule.'_Order_By']))
+			$order_by = $this->db->sql_escape_string($_SESSION[$currentModule.'_Order_By']);
 		$log->debug("Exiting getOrderBy method ...");
 		return $order_by;
 	}

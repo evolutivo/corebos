@@ -213,7 +213,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 			$options[] = array($pickListValue => $chk_val);
 		}
 		$label_fld ["options"] = $options;
-	} elseif ($uitype == 33) { //uitype 33 added for multiselector picklist - Jeri
+	} elseif ($uitype == 33) {
 		$roleid = $current_user->roleid;
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = str_ireplace(' |##| ', ', ', $col_fields[$fieldname]);
@@ -268,10 +268,15 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 			$label_fld[] = '';
 		}
 	} elseif ($uitype == 19) {
-		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Messages' or $module=='Emails' or $module=='Thread' or (isset($cbMapFI['RTE']) and $cbMapFI['RTE'] and vt_hasRTE()))
-			$col_fields[$fieldname] = decode_html($col_fields[$fieldname]);
-		else
-			$col_fields[$fieldname] = str_replace("&lt;br /&gt;", "<br>", $col_fields[$fieldname]);
+
+		$col_fields[$fieldname] = decode_html($col_fields[$fieldname]); // undo database encoding
+		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Messages' or $module=='Emails' or (isset($cbMapFI['RTE']) and $cbMapFI['RTE'] and vt_hasRTE())) {
+			//$col_fields[$fieldname] = htmlentities($col_fields[$fieldname]); // prepare for output
+			$col_fields[$fieldname] = from_html($col_fields[$fieldname]);
+		} else {
+			//$col_fields[$fieldname] = preg_replace(array('/</', '/>/', '/"/'), array('&lt;', '&gt;', '&quot;'), $col_fields[$fieldname]);
+			$col_fields[$fieldname] = htmlentities($col_fields[$fieldname],ENT_QUOTES,$default_charset); // prepare for output
+		}
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = $col_fields[$fieldname];
 	}
@@ -493,14 +498,13 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	} elseif ($uitype == 57) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$contact_id = $col_fields[$fieldname];
+		$contact_name = '';
 		if ($contact_id != '') {
 			$displayValueArray = getEntityName('Contacts', $contact_id);
 			if (!empty($displayValueArray)) {
 				foreach ($displayValueArray as $key => $field_value) {
 					$contact_name = $field_value;
 				}
-			} else {
-				$contact_name='';
 			}
 		}
 		$label_fld[] = $contact_name;
@@ -509,6 +513,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	} elseif ($uitype == 59) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$product_id = $col_fields[$fieldname];
+		$product_name = '';
 		if ($product_id != '') {
 			$product_name = getProductName($product_id);
 		}
@@ -604,7 +609,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		}
 		$label_fld[] = $custfldval;
 	}
-	elseif ($uitype == 69) {
+	elseif ($uitype == '69m') {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		if ($tabid == 14) {
 			$images = array();
@@ -645,51 +650,54 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 			}else {
 				$label_fld[] = '';
 			}
+		}
+	}
+	elseif ($uitype == 69) {
+		$label_fld[] = getTranslatedString($fieldlabel, $module);
+		if ($module == 'Contacts') {
+			$imageattachment = 'Image';
 		} else {
-			if ($module == 'Contacts') {
-				$imageattachment = 'Image';
-			} else {
-				$imageattachment = 'Attachment';
-			}
-			//$imgpath = getModuleFileStoragePath('Contacts').$col_fields[$fieldname];
-			$sql = "select vtiger_attachments.*,vtiger_crmentity.setype
+			$imageattachment = 'Attachment';
+		}
+		//$imgpath = getModuleFileStoragePath('Contacts').$col_fields[$fieldname];
+		$sql = "select vtiger_attachments.*,vtiger_crmentity.setype
+		 from vtiger_attachments
+		 inner join vtiger_seattachmentsrel on vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
+		 inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
+		 where vtiger_crmentity.setype='$module $imageattachment'
+		  and vtiger_attachments.name = ? and vtiger_seattachmentsrel.crmid=?";
+		$image_res = $adb->pquery($sql, array(str_replace(' ', '_', $col_fields[$fieldname]),$col_fields['record_id']));
+		if ($adb->num_rows($image_res)==0) {
+			$sql = 'select vtiger_attachments.*,vtiger_crmentity.setype
 			 from vtiger_attachments
 			 inner join vtiger_seattachmentsrel on vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
 			 inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-			 where vtiger_crmentity.setype='$module $imageattachment'
-			  and vtiger_attachments.name = ? and vtiger_seattachmentsrel.crmid=?";
+			 where vtiger_attachments.name = ? and vtiger_seattachmentsrel.crmid=?';
 			$image_res = $adb->pquery($sql, array(str_replace(' ', '_', $col_fields[$fieldname]),$col_fields['record_id']));
-			if ($adb->num_rows($image_res)==0) {
-				$sql = 'select vtiger_attachments.*,vtiger_crmentity.setype
-				 from vtiger_attachments
-				 inner join vtiger_seattachmentsrel on vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-				 inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-				 where vtiger_attachments.name = ? and vtiger_seattachmentsrel.crmid=?';
-				$image_res = $adb->pquery($sql, array(str_replace(' ', '_', $col_fields[$fieldname]),$col_fields['record_id']));
-			}
-			if ($adb->num_rows($image_res)>0) {
-				$image_id = $adb->query_result($image_res, 0, 'attachmentsid');
-				$image_path = $adb->query_result($image_res, 0, 'path');
-				//decode_html  - added to handle UTF-8   characters in file names
-				//urlencode    - added to handle special characters like #, %, etc.,
-				$image_name = urlencode(decode_html($adb->query_result($image_res, 0, 'name')));
-				$imgpath = $image_path . $image_id . "_" . $image_name;
-				if ($image_name != '') {
-					$ftype = $adb->query_result($image_res, 0, 'type');
-					$isimage = stripos($ftype, 'image') !== false;
-					if ($isimage) {
-						$imgtxt = getTranslatedString('SINGLE_'.$module,$module).' '.getTranslatedString('Image');
-						$label_fld[] = '<img src="' . $imgpath . '" alt="' . $imgtxt . '" title= "' . $imgtxt . '" style="max-width: 500px;">';
-					} else {
-						$imgtxt = getTranslatedString('SINGLE_'.$module,$module).' '.getTranslatedString('SINGLE_Documents');
-						$label_fld[] = '<a href="' . $imgpath . '" alt="' . $imgtxt . '" title= "' . $imgtxt . '">'.$image_name.'</a>';
-					}
+		}
+		if ($adb->num_rows($image_res)>0) {
+			$image_id = $adb->query_result($image_res, 0, 'attachmentsid');
+			$image_path = $adb->query_result($image_res, 0, 'path');
+			//decode_html  - added to handle UTF-8   characters in file names
+			//urlencode    - added to handle special characters like #, %, etc.,
+			$image_name = urlencode(decode_html($adb->query_result($image_res, 0, 'name')));
+			$imgpath = $image_path . $image_id . "_" . $image_name;
+			if ($image_name != '') {
+				$ftype = $adb->query_result($image_res, 0, 'type');
+				$isimage = stripos($ftype, 'image') !== false;
+				if ($isimage) {
+					$imgtxt = getTranslatedString('SINGLE_'.$module,$module).' '.getTranslatedString('Image');
+					$label_fld[] = '<img src="' . $imgpath . '" alt="' . $imgtxt . '" title= "' . $imgtxt . '" style="max-width: 500px;">';
 				} else {
 					$label_fld[] = '';
+					$imgtxt = getTranslatedString('SINGLE_'.$module,$module).' '.getTranslatedString('SINGLE_Documents');
+					$label_fld[] = '<a href="' . $imgpath . '" alt="' . $imgtxt . '" title= "' . $imgtxt . '">'.$image_name.'</a>';
 				}
 			} else {
 				$label_fld[] = '';
 			}
+		} else {
+			$label_fld[] = '';
 		}
 	}
 	elseif ($uitype == 62) {
@@ -858,12 +866,15 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$result = $adb->pquery($sql, array($value));
 				$vendor_name = $adb->query_result($result, 0, "vendorname");
 				$label_fld[] = '<a href="index.php?module=' . $parent_module . '&action=DetailView&record=' . $value . '">' . $vendor_name . '</a>';
-			} //MSL -------------------------------------------
+			} else {
+				$label_fld[] = '';
+				$label_fld[] = '';
+			}
 			// vtlib customization: For listview javascript triggers
 			$modMetaInfo=getEntityFieldNames($parent_module);
 			$modEName=(is_array($modMetaInfo['fieldname']) ? $modMetaInfo['fieldname'][0] : $modMetaInfo['fieldname']);
 			$vtlib_metainfo = "<span type='vtlib_metainfo' vtrecordid='$value' vtfieldname='$modEName' vtmodule='$parent_module' style='display:none;'></span>";
-			// END
+
 			$last_lbl_fld = count($label_fld) - 1;
 			$label_fld[$last_lbl_fld] .= $vtlib_metainfo;
 		} else {
@@ -1049,45 +1060,35 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	} elseif ($uitype == 75 || $uitype == 81) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$vendor_id = $col_fields[$fieldname];
-		if ($vendor_id != '') {
-			$vendor_name = getVendorName($vendor_id);
-		}
+		$vendor_name = (empty($vendor_id) ? '' : getVendorName($vendor_id));
 		$label_fld[] = $vendor_name;
 		$label_fld["secid"] = $vendor_id;
 		$label_fld["link"] = "index.php?module=Vendors&action=DetailView&record=" . $vendor_id;
 	} elseif ($uitype == 76) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$potential_id = $col_fields[$fieldname];
-		if ($potential_id != '') {
-			$potential_name = getPotentialName($potential_id);
-		}
+		$potential_name = (empty($potential_id) ? '' : getPotentialName($potential_id));
 		$label_fld[] = $potential_name;
 		$label_fld["secid"] = $potential_id;
 		$label_fld["link"] = "index.php?module=Potentials&action=DetailView&record=" . $potential_id;
 	} elseif ($uitype == 78) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$quote_id = $col_fields[$fieldname];
-		if ($quote_id != '') {
-			$quote_name = getQuoteName($quote_id);
-		}
+		$quote_name = (empty($quote_id) ? '' : getQuoteName($quote_id));
 		$label_fld[] = $quote_name;
 		$label_fld["secid"] = $quote_id;
 		$label_fld["link"] = "index.php?module=Quotes&action=DetailView&record=" . $quote_id;
 	} elseif ($uitype == 79) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$purchaseorder_id = $col_fields[$fieldname];
-		if ($purchaseorder_id != '') {
-			$purchaseorder_name = getPoName($purchaseorder_id);
-		}
+		$purchaseorder_name = (empty($purchaseorder_id) ? '' : getPoName($purchaseorder_id));
 		$label_fld[] = $purchaseorder_name;
 		$label_fld["secid"] = $purchaseorder_id;
 		$label_fld["link"] = "index.php?module=PurchaseOrder&action=DetailView&record=" . $purchaseorder_id;
 	} elseif ($uitype == 80) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$salesorder_id = $col_fields[$fieldname];
-		if ($salesorder_id != '') {
-			$salesorder_name = getSoName($salesorder_id);
-		}
+		$salesorder_name = (empty($salesorder_id) ? '' : getSoName($salesorder_id));
 		$label_fld[] = $salesorder_name;
 		$label_fld["secid"] = $salesorder_id;
 		$label_fld["link"] = "index.php?module=SalesOrder&action=DetailView&record=" . $salesorder_id;

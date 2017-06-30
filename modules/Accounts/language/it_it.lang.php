@@ -1,4 +1,13 @@
 <?php
+/***********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.1
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is: coreBOS Open Source
+ * The Initial Developer of the Original Code is vtiger
+ * Portions created by JPL TSolucio, S.L are Copyright (C) JPL TSolucio, S.L.
+ * All Rights Reserved.
+ ************************************************************************************/
+
 $mod_strings = array (
   'LBL_MODULE_NAME' => 'Aziende',
   'LBL_MODULE_TITLE' => 'Aziende: Home',
@@ -17,14 +26,6 @@ $mod_strings = array (
   'LBL_LIST_EMAIL_ADDRESS' => 'Indirizzo Email',
   'LBL_LIST_CONTACT_NAME' => 'Nome Contatto',
   'LBL_LIST_AMOUNT' => 'Opportunit&agrave; Totali',
-
-
-  'db_name' => 'LBL_LIST_ACCOUNT_NAME',
-  'db_website' => 'LBL_LIST_WEBSITE',
-  'db_billing_address_city' => 'LBL_LIST_CITY',
-
-
-
   'LBL_ACCOUNT' => 'Azienda:',
   'LBL_ACCOUNT_NAME' => 'Nome Azienda:',
   'LBL_PHONE' => 'Telefono:',

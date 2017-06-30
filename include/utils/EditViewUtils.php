@@ -12,12 +12,12 @@ require_once('include/ComboUtil.php');
 require_once('include/utils/CommonUtils.php');
 require_once 'modules/PickList/DependentPickListUtils.php';
 
-/** This function returns the vtiger_field details for a given vtiger_fieldname.
-  * Param $uitype - UI type of the vtiger_field
-  * Param $fieldname - Form vtiger_field name
-  * Param $fieldlabel - Form vtiger_field label name
-  * Param $maxlength - maximum length of the vtiger_field
-  * Param $col_fields - array contains the vtiger_fieldname and values
+/** This function returns the field details for a given fieldname.
+  * Param $uitype - UI type of the field
+  * Param $fieldname - Form field name
+  * Param $fieldlabel - Form field label name
+  * Param $maxlength - maximum length of the field
+  * Param $col_fields - array contains the fieldname and values
   * Param $generatedtype - Field generated type (default is 1)
   * Param $module_name - module name
   * Return type is an array
@@ -149,7 +149,10 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	elseif($uitype == 50) {
 		if(empty($value)) {
 			if ($generatedtype != 2) {
-				$disp_value = getNewDisplayTime();
+				$date = new DateTimeField();
+				$isodate = $date->getDBInsertDateTimeValue();
+				$date = new DateTimeField($isodate);
+				$disp_value = substr($date->getDisplayDateTimeValue(),0,16);
 			} else {
 				$disp_value = '';
 			}
@@ -221,7 +224,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$valueArr[$key] = trim(html_entity_decode($value, ENT_QUOTES, $default_charset));
 		}
 		$pickcount = 0;
-
+		$options = array();
 		if(!empty($picklistValues)){
 			foreach($picklistValues as $order=>$pickListValue){
 				if(in_array(trim($pickListValue),$valueArr)){
@@ -242,7 +245,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			}
 		}
 		$editview_label[]=getTranslatedString($fieldlabel,$module_name,$value);
-		$fieldvalue [] = $options;
+		$fieldvalue[] = $options;
 	} elseif($uitype == 3313 || $uitype == 3314){
 		require_once 'modules/PickList/PickListUtils.php';
 		$editview_label[]=getTranslatedString($fieldlabel,$module_name);
@@ -611,15 +614,15 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$fieldvalue[] = $value;
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 	}
-	elseif($uitype == 69)
+	elseif ($uitype == 69 or $uitype == '69m')
 	{
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		if (!empty($col_fields['record_id'])) {
-			if($module_name == 'Products') {
+			if ($uitype == '69m') { // module_name == 'Products'
 				$query = 'select vtiger_attachments.path, vtiger_attachments.attachmentsid, vtiger_attachments.name ,vtiger_crmentity.setype from vtiger_products left join vtiger_seattachmentsrel on vtiger_seattachmentsrel.crmid=vtiger_products.productid inner join vtiger_attachments on vtiger_attachments.attachmentsid=vtiger_seattachmentsrel.attachmentsid inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_attachments.attachmentsid where vtiger_crmentity.setype="Products Image" and productid=?';
 				$params = array($col_fields['record_id']);
 			} else {
-				if ($module_name == 'Contacts') {
+				if ($module_name == 'Contacts' and $fieldname=='imagename') {
 					$imageattachment = 'Image';
 				} else {
 					$imageattachment = 'Attachment';
@@ -770,6 +773,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		if(!empty($_REQUEST['parent_id'])) {
 			$value = vtlib_purify($_REQUEST['parent_id']);
 		}
+		$parent_module = '';
 		if(!empty($value)) {
 			$parent_module = getSalesEntityType($value);
 			if($parent_module != "Contacts") {
@@ -780,7 +784,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 				$fieldvalue[] = $value;
 			}
 		}
-		// Check for vtiger_activity type if task orders to be added in select option
 		$act_mode = $_REQUEST['activity_mode'];
 
 		$parentModulesList = array(
@@ -817,9 +820,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	//added by rdhital/Raju for better email support
 	elseif($uitype == 357)
 	{
-		$pmodule = isset($_REQUEST['pmodule']) ? $_REQUEST['pmodule'] : null;
-		if(empty($pmodule))
-			$pmodule = $_REQUEST['par_module'];
+		$pmodule = isset($_REQUEST['pmodule']) ? $_REQUEST['pmodule'] : (isset($_REQUEST['par_module']) ? $_REQUEST['par_module'] : null);
 
 		if($pmodule == 'Contacts')
 		{
@@ -1360,13 +1361,17 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	$final_arr[]=$editview_label;
 	$final_arr[]=$editview_fldname;
 	$final_arr[]=$fieldvalue;
-	$type_of_data = explode('~',$typeofdata);
-	$final_arr[]=$type_of_data[1];
+	if (!empty($typeofdata)) {
+		$type_of_data = explode('~',$typeofdata);
+		$final_arr[] = $type_of_data[1];
+	} else {
+		$final_arr[] = 'O';
+	}
 	$log->debug('Exiting getOutputHtml method ...');
 	return $final_arr;
 }
 
-/** This function returns the vtiger_invoice object populated with the details from sales order object.
+/** This function returns the invoice object populated with the details from sales order object.
 * Param $focus - Invoice object
 * Param $so_focus - Sales order focus
 * Param $soid - sales order id
@@ -1417,7 +1422,7 @@ function getConvertSoToInvoice($focus,$so_focus,$soid) {
 	return $focus;
 }
 
-/** This function returns the vtiger_invoice object populated with the details from quote object.
+/** This function returns the invoice object populated with the details from quote object.
 * Param $focus - Invoice object
 * Param $quote_focus - Quote order focus
 * Param $quoteid - quote id
@@ -1512,7 +1517,7 @@ function getConvertQuoteToSoObject($focus,$quote_focus,$quoteid)
 	return $focus;
 }
 
-/** This function returns the detailed list of vtiger_products associated to a given entity or a record.
+/** This function returns the detailed list of products associated to a given entity or a record.
 * Param $module - module name
 * Param $focus - module object
 * Param $seid - sales entity id
@@ -1904,7 +1909,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 	return $product_Detail;
 }
 
-/** This function returns the no of vtiger_products associated to the given entity or a record.
+/** This function returns the no of products associated to the given entity or a record.
 * Param $module - module name
 * Param $focus - module object
 * Param $seid - sales entity id
@@ -1955,8 +1960,8 @@ function getNoOfAssocProducts($module,$focus,$seid='')
 * Param $module - module name
 * Param $block - block name
 * Param $mode - view type (detail/edit/create)
-* Param $col_fields - vtiger_fields array
-* Param $tabid - vtiger_tab id
+* Param $col_fields - fields array
+* Param $tabid - tab id
 * Param $info_type - information type (basic/advance) default ""
 * Return type is an object array
 */
@@ -2049,8 +2054,8 @@ function getBlockInformation($module, $result, $col_fields,$tabid,$block_label,$
 	return $returndata;
 }
 
-/** This function returns the data type of the vtiger_fields, with vtiger_field label, which is used for javascript validation.
-* Param $validationData - array of vtiger_fieldnames with datatype
+/** This function returns the data type of the fields, with field label, which is used for javascript validation.
+* Param $validationData - array of fieldnames with datatype
 * Return type array
 */
 function split_validationdataArray($validationData)
@@ -2098,4 +2103,26 @@ function split_validationdataArray($validationData)
 	return $data;
 }
 
+/**
+ * Get field validation information
+ */
+function getDBValidationData($tablearray, $tabid='') {
+	if($tabid != '') {
+		global $adb, $mod_strings, $default_charset;
+		$fieldModuleName = getTabModuleName($tabid);
+		$fieldres = $adb->pquery(
+			"SELECT fieldlabel,fieldname,typeofdata FROM vtiger_field
+			WHERE displaytype IN (1,3) AND presence in (0,2) AND tabid=?", Array($tabid));
+		$fieldinfos = Array();
+		while($fieldrow = $adb->fetch_array($fieldres)) {
+			$fieldlabel = getTranslatedString(html_entity_decode($fieldrow['fieldlabel'], ENT_QUOTES, $default_charset), $fieldModuleName);
+			$fieldname = $fieldrow['fieldname'];
+			$typeofdata= $fieldrow['typeofdata'];
+			$fieldinfos[$fieldname] = Array($fieldlabel => $typeofdata);
+		}
+		return $fieldinfos;
+	} else {
+		return array();
+	}
+}
 ?>

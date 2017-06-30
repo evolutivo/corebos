@@ -33,7 +33,16 @@ class DuplicateRecords extends VTTask{
 		if (!empty($cto_id) and !empty($this->bmapid)) {
 			$module = getSalesEntityType($cto_id);
 			$map = $module.'_DuplicateRelations';
-			duplicaterec($module, $cto_id, $map);
+			$duplicatedfromfields = $recordid->getData();
+			$duplicatedfrom = $duplicatedfromfields['isduplicatedfromrecordid'];
+			if (!empty($duplicatedfrom)) {
+				if (strpos($duplicatedfrom,'x')>0) {
+					list($wsdup,$duplicatedfrom) = explode('x',$duplicatedfrom);
+				}
+				duplicateRecordRelations($module, $cto_id, $duplicatedfrom, $map);
+			} else {
+				duplicaterec($module, $cto_id, $map);
+			}
 		}
 	}
 }

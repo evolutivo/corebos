@@ -12,6 +12,8 @@ require_once('data/Tracker.php');
 if(!class_exists('crxml'))
 require_once('modules/cbMap/crXml.php');
 include_once('include/utils/VTCacheUtils.php');
+include_once 'modules/cbMap/processmap/processMap.php';
+
 class cbMap extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
 	var $module_list = Array();
@@ -2059,5 +2061,19 @@ public static function getMapByID($cbmapid) {
 			return 0;
 		}
 	}
+
+	public function getMapArray() {
+		$ret = array();
+		$name = basename($this->column_fields['maptype']);
+		@require_once 'modules/cbMap/processmap/'.$name.'.php';
+		if (class_exists($name)) {
+			$processmap = new $name($this);
+			if (method_exists($processmap, 'convertMap2Array')) {
+				$ret = $processmap->convertMap2Array();
+			}
+		}
+		return $ret;
+	}
+
 }
 ?>

@@ -257,10 +257,10 @@ class Documents extends CRMEntity {
 	{
 		global $log;
 		$log->debug("Entering getSortOrder() method ...");
-		if(isset($_REQUEST['sorder']))
+		if (isset($_REQUEST['sorder']))
 			$sorder = $this->db->sql_escape_string($_REQUEST['sorder']);
 		else
-			$sorder = (!empty($_SESSION['NOTES_SORT_ORDER']) ? $_SESSION['NOTES_SORT_ORDER'] : $this->default_sort_order);
+			$sorder = (!empty($_SESSION['NOTES_SORT_ORDER']) ? $this->db->sql_escape_string($_SESSION['NOTES_SORT_ORDER']) : $this->default_sort_order);
 		$log->debug("Exiting getSortOrder() method ...");
 		return $sorder;
 	}
@@ -274,16 +274,16 @@ class Documents extends CRMEntity {
 		$log->debug("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if(PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (GlobalVariable::getVariable('Application_ListView_Default_Sorting', 0, $currentModule)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 		$orderby = $use_default_order_by;
 		if (isset($_REQUEST['order_by']))
 			$order_by = $this->db->sql_escape_string($_REQUEST['order_by']);
-		else if(isset($_SESSION[$currentModule.'_Order_By']))
-			$order_by = $_SESSION[$currentModule.'_Order_By'];
+		else if (isset($_SESSION[$currentModule.'_Order_By']))
+			$order_by = $this->db->sql_escape_string($_SESSION[$currentModule.'_Order_By']);
 		else
-			$order_by = (!empty($_SESSION['NOTES_ORDER_BY']) ? $_SESSION['NOTES_ORDER_BY'] : $use_default_order_by);
+			$order_by = (!empty($_SESSION['NOTES_ORDER_BY']) ? $this->db->sql_escape_string($_SESSION['NOTES_ORDER_BY']) : $use_default_order_by);
 		$log->debug("Exiting getOrderBy method ...");
 		return $order_by;
 	}
@@ -309,7 +309,7 @@ class Documents extends CRMEntity {
 	 */
 	function getOrderByForFolder($folderId) {
 		$use_default_order_by = '';
-		if(PerformancePrefs::getBoolean('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (GlobalVariable::getVariable('Application_ListView_Default_Sorting', 0)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 		if (isset($_REQUEST['order_by']) && $_REQUEST['folderid'] == $folderId) {

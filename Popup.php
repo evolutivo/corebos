@@ -89,6 +89,7 @@ $smarty->assign('CURR_ROW', 0);
 $smarty->assign('FIELDNAME', '');
 $smarty->assign('PRODUCTID', 0);
 $smarty->assign('RECORDID', 0);
+$smarty->assign('RETURN_MODULE', '');
 $smarty->assign('SELECT', '');
 switch($currentModule)
 {
@@ -271,25 +272,20 @@ if($currentModule == 'PriceBooks' && isset($_REQUEST['productid']))
 else
 {
 	$where_relquery = '';
-	if(isset($_REQUEST['recordid']) && $_REQUEST['recordid'] != '')
-	{
-		$smarty->assign("RECORDID",vtlib_purify($_REQUEST['recordid']));
-		$url_string .='&recordid='.vtlib_purify($_REQUEST['recordid']);
-		$where_relquery = getRelCheckquery($currentModule,$_REQUEST['return_module'],$_REQUEST['recordid']);
+	if (!empty($_REQUEST['recordid'])) {
+		$recid = vtlib_purify($_REQUEST['recordid']);
+		$smarty->assign('RECORDID',$recid);
+		$url_string .='&recordid='.$recid;
+		$where_relquery = getRelCheckquery($currentModule, (isset($_REQUEST['return_module']) ? $_REQUEST['return_module'] : ''), $recid);
 	}
-	if(isset($_REQUEST['relmod_id']) || isset($_REQUEST['fromPotential']))
-	{
-		if($_REQUEST['relmod_id'] !='')
-		{
+	if (isset($_REQUEST['relmod_id']) || isset($_REQUEST['fromPotential'])) {
+		if (isset($_REQUEST['relmod_id'])) {
 			$mod = vtlib_purify($_REQUEST['parent_module']);
 			$id = vtlib_purify($_REQUEST['relmod_id']);
-		}
-		else if($_REQUEST['fromPotential'] != '')
-		{
+		} else { // $_REQUEST['fromPotential'] != ''
 			$mod = "Accounts";
 			$id= vtlib_purify($_REQUEST['acc_id']);
 		}
-
 		$smarty->assign("mod_var_name", "parent_module");
 		$smarty->assign("mod_var_value", $mod);
 		$smarty->assign("recid_var_name", "relmod_id");
@@ -465,13 +461,13 @@ if($popuptype == 'set_return_emails'){
 	}
 }
 
-$listview_header = getSearchListViewHeader($focus,"$currentModule",$url_string,$sorder,$order_by);
+$listview_header = getSearchListViewHeader($focus,$currentModule,$url_string,$sorder,$order_by);
 $smarty->assign("LISTHEADER", $listview_header);
 $smarty->assign("HEADERCOUNT",count($listview_header)+1);
 
-$listview_entries = getSearchListViewEntries($focus,"$currentModule",$list_result,$navigation_array,$form);
+$listview_entries = getSearchListViewEntries($focus,$currentModule,$list_result,$navigation_array,$form);
 $smarty->assign("LISTENTITY", $listview_entries);
-if(PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true){
+if (GlobalVariable::getVariable('Application_ListView_Compute_Page_Count', 0, $currentModule)) {
 	$record_string = getRecordRangeMessage($list_result, $limstart, $noofrows);
 } else {
 	$record_string = '';
