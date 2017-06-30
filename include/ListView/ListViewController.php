@@ -434,7 +434,7 @@ class ListViewController {
 				} elseif($field->getUIType() == 98) {
 					$value = '<a href="index.php?action=RoleDetailView&module=Settings&parenttab='.
 						'Settings&roleid='.$value.'">'.textlength_check(getRoleName($value)).'</a>';
-				} elseif($field->getUIType() == 69) {
+				} elseif ($field->getUIType() == '69m') {
 					if ($module == 'Products') {
 						$queryPrdt = 'SELECT vtiger_attachments.path,vtiger_attachments.attachmentsid,vtiger_attachments.`name`
 							FROM vtiger_attachments
@@ -450,8 +450,9 @@ class ListViewController {
 						} else {
 							$value = '';
 						}
-					} else {
-						if ($module == 'Contacts') {
+					}
+				} elseif ($field->getUIType() == 69) {
+						if ($module == 'Contacts' and $field->getColumnName()=='imagename') {
 							$imageattachment = 'Image';
 						} else {
 							$imageattachment = 'Attachment';
@@ -482,7 +483,6 @@ class ListViewController {
 						} else {
 							$value = '';
 						}
-					}
 				} elseif ($field->getFieldDataType() == 'multipicklist') {
 					$value = ($value != "") ? str_replace(' |##| ',', ',$value) : "";
 					if(!$is_admin && $value != '') {
@@ -660,27 +660,22 @@ class ListViewController {
 				}
 			}
 			// Record Change Notification
-			if(method_exists($focus, 'isViewed') &&
-					PerformancePrefs::getBoolean('LISTVIEW_RECORD_CHANGE_INDICATOR', true)) {
+			if(method_exists($focus, 'isViewed') && GlobalVariable::getVariable('Application_ListView_Record_Change_Indicator', 1, $module)) {
 				if(!$focus->isViewed($recordId)) {
-					$actionLinkInfo .= " | <img src='" . vtiger_imageurl('important1.gif',
-							$theme) . "' border=0>";
+					$actionLinkInfo .= " | <img src='" . vtiger_imageurl('important1.gif', $theme) . "' border=0>";
 				}
 			}
                         include_once('vtlib/Vtiger/Link.php');
                         global $adb;
                         $customlink_params = Array('MODULE'=>$module, 'RECORD'=>$recordId, 'ACTION'=>vtlib_purify($_REQUEST['action']));
                         $CUSTOM_LINKS=Vtiger_Link::getAllByType(getTabid($module), Array('LISTVIEWENTRY'), $customlink_params);
-                        foreach($CUSTOM_LINKS as $link){
-                            if($link ==null) continue; 
-                            foreach($link as $link_item){
-                               $linktomapmodule=$link_item->linktomapmodule;
-                               $parameters = '';
-                               if($link_item->linktype==null)continue;
-                               $actionLinkInfo .= " | <a href='javascript:runJSONAction(\"".$link_item->linkid."\",\"recordid=".$recordId."\",\"".$link_item->output_type."\")' title='".$link_item->linklabel."'>
-                                      <img hspace=5 align='absmiddle' border=0 src=\"$link_item->linkicon\" width='20' height='20'> 
-                                       </a>";
-                            }
+                        foreach($CUSTOM_LINKS['LISTVIEWENTRY'] as $link_item){
+                           $linktomapmodule=$link_item->linktomapmodule;
+                           $parameters = '';
+                           if($link_item->linktype==null)continue;
+                           $actionLinkInfo .= " | <a href='javascript:runJSONAction(\"".$link_item->linkid."\",\"recordid=".$recordId."\",\"".$link_item->output_type."\")' title='".$link_item->linklabel."'>
+                                  <img hspace=5 align='absmiddle' border=0 src=\"$link_item->linkicon\" width='20' height='20'> 
+                                   </a>";
                         }
 			// END
 			if($actionLinkInfo != "" && !$skipActions) {
@@ -866,6 +861,7 @@ class ListViewController {
 
 		$moduleFields = $meta->getModuleFields();
 		$i =0;
+		$OPTION_SET = array();
 		foreach ($moduleFields as $fieldName=>$field) {
 			if($field->getFieldDataType() == 'reference') {
 				$typeOfData = 'V';

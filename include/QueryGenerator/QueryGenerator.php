@@ -843,6 +843,10 @@ class QueryGenerator {
 		return $sql;
 	}
 
+	public function hasWhereConditions() {
+		return (count($this->conditionals)>0);
+	}
+
 	public function getWhereClause() {
 		global $current_user;
 		if(!empty($this->query) || !empty($this->whereClause)) {
@@ -902,10 +906,10 @@ class QueryGenerator {
 				$fieldSqlList[$index] = "($baseTable.$baseTableIndex $sqlOperator $value)";
 				continue;
 			}
-			$field = $moduleFieldList[$fieldName];
-			if(empty($field) || $conditionInfo['operator'] == 'None') {
+			if (empty($moduleFieldList[$fieldName]) || $conditionInfo['operator'] == 'None') {
 				continue;
 			}
+			$field = $moduleFieldList[$fieldName];
 			$fieldSql = '(';
 			$fieldGlue = '';
 			$valueSqlList = $this->getConditionValue($conditionInfo['value'], $conditionInfo['operator'], $field);
@@ -1125,7 +1129,7 @@ class QueryGenerator {
 					// $valueArray[$key] = ltrim($value, ' |##| ');
 				// }
 			// }
-		} elseif(is_string($value)) {
+		} elseif (is_string($value) and $operator!='e') {
 			$valueArray = explode(',' , $value);
 		} elseif(is_array($value)) {
 			$valueArray = $value;
@@ -1365,6 +1369,9 @@ class QueryGenerator {
 	}
 
 	public function startGroup($groupType='') {
+		if ($this->groupInfo == '') {
+			$groupType=''; // first grouping cannot have glue
+		}
 		$this->groupInfo .= " $groupType (";
 	}
 

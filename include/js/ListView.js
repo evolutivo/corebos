@@ -677,7 +677,7 @@ function getListViewCount(module,element,parentElement,url){
 		}
 		elementList = document.getElementsByName(module+'_listViewCountRefreshIcon');
 		if(module != 'Documents' && typeof parentElement != 'undefined' && elementList.length !=0){
-			for(i=0;i<=elementList.length;){
+			for(i=0;i<elementList.length;){
 				//No need to increment the count, as the element will be eliminated in the next step.
 				elementList[i].parentNode.innerHTML = response;
 			}
@@ -839,7 +839,7 @@ function alphabetic(module, url, dataid)
 		result = response.split('&#&#&#');
 		document.getElementById("ListViewContents").innerHTML = result[2];
 		if (result[1] != '')
-			salert(result[1]);
+			alert(result[1]);
 		document.getElementById('basicsearchcolumns').innerHTML = '';
 	}
 	);

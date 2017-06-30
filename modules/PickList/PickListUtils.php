@@ -88,9 +88,8 @@ function getrole2picklist(){
  * @return array $module_pick - the picklists present in the module in an array format
  */
 function get_available_module_picklist($picklist_details){
-	$avail_pick_values = $picklist_details;
-	foreach($avail_pick_values as $key => $val){
-		$module_pick[$avail_pick_values[$key]['fieldname']] = getTranslatedString($avail_pick_values[$key]['fieldlabel']);
+	foreach($picklist_details as $key => $val){
+		$module_pick[$picklist_details[$key]['fieldname']] = getTranslatedString($picklist_details[$key]['fieldlabel']);
 	}
 	return $module_pick;
 }
@@ -158,7 +157,7 @@ function getNonEditablePicklistValues($fieldName, $lang=array(), $adb){
 	$count = $adb->num_rows($result);
 	for($i=0;$i<$count;$i++){
 		$non_val = $adb->query_result($result,$i,$fieldName);
-		if($lang[$non_val] != ''){
+		if (!empty($lang[$non_val])) {
 			$values[]=$lang[$non_val];
 		}else{
 			$values[]=$non_val;

@@ -27,7 +27,7 @@ function deleteLastJoin() {
 
     if (campiSelezionati.length === 0) {
 
-        alert("E' necessario inserire i campi!");
+        alert(mv_arr.inserirecampi);
 
 
     } else {
@@ -51,7 +51,7 @@ function deleteLastJoin() {
                     jQuery("#results").html(msg);
                 },
                 error: function () {
-                    alert("Chiamata fallita, si prega di riprovare...");
+                    alert(mv_arr.failedcall);
                 }
             });
         }
@@ -80,7 +80,7 @@ function addJoin(action) {
         campiSelezionati.push(jQuery(this).text());
     });
     if (campiSelezionati.length === 0) {
-        alert("E' necessario inserire i campi!");
+        alert(mv_arr.inserirecampi);
     } else {
         primaTab = document.getElementById('selTab1').value;
         secondaTab = document.getElementById('selTab2').value;
@@ -106,7 +106,6 @@ function addJoin(action) {
                     }
                     if (jQuery("#condition").val() != 'undefined')
                         var whereCondition = jQuery("#condition").val();
-                    console.log("ketu" + whereCondition);
                     nameView = (document.getElementById('nameView').value);
                     nameDb = (document.getElementById('nameDb').value);
                     if (action == "join") url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery&mod=" + firstModule;
@@ -121,66 +120,87 @@ function addJoin(action) {
                             if (action == "join") jQuery("#results").html(msg);
                         },
                         error: function () {
-                            alert("Chiamata fallita, si prega di riprovare...");
+                            alert(mv_arr.failedcall);
                         }
                     });
                 }
                 else {
-                    alert("E' necessario inserire i campi per la condizione di Join!");
+                    alert(mv_arr.inserirecampi);
                 }
             }
             else {
-                alert("Il join deve essere fatto su due tabelle diverse!");
+                alert(mv_arr.differenttabs);
             }
         } else {
-            alert("Questo Join è già stato inserito");
+            alert(mv_arr.joininserted);
         }
     }
 }
 
-
-function generateJoin() {
-    var JoinOptgroupWithValue=[];
-    $('#selectableFields').find("option:selected").each(function(){
+function selectHtml() {
+    var sel = jQuery('#selectableFields');
+    return sel[0].innerHTML;
+}
+function emptycombo(){
+    var select = document.getElementById("selectableFields");
+    var length = select.options.length;
+    var j=0;
+    while(select.options.length!=0){
+    for (var i1 = 0; i1 < length; i1++) {
+        select.options[i1] = null;
+    }
+}
+}
+function posLay(obj,Lay){
+	var tagName = document.getElementById(Lay);
+	var leftSide = findPosX(obj);
+	var topSide = findPosY(obj)-200;
+	var maxW = tagName.style.width;
+	var widthM = maxW.substring(0,maxW.length-2);
+	var getVal = eval(leftSide) + eval(widthM);
+	if(getVal > document.body.clientWidth ){
+		leftSide = eval(leftSide) - eval(widthM);
+		tagName.style.left = leftSide + 'px';
+	}
+	else
+		tagName.style.left= leftSide + 'px';
+	tagName.style.top= topSide + 'px';
+}
+function showform(form){
+    fnvshobj(form,'userorgroup');
+    posLay(form, "userorgroup");
+}
+function generateJoin(SelectedValue="",History=0) {
+    var JoinOptgroupWithValue = [];
+    $('#selectableFields').find("option:selected").each(function () {
         //optgroup label
         var optlabel = $(this).parent().attr("label");
-       // gets the value
-        var ValueselectedArray=[];
-        var Valueselected=$(this).val();
+        // gets the value
+        var ValueselectedArray = [];
+        var Valueselected = $(this).val();
         var res = Valueselected.split(":");
-        ValueselectedArray=ValueselectedArray.concat(res);
-        // for (i = 0; i < prov.length; i++) {
-            JoinOptgroupWithValue.push(optlabel+":"+ValueselectedArray[0]+":"+ValueselectedArray[1]);
-        // }
-       // labeli.push(label);
+        ValueselectedArray = ValueselectedArray.concat(res);
+        JoinOptgroupWithValue.push(optlabel + ":" + ValueselectedArray[0] + ":" + ValueselectedArray[1]);
 
     });
-   // console.log(labeli);
-   // alert(JoinOptgroupWithValue);
-
 
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
+    var valuei = [];
+    var texti = [];
+    var userorgroup=document.getElementById('usergroup').value;
     var sel = document.getElementById("selectableFields");
-// console.log(sel);
-    var optionsCombo = sel[0].innerHTML;
-
-    //label.push($('#selectableFields :selected').parent().attr('label'));
     for (var i = 0; i < sel.options.length; i++) {
-        if(sel.options[i].selected ==true){
-            //alert(x.options[i].value);
+        if (sel.options[i].selected == true) {
             //dd=x.options[i].value;
             campiSelezionati.push(sel.options[i].value);
-
         }
+
+
+        valuei.push(sel.options[i].value+'!'+sel.options[i].text);
+        //texti.push(sel.options[i].text);
     }
 
-    // for (var i = 0, len = sel[0].options.length; i < len; i++) {
-    //     opt = sel[0].options[i];
-    //     if (opt.selected)
-    //         campiSelezionati.push(opt.value);
-    // }
-    //alert(campiSelezionati);
     if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
@@ -189,6 +209,8 @@ function generateJoin() {
         selTab1.push(firstModule);
         selTab2.push(secModule);
         nameView = (document.getElementById('nameView').value);
+        // var sel123 =  jQuery('#selectableFields');
+        // var optionsCombo = sel123[0].innerHTML;
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
 
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
@@ -197,6 +219,7 @@ function generateJoin() {
             url: url,
             async: false,
             data: {
+                PRovatjeter: selectHtml(),
                 selTab1: selTab1,
                 fmodule: firstModule,
                 smodule: secModule,
@@ -204,31 +227,44 @@ function generateJoin() {
                 selTab2: selTab2,
                 selField2: selField2,
                 installationID: installationID,
-                JoinOV:JoinOptgroupWithValue,
-                html: optionsCombo,
-                campiSelezionati: campiSelezionati,
+                JoinOV: JoinOptgroupWithValue,
+                Valueli:valuei,
+                userorgroup:userorgroup,
+               // Texti:texti,
+                campiSelezionati:SelectedValue.length!=0 ? SelectedValue : campiSelezionati,
                 nameView: nameView
             },
             dataType: "html",
             success: function (msg) {
                 document.getElementById('results').innerHTML = "";
+                if (History==1) 
+                 {
+                     document.getElementById('generatedjoin').innerHTML = "";
+                 }
                 jQuery("#results").html(msg);
                 if (box) box.remove();
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
-       // getFirstModule();
-    }
+        // getFirstModule();
+    emptycombo(); }
 }
 /*
  * Invia i dati delle <section> relative alle tabelle actions/dataUpadate.php,
  * dove poi ci saranno delle funzioni che inseriranno tutti i campi delle
  * rispettive tabelle nei rispettivi <section> per i campi.
  */
-
+function empty_element(elementByID){
+      $(elementByID).html("");
+ }
+ 
+ function newValue_element(elementByID,valueinsert){
+     $(elementByID).html("");
+      $(elementByID).html(valueinsert);
+  }
 function generateScript() {
     var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
     var campiSelezionati = [];
@@ -264,7 +300,7 @@ function generateScript() {
                 if (box) box.remove();
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
     }
@@ -281,7 +317,6 @@ function generateMap() {
     if (jQuery("#condition").val() != 'undefined') {
         jQuery("#condition").trigger("change");
         var whereCondition = jQuery("#condition").val();
-        console.log(whereCondition);
     }
     var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=generateMap";
@@ -294,11 +329,11 @@ function generateMap() {
         success: function (msg) {
             if (box) {
                 box.remove();
-                alert("La mappa viene generata");
+                alert(mv_arr.mapgenerated);
             }
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 }
@@ -324,7 +359,7 @@ function updateSel(id, field) {
             jQuery("#null").html(msg);
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -348,7 +383,7 @@ function creaVista() {
             jQuery("#results").html(msg);
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -453,12 +488,12 @@ function updateView() {
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
     }
     else {
-        alert("E' necessario selezionare una vista!");
+        alert(mv_arr.selectview);
     }
 }
 
@@ -477,12 +512,12 @@ function deleteView() {
                 jQuery("#textmessage").html(msg);
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
     }
     else {
-        alert("E' necessario selezionare una vista!");
+        alert(mv_arr.selectview);
     }
 }
 
@@ -522,7 +557,6 @@ function choose_fields3() {
     var v = val[val.selectedIndex].value;
     var rec1 = document.getElementById('mod1');
     var rec = rec1[rec1.selectedIndex].value;
-    console.log(rec);
     var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fields";
     jQuery.ajax({
         type: "POST",
@@ -566,7 +600,7 @@ function openMenuCreaView() {
 
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -703,7 +737,7 @@ function openMenuManage() {
 
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
@@ -764,20 +798,20 @@ function openMenuJoin() {
                         jQuery("#content").html(msg);
                     },
                     error: function () {
-                        alert("Chiamata fallita, si prega di riprovare...");
+                        alert(mv_arr.failedcall);
                     }
                 });
             }
             else {
-                alert("E' necessario selezionare almeno due tabelle!");
+                alert(mv_arr.atleasttwo);
             }
         }
         else {
-            alert("Inserire il nome della vista");
+            alert(mv_arr.addviewname);
         }
     }
     else {
-        alert("Il nome della vista scelto e' gia' stato utilizzato!");
+        alert(mv_arr.namealreadyused);
     }
 
 }
@@ -810,16 +844,16 @@ function openMenuJoin2() {
                     jQuery("#content").html(msg);
                 },
                 error: function () {
-                    alert("Chiamata fallita, si prega di riprovare...");
+                    alert(mv_arr.failedcall);
                 }
             });
         }
         else {
-            alert("Inserire il nome della vista");
+            alert(mv_arr.addviewname);
         }
     }
     else {
-        alert("Il nome della vista scelto e' gia' stato utilizzato!");
+        alert(mv_arr.namealreadyused);
     }
     getFirstModule();
     //getFirstModule("","");
@@ -842,7 +876,6 @@ function selDB(obj) {
 //        },
 //        error: function()
 //        {
-//            alert("Chiamata fallita, si prega di riprovare...");
 //        }
 //     });
 }
@@ -860,21 +893,18 @@ function selDBViews() {
 
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
 
 }
 
-function getFirstModule(selTab2, Mapid) {
-    ///console.log("ne fillim te funksionit");firstModule != "" && firstModule !== undefined &&
+function getFirstModule(selTab2, Mapid, queryid) {
     if (Mapid === undefined) {
-        console.log("mbas if per var");
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID;
     }
     else {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID + '&MapID=' + Mapid;//+'&MapID=' + Mapid;
-        console.log("mbas else per var");
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=firstModule&installationID=" + installationID + '&MapID=' + Mapid + '&queryid=' +queryid;//+'&MapID=' + Mapid;
     }
     jQuery.ajax({
         type: "POST",
@@ -884,27 +914,17 @@ function getFirstModule(selTab2, Mapid) {
         success: function (msg) {
             if (msg != '') {
                 jQuery('#mod').html('<option value="None">None</option>' + msg);
-                //console.log("map id eshte deklarua pra ka vlere");
                 var SelectPicker = $("#mod").val();
-               // alert("prova  =   "+SelectPicker);
                 if (Mapid != undefined) {
-                    console.log("map id eshte deklarua pra ka vlere   =  " + SelectPicker);
-                    getSecModule(SelectPicker, Mapid);
-                    getFirstModuleFields(SelectPicker, Mapid);
+                    getSecModule(SelectPicker, Mapid,queryid);
+                     getFirstModuleFields(SelectPicker, Mapid,queryid);
                 }
                 jQuery("#mod").selectmenu("refresh");
             }
-            // if (Mapid != undefined) {
-            //     console.log("map id eshte deklarua pra ka vlere");
-            //     var SelectPicker = $("#mod").val();
-            //     alert("prova  =   " + SelectPicker);
-            //     getSecModule(SelectPicker);
-            // } else {
-            //     console.log("map id nuk eshte deklarua pra nuk ka vlere");
-            // }
+
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 
@@ -922,7 +942,7 @@ function dispalyModules() {
                 jQuery("#modscriptsel").selectmenu("refresh");
             },
             error: function () {
-                alert("error");
+                alert(mv_arr.error);
             }
         });
 // 
@@ -942,7 +962,7 @@ function getInstallationModules(dataItem) {
                 jQuery("#modscriptsel").selectmenu("refresh");
             },
             error: function () {
-                alert("error");
+                alert(mv_arr.error);
             }
         });
     }
@@ -951,16 +971,15 @@ function getInstallationModules(dataItem) {
     }
 }
 
-function getSecModule(obj, Mapid) {
+function getSecModule(obj, Mapid, queryid) {
     var v = obj;
     firstModule = obj;
     // var MapIDtext = $('#MapID').val();
     if (Mapid != undefined) {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + Mapid + "&installationID=" + installationID;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&MapId=" + Mapid + "&installationID=" + installationID + "&queryid="+queryid;
     } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=fillModuleRel&mod=" + v + "&installationID=" + installationID;
     }
-    //alert("edmondi"+MapIDtext);
 
     jQuery.ajax({
         type: "POST",
@@ -968,27 +987,16 @@ function getSecModule(obj, Mapid) {
         dataType: "html",
         success: function (str) {
             jQuery('#secmodule').html('<option value="None">None</option>' + str);
-            // console.log("map id eshte deklarua pra ka vlere");
             var SelectPicker = $("#secmodule").val();
-            //alert("prova  =   "+SelectPicker);
             if (Mapid != undefined) {
-                // console.log("map id eshte deklarua pra ka vlere");
-                getSecModuleFields(SelectPicker);
+                getSecModuleFields(SelectPicker,Mapid,queryid);
             }
             jQuery("#secmodule").selectmenu("refresh");
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
-    // if (Mapid.length() !== 0) {
-    //     console.log("map id eshte deklarua pra ka vlere");
-    //     var SelectPicker = $("#").val();
-    //     //alert("prova  =   "+SelectPicker);
-    //     getSecModule(SelectPicker);
-    // } else {
-    //     console.log("map id nuk eshte deklarua pra nuk ka vlere");
-    // }
 }
 
 function populateReport(reportSelectId) {
@@ -1002,16 +1010,15 @@ function populateReport(reportSelectId) {
             jQuery("#" + reportSelectId).selectmenu("refresh");
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 }
 
-function getFirstModuleFields(obj, Mapid) {
+function getFirstModuleFields(obj, Mapid, queryid) {
     var v = obj;
-    console.log("prova per vleren " + v);
     if (Mapid != undefined) {
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID + "&MapId=" + Mapid;
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID + "&MapId=" + Mapid+ "&queryid="+queryid;
     } else {
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + v + "&installationID=" + installationID;
     }
@@ -1025,17 +1032,15 @@ function getFirstModuleFields(obj, Mapid) {
             var str1 = s[0];
             var str2 = s[1];
             var str3 = s[2];
-            console.log(str1);
             if (jQuery('#selectableFields optgroup[label= ' + v + ']').html() == null)
                 $('#selectableFields').empty();
-                jQuery('#selectableFields').append(str1).change();
-            //alert("");
+            jQuery('#selectableFields').append(str1).change();
             jQuery('#selField1').val(str3);
         }
     });
 }
 
-function getSecModuleFields(obj,MapId) {
+function getSecModuleFields(obj, MapId) {
     var v1 = obj;
     var sp = v1.split(";");
     var mod = sp[0].split("(many)");
@@ -1047,10 +1052,12 @@ function getSecModuleFields(obj,MapId) {
         invers = 1;
     }
     if (sp[1] != "undefined") index = sp[1];
-    if (MapId !=undefined){
-        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID +"&MapId="+MapId;
+    if (MapId != undefined) {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID + "&MapId=" + MapId;
+    }else {
+        var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID;
     }
-    var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=moduleFields&mod=" + secModule + "&installationID=" + installationID;
+
     jQuery.ajax({
         type: "POST",
         url: url,
@@ -1061,9 +1068,8 @@ function getSecModuleFields(obj,MapId) {
             var str1 = s[0];
             var str2 = s[1];
             if (jQuery('#selectableFields optgroup[label= ' + secModule + ']').html() == null)
-              //  $("#selectableFields").empty();
-            jQuery('#selectableFields').append(str1).change();
-            console.log(str1)
+            //  $("#selectableFields").empty();
+                jQuery('#selectableFields').append(str1).change();
             if (invers == 1) {
                 jQuery('#selField1').val(index);
                 jQuery('#selField2').val(s[2]);
@@ -1072,7 +1078,7 @@ function getSecModuleFields(obj,MapId) {
                 jQuery('#selField2').val(index);
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 
@@ -1083,18 +1089,18 @@ function getSecModuleFields(obj,MapId) {
 function SaveMap() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-    var sel = jQuery('#selectableFields');
+    //var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
-// console.log(sel);
-    var optionsCombo = sel[0].innerHTML;
-    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-        opt = sel[0].options[i];
-        if (opt.selected)
-            campiSelezionati.push(opt.value);
-    }
-    if (campiSelezionati.length != 0) {
+//    var optionsCombo = sel[0].innerHTML;
+//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
+//        opt = sel[0].options[i];
+//        if (opt.selected)
+//            campiSelezionati.push(opt.value);
+//    }
+//    if (campiSelezionati.length != 0) {
+        var querysequence=document.getElementById('querysequence').value;
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
         selField1.push(primoCampo);
@@ -1117,8 +1123,10 @@ function SaveMap() {
                 selTab2: selTab2,
                 selField2: selField2,
                 installationID: installationID,
-                html: optionsCombo,
-                campiSelezionati: campiSelezionati,
+                queryid:document.getElementById('queryid').value,
+                querysequence:document.getElementById('querysequence').value,
+            //    html: optionsCombo,
+             //   campiSelezionati: campiSelezionati,
                 nameView: nameView,
                 QueryGenerate: querygenerate + querygeneratecondition,
                 MapId: MapID
@@ -1127,40 +1135,41 @@ function SaveMap() {
             success: function (msg) {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
-                    alert("The map is generate successful");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
+
                 }
                 else {
-                    alert("The map is generate successful");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
-                //jQuery("#MapID").val(msg);alert(msg); if (box) box.remove();
+                //jQuery("#MapID").val(msg);if (box) box.remove();
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
         // getFirstModule(selTab2);
-    }
+    //}
 }
 
 // function to send value for create new  map
 function SaveasMap() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-    var sel = jQuery('#selectableFields');
+   // var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
+    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
-// console.log(sel);
-    var optionsCombo = sel[0].innerHTML;
-    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-        opt = sel[0].options[i];
-        if (opt.selected)
-            campiSelezionati.push(opt.value);
-    }
-    if (campiSelezionati.length != 0) {
+//    var optionsCombo = sel[0].innerHTML;
+//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
+//        opt = sel[0].options[i];
+//        if (opt.selected)
+//            campiSelezionati.push(opt.value);
+//    }
+//    if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
         selField1.push(primoCampo);
@@ -1182,9 +1191,10 @@ function SaveasMap() {
                 selField1: selField1,
                 selTab2: selTab2,
                 selField2: selField2,
+                SaveasMapTextImput: SaveasMapTextImput,
                 installationID: installationID,
-                html: optionsCombo,
-                campiSelezionati: campiSelezionati,
+               // html: optionsCombo,
+      //          campiSelezionati: campiSelezionati,
                 nameView: nameView,
                 QueryGenerate: querygenerate + querygeneratecondition
 
@@ -1193,22 +1203,22 @@ function SaveasMap() {
             success: function (msg) {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
-                    alert("The map is generate successful");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
                 else {
-                    alert("The map is generate successful");
+                    alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
-                //jQuery("#MapID").val(msg);alert(msg); if (box) box.remove();
+                //jQuery("#MapID").val(msg); if (box) box.remove();
 
             },
             error: function () {
-                alert("Chiamata fallita, si prega di riprovare...");
+                alert(mv_arr.failedcall);
             }
         });
         getFirstModule(selTab2, MapID);
-    }
+    //}
 }
 
 //this function load a combo with all maps
@@ -1224,7 +1234,7 @@ function LoadPickerMap() {
             jQuery("#GetALLMaps").selectmenu("refresh");
         },
         error: function () {
-            alert("error");
+            alert(mv_arr.error);
         }
     });
 
@@ -1235,23 +1245,21 @@ function LoadPickerMap() {
 function NextAndLoadFromMap() {
     jQuery("#LoadfromMapFirstStep").hide();
     var SelectPicker = $("#GetALLMaps").val();
+    var mapid=SelectPicker.split("##");
     jQuery.ajax({
         type: "POST",
         url: "index.php?module=MVCreator&action=MVCreatorAjax&file=creazioneCondizioniJoin",
-        data: "MapID=" + SelectPicker,
+        data: "MapID=" + mapid[0]+"&queryid="+mapid[1],
         dataType: "html",
         async: false,
         success: function (msg) {
             jQuery("#LoadfromMapSecondStep").html(msg);
-
-
-            //alert("Funkionon");
         },
         error: function () {
-            alert("Chiamata fallita, si prega di riprovare...");
+            alert(mv_arr.failedcall);
         }
     });
-    getFirstModule("", SelectPicker);
+    getFirstModule("", mapid[0],mapid[1]);
 
 
 }

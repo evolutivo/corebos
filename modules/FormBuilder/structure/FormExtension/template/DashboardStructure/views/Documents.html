@@ -1,0 +1,49 @@
+<md-dialog style="width:1000px;height:800px;">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Allega Documenti</h2>
+        <span flex></span>        
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <br/><br/>
+        <div style="display: flex;flex-direction: column;align-items: center;">
+            <table ng-table="tableParamsDocuments" ng-show="recordsSize>0" class="table table-bordered table-striped" style="width:80%;" align="center">
+                <thead>
+                    <tr>
+                        <td>
+                            {{'Nome'}}      
+                        </td>
+                        <td>
+                            {{'File'}}      
+                        </td>
+                    </tr>
+                </thead>
+                <tr ng-repeat="user in $data" class="dvtCellLabel">
+                    <td>
+                        {{user.name}}        
+                    </td> 
+                    <td>
+                        {{user.file}}        
+                    </td> 
+                </tr>
+            </table>
+            <div style="display: flex;flex-direction: row;width:70%;" align="center" class="text-center">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label><span style="color:red;">*</span>Nome Documento</label>
+                    <input type="text" ng-model="doc_name" id="doc_name" />
+                </md-input-container>
+                <input type="file" file-upload ng-model="attach"/>
+            </div>
+        </div>
+        <md-dialog-actions layout="row">
+            <md-button class="btn btn-default" ng-click="saveDoc()">
+              Allega
+            </md-button>
+            <md-button class="btn btn-default" ng-click="cancel()">
+              Chiudi
+            </md-button>
+        </md-dialog-actions>
+        
+    </md-dialog-content>
+</md-dialog>

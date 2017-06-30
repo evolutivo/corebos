@@ -58,7 +58,7 @@ $smarty->assign("CREATE_PERMISSION",($Calendar4You->CheckPermissions("CREATE") ?
 	$temp_date = $date->getDisplayDate();
 
 //	if($current_user->column_fields['is_admin']=='on')
-//		$Res = $adb->pquery("select * from vtiger_event_type where event_type<>'--None--'",array());
+//		$Res = $adb->pquery("select * from vtiger_activitytype",array());
 //	else {
 //		$roleid=$current_user->roleid;
 //		$subrole = getRoleSubordinates($roleid);
@@ -70,21 +70,21 @@ $smarty->assign("CREATE_PERMISSION",($Calendar4You->CheckPermissions("CREATE") ?
 //		}
 //
 //		if (count($roleids) > 1) {
-//			$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc", array($roleids));
+//			$Res=$adb->pquery("select distinct activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) order by sortid asc", array($roleids));
 //		} else {
-//			$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc", array($roleid));
+//			$Res=$adb->pquery("select distinct activitytype from vtiger_activitytype inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_activitytype.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) order by sortid asc", array($roleid));
 //		}
 //	}
 //
 //	$eventlist=''; 
 //	$eventlists_array='';
 //	for($i=0; $i<$adb->num_rows($Res);$i++) {
-//		$actname = $adb->query_result($Res,$i,'event_type');
+//		$actname = $adb->query_result($Res,$i,'activitytype');
 //		$eventlist .= html_entity_decode($actname,ENT_QUOTES,$default_charset).";";
 //		$eventlists_array .= '"'.html_entity_decode(html_entity_decode($actname,ENT_QUOTES,$default_charset),ENT_QUOTES, $default_charset).'",';
 //	}
 //
-//	$add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".$subtab."\",\"".$eventlist."\");'";
+//	$add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".(isset($subtab) ? $subtab : '')."\",\"".$eventlist."\");'";
 //	$smarty->assign('ADD_ONMOUSEOVER', $add_javascript);
 
 	$smarty->assign('EVENTLIST', trim($eventlists_array,","));
@@ -133,9 +133,10 @@ $Activity_Types = $Module_Types = array();
 //);
 
 $ActTypes = getActTypesForCalendar();
+if (!$load_ch || $Ch_Views["1"]["invite"]) $invite_checked = true; else $invite_checked = false;
 
 foreach ($ActTypes AS $act_id => $act_name) {
-	if (!$load_ch || $Ch_Views["1"][$act_id]) $event_checked = true; else $event_checked = false;
+	if (!$load_ch || !empty($Ch_Views["1"][$act_id])) $event_checked = true; else $event_checked = false;
 
 	$Colors = getEColors("type",$act_id);   
 	$Colors_Palete = $colorHarmony->Monochromatic($Colors["bg"]);
@@ -166,11 +167,12 @@ foreach ($ActTypes AS $act_id => $act_name) {
 	}
 	unset($Colors);
 	unset($Colors_Palete);
+
+
+
 //$Invite_Colors = getEColors("type","invite");
 //$Invite_Colors_Palette = $colorHarmony->Monochromatic($Invite_Colors["bg"]);
 //
-//if (!$load_ch || $Ch_Views["1"]["invite"]) $invite_checked = true; else $invite_checked = false;
-
 //$Activity_Types["invite"] = array(
 //	"typename"=>"Invite",
 //	"act_type"=>"event",

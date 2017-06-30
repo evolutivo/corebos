@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{Action}} {{entity}}</h3>
+</div>
+<div class="modal-body">
+    <table border='0'>
+        <tr ng-repeat="fld in fields">
+            <td> 
+                {{fld.label}}
+            </td>
+            <td ng-switch on="fld.type">
+              <select ng-switch-when="select_block" class="form-control" ng-model="array[fld.name]" ng-options="opt.tabid as opt.tabtrans for opt  in fld.options"></select>
+              <select ng-switch-when="select_field_block" class="form-control" ng-model="array[fld.name]" ng-options="opt.id as opt.block_label for opt  in fld.options"></select>
+              <select ng-switch-when="select_field" class="form-control" ng-model="array[fld.name]" ng-options="opt.fieldname as opt.fieldlabel for opt  in fld.options | filter_fields:array['blockid']:fields[0]['options'] "></select>
+              <select ng-switch-when="select_action_type" class="form-control" ng-model="array[fld.name]" ng-options="opt for opt  in fld.options "></select>
+              <select ng-switch-when="select_actions" class="form-control" ng-model="array[fld.name]" ng-options="opt.id as opt.name for opt  in fld.options"></select>
+              <input ng-switch-when="text" type="text" class="form-control" ng-model="array[fld.name]"/>
+              <input ng-switch-when="number" type="number" class="form-control" ng-model="array[fld.name]"/>
+              <div ng-switch-when="boolean" >
+                    &nbsp;&nbsp;&nbsp;
+                    <md-checkbox  ng-model="array[fld.name]" class="md-block" flex-gt-xs>                       
+                    </md-checkbox>                                            
+              </div>
+              <div ng-switch-when="brid" >
+                  <form name="EditView">
+                      <input id="{{fld.name}}_display" name="{{fld.name}}_display" type="text" class="form-control" ng-model="array[fld.name+'_display']" style="width:400px;">&nbsp;
+                      <input id="{{fld.name}}" name="{{fld.name}}" type="hidden" class="form-control" ng-model="array[fld.name]" value="{{array[fld.name]}}">&nbsp;
+                      <img src="themes/images/select.gif" alt="Select" title="Select" LANGUAGE=javascript  onclick='return window.open("index.php?module=BusinessRules&action=Popup&html=Popup_picker&form=vtlibPopupView&forfield=brid&srcmodule=FormBuilder","test","width=640,height=602,resizable=0,scrollbars=0,top=150,left=200");' align="absmiddle" style='cursor:hand;cursor:pointer'>
+                      <input type="image" src="themes/images/clear_field.gif" alt="Clear" title="Clear" LANGUAGE=javascript onClick="document.getElementById('brid').value='';document.getElementById('brid_display').value='';return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
+                  </form>
+              </div>
+            </td>
+        </tr>      
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="setEditId(array)">Save</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
+<input type="hidden" name="formbuilder" id="formbuilder" value="formbuilder"/>

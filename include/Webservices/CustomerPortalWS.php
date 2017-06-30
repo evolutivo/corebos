@@ -944,7 +944,7 @@ function getFieldAutocomplete($term, $filter, $searchinmodule, $fields, $returnf
 	$flds = array_unique(array_merge($rfields,$sfields,array('id')));
 	$queryGenerator->setFields($flds);
 	foreach ($sfields as $sfld) {
-		$queryGenerator->addCondition($sfld,$term,$op);
+		$queryGenerator->addCondition($sfld,$term,$op,$queryGenerator::$OR);
 	}
 	$query = $queryGenerator->getQuery();
 	$rsemp=$adb->query($query);
@@ -1005,7 +1005,7 @@ function getEvoReferenceAutocomplete($term, $filter, $limit,$field) {
 		$searchin = array('HelpDesk','Project','ProjectTask','Potentials','ProjectMilestone',
 		'Invoice','PurchaseOrder','Quotes','SalesOrder','ServiceContracts','Accounts','Contacts',);
 	}
-	if (empty($limit)) $limit = ' limi 0,10';  // hard coded default
+	if (empty($limit)) $limit = 'limit 0,30';  // hard coded default
 	$respuesta=array();
         $term=  strtolower($term);
         if (empty($term)) {
@@ -1043,6 +1043,10 @@ function getEvoReferenceAutocomplete($term, $filter, $limit,$field) {
 		if (!(vtlib_isModuleActive($srchmod) and isPermitted($srchmod,'DetailView'))) continue;
 		$tabid=  getTabid($srchmod);
                 require_once("modules/$srchmod/$srchmod.php");
+                $focus_pointing= CRMEntity::getInstance($srchmod);
+                $pointing_module_tablecf=$focus_pointing->customFieldTable[0];
+                $pointing_module_tablecf_id=$focus_pointing->customFieldTable[1];
+                
                 $eirs = $adb->pquery('select tablename,entityidfield '
                         . ' from vtiger_entityname'
                         . ' where modulename=?',array($srchmod));
@@ -1052,23 +1056,29 @@ function getEvoReferenceAutocomplete($term, $filter, $limit,$field) {
 			$fieldlists = explode(',', $fld_search);
 			$wherefield = implode(" $op '$term' or ", $fieldlists)." $op '$term' ";
 		}
+                $join_cf='';
+                if(Vtiger_Utils::CheckTable($pointing_module_tablecf)) {
+                    $join_cf=" left join $pointing_module_tablecf on $pointing_module_tablecf.$pointing_module_tablecf_id={$ei['tablename']}.{$ei['entityidfield']}";
+                }
                 $qryCount = "select count(*) as nr
                             from {$ei['tablename']}
-                            inner join vtiger_crmentity on crmid = {$ei['entityidfield']}
+                            $join_cf
+                            inner join vtiger_crmentity on vtiger_crmentity.crmid = {$ei['tablename']}.{$ei['entityidfield']}
                             where deleted = 0 and ($wherefield)";
                 //var_dump($qryCount);
                 $countRecResult=$adb->query($qryCount);
                 $countRec=$adb->query_result($countRecResult,0,'nr');
 		$qry = "select crmid
                             from {$ei['tablename']}
-                            inner join vtiger_crmentity on crmid = {$ei['entityidfield']}
+                            $join_cf
+                            inner join vtiger_crmentity on vtiger_crmentity.crmid = {$ei['tablename']}.{$ei['entityidfield']}
                             where deleted = 0 and ($wherefield)"
                         .   " $limit ";
 		$rsemp=$adb->query($qry);
 		$trmod = getTranslatedString($srchmod,$srchmod);
 		$wsid = vtyiicpng_getWSEntityId($srchmod);
 		while ($emp=$adb->fetch_array($rsemp)) {
-                    $focus_pointing= CRMEntity::getInstance($srchmod);
+                    
                     $focus_pointing->id=$emp['crmid'];
                     $focus_pointing->mode = 'edit';
                     $focus_pointing->retrieve_entity_info($emp['crmid'], $srchmod);

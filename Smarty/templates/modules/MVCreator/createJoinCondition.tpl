@@ -5,10 +5,16 @@
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/css/jquery.bsmselect.css">
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/examples/example.css">
 <link rel="stylesheet" type="text/css" href="kendoui/styles/kendo.common.min.css">
+<link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
+
+{*<link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
+{*<link type="text/css" href="modules/MVCreator/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
 
 <div id="LoadingImage" style="display: none">
     <img src=""/>
 </div>
+
+
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <center><b>{$MOD.CreateJoinCondition}</b></center>
 </div>
@@ -17,12 +23,12 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
-            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="generateJoin();"
+            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
-            <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="deleteLastJoin();"
+        <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>
+                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
             <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
@@ -32,12 +38,17 @@
             <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
-            <li><a href="javascript:void(0);" id="saveasmap" name="radio" onclick="SaveasMap();"
+            <li><a href="javascript:void(0);" id="saveasmap" name="radio"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.SaveAsMap}</a></li>
+
+
         </ul>
 
     </div>
+   <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:70px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
+   <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
+   </select><br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick=" generateJoin();hide('userorgroup');openalertsJoin();"></center></div>               
     {*
     <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">
@@ -56,6 +67,52 @@
         </div>
     </div>
     *}
+
+    <div>
+        <div class="slds">
+
+            <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
+                            <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                            </svg>
+                            <span class="slds-assistive-text">{$MOD.close}</span>
+                        </button>
+                        <h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" for="input-unique-id">
+                                    <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
+                                <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
+                                       class="slds-input" placeholder="{$MOD.mapname}">
+                                <div class="slds-form-element__control">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
+                        </button>
+                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
+                            {$MOD.save}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop" id="backdrop"></div>
+
+            <!-- Button To Open Modal -->
+            {*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
+        </div>
+
+    </div>
+
+
     <div id="selJoin" style="float:left; overflow: hidden;width:80%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
@@ -135,8 +192,7 @@
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>
                 <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">Select Label (use ctrl + left click )
-                        multiple select</label>
+                    <label class="slds-form-element__label" for="select-01">{$MOD.selectlabel}</label>
                     <div class="slds-form-element__control">
                         {*{if !empty($Fields)}*}
                         {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
@@ -161,19 +217,32 @@
                         {*multiple="multiple" name="selectableFields1[]">*}
                         {*</select>*}
                         {*{/if}*}
+                        <div id="AlertsAddDiv" style="float: right;margin-top: 0px;width: 50%;">
+                            {*<div class="alerts">*}
+                            {*<span class="closebtns"*}
+                            {*onclick="this.parentElement.style.display='none';">&times;</span>*}
+                            {*<strong>Danger!</strong> Indicates a dangerous or potentially negative action.*}
+                            {*</div>*}
+
+                        </div>
                     </div>
                     {*{if !empty($FirstSecModule)}*}
                     {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
                     {*{else}*}
-                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">                    
+                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+                    <input type="hidden" name="querysequence" id="querysequence" value="">
                     {*{/if}*}
 
+
                 </div>
+
                 {*<select id="selectableFields" multiple="multiple" name="selectableFields[]"></select>
                 <ol id="leftValues">
                 </ol>*}
 
             </div>
+
             {*            <div class="allinea" id="center">
                             <input type="button" id="btnRight" value="&gt;&gt;" />
                             <input type="button" id="btnLeft" value="&lt;&lt;" />
@@ -184,6 +253,7 @@
                         </div>*}
 
         </div>
+
     </div>
 </div>
 
@@ -192,7 +262,57 @@
 </div>
 <div id="null"></div>
 {literal}
+    <script>
+        //$ = jQuery.noConflict();
+
+        //Modal Open
+        $('#saveasmap').click(function () {
+            $('#backdrop').addClass('slds-backdrop--open');
+            $('#modal').addClass('slds-fade-in-open');
+        });
+
+        //Modal Close
+        function closeModal() {
+            var myLength = $("#SaveasMapTextImput").val();
+            if (myLength.length > 5) {
+                $('#ErrorVAlues').text('');
+                $('#modal').removeClass('slds-fade-in-open');
+                $('#backdrop').removeClass('slds-backdrop--open');
+                SaveasMap();
+            }
+            else {
+                $('#ErrorVAlues').text('{/literal}{$MOD.morefivechars}{literal}');
+            }
+        }
+        function closeModalwithoutcheck() {
+            $('#ErrorVAlues').text('');
+            $('#modal').removeClass('slds-fade-in-open');
+            $('#backdrop').removeClass('slds-backdrop--open');
+        }
+    </script>
     <style>
+
+        .alerts {
+            padding: 10px;
+            background-color: #808080;
+            margin: 20px;
+            color: white;
+        }
+
+        .closebtns {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 20px;
+            line-height: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtns:hover {
+            color: black;
+        }
 
         #LDSstyle {
             border: 1px solid black;
@@ -203,9 +323,9 @@
         }
 
         /*@media(width:1024px){*/
-            /*#LDSstyle {*/
-                /*font-size: 10*/
-            /*}*/
+        /*#LDSstyle {*/
+        /*font-size: 10*/
+        /*}*/
         /*}*/
 
         #LDSstyle li {
@@ -307,6 +427,34 @@
         .overflow {
             height: 200px;
         }
+
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            right: 105%;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
     </style>
     <script>
 
@@ -322,10 +470,222 @@
         //            });
         //
         //        });
+        $( function() {
+            $( document ).tooltip();
+          } );
+
+        var JSONForCOndition = [];
+        function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval, SecondModuleJSONtxt, SecondModuleJSONval,Valueparagrafi, JSONARRAY) {
+            JSONForCOndition.push({
+                idJSON: JSONForCOndition.length + 1,
+                FirstModuleJSONtext: FirstModuleJSONtxt,
+                FirstModuleJSONvalue: FirstModuleJSONval,
+                SecondModuleJSONtext: SecondModuleJSONtxt,
+                ValuesParagraf:Valueparagrafi,
+                SecondModuleJSONvalue: SecondModuleJSONval,
+                // selectedfields: JSONARRAY,
+                //selectedfields: {JSONARRAY}
+            });
+            jQuery.ajax({
+				type : 'POST',
+				data : {'fields':JSON.stringify(JSONForCOndition),'queryid':document.getElementById('queryid').value},
+				url : "index.php?module=MVCreator&action=MVCreatorAjax&file=savequeryhistory"
+			}).done(function(msg) {
+                        
+                        }
+                        );
+             console.log(JSONForCOndition);
+        }
+
+        //FUNCTIO GET VALUE FROM SELECTED Fields
+        function selectHtml() {
+            //var sel = jQuery('#selectableFields');
+           // return sel[0].innerHTML;
+             var campiSelezionati = [];
+            var sel = document.getElementById("selectableFields");
+            for (var n = 0; n < sel.options.length; n++) {
+                if (sel.options[n].selected == true) {
+                    //dd=x.options[i].value;
+                    campiSelezionati.push(sel.options[n].value);
+
+                }
+            }
+            return campiSelezionati;
+        }
+
+
+        function emptycombo(){
+            var select = document.getElementById("selectableFields");
+            var length = select.options.length;
+            var j=0;
+            while(select.options.length!=0){
+                for (var i1 = 0; i1 < length; i1++) {
+                    select.options[i1] = null;
+                }
+            }
+        }
+
+
+        function openalertsJoin() {
+            $('#AlertsAddDiv div').remove();
+           // var idJSON = 1;
+            var campiSelezionati = [];
+            var sel = document.getElementById("selectableFields");
+            for (var n = 0; n < sel.options.length; n++) {
+                if (sel.options[n].selected == true) {
+                    //dd=x.options[i].value;
+                    campiSelezionati.push(sel.options[n].value);
+
+                }
+            }
+
+            var FrirstMOduleval = $('#mod option:selected').val();// $('#mod').value;
+            var FrirstMOduletxt = $('#mod option:selected').text();// $('#mod').value;generatedConditions
+            var SecondMOduleval = $('#secmodule option:selected').val();
+            var SecondMOduletxt = $('#secmodule option:selected').text();
+            var generatedjoin=$( "#generatedjoin" ).html();
+            var generatedConditions=$( "#generatedConditions" ).html();
+            addINJSON(FrirstMOduletxt, FrirstMOduleval, SecondMOduletxt, SecondMOduleval,generatedjoin, selectHtml());
+			// console.log(FrirstMOduletxt);
+			// console.log(FrirstMOduleval);
+			// console.log(SecondMOduletxt);
+			// console.log(SecondMOduleval);
+			// console.log(selectHtml);
+            var check=false;
+            var length_history=JSONForCOndition.length;
+            //alert(length_history-1);
+            for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                var idd =ii// JSONForCOndition[ii].idJSON;
+                var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+                var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+                var selectedfields = JSONForCOndition[ii].ValuesParagraf;
+                // console.log(idd+firmod+secmod);
+                // console.log(selectedfields);
+                if (ii==(length_history-1)) 
+                {
+                    check=true;
+                     
+                }
+                else{
+                   check=false; 
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+                $('#AlertsAddDiv').append(alerstdiv);
+                // generateJoin();
+                // emptycombo();
+            }
+
+        }
+
+        function ReturnAllDataHistory(){
+
+              $('#AlertsAddDiv div').remove();
+              $( "#generatedjoin" ).html("");
+             var check=false;
+             var valuehistoryquery;
+            var length_history=JSONForCOndition.length;
+            //alert(length_history-1);
+            for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                var idd =ii// JSONForCOndition[ii].idJSON;
+                var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+                var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+                valuehistoryquery=JSONForCOndition[ii].ValuesParagraf;
+                // console.log(idd+firmod+secmod);
+                // console.log(selectedfields);
+                if (ii==(length_history-1)) 
+                {
+                    check=true;
+                     
+                }
+                else{
+                   check=false; 
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+                $('#AlertsAddDiv').append(alerstdiv);
+
+                $( "#generatedjoin" ).html(valuehistoryquery);
+                
+            }
+
+        }
+
+        function alertsdiv(Idd, Firstmodulee, secondmodule,last_check) {
+
+            var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
+            INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');">&times;</span>';
+            INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> ' + Firstmodulee + '=>' + secondmodule;
+            if (last_check==true) {//icono-plusCircle
+            INSertAlerstJOIN +='<span title="You are here " style="float:right;margin-top:-10px;margin-right:-76px;"><i class="icono-checkCircle"></i></span>';
+            }
+            else{
+                INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-76px;"><i class="icono-plusCircle"></i></span>'; 
+            }
+            INSertAlerstJOIN += '</div';
+            return INSertAlerstJOIN;
+        }
+
+       
+
+       function show_query_History(id_history){
+         $('#AlertsAddDiv div').remove();
+         document.getElementById('querysequence').value=id_history+1;
+         for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                var idd =ii// JSONForCOndition[ii].idJSON;
+                //valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+                 var idd =ii// JSONForCOndition[ii].idJSON;
+                var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+                var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+                 //console.log(idd+firmod+secmod);
+                //console.log(selectedfields);
+                if (ii==id_history) 
+                {
+                    check=true;
+                     valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+                      $( "#generatedjoin" ).html(valuehistoryquery);
+                     
+                }
+                else{
+                   check=false; 
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+                $('#AlertsAddDiv').append(alerstdiv);
+
+                
+                
+            }
+
+       }
+        function closeAlertsAndremoveJoin(remuveid) {
+
+            var check = false;
+            
+            for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                if (ii == remuveid) {
+                     //JSONForCOndition.remove(remuveid);
+                     JSONForCOndition.splice(remuveid,1);
+                    check = true
+					//console.log(remuveid);
+                   // console.log(ReturnAllDataHistory());
+                 }
+            }
+            if (check) {
+              var remuvediv="#alerts_"+remuveid;
+              $( "div" ).remove( remuvediv);
+              ReturnAllDataHistory();
+               
+               // $('#selectableFields option:selected').attr("selected", null);
+            }
+            else {
+                alert("{/literal}{$MOD.conditionwrong}{literal}");
+            }
+
+
+        }
+
+
         //function for first combo first module
         function GetFirstModuleCombo(selectObject) {
             var value = selectObject.value;
-            //alert(value);
             getSecModule(value);
             getFirstModuleFields(value);
         }

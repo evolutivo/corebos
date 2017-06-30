@@ -541,8 +541,19 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 	if ($module == "Calendar")
 		$query .=" WHERE vtiger_field.tabid in (9,16) and vtiger_field.presence in (0,2)";
 	else {
-		$query .=" WHERE vtiger_field.tabid = ? and vtiger_field.presence in (0,2)";
-		array_push($params, $tabid);
+		$tabids = array($tabid);
+		if (isset($focus->related_tables)) {
+			foreach ($focus->related_tables as $reltable => $reltableinfo) {
+				if (isset($reltableinfo[3]) and is_string($reltableinfo[3])) {
+					$tid = getTabid($reltableinfo[3]);
+					if (is_numeric($tid) and $tid>0) {
+						array_push($tabids, $tid);
+					}
+				}
+			}
+		}
+		$query .= ' WHERE vtiger_field.tabid in (' . generateQuestionMarks($tabids) . ') and vtiger_field.presence in (0,2)';
+		$params = $tabids;
 	}
 	$query .= " AND fieldname IN (" . generateQuestionMarks($field_list) . ") ";
 	array_push($params, $field_list);
@@ -887,7 +898,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 						} else {
 							$list_result_count = $i - 1;
 							$value = getValue($ui_col_array, $list_result, $fieldname, $focus, $module, $entity_id, $list_result_count, "list", "", $returnset, (is_object($oCv) ? $oCv->setdefaultviewid : ''));
-							$uicolarr = $ui_col_array[$fieldname];
+							$uicolarr = isset($ui_col_array[$fieldname]) ? $ui_col_array[$fieldname] : array('1'=>$fieldname);
 							foreach ($uicolarr as $key => $val) {
 								$uitype = $key;
 								$colname = $val;
@@ -955,7 +966,7 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 				}
 			}
 			// Record Change Notification
-			if (method_exists($focus, 'isViewed') && PerformancePrefs::getBoolean('LISTVIEW_RECORD_CHANGE_INDICATOR', true)) {
+			if (method_exists($focus, 'isViewed') && GlobalVariable::getVariable('Application_ListView_Record_Change_Indicator', 1, $module)) {
 				if (!$focus->isViewed($entity_id)) {
 					$links_info .= " | <img src='" . vtiger_imageurl('important1.gif', $theme) . "' border=0>";
 				}
@@ -1262,7 +1273,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 	$tabname = getParentTab();
 	$tabid = getTabid($module);
 	$current_module_strings = return_module_language($current_language, $module);
-	$uicolarr = $field_result[$fieldname];
+	$uicolarr = isset($field_result[$fieldname]) ? $field_result[$fieldname] : array('1'=>$fieldname);
 	foreach ($uicolarr as $key => $value) {
 		$uitype = $key;
 		$colname = $value;
@@ -1788,8 +1799,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 
 					$sub_det = $sub_products . "::" . str_replace(":", "<br>", $sub_prod);
 					$qty_stock = $adb->query_result($list_result, $list_result_count, 'qtyinstock');
-
-					//fix for T6943
 
 					$slashes_temp_val = popup_from_html($field_val);
 					$slashes_temp_val = htmlspecialchars($slashes_temp_val, ENT_QUOTES, $default_charset);
@@ -3746,7 +3755,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='listViewCountContainerName' class='small' style='white-space: nowrap;'>";
 	$computeCount = isset($_REQUEST['withCount']) ? $_REQUEST['withCount'] : '';
-	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true || ((boolean) $computeCount) == true) {
+	if (GlobalVariable::getVariable('Application_ListView_Compute_Page_Count', 0, $module) || ((boolean) $computeCount) == true) {
 		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
 	} else {
 		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . $app_strings['LBL_HOME_COUNT'] . "'
@@ -3859,11 +3868,9 @@ function getListViewDeleteLink($module, $entity_id, $relatedlist, $returnset, $l
 	}
 	if ($isCustomModule && !in_array($requestAction, Array('index', 'ListView'))) {
 		$requestRecord = vtlib_purify($_REQUEST['record']);
-		$parenttab = vtlib_purify($_REQUEST['parenttab']);
 		$del_link = "index.php?module=$requestModule&action=updateRelations&parentid=$requestRecord";
-		$del_link .= "&destination_module=$module&idlist=$entity_id&mode=delete&parenttab=$parenttab";
+		$del_link .= "&destination_module=$module&idlist=$entity_id&mode=delete";
 	}
-	// END
 
 	return $del_link;
 }
@@ -4168,7 +4175,7 @@ function getTableHeaderSimpleNavigation($navigation_array, $url_qry, $module = '
 		style='width: 3em;margin-right: 0.7em;' onchange=\"$jsNavigate\"
 		onkeypress=\"$jsHandler\">";
 	$output .= "<span name='" . $module . "_listViewCountContainerName' class='small' style='white-space: nowrap;'>";
-	if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
+	if (GlobalVariable::getVariable('Application_ListView_Compute_Page_Count', 0, $module)) {
 		$output .= $app_strings['LBL_LIST_OF'] . ' ' . $navigation_array['verylast'];
 	} else {
 		$output .= "<img src='" . vtiger_imageurl('windowRefresh.gif', $theme) . "' alt='" . $app_strings['LBL_HOME_COUNT'] . "'
@@ -4214,7 +4221,7 @@ function getRecordRangeMessage($listResult, $limitStartRecord, $totalRows = '') 
 	if ($numRows > 0) {
 		$recordListRangeMsg = $app_strings['LBL_SHOWING'] . ' ' . $app_strings['LBL_RECORDS'] .
 				' ' . ($limitStartRecord + 1) . ' - ' . ($limitStartRecord + $numRows);
-		if (PerformancePrefs::getBoolean('LISTVIEW_COMPUTE_PAGE_COUNT', false) === true) {
+		if (GlobalVariable::getVariable('Application_ListView_Compute_Page_Count', 0)) {
 			$recordListRangeMsg .= ' ' . $app_strings['LBL_LIST_OF'] . " $totalRows";
 		}
 	}

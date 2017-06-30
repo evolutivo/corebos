@@ -48,7 +48,7 @@ if($kaction=='retrieveProcessFlow'){
         if(!$belong2role) continue;
         $exceptionAbb=makingException($id);
                 
-        $details='';$nextpfid='';
+        $details='';
         
         $details[]=array('test'=>'notactive','id'=>'','text'=>'','qid'=>'','questiontype'=>'','nextcase'=>'','workflowtype'=>'');
    
@@ -64,18 +64,7 @@ if($kaction=='retrieveProcessFlow'){
             starttasksubstatus='".$startst."' "
             . " and end_subst='".$endst."' and processflowcase='".$pfcase."' "
             . " and linktoprocesstemplate=".$tempid);
-        $nextpfid=$adb->query_result($nextpf,0,'processflowid');
-
-        if($nextpfid==0 || $nextpfid=='')
-        {
-            $nextpfidq=$adb->query("Select * "
-                    . " from vtiger_processflow as pf "
-                    . " join vtiger_crmentity as c on pf.processflowid=c.crmid "
-                    . " where deleted=0 and end_subst='".$endst."' "
-                    . " and linktoprocesstemplate=".$tempid);
-            $nextpfid=$adb->query_result($nextpfidq,0,'processflowid');
-
-        }
+        
         $mailer_action=$adb->query_result($pfquery,$j,'mailer_action');
         $act_name='';
         if($mailer_action!='')
@@ -84,6 +73,29 @@ if($kaction=='retrieveProcessFlow'){
                  . " where businessactionsid=?",array($mailer_action));
             $act_name=$adb->query_result($mess_name,0,'reference');
         }
+        $details=array();
+        $cuestinario = $adb->query_result($pfquery, $j, 'cuestionarioid');
+        if ($cuestinario != '' && $cuestinario!=0) {
+            $qcuestionario = $adb->pquery("Select * 
+                from vtiger_crmentityrel 
+                join vtiger_preguntas  on vtiger_preguntas.preguntasid=vtiger_crmentityrel.relcrmid
+                join vtiger_crmentity ce on vtiger_preguntas.preguntasid=ce.crmid
+                where ce.deleted=0 and vtiger_crmentityrel.crmid=?", array($cuestinario));
+            for ($k = 0; $k < $adb->num_rows($qcuestionario); $k++) {
+                    $details[] = array(
+                        'test' => '', 
+                        'id' => $k, 
+                        'text' => $adb->query_result($qcuestionario, $k, 'question'), 
+                        'qid' => $adb->query_result($qcuestionario, $k, 'preguntasid'), 
+                        'questiontype' => $adb->query_result($qcuestionario, $k, 'tipodomanda'), 
+                        'd_obblig' => $adb->query_result($qcuestionario, $k, 'd_obblig'), 
+                        'nextcase' => $endsubst, 'workflowtype' => $adb->query_result($qcuestionario, $k, 'workflowtype'));
+//                }
+            }
+        }
+        else{
+            $details= array();
+        }   
         $col[]=array("name"=>$adb->query_result($pfquery,$j,'processflowname'). " ",
                     "casepf"=>$adb->query_result($pfquery,$j,'processflowcase'),
                     "cards"=>array(
@@ -186,6 +198,7 @@ elseif($kaction=='rendiconta'){
     
     $next_sub=$_REQUEST['next_sub'];
     $pfid=$_REQUEST['pfid'];
+    $questions=json_decode($_REQUEST['questions'],true);
 
     $focus_currMod->mode = 'edit';
     $actual_substatus=$focus_currMod->column_fields["$statusfield"];
@@ -209,6 +222,7 @@ elseif($kaction=='rendiconta'){
         'statusfield'=>$statusfield,
         'currentModule'=>$currentModule);
     updateStatusFld($processlog);
+    saveAnswers($processlog,$questions);
     //createProcessLog($processlog);
     if($currentModule=='SalesOrderMaster'){
         $processlog['current_date_crm'] =  $dt_crm;

@@ -449,7 +449,7 @@ function vtlib_purify($input, $ignore=false) {
 
 			$config = HTMLPurifier_Config::createDefault();
 			$config->set('Core.Encoding', $use_charset);
-			$config->set('Cache.SerializerPath', "$use_root_directory/test/vtlib");
+			$config->set('Cache.SerializerPath', "$use_root_directory/cache");
 
 			$__htmlpurifier_instance = new HTMLPurifier($config);
 		}
@@ -526,6 +526,12 @@ function getvtlib_open_popup_window_function($popupmodule,$fldname,$basemodule) 
 		$mod = new $popupmodule();
 		if (method_exists($mod, 'getvtlib_open_popup_window_function')) {
 			return $mod->getvtlib_open_popup_window_function($fldname,$basemodule);
+		} elseif (file_exists('modules/'.$popupmodule.'/getvtlib_open_popup_window_function.php')) {
+			@include_once 'modules/'.$popupmodule.'/getvtlib_open_popup_window_function.php';
+			if (function_exists('__hook_getvtlib_open_popup_window_function')) {
+				$mod->registerMethod('__hook_getvtlib_open_popup_window_function');
+				return $mod->__hook_getvtlib_open_popup_window_function($fldname,$basemodule);
+			}
 		}
 	}
 	return 'vtlib_open_popup_window';

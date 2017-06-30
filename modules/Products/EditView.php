@@ -9,7 +9,6 @@
  ************************************************************************************/
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb;
 require_once('Smarty_setup.php');
-require_once('include/FormValidationUtil.php');
 
 $focus = CRMEntity::getInstance($currentModule);
 
@@ -58,6 +57,7 @@ if($image_error=="true")
 if($isduplicate == 'true') {
 	$focus->id = '';
 	$focus->mode = '';
+	$focus->column_fields['isduplicatedfromrecordid'] = $record; // in order to support duplicate workflows
 	$_REQUEST['cbcustominfo1'] = 'duplicatingproduct';
 	$_REQUEST['cbcustominfo2'] = $record;
 }
@@ -250,13 +250,13 @@ $smarty->assign("PRICE_DETAILS", $price_details);
 $base_currency = 'curname' . $product_base_currency;
 $smarty->assign("BASE_CURRENCY", $base_currency);
 
-if(isset($focus->id) && $_REQUEST['isDuplicate'] != 'true')
+if (isset($focus->id) && (empty($_REQUEST['isDuplicate']) || $_REQUEST['isDuplicate'] != 'true'))
 	$is_parent = $focus->isparent_check();
 else
 	$is_parent = 0;
 $smarty->assign("IS_PARENT",$is_parent);
 
-if(isset($_REQUEST['return_module']) && $_REQUEST['return_module']=='Products' && isset($_REQUEST['return_action'])){
+if(isset($_REQUEST['return_module']) && $_REQUEST['return_module']=='Products' && isset($_REQUEST['return_action']) && isset($_REQUEST['return_id'])){
 	$return_name = getProductName($_REQUEST['return_id']);
 	$smarty->assign("RETURN_NAME", $return_name);
 }

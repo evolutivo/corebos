@@ -6,8 +6,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-document.write("<script type='text/javascript' src='modules/Products/multifile.js'></"+"script>");
-document.write("<script type='text/javascript' src='include/js/Merge.js'></"+"script>");
+
 function updateListPrice(unitprice,fieldname, oSelect)
 {
 	if(oSelect.checked == true)

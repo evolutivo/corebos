@@ -1,6 +1,6 @@
 <?php
 /*************************************************************************************************
- * Copyright 2014 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
+ * Copyright 2015 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
  * Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
  * file except in compliance with the License. You can redistribute it and/or modify it
  * under the terms of the License. JPL TSolucio, S.L. reserves all rights not expressly
@@ -20,6 +20,12 @@ $mod_strings = array(
 'Addstatus'=>'Add State',
 'CrFlow'=>'Create Flow',
 'Start'=>'Start',
-'End'=>'End'
+'End'=>'End',
+'SaveGraphConfig'=>'Save Graph Positions',
+'DeleteFlow'=>'Delete Flow',
+'AreYouSure'=>'Are you sure?',
+'Done'=>'Successfully completed operation',
+'DeleteNode'=>'Delete the Flows related with this status',
+'DeleteEdge'=>'Delete the specific Flow',
 );
 ?>
