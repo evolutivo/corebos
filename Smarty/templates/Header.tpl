@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="include/print.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="include/LD/assets/styles/salesforce-lightning-design-system.css" type="text/css" />
 	<link rel="stylesheet" href="include/LD/assets/styles/mainmenu.css" type="text/css" />
+    <link rel="stylesheet" href="include/LD/assets/styles/settings.css" type="text/css" />
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
 {if $HEADERCSS}
 	<!-- Custom Header CSS -->

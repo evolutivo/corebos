@@ -10,83 +10,110 @@
 -->*}
 
 <script type="text/javascript" src="modules/{$MODULE}/{$MODULE}.js"></script>
-<table border=0 cellspacing=0 cellpadding=0 width=100% class=small>
-	<tr><td style="height:2px"></td></tr>
-	<tr>
-		{assign var="action" value="WebformsListView"}
-		{assign var="MODULELABEL" value=$MODULE|@getTranslatedString:$MODULE}
-		<td style="padding-left:10px;padding-right:50px" class="moduleName" nowrap><a class="hdrLink" href="#">{$MODULELABEL}</a></td>
-	</tr>
+<!--    Settings Module -->
+<table class="slds-table slds-no-row-hover slds-table_cell-buffer">
+    <thead>
+    <tr class="slds-text-title_caps">
+        {assign var="action" value="WebformsListView"}
+        {assign var="MODULELABEL" value=$MODULE|@getTranslatedString:$MODULE}
+        <th scope="col">
+            <div class="slds-truncate moduleName" title="Settings">
+                <a class="hdrLink" href="#">{$MODULELABEL}</a>
+            </div>
+        </th>
+    </tr>
+    </thead>
 </table>
-<table align="center" border="0" cellpadding="0" cellspacing="0" width="98%">
-<tbody><tr>
+<!--   End Settings Module -->
+
+<!--   First Table -->
+<table class="slds-table slds-no-row-hover">
+    <tbody>
+    <tr>
         <td valign="top"><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
-	<td class="showPanelBg" style="padding: 10px;" valign="top" width="100%">
-	<br>
-	<div align=center>
-	<table border=0 cellspacing=0 cellpadding=20 width=90% class="settingsUI">
-	<tr>
-		<td>
-		<table border=0 cellspacing=0 cellpadding=0 width=100%>
-			{foreach key=BLOCKID item=BLOCKLABEL from=$BLOCKS}
-				{if $BLOCKLABEL neq 'LBL_MODULE_MANAGER'}
-				<tr>
-					<td class="settingsTabHeader">
-						{$MOD.$BLOCKLABEL}
-					</td>
-				</tr>
-				<tr>
-				<td class="settingsIconDisplay small">
-					<table border=0 cellspacing=0 cellpadding=10 width=100%>
-						<tr>
-						{foreach item=data from=$FIELDS.$BLOCKID name=itr}
-							<td width=25% valign=top>
-							{if $data.name eq ''}
-								&nbsp;
-							{else}
-							<table border=0 cellspacing=0 cellpadding=5 width=100%>
-								<tr>
-									{assign var=label value=$data.name|@getTranslatedString:$data.module}
-									{if $data.name eq $label}
-									{assign var=label value=$data.name|@getTranslatedString:'Settings'}
-									{/if}
-									{assign var=count value=$smarty.foreach.itr.iteration}
-									<td rowspan=2 valign=top>
-										<a href="{$data.link}">
-											<img src="{$data.icon|@vtiger_imageurl:$THEME}" alt="{$label}" width="48" height="48" border=0 title="{$label}">
-										</a>
-									</td>
-									<td class=big valign=top>
-										<a href="{$data.link}">
-											{$label}
-										</a>
-									</td>
-								</tr>
-								<tr>
-									{assign var=description value=$data.description|@getTranslatedString:$data.module}
-									{if $data.description eq $description}
-									{assign var=description value=$data.description|@getTranslatedString:'Settings'}
-									{/if}
-									<td class="small" valign=top>
-										{$description}
-									</td>
-								</tr>
-							</table>
-							{/if}
-							</td>
-						{if $count mod $NUMBER_OF_COLUMNS eq 0}
-							</tr><tr>
-						{/if}
-				{/foreach}
-						</table>
-					</td>
-					</tr>
-				{/if}
-			{/foreach}
-		</table>
-		</td>
-	</tr>
-	</table>
-	</td>
-</tr>
+        <td class="showPanelBg" style="padding: 10px;" valign="top" width="100%">
+            <br>
+
+            <!--   Second Table -->
+            <table class="slds-table slds-no-row-hover">
+                <tr>
+                    <td>
+
+                        <!--    Third Table -->
+                        <table class="slds-table slds-no-row-hover settingsUI">
+                            <thead>
+                            {foreach key=BLOCKID item=BLOCKLABEL from=$BLOCKS} {if $BLOCKLABEL neq 'LBL_MODULE_MANAGER'}
+                            <tr>
+                                <th scope="col">
+                                    <div class="slds-truncate settingsTabHeader slds-text-heading_small-all">
+                                        {$MOD.$BLOCKLABEL}
+                                    </div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td class="settingsIconDisplay small push-bit">
+                                    <div class="slds-truncate">
+
+                                        <!--   Fourth Table -->
+                                        <table class="slds-table slds-no-row-hover slds-table_fixed-layout-all"
+                                               role="grid">
+                                            <tr>
+                                                {foreach item=data from=$FIELDS.$BLOCKID name=itr}
+                                                <td valign=top>
+                                                    {if $data.name eq ''} &nbsp; {else}
+
+                                                        <!--   Fifth Table -->
+                                                        <table class="slds-table slds-no-row-hover">
+                                                            <tr>
+                                                                {assign var=label value=$data.name|@getTranslatedString:$data.module} {if $data.name eq $label} {assign var=label value=$data.name|@getTranslatedString:'Settings'} {/if} {assign var=count value=$smarty.foreach.itr.iteration}
+                                                                <td rowspan=2 valign=top style="width: 48px;">
+                                                                    <div class="img-container">
+                                                                        <a href="{$data.link}">
+                                                                            <img src="{$data.icon|@vtiger_imageurl:$THEME}"
+                                                                                 alt="{$label}" width="48"
+                                                                                 height="48"
+                                                                                 border=0 title="{$label}">
+                                                                        </a>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="big slds-text-title" valign=top>
+                                                                    <a href="{$data.link}">
+                                                                        {$label}
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                {assign var=description value=$data.description|@getTranslatedString:$data.module} {if $data.description eq $description} {assign var=description value=$data.description|@getTranslatedString:'Settings'} {/if}
+                                                                <td class="small slds-cell-wrap" valign=top>
+                                                                    {$description}
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <!--   End Fifth Table -->
+
+                                                    {/if}
+                                                </td>
+                                                {if $count mod $NUMBER_OF_COLUMNS eq 0}
+                                            </tr>
+                                            <tr>
+                                                {/if} {/foreach}
+                                        </table>
+                                        <!--   End Fourth Table -->
+
+                                    </div>
+                                </td>
+                            </tr>
+                            {/if} {/foreach}
+                        </table>
+                        <!--   End Third Table -->
+
+                    </td>
+                </tr>
+            </table>
+            <!--   End Second Table -->
+
+        </td>
+    </tr>
 </table>
+<!--   End First Table -->
