@@ -1667,4 +1667,11 @@
 	<classname>AddFormBuilder</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>teoz</author>
+	<description>import Spreadsheets module </description>
+	<filename>build/changeSets/installSpreadsheetsModule.php</filename>
+	<classname>installSpreadsheetsModule</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
