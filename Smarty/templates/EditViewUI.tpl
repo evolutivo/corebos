@@ -1241,6 +1241,60 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
                         {/literal}
                     </script>
                     </td>
+                    {elseif $uitype eq 1040}
+		    <td width="20%" class="dvtCellLabel" align=right >
+                    {$fldlabel}                                  
+                    </td>
+                    <td width="30%" align=left class="dvtCellInfo"  >
+                    <div ng-controller="mainCtrl_{$fldname}"> 
+                        <input name="{$fldname}" id="{$fldname}" value="{$fldvalue}" type="hidden"  >  
+                        <tags-input ng-model="{$fldname}" 
+                                    display-property="crmname" 
+                                    on-tag-added="functionClick($tag)"
+                                    on-tag-removed="functionClick($tag)"
+                                    {if $uitype eq 1021}max-tags="1"{/if}
+                                    placeholder="Select " >
+                          <auto-complete source="loadTags($query)"
+                                         min-length="2"
+                                         max-results-to-show="20"
+                                         ></auto-complete>
+                        </tags-input>
+                    </div>
+                    </td>
+                    <script>
+                        {literal}
+                        angular.module('demoApp')
+                       .controller('mainCtrl_{/literal}{$fldname}{literal}', function ($scope, $http) {
+                            $scope.{/literal}{$fldname}{literal}=[];
+                            $scope.loadTags = function(query) {
+                                return $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getModuleAutocomplete&field={/literal}{$fldname}{literal}&term='+query).
+                                    success(function(data, status) {
+                                });
+                            };
+                            $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getSavedModule&field={/literal}{$fldname}{literal}&sel_values='+encodeURIComponent("{/literal}{$fldvalue}{literal}")).
+                                    success(function(data, status) {
+                                        console.log(data);
+                                        if(data.length==1 && data[0]['crmname']=='')data='';
+                                        $scope.{/literal}{$fldname}{literal}=data;
+                            });           
+                            
+                            $scope.functionClick= function(tag) {
+                                var arr = new Array();
+                                for(i=0;i<$scope.{/literal}{$fldname}{literal}.length;i++)
+                                    {
+                                       var val=$scope.{/literal}{$fldname}{literal}[i]['crmname'];
+                                       console.log(val);
+                                       arr[i]=val;
+                                    };
+                                    
+                                document.getElementsByName('{/literal}{$fldname}{literal}').item(0).value=arr.join(',');
+                            };
+                                               
+                        });
+                          
+                        {/literal}
+                    </script>
+                    </td>      
 		{elseif $uitype eq 83} <!-- Handle the Tax in Inventory -->
 			{foreach item=tax key=count from=$TAX_DETAILS}
 				{if $tax.check_value eq 1}

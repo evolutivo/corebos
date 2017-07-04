@@ -89,6 +89,23 @@ switch ($functiontocall) {
 		}
 		$ret = getEvoReferenceAutocomplete($term, $op, $limit, $field);
 		break;
+        case 'getModuleAutocomplete':
+		include_once 'include/Webservices/CustomerPortalWS.php';
+		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);
+		$fields =           vtlib_purify($_REQUEST['fields']);
+		$returnfields =     vtlib_purify($_REQUEST['returnfields']);
+		$limit =            vtlib_purify($_REQUEST['limit']);
+		$filter =           vtlib_purify($_REQUEST['filter']);
+                $field =            vtlib_purify($_REQUEST['field']);
+		if (is_array($filter)) {
+			$term = $filter['filters'][0]['value'];
+			$op = 'contains';
+		} else {
+			$term = vtlib_purify($_REQUEST['term']);
+			$op = 'contains';
+		}
+		$ret = getModuleAutocomplete($term, $op, $limit, $field);
+		break;
         case 'getEvoActualAutocomplete':
 		include_once 'include/Webservices/CustomerPortalWS.php';
 		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);
@@ -107,6 +124,24 @@ switch ($functiontocall) {
 		}
 		$ret = getEvoActualAutocomplete($sel_values,$field);
 		break;
+        case 'getSavedModule':
+		include_once 'include/Webservices/CustomerPortalWS.php';
+		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);
+		$fields =           vtlib_purify($_REQUEST['fields']);
+		$returnfields =     vtlib_purify($_REQUEST['returnfields']);
+		$limit =            vtlib_purify($_REQUEST['limit']);
+		$filter =           vtlib_purify($_REQUEST['filter']);
+                $field =            vtlib_purify($_REQUEST['field']);
+                $sel_values =       vtlib_purify($_REQUEST['sel_values']);
+		if (is_array($filter)) {
+			$term = $filter['filters'][0]['value'];
+			$op = 'startswith';
+		} else {
+			$term = vtlib_purify($_REQUEST['term']);
+			$op = 'startswith';
+		}
+		$ret = getSavedModule($sel_values,$field);
+		break;        
         case 'newEvoAutocomplete':
 		include_once 'include/Webservices/CustomerPortalWS.php';
 		$searchinmodule =   vtlib_purify($_REQUEST['searchinmodule']);

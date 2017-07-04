@@ -23,7 +23,34 @@ function vtyiicpng_getWSEntityId($entityName,$user='') {
 	}
 	return $wsid.'x';
 }
+function getModuleAutocomplete($term, $filter, $limit,$field) {
+    
+    global $current_user,$log,$adb,$default_charset;
+    $st = $term;
+    $queryacc = "SELECT vtiger_tab.name,vtiger_field.columnname FROM `vtiger_tab` INNER JOIN vtiger_field ON vtiger_tab.tabid = vtiger_field.tabid WHERE name LIKE '$term%' LIMIT 10";
+    $wsrs=$adb->query($queryacc);
+    $rownum=$adb->num_rows($wsrs);
+    $respuesta = array();
+        for ($i=0; $i<=$rownum; $i++)
+		{   
+                    $nd1 = $adb->query_result($wsrs,$i,'name');
+                    $nd2 = $adb->query_result($wsrs,$i,'columnname');
+                    $respuesta[$i]["crmname"]= $nd1.'::'. $nd2;
+                }
+        return $respuesta;  
+}
+    function getSavedModule($term,$field){
+	
+	$respuesta=array();
+	$values = explode(',', $term);
+	foreach ($values as $val) {
+		$crmnameis=$val;
+       $respuesta[]=array('crmname'=>$crmnameis);
 
+  }
+	return $respuesta;
+
+}
 function evvt_strip_html_links($text) {
 	$text = preg_replace('/<a [^>]*?>/','',$text);
 	$text=str_replace('</a>','',$text);
