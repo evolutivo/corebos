@@ -333,7 +333,7 @@ function getPicklistValuesSpecialUitypes($uitype,$fieldname,$value,$action='Edit
 			}
 		}
 	}
-	uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
+	//uasort($options, function($a,$b) {return (strtolower($a[0]) < strtolower($b[0])) ? -1 : 1;});
 	return $options;
 }
 ?>
