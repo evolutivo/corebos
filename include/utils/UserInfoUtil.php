@@ -613,7 +613,7 @@ function _vtisPermitted($module,$actionname,$record_id='') {
         if(!$BrPermission){
             return $permission;
         }
-	if(($module == 'Users' || $module == 'Home' || $module == 'uploads') && $parenttab != 'Settings')
+	if(($module == 'Users' || $module == 'Home' || $module == 'uploads' || $module == 'Utilities') && $parenttab != 'Settings')
 	{
 		//These modules dont have security right now
 		$permission = "yes";

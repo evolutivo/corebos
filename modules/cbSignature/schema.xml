@@ -11,7 +11,7 @@
   `elementtype` varchar(100) DEFAULT NULL,
   `ws` varchar(6) DEFAULT NULL,
   `nodeexec` varchar(5) DEFAULT NULL,
-  `signaturesconfig` varchar(100) DEFAULT NULL,
+  `signaturesconfig` varchar(1000) DEFAULT NULL,
   `scriptname` varchar(255) DEFAULT NULL,
   `celery` varchar(5) DEFAULT NULL,
   `conditionmap` varchar(100) DEFAULT NULL,
@@ -30,6 +30,8 @@
   `iomap` varchar(100) DEFAULT NULL,
   `immutable` varchar(5) DEFAULT NULL,
   `sig_range` varchar(100) DEFAULT NULL,
+  `scheduleddate` date DEFAULT NULL,
+  `sig_outputtype` varchar(255) DEFAULT '',
   PRIMARY KEY (`cbsignatureid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 		</table>

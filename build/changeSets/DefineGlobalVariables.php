@@ -42,9 +42,8 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_ExpirePasswordAfterDays',
 				'Application_AdminLoginIPs',
 				'Application_UserLoginIPs',
-				'Application_ListView_MaxColumns',
-				'Application_Action_Panel_Open',
-				'Application_Search_Panel_Open',
+				'Application_DetailView_Inline_Edit',
+				'Application_DetailView_Record_Navigation',
 				'Application_TrackerMaxHistory',
 				'Application_Announcement',
 				'Application_Display_World_Clock',
@@ -54,9 +53,13 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_Default_Action',
 				'Application_Default_Module',
 				'Application_Allow_Exports',
+				'Application_ListView_MaxColumns',
 				'Application_ListView_Max_Text_Length',
 				'Application_ListView_PageSize',
 				'Application_ListView_Default_Sort_Order',
+				'Application_ListView_Record_Change_Indicator',
+				'Application_ListView_Default_Sorting',
+				'Application_ListView_Compute_Page_Count',
 				'Application_Upload_MaxSize',
 				'Application_Single_Pane_View',
 				'Application_Minimum_Cron_Frequency',
@@ -122,19 +125,22 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'HelpDesk_Support_EMail',
 				'HelpDesk_Support_Name',
 				'HelpDesk_Support_Reply_EMail',
+				'HelpDesk_Notify_Owner_EMail',
 				'Document_Folder_View',
 				'User_AuthenticationType',
                                  
                                 'ContextIOKey',
                                 'ContextIOSecret',
                                 'ContextIOUserId',
+                            
+				'HomePage_Widget_Group_Size',
 
 				'Report_Send_Scheduled_ifEmpty',
 				'Report_ListView_PageSize',
 				'Report_MaxRows_OnScreen',
 
 				'Inventory_ListPrice_ReadOnly',
-                                'GContacts_Max_Results',
+				'GContacts_Max_Results',
 
 			);
 			$delete_these = array(
@@ -254,6 +260,12 @@ class DefineGlobalVariables extends cbupdaterWorker {
 							'to' => 1
 						),
 					)
+				),
+				'Application_Action_Panel_Open' => array(
+					'to' => 'Application_DetailView_ActionPanel_Open',
+				),
+				'Application_Search_Panel_Open' => array(
+					'to' => 'Application_ListView_SearchPanel_Open',
 				),
 			);
 			$moduleInstance = Vtiger_Module::getInstance('GlobalVariable');

@@ -245,6 +245,41 @@ $GlobalVariableDefinitons = array(
 	'values' => 'ASC | DESC',
 	'definition' => 'Initial sort order for records when clicking on list view header. The default is ASC',
 ),
+'Application_ListView_Record_Change_Indicator' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Performance',
+	'values' => '0 | 1',
+	'definition' => 'Compute record change indication for each record shown on listview. The default is 1',
+),
+'Application_ListView_Default_Sorting' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Performance',
+	'values' => '0 | 1',
+	'definition' => 'Turn-off default sorting in ListView, could eat up time as data grows. The default is 0',
+),
+'Application_ListView_Compute_Page_Count' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Performance',
+	'values' => '0 | 1',
+	'definition' => 'Compute list view record count while loading listview. The default is 0',
+),
+'Application_DetailView_Record_Navigation' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Performance',
+	'values' => '0 | 1',
+	'definition' => 'Saves information to permit navigating on DetailView, respecting the current ListView selection. The default is 1',
+),
+'Application_DetailView_Inline_Edit' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'Activates inline edit for those fields that the user can edit. The default is 1',
+),
 'Application_Upload_MaxSize' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Integer',
@@ -272,6 +307,20 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => '',
 	'definition' => '"Reply To" email address for emails going out from the HelpDesk support module (and some other system emails). It will only be used if it is different from HelpDesk_Support_EMail',
+),
+'HelpDesk_Notify_Owner_EMail' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Performance',
+	'values' => '0 | 1',
+	'definition' => 'If set to 1 and email will be sent to the owner of the HelpDesk Ticket when it changes, if set to 0 no email will be sent to the owner. This can be overriden with workflows, it only applies to the default workflows. The default value is 1.',
+),
+'HomePage_Widget_Group_Size' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Performance',
+	'values' => '',
+	'definition' => 'Number of ajax requests on home page, reduce this value if home page widgets dont show values. The default value is 12.',
 ),
 'Application_Single_Pane_View' => array(
 	'status' => 'Implemented',
@@ -532,14 +581,14 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'Maximum number of columns that can be set on a list view. The default is 12.',
 ),
-'Application_Action_Panel_Open' => array(
+'Application_DetailView_ActionPanel_Open' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
 	'category' => 'Application',
 	'values' => '0 | 1',
 	'definition' => 'If set to 0 the right action panel in detail view will be hidden. The default is 1 showing the action panel. It can be toggled using the icon on top.',
 ),
-'Application_Search_Panel_Open' => array(
+'Application_ListView_SearchPanel_Open' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
 	'category' => 'Application',
@@ -804,6 +853,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Mobile module functionality',
 	'values' => 'Contacts,Potentials,HelpDesk,Documents',
 	'definition' => '<b>Comma separeted module list</b> to indicate the modules that we want to show their related lists or to appear like a related list.<br> Now <b> Default value is: Contacts,Potentials,HelpDesk,Documents,Timecontrol</b>. <br>So, we recomend that first you copy this value and on the end of the string you add your new modules.<br><b>For example:</b> Contacts,Potentials,HelpDesk,Documents,Timecontrol<b>,Assets</b>',
+),
+'GContacts_Max_Results'  => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Integration',
+	'values' => '',
+	'definition' => 'Maximum number of records that will be synchronized in one batch when sending or receiving information from Google Contacts. The default value is 200 records.',
 ),
 );
 

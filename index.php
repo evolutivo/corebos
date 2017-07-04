@@ -203,14 +203,15 @@ $skipSecurityCheck= false;
 if(isset($action) && isset($module))
 {
 	$log->info("About to take action ".$action);
-	if(preg_match("/^Save/", $action) ||
+	if (preg_match("/^Popup/", $action) ||
+		preg_match("/^".$module."Ajax/",$action) ||
+		preg_match("/^Save/", $action) ||
+		preg_match("/^MassEditSave/", $action) ||
 		preg_match("/^Delete/", $action) ||
-		preg_match("/^Popup/", $action) ||
 		preg_match("/^ChangePassword/", $action) ||
 		preg_match("/^Authenticate/", $action) ||
 		preg_match("/^Logout/", $action) ||
 		preg_match("/^add2db/", $action) ||
-		preg_match("/^result/", $action) ||
 		preg_match("/^LeadConvertToEntities/", $action) ||
 		preg_match("/^downloadfile/", $action) ||
 		preg_match("/^massdelete/", $action) ||
@@ -221,10 +222,8 @@ if(isset($action) && isset($module))
 		preg_match("/^deleteRole/",$action) ||
 		preg_match("/^UpdateComboValues/",$action) ||
 		preg_match("/^fieldtypes/",$action) ||
-		preg_match("/^app_ins/",$action) ||
 		preg_match("/^minical/",$action) ||
 		preg_match("/^minitimer/",$action) ||
-		preg_match("/^app_del/",$action) ||
 		preg_match("/^send_mail/",$action) ||
 		preg_match("/^populatetemplate/",$action) ||
 		preg_match("/^TemplateMerge/",$action) ||
@@ -265,7 +264,6 @@ if(isset($action) && isset($module))
 		preg_match("/^savetermsandconditions/",$action) ||
 		preg_match("/^home_rss/",$action) ||
 		preg_match("/^ConvertAsFAQ/",$action) ||
-		preg_match("/^".$module."Ajax/",$action) ||
 		preg_match("/^ActivityAjax/",$action) ||
 		preg_match("/^updateCalendarSharing/",$action) ||
 		preg_match("/^disable_sharing/",$action) ||
@@ -279,20 +277,20 @@ if(isset($action) && isset($module))
 		(preg_match("/^Webmails/",$module) && preg_match("/^get_img/",$action)) ||
 		preg_match("/^download/",$action) ||
 		preg_match("/^getListOfRecords/", $action) ||
-		preg_match("/^MassEditSave/", $action) ||
 		preg_match("/^iCalExport/",$action)
 		)
 	{
 		$skipHeaders=true;
 		//skip headers for all these invocations as they are mostly popups
 		if(preg_match("/^Popup/", $action) ||
+			preg_match("/^".$module."Ajax/",$action) ||
+			preg_match("/^MassEditSave/", $action) ||
 			preg_match("/^ChangePassword/", $action) ||
 			//preg_match("/^Export/", $action) ||
 			preg_match("/^downloadfile/", $action) ||
 			preg_match("/^fieldtypes/",$action) ||
 			preg_match("/^lookupemailtemplate/",$action) ||
 			preg_match("/^home_rss/",$action) ||
-			preg_match("/^".$module."Ajax/",$action) ||
 			preg_match("/^massdelete/", $action) ||
 			preg_match("/^mailmergedownloadfile/",$action) ||
 			preg_match("/^get_img/",$action) ||
@@ -301,7 +299,6 @@ if(isset($action) && isset($module))
 			preg_match("/^lastImport/", $action ) ||
 			preg_match("/^massdelete/", $action ) ||
 			preg_match("/^getListOfRecords/", $action) ||
-			preg_match("/^MassEditSave/", $action) ||
 			preg_match("/^iCalExport/",$action)
 			)
 			$skipFooters=true;
@@ -532,53 +529,24 @@ if($display == "no"
 		and !(($currentModule=='Tooltip' and $action==$module."Ajax" and $_REQUEST['file']=='ComputeTooltip')
 			or ($currentModule=='GlobalVariable' and $action==$module."Ajax" and $_REQUEST['file']=='SearchGlobalVar'))
 	) {
-	if ($action==$module."Ajax") {
-	echo "<table border='0' cellpadding='5' cellspacing='0' width='100%'><tr><td align='center'>";
-	echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); position: relative; z-index: 10000000;'>
-		<table border='0' cellpadding='5' cellspacing='0' width='98%'>
-		<tbody><tr>
-		<td rowspan='2' width='11%'><img src='". vtiger_imageurl('denied.gif', $theme) . "' ></td>
-		<td style='border-bottom: 1px solid rgb(204, 204, 204);' width='70%'><span class='genHeaderSmall'>".$app_strings['LBL_PERMISSION']."</span></td>
-		</tr>
-		</tbody></table>
-		</div>
-		</td></tr></table>";
-	} else {
-	echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
-	echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 55%; position: relative; z-index: 10000000;'>
-		<table border='0' cellpadding='5' cellspacing='0' width='98%'>
-		<tbody><tr>
-		<td rowspan='2' width='11%'><img src='". vtiger_imageurl('denied.gif', $theme) . "' ></td>
-		<td style='border-bottom: 1px solid rgb(204, 204, 204);' nowrap='nowrap' width='70%'><span class='genHeaderSmall'>".$app_strings['LBL_PERMISSION']."</span></td>
-		</tr>
-		<tr>
-		<td class='small' align='right' nowrap='nowrap'>
-		<a href='javascript:window.history.back();'>".$app_strings['LBL_GO_BACK']."</a><br></td>
-		</tr>
-		</tbody></table>
-		</div>
-		</td></tr></table>";
-	}
+		require_once('Smarty_setup.php');
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign('APP', $app_strings);
+		if ($action==$module."Ajax") {
+			$smarty->assign('PUT_BACK_ACTION', false);
+		}
+		$smarty->display('modules/Vtiger/OperationNotPermitted.tpl');
 }
 // vtlib customization: Check if module has been de-activated
 else if(!vtlib_isModuleActive($currentModule)
 		and !(($currentModule=='Tooltip' and $action==$module."Ajax" and $_REQUEST['file']=='ComputeTooltip' && $currentModule!='QueryBuilder')
 			or ($currentModule=='GlobalVariable' and $action==$module."Ajax" and $_REQUEST['file']=='SearchGlobalVar'))
 	) {
-	echo "<table border='0' cellpadding='5' cellspacing='0' width='100%' height='450px'><tr><td align='center'>";
-	echo "<div style='border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 85%; position: relative; z-index: 10;'>
-		<table border='0' cellpadding='5' cellspacing='0' width='98%'>
-		<tbody><tr>
-		<td rowspan='2' width='11%'><img src='". vtiger_imageurl('denied.gif', $theme) . "' ></td>
-		<td style='border-bottom: 1px solid rgb(204, 204, 204);' width='70%'><span class='genHeaderSmall'>$currentModule ".$app_strings['VTLIB_MOD_NOT_ACTIVE']."</span></td>
-		</tr>
-		<tr>
-		<td class='small' align='right' nowrap='nowrap'>
-		<a href='javascript:window.history.back();'>".$app_strings['LBL_GO_BACK']."</a><br></td>
-		</tr>
-		</tbody></table>
-		</div>
-		</td></tr></table>";
+		require_once('Smarty_setup.php');
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign('APP', $app_strings);
+		$smarty->assign('OPERATION_MESSAGE', $currentModule . $app_strings['VTLIB_MOD_NOT_ACTIVE']);
+		$smarty->display('modules/Vtiger/OperationNotPermitted.tpl');
 }
 else
 {
@@ -597,25 +565,7 @@ if($Ajx_module == 'Events')
 	$Ajx_module = 'Calendar';
 if((!$viewAttachment) && (!$viewAttachment && $action != 'home_rss') && $action != $Ajx_module."Ajax" && $action != 'massdelete' && $action != "DashboardAjax" && $action != "ActivityAjax")
 {
-	// Under the SPL you do not have the right to remove this copyright statement.
-	$copyrightstatement="<style>
-		.bggray
-		{
-			background-color: #dfdfdf;
-		}
-	.bgwhite
-	{
-		background-color: #FFFFFF;
-	}
-	.copy
-	{
-		font-size:9px;
-		font-family: Verdana, Arial, Helvetica, Sans-serif;
-	}
-	</style>";
-
 	if((!$skipFooters) && $action != "ChangePassword" && $action != "body" && $action != $Ajx_module."Ajax" && $action!='Popup' && $action != 'ImportStep3' && $action != 'ActivityAjax' && $action != 'getListOfRecords') {
-		echo $copyrightstatement;
 		cbEventHandler::do_action('corebos.footer.prefooter');
 		$coreBOS_uiapp_name = GlobalVariable::getVariable('Application_UI_Name',$coreBOS_app_name);
 		$coreBOS_uiapp_version = GlobalVariable::getVariable('Application_UI_Version',$coreBOS_app_version);

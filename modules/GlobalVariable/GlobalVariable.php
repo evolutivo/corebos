@@ -302,7 +302,7 @@ class GlobalVariable extends CRMEntity {
 		if (empty($gvuserid) and !empty($current_user)) $gvuserid = $current_user->id;
 		if (empty($gvuserid)) return $default;
 		if (empty($module)) $module = $currentModule;
-		$key = md5('gvcache'.$var.$module.$gvuserid);
+		$key = 'gvcache'.$var.$module.$gvuserid;
 		list($value,$found) = VTCacheUtils::lookupCachedInformation($key);
 		if ($found) {
 			$gvvalidationinfo[] = "variable found in cache";
@@ -310,10 +310,16 @@ class GlobalVariable extends CRMEntity {
 		}
 		$value='';
 		$list_of_modules=array();
-		$select = 'SELECT *
-		 FROM vtiger_globalvariable
-		 INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_globalvariable.globalvariableid ';
+		$join = ' FROM vtiger_globalvariable INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_globalvariable.globalvariableid ';
+		$select = 'select * '.$join;
 		$where = ' where vtiger_crmentity.deleted=0 and gvname=? ';
+
+		$sql = 'select 1 '.$join.$where.' limit 1';
+		$rs = $adb->pquery($sql, array($var));
+		if (!$rs or $adb->num_rows($rs)==0) {
+			$gvvalidationinfo[] = "no records for this variable exist, so default returned: $default";
+			return $default;
+		}
 
 		$mandatory=" and mandatory='1'";
 		$sql=$select.$where.$mandatory;

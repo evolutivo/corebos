@@ -258,8 +258,7 @@
                                                                            <select id="txtbox_{$label}" name="{$keyfldname}" class="small">
                                                                                 {foreach item=arr key=uid from=$keyoptions}
                                                                                         {foreach key=sel_value item=value from=$arr}
-                                                                                                <option value="{$uid}" {$value}>{if $APP.$sel_value}{$APP.$sel_value}{else}{$sel_value}{/if}</option>
-
+                                                                                                <option value="{$uid}" {$value}>{$sel_value}</option>
                                                                                         {/foreach}
                                                                                 {/foreach}
                                                                            </select>
@@ -373,7 +372,7 @@
 						</div>
 					</td>
 
-				{elseif $keyid eq 69}<!-- for Image Reflection -->
+				{elseif $keyid eq 69 || $keyid eq '69m'}<!-- for Image Reflection -->
 					<td align="left" width=25%>&nbsp;{$keyval}</td>
 				{elseif $keyid eq 68 || $keyid eq 101}
 					<td class="dvtCellInfo" id="mouseArea_{$keyfldname}" align="left" width=25% onmouseover="vtlib_listview.trigger('cell.onmouseover', this);" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">&nbsp;{$keyval}</td>

@@ -115,7 +115,6 @@ function send_mail($module,$to_email,$from_name,$from_email,$subject,$contents,$
 	}
 
 	$mail_status = MailSend($mail);
-
 	if($mail_status != 1)
 	{
 		$mail_error = getMailError($mail,$mail_status);
@@ -270,9 +269,16 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
         //If we send attachments from MarketingDashboard
 	if(is_array($attachment))
 	{
+		if(array_key_exists('direct', $attachment) && $attachment['direct']){
+			//We are sending attachments with direct content, the files are'nt stored
+            foreach($attachment['files'] as $file){
+			addStringAttachment($mail,$file['name'],$file['content']);
+            }
+		}else{
             foreach($attachment as $file){
 			addAttachment($mail,$file,$emailid);
             }
+        }
 	}
 
 	$mail->IsHTML(true);		// set email format to HTML
@@ -346,6 +352,19 @@ function addAttachment($mail,$filename,$record)
 	if(is_file($root_directory.$filename) && ($root_directory.$filename) != '') {
 		$mail->AddAttachment($root_directory.$filename);
 	}
+}
+
+/**	Function to add the file as attachment with the mail object
+  *	$mail -- reference of the mail object
+  *	$filename -- filename which is going to added with the mail
+  *	$data -- file contents to attach
+  */
+function addStringAttachment($mail,$filename,$data)
+{
+	global $adb, $root_directory;
+	$adb->println("Inside the function addStringAttachment. The file name is => '".$filename."'");
+
+		$mail->AddStringAttachment($data,$filename);
 }
 
 /**     Function to add all the files as attachment with the mail object
@@ -535,15 +554,14 @@ function getMailErrorString($mail_status_str)
   *	$mail_error_str -- base64 encoded string which contains the mail sending errors as concatenated with &&&
   *	return - Error message to display
   */
-function parseEmailErrorString($mail_error_str)
-{
-	//TODO -- we can modify this function for better email error handling in future
-	global $adb, $mod_strings;
+function parseEmailErrorString($mail_error_str) {
+	global $adb;
 	$adb->println("Inside the parseEmailErrorString function.\n encoded mail error string ==> ".$mail_error_str);
 
 	$mail_error = base64_decode($mail_error_str);
 	$adb->println("Original error string => ".$mail_error);
 	$mail_status = explode("&&&",trim($mail_error,"&&&"));
+	$errorstr = '';
 	foreach($mail_status as $key => $val)
 	{
 		$status_str = explode("=",$val);
@@ -554,13 +572,13 @@ function parseEmailErrorString($mail_error_str)
 			if($status_str[1] == 'connect_host')
 			{
 				$adb->println("if part - Mail sever is not configured");
-				$errorstr .= '<br><b><font color=red>'.$mod_strings['MESSAGE_CHECK_MAIL_SERVER_NAME'].'</font></b>';
+				$errorstr .= '<br><b><font color=red>'.getTranslatedString('MESSAGE_CHECK_MAIL_SERVER_NAME','Emails').'</font></b>';
 				break;
 			}
 			elseif($status_str[1] == '0')
 			{
 				$adb->println("first elseif part - status will be 0 which is the case of assigned to vtiger_users's email is empty.");
-				$errorstr .= '<br><b><font color=red> '.$mod_strings['MESSAGE_MAIL_COULD_NOT_BE_SEND'].' '.$mod_strings['MESSAGE_PLEASE_CHECK_FROM_THE_MAILID'].'</font></b>';
+				$errorstr .= '<br><b><font color=red> '.getTranslatedString('MESSAGE_MAIL_COULD_NOT_BE_SEND','Emails').' '.getTranslatedString('MESSAGE_PLEASE_CHECK_FROM_THE_MAILID','Emails').'</font></b>';
 				//Added to display the message about the CC && BCC mail sending status
 				if($status_str[0] == 'cc_success')
 				{
@@ -572,12 +590,12 @@ function parseEmailErrorString($mail_error_str)
 			{
 				$adb->println("second elseif part - from email id is failed.");
 				$from = explode('from_failed',$status_str[1]);
-				$errorstr .= "<br><b><font color=red>".$mod_strings['MESSAGE_PLEASE_CHECK_THE_FROM_MAILID']." '".$from[1]."'</font></b>";
+				$errorstr .= "<br><b><font color=red>".getTranslatedString('MESSAGE_PLEASE_CHECK_THE_FROM_MAILID','Emails')." '".$from[1]."'</font></b>";
 			}
 			else
 			{
 				$adb->println("else part - mail send process failed due to the following reason.");
-				$errorstr .= "<br><b><font color=red> ".$mod_strings['MESSAGE_MAIL_COULD_NOT_BE_SEND_TO_THIS_EMAILID']." '".$status_str[0]."'. ".$mod_strings['PLEASE_CHECK_THIS_EMAILID']."</font></b>";
+				$errorstr .= "<br><b><font color=red> ".getTranslatedString('MESSAGE_MAIL_COULD_NOT_BE_SEND_TO_THIS_EMAILID','Emails')." '".$status_str[0]."'. ".getTranslatedString('PLEASE_CHECK_THIS_EMAILID','Emails')."</font></b>";
 			}
 		}
 	}

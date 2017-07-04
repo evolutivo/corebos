@@ -1,0 +1,35 @@
+.moduleName {
+    text-transform: uppercase;
+}
+
+.img-container {
+    width: 48px;
+}
+
+.img-container a img {
+    max-width: 48px;
+}
+
+.slds-table_fixed-layout-all {
+    width: 100%;
+    table-layout: fixed;
+    white-space: nowrap;
+}
+
+.slds-text-heading_small-all {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 0.9rem;
+    line-height: 1.25;
+    border-top: 1px solid #d4d4d4;
+}
+
+.push-bit {
+    padding-bottom: 50px!important;
+}
+
+@media only screen and (max-width: 768px) {
+    .slds-table_fixed-layout-all {
+        min-width: 768px;
+    }
+}

@@ -59,8 +59,6 @@ switch ($functiontocall) {
 	case 'getReferenceAutocomplete':
 		include_once 'include/Webservices/CustomerPortalWS.php';
 		$searchinmodule = vtlib_purify($_REQUEST['searchinmodule']);
-		$fields = vtlib_purify($_REQUEST['fields']);
-		$returnfields = vtlib_purify($_REQUEST['returnfields']);
 		$limit = vtlib_purify($_REQUEST['limit']);
 		$filter = vtlib_purify($_REQUEST['filter']);
 		if (is_array($filter)) {
@@ -161,19 +159,22 @@ switch ($functiontocall) {
 		$ret = newEvoAutocomplete($new_value, $op, $searchinmodule, $limit, $current_user,$field);
 		break;
 	case 'getFieldValuesFromRecord':
+		$ret = array();
 		$crmid = vtlib_purify($_REQUEST['getFieldValuesFrom']);
-		$module = getSalesEntityType($crmid);
-		$fields = vtlib_purify($_REQUEST['getTheseFields']);
-		$fields = explode(',',$fields);
-		$queryGenerator = new QueryGenerator($module, $current_user);
-		$queryGenerator->setFields($fields);
-		$queryGenerator->addCondition('id',$crmid,'e');
-		$query = $queryGenerator->getQuery();
-		$queryres=$adb->pquery($query,array());
-		if ($adb->num_rows($queryres)>0) {
-			$col=0;
-			foreach ($fields as $field) {
-				$ret[$field]=$adb->query_result($queryres,0,$col++);
+		if (!empty($crmid)) {
+			$module = getSalesEntityType($crmid);
+			$fields = vtlib_purify($_REQUEST['getTheseFields']);
+			$fields = explode(',',$fields);
+			$queryGenerator = new QueryGenerator($module, $current_user);
+			$queryGenerator->setFields($fields);
+			$queryGenerator->addCondition('id',$crmid,'e');
+			$query = $queryGenerator->getQuery();
+			$queryres=$adb->pquery($query,array());
+			if ($adb->num_rows($queryres)>0) {
+				$col=0;
+				foreach ($fields as $field) {
+					$ret[$field]=$adb->query_result($queryres,0,$col++);
+				}
 			}
 		}
 		break;
@@ -192,12 +193,25 @@ switch ($functiontocall) {
 		if (file_exists("modules/{$valmod}/{$valmod}Validation.php")) {
 			echo 'yes';
 		} else {
-			echo 'no';
+			include_once 'modules/cbMap/processmap/Validations.php';
+			if (Validations::ValidationsExist($valmod)) {
+				echo 'yes';
+			} else {
+				echo 'no';
+			}
 		}
 		die();
 		break;
 	case 'ValidationLoad':
 		$valmod = vtlib_purify($_REQUEST['valmodule']);
+		include_once 'modules/cbMap/processmap/Validations.php';
+		if (Validations::ValidationsExist($valmod)) {
+			$validation = Validations::processAllValidationsFor($valmod);
+			if ($validation!==true) {
+				echo Validations::formatValidationErrors($validation,$valmod);
+				die();
+			}
+		}
 		if (file_exists("modules/{$valmod}/{$valmod}Validation.php")) {
 			include "modules/{$valmod}/{$valmod}Validation.php";
 		} else {

@@ -5,7 +5,7 @@ $setype=getSalesEntityType($rec);
 //Master signature id
 $id=419;
 $r=$rec.'##'.$id;
-putenv('PYTHONPATH=/home/lorida/virtualenvs/api/lib/python2.7/site-packages:/home/lorida/virtualenvs/api/lib/python2.7/site-packages:');
+#putenv('PYTHONPATH=/home/lorida/virtualenvs/api/lib/python2.7/site-packages:/home/lorida/virtualenvs/api/lib/python2.7/site-packages:');
 //$ip='193.182.16.151';
 //$port='8080';
 //$us='root';
@@ -23,7 +23,13 @@ putenv('PYTHONPATH=/home/lorida/virtualenvs/api/lib/python2.7/site-packages:/hom
 //
 //}
 //    }
-$url=shell_exec("python  /var/www/html/python4celery/addtasks2.py $r");
+$r1='432##'.$id;
+//for($i=0;$i<800;$i++){
+$url=shell_exec("python  /var/www/python4celery/addtasks2.py $r");
+//}
+//for ($j=0;$j<200;$j++){
+//$url=shell_exec("python  /var/www/python4celery/addtasks2.py $r1");
+//}
 $response['linkurl']="index.php?module=$setype&action=celeryoutput&output=".$url;
 return $response;
 

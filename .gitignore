@@ -6,4 +6,9 @@
 /backup
 /user_privileges
 /config-dev.inc.php
+/config.inc.php
+/tabdata.php
+/parent_tabdata.php
+/config.performance.php
 /modules/Calendar4You/googlekeys
+/nbproject/private/

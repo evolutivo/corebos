@@ -55,15 +55,6 @@ $focus = new cbMap();
 $focus->id = $mapid;
 $focus->mode = '';
 $focus->retrieve_entity_info($mapid, $currentModule);
-
-$contentok = processcbMap::isXML(htmlspecialchars_decode($focus->column_fields['content']));
-
-if ($contentok !== true) {
-	$smarty->assign('ERROR_MESSAGE', '<b>Incorrect Content</b><br>'.$contentok);
-	$smarty->display('modules/cbMap/testMap.tpl');
-	die();
-}
-
 $smarty->assign('ID', $focus->id);
 $smarty->assign('MODE', $focus->mode);
 
@@ -72,7 +63,18 @@ $recordName = $recordName[0];
 $smarty->assign('NAME', $recordName);
 $smarty->assign('UPDATEINFO',updateInfo($focus->id));
 $smarty->assign('MAPTYPE', $focus->column_fields['maptype']);
+
 $mapinfo = array();
+
+$contentok = processcbMap::isXML(html_entity_decode($focus->column_fields['content'],ENT_QUOTES,'UTF-8'));
+
+if ($contentok !== true) {
+	$smarty->assign('MAPINFO', $mapinfo);
+	$smarty->assign('ERROR_MESSAGE', '<b>Incorrect Content</b><br>'.$contentok);
+	$smarty->display('modules/cbMap/testMap.tpl');
+	die();
+}
+
 switch ($focus->column_fields['maptype']) {
 	case 'Condition Query':
 		$mapinfo = $focus->ConditionQuery(74);
@@ -134,8 +136,8 @@ switch ($focus->column_fields['maptype']) {
 		$mapinfo['OriginModule'] = $focus->getMapOriginModule();
 		break;
 	case 'IOMap':
-	        $mapinfo['InputFields'] = $focus->IOMap()->readInputFields();
-               $mapinfo['OutputFields'] = $focus->IOMap()->readOutputFields();
+		$mapinfo['InputFields'] = $focus->IOMap()->readInputFields();
+		$mapinfo['OutputFields'] = $focus->IOMap()->readOutputFields();
 		break;
 	case 'Search and Update':
 		$mapinfo = $focus->read_map();
@@ -147,6 +149,14 @@ switch ($focus->column_fields['maptype']) {
 		$mapinfo = $focus->FieldDependency()->getCompleteMapping();
 		$mapinfo['TargetModule'] = $focus->FieldDependency()->getMapTargetModule();
 		$mapinfo['OriginModule'] = $focus->FieldDependency()->getMapOriginModule();
+		break;
+	case 'Validations':
+		$mapinfo = $focus->Validations(array(
+			'accountname' => 'Chemex',
+			'industry' => 'Banking',
+			'email1' => 'sdsdsd',
+		),
+		74);
 		break;
 	default:
 

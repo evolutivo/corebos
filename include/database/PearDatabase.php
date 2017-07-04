@@ -14,8 +14,8 @@
  * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
  *************************************************************************************************/
 require_once('include/logging.php');
-include('adodb/adodb.inc.php');
-require_once("adodb/adodb-xmlschema.inc.php");
+include('include/adodb/adodb.inc.php');
+require_once("include/adodb/adodb-xmlschema.inc.php");
 
 $log = LoggerManager::getLogger('VT');
 $logsqltm = LoggerManager::getLogger('SQLTIME');
@@ -45,19 +45,13 @@ class PreparedQMark2SqlValue {
 
 /**
  * Performance perference API
+ * @deprecated use Global Variables
  */
-@include_once('config.performance.php'); // Ignore warning if not present
 class PerformancePrefs {
 	/**
 	 * Get performance parameter configured value or default one
 	 */
 	static function get($key, $defvalue=false) {
-		global $PERFORMANCE_CONFIG;
-		if(isset($PERFORMANCE_CONFIG)){
-			if(isset($PERFORMANCE_CONFIG[$key])) {
-				return $PERFORMANCE_CONFIG[$key];
-			}
-		}
 		return $defvalue;
 	}
 	/** Get boolean value */
@@ -146,7 +140,6 @@ class PearDatabase{
 	var $dbType = null;
 	var $dbHostName = null;
 	var $dbName = null;
-	var $dbOptions = null;
 	var $userName=null;
 	var $userPassword=null;
 	var $query_time = 0;
@@ -160,10 +153,10 @@ class PearDatabase{
 	var $avoidPreparedSql = false;
 
 	/**
-	 * Performance tunning parameters (can be configured through performance.prefs.php)
+	 * Performance tunning parameters
 	 * See the constructor for initialization
 	 */
-	var $isdb_default_utf8_charset = false;
+	var $isdb_default_utf8_charset = true;
 	var $enableCache = false;
 
 	var $_cacheinstance = false; // Will be auto-matically initialized if $enableCache is true
@@ -232,7 +225,6 @@ class PearDatabase{
 	function setUserName($name){ $this->userName = $name; }
 
 	function setOption($name, $value){
-		if(isset($this->dbOptions)) $this->dbOptions[$name] = $value;
 		if(isset($this->database)) $this->database->setOption($name, $value);
 	}
 
@@ -269,11 +261,8 @@ class PearDatabase{
 			foreach ($bt as $t) {
 				$ut[] = array('file'=>$t['file'],'line'=>$t['line'],'function'=>$t['function']);
 			}
-			echo '<pre>';
-			var_export($ut);
-			echo '</pre>';
 			$this->println("ADODB error ".$msg."->[".$this->database->ErrorNo()."]".$this->database->ErrorMsg());
-			die ($msg."ADODB error ".$msg."->".$this->database->ErrorMsg());
+			die($msg."ADODB error ".$msg."->".$this->database->ErrorMsg());
 		} else {
 			$this->println("ADODB error ".$msg."->[".$this->database->ErrorNo()."]".$this->database->ErrorMsg());
 		}
@@ -299,10 +288,10 @@ class PearDatabase{
 	 * Put out the SQL timing information
 	 */
 	function logSqlTiming($startat, $endat, $sql, $params=false) {
-		global $logsqltm;
+		global $logsqltm, $SQL_LOG_INCLUDE_CALLER;
 		// Specifically for timing the SQL execution, you need to enable DEBUG in log4php.properties
 		if($logsqltm->isDebugEnabled()){
-			if(PerformancePrefs::getBoolean('SQL_LOG_INCLUDE_CALLER', false)) {
+			if (!empty($SQL_LOG_INCLUDE_CALLER)) {
 				$callers = debug_backtrace();
 				$callerscount = count($callers);
 				$callerfunc = '';
@@ -883,14 +872,18 @@ class PearDatabase{
 	}
 
 	function connect($dieOnError = false) {
-		global $dbconfigoption,$dbconfig;
+		global $dbconfig;
 		if(!isset($this->dbType)) {
 			$this->println("ADODB Connect : DBType not specified");
 			return;
 		}
 		$this->database = ADONewConnection($this->dbType);
 
-		$this->database->PConnect($this->dbHostName, $this->userName, $this->userPassword, $this->dbName);
+		if (isset($dbconfig['persistent']) and $dbconfig['persistent']) {
+			$this->database->PConnect($this->dbHostName, $this->userName, $this->userPassword, $this->dbName);
+		} else {
+			$this->database->Connect($this->dbHostName, $this->userName, $this->userPassword, $this->dbName);
+		}
 		$this->database->LogSQL($this->enableSQLlog);
 
 		// 'SET NAMES UTF8' needs to be executed even if database has default CHARSET UTF8
@@ -910,7 +903,6 @@ class PearDatabase{
 		$this->resetSettings($dbtype,$host,$dbname,$username,$passwd);
 
 		// Initialize performance parameters
-		$this->isdb_default_utf8_charset = PerformancePrefs::getBoolean('DB_DEFAULT_CHARSET_UTF8');
 		$this->enableCache = PerformancePrefs::getBoolean('CACHE_QUERY_RESULT', false);
 
 		if(!isset($this->dbType)) {
@@ -924,7 +916,7 @@ class PearDatabase{
 	}
 
 	function resetSettings($dbtype,$host,$dbname,$username,$passwd){
-		global $dbconfig, $dbconfigoption;
+		global $dbconfig;
 
 		if($host == '') {
 			$this->disconnect();
@@ -933,7 +925,6 @@ class PearDatabase{
 			$this->setUserPassword($dbconfig['db_password']);
 			$this->setDatabaseHost( $dbconfig['db_hostname']);
 			$this->setDatabaseName($dbconfig['db_name']);
-			$this->dbOptions = $dbconfigoption;
 			if($dbconfig['log_sql'])
 				$this->enableSQLlog = ($dbconfig['log_sql'] == true);
 		} else {
