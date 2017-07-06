@@ -28,7 +28,7 @@ $nr = count($sqlQueryfields);
      for($j=0;$j<count($fldTypessarr);$j++){
          $fldtypevalcode = $fldTypessarrcodes[$j];
          $fldtypeval = $fldTypessarr[$j];
-         if($fldtypevalcode == substr($$fldType,0,1) || $fldtypevalcode == substr($$fldType,0,2))
+         if($fldtypevalcode == substr($fldType,0,1) || $fldtypevalcode == substr($fldType,0,2))
          $fldTypessqlhtml.="<option value='".$fldtypevalcode."' selected>".$fldtypeval."</option>";
          else  $fldTypessqlhtml.="<option value='".$fldtypevalcode."'>".$fldtypeval."</option>";
      }
