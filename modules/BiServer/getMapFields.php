@@ -5,6 +5,7 @@ $cbmapid = $_POST['mapID'];
 $SQLforMap = $adb->pquery("Select content,mapname,selected_fields from vtiger_cbmap where cbmapid = ?",array($cbmapid));
 $mapSql = str_replace('"','',html_entity_decode($adb->query_result($SQLforMap,0,"selected_fields"),ENT_QUOTES));
 //get fields from map SQL
+
 $sqlQueryfields = explode(",",$mapSql);
 $nr = count($sqlQueryfields);
 //DEFINE COLUMNS ALIAS
@@ -18,9 +19,18 @@ $nr = count($sqlQueryfields);
      $fselect2 =explode(" as ",$fselect[0]);
      $fldtblnamearr = explode(".",$sqlQueryfields[$k]);
      $fldLabel = $fieldinfo[0];
+     $fldTypessarr = array("Varchar","Number","Date","Date Time");
+     $fldTypessarrcodes=array("V","N","D","DT");
      $fieldinfo = explode(";",getColumnLabel($fldtblnamearr[1],$fldtblnamearr[0]));
      $fldType= $fieldinfo[1];
      $fldLabel = $fieldinfo[0];
+     for($j=0;$j<count($fldTypessarr);$j++){
+         $fldtypevalcode = $fldTypessarrcodes[$j];
+         $fldtypeval = $fldTypessarr[$j];
+         if($fldtypevalcode == substr($$fldType,0,1) || $fldtypevalcode == substr($$fldType,0,2))
+         $fldTypessqlhtml.="<option value='".$fldtypevalcode."' selected>".$fldtypeval."</option>";
+         else  $fldTypessqlhtml.="<option value='".$fldtypevalcode."'>".$fldtypeval."</option>";
+     }
      $fldLabel = getTranslatedString($fldLabel);
      if($fldLabel == "") $fldLabel = $fldtblnamearr[1];
      $sqlFields[$k] = trim($fselect2[0]).' AS '.trim($fldtblnamearr[0]).'_'.$fldtblnamearr[1];
@@ -63,7 +73,7 @@ else {
                     . "</td>"
            . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldLabel\">";
             $a.="</td>";
-            $a.="<td><input type=\"text\" id=\"modulfieldtype$i\" name=\"modulfieldtype$i\"  value=\"$fldType\">";
+            $a.="<td><select id=\"modulfieldtype$i\" name=\"modulfieldtype$i\">".$fldTypessqlhtml."</select>";
             $a.="</td>";
              $a.= "<td><input type='checkbox'  id='checkanalyzedlogg$i' name='checkanalyzedlogg$i'  class='k-checkbox'>";
                    $a.="<label class='k-checkbox-label' for='checkanalyzedlogg$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;    
