@@ -21,6 +21,7 @@ $nr = count($sqlQueryfields);
      $fldLabel = $fieldinfo[0];
      $fldTypessarr = array("Varchar","Number","Date","Date Time");
      $fldTypessarrcodes=array("V","N","D","DT");
+     $fldTypessqlhtml = "";
      $fieldinfo = explode(";",getColumnLabel($fldtblnamearr[1],$fldtblnamearr[0]));
      $fldType= $fieldinfo[1];
      $fldLabel = $fieldinfo[0];
