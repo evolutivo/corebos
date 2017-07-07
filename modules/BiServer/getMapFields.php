@@ -22,6 +22,8 @@ $nr = count($sqlQueryfields);
      $fldTypessarr = array("Varchar","Number","Date","Date Time");
      $fldTypessarrcodes=array("V","N","D","DT");
      $fldTypessqlhtml = "";
+     //$fldtblnamearr table name
+     
      $fieldinfo = explode(";",getColumnLabel($fldtblnamearr[1],$fldtblnamearr[0]));
      $fldType= $fieldinfo[1];
      $fldLabel = $fieldinfo[0];
@@ -87,6 +89,14 @@ else {
        $fldname = trim($fldname);
        $fldtable = trim($fldtable);
        $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
+       if($adb->num_rows($sql) == 0){
+          $tblparts =  explode("_", $fldtable);
+           for($i=0;$i<count($tblparts)-1;$i++){
+               $tblparts2[$i] = $tblparts[$i];
+           }
+       $fldtable = implode("_", $tblparts2)  ;
+       $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
+       }
        $fieldLabel = $adb->query_result($sql,0,'fieldlabel');
        $typeofdata= $adb->query_result($sql,0,'typeofdata');
     return $fieldLabel.";".$typeofdata;
