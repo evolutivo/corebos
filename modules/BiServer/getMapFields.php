@@ -88,6 +88,7 @@ else {
   global $adb;
        $fldname = trim($fldname);
        $fldtable = trim($fldtable);
+       echo $fldtable;
        $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
        if($adb->num_rows($sql) == 0){
           $tblparts =  explode("_", $fldtable);
@@ -97,6 +98,7 @@ else {
        $fldtable = implode("_", $tblparts2)  ;
        $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
        }
+       echo "ketu".$fldtable;
        $fieldLabel = $adb->query_result($sql,0,'fieldlabel');
        $typeofdata= $adb->query_result($sql,0,'typeofdata');
     return $fieldLabel.";".$typeofdata;
