@@ -92,10 +92,13 @@ else {
        $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
        if($adb->num_rows($sql) == 0){
           $tblparts =  explode("_", $fldtable);
+          if($tblparts[0] == "CRM") $fldtable = "vtiger_crmentity";
+          else{
            for($i=0;$i<count($tblparts)-1;$i++){
                $tblparts2[$i] = $tblparts[$i];
            }
-       $fldtable = implode("_", $tblparts2)  ;
+            $fldtable = implode("_", $tblparts2)  ;
+          }
        $sql = $adb->pquery("select fieldlabel,typeofdata from vtiger_field where fieldname LIKE ? and tablename LIKE ?",array($fldname,$fldtable));
        }
        echo "ketu".$fldtable;
