@@ -850,10 +850,12 @@ function openMenuJoin2() {
         }
         else {
             alert(mv_arr.addviewname);
+            window.location.reload();
         }
     }
     else {
         alert(mv_arr.namealreadyused);
+        window.location.reload();
     }
     getFirstModule();
     //getFirstModule("","");
