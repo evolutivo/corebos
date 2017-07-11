@@ -66,7 +66,6 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 <!-- Contents -->
 {ngtab2}
 <div id="editlistprice" style="position:absolute;width:300px;"></div>
-{*<table border=0 cellspacing=0 cellpadding=0 width=98% align=center>*}
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
 <tr>
 	<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
@@ -107,7 +106,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
                                 {else}
                             </li>
 
-                            <li class="tabMenuBottom slds-tabs--default__item slds-active" role="presentation" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}">
+                            <li class="slds-tabs--default__item slds-active" role="presentation" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}">
                                  {if $smarty.request.ng_tab neq ''}
                                     <a class="slds-tabs--default__link" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}" 
                                         role="tab" tabindex="-1" aria-selected="false" aria-haspopup="true" aria-controls="tab-default-2">
@@ -181,7 +180,6 @@ function showHideStatus(sId,anchorImgId,sImagePath)
                         <tr>
                             <td  class="dvtTabCacheBottom" style="padding:0;">
                                     <div class="slds-tabs--default">
-                                    <!--<div class="detailview_utils_table_tabs">-->
                                         <ul class="slds-tabs--default__nav" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                             <li class="tabMenuBottom slds-tabs--default__item-b " role="presentation" title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}"> 
                                                 <a class="slds-tabs--default__link slds-tabs--default__link_mod"
@@ -190,11 +188,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
                                                   <span class="slds-truncate">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>
                                                 </a>
                                             </li>
-                                            <!--
-                                            <div class="detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_bottom">
-                                                <a href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$SINGLE_MOD} {$APP.LBL_INFORMATION}</a>
-                                            </div>
-                                            -->
+                                            
                                             {if $HASRELATEDPANES eq 'true'}
                                                 {include file='RelatedPanes.tpl' tabposition='bottom'}
                                             {else}

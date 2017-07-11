@@ -1539,8 +1539,8 @@ angular.module('xeditable').factory('editableThemes', function() {
       inputTpl:    '',
       errorTpl:    '<div class="editable-error help-block" ng-show="$error" ng-bind="$error"></div>',
       buttonsTpl:  '<span class="editable-buttons"></span>',
-      submitTpl:   '<button type="submit" class="btn btn-primary"><span><img src="themes/images/icon-ok.png"/></span></button>',
-      cancelTpl:   '<button type="button" class="btn btn-default" ng-click="$form.$cancel()">'+
+      submitTpl:   '<button type="submit" class="btn btn-primary btn-xs"><span><img src="themes/images/icon-ok.png"/></span></button>',
+      cancelTpl:   '<button type="button" class="btn btn-default btn-xs" ng-click="$form.$cancel()">'+
                      '<span><img src="themes/images/glyphicons-208-remove-2_small.png"/></span>'+
                    '</button>',
 

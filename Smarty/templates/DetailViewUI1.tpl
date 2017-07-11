@@ -23,23 +23,31 @@
 				{if $keyid eq 11 && $USE_ASTERISK eq 'true'}
                     &nbsp;&nbsp;<span id="dtlview_{$label}"><a href='javascript:;' onclick='startCall("{$keyval}", "{$ID}")'>{$keyval}</a></span>
 				{else}
-					<a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
-                                        <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-textarea="{$keyfldname}" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">{literal}{{showValue('{/literal}{$keyfldname}{literal}')}}{/literal}</a>
+					<a href="#" ng-show ="!editable_logic('{$keyfldname}')" >
+                        {literal}{{{/literal}{$keyfldname}{literal} || 'Empty' }}{/literal}</a>               
+                    <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-textarea="{$keyfldname}" 
+                       onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">
+                        {literal}{{showValue('{/literal}{$keyfldname}{literal}')}}{/literal}</a>
 				{/if}
                 <div id="editarea_{$keyfldname}" style="display:none;">
-                	<input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"></input>
+                	<input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" 
+                           onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$keyfldname}" 
+                           name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
                     <br>
-                    <a href="javascript:;" class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();"/>
+                    <a href="javascript:;" class="detailview_ajaxbutton ajax_save_detailview" 
+                       onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">
                     	{$APP.LBL_SAVE_LABEL}
                     </a>
-                    <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">
+                    <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" 
+                       class="detailview_ajaxbutton ajax_cancelsave_detailview">
                     	{$APP.LBL_CANCEL_BUTTON_LABEL}
                     </a>
                 </div>
                 {if $keyid eq '71' && $keyfldname eq 'unit_price'}
                 	{if $PRICE_DETAILS|@count > 0}
 						<span id="multiple_currencies" width="38%" style="align:right;">
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleShowHide('currency_class','multiple_currencies');">{$APP.LBL_MORE_CURRENCIES} &raquo;</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="toggleShowHide('currency_class','multiple_currencies');">
+                            {$APP.LBL_MORE_CURRENCIES} &raquo;</a>
 						</span>
 
 						<div id="currency_class" class="multiCurrencyDetailUI">
@@ -49,7 +57,8 @@
 									<b>{$MOD.LBL_PRODUCT_PRICES}</b>
 								</th>
 								<th align="right">
-									<img border="0" style="cursor: pointer;" onclick="toggleShowHide('multiple_currencies','currency_class');" src="{'close.gif'|@vtiger_imageurl:$THEME}"/>
+									<img border="0" style="cursor: pointer;" onclick="toggleShowHide('multiple_currencies','currency_class');" 
+                                         src="{'close.gif'|@vtiger_imageurl:$THEME}"/>
 								</th>
 							</tr>
 							<tr class="detailedViewHeader">
@@ -73,7 +82,8 @@
                 {/if}
             </td>
         {elseif $keyid eq '13' || $keyid eq '104'} <!--Email-->
-            <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');"><span id="dtlview_{$label}">
+            <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" 
+                onmouseout="fnhide('crmspanid');"><span id="dtlview_{$label}">
 				{if $smarty.session.internal_mailer eq 1}
 					<a href="javascript:InternalMailer({$ID},{$keyfldid},'{$keyfldname}','{$MODULE}','record_id');">{$keyval}</a>
 				{else}
@@ -81,9 +91,13 @@
 				{/if}
 				</span>
                 <div id="editarea_{$keyfldname}" style="display:none;">
-                	<input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"></input>
-                	<br><a href="javascript:;" class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                	<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                	<input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" 
+                           type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
+                	<br><a href="javascript:;" class="detailview_ajaxbutton ajax_save_detailview" 
+                           onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">
+                    {$APP.LBL_SAVE_LABEL}</a>
+                	<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" 
+                       class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                 </div>
 				<div id="internal_mailer_{$keyfldname}" style="display: none;">{$keyfldid}####{$smarty.session.internal_mailer}</div>
                                                   </td>
@@ -97,27 +111,25 @@
 							{/if}
 						{/foreach}
 							<td ng-show ="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" >
-                                              		<a href="#" ng-show ="!editable_logic('{$keyfldname}')" >{literal}{{{/literal}showPicklist('{$keyfldname}'){literal} || 'Empty' }}{/literal}</a>               
-                                                        <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" 
-                                                                                                                editable-select="{$keyfldname}"  
-                                                                                                                e-ng-options="s.value as s.text for s in {$keyfldname}_values | {$keyfldname}_filter :this" onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')"
-                                                                                                                >
-                                                         {literal} {{{/literal}showPicklist('{$keyfldname}'){literal}}}{/literal}</a>
-                                                         <div id="editarea_{$label}" style="display:none;">
-                    							   <select id="txtbox_{$label}" name="{$keyfldname}" class="small" style="width:280px;">
-                    								{foreach item=arr from=$keyoptions}
-											{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
-                    									<option value="{$arr[0]}" {$arr[2]}>{$arr[0]}</option>
-											{else}
-        							                                <option value="{$arr[1]}" {$arr[2]}>
-							                                                {$arr[0]}
-								                                </option>
-							                                {/if}
-
-										{/foreach}
-                    							   </select>
-                    							   <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                              		   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                <a href="#" ng-show ="!editable_logic('{$keyfldname}')" >
+                                {literal}{{{/literal}showPicklist('{$keyfldname}'){literal} || 'Empty' }}{/literal}</a>               
+                                <a href="#"  ng-show ="show_logic('{$keyfldname}') && editable_logic('{$keyfldname}')" editable-select="{$keyfldname}"  
+                                e-ng-options="s.value as s.text for s in {$keyfldname}_values | {$keyfldname}_filter :this" 
+                                onbeforesave="checkName('{$label}','{$keyfldname}',$data,'{$ID}','{$MODULE}','{$keyid}')">
+                                 {literal} {{{/literal}showPicklist('{$keyfldname}'){literal}}}{/literal}</a>
+                                <div id="editarea_{$label}" style="display:none;">
+                                    <select id="txtbox_{$label}" name="{$keyfldname}" class="small" style="width:280px;">
+                                        {foreach item=arr from=$keyoptions}
+                                        {if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
+                                            <option value="{$arr[0]}" {$arr[2]}>{$arr[0]}</option>
+                                        {else}
+                                            <option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
+                                        {/if}
+                                        {/foreach}
+                                    </select>
+                                     <br>
+                                    <a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
+                                   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     							</div>
                							</td>
                                                 {elseif $keyid eq '15'}
@@ -186,7 +198,7 @@
 
                                                   <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'>&nbsp;<span id="dtlview_{$keyfldname}"><a href="{$keyval}" target="_blank" onclick="event.stopPropagation();">{$keyval}</a></span>
                                               		<div id="editarea_{$keyfldname}" style="display:none;">
-                                              		  <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"></input>
+                                              		  <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
                                               		  <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
                                               		  <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                        </div>
@@ -195,7 +207,7 @@
 
                                                 <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'>&nbsp;<span id="dtlview_{$keyfldname}"><a href="skype:{$keyval}?call" onclick="event.stopPropagation();"><img src="{'skype.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SKYPE}" title="{$APP.LBL_SKYPE}"  align="absmiddle"></img>&nbsp;{$keyval}</a></span>
                                                         <div id="editarea_{$keyfldname}" style="display:none;">
-                                                          <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"></input>
+                                                          <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
                                                           <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
                                                           <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                        </div>
@@ -209,9 +221,9 @@
 							<!--{assign var="DESCRIPTION_WORDWRAP_WIDTH" value="70"} {* No. of chars for word wrapping long lines of Description *}-->
 							{if $MODULE eq 'Documents'}
 							<!--To give hyperlink to URL-->
-								<td ng-show ="show_logic('{$keyfldname}')" width="100%" colspan="3" class="dvtCellInfo" align="left">{$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t<]*)/":"\\1<a href=\"\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r<]*)?)/":"\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""}&nbsp;</td>
+								<td ng-show ="show_logic('{$keyfldname}')" width="75%" colspan="3" class="dvtCellInfo" align="left">{$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t<]*)/":"\\1<a href=\"\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r<]*)?)/":"\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""}&nbsp;</td>
 							{else}
-								<td ng-show ="show_logic('{$keyfldname}')" width="100%" colspan="3" class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;
+								<td ng-show ="show_logic('{$keyfldname}')" width="75%" colspan="3" class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">&nbsp;
 									<span id="dtlview_{$label}">
 										{$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t<]*)/":"\\1<a href=\"\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r<]*)?)/":"\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""|replace:"\n":"<br>&nbsp;"}
 									</span>

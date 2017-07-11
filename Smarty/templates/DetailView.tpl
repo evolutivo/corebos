@@ -10,7 +10,7 @@
 -->*}
 <script type="text/javascript" src="include/js/dtlviewajax.js"></script>
 <span id="crmspanid" style="display:none;position:absolute;" onmouseover="show('crmspanid');">
-	<a class="link" href="javascript:;">{$APP.LBL_EDIT_BUTTON}</a>
+	<a class="link" href="javascript:;" style="padding:10px 5px 0 0;">{$APP.LBL_EDIT_BUTTON}</a>
 </span>
 <div id="convertleaddiv" style="display:block;position:absolute;left:225px;top:150px;"></div>
 {include file='DetailViewFieldDependency.tpl'}
@@ -180,12 +180,13 @@
                                         {* Module Record numbering, used MOD_SEQ_ID instead of ID *}
                                         {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
                                         {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
-                                        <span class="dvHeaderText">[ {$USE_ID_VALUE} ] {$NAME}
-                                            - {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>&nbsp;&nbsp;&nbsp;<span
-                                                class="small">{$UPDATEINFO}</span>&nbsp;<span id="vtbusy_info"
-                                                                                              style="display:none;"
-                                                                                              valign="bottom"><img
-                                                    src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span>
+                                        <span class="dvHeaderText" >[ {$USE_ID_VALUE} ] {$NAME}
+                                            - {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}
+                                        </span>&nbsp;&nbsp;&nbsp;
+                                        <span class="small">{$UPDATEINFO}</span>&nbsp;
+                                        <span id="vtbusy_info" style="display:none;" valign="bottom">
+                                            <img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">
+                                        </span>
                                     </td>
                                 </tr>
                             </table>
@@ -219,8 +220,8 @@
                                                                         </use>
                                                                     </svg>    
                                                                 </a>
-                                                                <div class="slds-dropdown slds-dropdown--left">
-                                                                    <ul class="slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu">
+                                                                <div class="slds-dropdown slds-dropdown--left ">
+                                                                    <ul class="slds-dropdown__list slds-dropdown--length-5" role="menu">
                                                                     {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
                                                                         <li class="slds-dropdown__item" role="presentation">
                                                                             <a role="menuitem" tabindex="-1" class="drop_down"
@@ -451,15 +452,14 @@
                                                                                         {if $header neq 'Comments'}
 
                                                                                         {if (isset($BLOCKINITIALSTATUS[$header]) && $BLOCKINITIALSTATUS[$header] eq 1) || !empty($BLOCKS.$header.relatedlist)}
-                                                                                        <div class="slds-truncate" id="tbl{$header|replace:' ':''}">
-                                                                                            {else}
                                                                                             <div class="slds-truncate" id="tbl{$header|replace:' ':''}">
-                                                                                                {/if}
-                                                                                                <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+                                                                                        {else}
+                                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}">
+                                                                                        {/if}
+                                                                                        <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
                                                                                                     <tbody>
                                                                                                     {if !empty($CUSTOMBLOCKS.$header.custom)}
                                                                                                         {include file=$CUSTOMBLOCKS.$header.tpl}
-
                                                                                                     {elseif isset($BLOCKS.$header.relatedlist) && $IS_REL_LIST|@count > 0}
                                                                                                         {assign var='RELBINDEX' value=$BLOCKS.$header.relatedlist}
                                                                                                         {include file='RelatedListNew.tpl' RELATEDLISTS=$RELATEDLISTBLOCK.$RELBINDEX RELLISTID=$RELBINDEX}
@@ -987,8 +987,8 @@
                                                                         </use>
                                                                     </svg>    
                                                                 </a>
-                                                                <div class="slds-dropdown slds-dropdown--left" style="margin-top:-250px;">
-                                                                    <ul class="slds-dropdown__list slds-dropdown_length-with-icon-10" role="menu">
+                                                                <div class="slds-dropdown slds-dropdown--left" style="margin-top:-230px;">
+                                                                    <ul class="slds-dropdown__list slds-dropdown--length-5" role="menu">
                                                                     {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
                                                                         <li class="slds-dropdown__item" role="presentation">
                                                                             <a role="menuitem" tabindex="-1" class="drop_down"
