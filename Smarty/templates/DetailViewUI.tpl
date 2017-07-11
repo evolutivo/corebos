@@ -218,14 +218,12 @@
     <!--{assign var="DESCRIPTION_WORDWRAP_WIDTH" value="70"} {* No. of chars for word wrapping long lines of Description *}-->
     {if $MODULE eq 'Documents'}
     <!--To give hyperlink to URL-->
-    <td width="75%" colspan="3" class="dvtCellInfo" align="left">{$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t
-        <]*)/ ":"\\1<a href=\ "\\2\" target=\ "_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r
-            <]*)?)/ ":"\\1<a href=\ "http://\\2\" target=\ "_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\ "mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""}&nbsp;</td>
+    <td width="75%" colspan="3" class="dvtCellInfo" align="left">{$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t<]*)/":"\\1<a href=\"\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r<]*)?)/":"\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""}&nbsp;</td>
     {else}
     <td width="75%" colspan="3" class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'>&nbsp;
         <span id="dtlview_{$keyfldname}">
-                            {$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t<]*)/":"\\1<a href=\"\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r<]*)?)/":"\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""|replace:"\n":"<br>&nbsp;"}
-                        </span>
+										{$keyval|regex_replace:"/(^|[\n ])([\w]+?:\/\/.*?[^ \"\n\r\t<]*)/":"\\1<a href=\"\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])((www|ftp)\.[\w\-]+\.[\w\-.\~]+(?:\/[^ \"\t\n\r<]*)?)/":"\\1<a href=\"http://\\2\" target=\"_blank\">\\2</a>"|regex_replace:"/(^|[\n ])([a-z0-9&\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)/i":"\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>"|regex_replace:"/,\"|\.\"|\)\"|\)\.\"|\.\)\"/":"\""|replace:"\n":"<br>&nbsp;"}
+									</span>
         <div id="editarea_{$keyfldname} " style="display:none;">
             <textarea id="txtbox_{$keyfldname}" name="{$keyfldname}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" cols="90" rows="8">{$keyval|replace:"<br>":"\n"}</textarea>
             <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
@@ -274,8 +272,7 @@
     {elseif $keyid eq 82}
     <!--Email Body-->
     <td colspan="3" width=100% class="dvtCellInfo" align="left">
-        <div id="dtlview_{$label}" style="width:100%;height:200px;overflow:hidden;border:1px solid gray" class="detailedViewTextBox" 
-             onmouseover="this.className='detailedViewTextBoxOn'" onmouseout="this.className='detailedViewTextBox'">{$keyval}</div>
+        <div id="dtlview_{$label}" style="width:100%;height:200px;overflow:hidden;border:1px solid gray" class="detailedViewTextBox" onmouseover="this.className='detailedViewTextBoxOn'" onmouseout="this.className='detailedViewTextBox'">{$keyval}</div>
     </td>
     {elseif $keyid eq 80}
     <!--SalesOrderPopup-->
@@ -309,12 +306,12 @@
         </span>
         <div id="editarea_{$label}" style="display:none;">
             <input type="hidden" id="hdtxt_{$label}" value="{$keyval}" /> {if $keyoptions.0 eq 'User'}
-            <input name="assigntype" id="assigntype" checked="checked" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>{$APP.LBL_USER} {if $keyoptions.2 neq ''}
-            <input name="assigntype" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>{$APP.LBL_GROUP_NAME} {/if}
+            <input name="assigntype" id="assigntype" checked="checked" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>&nbsp;{$APP.LBL_USER} {if $keyoptions.2 neq ''}
+            <input name="assigntype" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>&nbsp;{$APP.LBL_GROUP_NAME} {/if}
             <span id="assign_user" style="display: block;">
 						{else}
-							<input name="assigntype" id="assigntype" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>{$APP.LBL_USER}
-							<input name="assigntype" checked="checked" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>{$APP.LBL_GROUP_NAME}
+							<input name="assigntype" id="assigntype" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>&nbsp;{$APP.LBL_USER}
+							<input name="assigntype" checked="checked" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>&nbsp;{$APP.LBL_GROUP_NAME}
 							<span id="assign_user" style="display: none;">
 						{/if}
                    				<select id="txtbox_U{$label}" onchange="setSelectValue('{$label}')" name="{$keyfldname}" class="small">
