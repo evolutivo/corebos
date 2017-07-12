@@ -306,14 +306,18 @@
 							<div id="editarea_{$label}" style="display:none;">
 							<input type="hidden" id="hdtxt_{$label}" value="{$keyval}"/>
 						{if $keyoptions.0 eq 'User'}
-							<input name="assigntype" id="assigntype" checked="checked" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"> {$APP.LBL_USER}
+							<input name="assigntype" id="assigntype" checked="checked" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio">
+                                {$APP.LBL_USER}
 							{if $keyoptions.2 neq ''}
-								<input name="assigntype" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"> {$APP.LBL_GROUP_NAME}
+								<input name="assigntype" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio">
+                                {$APP.LBL_GROUP_NAME}
 							{/if}
 							<span id="assign_user" style="display: block;">
 						{else}
-							<input name="assigntype" id="assigntype" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"> {$APP.LBL_USER}
-							<input name="assigntype" checked="checked" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"> {$APP.LBL_GROUP_NAME}
+							<input name="assigntype" id="assigntype" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio">
+                                {$APP.LBL_USER}
+							<input name="assigntype" checked="checked" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio">
+                                {$APP.LBL_GROUP_NAME}
 							<span id="assign_user" style="display: none;">
 						{/if}
                    				<select id="txtbox_U{$label}" onchange="setSelectValue('{$label}')" name="{$keyfldname}" class="small">

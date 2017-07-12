@@ -308,34 +308,77 @@
             {/if}
         </span>
         <div id="editarea_{$label}" style="display:none;">
-            <input type="hidden" id="hdtxt_{$label}" value="{$keyval}" /> {if $keyoptions.0 eq 'User'}
-            <input name="assigntype" id="assigntype" checked="checked" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/> {$APP.LBL_USER} {if $keyoptions.2 neq ''}
-            <input name="assigntype" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/> {$APP.LBL_GROUP_NAME} {/if}
+            <fieldset class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <input type="hidden" id="hdtxt_{$label}" value="{$keyval}" /> {if $keyoptions.0 eq 'User'}
+                        <span class="slds-button slds-radio_button">
+                        <input name="assigntype" id="assigntype" checked="checked" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/> 
+                            <label class="slds-radio_button__label" for="USER">
+                                <span class="slds-radio_faux">{$APP.LBL_USER} {if $keyoptions.2 neq ''}</span>
+                            </label>
+                        </span>
+                        <span class="slds-button slds-radio_button">
+                        <input name="assigntype" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>
+                            <label class="slds-radio_button__label" for="GROUP_NAME">
+                                <span class="slds-radio_faux">{$APP.LBL_GROUP_NAME} {/if}</span>
+                            </label>
+                        </span>
+                </div>
+            </fieldset>
             <span id="assign_user" style="display: block;">
-						{else}
-							<input name="assigntype" id="assigntype" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/> {$APP.LBL_USER}
-							<input name="assigntype" checked="checked" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/> {$APP.LBL_GROUP_NAME}
-							<span id="assign_user" style="display: none;">
-						{/if}
-                   				<select id="txtbox_U{$label}" onchange="setSelectValue('{$label}')" name="{$keyfldname}" class="small">
-				                    {foreach item=arr key=id from=$keyoptions.1}
-				                    	{foreach key=sel_value item=value from=$arr}
-                       						 <option value="{$id}" {$value}>{$sel_value}</option>
-				                        {/foreach}
-				                    {/foreach}
-			                    	</select>
-						</span> {if $keyoptions.0 eq 'Group'}
+                
+            {else}
+            <fieldset class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <span class="slds-button slds-radio_button">
+                    <input name="assigntype" id="assigntype" value="U" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>
+                        <label class="slds-radio_button__label" for="USER">
+                            <span class="slds-radio_faux">{$APP.LBL_USER}</span>
+                        </label>
+                    </span>
+                    <span class="slds-button slds-radio_button">
+                    <input name="assigntype" checked="checked" id="assigntype" value="T" onclick="toggleAssignType(this.value),setSelectValue('{$label}');" type="radio"/>
+                        <label class="slds-radio_button__label" for="GROUP_NAME">
+                            <span class="slds-radio_faux">{$APP.LBL_GROUP_NAME}</span>
+                        </label>
+                    
+                    </span>
+                </div>
+            </fieldset>
+            <span id="assign_user" style="display: none;">
+                
+            {/if}
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select id="txtbox_U{$label}" onchange="setSelectValue('{$label}')" name="{$keyfldname}" class="small slds-select">
+                            {foreach item=arr key=id from=$keyoptions.1}
+                                {foreach key=sel_value item=value from=$arr}
+                                     <option value="{$id}" {$value}>{$sel_value}</option>
+                                {/foreach}
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            </span> {if $keyoptions.0 eq 'Group'}
             <span id="assign_team" style="display: block;">
 					{else}
 						<span id="assign_team" style="display: none;">
 					{/if}
-                   	<select id="txtbox_G{$label}" onchange="setSelectValue('{$label}')" name="assigned_group_id" class="groupname small">
-                    {foreach item=arr key=id from=$keyoptions.2}
-                    	{foreach key=sel_value item=value from=$arr}
-                       		 <option value="{$id}" {$value}>{$sel_value}</option>
-                        {/foreach}
-                    {/foreach}
-                    </select>
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select id="txtbox_G{$label}" onchange="setSelectValue('{$label}')" name="assigned_group_id" class="groupname small slds-select">
+                                {foreach item=arr key=id from=$keyoptions.2}
+                                    {foreach key=sel_value item=value from=$arr}
+                                         <option value="{$id}" {$value}>{$sel_value}</option>
+                                    {/foreach}
+                                {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 					</span>
 
             <br>

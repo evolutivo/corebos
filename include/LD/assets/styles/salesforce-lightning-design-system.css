@@ -3788,6 +3788,15 @@ a.slds-button--inverse:focus {
     box-shadow: #c23934 0 0 0 1px inset, 0 0 3px #0070D2;
 }
 
+select.slds-select option {
+    border: 1px solid #d8dde6;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0;
+    width: 15rem;
+    height: 15rem;
+    background-color: white;
+}
+
 .slds-checkbox--button-group {
     display: -ms-inline-flexbox;
     display: inline-flex;
