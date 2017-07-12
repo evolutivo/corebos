@@ -38,7 +38,6 @@ tr.slds-text-title--caps {
 
 input[type=button].slds-button--small {
     font-weight: bold;
-    background-image: url(/themes/softed/images/toolbar-bg.png);
     min-height: 1rem;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 11px;

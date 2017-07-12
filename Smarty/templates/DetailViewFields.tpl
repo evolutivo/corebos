@@ -101,7 +101,7 @@
 			<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}">&nbsp;<a href="{$keyval}" target="_blank">{$keyval}</a></td>
 		{elseif $keyid eq '85'}<!--Skype-->
 			<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}">
-				&nbsp;<img src="{'skype.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SKYPE}" title="{$APP.LBL_SKYPE}" align="absmiddle"></img>
+				&nbsp;<img src="{'skype.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SKYPE}" title="{$APP.LBL_SKYPE}" align="absmiddle"/>
 				<span id="dtlview_{$label}"><a href="skype:{$keyval}?call">{$keyval}</a></span>
 			</td>
 		{elseif $keyid eq '19' || $keyid eq '20'} <!--TextArea/Description-->
