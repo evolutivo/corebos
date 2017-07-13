@@ -1264,7 +1264,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
                                     placeholder="Select " >
                           <auto-complete source="loadTags($query)"
                                          min-length="2"
-                                         max-results-to-show="20"
+                                         max-results-to-show="30"
                                          ></auto-complete>
                         </tags-input>
                     </div>
