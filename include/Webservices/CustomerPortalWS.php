@@ -27,7 +27,7 @@ function getModuleAutocomplete($term, $filter, $limit,$field) {
     
     global $current_user,$log,$adb,$default_charset;
     $st = $term;
-    $queryacc = "SELECT vtiger_tab.name,vtiger_field.columnname FROM `vtiger_tab` INNER JOIN vtiger_field ON vtiger_tab.tabid = vtiger_field.tabid WHERE name LIKE '$term%'";
+    $queryacc = "SELECT vtiger_tab.name,vtiger_field.fieldname FROM `vtiger_tab` INNER JOIN vtiger_field ON vtiger_tab.tabid = vtiger_field.tabid WHERE name LIKE '$term%'";
     $wsrs=$adb->query($queryacc);
     $rownum=$adb->num_rows($wsrs);
     $respuesta = array();
