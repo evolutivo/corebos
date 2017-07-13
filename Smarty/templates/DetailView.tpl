@@ -177,7 +177,7 @@
                             <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz">
                                 <tr class="slds-text-title--caps">
                                     <td>
-                                        {* Module Record numbering, used MOD_SEQ_ID instead of ID *}
+                                        {* <!--Module Record numbering, used MOD_SEQ_ID instead of ID--> *}
                                         {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
                                         {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
                                         <span class="dvHeaderText" >[ {$USE_ID_VALUE} ] {$NAME}
@@ -236,32 +236,6 @@
                                                         </ul>
                                                     </div>
                                                 </td>
-                                                
-                                                <!--DELETE THIS COMMENT BLOCK BELOW AND JAVASCRIPT IF DROPDOWN WORKS-->
-                                                <!--{if $SinglePane_View eq 'false' && $IS_REL_LIST neq false && $IS_REL_LIST|@count > 0}
-                                                    <td class="dvtUnSelectedCell"
-                                                        onmouseout="fnHideDrop('More_Information_Modules_List');"
-                                                        onmouseover="fnDropDown(this,'More_Information_Modules_List');"
-                                                        align="center" nowrap>
-                                                        <a class="" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
-                                                        <div onmouseover="fnShowDrop('More_Information_Modules_List')"
-                                                             onmouseout="fnHideDrop('More_Information_Modules_List')"
-                                                             id="More_Information_Modules_List" class="drop_mnu"
-                                                             style="left: 502px; top: 76px; display: none;">
-                                                                <table border="0" cellpadding="0" cellspacing="0"
-                                                                   width="100%">
-                                                                {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
-                                                                    <tr>
-                                                                        <td><a class="drop_down"
-                                                                               href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&selected_header={$_RELATED_MODULE}&relation_id={$_RELATION_ID}#tbl_{$MODULE}_{$_RELATED_MODULE}">{$_RELATED_MODULE|@getTranslatedString:$_RELATED_MODULE} </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                {/foreach}
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                {/if}
--->
                                                 
                                                 {include file='RelatedListNg.tpl' SOURCE='DV'}
                                                 <td class="dvtTabCache" id="detailview_utils_thirdfiller" align="right"
@@ -396,9 +370,7 @@
                                                                                                     </div>
                                                                                                 </td>
                                                                                             </tr>
-
                                                                                             <!-- This is added to display the existing comments -->
-
                                                                                             {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENTS) && $header eq $MOD.LBL_COMMENTS) || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
                                                                                                 <tr>
                                                                                                     <td colspan=4 class="dvInnerHeader">
@@ -441,7 +413,7 @@
                                                                                                                         </span>
                                                                                                                         {/if}
                                                                                                                     </a>
-                                                                                                                <b>&nbsp{$header}</b>
+                                                                                                                    <b>&nbsp;{$header}</b>
                                                                                                             </div>
                                                                                                         </td>
                                                                                                     {/strip}

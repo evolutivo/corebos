@@ -1270,10 +1270,11 @@ function getDetailAssociatedProducts($module, $focus) {
 
 	$output = '';
 	//Header Rows
-	$output .= '
-	<table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable detailview_inventory_table" id="proTab">
+//	<table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable detailview_inventory_table" id="proTab">
+    $output .= '
+	<table class="slds-table slds-no-row-hover slds-table--cell-buffer crmTable detailview_inventory_table" id="proTab">
 	<tr valign="top" class="detailview_inventory_header">
-		<td colspan="2" class="dvInnerHeader"><b>' . $app_strings['LBL_ITEM_DETAILS'] . '</b></td>
+		<td colspan="2" class="dvInnerHeader"><b class="itemDetailsCss">' . $app_strings['LBL_ITEM_DETAILS'] . '</b></td>
 		<td class="dvInnerHeader" align="center" colspan="2"><b>' .
 			$app_strings['LBL_CURRENCY'] . ' : </b>' . getTranslatedCurrencyString($currencytype['currency_name']) . ' (' . $currencytype['currency_symbol'] . ')
 		</td>

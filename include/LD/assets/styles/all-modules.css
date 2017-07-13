@@ -189,6 +189,7 @@ a:focus, a:active,
 button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,
+input[type="radio"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 select::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
@@ -206,3 +207,17 @@ select:-moz-focusring {
     margin-bottom: 5px;
 }
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
+/*=========   DetailViewUtils.php  ==========*/
+#proTab {
+    margin-top: 40px;
+}
+
+.itemDetailsCss {
+    text-transform: uppercase;
+    letter-spacing: 0.02rem;
+}
+/*=========   END DetailViewUtils.php  ==========*/
+
+
+

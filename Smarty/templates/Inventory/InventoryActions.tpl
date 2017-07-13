@@ -12,10 +12,9 @@
 <!-- Avoid this actions display for PriceBook module-->
 
 <!-- display the Inventory Actions based on the Inventory Modules -->
-<table width="100%" border="0" cellpadding="5" cellspacing="0">
-
-	<tr>
-	<td align="left" class="genHeaderSmall">{$APP.LBL_ACTIONS}</td>
+<table class="slds-table slds-no-row-hover slds-table--cell-buffer  slds-table-moz">
+    <tr class="slds-text-title slds-text-title--caps">
+	   <td class="genHeaderSmall actionLabel">{$APP.LBL_ACTIONS}</td>
 	</tr>
 
 	<!-- Module based actions starts -->
@@ -232,8 +231,8 @@
 <!-- Following condition is added to avoid the Tools section in Products and Vendors -->
 {if $MODULE neq 'Products' && $MODULE neq 'Services' && $MODULE neq 'Vendors' && $MODULE neq 'PriceBooks'}
 
-   <tr>
-	<td align="left">
+   <tr class="slds-text-title slds-text-title--caps">
+	<td class="actionLabel">
 		<span class="genHeaderSmall">{$APP.Tools}</span><br /> 
 	</td>
    </tr>

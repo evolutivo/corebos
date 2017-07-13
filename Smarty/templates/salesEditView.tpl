@@ -28,34 +28,43 @@
 
 	<td class="showPanelBg" valign=top width=100%>
 		{*<!-- PUBLIC CONTENTS STARTS-->*}
-		<div class="small" style="padding:20px">
-			{if $OP_MODE eq 'edit_view'}
-				{assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
-				{if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
-				<span class="lvtHeaderText"><font color="purple">[ {$USE_ID_VALUE} ] </font>{$NAME} - {$APP.LBL_EDITING} {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span> <br>
-				{$UPDATEINFO}
-			{/if}
-			{if $OP_MODE eq 'create_view'}
-				{if $DUPLICATE neq 'true'}
-					<span class="lvtHeaderText">{$APP.LBL_CREATING} {$SINGLE_MOD|@getTranslatedString:$MODULE}</span> <br>
-				{else}
-					<span class="lvtHeaderText">{$APP.LBL_DUPLICATING} "{$NAME}" </span> <br>
-				{/if}
-			{/if}
-
-			<hr noshade size=1>
-			<br>
-
-			{include file='EditViewHidden.tpl'}
-
+        <div class="small" style="padding:20px">
+        <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz">
+            <tr class="slds-text-title--caps">
+                <td>
+                    {if $OP_MODE eq 'edit_view'}
+                        {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
+                        {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
+                        <span class="lvtHeaderText">
+                            <font color="purple">[ {$USE_ID_VALUE} ] </font>
+                            {$NAME} - {$APP.LBL_EDITING} {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}
+                        </span> 
+                    <br>
+                        {$UPDATEINFO}
+                    {/if}
+                    {if $OP_MODE eq 'create_view'}
+                        {if $DUPLICATE neq 'true'}
+                            <span class="lvtHeaderText">{$APP.LBL_CREATING} {$SINGLE_MOD|@getTranslatedString:$MODULE}</span> <br>
+                        {else}
+                            <span class="lvtHeaderText">{$APP.LBL_DUPLICATING} "{$NAME}" </span> <br>
+                        {/if}
+                    {/if}
+                </td>
+            </tr>
+        </table>
+        <hr noshade size=1>
+        <br>
+        {include file='EditViewHidden.tpl'}
+            
 			{*<!-- Account details tabs -->*}
 			<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
 			   <tr>
 				<td>
+                    <!--quotes tabs-->
 					<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
 					   <tr>
 						<td class="dvtTabCache" style="width:10px" nowrap>&nbsp;</td>
-						<td class="dvtSelectedCell" align=center nowrap> {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</td>
+						<td class="dvtSelectedCell" align=center nowrap> {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION} </td>
 						<td class="dvtTabCache" style="width:10px">&nbsp;</td>
 						<td class="dvtTabCache" style="width:100%">&nbsp;</td>
 					   </tr>
@@ -91,80 +100,80 @@
 									   <!-- included to handle the edit fields based on ui types -->
 									   {foreach key=header item=data from=$BLOCKS}
 
-							<!-- This is added to display the existing comments -->
-							{if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
-							   <tr><td>&nbsp;</td></tr>
-							   <tr>
-								<td colspan=4 class="dvInnerHeader">
-									<b>{if isset($MOD.LBL_COMMENT_INFORMATION)}{$MOD.LBL_COMMENT_INFORMATION}{else}{$APP.LBL_COMMENTS}{/if}</b>
-								</td>
-							   </tr>
-							   <tr>
-								<td colspan=4 class="dvtCellInfo">{$COMMENT_BLOCK}</td>
-							   </tr>
-							   <tr><td>&nbsp;</td></tr>
-							{/if}
+                                        <!-- This is added to display the existing comments -->
+                                        {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
+                                           <tr><td>&nbsp;</td></tr>
+                                           <tr>
+                                            <td colspan=4 class="dvInnerHeader">
+                                                <b>{if isset($MOD.LBL_COMMENT_INFORMATION)}{$MOD.LBL_COMMENT_INFORMATION}{else}{$APP.LBL_COMMENTS}{/if}</b>
+                                            </td>
+                                           </tr>
+                                           <tr>
+                                            <td colspan=4 class="dvtCellInfo">{$COMMENT_BLOCK}</td>
+                                           </tr>
+                                           <tr><td>&nbsp;</td></tr>
+                                        {/if}
 
-										<tr id="tbl{$header|replace:' ':''}Head">
-										{if isset($MOD.LBL_ADDRESS_INFORMATION) && $header==$MOD.LBL_ADDRESS_INFORMATION && ($MODULE == 'Accounts' || $MODULE == 'Quotes' || $MODULE == 'PurchaseOrder' || $MODULE == 'SalesOrder'|| $MODULE == 'Invoice') && $SHOW_COPY_ADDRESS eq 1}
-                                                                                <td colspan=2 class="detailedViewHeader">
-                                                                                <b>{$header}</b></td>
-                                                                                <td class="detailedViewHeader">
-                                                                                <input name="cpy" onclick="return copyAddressLeft(EditView)" type="radio"><b>{$APP.LBL_RCPY_ADDRESS}</b></td>
-                                                                                <td class="detailedViewHeader">
-                                                                                <input name="cpy" onclick="return copyAddressRight(EditView)" type="radio"><b>{$APP.LBL_LCPY_ADDRESS}</b></td>
-										{elseif isset($MOD.LBL_ADDRESS_INFORMATION) && $header== $MOD.LBL_ADDRESS_INFORMATION && $MODULE == 'Contacts' && $SHOW_COPY_ADDRESS eq 1}
-										<td colspan=2 class="detailedViewHeader">
-                                                                                <b>{$header}</b></td>
-                                                                                <td class="detailedViewHeader">
-                                                                                <input name="cpy" onclick="return copyAddressLeft(EditView)" type="radio"><b>{$APP.LBL_CPY_OTHER_ADDRESS}</b></td>
-                                                                                <td class="detailedViewHeader">
-                                                                                <input name="cpy" onclick="return copyAddressRight(EditView)" type="radio"><b>{$APP.LBL_CPY_MAILING_ADDRESS}</b></td>
-                                                                                {else}
-										<td colspan=4 class="detailedViewHeader">
-											<b>{$header}</b>
-										</td>
-										{/if}
-										</tr>
+                                            <tr id="tbl{$header|replace:' ':''}Head">
+                                            {if isset($MOD.LBL_ADDRESS_INFORMATION) && $header==$MOD.LBL_ADDRESS_INFORMATION && ($MODULE == 'Accounts' || $MODULE == 'Quotes' || $MODULE == 'PurchaseOrder' || $MODULE == 'SalesOrder'|| $MODULE == 'Invoice') && $SHOW_COPY_ADDRESS eq 1}
+                                                <td colspan=2 class="detailedViewHeader">
+                                                <b>{$header}</b></td>
+                                                <td class="detailedViewHeader">
+                                                <input name="cpy" onclick="return copyAddressLeft(EditView)" type="radio"><b>{$APP.LBL_RCPY_ADDRESS}</b></td>
+                                                <td class="detailedViewHeader">
+                                                <input name="cpy" onclick="return copyAddressRight(EditView)" type="radio"><b>{$APP.LBL_LCPY_ADDRESS}</b></td>
+                                            {elseif isset($MOD.LBL_ADDRESS_INFORMATION) && $header== $MOD.LBL_ADDRESS_INFORMATION && $MODULE == 'Contacts' && $SHOW_COPY_ADDRESS eq 1}
+                                            <td colspan=2 class="detailedViewHeader">
+                                                <b>{$header}</b></td>
+                                                <td class="detailedViewHeader">
+                                                <input name="cpy" onclick="return copyAddressLeft(EditView)" type="radio"><b>{$APP.LBL_CPY_OTHER_ADDRESS}</b></td>
+                                                <td class="detailedViewHeader">
+                                                <input name="cpy" onclick="return copyAddressRight(EditView)" type="radio"><b>{$APP.LBL_CPY_MAILING_ADDRESS}</b></td>
+                                                {else}
+                                            <td colspan=4 class="detailedViewHeader">
+                                                <b>{$header}</b>
+                                            </td>
+                                            {/if}
+                                            </tr>
 
-                                                                                {if $CUSTOMBLOCKS.$header.custom}
-                                                                                    {include file=$CUSTOMBLOCKS.$header.tpl}
-                                                                                {else}
-                                                                                    <!-- Handle the ui types display -->
-                                                                                    {include file="DisplayFields.tpl"}
-                                                                                {/if}
+                                                {if $CUSTOMBLOCKS.$header.custom}
+                                                    {include file=$CUSTOMBLOCKS.$header.tpl}
+                                                {else}
+                                                    <!-- Handle the ui types display -->
+                                                    {include file="DisplayFields.tpl"}
+                                                {/if}
 
-									   {/foreach}
+                                           {/foreach}
 
 
-									   <!-- Added to display the Product Details in Inventory-->
-									   {if $MODULE eq 'PurchaseOrder' || $MODULE eq 'SalesOrder' || $MODULE eq 'Quotes' || $MODULE eq 'Invoice'}
-							   		   <tr>
-										<td colspan=4>
-											{include file="ProductDetailsEditView.tpl"}
-										</td>
-							   		   </tr>
-									   {/if}
+                                               <!-- Added to display the Product Details in Inventory-->
+                                               {if $MODULE eq 'PurchaseOrder' || $MODULE eq 'SalesOrder' || $MODULE eq 'Quotes' || $MODULE eq 'Invoice'}
+                                               <tr>
+                                                <td colspan=4>
+                                                    {include file="ProductDetailsEditView.tpl"}
+                                                </td>
+                                               </tr>
+                                               {/if}
 
-									   <tr>
-										<td  colspan=4 style="padding:5px">
-											<div align="center">
-										{if $MODULE eq 'Emails'}
-										<input title="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_TITLE}" accessKey="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_KEY}" class="crmbutton small create" onclick="window.open('index.php?module=Users&action=lookupemailtemplates&entityid={$ENTITY_ID}&entity={$ENTITY_TYPE}','emailtemplate','top=100,left=200,height=400,width=300,menubar=no,addressbar=no,status=yes')" type="button" name="button" value="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_LABEL}">
-										<input title="{$MOD.LBL_SEND}" accessKey="{$MOD.LBL_SEND}" class="crmbutton small save" onclick="this.form.action.value='Save';this.form.send_mail.value='true'; return formValidate()" type="submit" name="button" value="  {$MOD.LBL_SEND}  " >
-										{/if}
-										{if $MODULE eq 'Webmails'}
-										<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';this.form.module.value='Webmails';this.form.send_mail.value='true';this.form.record.value='{$ID}'" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  ">
-										{else}
-											<input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';  displaydeleted();return formValidate();" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  ">
-										{/if}
-										<input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="crmbutton small cancel" onclick="{if isset($smarty.request.Module_Popup_Edit)}window.close(){else}window.history.back(){/if};" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  ">
-											</div>
-										</td>
-									   </tr>
-									</table>
-								</td>
-							   </tr>
+                                               <tr>
+                                                <td  colspan=4 style="padding:5px">
+                                                    <div align="center">
+                                                {if $MODULE eq 'Emails'}
+                                                <input title="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_TITLE}" accessKey="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_KEY}" class="crmbutton small create" onclick="window.open('index.php?module=Users&action=lookupemailtemplates&entityid={$ENTITY_ID}&entity={$ENTITY_TYPE}','emailtemplate','top=100,left=200,height=400,width=300,menubar=no,addressbar=no,status=yes')" type="button" name="button" value="{$APP.LBL_SELECTEMAILTEMPLATE_BUTTON_LABEL}">
+                                                <input title="{$MOD.LBL_SEND}" accessKey="{$MOD.LBL_SEND}" class="crmbutton small save" onclick="this.form.action.value='Save';this.form.send_mail.value='true'; return formValidate()" type="submit" name="button" value="  {$MOD.LBL_SEND}  " >
+                                                {/if}
+                                                {if $MODULE eq 'Webmails'}
+                                                <input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';this.form.module.value='Webmails';this.form.send_mail.value='true';this.form.record.value='{$ID}'" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  ">
+                                                {else}
+                                                    <input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" onclick="this.form.action.value='Save';  displaydeleted();return formValidate();" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  ">
+                                                {/if}
+                                                <input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="crmbutton small cancel" onclick="{if isset($smarty.request.Module_Popup_Edit)}window.close(){else}window.history.back(){/if};" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  ">
+                                                    </div>
+                                                </td>
+                                               </tr>
+                                        </table>
+								    </td>
+							     </tr>
 							</table>
 						</td>
 					   </tr>
