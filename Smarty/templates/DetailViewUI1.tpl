@@ -38,6 +38,7 @@
                        onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">
                     	{$APP.LBL_SAVE_LABEL}
                     </a>
+                    {$APP.LBL_OR}
                     <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" 
                        class="detailview_ajaxbutton ajax_cancelsave_detailview">
                     	{$APP.LBL_CANCEL_BUTTON_LABEL}
@@ -96,6 +97,7 @@
                 	<br><a href="javascript:;" class="detailview_ajaxbutton ajax_save_detailview" 
                            onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">
                     {$APP.LBL_SAVE_LABEL}</a>
+                    {$APP.LBL_OR}
                 	<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" 
                        class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                 </div>
@@ -129,7 +131,8 @@
                                     </select>
                                      <br>
                                     <a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                   {$APP.LBL_OR}
+                                    <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     							</div>
                							</td>
                                                 {elseif $keyid eq '15'}
@@ -155,7 +158,8 @@
 				                                    {/foreach}
 			                                   </select>
 			                                   <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();"/>{$APP.LBL_SAVE_LABEL}</a>
-                                              		   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                                {$APP.LBL_OR}                                              		 
+                                                <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     							</div>
                							</td>
                                                 {elseif $keyid eq '33' || $keyid eq '3313'}<!--Multi Select Combo box-->
@@ -187,7 +191,8 @@
                     							   </select>
 
                     							   <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                              		   <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                                    {$APP.LBL_OR}          		  
+                                                    <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     							</div>
 								{else}
                							<td width=25% class="dvtCellInfo" align="left">{$keyval}
@@ -203,7 +208,8 @@
                                               		  <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
 <!--                                              		  <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>-->
                                               		  <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                              		  <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancel save_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                              		  {$APP.LBL_OR}
+                                                        <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancel save_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                        </div>
                                                   </td>
 					     {elseif $keyid eq '85'}<!--Skype-->
@@ -214,7 +220,8 @@
                                                         <div id="editarea_{$keyfldname}" style="display:none;">
                                                           <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
                                                           <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                                          <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                                          {$APP.LBL_OR}
+                                                            <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                        </div>
                                                   </td>
                                              {elseif $keyid eq '19' || $keyid eq '20'} <!--TextArea/Description-->
@@ -235,7 +242,8 @@
 									<div id="editarea_{$keyfldname}" style="display:none;">
 									<textarea id="txtbox_{$keyfldname}" name="{$keyfldname}"  class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'"onBlur="this.className='detailedViewTextBox'" cols="90" rows="8">{$keyval|replace:"<br>":"\n"}</textarea>
 									<br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-									<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+									{$APP.LBL_OR}
+                                        <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 									</div>
 								</td>
 							{/if}
@@ -246,7 +254,8 @@
                                               		<div id="editarea_{$keyfldname}" style="display:none;">
                                               		  <textarea id="txtbox_{$keyfldname}" name="{$keyfldname}"  class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'"onBlur="this.className='detailedViewTextBox'" rows=2>{$keyval|regex_replace:"/<br\s*\/>/":""}</textarea>
                                               		  <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                              		  <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                              		  {$APP.LBL_OR}
+                                                        <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                        </div>
                                                   </td>
                                              {elseif $keyid eq '50' || $keyid eq '73' || $keyid eq '51'} <!--AccountPopup-->
@@ -261,7 +270,8 @@
                                               		<div id="editarea_{$keyfldname}" style="display:none;">
                                                          <input id="popuptxt_{$keyfldname}" name="product_name" readonly type="text" value="{$keyval}"><input id="txtbox_{$keyfldname}" name="{$keyfldname}" type="hidden" value="{$keysecid}"> <img src="{'select.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SELECT}" title="{$APP.LBL_SELECT}"  onclick='return window.open("index.php?module=Products&action=Popup&html=Popup_picker&form=HelpDeskEditView&popuptype=specific","test","width=600,height=602,resizable=1,scrollbars=1,top=150,left=200");' align="absmiddle" style='cursor:hand;cursor:pointer'> <input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_CLEAR}" title="{$APP.LBL_CLEAR}"  onClick="this.form.product_id.value=''; this.form.product_name.value=''; return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
                                                          <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                                              		  <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                                              		  {$APP.LBL_OR}
+                                                        <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                        </div>
                                                   </td>
                                              {elseif $keyid eq '75' || $keyid eq '81'} <!--VendorPopup-->
@@ -292,6 +302,7 @@
                                                                            </select>
 
                                                                            <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
+                                                            {$APP.LBL_OR}
                                                            <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                                                                         </div>
                                                                 </td>
@@ -345,7 +356,8 @@
                     <br>
 
                     <a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                    <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                    {$APP.LBL_OR}
+                            <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                     </div>
                     </td>
 						{elseif $keyid eq '99'}<!-- Password Field-->
@@ -368,7 +380,8 @@
                        		{/if}
                        	{/if}
                          <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                          <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                          {$APP.LBL_OR}
+                            <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                         </div>
                         </td>
 			{elseif $keyid eq '156'} <!--CheckBox for is admin-->
@@ -383,7 +396,8 @@
                        	{/if}
 
                          <br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-                          <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+                          {$APP.LBL_OR}
+                            <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                         </div>
 			{else}
 				 <td width=25% class="dvtCellInfo" align="left">{$keyval}
@@ -411,10 +425,11 @@
 						</span>
 
 						<div id="editarea_{$keyfldname}" style="display:none;">
-							<input style="border:1px solid #bababa;" size="10" maxlength="10" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" value="{$keyval|regex_replace:'/[^-]*(--)[^-]*$/':''}"></input>
+							<input class="slds-input" size="10" maxlength="10" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" value="{$keyval|regex_replace:'/[^-]*(--)[^-]*$/':''}"/>
 							<img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}" id="jscal_trigger_{$keyfldname}">
 							<br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-							<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+						{$APP.LBL_OR}	
+                        <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 							<script type="text/javascript">
 								Calendar.setup ({ldelim}
 									inputField : "txtbox_{$label}", ifFormat : '{$dateFormat}', showsTime : false, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1
@@ -438,7 +453,7 @@
 							{else}
 								{assign var=vtui10func value="vtlib_open_popup_window"}
 								<br>
-								<select id="{$keyfldname}_type" class="small" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
+								<select id="{$keyfldname}_type" class="small slds-select" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
 								{foreach item=option from=$data.extendedfieldinfo.options}
 									<option value="{$option}"
 									{if $data.extendedfieldinfo.selected == $option}selected{/if}>
@@ -448,13 +463,14 @@
 								</select>
 							{/if}
 							<input id="txtbox_{$keyfldname}" name="{$keyfldname}" type="hidden" value="{$data.extendedfieldinfo.entityid}">
-							<input id="{$keyfldname}_display" name="{$keyfldname}_display" readonly type="text" style="border:1px solid #bababa;" value="{$data.extendedfieldinfo.displayvalue}"> 
+							<br/><input id="{$keyfldname}_display" name="{$keyfldname}_display" readonly type="text" value="{$data.extendedfieldinfo.displayvalue}" class="slds-input" /> 
 							<img src="{'select.gif'|@vtiger_imageurl:$THEME}" tabindex="{$vt_tab}"
 								alt="{'LBL_SELECT'|@getTranslatedString}" title="{'LBL_SELECT'|@getTranslatedString}" onclick='return {$vtui10func}("DetailView","{$keyfldname}","{$MODULE}","{$ID}");' align="absmiddle" style='cursor:hand;cursor:pointer'> 
 							<input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}"
 								alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedString}" onClick="this.form.{$keyfldname}.value=''; this.form.{$keyfldname}_display.value=''; return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>
 							<br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-							<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+							{$APP.LBL_OR}
+                            <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 						</div>
 					</td>
 				{else}

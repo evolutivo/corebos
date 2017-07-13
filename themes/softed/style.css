@@ -426,7 +426,6 @@ td span {
 	font-size: 11px;
     width:88%;
     resize: none;
-/*    display: block;*/
     min-height: 26px;
     padding: 4px 10px;
     font-size: 13px;
@@ -442,58 +441,11 @@ td span {
     margin: 0;
 }
 
-/*
-<fieldset class="slds-form-element">
-  <legend class="slds-form-element__legend slds-form-element__label">Radio Group Label</legend>
-  <div class="slds-form-element__control">
-    <div class="slds-radio_button-group">
-      <span class="slds-button slds-radio_button">
-        <input type="radio" name="radio" id="monday" value="on">
-        <label class="slds-radio_button__label" for="monday">
-          <span class="slds-radio_faux">Mon</span>
-        </label>
-      </span>
-      <span class="slds-button slds-radio_button">
-        <input type="radio" name="radio" id="tuesday" value="on">
-        <label class="slds-radio_button__label" for="tuesday">
-          <span class="slds-radio_faux">Tue</span>
-        </label>
-      </span>
-      <span class="slds-button slds-radio_button">
-        <input type="radio" name="radio" id="wednesday" value="on">
-        <label class="slds-radio_button__label" for="wednesday">
-          <span class="slds-radio_faux">Wed</span>
-        </label>
-      </span>
-      <span class="slds-button slds-radio_button">
-        <input type="radio" name="radio" id="thursday" value="on">
-        <label class="slds-radio_button__label" for="thursday">
-          <span class="slds-radio_faux">Thu</span>
-        </label>
-      </span>
-      <span class="slds-button slds-radio_button">
-        <input type="radio" name="radio" id="friday" value="on">
-        <label class="slds-radio_button__label" for="friday">
-          <span class="slds-radio_faux">Fri</span>
-        </label>
-      </span>
-    </div>
-  </div>
-</fieldset>
-*/
-
-
-
-
-
-
-
 .detailedViewTextBoxOn {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	width:88%;
     resize: none;
-/*    display: block;*/
     min-height: 26px;
     padding: 6px 12px;
     color: #555;
@@ -502,6 +454,7 @@ td span {
     border: 1px solid #ccc;
     border-radius: 4px;
     border-color: #66afe9;
+    margin-bottom: 5px;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
