@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>mkdb_elasticfilters</name>
+			<sql><![CDATA[CREATE TABLE IF NOT EXISTS `ethercalc` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `namecrm` varchar(250) NOT NULL,
+  `createdtime` datetime NOT NULL,
+  `spid` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;]]></sql>
+		</table>
+	</tables>
+</schema>

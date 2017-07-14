@@ -1709,4 +1709,11 @@
 	<classname>installSpreadsheetsModule</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>erimatraku</author>
+	<description>install EtherCalc extension</description>
+	<filename>build/changeSets/installEtherCalc.php</filename>
+	<classname>installEtherCalc</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
