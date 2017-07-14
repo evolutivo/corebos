@@ -190,7 +190,7 @@
 <input name='search_url' id="search_url" type='hidden' value='{$SEARCH}'>
 </form>
 
-{if ($MODULE eq 'Emails' || $MODULE eq 'Documents' || $MODULE eq 'Timecontrol' || $MODULE eq 'Messages' || $MODULE eq 'Thread') and ($USE_RTE eq 'true')}
+{if ($MODULE eq 'Emails' || $MODULE eq 'Documents' || $MODULE eq 'Timecontrol' || $MODULE eq 'Messages' || $MODULE eq 'Thread') and ($USE_RTE eq 1)}
 	<script type="text/javascript" src="include/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" defer="1">
 	var textAreaName = null;
