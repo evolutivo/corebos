@@ -160,6 +160,15 @@ li[title="More Information"] svg {
     border-bottom: none;
 }
 
+.slds-select option {
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+    border-top: 1px solid #d4d4d4;
+    padding: .2rem .5rem;
+    margin: .1rem 0;
+}
+
 @media only screen and (max-width: 881px) {
     .slds-table--fixed-layout {
         min-width: 768px;

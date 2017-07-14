@@ -147,7 +147,7 @@ function DeleteTag(id,recordid)
                        <td>
                            <table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
                                <tr>
-                                   <td class="dvtTabCache">
+                                   <td class="dvtTabCache" style="padding: 1px 0;">
                                        <div class="slds-tabs--default">
                                             <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                 <li class="slds-tabs--default__item slds-active" role="presentation" title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}">

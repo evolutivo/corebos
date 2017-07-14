@@ -976,30 +976,7 @@
                                                     </div>
                                                 </td>
                                                 {include file='RelatedListNg.tpl' SOURCE='DV'}
-                                                
-                                                <!--DELETE THIS COMMENT BLOCK BELOW AND JAVASCRIPT IF DROPDOWN WORKS-->
-                                                <!--<td class="dvtUnSelectedCell"
-                                                        onmouseout="fnHideDrop('More_Information_Modules_List');"
-                                                        onmouseover="fnDropDown(this,'More_Information_Modules_List');"
-                                                        align="center" nowrap>
-                                                        <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
-                                                        <div onmouseover="fnShowDrop('More_Information_Modules_List')"
-                                                             onmouseout="fnHideDrop('More_Information_Modules_List')"
-                                                             id="More_Information_Modules_List" class="drop_mnu"
-                                                             style="left: 502px; top: 76px; display: none;">
-                                                            <table border="0" cellpadding="0" cellspacing="0"
-                                                                   width="100%">
-                                                                {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
-                                                                    <tr>
-                                                                        <td><a class="drop_down"
-                                                                               href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&selected_header={$_RELATED_MODULE}&relation_id={$_RELATION_ID}#tbl_{$MODULE}_{$_RELATED_MODULE}">{$_RELATED_MODULE|@getTranslatedString:$_RELATED_MODULE}</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                {/foreach}
-                                                            </table>
-                                                        </div>
-                                                    </td>-->
-                                                                                                
+                                                                                                                                                                                            
                                                 <td class="dvtTabCacheBottom" align="right" style="width:100%">
                                                     &nbsp;
                                                     {if $EDIT_PERMISSION eq 'yes' }
