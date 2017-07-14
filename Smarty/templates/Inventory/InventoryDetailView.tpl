@@ -183,8 +183,8 @@ function DeleteTag(id,recordid)
                                             </ul>
                                        </div>   
                                    </td>
-                                {include file='RelatedListNg.tpl' SOURCE='DV'}
-								<td class="dvtTabCache" id="detailview_utils_thirdfiller" align="right" style="width:100%">
+                                   {include file='RelatedListNg.tpl' SOURCE='DV'}
+								   <td class="dvtTabCache" id="detailview_utils_thirdfiller" align="right" style="width:100%">
 									{if $EDIT_PERMISSION eq 'yes'}
                                         <input title="{$APP.LBL_EDIT_BUTTON_TITLE}" 
                                                accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" 
@@ -216,221 +216,257 @@ function DeleteTag(id,recordid)
                                         <span class="detailview_utils_prev" 
                                               onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'" 
                                               title="{$APP.LNK_LIST_PREVIOUS}">
-                                            <img align="absmiddle" title="{$APP.LNK_LIST_PREVIOUS}" accessKey="{$APP.LNK_LIST_PREVIOUS}"  
-                                                 name="privrecord" value="{$APP.LNK_LIST_PREVIOUS}" src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}">
+                                            <img align="absmiddle" title="{$APP.LNK_LIST_PREVIOUS}" 
+                                                 accessKey="{$APP.LNK_LIST_PREVIOUS}"  
+                                                 name="privrecord" value="{$APP.LNK_LIST_PREVIOUS}" 
+                                                 src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}">
                                         </span>
                                         &nbsp;
 									{else}
-									<img align="absmiddle" title="{$APP.LNK_LIST_PREVIOUS}" src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
+									<img align="absmiddle" 
+                                         title="{$APP.LNK_LIST_PREVIOUS}" 
+                                         src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
 									{/if}
 									{if $privrecord neq '' || $nextrecord neq ''}
-										<span class="detailview_utils_jumpto"><img align="absmiddle" title="{$APP.LBL_JUMP_BTN}" accessKey="{$APP.LBL_JUMP_BTN}" onclick="var obj = this;var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');" name="jumpBtnIdTop" id="jumpBtnIdTop" src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"></span>&nbsp;
+										<span class="detailview_utils_jumpto">
+                                            <img align="absmiddle" 
+                                                 title="{$APP.LBL_JUMP_BTN}" 
+                                                 accessKey="{$APP.LBL_JUMP_BTN}" 
+                                                 onclick="var obj = this;var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');" 
+                                                 name="jumpBtnIdTop" 
+                                                 id="jumpBtnIdTop" 
+                                                 src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}">
+                                        </span>
+                                        &nbsp;
 									{/if}
 									{if $nextrecord neq ''}
-													<span class="detailview_utils_next" onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'" title="{$APP.LNK_LIST_NEXT}"><img align="absmiddle" title="{$APP.LNK_LIST_NEXT}" accessKey="{$APP.LNK_LIST_NEXT}"  name="nextrecord" src="{'rec_next.gif'|@vtiger_imageurl:$THEME}"></span>&nbsp;
+                                        <span class="detailview_utils_next" 
+                                              onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'" 
+                                              title="{$APP.LNK_LIST_NEXT}">
+                                            <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}" 
+                                              accessKey="{$APP.LNK_LIST_NEXT}"  
+                                              name="nextrecord" 
+                                              src="{'rec_next.gif'|@vtiger_imageurl:$THEME}">
+                                        </span>
+                                        &nbsp;
 									{else}
-									<img align="absmiddle" title="{$APP.LNK_LIST_NEXT}" src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}">&nbsp;
+									<img align="absmiddle" 
+                                         title="{$APP.LNK_LIST_NEXT}" 
+                                         src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}">
+                                        &nbsp;
 									{/if}
-									<span class="detailview_utils_toggleactions"><img align="absmiddle" title="{$APP.TOGGLE_ACTIONS}" src="{'list_60.png'|@vtiger_imageurl:$THEME}" width="16px;" onclick="{literal}if (document.getElementById('actioncolumn').style.display=='none') {document.getElementById('actioncolumn').style.display='table-cell';}else{document.getElementById('actioncolumn').style.display='none';}{/literal}"></span>&nbsp;
+									<span class="detailview_utils_toggleactions">
+                                        <img align="absmiddle" 
+                                             title="{$APP.TOGGLE_ACTIONS}" 
+                                             src="{'list_60.png'|@vtiger_imageurl:$THEME}" 
+                                             width="16px;" 
+                                             onclick="{literal}if (document.getElementById('actioncolumn').style.display=='none') {document.getElementById('actioncolumn').style.display='table-cell';}else{document.getElementById('actioncolumn').style.display='none';}{/literal}">
+                                        </span>
+                                        &nbsp;
 								</td>
-							</tr>
-						</table>
-					</td>
-				   </tr>
-                   <tr>
-                       <td valign=top align=left>
-						<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace" style="border-bottom:0;">
-                            <tr valign=top>
-                                <td align=left style="padding:10px;" ng-controller="detailViewng">
-                                <!-- content cache -->
-                                    <table border=0 cellspacing=0 cellpadding=3 width=100%>
-                                        <tr>
-                                            <td style="padding:0 5px">
-                                                <!-- Command Buttons -->
-                                                <table border=0 cellspacing=0 cellpadding=0 width=100%>
-                                                    <form editable-form action="index.php" method="post" name="DetailView" id="formDetailView">
-                                                        <input type="hidden" id="hdtxt_IsAdmin" value="{if isset($hdtxt_IsAdmin)}{$hdtxt_IsAdmin}{else}0{/if}">
-                                                            {include file='DetailViewHidden.tpl'}
-                                                            {foreach key=header item=detail from=$BLOCKS name=BLOCKS}
-                                                            <tr>
-                                                                <td class="detailViewContainer">
-                                                                <!-- Detailed View Code starts here-->
-                                                                    <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table-moz">
-                                                                        <!-- This is added to display the existing comments -->
-                                                                        {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
-                                                                        <tr>
-                                                                            <td colspan=4 class="dvInnerHeader">
-                                                                                <div class="slds-truncate">
-                                                                                    <b>{if isset($MOD.LBL_COMMENT_INFORMATION)}{$MOD.LBL_COMMENT_INFORMATION}{else}{$APP.LBL_COMMENTS}{/if}</b>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan=4 class="dvtCellInfo">
-                                                                                <div class="slds-truncate">{$COMMENT_BLOCK}</div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>&nbsp;</td>
-                                                                        </tr>
-                                                                        {/if}
-                                                                        {if $header neq 'Comments' && (!isset($BLOCKS.$header.relatedlist) || $BLOCKS.$header.relatedlist eq 0)}
-                                                                        <tr class="slds-text-title--caps">
-                                                                        {strip}
-                                                                            <td colspan=4 class="dvInnerHeader">
-                                                                                <div class="slds-truncate">
-                                                                                    <a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
-                                                                                        {if $BLOCKINITIALSTATUS[$header] eq 1}
-                                                                                            <span class="exp_coll_block inactivate">
-                                                                                                <img id="aid{$header|replace:' ':''}" 
-                                                                                                     src="{'activate.gif'|@vtiger_imageurl:$THEME}" 
-                                                                                                     style="border: 0px solid #000000;" 
-                                                                                                     alt="{'LBL_Hide'|@getTranslatedString:'Settings'}" 
-                                                                                                     title="{'LBL_Hide'|@getTranslatedString:'Settings'}"/>
-                                                                                            </span>
-                                                                                        {else}
-                                                                                            <span class="exp_coll_block activate">
-                                                                                                <img id="aid{$header|replace:' ':''}" 
-                                                                                                     src="{'inactivate.gif'|@vtiger_imageurl:$THEME}" 
-                                                                                                     style="border: 0px solid #000000;" 
-                                                                                                     alt="{'LBL_Show'|@getTranslatedString:'Settings'}" 
-                                                                                                     title="{'LBL_Show'|@getTranslatedString:'Settings'}"/>
-                                                                                            </span>
-                                                                                        {/if}
-                                                                                    </a>
-                                                                                    <b>&nbsp;{$header}</b>
-                                                                                </div>
-                                                                            </td>
-                                                                        {/strip}
-                                                                        </tr>
-                                                                        {/if}
-                                                                    </table>
-                                                                    {if $header neq 'Comments'}
-                                                                        {if $BLOCKINITIALSTATUS[$header] eq 1 || !empty($BLOCKS.$header.relatedlist)}
-                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}" >
-                                                                        {else}
-                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}" >
-                                                                        {/if}
-                                                                            <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
-                                                                                <tbody>
-                                                                            {if $CUSTOMBLOCKS.$header.custom}
-                                                                                {include file=$CUSTOMBLOCKS.$header.tpl}
-                                                                            {elseif isset($BLOCKS.$header.relatedlist) && $IS_REL_LIST|@count > 0}
-                                                                                {assign var='RELBINDEX' value=$BLOCKS.$header.relatedlist}
-                                                                                {include file='RelatedListNew.tpl' RELATEDLISTS=$RELATEDLISTBLOCK.$RELBINDEX RELLISTID=$RELBINDEX}
-                                                                            {else}
-                                                                               {foreach item=detailInfo from=$detail}
-                                                                                <tr class="slds-line-height--reset">
-                                                                                    {assign var=numfieldspainted value=0}
-                                                                                    {foreach key=label item=data from=$detailInfo}
-                                                                                            {assign var=numfieldspainted value=$numfieldspainted+1}
-                                                                                            {assign var=keyid value=$data.ui}
-                                                                                            {assign var=keyval value=$data.value}
-                                                                                            {assign var=keytblname value=$data.tablename}
-                                                                                            {assign var=keyfldname value=$data.fldname}
-                                                                                            {assign var=keyfldid value=$data.fldid}
-                                                                                            {assign var=keyoptions value=$data.options}
-                                                                                            {assign var=keysecid value=$data.secid}
-                                                                                            {assign var=keyseclink value=$data.link}
-                                                                                            {assign var=keycursymb value=$data.cursymb}
-                                                                                            {assign var=keysalut value=$data.salut}
-                                                                                            {assign var=keyaccess value=$data.notaccess}
-                                                                                            {assign var=keycntimage value=$data.cntimage}
-                                                                                            {assign var=keyadmin value=$data.isadmin}
-                                                                                            {assign var=display_type value=$data.displaytype}
-                                                                                            {assign var=_readonly value=$data.readonly}
-                                                                                        {if $label ne ''}
-                                                                                            <td class="dvtCellLabel" width=25%>
-                                                                                                {if $keycntimage ne ''}
-                                                                                                    {$keycntimage}
-                                                                                                {elseif $label neq 'Tax Class'}<!-- Avoid to display the label Tax Class -->
-                                                                                                    {if $keyid eq '71' || $keyid eq '72'}<!-- Currency symbol -->
-                                                                                                        {$label} ({$keycursymb})
-                                                                                                    {elseif $keyid eq '9'}
-                                                                                                        {$label} {$APP.COVERED_PERCENTAGE}
-                                                                                                    {elseif $keyid eq '14'}
-                                                                                                        {"LBL_TIMEFIELD"|@getTranslatedString}
-                                                                                                    {else}
-                                                                                                        {$label}
-                                                                                                    {/if}
-                                                                                                {/if}
-                                                                                            </td>
-                                                                                                {if $EDIT_PERMISSION eq 'yes' && $display_type neq '2' && $_readonly eq '0'}
-                                                                                                    {* Performance Optimization Control *}
-                                                                                                    {if !empty($DETAILVIEW_AJAX_EDIT) }
-                                                                                                            {include file="DetailViewUI.tpl"}
-                                                                                                    {else}
-                                                                                                            {include file="DetailViewFields.tpl"}
-                                                                                                    {/if}
-                                                                                                    {* END *}
-                                                                                                {else}
-                                                                                                    {include file="DetailViewFields.tpl"}
-                                                                                                {/if}
-                                                                                        {/if}
-                                                                                    {/foreach}
-                                                                                {if $numfieldspainted eq 1 && $keyid neq 19 && $keyid neq 20}
-                                                                                    <td colspan=2></td>
-                                                                                {/if}
-                                                                                </tr>
-                                                                               {/foreach}
-                                                                            {/if}
-                                                                                </tbody>
-                                                                            </table>
-                                                                            </div>
-                                                                        {/if}
-                                                                </td>
-                                                            </tr>
-                                                            {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
-                                                            {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
-                                                                {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
-                                                                    {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl)}
-                                                                         {if ($smarty.foreach.BLOCKS.first && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence <= 1) 
-                                                                            || ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration + 1)
-                                                                            || ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration + 1)}
-                                                                            <tr>
-                                                                                <td style="padding:5px;" >{process_widget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
-                                                                            </tr>
-                                                                        {/if}
-                                                                    {/if}
-                                                                {/foreach}
-                                                            {/if}
-                                                            {* END *}
-                                                            {/foreach}
-                                                            {*-- End of Blocks--*} 
-                                                            <br>
-
-                                                            <!-- Product Details informations -->
-                                                            {if isset($ASSOCIATED_PRODUCTS)}{$ASSOCIATED_PRODUCTS}{/if}
-                                            </td>
-                                            <!-- The following table is used to display the buttons -->
-                                            <table border=0 cellspacing=0 cellpadding=0 width=100%>
+                               </tr>
+                           </table>
+                       </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="slds-truncate">
+                                
+						      <table class="slds-table slds-no-row-hover dvtContentSpace slds-table-moz" style="border-bottom: 0;">
+                                    <tr>
+                                        <td align=left style="padding:10px;" ng-controller="detailViewng">
+                                        <!-- content cache -->
+                                            <table class="slds-table slds-no-row-hover slds-table-moz">
                                                 <tr>
-                                                    <td style="padding:10px;border-right:1px dashed #CCCCCC;" width="80%">
-                                                        <table border=0 cellspacing=0 cellpadding=0 width=100%>
-                                                            <tr>
-                                                                <td style="border-right:1px dashed #CCCCCC;" width="100%">
-                                                                    {if $SinglePane_View eq 'true'} {include file= 'RelatedListNew.tpl'} {/if}
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                                    <td style="padding:0 5px">
+                                                        <!-- Command Buttons -->
+                                                        <div class="slds-truncate">
+                                                            <table class="slds-table slds-no-row-hover slds-table-moz">
+                                                            <form editable-form action="index.php" method="post" name="DetailView" id="formDetailView">
+                                                                <input type="hidden" id="hdtxt_IsAdmin" value="{if isset($hdtxt_IsAdmin)}{$hdtxt_IsAdmin}{else}0{/if}">
+                                                                    {include file='DetailViewHidden.tpl'}
+                                                                    {foreach key=header item=detail from=$BLOCKS name=BLOCKS}
+                                                                    <tr>
+                                                                        <td class="detailViewContainer">
+                                                                        <!-- Detailed View Code starts here-->
+                                                                            <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table-moz">
+                                                                                <!-- This is added to display the existing comments -->
+                                                                                {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
+                                                                                <tr>
+                                                                                    <td colspan=4 class="dvInnerHeader">
+                                                                                        <div class="slds-truncate">
+                                                                                            <b>{if isset($MOD.LBL_COMMENT_INFORMATION)}{$MOD.LBL_COMMENT_INFORMATION}{else}{$APP.LBL_COMMENTS}{/if}</b>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan=4 class="dvtCellInfo">
+                                                                                        <div class="slds-truncate">{$COMMENT_BLOCK}</div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>&nbsp;</td>
+                                                                                </tr>
+                                                                                {/if}
+                                                                                {if $header neq 'Comments' && (!isset($BLOCKS.$header.relatedlist) || $BLOCKS.$header.relatedlist eq 0)}
+                                                                                <tr class="slds-text-title--caps">
+                                                                                {strip}
+                                                                                    <td colspan=4 class="dvInnerHeader">
+                                                                                        <div class="slds-truncate">
+                                                                                            <a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
+                                                                                                {if $BLOCKINITIALSTATUS[$header] eq 1}
+                                                                                                    <span class="exp_coll_block inactivate">
+                                                                                                        <img id="aid{$header|replace:' ':''}" 
+                                                                                                             src="{'activate.gif'|@vtiger_imageurl:$THEME}" 
+                                                                                                             style="border: 0px solid #000000;" 
+                                                                                                             alt="{'LBL_Hide'|@getTranslatedString:'Settings'}" 
+                                                                                                             title="{'LBL_Hide'|@getTranslatedString:'Settings'}"/>
+                                                                                                    </span>
+                                                                                                {else}
+                                                                                                    <span class="exp_coll_block activate">
+                                                                                                        <img id="aid{$header|replace:' ':''}" 
+                                                                                                             src="{'inactivate.gif'|@vtiger_imageurl:$THEME}" 
+                                                                                                             style="border: 0px solid #000000;" 
+                                                                                                             alt="{'LBL_Show'|@getTranslatedString:'Settings'}" 
+                                                                                                             title="{'LBL_Show'|@getTranslatedString:'Settings'}"/>
+                                                                                                    </span>
+                                                                                                {/if}
+                                                                                            </a>
+                                                                                            <b>&nbsp;{$header}</b>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                {/strip}
+                                                                                </tr>
+                                                                                {/if}
+                                                                            </table>
+                                                                            {if $header neq 'Comments'}
+                                                                                {if $BLOCKINITIALSTATUS[$header] eq 1 || !empty($BLOCKS.$header.relatedlist)}
+                                                                                    <div class="slds-truncate" id="tbl{$header|replace:' ':''}" >
+                                                                                {else}
+                                                                                    <div class="slds-truncate" id="tbl{$header|replace:' ':''}" >
+                                                                                {/if}
+                                                                                    <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+                                                                                        <tbody>
+                                                                                    {if $CUSTOMBLOCKS.$header.custom}
+                                                                                        {include file=$CUSTOMBLOCKS.$header.tpl}
+                                                                                    {elseif isset($BLOCKS.$header.relatedlist) && $IS_REL_LIST|@count > 0}
+                                                                                        {assign var='RELBINDEX' value=$BLOCKS.$header.relatedlist}
+                                                                                        {include file='RelatedListNew.tpl' RELATEDLISTS=$RELATEDLISTBLOCK.$RELBINDEX RELLISTID=$RELBINDEX}
+                                                                                    {else}
+                                                                                       {foreach item=detailInfo from=$detail}
+                                                                                        <tr class="slds-line-height--reset">
+                                                                                            {assign var=numfieldspainted value=0}
+                                                                                            {foreach key=label item=data from=$detailInfo}
+                                                                                                    {assign var=numfieldspainted value=$numfieldspainted+1}
+                                                                                                    {assign var=keyid value=$data.ui}
+                                                                                                    {assign var=keyval value=$data.value}
+                                                                                                    {assign var=keytblname value=$data.tablename}
+                                                                                                    {assign var=keyfldname value=$data.fldname}
+                                                                                                    {assign var=keyfldid value=$data.fldid}
+                                                                                                    {assign var=keyoptions value=$data.options}
+                                                                                                    {assign var=keysecid value=$data.secid}
+                                                                                                    {assign var=keyseclink value=$data.link}
+                                                                                                    {assign var=keycursymb value=$data.cursymb}
+                                                                                                    {assign var=keysalut value=$data.salut}
+                                                                                                    {assign var=keyaccess value=$data.notaccess}
+                                                                                                    {assign var=keycntimage value=$data.cntimage}
+                                                                                                    {assign var=keyadmin value=$data.isadmin}
+                                                                                                    {assign var=display_type value=$data.displaytype}
+                                                                                                    {assign var=_readonly value=$data.readonly}
+                                                                                                {if $label ne ''}
+                                                                                                    <td class="dvtCellLabel" width=25%>
+                                                                                                        {if $keycntimage ne ''}
+                                                                                                            {$keycntimage}
+                                                                                                        {elseif $label neq 'Tax Class'}<!-- Avoid to display the label Tax Class -->
+                                                                                                            {if $keyid eq '71' || $keyid eq '72'}<!-- Currency symbol -->
+                                                                                                                {$label} ({$keycursymb})
+                                                                                                            {elseif $keyid eq '9'}
+                                                                                                                {$label} {$APP.COVERED_PERCENTAGE}
+                                                                                                            {elseif $keyid eq '14'}
+                                                                                                                {"LBL_TIMEFIELD"|@getTranslatedString}
+                                                                                                            {else}
+                                                                                                                {$label}
+                                                                                                            {/if}
+                                                                                                        {/if}
+                                                                                                    </td>
+                                                                                                        {if $EDIT_PERMISSION eq 'yes' && $display_type neq '2' && $_readonly eq '0'}
+                                                                                                            {* Performance Optimization Control *}
+                                                                                                            {if !empty($DETAILVIEW_AJAX_EDIT) }
+                                                                                                                    {include file="DetailViewUI.tpl"}
+                                                                                                            {else}
+                                                                                                                    {include file="DetailViewFields.tpl"}
+                                                                                                            {/if}
+                                                                                                            {* END *}
+                                                                                                        {else}
+                                                                                                            {include file="DetailViewFields.tpl"}
+                                                                                                        {/if}
+                                                                                                {/if}
+                                                                                            {/foreach}
+                                                                                        {if $numfieldspainted eq 1 && $keyid neq 19 && $keyid neq 20}
+                                                                                            <td colspan=2></td>
+                                                                                        {/if}
+                                                                                        </tr>
+                                                                                       {/foreach}
+                                                                                    {/if}
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    </div>
+                                                                                {/if}
+                                                                        </td>
+                                                                    </tr>
+                                                                    {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
+                                                                    {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
+                                                                        {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
+                                                                            {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl)}
+                                                                                 {if ($smarty.foreach.BLOCKS.first && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence <= 1) 
+                                                                                    || ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration + 1)
+                                                                                    || ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration + 1)}
+                                                                                    <tr>
+                                                                                        <td style="padding:5px;" >{process_widget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
+                                                                                    </tr>
+                                                                                {/if}
+                                                                            {/if}
+                                                                        {/foreach}
+                                                                    {/if}
+                                                                    {* END *}
+                                                                    {/foreach}
+                                                                    {*-- End of Blocks--*} 
+                                                                    <br>
+
+                                                                    <!-- Product Details informations -->
+                                                                    {if isset($ASSOCIATED_PRODUCTS)}{$ASSOCIATED_PRODUCTS}{/if}
                                                     </td>
-                                                </tr>
-                                            </table>
-                                            <!-- Inventory Actions -->
-                                            <td width=22% valign=top style="padding:10px;{$DEFAULT_ACTION_PANEL_STATUS}" class="noprint table-aside" id="actioncolumn">
-                                                    {include file="Inventory/InventoryActions.tpl"}
-                                                    <br>
-                                                    <!-- To display the Tag Clouds -->
-                                                    <div>
-                                                        {include file="TagCloudDisplay.tpl"}
-                                                    </div>
-                                                </td>
-                                           </tr>
-                                        </table>
-                                </td>
-                            </tr>
-                           <tr>
-                       <td>
+                                                    <!-- The following table is used to display the buttons -->
+                                                    <table border=0 cellspacing=0 cellpadding=0 width=100%>
+                                                        <tr>
+                                                            <td style="padding:10px;" width="80%"> <!--border-right:1px dashed #CCCCCC;-->
+                                                                <table border=0 cellspacing=0 cellpadding=0 width=100%>
+                                                                    <tr>
+                                                                        <td width="100%">
+                                                                            {if $SinglePane_View eq 'true'} {include file= 'RelatedListNew.tpl'} {/if}
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <!-- Inventory Actions -->
+                                                    <td width=22% valign=top style="padding:10px;{$DEFAULT_ACTION_PANEL_STATUS}" class="noprint table-aside" id="actioncolumn">
+                                                            {include file="Inventory/InventoryActions.tpl"}
+                                                            <br>
+                                                            <!-- To display the Tag Clouds -->
+                                                            <div>
+                                                                {include file="TagCloudDisplay.tpl"}
+                                                            </div>
+                                                        </td>
+                                                   </tr>
+                                             
+                                                            </table>
+                                                        </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                              <td>
                         <!--BOTTOM TAB MENU-->
 						<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
 						   <tr>
@@ -502,16 +538,14 @@ function DeleteTag(id,recordid)
                         <!--END BOTTOM TAB MENU-->
 					</td>
 				   </tr>
-                  </table>
-					<!-- PUBLIC CONTENTS STOPS-->
-					</td>
-                       <td align=right valign=top>
-						<img src="{'showPanelTopRight.gif'|@vtiger_imageurl:$THEME}">
-					</td>
-				   </tr>
+                               </table>
+					           <!-- PUBLIC CONTENTS STOPS-->
+                            </div>
+					     </td>
+                        <td align=right valign=top><img src="{'showPanelTopRight.gif'|@vtiger_imageurl:$THEME}"/></td>
+                    </tr>
 				</table>
-<!--			   </div>-->
-			</td>
+			</td> <!--/.showPanelBg-->
 		   </tr>
 		</table>
 		<!-- Contents - end -->

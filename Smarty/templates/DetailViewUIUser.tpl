@@ -167,20 +167,17 @@
 
                							</td>
                                              {elseif $keyid eq '17'} <!--WebSite-->
-                                                  <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="{if ($MODULE neq 'Task' && $MODULE neq 'Accounts' && $MODULE neq 'Contacts') || ( ($MODULE eq 'Accounts' || $MODULE eq 'Contacts') &&  ( $ROLEID neq 'H11' || ($ROLEID eq 'H11' && $Potenziale eq 'Potenziale')) ) || ($MODULE eq 'Task' && $tipoevento eq 'Appuntamento' && $oper eq $currus && $isadmin eq 'off') || ( $MODULE eq 'Task' && ( $tipoevento neq 'Appuntamento' || $isadmin eq 'on'))} hndMouseOver({$keyid},'{$label}');{/if}" onmouseout="fnhide('crmspanid');">
-                                                      <span id="dtlview_{$keyfldname}"><a href="{$keyval}" target="_blank">{$keyval}</a></span>
-                                              		<div id="editarea_{$keyfldname}" style="display:none;">
+                                                  <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" 
+                                                      onmouseover="{if ($MODULE neq 'Task' && $MODULE neq 'Accounts' && $MODULE neq 'Contacts') || ( ($MODULE eq 'Accounts' || $MODULE eq 'Contacts') &&  ( $ROLEID neq 'H11' || ($ROLEID eq 'H11' && $Potenziale eq 'Potenziale')) ) || ($MODULE eq 'Task' && $tipoevento eq 'Appuntamento' && $oper eq $currus && $isadmin eq 'off') || ( $MODULE eq 'Task' && ( $tipoevento neq 'Appuntamento' || $isadmin eq 'on'))} hndMouseOver({$keyid},'{$label}');{/if}" 
+                                                      onmouseout="fnhide('crmspanid');">
+                                                      <span id="dtlview_{$label}"><a href="{$keyval}" target="_blank">{$keyval}</a></span>
+                                              		<div id="editarea_{$label}" style="display:none;">
                                               		  <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" 
                                                              onBlur="this.className='detailedViewTextBox'" onkeyup="validateUrl('{$keyfldname}');" 
                                                              type="text" id="txtbox_{$label}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
-                                              		  <br>
-                                                        <a class="detailview_ajaxbutton ajax_save_detailview" 
-                                                           onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
-<!--
-                                                      <input name="button_{$label}" type="button" class="detailview_ajaxbutton ajax_save_detailview save" value="{$APP.LBL_SAVE_LABEL}" 
-                                                             onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');"/> 
--->
-                                                        
+                                              		  <br><br>
+                                                        <input name="button_{$label}" type="button" class="detailview_ajaxbutton ajax_save_detailview save" value="{$APP.LBL_SAVE_LABEL}" 
+                                                             onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');"/>
                                                       {$APP.LBL_OR}
                                               		  <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" 
                                                          class="link detailview_ajaxbutton cancel ajax_cancelsave_detailview" type="button">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
