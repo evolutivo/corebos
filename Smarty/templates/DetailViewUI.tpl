@@ -471,20 +471,8 @@
             {$APP.LBL_OR}
                 <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                 <script type="text/javascript">
-                    Calendar.setup({
-                                ldelim
-                            }
-                            inputField: "txtbox_{$keyfldname}", ifFormat: '{$dateFormat}{if $keyid eq 50} %H:%M{/if}', showsTime: {
-                                if $keyid eq 5
-                            }
-                            false {
-                                else
-                            }
-                            true {
-                                /if}, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1 {
-                                    rdelim
-                                })
-
+                    Calendar.setup({ldelim}
+                        inputField : "txtbox_{$keyfldname}", ifFormat: '{$dateFormat}{if $keyid eq 50} %H:%M{/if}', showsTime: {if $keyid eq 5}false{else}true{/if}, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1 {rdelim})
                 </script>
             </div>
         </td>
