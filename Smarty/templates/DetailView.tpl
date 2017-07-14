@@ -959,7 +959,7 @@
                                                                         </use>
                                                                     </svg>    
                                                                 </a>
-                                                                <div class="slds-dropdown slds-dropdown--left" style="margin-top:-230px;">
+                                                                <div class="slds-dropdown-b slds-dropdown--left">
                                                                     <ul class="slds-dropdown__list slds-dropdown--length-5" role="menu">
                                                                     {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
                                                                         <li class="slds-dropdown__item" role="presentation">

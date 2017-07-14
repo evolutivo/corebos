@@ -490,14 +490,21 @@
                 {if count($data.extendedfieldinfo.options) eq 1} {assign var="use_parentmodule" value=$data.extendedfieldinfo.options.0}
                 <input type='hidden' class='small' id="{$keyfldname}_type" name="{$keyfldname}_type" value="{$use_parentmodule}"> {assign var=vtui10func value=$use_parentmodule|getvtlib_open_popup_window_function:$keyfldname:$MODULE} {else} {assign var=vtui10func value="vtlib_open_popup_window"}
                 <br>
-                <select id="{$keyfldname}_type" class="small slds-select" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
-								{foreach item=option from=$data.extendedfieldinfo.options}
-									<option value="{$option}"
-									{if $data.extendedfieldinfo.selected == $option}selected{/if}>
-									{$option|@getTranslatedString:$option}
-									</option>
-								{/foreach}
-								</select> {/if}
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                            <select id="{$keyfldname}_type" class="small slds-select" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
+                                {foreach item=option from=$data.extendedfieldinfo.options}
+                                    <option value="{$option}"
+                                    {if $data.extendedfieldinfo.selected == $option}selected{/if}>
+                                    {$option|@getTranslatedString:$option}
+                                    </option>
+                                {/foreach}
+                            </select> 
+                        </div>
+                    </div>
+                </div>
+                {/if}
                 <input id="txtbox_{$keyfldname}" name="{$keyfldname}" type="hidden" value="{$data.extendedfieldinfo.entityid}">
                 <br/><input id="{$keyfldname}_display" name="{$keyfldname}_display" readonly type="text" class="slds-input" value="{$data.extendedfieldinfo.displayvalue}"> 
                 <img src="{'select.gif'|@vtiger_imageurl:$THEME}" alt="{'LBL_SELECT'|@getTranslatedString}" title="{'LBL_SELECT'|@getTranslatedString}" onclick='return {$vtui10func}("DetailView","{$keyfldname}","{$MODULE}","{$ID}");' align="absmiddle" style='cursor:hand;cursor:pointer'> 

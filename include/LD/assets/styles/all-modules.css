@@ -21,6 +21,7 @@ tr.slds-text-title--caps {
     padding: 0.625rem 1.3rem;
 }
 
+
 /*
 .slds-text-title--caps td span{
     white-space: normal;
@@ -55,7 +56,6 @@ input[type=submit].slds-button--small {
     border-right: 1px solid #555555;
     border-bottom: 1px solid #555555;
 }
-
 
 tr td.table-aside {
     border-left: 1px dashed #cccccc;
@@ -169,6 +169,7 @@ li[title="More Information"] svg {
     margin: .1rem 0;
 }
 
+
 @media only screen and (max-width: 881px) {
     .slds-table--fixed-layout {
         min-width: 768px;
@@ -191,23 +192,26 @@ li[title="More Information"] svg {
 
 /*=========   DetailView - DetailViewUI - DetailViewUIUser  ==========*/
 
+
 /*remove dotted outline/border in Firefox*/
+
 button:focus,
 span:focus,
-a:focus, a:active,
+a:focus,
+a:active,
 button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,
 input[type="radio"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 select::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
-  outline: none !important;
+input[type="file"]>input[type="button"]::-moz-focus-inner {
+    outline: none !important;
 }
 
 select:-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #000;
+    color: transparent;
+    text-shadow: 0 0 0 #000;
 }
 
 .slds-input {
@@ -215,9 +219,13 @@ select:-moz-focusring {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
 
+
 /*=========   DetailViewUtils.php  ==========*/
+
 #proTab {
     margin-top: 40px;
 }
@@ -226,7 +234,6 @@ select:-moz-focusring {
     text-transform: uppercase;
     letter-spacing: 0.02rem;
 }
+
+
 /*=========   END DetailViewUtils.php  ==========*/
-
-
-
