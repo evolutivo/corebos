@@ -270,7 +270,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	} elseif ($uitype == 19) {
 
 		$col_fields[$fieldname] = decode_html($col_fields[$fieldname]); // undo database encoding
-		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Messages' or $module=='Emails' or (isset($cbMapFI['RTE']) and $cbMapFI['RTE'] and vt_hasRTE())) {
+		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Thread' or $module=='Messages' or $module=='Emails' or (isset($cbMapFI['RTE']) and $cbMapFI['RTE'] and vt_hasRTE())) {
 			//$col_fields[$fieldname] = htmlentities($col_fields[$fieldname]); // prepare for output
 			$col_fields[$fieldname] = from_html($col_fields[$fieldname]);
 		} else {

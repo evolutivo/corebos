@@ -453,7 +453,7 @@
 							{else}
 								{assign var=vtui10func value="vtlib_open_popup_window"}
 								<br>
-								<select id="{$keyfldname}_type" class="small slds-select" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
+								<select id="{$keyfldname}_type" class="small" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
 								{foreach item=option from=$data.extendedfieldinfo.options}
 									<option value="{$option}"
 									{if $data.extendedfieldinfo.selected == $option}selected{/if}>

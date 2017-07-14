@@ -147,7 +147,7 @@ function DeleteTag(id,recordid)
                        <td>
                            <table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
                                <tr>
-                                   <td class="dvtTabCache">
+                                   <td class="dvtTabCache" style="padding: 1px 0;">
                                        <div class="slds-tabs--default">
                                             <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                 <li class="slds-tabs--default__item slds-active" role="presentation" title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}">
@@ -436,7 +436,7 @@ function DeleteTag(id,recordid)
 						   <tr>
                                 <td class="dvtTabCacheBottom" style="padding: 1px 0;">
                                     <div class="slds-tabs--default">
-                                        <ul class="slds-tabs--default__nav tabMenuBottom" role="tablist" style="margin-bottom:0; border-bottom:none;">
+                                        <ul class="slds-tabs--default__nav " role="tablist" style="margin-bottom:0; border-bottom:none;">
                                             <li class="tabMenuBottom slds-tabs--default__item-b slds-active" role="presentation"
                                                 title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}">
                                                 <a class="slds-tabs--default__link slds-tabs--default__link_mod" href="javascript:void(0);" 
@@ -456,7 +456,7 @@ function DeleteTag(id,recordid)
                                                         </use>
                                                     </svg>   
                                                 </a>
-                                                <div class="slds-dropdown slds-dropdown--left" style="margin-top:-220px;">
+                                                <div class="slds-dropdown-b slds-dropdown--left">
                                                     <ul class="slds-dropdown__list slds-dropdown--length-5" role="menu">
                                                     {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
                                                         <li class="slds-dropdown__item" role="presentation">
