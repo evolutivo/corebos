@@ -206,18 +206,18 @@
 
     {elseif $keyid eq '17'}
     <!--WebSite-->
-    <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" 
+    <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" 
             onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'>
-        <span id="dtlview_{$label}">
+        <span id="dtlview_{$keyfldname}">
             <a href="{$keyval}" target="_blank">{$keyval}</a>
         </span>
-        <div id="editarea_{$label}" style="display:none;">
+        <div id="editarea_{$keyfldname}" style="display:none;">
           <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" 
-                 onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$label}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
+                 onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
           <br><br>
-            <a name="button_{$keyfldname}" class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$label}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
+            <a name="button_{$keyfldname}" class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
             {$APP.LBL_OR}
-          <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}');event.stopPropagation();" class="link detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+          <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="link detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
            </div>
       </td>
     {elseif $keyid eq '85'}
