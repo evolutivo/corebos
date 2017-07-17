@@ -261,6 +261,43 @@
     <div id="results" style="margin-top: 1%;"></div>
 </div>
 <div id="null"></div>
+<div>
+         <div class="slds">
+             <div class="slds-modal" aria-hidden="false" role="dialog" id="modalrezultquerymodal">
+                <div class="slds-modal__container">
+                     <div class="slds-modal__header">
+                         <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closemodalrezultquery()">
+                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                                 <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                             </svg>
+                             <span class="slds-assistive-text">{$MOD.close}</span>
+                         </button>
+                         <h2 class="slds-text-heading--medium">The result of query</h2>
+                     </div>
+                     <div class="slds-modal__content slds-p-around--medium">
+                         <div class="slds-scrollable">
+                             <!-- <div class="slds-form-element"> -->
+                                <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="insertintobodyrezult">
+                                 </table>                             
+                             <!-- </div> -->
+                         </div>
+                     </div>
+                     <div class="slds-modal__footer">
+                         <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheckrezultquery();">{$MOD.cancel}
+                         </button>
+                         <!-- <button onclick="closemodalrezultquery();" class="slds-button slds-button--neutral slds-button--brand">
+                             {$MOD.save}
+                         </button> -->
+                     </div>
+                 </div>
+             </div>
+             <div class="slds-backdrop" id="backdropquery"></div>
+ 
+             <!-- Button To Open Modal -->
+             {*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
+         </div>
+ 
+     </div>
 {literal}
     <script>
         //$ = jQuery.noConflict();
@@ -525,7 +562,57 @@
             }
         }
 
-
+        function openmodalrezultquery(idforquery){
+                  var selectedfieldsfromhistory=[];
+                  var queryfromselected;
+                  for (var ii = 0; ii <= JSONForCOndition.length; ii++) {                    
+                     if (ii==idforquery) 
+                     {
+                         check=true;
+                       //   selectedfieldsfromhistory = JSONForCOndition[ii].selectedfields;
+                           queryfromselected = $('#generatedjoin').text();
+                          
+                     }
+                                        
+                 } 
+ 
+              var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=PreviewRezult";
+                 jQuery.ajax({
+                      type: "POST",
+                      url: url,
+                      async: false,
+                      data: "queryhistory=" + queryfromselected,
+                     success: function (msg) {
+                         // alert(msg);
+                          $('#backdropquery').addClass('slds-backdrop--open');
+                          $('#modalrezultquerymodal').addClass('slds-fade-in-open');
+                          jQuery("#insertintobodyrezult").html(msg);
+                         //alert();
+                     },
+                     error: function () {
+                         alert(mv_arr.failedcall);
+                     }
+                 });         
+       }
+       $('#Previewbtn').click(function(){
+ 			  PreviewQuery();	
+ 			});
+        function closeModalForRunquery() {
+             //var myLength = $("#SaveasMapTextImput").val();
+             
+                 $('#ErrorVAlues').text('');
+                 $('#modalrezultquerymodal').removeClass('slds-fade-in-open');
+                 $('#backdropquery').removeClass('slds-backdrop--open');
+                
+            
+         }
+ 
+          function closeModalwithoutcheckrezultquery() {
+             $('#ErrorVAlues').text('');
+             $('#modalrezultquerymodal').removeClass('slds-fade-in-open');
+             $('#backdropquery').removeClass('slds-backdrop--open');
+         }
+         
         function openalertsJoin() {
             $('#AlertsAddDiv div').remove();
            // var idJSON = 1;
@@ -613,12 +700,14 @@
 
             var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
             INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');">&times;</span>';
+            // INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');"><i class="icono-eye"></</span>';
             INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> ' + Firstmodulee + '=>' + secondmodule;
             if (last_check==true) {//icono-plusCircle
-            INSertAlerstJOIN +='<span title="You are here " style="float:right;margin-top:-10px;margin-right:-76px;"><i class="icono-checkCircle"></i></span>';
+            INSertAlerstJOIN +='<span title="You are here " style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-checkCircle"></i></span>';
+            INSertAlerstJOIN +='<span  title="run the query to show the result" style="float:right;margin-top:-10px;margin-right:-86px;"><i class="icono-display" onclick="openmodalrezultquery('+Idd+');"></i></span>';
             }
             else{
-                INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-76px;"><i class="icono-plusCircle"></i></span>'; 
+                INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-plusCircle"></i></span>'; 
             }
             INSertAlerstJOIN += '</div';
             return INSertAlerstJOIN;

@@ -123,16 +123,23 @@ function disableRelatedListBlock(urldata,target,imagesuffix){
 
 {if is_numeric($header)}
 	{if $detail.type eq 'CodeWithHeader'}
-	<table width="100%" cellspacing="0" cellpadding="0" border="0" class="small lvt rel_mod_table">
-		<tr class="detailview_block_header">{strip}
+	{*<table width="100%" cellspacing="0" cellpadding="0" border="0" class="small lvt rel_mod_table">*}
+	<table class="small lvt rel_mod_table slds-table slds-no-row-hover slds-table_cell-buffer" style="margin: 30px 0;">
+		<tr class="detailview_block_header">
+			{strip}
 			<td colspan=4 class="dvInnerHeader">
-				<div style="float:left;font-weight:bold;"><div style="float:left;"><a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
-					<span class="exp_coll_block inactivate">
+				<div style="float:left;font-weight:bold;">
+					<div style="float:left;">
+						<a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
+							<span class="exp_coll_block inactivate">
 					<img id="aid{$header|replace:' ':''}" src="{'activate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;" alt="{'LBL_Hide'|@getTranslatedString:'Settings'}" title="{'LBL_Hide'|@getTranslatedString:'Settings'}"/>
 					</span>
-					</a></div><b>&nbsp;{$detail.label}</b>
+						</a>
+					</div>
+					<b>&nbsp;{$detail.label}</b>
 				</div>
-			</td>{/strip}
+			</td>
+			{/strip}
 		</tr>
 		<tr>
 			<td class="rel_mod_content_wrapper">
@@ -148,16 +155,18 @@ function disableRelatedListBlock(urldata,target,imagesuffix){
 {else}
 	{assign var=rel_mod value=$header}
 	{assign var="HEADERLABEL" value=$header|@getTranslatedString:$rel_mod}
-	<table width="100%" cellspacing="0" cellpadding="0" border="0" class="small lvt rel_mod_table">
-		<tr>
-			<td class="dvInnerHeader" class="rel_mod_header_wrapper">
+	<table class="small lvt rel_mod_table slds-table slds-no-row-hover slds-table_cell-buffer" style="margin: 30px 0; background-color: #ddf;">
+		<tr class="slds-text-title--caps">
+			<td class="dvInnerHeader rel_mod_header_wrapper">
 				<div style="font-weight: bold;height: 1.75em;" class="rel_mod_header">
 					<span class="toggle_rel_mod_table">
 					{strip}
 						<a href="javascript:loadRelatedListBlock(
 							'module={$MODULE}&action={$MODULE}Ajax&file=DetailViewAjax&record={$ID}&ajxaction=LOADRELATEDLIST&header={$header}&relation_id={$detail.relationId}&actions={$detail.actions}&parenttab={$CATEGORY}',
 							'tbl_{$MODULE}_{$header|replace:' ':''}','{$MODULE}_{$header|replace:' ':''}');">
-							<span class="exp_coll_block activate"><img id="show_{$MODULE}_{$header|replace:' ':''}" src="{'inactivate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;" alt="{'LBL_Show'|@getTranslatedString:'Settings'}" title="{'LBL_Show'|@getTranslatedString:'Settings'}"/></span>
+							<span class="exp_coll_block activate">
+								<img id="show_{$MODULE}_{$header|replace:' ':''}" src="{'inactivate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;" alt="{'LBL_Show'|@getTranslatedString:'Settings'}" title="{'LBL_Show'|@getTranslatedString:'Settings'}"/>
+							</span>
 						</a>
 						<a href="javascript:hideRelatedListBlock('tbl_{$MODULE}_{$header|replace:' ':''}','{$MODULE}_{$header|replace:' ':''}');">
 							<span class="exp_coll_block inactivate" style="display: none"><img id="hide_{$MODULE}_{$header|replace:' ':''}" src="{'activate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;display:none;" alt="{'LBL_Show'|@getTranslatedString:'Settings'}" title="{'LBL_Show'|@getTranslatedString:'Settings'}"/></span>

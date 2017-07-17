@@ -1,0 +1,246 @@
+/*=========  DETAIL VIEW  ==========*/
+
+.slds-table-moz {
+    width: 100%;
+}
+
+tr td.detailViewContainer {;
+    padding : 30px 0;
+}
+
+.mapButton td {
+    text-align: right;
+}
+
+tr.slds-text-title--caps {
+    letter-spacing: 0.02rem;
+}
+
+.tabsTitle {
+    padding: 0.625rem 1.3rem;
+}
+
+
+/*
+.slds-text-title--caps td span{
+    white-space: normal;
+    word-wrap: break-word;
+}
+*/
+
+.slds-table td {
+    position: inherit;
+}
+
+.slds-table--cell-buffer tr>td:first-child {
+    padding-left: 0.5rem;
+}
+
+input[type=button].slds-button--small {
+    font-weight: bold;
+    min-height: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    border-left: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+    border-right: 1px solid #555555;
+    border-bottom: 1px solid #555555;
+}
+
+input[type=submit].slds-button--small {
+    min-height: 1.75rem;
+    font-size: 11px;
+    border-left: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+    border-right: 1px solid #555555;
+    border-bottom: 1px solid #555555;
+}
+
+tr td.table-aside {
+    border-left: 1px dashed #cccccc;
+    width: 22%;
+    vertical-align: top;
+}
+
+.actionLabel {
+    border-bottom: 1px solid #d4d4d4;
+}
+
+
+/**
+- * Creates a green button style
+- *
+- * @selector .slds-button_success
+- * @restrict .slds-button
+- * @group theme
+- * @modifier
+- */
+
+.slds-button_success,
+.slds-button--success {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #4bca81;
+    border: 1px solid #4bca81;
+    color: #fff;
+}
+
+.slds-button_success:link,
+.slds-button_success:visited,
+.slds-button_success:active,
+.slds-button--success:link,
+.slds-button--success:visited,
+.slds-button--success:active {
+    color: #16325c;
+}
+
+.slds-button_success:hover,
+.slds-button_success:focus,
+.slds-button--success:hover,
+.slds-button--success:focus {
+    background-color: #04844b;
+    border-color: #04844b;
+    color: white;
+}
+
+.slds-button_success:active,
+.slds-button--success:active {
+    background-color: #04844b;
+    border-color: #04844b;
+}
+
+.slds-button+.slds-button {
+    margin-left: 0;
+}
+
+ul.slds-tabs--default__nav li {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.slds-dropdown__item>a {
+    padding: .2rem .5rem;
+}
+
+.assideBtn {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.tabMenuTop li {
+    border-top: 1px solid #dfdfdf;
+    border-left: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+li[title="More Information"] {
+    margin-left: 5px;
+}
+
+li[title="More Information"] svg {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.tabMenuBottom {
+    border-bottom: 1px solid #dfdfdf;
+    border-left: 1px solid #dfdfdf;
+    border-right: 1px solid #dfdfdf;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.slds-tabs--default__link_mod {
+    border-top: 2px solid transparent;
+    border-bottom: none;
+}
+
+.slds-select option {
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+    border-top: 1px solid #d4d4d4;
+    padding: .2rem .5rem;
+    margin: .1rem 0;
+}
+
+
+@media only screen and (max-width: 881px) {
+    .slds-table--fixed-layout {
+        min-width: 768px;
+    }
+}
+
+
+/*=========   END DETAIL VIEW  ==========*/
+
+
+/*=========   BUTTON_LIST ==========*/
+
+.slds-table-buttons th {
+    padding-right: 0;
+}
+
+
+/*=========   END BUTTON_LIST  ==========*/
+
+
+/*=========   DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
+
+/*remove dotted outline/border in Firefox*/
+
+button:focus,
+span:focus,
+a:focus,
+a:active,
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="radio"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+select::-moz-focus-inner,
+input[type="file"]>input[type="button"]::-moz-focus-inner {
+    outline: none !important;
+}
+
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+.slds-input {
+    width: 75%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+/*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
+
+/*=========   DetailViewUtils.php  ==========*/
+
+#proTab {
+    margin-top: 40px;
+}
+
+.itemDetailsCss {
+    text-transform: uppercase;
+    letter-spacing: 0.02rem;
+}
+
+
+/*=========   END DetailViewUtils.php  ==========*/
+
+/*=========   Inventory DetailView.tpl  ==========*/
+.borderFix {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+
+}
+/*=========   END InventoryDetailView.tpl  ==========*/

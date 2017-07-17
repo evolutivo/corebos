@@ -11,13 +11,13 @@
 
 <script type="text/javascript" src="modules/{$MODULE}/{$MODULE}.js"></script>
 <!--    Settings Module -->
-<table class="slds-table slds-no-row-hover slds-table_cell-buffer">
+<table class="slds-table slds-no-row-hover slds-table--cell-buffer">
     <thead>
-    <tr class="slds-text-title_caps">
+    <tr class="slds-text-title--caps">
         {assign var="action" value="WebformsListView"}
         {assign var="MODULELABEL" value=$MODULE|@getTranslatedString:$MODULE}
-        <th scope="col">
-            <div class="slds-truncate moduleName" title="Settings">
+        <th scope="col" align="left">
+            <div class="slds-truncate moduleName" title="{$MODULELABEL}">
                 <a class="hdrLink" href="#">{$MODULELABEL}</a>
             </div>
         </th>
@@ -56,7 +56,7 @@
                                     <div class="slds-truncate">
 
                                         <!--   Fourth Table -->
-                                        <table class="slds-table slds-no-row-hover slds-table_fixed-layout-all"
+                                        <table class="slds-table slds-no-row-hover slds-table--fixed-layout"
                                                role="grid">
                                             <tr>
                                                 {foreach item=data from=$FIELDS.$BLOCKID name=itr}

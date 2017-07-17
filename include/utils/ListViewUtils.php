@@ -3740,7 +3740,7 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$target = 'tbl_' . $module . '_' . $formattedHeader;
 	$imagesuffix = $module . '_' . $formattedHeader;
 
-	$output = '<td align="right" style="padding="5px;">';
+	$output = '<td align="right" style="padding=5px;">';
 	if (($navigation_array['prev']) != 0) {
 		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&relstart=1\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LBL_FIRST'] . '" title="' . $app_strings['LBL_FIRST'] . '"><img src="' . vtiger_imageurl('start.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';
 		$output .= '<a href="javascript:;" onClick="loadRelatedListBlock(\'' . $urldata . '&relstart=' . $navigation_array['prev'] . '\',\'' . $target . '\',\'' . $imagesuffix . '\');" alt="' . $app_strings['LNK_LIST_PREVIOUS'] . '"title="' . $app_strings['LNK_LIST_PREVIOUS'] . '"><img src="' . vtiger_imageurl('previous.gif', $theme) . '" border="0" align="absmiddle"></a>&nbsp;';

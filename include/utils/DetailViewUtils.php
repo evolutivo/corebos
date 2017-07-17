@@ -270,7 +270,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	} elseif ($uitype == 19) {
 
 		$col_fields[$fieldname] = decode_html($col_fields[$fieldname]); // undo database encoding
-		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Messages' or $module=='Emails' or (isset($cbMapFI['RTE']) and $cbMapFI['RTE'] and vt_hasRTE())) {
+		if ($fieldname == 'notecontent' or $module=='Timecontrol' or $module=='Thread' or $module=='Messages' or $module=='Emails' or (isset($cbMapFI['RTE']) and $cbMapFI['RTE'] and vt_hasRTE())) {
 			//$col_fields[$fieldname] = htmlentities($col_fields[$fieldname]); // prepare for output
 			$col_fields[$fieldname] = from_html($col_fields[$fieldname]);
 		} else {
@@ -1270,10 +1270,11 @@ function getDetailAssociatedProducts($module, $focus) {
 
 	$output = '';
 	//Header Rows
-	$output .= '
-	<table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable detailview_inventory_table" id="proTab">
+//	<table width="100%" border="0" align="center" cellpadding="5" cellspacing="0" class="crmTable detailview_inventory_table" id="proTab">
+    $output .= '
+	<table class="slds-table slds-no-row-hover slds-table--cell-buffer crmTable detailview_inventory_table" id="proTab">
 	<tr valign="top" class="detailview_inventory_header">
-		<td colspan="2" class="dvInnerHeader"><b>' . $app_strings['LBL_ITEM_DETAILS'] . '</b></td>
+		<td colspan="2" class="dvInnerHeader"><b class="itemDetailsCss">' . $app_strings['LBL_ITEM_DETAILS'] . '</b></td>
 		<td class="dvInnerHeader" align="center" colspan="2"><b>' .
 			$app_strings['LBL_CURRENCY'] . ' : </b>' . getTranslatedCurrencyString($currencytype['currency_name']) . ' (' . $currencytype['currency_symbol'] . ')
 		</td>

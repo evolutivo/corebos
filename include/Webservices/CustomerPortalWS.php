@@ -27,14 +27,14 @@ function getModuleAutocomplete($term, $filter, $limit,$field) {
     
     global $current_user,$log,$adb,$default_charset;
     $st = $term;
-    $queryacc = "SELECT vtiger_tab.name,vtiger_field.columnname FROM `vtiger_tab` INNER JOIN vtiger_field ON vtiger_tab.tabid = vtiger_field.tabid WHERE name LIKE '$term%' LIMIT 10";
+    $queryacc = "SELECT vtiger_tab.name,vtiger_field.fieldname FROM `vtiger_tab` INNER JOIN vtiger_field ON vtiger_tab.tabid = vtiger_field.tabid WHERE name LIKE '$term%'";
     $wsrs=$adb->query($queryacc);
     $rownum=$adb->num_rows($wsrs);
     $respuesta = array();
         for ($i=0; $i<=$rownum; $i++)
 		{   
                     $nd1 = $adb->query_result($wsrs,$i,'name');
-                    $nd2 = $adb->query_result($wsrs,$i,'columnname');
+                    $nd2 = $adb->query_result($wsrs,$i,'fieldname');
                     $respuesta[$i]["crmname"]= $nd1.'::'. $nd2;
                 }
         return $respuesta;  
