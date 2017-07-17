@@ -1,7 +1,5 @@
 <?php
-
 $idis=$_REQUEST["id"];
-//var_dump($idis);
 chdir("../..");
 include_once("include/database/PearDatabase.php");
 global $adb;

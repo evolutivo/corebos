@@ -1,10 +1,17 @@
 <?php
 chdir("../..");
+//ini_set("display_errors",'On');
 include_once("include/database/PearDatabase.php");
 include_once("include/utils/utils.php");
-include_once("modules/EtherCalc/wsinit.inc");
+include_once("modules/GlobalVariable/GlobalVariable.php");
+global $current_user;
+$current_user->id=1;
+$userName=GlobalVariable::getVariable('ecusername','');
+$userAccessKey=GlobalVariable::getVariable('ecuseraccesskey', '');
+$endpointUrl=GlobalVariable::getVariable('ecendpointurl', '');
+$ethercalcendpoint=GlobalVariable::getVariable('ecendpoint', '');
 $idnew=$_REQUEST['id'];
-global $adb,$userName,$userAccessKey,$endpointUrl,$ethercalcendpoint;
+global $adb;
 $query1=$adb->query("select name,spid,id from ethercalc where id=$idnew");
 $name=$adb->query_result($query1,0,0);
 $spid=$adb->query_result($query1,0,1);

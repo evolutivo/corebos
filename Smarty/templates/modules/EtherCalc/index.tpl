@@ -32,14 +32,7 @@
        </td> 
        <td data-title="'Created Time'" >
            {literal}{{user.createdtime}}{/literal}
-       </td>       
-       <!--<td data-title="'Country'">
-           {literal}{{user.country}}{/literal}
-       </td>    
-       <td data-title="'IP'" >
-           {literal}{{user.ip_address}}{/literal}
-       </td>--> 
-     
+       </td>        
    </tr>
 </table>
 <div style="font-size:20px;">
