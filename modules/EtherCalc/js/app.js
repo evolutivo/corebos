@@ -1,6 +1,6 @@
 'use strict';
 var app = angular.module('ngTableTutorial', ['ngResource', 'ngRoute','ngTable']);
-        app.controller('tableController', function ($scope, $filter,$http,$sce,ngTableParams) {
+        app.controller('tableController', function ($scope, $filter,$http,$sce,$window,ngTableParams) {
             $scope.frameName="";
             $scope.frameUrl="";
             $scope.frameName1="";
@@ -65,6 +65,7 @@ $scope.updatedata=function(ethid){
  //   alert(ethid);
     $http.get('modules/EtherCalc/updatecrm.php?id='+ethid).success(function(data,status){
          console.log("ha finito");
+         $window.location.reload();
     });
 }
 
