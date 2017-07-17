@@ -18,7 +18,7 @@
 			<div class="small">
 				<table class="slds-table slds-no-row-hover slds-table_cell--buffer">
 					<tr class="slds-text-title--caps">
-						<td>
+						<td style="padding:0;">
 							{include file='RelatedListsHidden.tpl'}
 							<div id="RLContents">
 							{include file='RelatedListContents.tpl'}
