@@ -15,16 +15,16 @@ $norows=$adb->num_rows($querysp);
 $modulefields=$adb->query_result($querysp,0,'modulecolumns');
 $othercolumns=$adb->query_result($querysp,0,'othercolumns');
 $namecrm=$adb->query_result($querysp,0,'spreadsheetsname');
-echo $modulefields;
+//echo $modulefields;
 $getallfields=explode(",",$modulefields);
-echo count($getallfields);
+//echo count($getallfields);
 for($z=0;$z<count($getallfields);$z++){
 	$actualfield=explode("::",$getallfields[$z]);
 	echo $actualfield[1];
 	array_push($modflds,$actualfield[1]);
 }
 
-$ethercalcendpoint="http://localhost:8000/_";
+$ethercalcendpoint="http://193.182.16.151:8000/_";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $ethercalcendpoint);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
