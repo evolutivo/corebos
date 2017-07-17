@@ -1,11 +1,11 @@
 <?php
 function createspreadsheetdv($request){
-ini_set("display_errors","On");
+//ini_set("display_errors","On");
 require_once('include/database/PearDatabase.php');
 require_once('modules/Adocmaster/Adocmaster.php');
 require_once('modules/Adocdetail/Adocdetail.php');
 include_once('data/CRMEntity.php');
-include_once('modules/Map/Map.php');
+//include_once('modules/Map/Map.php');
 require_once('include/utils/utils.php');
 global $adb,$log,$current_user;
 $recid=$request["recordid"];
@@ -20,11 +20,13 @@ $getallfields=explode(",",$modulefields);
 //echo count($getallfields);
 for($z=0;$z<count($getallfields);$z++){
 	$actualfield=explode("::",$getallfields[$z]);
-	echo $actualfield[1];
+	//echo $actualfield[1];
 	array_push($modflds,$actualfield[1]);
 }
-
-$ethercalcendpoint="http://193.182.16.151:8000/_";
+include_once("modules/GlobalVariable/GlobalVariable.php");
+global $current_user;
+$current_user->id=1;
+$ethercalcendpoint=GlobalVariable::getVariable('ecendpoint', '');
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $ethercalcendpoint);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
