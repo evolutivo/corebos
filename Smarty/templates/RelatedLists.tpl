@@ -67,7 +67,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 {ngtab2}
 <div id="editlistprice" style="position:absolute;width:300px;"></div>
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
-<tr>
+			<tr>
 	<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
 	<td class="showPanelBg" valign=top width=100%>
 		<!-- PUBLIC CONTENTS STARTS-->
@@ -133,6 +133,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 							<td align=left>
 							<!-- content cache -->
                                 <table class="slds-table slds-no-row-hover slds-table--cell-buffer">
+                                {*<table border=0 cellspacing=0 cellpadding=0 width=100%>*}
 									<tr>
                                         <th scope="col">
                                             <div class="slds-truncate contains_rel_modules">
