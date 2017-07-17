@@ -5142,7 +5142,7 @@ a.slds-button--inverse:focus {
 }
 
 .slds-dropdown-trigger .slds-dropdown-b {
-    bottom: 100%;
+    bottom: 102%;
 }
 
 .slds-dropdown-trigger .slds-dropdown--bottom {
@@ -6971,8 +6971,8 @@ a.slds-button--inverse:focus {
 .slds-tabs--path__item {
     overflow: hidden;
     position: relative;
-    -ms-flex: 1 1 0%;
-    flex: 1 1 0%;
+    -ms-flex: 1 1 0;
+    flex: 1 1 0;
     min-width: 5rem;
     text-align: center;
     perspective: 500;
@@ -7496,7 +7496,6 @@ a.slds-button--inverse:focus {
    */
 
 
-}
 .slds-tabs_default__nav,
 .slds-tabs--default__nav {
     display: -ms-flexbox;

@@ -4,9 +4,8 @@
     width: 100%;
 }
 
-tr td.detailViewContainer {
-    padding-top: 30px;
-    padding-bottom: 30px;
+tr td.detailViewContainer {;
+    padding : 30px 0;
 }
 
 .mapButton td {
@@ -237,3 +236,11 @@ select:-moz-focusring {
 
 
 /*=========   END DetailViewUtils.php  ==========*/
+
+/*=========   Inventory DetailView.tpl  ==========*/
+.borderFix {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+
+}
+/*=========   END InventoryDetailView.tpl  ==========*/
