@@ -327,9 +327,8 @@
                                             <tr>
                                                 <td>
                                                     <!-- content cache -->
-                                                    <div class="slds-truncate">
 
-                                                        <table class="slds-table slds-no-row-hover slds-table-moz">
+                                                    <table class="slds-table slds-no-row-hover slds-table-moz">
                                                         <tr>
                                                             <td>
                                                                 <!-- Command Buttons -->
@@ -525,7 +524,6 @@
                                                         </tr>
                                                     </table>
 
-                                                    </div>
                                                 </td>
                                                 <td class="noprint table-aside" style="{$DEFAULT_ACTION_PANEL_STATUS}"
                                                     id="actioncolumn">

@@ -83,7 +83,7 @@
 <!--Email-->
 <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" 
     onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'>
-    <span id="dtlview_{$keyfldname}" class="testlkot">
+    <span id="dtlview_{$keyfldname}">
         {if $smarty.session.internal_mailer eq 1}
             <a href="javascript:InternalMailer({$ID},{$keyfldid},'{$keyfldname}','{$MODULE}','record_id');" onclick="event.stopPropagation();">{$keyval}</a>
         {else}
@@ -181,13 +181,20 @@
 <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">
     <span id="dtlview_{$label}">{$keyval}</span>
     <div id="editarea_{$label}" style="display:none;">
-        <select id="txtbox_{$label}" name="{$keyfldname}" class="small">
-                    {foreach item=arr key=uivalueid from=$keyoptions}
-                        {foreach key=sel_value item=value from=$arr}
-                            <option value="{$uivalueid}" {$value}>{$sel_value|@getTranslatedCurrencyString}</option>
-                        {/foreach}
-                    {/foreach}
-                   </select>
+        <br/>
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <div class="slds-select_container">
+                    <select id="txtbox_{$label}" name="{$keyfldname}" class="small slds-select">
+                            {foreach item=arr key=uivalueid from=$keyoptions}
+                                {foreach key=sel_value item=value from=$arr}
+                                    <option value="{$uivalueid}" {$value}>{$sel_value|@getTranslatedCurrencyString}</option>
+                                {/foreach}
+                            {/foreach}
+                       </select>
+                </div>
+            </div>
+        </div>
         <br><br>
         <input name="button_{$label}" type="button" class="detailview_ajaxbutton ajax_save_detailview save" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');" /> 
         {$APP.LBL_OR}
@@ -199,13 +206,18 @@
 
     {elseif $keyid eq '17'}
     <!--WebSite-->
-    <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" onmouseout="fnhide('crmspanid');">
-        <span id="dtlview_{$label}"><a href="{$keyval}" target="_blank">{$keyval}</a></span>
+    <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}" onmouseover="hndMouseOver({$keyid},'{$label}');" 
+            onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'>
+        <span id="dtlview_{$label}">
+            <a href="{$keyval}" target="_blank">{$keyval}</a>
+        </span>
         <div id="editarea_{$label}" style="display:none;">
-          <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$label}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
-          <br><br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="fnhide('crmspanid');dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
+          <input class="detailedViewTextBox" onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" 
+                 onkeyup="validateUrl('{$keyfldname}');" type="text" id="txtbox_{$label}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
+          <br><br>
+            <a name="button_{$keyfldname}" class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$label}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
             {$APP.LBL_OR}
-          <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link detailview_ajaxbutton cancel ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+          <a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}');event.stopPropagation();" class="link detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
            </div>
       </td>
     {elseif $keyid eq '85'}
@@ -459,20 +471,8 @@
             {$APP.LBL_OR}
                 <a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
                 <script type="text/javascript">
-                    Calendar.setup({
-                                ldelim
-                            }
-                            inputField: "txtbox_{$keyfldname}", ifFormat: '{$dateFormat}{if $keyid eq 50} %H:%M{/if}', showsTime: {
-                                if $keyid eq 5
-                            }
-                            false {
-                                else
-                            }
-                            true {
-                                /if}, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1 {
-                                    rdelim
-                                })
-
+                    Calendar.setup({ldelim}
+                        inputField : "txtbox_{$keyfldname}", ifFormat: '{$dateFormat}{if $keyid eq 50} %H:%M{/if}', showsTime: {if $keyid eq 5}false{else}true{/if}, button : "jscal_trigger_{$keyfldname}", singleClick : true, step : 1 {rdelim})
                 </script>
             </div>
         </td>
