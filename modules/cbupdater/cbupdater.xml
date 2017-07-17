@@ -1716,4 +1716,11 @@
 	<classname>installEtherCalc</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>erimatraku</author>
+	<description>add global params for ethercalc extension</description>
+	<filename>build/changeSets/addglobalparamsethercalc.php</filename>
+	<classname>addglobalparamsethercalc</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
