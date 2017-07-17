@@ -14,27 +14,19 @@
 <!-- Contents -->
 <div id="editlistprice" style="position:absolute;width:300px;"></div>
 	<tr>
-		<td valign=top align=left >
-<!--		<td>-->
-			<div class="small" style="padding:5px">
-			<table border=0 cellspacing=0 cellpadding=3 width=100% >
-<!--			<table class="slds-table slds-no-row-hover">-->
-				<tr>
-					<td valign=top align=left>
-						<table border=0 cellspacing=0 cellpadding=0 width=100%>
-							<tr>
-								<td >
-									{include file='RelatedListsHidden.tpl'}
-									<div id="RLContents">
-									{include file='RelatedListContents.tpl'}
-									</div>
-									</form>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+		<td style="padding:30px 0 0 0;">
+			<div class="small">
+				<table class="slds-table slds-no-row-hover slds-table_cell--buffer">
+					<tr class="slds-text-title--caps">
+						<td>
+							{include file='RelatedListsHidden.tpl'}
+							<div id="RLContents">
+							{include file='RelatedListContents.tpl'}
+							</div>
+							</form>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</td>
 	</tr>

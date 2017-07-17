@@ -124,15 +124,21 @@ function disableRelatedListBlock(urldata,target,imagesuffix){
 {if is_numeric($header)}
 	{if $detail.type eq 'CodeWithHeader'}
 	<table width="100%" cellspacing="0" cellpadding="0" border="0" class="small lvt rel_mod_table">
-		<tr class="detailview_block_header">{strip}
+		<tr class="detailview_block_header">
+			{strip}
 			<td colspan=4 class="dvInnerHeader">
-				<div style="float:left;font-weight:bold;"><div style="float:left;"><a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
-					<span class="exp_coll_block inactivate">
+				<div style="float:left;font-weight:bold;">
+					<div style="float:left;">
+						<a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
+							<span class="exp_coll_block inactivate">
 					<img id="aid{$header|replace:' ':''}" src="{'activate.gif'|@vtiger_imageurl:$THEME}" style="border: 0px solid #000000;" alt="{'LBL_Hide'|@getTranslatedString:'Settings'}" title="{'LBL_Hide'|@getTranslatedString:'Settings'}"/>
 					</span>
-					</a></div><b>&nbsp;{$detail.label}</b>
+						</a>
+					</div>
+					<b>&nbsp;{$detail.label}</b>
 				</div>
-			</td>{/strip}
+			</td>
+			{/strip}
 		</tr>
 		<tr>
 			<td class="rel_mod_content_wrapper">
