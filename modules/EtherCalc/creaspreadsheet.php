@@ -1,7 +1,7 @@
 <?php
 chdir("../..");
 include_once("include/database/PearDatabase.php");
-$ethercalcendpoint="http://localhost:8000/_";
+$ethercalcendpoint="http://193.182.16.151:8000/_";
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $ethercalcendpoint);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
