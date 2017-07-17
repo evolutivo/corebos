@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-       aaaaaaaaaaa <title>TODO supply a title</title>
+        <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
@@ -50,10 +50,10 @@
 </div>
 <div >
 <div ng-show="frameName1==''" style="height:170%">
- <iframe width="100%" height="70%" name="{literal}{{frameName1}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl1)}}{/literal}"></iframe>
+ <iframe onload="this.width=screen.width;this.height=screen.height;" name="{literal}{{frameName1}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl1)}}{/literal}"></iframe>
  </div>
 <div ng-show="frameName!=''" style="height:170%">
-<iframe width="100%" height="70%" name="{literal}{{frameName}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl)}}{/literal}"></iframe>
+<iframe onload="this.width=screen.width;this.height=screen.height;" name="{literal}{{frameName}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl)}}{/literal}"></iframe>
  <div style="font-size:20px;">
  <button ng-click="showlist(data)" class="btn-primary">
   Show List
