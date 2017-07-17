@@ -6,8 +6,10 @@
  global $adb,$log,$mod_strings;
  include_once("modules/Reports/Reports.php");
  include_once("modules/Reports/ReportRun.php");
+$indexlLog="modules/BiServer/BiIndexLog.log";
+
  $nr = $_REQUEST['nr'];
- if($actionTodo != "createindex")
+if($actionTodo != "createindex")
 $val = $_REQUEST['count'];
  else $val = $_REQUEST['countlogg'];
 if($mvtype == "report"){
@@ -203,6 +205,7 @@ if($mvtype == "report"){
  else{
      //Create index from mv
      //create index -for logging index creation
+    error_log("".date('Y-m-d H:i:s')." Create Index started\n ",3,$indexlLog);
     if($actionTodo == "createindex")
      $mapid = $_REQUEST['maploggingsql'];   
     else $mapid = $_REQUEST['mapsql'];
@@ -218,9 +221,11 @@ if($mvtype == "report"){
     $elasticFields = array();
     $allFields = array();
     $pref = GlobalVariable::getVariable('ip_elastic_indexprefix', '');
+    error_log("".date('Y-m-d H:i:s')."Action to do =".$actionTodo."\n ",3,$indexlLog);
     if($actionTodo == "createindex")
     $index = strtolower($pref.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
     else     $index = strtolower($pref.'_'.preg_replace('/[^A-Za-z0-9\-]/', '',$tab ));
+    error_log("".date('Y-m-d H:i:s')."Index name =".$index."\n ",3,$indexlLog);
     $k1=0;  
     //Query to check for index existence 
    $checkIndex = $adb->pquery("Select * from vtiger_elastic_indexes where elasticname = ?",array($index));
@@ -229,7 +234,8 @@ if($mvtype == "report"){
    $data = "<?php \r\n";
    $data .= 'include_once("include/utils/CommonUtils.php");';
    $data .= "\n\r".'global $adb;'."\r\n";
-   $data .="\r\n".'$reportIndexFields = array();';
+   $data .="\r\n".'$reportIndexFields = array();'; 
+   $formatarr =array();
       //Write fileds structture to php file
      for($i=0;$i<$val;$i++)
      {   
@@ -287,7 +293,7 @@ if($mvtype == "report"){
             $sqlFields[$k1]=trim($fldArr[0]).'.'.$clname.' AS '.trim($fldArr[0]).'_'.$clname;
             $k1++;
      }
-
+        $fieldtypearr[] = $coltype;
         $allFields[] = preg_replace('/[#*. <,>]/','',$_REQUEST['modulfieldlabel'.$j]);
      }
      $log->debug("ketu".$entityfield);
@@ -299,6 +305,7 @@ if($mvtype == "report"){
     if($actionTodo == "createindex")
     $endpointUrl2 = "http://$ip:9200/$index/_mapping/norm";
     else $endpointUrl2 = "http://$ip:9200/$index/_mapping/denorm";
+    error_log("New index endpoint url = ".$endpointUrl2." \n",3,$indexlLog);
     $channel11 = curl_init();
     curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
     curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
@@ -362,6 +369,7 @@ if($mvtype == "report"){
         $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']")));';   
         $typreofindex = "denorm";
         $endpointUrl = "http://$ip:9200/$index";
+        error_log("New index endpoint url  for index structure = ".$endpointUrl." \n",3,$indexlLog);
         $channel = curl_init();
         curl_setopt($channel, CURLOPT_URL, $endpointUrl);
         curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
@@ -387,8 +395,10 @@ if($mvtype == "report"){
        for($i=0; $i< $adb->num_rows($fields1); $i++){
            for($j=0;$j< count($selectedMapColumns);$j++)
            {
-              $data[$selectedMapColumns[$j]] = $adb->query_result($fields1,$i,$j) ;
-                  
+               $resultdata = $adb->query_result($fields1,$i,$j);
+               if($fieldtypearr[$j] == 'date' && $resultdata=='')
+                     $data[$selectedMapColumns[$j]] = null;
+               else  $data[$selectedMapColumns[$j]] = $resultdata ;   
            }
         if($actionTodo == "createindex"){
         $endpointUrl2 = "http://$ip:9200/$index/norm";
@@ -416,7 +426,9 @@ if($mvtype == "report"){
         curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
         curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+        curl_setopt($channel11, CURLOPT_VERBOSE, true);
         $response2 = curl_exec($channel11);
+        echo ($response2);
         }
         insertElasticIndex($index,$lanbelsToInsert,$typreofindex);
         if($actionTodo == "createindex"){
