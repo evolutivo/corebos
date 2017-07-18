@@ -125,17 +125,139 @@ function DeleteTag(id,recordid)
 		<!-- Contents -->
 		<table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
 		   <tr>
-			<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
-			<td class="showPanelBg" valign=top width=100%>
+			{*<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>*}
+			{*<td class="showPanelBg" valign=top width=100%>*}
 			<!-- PUBLIC CONTENTS STARTS-->
-            <div class="small" style="padding:14px" onclick="hndCancelOutsideClick();";>
+            <div class="small" onclick="hndCancelOutsideClick();";>
 				<table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz">
                     <tr class="slds-text-title--caps">
-                        <td>
+                        <td style="padding: 0;">
                              {* <!--Module Record numbering, used MOD_SEQ_ID instead of ID--> *}
                              {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
                              {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
-                            <span class="dvHeaderText">[ {$USE_ID_VALUE} ] {$NAME} -  {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>&nbsp;&nbsp;&nbsp;<span class="small">{$UPDATEINFO}</span>&nbsp;<span id="vtbusy_info" style="display:none;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span>
+
+                            <div class="slds-page-header s1FixedFullWidth s1FixedTop forceHighlightsStencilDesktop" style="height: 70px;">
+                                <div class="slds-grid primaryFieldRow"
+                                     style="transform: translate3d(0, -8.65823px, 0);">
+                                    <div class="slds-grid slds-col slds-has-flexi-truncate slds-media--center">
+                                        <div class="profilePicWrapper slds-media slds-no-space"
+                                             style="transform: scale3d(0.864715, 0.864715, 1) translate3d(4.32911px, 2.16456px, 0);">
+                                            <div class="slds-media__figure slds-icon forceEntityIcon">
+                                                <span class="photoContainer forceSocialPhoto">
+                                                    <div class="small roundedSquare forceEntityIcon"
+                                                         style="background-color: #A094ED">
+                                                        <span class="uiImage">
+                                                            <img src="https://playful-raccoon-70441-dev-ed.my.salesforce.com/img/icon/t4v35/standard/contact_120.png"
+                                                                 class="icon " alt="Contact"
+                                                                 title="Contact">
+                                                        </span>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="slds-media__body">
+                                            <p class="slds-text-heading--label slds-line-height--reset"
+                                               style="opacity: 1;">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</p>
+                                            <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
+                                                <span class="uiOutputText">[ {$USE_ID_VALUE} ] {$NAME}</span>
+                                                <span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>&nbsp;&nbsp;&nbsp;
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer" id="detailview_utils_thirdfiller">
+                                        <div class="slds-grid forceActionsContainer">
+                                            {if $EDIT_PERMISSION eq 'yes'}
+                                                <input class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
+                                                        {*class="slds-button slds-button--small slds-button_success assideBtn"*}
+                                                       aria-live="assertive" type="button" name="Edit"
+                                                       title="{$APP.LBL_EDIT_BUTTON_TITLE}"
+                                                       accessKey="{$APP.LBL_EDIT_BUTTON_KEY}"
+                                                       onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}';submitFormForAction('DetailView','EditView');"
+                                                       value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;"/>&nbsp;
+                                            {/if}
+                                            {if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
+                                                <input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}"
+                                                       accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}"
+                                                        {*class="slds-button slds-button--small slds-button--brand assideBtn"*}
+                                                       class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
+                                                       onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');"
+                                                       type="button" name="Duplicate"
+                                                       value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}"/>&nbsp;
+                                            {/if}
+                                            {if $DELETE eq 'permitted'}
+                                                <input title="{$APP.LBL_DELETE_BUTTON_TITLE}"
+                                                       accessKey="{$APP.LBL_DELETE_BUTTON_KEY}"
+                                                        {*class="slds-button slds-button--small slds-button--destructive assideBtn"*}
+                                                       class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
+                                                       onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='index'; {if $MODULE eq 'Accounts'} var confirmMsg = '{$APP.NTC_ACCOUNT_DELETE_CONFIRMATION}' {else} var confirmMsg = '{$APP.NTC_DELETE_CONFIRMATION}' {/if}; submitFormForActionWithConfirmation('DetailView', 'Delete', confirmMsg);"
+                                                       type="button" name="Delete"
+                                                       value="{$APP.LBL_DELETE_BUTTON_LABEL}"/>&nbsp;
+                                            {/if}
+                                            {if $privrecord neq ''}
+                                                <span class="detailview_utils_prev"
+                                                      onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'"
+                                                      title="{$APP.LNK_LIST_PREVIOUS}">
+                                                                    <img align="absmiddle"
+                                                                         accessKey="{$APP.LNK_LIST_PREVIOUS}"
+                                                                         name="privrecord"
+                                                                         value="{$APP.LNK_LIST_PREVIOUS}"
+                                                                         src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}"
+                                                                         style="padding-top: 6px;"/>
+                                                            </span>&nbsp;
+                                            {else}
+                                                <span class="detailview_utils_prev"
+                                                      title="{$APP.LNK_LIST_PREVIOUS}">
+                                                                    <img align="absmiddle" width="23"
+                                                                         style="padding-top: 6px;"
+                                                                         src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
+                                                            </span>&nbsp;
+                                            {/if}
+                                            {if $privrecord neq '' || $nextrecord neq ''}
+                                                <span class="detailview_utils_jumpto" id="jumpBtnIdTop"
+                                                      onclick="
+                                                              var obj = this;
+                                                              var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');"
+                                                      title="{$APP.LBL_JUMP_BTN}">
+                                                                <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
+                                                                     accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
+                                                                     src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
+                                                                     id="jumpBtnIdTop"/>
+                                                            </span>&nbsp;
+                                            {/if}
+                                            {if $nextrecord neq ''}
+                                                <span class="detailview_utils_next"
+                                                      onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'"
+                                                      title="{$APP.LNK_LIST_NEXT}">
+                                                                <img align="absmiddle"
+                                                                     accessKey="{$APP.LNK_LIST_NEXT}"
+                                                                     name="nextrecord"
+                                                                     src="{'rec_next.gif'|@vtiger_imageurl:$THEME}"
+                                                                     style="padding-top: 6px;">
+                                                            </span>&nbsp;
+                                            {else}
+                                                <span class="detailview_utils_next" title="{$APP.LNK_LIST_NEXT}">
+                                                                <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
+                                                                     width="23" style="padding-top: 6px;"
+                                                                     src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
+                                                            </span>&nbsp;
+                                            {/if}
+                                            <span class="detailview_utils_toggleactions">
+                                                <img align="absmiddle" title="{$APP.TOGGLE_ACTIONS}"
+                                                     src="{'list_60.png'|@vtiger_imageurl:$THEME}"
+                                                     onclick="
+                                                     {literal}
+                                                        if (document.getElementById('actioncolumn').style.display=='none') {
+                                                            document.getElementById('actioncolumn').style.display='table-cell';
+                                                        } else {
+                                                            document.getElementById('actioncolumn').style.display='none';
+                                                        }
+                                                           window.dispatchEvent(new Event('resize'));
+                                                    {/literal}">
+                                            </span>&nbsp;
+                                        </div> {*/forceActionsContainer*}
+                                    </div> {*/detailview_utils_thirdfiller*}
+                                </div> {*/primaryFieldRow*}
+                            </div> {*/forceHighlightsStencilDesktop*}
                         </td>
                     </tr>
 				</table>
@@ -183,87 +305,7 @@ function DeleteTag(id,recordid)
                                             </ul>
                                        </div>   
                                    </td>
-                                   {include file='RelatedListNg.tpl' SOURCE='DV'}
-								   <td class="dvtTabCache" id="detailview_utils_thirdfiller" align="right" style="width:100%">
-									{if $EDIT_PERMISSION eq 'yes'}
-                                        <input title="{$APP.LBL_EDIT_BUTTON_TITLE}" 
-                                               accessKey="{$APP.LBL_EDIT_BUTTON_KEY}" 
-                                               class="slds-button slds-button--small slds-button_success assideBtn"
-                                               onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" 
-                                               type="button" name="Edit" 
-                                               value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">
-                                        &nbsp;
-									{/if}
-									{if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
-									   <input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}" 
-                                              accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}" 
-                                              class="slds-button slds-button--small slds-button--brand assideBtn" 
-                                              onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');" 
-                                              type="button" name="Duplicate" 
-                                              value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}">
-                                        &nbsp;
-									{/if}
-									{if $DELETE eq 'permitted'}
-									   <input title="{$APP.LBL_DELETE_BUTTON_TITLE}" 
-                                              accessKey="{$APP.LBL_DELETE_BUTTON_KEY}" 
-                                              class="slds-button slds-button--small slds-button--destructive assideBtn"
-                                              onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='index'; {if $MODULE eq 'Accounts'} var confirmMsg = '{$APP.NTC_ACCOUNT_DELETE_CONFIRMATION}' {else} var confirmMsg = '{$APP.NTC_DELETE_CONFIRMATION}' {/if}; submitFormForActionWithConfirmation('DetailView', 'Delete', confirmMsg);" 
-                                              type="button" name="Delete" 
-                                              value="{$APP.LBL_DELETE_BUTTON_LABEL}">
-                                        &nbsp;
-									{/if}
-									{if $privrecord neq ''}
-                                        <span class="detailview_utils_prev" 
-                                              onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'" 
-                                              title="{$APP.LNK_LIST_PREVIOUS}">
-                                            <img align="absmiddle" title="{$APP.LNK_LIST_PREVIOUS}" 
-                                                 accessKey="{$APP.LNK_LIST_PREVIOUS}"  
-                                                 name="privrecord" value="{$APP.LNK_LIST_PREVIOUS}" 
-                                                 src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}">
-                                        </span>
-                                        &nbsp;
-									{else}
-									<img align="absmiddle" 
-                                         title="{$APP.LNK_LIST_PREVIOUS}" 
-                                         src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
-									{/if}
-									{if $privrecord neq '' || $nextrecord neq ''}
-										<span class="detailview_utils_jumpto">
-                                            <img align="absmiddle" 
-                                                 title="{$APP.LBL_JUMP_BTN}" 
-                                                 accessKey="{$APP.LBL_JUMP_BTN}" 
-                                                 onclick="var obj = this;var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');" 
-                                                 name="jumpBtnIdTop" 
-                                                 id="jumpBtnIdTop" 
-                                                 src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}">
-                                        </span>
-                                        &nbsp;
-									{/if}
-									{if $nextrecord neq ''}
-                                        <span class="detailview_utils_next" 
-                                              onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'" 
-                                              title="{$APP.LNK_LIST_NEXT}">
-                                            <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}" 
-                                              accessKey="{$APP.LNK_LIST_NEXT}"  
-                                              name="nextrecord" 
-                                              src="{'rec_next.gif'|@vtiger_imageurl:$THEME}">
-                                        </span>
-                                        &nbsp;
-									{else}
-									<img align="absmiddle" 
-                                         title="{$APP.LNK_LIST_NEXT}" 
-                                         src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}">
-                                        &nbsp;
-									{/if}
-									<span class="detailview_utils_toggleactions">
-                                        <img align="absmiddle" 
-                                             title="{$APP.TOGGLE_ACTIONS}" 
-                                             src="{'list_60.png'|@vtiger_imageurl:$THEME}" 
-                                             width="16px;" 
-                                             onclick="{literal}if (document.getElementById('actioncolumn').style.display=='none') {document.getElementById('actioncolumn').style.display='table-cell';}else{document.getElementById('actioncolumn').style.display='none';}{/literal}">
-                                        </span>
-                                        &nbsp;
-								</td>
+                                   {*{include file='RelatedListNg.tpl' SOURCE='DV'}*}
                                </tr>
                            </table>
                        </td>
@@ -545,7 +587,7 @@ function DeleteTag(id,recordid)
                         <td align=right valign=top><img src="{'showPanelTopRight.gif'|@vtiger_imageurl:$THEME}"/></td>
                     </tr>
 				</table>
-			</td> <!--/.showPanelBg-->
+			{*</td>*} <!--/.showPanelBg-->
 		   </tr>
 		</table>
 		<!-- Contents - end -->

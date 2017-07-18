@@ -361,10 +361,8 @@ a:hover {
 }
 
 .dvtContentSpace {
-	border-left:1px solid #dedede;
-	border-right:1px solid #dedede;
-	border-bottom:1px solid #dedede;
-	padding-left:0px;
+	border:1px solid #dedede;
+	padding-left:0;
 }
 
 .dvtCellLabel, .cellLabel,.cellLabelnew{
