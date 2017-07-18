@@ -213,7 +213,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer" id="detailview_utils_thirdfiller">
-
                                                     <div class="slds-grid forceActionsContainer">
                                                         {if $EDIT_PERMISSION eq 'yes'}
                                                             <input class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
@@ -261,7 +260,6 @@
                                                                          src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
                                                             </span>&nbsp;
                                                         {/if}
-
                                                         {if $privrecord neq '' || $nextrecord neq ''}
                                                             <span class="detailview_utils_jumpto" id="jumpBtnIdTop"
                                                                   onclick="
@@ -274,7 +272,6 @@
                                                                      id="jumpBtnIdTop"/>
                                                             </span>&nbsp;
                                                         {/if}
-
                                                         {if $nextrecord neq ''}
                                                             <span class="detailview_utils_next"
                                                                   onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'"
@@ -292,7 +289,6 @@
                                                                     src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
                                                             </span>&nbsp;
                                                         {/if}
-
                                                         <span class="detailview_utils_toggleactions">
                                                             <img
                                                               align="absmiddle" title="{$APP.TOGGLE_ACTIONS}"
@@ -307,13 +303,10 @@
                                                                   window.dispatchEvent(new Event('resize'));
                                                               {/literal}">
                                                         </span>&nbsp;
-
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
+                                                    </div> {*/forceActionsContainer*}
+                                                </div> {*/detailview_utils_thirdfiller*}
+                                            </div> {*/primaryFieldRow*}
+                                        </div> {*/forceHighlightsStencilDesktop*}
                                     </td>
                                 </tr>
                             </table>
