@@ -173,7 +173,7 @@
                     {*<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>*}
                     {*<td class="showPanelBg" valign=top width=100%>*}
                         <!-- PUBLIC CONTENTS STARTS-->
-                        <div class="small" style="padding:10px" onclick="hndCancelOutsideClick();">
+                        <div class="small" onclick="hndCancelOutsideClick();">
                             <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz">
                                 <tr class="slds-text-title--caps">
                                     <td style="padding: 0;">
