@@ -52,7 +52,7 @@ $typ='<input type="hidden" name="maptypef'.$i.'" id="maptypef'.$i.'" value="fiel
                       <input type=\"hidden\" value='$sqlQueryfields[$k]' id='colname$i' name='colname$i'>
                              <input type=\"hidden\" value='$alias' id='colaliasname$i' name='colaliasname$i'>"
                     . "</td>"
-           . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldLabel\">";
+           . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldtblnamearr[0]_$fldLabel\">";
             $a.="</td>";
             $a.="<td><select id=\"modulfieldtype$i\" name=\"modulfieldtype$i\">".$fldTypessqlhtml."</select>";
             $a.="</td>";
@@ -74,7 +74,7 @@ else {
                       <input type=\"hidden\" value='$sqlQueryfields[$k]' id='colname$i' name='colname$i'>
                              <input type=\"hidden\" value='$alias' id='colaliasname$i' name='colaliasname$i'>"
                     . "</td>"
-           . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldLabel\">";
+           . "<td><input type=\"text\" id=\"modulfieldlabel$i\" name=\"modulfieldlabel$i\"  value=\"$fldtblnamearr[0]_$fldLabel\">";
             $a.="</td>";
             $a.="<td><select id=\"modulfieldtype$i\" name=\"modulfieldtype$i\">".$fldTypessqlhtml."</select>";
             $a.="</td>";
