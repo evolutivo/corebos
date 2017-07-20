@@ -78,7 +78,8 @@
 }
 
 .slds-media__body p,
-.slds-media__body h1 {
+.slds-media__body h1,
+.slds-media__body h2 {
     margin: 0;
 }
 
@@ -117,16 +118,105 @@
     opacity: 1;
 }
 
-
-
 /*=========  END DETAIL VIEW ---HEADER---  ==========*/
+
+/*=========  DETAIL VIEW ---BODY---  ==========*/
+article {
+    display: block;
+}
+
+article.container::before,
+article.container::after {
+    content: normal;
+}
+
+@media only screen and (min-width: 768px) {
+    article.container {
+        max-width: 100%;
+    }
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard.container {
+    background-color: rgb(244, 246, 249);
+    margin: 1rem 0 0 0;
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard .merge-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: rgb(255, 255, 255);
+    background-color: rgb(242, 207, 91);
+    border-radius: .125rem;
+    text-align: center;
+    display: inline-block;
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard .forceIcon.merge-icon {
+    font-size: .845rem;
+}
+
+.forceBaseCard .header-title-container {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    max-width: 100%;
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard h2.header-title-container span.slds-truncate {
+    white-space: normal;
+}
+
+.slds-card__header {
+    padding-top: .75rem;
+    margin-bottom: .75rem;
+}
+
+.slds-card__body {
+    margin-bottom: .75rem;
+}
+
+.flexipageComponent {
+    background-color: rgb(244, 246, 249);
+    padding: 1rem ;
+    border: 1px solid rgb(216, 221, 230);
+}
+
+/*.flexipageComponent .slds-card {*/
+    /*border-bottom-left-radius: 0;*/
+    /*border-bottom-right-radius: 0;*/
+/*}*/
+
+.flexipageComponentComment {
+    margin-bottom: 3rem;
+}
+
+.blockStyleCss {
+    background-color: rgb(244, 246, 249);
+    border: 1px solid rgb(216, 221, 230);
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
+.runtime_sales_mergeMergeCandidatesPreviewCard .rightMailMergeData,
+.runtime_sales_mergeMergeCandidatesPreviewCard .generalData {
+    padding: .5rem 0;
+    text-align: left;
+    color: rgb(84, 105, 141);
+    font-size: .8125rem;
+}
+
+.generalData img{
+    margin-left: 0;
+}
+
+/*=========  END DETAIL VIEW ---BODY---  ==========*/
 
 .slds-table-moz {
     width: 100%;
 }
 
 tr td.detailViewContainer {;
-    padding: 30px 0;
+    padding: 1rem .5rem;
 }
 
 .mapButton td {
@@ -169,10 +259,15 @@ input[type=submit].slds-button--small {
     border-bottom: 1px solid #555555;
 }
 
-tr td.table-aside {
-    border-left: 1px dashed #cccccc;
+tr td.action-block {
+    /*border-left: 1px dashed #cccccc;*/
+    padding: 1rem .5rem;
     width: 22%;
     vertical-align: top;
+}
+
+tr td.table-aside > .detailview_actionlinks {
+    margin-top: 3rem;
 }
 
 .actionLabel {

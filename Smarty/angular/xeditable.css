@@ -26,7 +26,8 @@ select:-moz-focusring {
 .editable-wrap .editable-controls>textarea {
     margin-bottom: 0;
     width: 100%;
-    resize: none;
+    resize: vertical;
+    min-height: 26px;
 }
 
 .editable-wrap .editable-input {

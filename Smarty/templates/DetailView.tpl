@@ -206,9 +206,9 @@
                                                         <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
                                                             <span class="uiOutputText">[ {$USE_ID_VALUE} ] {$NAME}</span>
                                                             <span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>&nbsp;&nbsp;&nbsp;
-                                                            {*<span id="vtbusy_info" style="display:none; text-transform: capitalize;" valign="bottom">*}
-                                                                {*<img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">*}
-                                                            {*</span>*}
+                                                            <span id="vtbusy_info" style="display:none; text-transform: capitalize;" valign="bottom">
+                                                                <img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">
+                                                            </span>
                                                         </h1>
                                                     </div>
                                                 </div>
@@ -289,6 +289,7 @@
                                                                     src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
                                                             </span>&nbsp;
                                                         {/if}
+                                                        {*
                                                         <span class="detailview_utils_toggleactions">
                                                             <img
                                                               align="absmiddle" title="{$APP.TOGGLE_ACTIONS}"
@@ -303,6 +304,7 @@
                                                                   window.dispatchEvent(new Event('resize'));
                                                               {/literal}">
                                                         </span>&nbsp;
+                                                        *}
                                                     </div> {*/forceActionsContainer*}
                                                 </div> {*/detailview_utils_thirdfiller*}
                                             </div> {*/primaryFieldRow*}
@@ -318,7 +320,7 @@
                                     <td>
                                         <table class="small {if $theme eq 'mltheme'}detailview_utils_table_top{/if}">
                                             <tr>
-                                                <td class="dvtTabCache">
+                                                <td class="dvtTabCache" align="right">
                                                     <div class="slds-tabs--default">
                                                         <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                             <li class="slds-tabs--default__item slds-active" role="presentation"
@@ -378,7 +380,7 @@
                                                                 <!-- Command Buttons -->
                                                                 <div class="slds-truncate">
                                                                     <table class="slds-table slds-no-row-hover slds-table-moz"
-                                                                           ng-controller="detailViewng">
+                                                                           ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 3rem;">
                                                                         <form action="index.php" method="post"
                                                                               name="DetailView" id="formDetailView">
                                                                             <input type="hidden" id="hdtxt_IsAdmin"
@@ -386,11 +388,11 @@
                                                                             {include file='DetailViewHidden.tpl'}
 
                                                                             {foreach key=header item=detail from=$BLOCKS name=BLOCKS}
-                                                                                <tr>
-                                                                                    <td class="detailViewContainer">
+                                                                                <tr class="blockStyleCss">
+                                                                                    <td class="detailViewContainer" valign="top">
                                                                                         <!-- Detailed View Code starts here-->
                                                                                         <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table-moz">
-                                                                                            <tr class="mapButton">
+                                                                                            <tr class="mapButton" style="display: none;">
                                                                                                 <td>
                                                                                                     <div class="slds-truncate">
                                                                                                     {if isset($MOD.LBL_ADDRESS_INFORMATION) && $header eq $MOD.LBL_ADDRESS_INFORMATION && ($MODULE eq 'Accounts' || $MODULE eq 'Contacts' || $MODULE eq 'Leads') }
@@ -437,10 +439,11 @@
                                                                                                     {strip}
                                                                                                         <td colspan=4 class="dvInnerHeader">
                                                                                                             <div class="slds-truncate">
-                                                                                                                <a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$IMAGE_PATH}');">
+                                                                                                                <a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$THEME}');">
                                                                                                                         {if isset($BLOCKINITIALSTATUS[$header]) && $BLOCKINITIALSTATUS[$header] eq 1}
                                                                                                                             <span class="exp_coll_block inactivate">
                                                                                                                         <img id="aid{$header|replace:' ':''}"
+                                                                                                                             {*src="themes/images/activate.gif"*}
                                                                                                                              src="{'activate.gif'|@vtiger_imageurl:$THEME}"
                                                                                                                              style="border: 0px solid #000000;"
                                                                                                                              alt="{'LBL_Hide'|@getTranslatedString:'Settings'}"
@@ -450,6 +453,7 @@
                                                                                                                             <span class="exp_coll_block activate">
                                                                                                                         <img id="aid{$header|replace:' ':''}"
                                                                                                                              src="{'inactivate.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                             {*src="src="themes/images/inactivate.gif"*}
                                                                                                                              style="border: 0px solid #000000;"
                                                                                                                              alt="{'LBL_Show'|@getTranslatedString:'Settings'}"
                                                                                                                              title="{'LBL_Show'|@getTranslatedString:'Settings'}"/>
@@ -467,11 +471,11 @@
                                                                                         {if $header neq 'Comments'}
 
                                                                                         {if (isset($BLOCKINITIALSTATUS[$header]) && $BLOCKINITIALSTATUS[$header] eq 1) || !empty($BLOCKS.$header.relatedlist)}
-                                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}">
+                                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}" style="display: block;">
                                                                                         {else}
-                                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}">
+                                                                                            <div class="slds-truncate" id="tbl{$header|replace:' ':''}" style="display: block;">
                                                                                         {/if}
-                                                                                        <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+                                                                                                <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
                                                                                                     <tbody>
                                                                                                     {if !empty($CUSTOMBLOCKS.$header.custom)}
                                                                                                         {include file=$CUSTOMBLOCKS.$header.tpl}
@@ -531,7 +535,529 @@
                                                                                                     </tbody>
                                                                                                 </table>
                                                                                             </div>
+                                                                                        {/if}
+                                                                                    </td>
+                                                                                    <td class="noprint action-block" style="{$DEFAULT_ACTION_PANEL_STATUS}"
+                                                                                             id="actioncolumn">
+                                                                                        <div class="flexipageComponent" style="background-color: #fff;">
+                                                                                            <!-- right side relevant info -->
+                                                                                            <!-- Action links for Event & Todo START-by Minnie -->
+                                                                                                {*<tr class="slds-text-title slds-text-title--caps">*}
+                                                                                                    {*<td class="genHeaderSmall actionLabel">*}
+                                                                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+                                                                                                     aria-describedby="header" style="margin: 0;">
+                                                                                                <div class="slds-card__header slds-grid">
+                                                                                                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                                                                        <div class="slds-media__body">
+                                                                                                            <h2 class="header-title-container" >
+                                                                                                                <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                                                                    <b>{$APP.LBL_ACTIONS}</b>
+                                                                                                                </span>
+                                                                                                            </h2>
+                                                                                                        </div>
+                                                                                                    </header>
+                                                                                                </div>
+                                                                                                <div class="slds-card__body slds-card__body--inner">
+                                                                                                    <div class="actionData">
+
+                                                                                                            {if $MODULE eq 'HelpDesk'}
+                                                                                                                {if $CONVERTASFAQ eq 'permitted'}
+                                                                                                                    {*<tr class="actionlink actionlink_converttofaq">*}
+                                                                                                                        {*<td align="left"*}
+                                                                                                                            {*style="padding-left:10px;">*}
+                                                                                                                            <a class="webMnu"
+                                                                                                                               href="index.php?return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}&module={$MODULE}&action=ConvertAsFAQ"><img
+                                                                                                                                        src="{'convert.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                        hspace="5"
+                                                                                                                                        align="absmiddle"
+                                                                                                                                        border="0"/></a>
+                                                                                                                            <a class="webMnu"
+                                                                                                                               href="index.php?return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}&module={$MODULE}&action=ConvertAsFAQ">{$MOD.LBL_CONVERT_AS_FAQ_BUTTON_LABEL}</a>
+
+                                                                                                                        {*</td>*}
+                                                                                                                    {*</tr>*}
+                                                                                                                {/if}
+
+
+                                                                                                            {elseif $TODO_PERMISSION eq 'true' || $EVENT_PERMISSION eq 'true' || $CONTACT_PERMISSION eq 'true'|| $MODULE eq 'Contacts' || $MODULE eq 'Leads' || ($MODULE eq 'Documents')}
+
+                                                                                                        {*<table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz detailview_actionlinks actionlinks_events_todo">*}
+
+                                                                                                                {if $MODULE eq 'Contacts'}
+                                                                                                                    {assign var=subst value="contact_id"}
+                                                                                                                    {assign var=acc value="&account_id=$accountid"}
+                                                                                                                {else}
+                                                                                                                    {assign var=subst value="parent_id"}
+                                                                                                                    {assign var=acc value=""}
+                                                                                                                {/if}
+
+                                                                                                                {if $MODULE eq 'Leads' || $MODULE eq 'Contacts' || $MODULE eq 'Accounts'}
+                                                                                                                    {if $SENDMAILBUTTON eq 'permitted'}
+                                                                                                                        {*<tr class="actionlink actionlink_sendemail">*}
+                                                                                                                            {*<td align="left"*}
+                                                                                                                                {*style="padding-left:10px;">*}
+                                                                                                                                {foreach key=index item=email from=$EMAILS}
+                                                                                                                                    <input type="hidden"
+                                                                                                                                           name="email_{$index}"
+                                                                                                                                           value="{$email}"/>
+                                                                                                                                {/foreach}
+                                                                                                                                <a href="javascript:void(0);"
+                                                                                                                                   class="webMnu"
+                                                                                                                                   onclick="{$JS}"><img
+                                                                                                                                            src="{'sendmail.png'|@vtiger_imageurl:$THEME}"
+                                                                                                                                            hspace="5"
+                                                                                                                                            align="absmiddle"
+                                                                                                                                            border="0"/></a>
+                                                                                                                                <a href="javascript:void(0);"
+                                                                                                                                   class="webMnu"
+                                                                                                                                   onclick="{$JS}">{$APP.LBL_SENDMAIL_BUTTON_LABEL}</a>
+                                                                                                                            {*</td>*}
+                                                                                                                        {*</tr>*}
+                                                                                                                    {/if}
+                                                                                                                {/if}
+
+                                                                                                                {if $MODULE eq 'Leads'}
+                                                                                                                    {if $CONVERTLEAD eq 'permitted'}
+                                                                                                                        {*<tr class="actionlink actionlink_convertlead">*}
+                                                                                                                            {*<td align="left"*}
+                                                                                                                                {*style="padding-left:10px;">*}
+                                                                                                                                <a href="javascript:void(0);"
+                                                                                                                                   class="webMnu"
+                                                                                                                                   onclick="callConvertLeadDiv('{$ID}');"><img
+                                                                                                                                            src="{'Leads.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                            hspace="5"
+                                                                                                                                            align="absmiddle"
+                                                                                                                                            border="0"/></a>
+                                                                                                                                <a href="javascript:void(0);"
+                                                                                                                                   class="webMnu"
+                                                                                                                                   onclick="callConvertLeadDiv('{$ID}');">{$APP.LBL_CONVERT_BUTTON_LABEL}</a>
+                                                                                                                            {*</td>*}
+                                                                                                                        {*</tr>*}
+                                                                                                                    {/if}
+                                                                                                                {/if}
+
+                                                                                                                <!-- Start: Actions for Documents Module -->
+                                                                                                                {if $MODULE eq 'Documents'}
+                                                                                                                    {*<tr class="actionlink actionlink_downloaddocument">*}
+                                                                                                                        {*<td align="left"*}
+                                                                                                                            {*style="padding-left:10px;">*}
+                                                                                                                            {if $DLD_TYPE eq 'I' && $FILE_STATUS eq '1' && $FILE_EXIST eq 'yes'}
+                                                                                                                                <br>
+                                                                                                                                <a href="index.php?module=uploads&action=downloadfile&fileid={$FILEID}&entityid={$NOTESID}"
+                                                                                                                                   onclick="javascript:dldCntIncrease({$NOTESID});"
+                                                                                                                                   class="webMnu"><img
+                                                                                                                                            src="{'fbDownload.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                            hspace="5"
+                                                                                                                                            align="absmiddle"
+                                                                                                                                            title="{$MOD.LNK_DOWNLOAD}"
+                                                                                                                                            border="0"/></a>
+                                                                                                                                <a href="index.php?module=uploads&action=downloadfile&fileid={$FILEID}&entityid={$NOTESID}"
+                                                                                                                                   onclick="javascript:dldCntIncrease({$NOTESID});">{$MOD.LBL_DOWNLOAD_FILE}</a>
+                                                                                                                            {elseif $DLD_TYPE eq 'E' && $FILE_STATUS eq '1'}
+                                                                                                                                <br>
+                                                                                                                                <a target="_blank"
+                                                                                                                                   href="{$DLD_PATH}"
+                                                                                                                                   onclick="javascript:dldCntIncrease({$NOTESID});"><img
+                                                                                                                                            src="{'fbDownload.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                            align="absmiddle"
+                                                                                                                                            title="{$MOD.LNK_DOWNLOAD}"
+                                                                                                                                            border="0"></a>
+                                                                                                                                <a target="_blank"
+                                                                                                                                   href="{$DLD_PATH}"
+                                                                                                                                   onclick="javascript:dldCntIncrease({$NOTESID});">{$MOD.LBL_DOWNLOAD_FILE}</a>
+                                                                                                                            {/if}
+                                                                                                                        {*</td>*}
+                                                                                                                    {*</tr>*}
+                                                                                                                    {if $CHECK_INTEGRITY_PERMISSION eq 'yes'}
+                                                                                                                        {*<tr class="actionlink actionlink_checkdocinteg">*}
+                                                                                                                            {*<td align="left"*}
+                                                                                                                                {*style="padding-left:10px;">*}
+                                                                                                                                <br><a href="javascript:;"
+                                                                                                                                       onClick="checkFileIntegrityDetailView({$NOTESID});"><img
+                                                                                                                                            id="CheckIntegrity_img_id"
+                                                                                                                                            src="{'yes.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                            alt="Check integrity of this file"
+                                                                                                                                            title="Check integrity of this file"
+                                                                                                                                            hspace="5"
+                                                                                                                                            align="absmiddle"
+                                                                                                                                            border="0"/></a>
+                                                                                                                                <a href="javascript:;"
+                                                                                                                                   onClick="checkFileIntegrityDetailView({$NOTESID});">{$MOD.LBL_CHECK_INTEGRITY}</a>&nbsp;
+                                                                                                                                <input type="hidden"
+                                                                                                                                       id="dldfilename"
+                                                                                                                                       name="dldfilename"
+                                                                                                                                       value="{$FILEID}-{$FILENAME}">
+                                                                                                                                <span id="vtbusy_integrity_info"
+                                                                                                                                      style="display:none;">
+                                                                                                                                    <img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                         border="0"></span>
+                                                                                                                                <span id="integrity_result"
+                                                                                                                                      style="display:none"></span>
+                                                                                                                            {*</td>*}
+                                                                                                                        {*</tr>*}
+                                                                                                                    {/if}
+                                                                                                                    {*<tr class="actionlink actionlink_emaildocument">*}
+                                                                                                                        {*<td align="left"*}
+                                                                                                                            style="padding-left:10px;">
+                                                                                                                            {if $DLD_TYPE eq 'I' &&  $FILE_STATUS eq '1' && $FILE_EXIST eq 'yes'}
+                                                                                                                                <input type="hidden"
+                                                                                                                                       id="dldfilename"
+                                                                                                                                       name="dldfilename"
+                                                                                                                                       value="{$FILEID}-{$FILENAME}">
+                                                                                                                                <br>
+                                                                                                                                <a href="javascript: document.DetailView.return_module.value='Documents'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='Documents'; document.DetailView.action.value='EmailFile'; document.DetailView.record.value={$NOTESID}; document.DetailView.return_id.value={$NOTESID}; sendfile_email();"
+                                                                                                                                   class="webMnu"><img
+                                                                                                                                            src="{'attachment.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                                            hspace="5"
+                                                                                                                                            align="absmiddle"
+                                                                                                                                            border="0"/></a>
+                                                                                                                                <a href="javascript: document.DetailView.return_module.value='Documents'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='Documents'; document.DetailView.action.value='EmailFile'; document.DetailView.record.value={$NOTESID}; document.DetailView.return_id.value={$NOTESID}; sendfile_email();">{$MOD.LBL_EMAIL_FILE}</a>
+                                                                                                                            {/if}
+                                                                                                                        {*</td>*}
+                                                                                                                    {*</tr>*}
+
+                                                                                                                {/if}
+                                                                                                            {/if}
+                                                                                                        {*</table>*}
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </article>
+                                                                                        </div>{*/.flexipageComponent*}
+                                                                                                    {*</td>*}
+                                                                                                {*</tr>*}
+
+
+                                                                                            {* vtlib customization: Avoid line break if custom links are present *}
+                                                                                            {if !isset($CUSTOM_LINKS) || empty($CUSTOM_LINKS)}
+                                                                                                <br>
                                                                                             {/if}
+
+                                                                                            {* vtlib customization: Custom links on the Detail view basic links *}
+                                                                                            {if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEWBASIC}
+                                                                                                {*<table width="100%" border="0" cellpadding="5" cellspacing="0">*}
+                                                                                                    {*<tr>*}
+                                                                                                        {*<td align="left" style="padding-left:-3px;">*}
+
+                                                                                                    {foreach item=ACTIONBLOCK key=key from=$CUSTOM_LINKS.ActionBlock}
+                                                                                                        {assign var="blockName" value=$ACTIONBLOCK}
+                                                                                                            {*<tr>*}
+                                                                                                                {*<td class="rightMailMergeHeader">*}
+                                                                                                        <div  class="flexipageComponent" style="background-color: #fff;">
+                                                                                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+                                                                                                                    aria-describedby="header">
+                                                                                                                    <div id="{$blockName}" class="slds-card__header slds-grid">
+                                                                                                                        <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                                                                                            <div class="slds-media__body">
+                                                                                                                                <h2 class="header-title-container">
+                                                                                                                                    <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                                                                                     <b>{$blockName}</b>
+                                                                                                                                   </span>
+                                                                                                                                </h2>
+                                                                                                                            </div>
+                                                                                                                        </header>
+                                                                                                                    </div>
+                                                                                                                {*</td>*}
+                                                                                                            {*</tr>*}
+                                                                                                        {*<table  border=0 cellspacing=0 cellpadding=0 width=100% class="rightMailMerge">*}
+                                                                                                            <div class="slds-card__body slds-card__body--inner">
+
+                                                                                                            {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
+                                                                                                                <div class="mailMergeData">
+                                                                                                                    {if $CUSTOMLINK->actions_block eq $blockName}
+                                                                                                                        {*<tr style="height:25px">*}
+                                                                                                                            {*<td align="left"*}
+                                                                                                                                {*style="padding-left:10px;"*}
+                                                                                                                                {*class="rightMailMergeContent">*}
+
+                                                                                                                                {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+                                                                                                                                {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+                                                                                                                                {if $customlink_label eq ''}
+                                                                                                                                    {assign var="customlink_label" value=$customlink_href}
+                                                                                                                                {else}
+                                                                                                                                    {* Pickup the translated label provided by the module *}
+                                                                                                                                    {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+                                                                                                                                {/if}
+                                                                                                                                {if $CUSTOMLINK->linkicon}
+                                                                                                                                    <a class="webMnu"
+                                                                                                                                       href="{$customlink_href}"><img
+                                                                                                                                        hspace=5
+                                                                                                                                        align="absmiddle"
+                                                                                                                                        width="18"
+                                                                                                                                        height="18"
+                                                                                                                                        border=0
+                                                                                                                                        src="{$CUSTOMLINK->linkicon}"></a>
+                                                                                                                                {/if}
+                                                                                                                                <a class="webMnu"
+                                                                                                                                   href="{$customlink_href}">{$CUSTOMLINK->linklabel}</a>
+                                                                                                                            {*</td>*}
+                                                                                                                        {*</tr>*}
+                                                                                                                    {/if}
+                                                                                                                </div>
+                                                                                                            {/foreach}
+                                                                                                            {*</table>*}
+                                                                                                            {*<br/>*}
+                                                                                                        </div>
+                                                                                                            </article>
+                                                                                                        </div>
+                                                                                                    {/foreach}
+                                                                                                <br>
+                                                                                            {*Provide Block for Actions with empty Block*}
+                                                                                            <div class="flexipageComponent" style="background-color: #fff;">
+                                                                                                <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+                                                                                                     aria-describedby="header">
+                                                                                                    <div class="slds-card__header slds-grid">
+                                                                                                        <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                                                                            <div class="slds-media__body">
+                                                                                                                <h2 class="header-title-container">
+                                                                                                                    <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                                                                        <b>{$APP.GENERAL}</b>
+
+                                                                                                                        {*<table  class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz rightMailMerge">*}
+                                                                                                                        {*<tr class="slds-text-title slds-text-align--left">*}
+                                                                                                                            {*<td class="rightMailMergeHeader">*}
+                                                                                                                                {*<b>{$APP.GENERAL}</b>*}
+                                                                                                                            {*</td>*}
+                                                                                                                        {*</tr>*}
+
+                                                                                                                        {*</table>*}
+
+                                                                                                                    </span>
+                                                                                                                </h2>
+                                                                                                            </div>
+                                                                                                        </header>
+                                                                                                    </div>
+                                                                                                    <div class="slds-card__body slds-card__body--inner">
+
+                                                                                                            {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
+                                                                                                            <div class="generalData">
+                                                                                                                {if $CUSTOMLINK->actions_block eq ''}
+                                                                                                                    {*<tr class="slds-line-height_reset">*}
+                                                                                                                    {*<th scope="col">*}
+
+                                                                                                                        {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+                                                                                                                        {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+                                                                                                                        {if $customlink_label eq ''}
+                                                                                                                            {assign var="customlink_label" value=$customlink_href}
+                                                                                                                        {else}
+                                                                                                                            {* Pickup the translated label provided by the module *}
+                                                                                                                            {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+                                                                                                                        {/if}
+                                                                                                                        {if $customlink_href eq ''}
+                                                                                                                            {assign var="customlink_href" value='javascript:runAction("$RECORD$","$RECORD$","$RECORD$")'}
+                                                                                                                        {/if}
+                                                                                                                        {if $CUSTOMLINK->linkicon}
+                                                                                                                            <a class="webMnu"
+                                                                                                                               href="{$customlink_href}"><img
+                                                                                                                                        hspace=5
+                                                                                                                                        align="absmiddle"
+                                                                                                                                        width="18"
+                                                                                                                                        height="18"
+                                                                                                                                        border=0
+                                                                                                                                        src="{$CUSTOMLINK->linkicon}"></a>
+                                                                                                                        {/if}
+                                                                                                                        <a class="webMnu"
+                                                                                                                           href="{$customlink_href}">{$CUSTOMLINK->linklabel|@getTranslatedString:$CUSTOMLINK->module()}</a>
+
+
+                                                                                                                    {*</th>*}
+                                                                                                                    {*</tr>*}
+                                                                                                                {/if}
+                                                                                                            </div>
+                                                                                                            {/foreach}
+
+
+                                                                                                    </div>
+                                                                                            </article>
+                                                                                            </div>
+                                                                                                {*</td>*}
+                                                                                                    {*</tr>*}
+                                                                                                {*</table>*}
+                                                                                            {/if}
+                                                                                            {* vtlib customization: Custom links on the Detail view *}
+                                                                                            {if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEW}
+                                                                                                <br>
+                                                                                                {if !empty($CUSTOM_LINKS.DETAILVIEW)}
+                                                                                                    <table width="100%" border="0" cellpadding="5"
+                                                                                                           cellspacing="0">
+                                                                                                        <tr>
+                                                                                                            <td align="left"
+                                                                                                                class="dvtUnSelectedCell dvtCellLabel">
+                                                                                                                <a href="javascript:;"
+                                                                                                                   onmouseover="fnvshobj(this,'vtlib_customLinksLay');"
+                                                                                                                   onclick="fnvshobj(this,'vtlib_customLinksLay');"><b>{$APP.LBL_MORE} {$APP.LBL_ACTIONS}
+                                                                                                                        &#187;</b></a>
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                    </table>
+                                                                                                    <br>
+                                                                                                    <div style="display: none; left: 193px; top: 106px;width:155px; position:absolute;"
+                                                                                                         id="vtlib_customLinksLay"
+                                                                                                         onmouseout="fninvsh('vtlib_customLinksLay')"
+                                                                                                         onmouseover="fnvshNrm('vtlib_customLinksLay')">
+                                                                                                        <table bgcolor="#ffffff" border="0" cellpadding="0"
+                                                                                                               cellspacing="0" width="100%">
+                                                                                                            <tr>
+                                                                                                                <td style="border-bottom: 1px solid rgb(204, 204, 204); padding: 5px;">
+                                                                                                                    <b>{$APP.LBL_MORE} {$APP.LBL_ACTIONS}
+                                                                                                                        &#187;</b></td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td>
+                                                                                                                    {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEW}
+                                                                                                                        {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+                                                                                                                        {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+                                                                                                                        {if $customlink_label eq ''}
+                                                                                                                            {assign var="customlink_label" value=$customlink_href}
+                                                                                                                        {else}
+                                                                                                                            {* Pickup the translated label provided by the module *}
+                                                                                                                            {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+                                                                                                                        {/if}
+                                                                                                                        <a href="{$customlink_href}"
+                                                                                                                           class="drop_down">{$customlink_label}</a>
+                                                                                                                    {/foreach}
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                        </table>
+                                                                                                    </div>
+                                                                                                {/if}
+                                                                                            {/if}
+                                                                                            {* END *}
+                                                                                            <!-- Action links END -->
+
+                                                                                            {if $TAG_CLOUD_DISPLAY eq 'true'}
+                                                                                                <!-- Tag cloud display -->
+                                                                                                <table border=0 cellspacing=0 cellpadding=0 width=100%
+                                                                                                       class="tagCloud">
+                                                                                                    <tr>
+                                                                                                        <td class="tagCloudTopBg"><img
+                                                                                                                    src="{$IMAGE_PATH}tagCloudName.gif"
+                                                                                                                    border=0></td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td>
+                                                                                                            <div id="tagdiv" style="display:visible;">
+                                                                                                                <form method="POST" action="javascript:void(0);"
+                                                                                                                      onsubmit="return tagvalidate();"><input
+                                                                                                                            class="textbox" type="text"
+                                                                                                                            id="txtbox_tagfields"
+                                                                                                                            name="textbox_First Name" value=""
+                                                                                                                            style="width:100px;margin-left:5px;"></input>&nbsp;&nbsp;<input
+                                                                                                                            name="button_tagfileds"
+                                                                                                                            type="submit"
+                                                                                                                            class="crmbutton small save"
+                                                                                                                            value="{$APP.LBL_TAG_IT}"/></form>
+                                                                                                            </div>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td class="tagCloudDisplay" valign=top><span
+                                                                                                                    id="tagfields"></span></td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                                <!-- End Tag cloud display -->
+                                                                                            {/if}
+                                                                                            <!-- Mail Merge-->
+                                                                                            <br>
+                                                                                            {if isset($MERGEBUTTON) && $MERGEBUTTON eq 'permitted'}
+
+
+                                                                                                <form action="index.php" method="post" name="TemplateMerge"
+                                                                                                      id="form">
+                                                                                                    <input type="hidden" name="module" value="{$MODULE}">
+                                                                                                    <input type="hidden" name="parenttab" value="{$CATEGORY}">
+                                                                                                    <input type="hidden" name="record" value="{$ID}">
+                                                                                                    <input type="hidden" name="action">
+                                                                                                    <div class="flexipageComponent" style="background-color: #fff;">
+                                                                                                    <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+                                                                                                             aria-describedby="header">
+                                                                                                        <div class="slds-card__header slds-grid">
+
+                                                                                                        <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                                                                        <div class="slds-media__body">
+                                                                                                            <h4 class="header-title-container">
+                                                                                                                    <span class="slds-text-heading--small slds-truncate actionLabel">
+
+                                                                                                    {*<table border=0 cellspacing=0 cellpadding=0 width=100%*}
+                                                                                                           {*class="rightMailMerge">*}
+                                                                                                        {*<tr>*}
+                                                                                                            {*<td class="rightMailMergeHeader">*}
+                                                                                                                <b>{$WORDTEMPLATEOPTIONS}</b>
+                                                                                                                {*</td>*}
+                                                                                                        {*</tr>*}
+
+                                                                                                                    </span>
+                                                                                                            </h4>
+                                                                                                        </div>
+                                                                                                    </header>
+                                                                                                </div>
+                                                                                                <div class="slds-card__body slds-card__body--inner">
+                                                                                                    <div class="rightMailMergeData">
+                                                                                                        {*<tr style="height:25px">*}
+                                                                                                            {*<td class="rightMailMergeContent">*}
+                                                                                                                {if $TEMPLATECOUNT neq 0}
+                                                                                                                    <select name="mergefile">{foreach key=templid item=tempflname from=$TOPTIONS}
+                                                                                                                            <option
+                                                                                                                            value="{$templid}">{$tempflname}</option>{/foreach}
+                                                                                                                    </select>
+                                                                                                                    <input class="crmbutton small create"
+                                                                                                                           value="{$APP.LBL_MERGE_BUTTON_LABEL}"
+                                                                                                                           onclick="this.form.action.value='Merge';"
+                                                                                                                           type="submit"></input>
+                                                                                                                {else}
+                                                                                                                    <a href=index.php?module=Settings&action=upload&tempModule={$MODULE}&parenttab=Settings>{$APP.LBL_CREATE_MERGE_TEMPLATE}</a>
+                                                                                                                {/if}
+                                                                                                            {*</td>*}
+                                                                                                        {*</tr>*}
+                                                                                                    {*</table>*}
+
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </article>
+                                                                                                    </div>
+                                                                                                </form>
+
+                                                                                                {/if}
+
+                                                                                            {if !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
+                                                                                                {foreach key=CUSTOMLINK_NO item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
+                                                                                                    {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+                                                                                                    {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+                                                                                                    {* Ignore block:// type custom links which are handled earlier *}
+                                                                                                    {if !preg_match("/^block:\/\/.*/", $customlink_href)}
+                                                                                                        {if $customlink_label eq ''}
+                                                                                                            {assign var="customlink_label" value=$customlink_href}
+                                                                                                        {else}
+                                                                                                            {* Pickup the translated label provided by the module *}
+                                                                                                            {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+                                                                                                        {/if}
+                                                                                                        <br/>
+                                                                                                        <table border=0 cellspacing=0 cellpadding=0 width=100%
+                                                                                                               class="rightMailMerge"
+                                                                                                               id="{$CUSTOMLINK->linklabel}">
+                                                                                                            <tr>
+                                                                                                                <td class="rightMailMergeHeader">
+                                                                                                                    <b>{$customlink_label}</b>
+                                                                                                                    <img id="detailview_block_{$CUSTOMLINK_NO}_indicator"
+                                                                                                                         style="display:none;"
+                                                                                                                         src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                         border="0" align="absmiddle"/>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <tr style="height:25px">
+                                                                                                                <td class="rightMailMergeContent">
+                                                                                                                    <div id="detailview_block_{$CUSTOMLINK_NO}"></div>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            <script type="text/javascript">
+                                                                                                                vtlib_loadDetailViewWidget("{$customlink_href}", "detailview_block_{$CUSTOMLINK_NO}", "detailview_block_{$CUSTOMLINK_NO}_indicator");
+                                                                                                            </script>
+                                                                                                        </table>
+                                                                                                    {/if}
+                                                                                                {/foreach}
+                                                                                            {/if}
+
+
+
                                                                                     </td>
                                                                                 </tr>
                                                                                 {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
@@ -564,410 +1090,16 @@
                                                                             {/if}
                                                                     </table>
                                                                 </div>
+
                                                             </td>
+                                                            {*<td class="noprint table-aside" >*}
+
+                                                            {*</td>*}
                                                         </tr>
                                                     </table>
 
                                                 </td>
-                                                <td class="noprint table-aside" style="{$DEFAULT_ACTION_PANEL_STATUS}"
-                                                    id="actioncolumn">
-                                                    <!-- right side relevant info -->
-                                                    <!-- Action links for Event & Todo START-by Minnie -->
-                                                    <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz detailview_actionlinks actionlinks_events_todo">
-                                                        <tr class="slds-text-title slds-text-title--caps">
-                                                            <td class="genHeaderSmall actionLabel">{$APP.LBL_ACTIONS}</td>
-                                                        </tr>
 
-                                                        {if $MODULE eq 'HelpDesk'}
-                                                            {if $CONVERTASFAQ eq 'permitted'}
-                                                                <tr class="actionlink actionlink_converttofaq">
-                                                                    <td align="left" style="padding-left:10px;">
-                                                                        <a class="webMnu"
-                                                                           href="index.php?return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}&module={$MODULE}&action=ConvertAsFAQ"><img
-                                                                                    src="{'convert.gif'|@vtiger_imageurl:$THEME}"
-                                                                                    hspace="5" align="absmiddle"
-                                                                                    border="0"/></a>
-                                                                        <a class="webMnu"
-                                                                           href="index.php?return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}&module={$MODULE}&action=ConvertAsFAQ">{$MOD.LBL_CONVERT_AS_FAQ_BUTTON_LABEL}</a>
-                                                                    </td>
-                                                                </tr>
-                                                            {/if}
-
-
-                                                        {elseif $TODO_PERMISSION eq 'true' || $EVENT_PERMISSION eq 'true' || $CONTACT_PERMISSION eq 'true'|| $MODULE eq 'Contacts' || $MODULE eq 'Leads' || ($MODULE eq 'Documents')}
-
-                                                            {if $MODULE eq 'Contacts'}
-                                                                {assign var=subst value="contact_id"}
-                                                                {assign var=acc value="&account_id=$accountid"}
-                                                            {else}
-                                                                {assign var=subst value="parent_id"}
-                                                                {assign var=acc value=""}
-                                                            {/if}
-
-                                                            {if $MODULE eq 'Leads' || $MODULE eq 'Contacts' || $MODULE eq 'Accounts'}
-                                                                {if $SENDMAILBUTTON eq 'permitted'}
-                                                                    <tr class="actionlink actionlink_sendemail">
-                                                                        <td align="left" style="padding-left:10px;">
-                                                                            {foreach key=index item=email from=$EMAILS}
-                                                                                <input type="hidden"
-                                                                                       name="email_{$index}"
-                                                                                       value="{$email}"/>
-                                                                            {/foreach}
-                                                                            <a href="javascript:void(0);" class="webMnu"
-                                                                               onclick="{$JS}"><img
-                                                                                        src="{'sendmail.png'|@vtiger_imageurl:$THEME}"
-                                                                                        hspace="5" align="absmiddle"
-                                                                                        border="0"/></a>
-                                                                            <a href="javascript:void(0);" class="webMnu"
-                                                                               onclick="{$JS}">{$APP.LBL_SENDMAIL_BUTTON_LABEL}</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                {/if}
-                                                            {/if}
-
-                                                            {if $MODULE eq 'Leads'}
-                                                                {if $CONVERTLEAD eq 'permitted'}
-                                                                    <tr class="actionlink actionlink_convertlead">
-                                                                        <td align="left" style="padding-left:10px;">
-                                                                            <a href="javascript:void(0);" class="webMnu"
-                                                                               onclick="callConvertLeadDiv('{$ID}');"><img
-                                                                                        src="{'Leads.gif'|@vtiger_imageurl:$THEME}"
-                                                                                        hspace="5" align="absmiddle"
-                                                                                        border="0"/></a>
-                                                                            <a href="javascript:void(0);" class="webMnu"
-                                                                               onclick="callConvertLeadDiv('{$ID}');">{$APP.LBL_CONVERT_BUTTON_LABEL}</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                {/if}
-                                                            {/if}
-
-                                                            <!-- Start: Actions for Documents Module -->
-                                                            {if $MODULE eq 'Documents'}
-                                                                <tr class="actionlink actionlink_downloaddocument">
-                                                                    <td align="left" style="padding-left:10px;">
-                                                                        {if $DLD_TYPE eq 'I' && $FILE_STATUS eq '1' && $FILE_EXIST eq 'yes'}
-                                                                            <br>
-                                                                            <a href="index.php?module=uploads&action=downloadfile&fileid={$FILEID}&entityid={$NOTESID}"
-                                                                               onclick="javascript:dldCntIncrease({$NOTESID});"
-                                                                               class="webMnu"><img
-                                                                                        src="{'fbDownload.gif'|@vtiger_imageurl:$THEME}"
-                                                                                        hspace="5" align="absmiddle"
-                                                                                        title="{$MOD.LNK_DOWNLOAD}"
-                                                                                        border="0"/></a>
-                                                                            <a href="index.php?module=uploads&action=downloadfile&fileid={$FILEID}&entityid={$NOTESID}"
-                                                                               onclick="javascript:dldCntIncrease({$NOTESID});">{$MOD.LBL_DOWNLOAD_FILE}</a>
-                                                                        {elseif $DLD_TYPE eq 'E' && $FILE_STATUS eq '1'}
-                                                                            <br>
-                                                                            <a target="_blank" href="{$DLD_PATH}"
-                                                                               onclick="javascript:dldCntIncrease({$NOTESID});"><img
-                                                                                        src="{'fbDownload.gif'|@vtiger_imageurl:$THEME}"
-                                                                                align="absmiddle"
-                                                                                title="{$MOD.LNK_DOWNLOAD}" border="0"></a>
-                                                                            <a target="_blank" href="{$DLD_PATH}"
-                                                                               onclick="javascript:dldCntIncrease({$NOTESID});">{$MOD.LBL_DOWNLOAD_FILE}</a>
-                                                                        {/if}
-                                                                    </td>
-                                                                </tr>
-                                                                {if $CHECK_INTEGRITY_PERMISSION eq 'yes'}
-                                                                    <tr class="actionlink actionlink_checkdocinteg">
-                                                                        <td align="left" style="padding-left:10px;">
-                                                                            <br><a href="javascript:;"
-                                                                                   onClick="checkFileIntegrityDetailView({$NOTESID});"><img
-                                                                                        id="CheckIntegrity_img_id"
-                                                                                        src="{'yes.gif'|@vtiger_imageurl:$THEME}"
-                                                                                        alt="Check integrity of this file"
-                                                                                        title="Check integrity of this file"
-                                                                                        hspace="5" align="absmiddle"
-                                                                                        border="0"/></a>
-                                                                            <a href="javascript:;"
-                                                                               onClick="checkFileIntegrityDetailView({$NOTESID});">{$MOD.LBL_CHECK_INTEGRITY}</a>&nbsp;
-                                                                            <input type="hidden" id="dldfilename"
-                                                                                   name="dldfilename"
-                                                                                   value="{$FILEID}-{$FILENAME}">
-                                                                            <span id="vtbusy_integrity_info"
-                                                                                  style="display:none;">
-																			<img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}"
-                                                                                 border="0"></span>
-                                                                            <span id="integrity_result"
-                                                                                  style="display:none"></span>
-                                                                        </td>
-                                                                    </tr>
-                                                                {/if}
-                                                                <tr class="actionlink actionlink_emaildocument">
-                                                                    <td align="left" style="padding-left:10px;">
-                                                                        {if $DLD_TYPE eq 'I' &&  $FILE_STATUS eq '1' && $FILE_EXIST eq 'yes'}
-                                                                            <input type="hidden" id="dldfilename"
-                                                                                   name="dldfilename"
-                                                                                   value="{$FILEID}-{$FILENAME}">
-                                                                            <br>
-                                                                            <a href="javascript: document.DetailView.return_module.value='Documents'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='Documents'; document.DetailView.action.value='EmailFile'; document.DetailView.record.value={$NOTESID}; document.DetailView.return_id.value={$NOTESID}; sendfile_email();"
-                                                                               class="webMnu"><img
-                                                                                        src="{'attachment.gif'|@vtiger_imageurl:$THEME}"
-                                                                                        hspace="5" align="absmiddle"
-                                                                                        border="0"/></a>
-                                                                            <a href="javascript: document.DetailView.return_module.value='Documents'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='Documents'; document.DetailView.action.value='EmailFile'; document.DetailView.record.value={$NOTESID}; document.DetailView.return_id.value={$NOTESID}; sendfile_email();">{$MOD.LBL_EMAIL_FILE}</a>
-                                                                        {/if}
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>&nbsp;</td>
-                                                                </tr>
-                                                            {/if}
-                                                        {/if}
-                                                    </table>
-                                                    {* vtlib customization: Avoid line break if custom links are present *}
-                                                    {if !isset($CUSTOM_LINKS) || empty($CUSTOM_LINKS)}
-                                                        <br>
-                                                    {/if}
-
-                                                    {* vtlib customization: Custom links on the Detail view basic links *}
-                                                    {if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEWBASIC}
-                                                        <table width="100%" border="0" cellpadding="5" cellspacing="0">
-                                                            <tr>
-                                                                <td align="left" style="padding-left:-3px;">
-
-                                                                    {foreach item=ACTIONBLOCK key=key from=$CUSTOM_LINKS.ActionBlock}
-                                                                        {assign var="blockName" value=$ACTIONBLOCK}
-                                                                        <table id="{$blockName}" border=0 cellspacing=0
-                                                                               cellpadding=0 width=100%
-                                                                               class="rightMailMerge">
-                                                                            <tr>
-                                                                                <td class="rightMailMergeHeader">
-                                                                                    <b>{$blockName}</b></td>
-                                                                            </tr>
-                                                                            {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
-                                                                                {if $CUSTOMLINK->actions_block eq $blockName}
-                                                                                    <tr style="height:25px">
-                                                                                        <td align="left"
-                                                                                            style="padding-left:10px;"
-                                                                                            class="rightMailMergeContent">
-                                                                                            {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
-                                                                                            {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
-                                                                                            {if $customlink_label eq ''}
-                                                                                                {assign var="customlink_label" value=$customlink_href}
-                                                                                            {else}
-                                                                                                {* Pickup the translated label provided by the module *}
-                                                                                                {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
-                                                                                            {/if}
-                                                                                            {if $CUSTOMLINK->linkicon}
-                                                                                                <a class="webMnu"
-                                                                                                   href="{$customlink_href}"><img
-                                                                                                            hspace=5
-                                                                                                            align="absmiddle"
-                                                                                                            width="18"
-                                                                                                            height="18"
-                                                                                                            border=0
-                                                                                                            src="{$CUSTOMLINK->linkicon}"></a>
-                                                                                            {/if}
-                                                                                            <a class="webMnu"
-                                                                                               href="{$customlink_href}">{$CUSTOMLINK->linklabel}</a>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                {/if}
-                                                                            {/foreach}
-                                                                        </table>
-                                                                        <br/>
-                                                                    {/foreach}
-                                                                    {*Provide Block for Actions with empty Block*}
-                                                                    <table id="General" class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz rightMailMerge">
-                                                                        <tr class="slds-text-title slds-text-align--left">
-                                                                            <td class="rightMailMergeHeader">
-                                                                                <b>{$APP.GENERAL}</b></td>
-                                                                        </tr>
-                                                                        {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
-                                                                            {if $CUSTOMLINK->actions_block eq ''}
-                                                                                <tr class="slds-line-height_reset">
-                                                                                    <th scope="col">
-                                                                                        <div>
-                                                                                            {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
-                                                                                            {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
-                                                                                            {if $customlink_label eq ''}
-                                                                                                {assign var="customlink_label" value=$customlink_href}
-                                                                                            {else}
-                                                                                                {* Pickup the translated label provided by the module *}
-                                                                                                {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
-                                                                                            {/if}
-                                                                                            {if $customlink_href eq ''}
-                                                                                                {assign var="customlink_href" value='javascript:runAction("$RECORD$","$RECORD$","$RECORD$")'}
-                                                                                            {/if}
-                                                                                            {if $CUSTOMLINK->linkicon}
-                                                                                                <a class="webMnu"
-                                                                                                   href="{$customlink_href}"><img
-                                                                                                            hspace=5
-                                                                                                            align="absmiddle"
-                                                                                                            width="18"
-                                                                                                            height="18"
-                                                                                                            border=0
-                                                                                                            src="{$CUSTOMLINK->linkicon}"></a>
-                                                                                            {/if}
-                                                                                            <a class="webMnu"
-                                                                                               href="{$customlink_href}">{$CUSTOMLINK->linklabel|@getTranslatedString:$CUSTOMLINK->module()}</a>
-                                                                                        </div>
-                                                                                    </th>
-                                                                                </tr>
-                                                                            {/if}
-                                                                        {/foreach}
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
-                                                    {/if}
-                                                    {* vtlib customization: Custom links on the Detail view *}
-                                                    {if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEW}
-                                                        <br>
-                                                        {if !empty($CUSTOM_LINKS.DETAILVIEW)}
-                                                            <table width="100%" border="0" cellpadding="5"
-                                                                   cellspacing="0">
-                                                                <tr>
-                                                                    <td align="left"
-                                                                        class="dvtUnSelectedCell dvtCellLabel">
-                                                                        <a href="javascript:;"
-                                                                           onmouseover="fnvshobj(this,'vtlib_customLinksLay');"
-                                                                           onclick="fnvshobj(this,'vtlib_customLinksLay');"><b>{$APP.LBL_MORE} {$APP.LBL_ACTIONS}
-                                                                                &#187;</b></a>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                            <br>
-                                                            <div style="display: none; left: 193px; top: 106px;width:155px; position:absolute;"
-                                                                 id="vtlib_customLinksLay"
-                                                                 onmouseout="fninvsh('vtlib_customLinksLay')"
-                                                                 onmouseover="fnvshNrm('vtlib_customLinksLay')">
-                                                                <table bgcolor="#ffffff" border="0" cellpadding="0"
-                                                                       cellspacing="0" width="100%">
-                                                                    <tr>
-                                                                        <td style="border-bottom: 1px solid rgb(204, 204, 204); padding: 5px;">
-                                                                            <b>{$APP.LBL_MORE} {$APP.LBL_ACTIONS}
-                                                                                &#187;</b></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>
-                                                                            {foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEW}
-                                                                                {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
-                                                                                {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
-                                                                                {if $customlink_label eq ''}
-                                                                                    {assign var="customlink_label" value=$customlink_href}
-                                                                                {else}
-                                                                                    {* Pickup the translated label provided by the module *}
-                                                                                    {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
-                                                                                {/if}
-                                                                                <a href="{$customlink_href}"
-                                                                                   class="drop_down">{$customlink_label}</a>
-                                                                            {/foreach}
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                        {/if}
-                                                    {/if}
-                                                    {* END *}
-                                                    <!-- Action links END -->
-
-                                                    {if $TAG_CLOUD_DISPLAY eq 'true'}
-                                                        <!-- Tag cloud display -->
-                                                        <table border=0 cellspacing=0 cellpadding=0 width=100%
-                                                               class="tagCloud">
-                                                            <tr>
-                                                                <td class="tagCloudTopBg"><img
-                                                                            src="{$IMAGE_PATH}tagCloudName.gif"
-                                                                            border=0></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <div id="tagdiv" style="display:visible;">
-                                                                        <form method="POST" action="javascript:void(0);"
-                                                                              onsubmit="return tagvalidate();"><input
-                                                                                    class="textbox" type="text"
-                                                                                    id="txtbox_tagfields"
-                                                                                    name="textbox_First Name" value=""
-                                                                                    style="width:100px;margin-left:5px;"></input>&nbsp;&nbsp;<input
-                                                                                    name="button_tagfileds"
-                                                                                    type="submit"
-                                                                                    class="crmbutton small save"
-                                                                                    value="{$APP.LBL_TAG_IT}"/></form>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="tagCloudDisplay" valign=top><span
-                                                                            id="tagfields"></span></td>
-                                                            </tr>
-                                                        </table>
-                                                        <!-- End Tag cloud display -->
-                                                    {/if}
-                                                    <!-- Mail Merge-->
-                                                    <br>
-                                                    {if isset($MERGEBUTTON) && $MERGEBUTTON eq 'permitted'}
-                                                        <form action="index.php" method="post" name="TemplateMerge"
-                                                              id="form">
-                                                            <input type="hidden" name="module" value="{$MODULE}">
-                                                            <input type="hidden" name="parenttab" value="{$CATEGORY}">
-                                                            <input type="hidden" name="record" value="{$ID}">
-                                                            <input type="hidden" name="action">
-                                                            <table border=0 cellspacing=0 cellpadding=0 width=100%
-                                                                   class="rightMailMerge">
-                                                                <tr>
-                                                                    <td class="rightMailMergeHeader">
-                                                                        <b>{$WORDTEMPLATEOPTIONS}</b></td>
-                                                                </tr>
-                                                                <tr style="height:25px">
-                                                                    <td class="rightMailMergeContent">
-                                                                        {if $TEMPLATECOUNT neq 0}
-                                                                            <select name="mergefile">{foreach key=templid item=tempflname from=$TOPTIONS}
-                                                                                    <option
-                                                                                    value="{$templid}">{$tempflname}</option>{/foreach}
-                                                                            </select>
-                                                                            <input class="crmbutton small create"
-                                                                                   value="{$APP.LBL_MERGE_BUTTON_LABEL}"
-                                                                                   onclick="this.form.action.value='Merge';"
-                                                                                   type="submit"></input>
-                                                                        {else}
-                                                                            <a href=index.php?module=Settings&action=upload&tempModule={$MODULE}&parenttab=Settings>{$APP.LBL_CREATE_MERGE_TEMPLATE}</a>
-                                                                        {/if}
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </form>
-                                                    {/if}
-
-                                                    {if !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
-                                                        {foreach key=CUSTOMLINK_NO item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
-                                                            {assign var="customlink_href" value=$CUSTOMLINK->linkurl}
-                                                            {assign var="customlink_label" value=$CUSTOMLINK->linklabel}
-                                                            {* Ignore block:// type custom links which are handled earlier *}
-                                                            {if !preg_match("/^block:\/\/.*/", $customlink_href)}
-                                                                {if $customlink_label eq ''}
-                                                                    {assign var="customlink_label" value=$customlink_href}
-                                                                {else}
-                                                                    {* Pickup the translated label provided by the module *}
-                                                                    {assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
-                                                                {/if}
-                                                                <br/>
-                                                                <table border=0 cellspacing=0 cellpadding=0 width=100%
-                                                                       class="rightMailMerge"
-                                                                       id="{$CUSTOMLINK->linklabel}">
-                                                                    <tr>
-                                                                        <td class="rightMailMergeHeader">
-                                                                            <b>{$customlink_label}</b>
-                                                                            <img id="detailview_block_{$CUSTOMLINK_NO}_indicator"
-                                                                                 style="display:none;"
-                                                                                 src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}"
-                                                                                 border="0" align="absmiddle"/>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr style="height:25px">
-                                                                        <td class="rightMailMergeContent">
-                                                                            <div id="detailview_block_{$CUSTOMLINK_NO}"></div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <script type="text/javascript">
-                                                                        vtlib_loadDetailViewWidget("{$customlink_href}", "detailview_block_{$CUSTOMLINK_NO}", "detailview_block_{$CUSTOMLINK_NO}_indicator");
-                                                                    </script>
-                                                                </table>
-                                                            {/if}
-                                                        {/foreach}
-                                                    {/if}
-                                                </td>
                                             </tr>
                                         </table>
                                         <!-- PUBLIC CONTENTS STOPS-->
@@ -1017,69 +1149,92 @@
                                                         </ul>
                                                     </div>
                                                 </td>
-                                                {include file='RelatedListNg.tpl' SOURCE='DV'}
+                                                {*{include file='RelatedListNg.tpl' SOURCE='DV'}*}
                                                                                                                                                                                             
-                                                <td class="dvtTabCacheBottom" align="right" style="width:100%">
-                                                    &nbsp;
-                                                    {if $EDIT_PERMISSION eq 'yes' }
-                                                        <input title="{$APP.LBL_EDIT_BUTTON_TITLE}"
-                                                               accessKey="{$APP.LBL_EDIT_BUTTON_KEY}"
-                                                               class="slds-button slds-button--small slds-button_success assideBtn"
-                                                               onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}';submitFormForAction('DetailView','EditView');"
-                                                               type="submit" name="Edit"
-                                                               value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;">
-                                                        &nbsp;
-                                                    {/if}
-                                                    {if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
-                                                        <input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}"
-                                                               accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}"
-                                                               class="slds-button slds-button--small slds-button--brand assideBtn"
-                                                               onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');"
-                                                               type="submit" name="Duplicate"
-                                                               value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}">
-                                                        &nbsp;
-                                                    {/if}
-                                                    {if $DELETE eq 'permitted'}
-                                                        <input title="{$APP.LBL_DELETE_BUTTON_TITLE}"
-                                                               accessKey="{$APP.LBL_DELETE_BUTTON_KEY}"
-                                                               class="slds-button slds-button--small slds-button--destructive assideBtn"
-                                                               onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='index'; {if $MODULE eq 'Accounts'} var confirmMsg = '{$APP.NTC_ACCOUNT_DELETE_CONFIRMATION}' {else} var confirmMsg = '{$APP.NTC_DELETE_CONFIRMATION}' {/if}; submitFormForActionWithConfirmation('DetailView', 'Delete', confirmMsg);"
-                                                               type="button" name="Delete"
-                                                               value="{$APP.LBL_DELETE_BUTTON_LABEL}">
-                                                        &nbsp;
-                                                    {/if}
+                                                <td class="dvtTabCacheBottom">
 
-                                                    {if $privrecord neq ''}
-                                                        <img align="absmiddle" title="{$APP.LNK_LIST_PREVIOUS}"
-                                                             accessKey="{$APP.LNK_LIST_PREVIOUS}"
-                                                             onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}'"
-                                                             name="privrecord" value="{$APP.LNK_LIST_PREVIOUS}"
-                                                             src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}">
-                                                        &nbsp;
-                                                    {else}
-                                                        <img align="absmiddle" title="{$APP.LNK_LIST_PREVIOUS}"
-                                                             src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
-                                                    {/if}
-                                                    {if $privrecord neq '' || $nextrecord neq ''}
-                                                        <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
-                                                             accessKey="{$APP.LBL_JUMP_BTN}"
-                                                             onclick="var obj = this;var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');"
-                                                             name="jumpBtnIdBottom" id="jumpBtnIdBottom"
-                                                             src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}">
-                                                        &nbsp;
-                                                    {/if}
-                                                    {if $nextrecord neq ''}
-                                                        <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
-                                                             accessKey="{$APP.LNK_LIST_NEXT}"
-                                                             onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}'"
-                                                             name="nextrecord"
-                                                             src="{'rec_next.gif'|@vtiger_imageurl:$THEME}">
-                                                        &nbsp;
-                                                    {else}
-                                                        <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
-                                                             src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}">
-                                                        &nbsp;
-                                                    {/if}
+                                                    <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer pull-right"
+                                                         id="detailview_utils_thirdfiller">
+                                                        <div class="slds-grid forceActionsContainer">
+                                                            {if $EDIT_PERMISSION eq 'yes'}
+                                                                <input class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
+                                                                        {*class="slds-button slds-button--small slds-button_success assideBtn"*}
+                                                                       aria-live="assertive" type="button" name="Edit"
+                                                                       title="{$APP.LBL_EDIT_BUTTON_TITLE}"
+                                                                       accessKey="{$APP.LBL_EDIT_BUTTON_KEY}"
+                                                                       onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.return_id.value='{$ID}';DetailView.module.value='{$MODULE}';submitFormForAction('DetailView','EditView');"
+                                                                       value="&nbsp;{$APP.LBL_EDIT_BUTTON_LABEL}&nbsp;"/>&nbsp;
+                                                            {/if}
+                                                            {if ((isset($CREATE_PERMISSION) && $CREATE_PERMISSION eq 'permitted') || (isset($EDIT_PERMISSION) && $EDIT_PERMISSION eq 'yes')) && $MODULE neq 'Documents'}
+                                                                <input title="{$APP.LBL_DUPLICATE_BUTTON_TITLE}"
+                                                                       accessKey="{$APP.LBL_DUPLICATE_BUTTON_KEY}"
+                                                                        {*class="slds-button slds-button--small slds-button--brand assideBtn"*}
+                                                                       class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
+                                                                       onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='DetailView'; DetailView.isDuplicate.value='true';DetailView.module.value='{$MODULE}'; submitFormForAction('DetailView','EditView');"
+                                                                       type="button" name="Duplicate"
+                                                                       value="{$APP.LBL_DUPLICATE_BUTTON_LABEL}"/>&nbsp;
+                                                            {/if}
+                                                            {if $DELETE eq 'permitted'}
+                                                                <input title="{$APP.LBL_DELETE_BUTTON_TITLE}"
+                                                                       accessKey="{$APP.LBL_DELETE_BUTTON_KEY}"
+                                                                        {*class="slds-button slds-button--small slds-button--destructive assideBtn"*}
+                                                                       class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
+                                                                       onclick="DetailView.return_module.value='{$MODULE}'; DetailView.return_action.value='index'; {if $MODULE eq 'Accounts'} var confirmMsg = '{$APP.NTC_ACCOUNT_DELETE_CONFIRMATION}' {else} var confirmMsg = '{$APP.NTC_DELETE_CONFIRMATION}' {/if}; submitFormForActionWithConfirmation('DetailView', 'Delete', confirmMsg);"
+                                                                       type="button" name="Delete"
+                                                                       value="{$APP.LBL_DELETE_BUTTON_LABEL}"/>&nbsp;
+                                                            {/if}
+                                                            {if $privrecord neq ''}
+                                                                <span class="detailview_utils_prev"
+                                                                      onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'"
+                                                                      title="{$APP.LNK_LIST_PREVIOUS}">
+                                                                    <img align="absmiddle"
+                                                                         accessKey="{$APP.LNK_LIST_PREVIOUS}"
+                                                                         name="privrecord"
+                                                                         value="{$APP.LNK_LIST_PREVIOUS}"
+                                                                         src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}"
+                                                                         style="padding-top: 6px;"/>
+                                                            </span>&nbsp;
+                                                            {else}
+                                                                <span class="detailview_utils_prev"
+                                                                      title="{$APP.LNK_LIST_PREVIOUS}">
+                                                                    <img align="absmiddle" width="23"
+                                                                         style="padding-top: 6px;"
+                                                                         src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
+                                                            </span>&nbsp;
+                                                            {/if}
+                                                            {if $privrecord neq '' || $nextrecord neq ''}
+                                                                <span class="detailview_utils_jumpto" id="jumpBtnIdTop"
+                                                                      onclick="
+                                                                              var obj = this;
+                                                                              var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');"
+                                                                      title="{$APP.LBL_JUMP_BTN}">
+                                                                <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
+                                                                     accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
+                                                                     src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
+                                                                     id="jumpBtnIdTop"/>
+                                                            </span>&nbsp;
+                                                            {/if}
+                                                            {if $nextrecord neq ''}
+                                                                <span class="detailview_utils_next"
+                                                                      onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'"
+                                                                      title="{$APP.LNK_LIST_NEXT}">
+                                                                <img align="absmiddle"
+                                                                     accessKey="{$APP.LNK_LIST_NEXT}"
+                                                                     name="nextrecord"
+                                                                     src="{'rec_next.gif'|@vtiger_imageurl:$THEME}"
+                                                                     style="padding-top: 6px;">
+                                                            </span>&nbsp;
+                                                            {else}
+                                                                <span class="detailview_utils_next" title="{$APP.LNK_LIST_NEXT}">
+                                                                <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
+                                                                     width="23" style="padding-top: 6px;"
+                                                                     src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
+                                                            </span>&nbsp;
+                                                            {/if}
+
+                                                        </div> {*/forceActionsContainer*}
+                                                    </div> {*/detailview_utils_thirdfiller*}
+
                                                 </td>
                                             </tr>
                                         </table>
@@ -1112,7 +1267,7 @@
                             </script>
                     {*</td>*}
 
-                    <td align=right valign=top><img src="{'showPanelTopRight.gif'|@vtiger_imageurl:$THEME}"></td>
+                    {*<td align=right valign=top><img src="{'showPanelTopRight.gif'|@vtiger_imageurl:$THEME}"></td>*}
                 </tr>
             </table>
 
