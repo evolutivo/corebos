@@ -626,6 +626,64 @@ jQuery(document).ready(function() {
            ]
 
     });
+    
+var  dataSourceIndexes = new kendo.data.DataSource({
+        transport: {
+            read:  {
+                    url: 'index.php?module=BiServer&action=BiServerAjax&file=deleteIndexes&kaction=read',                                          
+                    dataType: "json"
+                    },
+            destroy:  {
+                    url: 'index.php?module=BiServer&action=BiServerAjax&file=deleteIndexes&kaction=delete',                                          
+                    type: "POST",
+                    complete: function(e) {  
+                     jQuery("#deleteindex").data("kendoGrid").dataSource.read();
+                     }
+                 },
+             parameterMap: function(options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return {models: kendo.stringify(options.models)};
+                             }
+                           }
+                },  
+        batch:true,
+        pageSize: 15,                      
+    
+        schema: {
+        model: {
+        id:"id",
+        fields:{
+        actionname: {type: "string",editable: false, },
+        filelist: { type: "string"},
+        }
+        }
+        }      
+        });
+        
+        jQuery("#deleteindex").kendoGrid({
+        dataSource: dataSourceIndexes,
+        pageable: true,
+        groupable: false,
+        height: 350,
+        filterable: false,
+        sortable: true,
+        toolbar: kendo.template(jQuery("#templaterefresh").html()),
+        resizable: true,
+        columns: [
+            {field: "actionname", title: "Index Name"},
+            { command: {
+                                    name: "destroy",
+                                    text: "Delete"
+                              },
+                          }
+           ],
+      editable: {
+                 mode:"popup",
+                 confirmation: "{/literal}{$MOD.are_sure}{literal}",
+                 width: '800px'
+                 }
+
+    });
     jQuery("#mvsource").kendoDropDownList();
     jQuery("#clientreport2").kendoDropDownList();
     jQuery("#mapsql").kendoDropDownList();
@@ -641,7 +699,7 @@ jQuery(document).ready(function() {
             runNewAction(id,parameters , 'Alert') 
             kendo.ui.progress(jQuery("#actions"), false);
         }
-        
+               
        function execute_script() {
            event.preventDefault();
            var grid = jQuery("#scripts").data("kendoGrid");
@@ -862,6 +920,9 @@ jQuery(document).ready(function() {
                         </li>
                         <li>
                           {$MOD.CREATELOGGINGINDEX}
+                        </li>
+                         <li>
+                          {$MOD.DELETEINDEX}
                         </li>
                     </ul>                        
                             <div class="weather" >
@@ -1092,6 +1153,22 @@ jQuery(document).ready(function() {
                     
                             </div> <br/><br/>                 
                             </div>
+                                              
+                          {* Delete Index *}        
+                            <div class="weather" >
+                            <br/><br/>
+                            <div id="bi_server_deleteindex">
+                                    <table border="0" width="60%">                                     
+                                    <tr>
+                                        <td >
+                                            <br/><br/>
+                                            <div id="deleteindex" style="display:table-cell; width:50%;padding:20px;" > </div>
+                                        </td>
+                                    </tr>
+                                    </table>
+                    
+                            </div> <br/><br/>                 
+                            </div>{* Delete Index  ends*}                   
             </div>  {* tab div *}
             
             
