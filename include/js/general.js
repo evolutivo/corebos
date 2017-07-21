@@ -4801,6 +4801,12 @@ function runJSONAction(actionid, parameters, outputType) {
                     } else if (outputType == 'Link') {
                         window.location.href = result;
                     }
+                    else if(outputType=='AlertReload'){
+                    var result2="modules/Spreadsheets/newsp.php?id="+result;
+                    var win=window.open(result2, '_blank');
+                    win.focus();
+                    location.reload();
+                    }
                     else if (outputType == 'Refresh')
                         location.reload();
                     else if (outputType == '') {
