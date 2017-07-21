@@ -14,7 +14,7 @@ $ethidis=$adb->query_result($checkethercalcid,0,0);
 if($ethidis!='' && !is_null($ethidis)){
 	
 	$exp1=explode("/",$ethidis);
-	$exp2=explode("?",$exp1[7]);
+	$exp2=explode("?",$exp1[6]);
 	$exp3=explode("=",$exp2[1]);
 	echo $exp3[1];
 }
