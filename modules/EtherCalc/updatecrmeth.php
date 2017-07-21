@@ -126,10 +126,7 @@ $ecthis=substr($ethercalcendpoint,7,-1).substr($response,1);
 $newtouse=$site_URL."/modules/Spreadsheets/newsp.php?id=".substr($response,1);
 $adb->query("update ethercalc set name='$newresp',createdtime=NOW() where id=$opspread");
 //echo "update vtiger_spreadsheets set ethercalcid='$newtouse' where spreadsheetsid=$spid";
-$newuse=array();
-$newuse['ethlink']=$ecthis;
-$newuse['ethurl']=$newtouse;
-echo json_encode($newuse);
+echo $ecthis;
 $adb->query("update vtiger_spreadsheets set ethercalcid='$newtouse' where spreadsheetsid=$spid");
 }
 

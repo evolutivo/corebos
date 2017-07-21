@@ -54,10 +54,10 @@ $scope.toggleSelection = function(item){
     $scope.frameName1="notEmpty";
     $http.get('modules/EtherCalc/specificspreadsheet.php?id='+item.id).success(function(data,status){
               console.log("ketuketu");
-              //alert("ketuketu");
-              //alert(data);
-              $scope.frameUrl=data;
+              console.log(data);
+              $scope.frameUrl=data.spspreadsheet;
               $scope.ethid=item.id;
+              $scope.newurl=data.siteurl;
     });
     
 }
@@ -65,7 +65,12 @@ $scope.updatedata=function(ethid){
  //   alert(ethid);
     $http.get('modules/EtherCalc/updatecrm.php?id='+ethid).success(function(data,status){
          console.log("ha finito");
-         $window.location.reload();
+          console.log(data);
+              $scope.frameUrl="http://"+data.ethlink;
+              $scope.ethid=ethid;
+              $scope.newurl=data.ethurl;
+   
+         //$window.location.reload();
     });
 }
 
