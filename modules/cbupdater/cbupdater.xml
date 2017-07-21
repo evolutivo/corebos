@@ -1723,4 +1723,11 @@
 	<classname>addglobalparamsethercalc</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>erimatraku</author>
+	<description>add field ethercalcid</description>
+	<filename>build/changeSets/addfieldethercalcid.php</filename>
+	<classname>addfieldethercalcid</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
