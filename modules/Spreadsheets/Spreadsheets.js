@@ -6,3 +6,16 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
+function updatedatanew(ethid){
+ 	 jQuery.ajax({
+        type: 'POST',
+        url: '../../modules/EtherCalc/updatecrmeth.php',
+        data: "id=" + ethid,
+        async: false,
+        success:
+                function(result) {
+                var test=result.split("/");
+                window.location.href="newsp.php?id="+test[1];
+               } });
+
+ }
