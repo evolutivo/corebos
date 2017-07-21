@@ -191,10 +191,14 @@ angular.module('demoApp')
                         if(confirm("{/literal}{'AreYouSure'|@getTranslatedString:'AreYouSure'}{literal}")){
                         var graph=cy.json();
                         var params=encodeURIComponent(JSON.stringify(graph));
-                        $http.get('index.php?module=BPMDesigner&action=BPMDesignerAjax&file=operations&kaction=saveGraph&models='+params).
-                                success(function(data, status) {
-                                    alert("{/literal}{'Done'|@getTranslatedString:'Done'}{literal}");
-                                });
+                        $http({
+                            method: 'POST',
+                            url: 'index.php?module=BPMDesigner&action=BPMDesignerAjax&file=operations&kaction=saveGraph',
+                            data :graph
+                        }).
+                            success(function(data, status) {
+                                alert("{/literal}{'Done'|@getTranslatedString:'Done'}{literal}");
+                            });
                     }
                     };
                     $scope.addRelation=function(){

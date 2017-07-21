@@ -7716,7 +7716,7 @@ a.slds-button--inverse:focus {
     cursor: pointer;
     height: 2.5rem;
     line-height: 2.5rem;
-    border-bottom: 2px solid transparent;
+    /*border-bottom: 2px solid transparent;*/
     padding: 0 0.5rem;
     color: #54698d;
 }

@@ -243,7 +243,8 @@ function readPFActions($id){
         $pfquery=$adb->pquery("SELECT vtiger_businessactions.* ,pf.processflowsecurity
                     FROM vtiger_processflow AS pf
                     JOIN vtiger_processtemplate AS pt ON pf.linktoprocesstemplate = pt.processtemplateid
-                    JOIN vtiger_businessactions  ON pf.mailer_action = vtiger_businessactions.businessactionsid
+                    JOIN vtiger_businessactions  ON pf.actions like concat('%', vtiger_businessactions.businessactionsid, '%') 
+                         OR  pf.mailer_action = vtiger_businessactions.businessactionsid
                     JOIN vtiger_crmentity AS c ON c.crmid = pt.processtemplateid 
                     JOIN vtiger_crmentity AS c2 ON c2.crmid = pf.processflowid
                     JOIN vtiger_crmentity AS c3 ON c3.crmid = vtiger_businessactions.businessactionsid and c3.deleted =0

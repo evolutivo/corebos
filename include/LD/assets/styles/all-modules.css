@@ -1,11 +1,222 @@
 /*=========  DETAIL VIEW  ==========*/
 
+/*=========  DETAIL VIEW ---HEADER---  ==========*/
+.s1FixedFullWidth {
+    left: 0;
+    right: 0;
+    -webkit-transition: left .25s;
+    -moz-transition: left .25s;
+    -ms-transition: left .25s;
+    -o-transition: left .25s;
+    transition: left .25s;
+}
+
+.forceHighlightsStencilDesktop.s1FixedTop {
+    /*position: fixed;*/
+    border-top: none;
+    z-index: 7000;
+}
+
+.forceHighlightsStencilDesktop {
+    min-height: 60px;
+}
+
+.primaryFieldRow {
+    z-index: 2;
+    position: relative;
+}
+
+.forceHighlightsStencilDesktop.profilePicWrapper {
+    -webkit-box-flex: 0;
+    flex: none;
+    -webkit-transform-origin: bottom left;
+    -moz-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    -o-transform-origin: bottom left;
+    transform-origin: bottom left;
+    align-items: flex-start;
+}
+
+.forceEntityIcon {
+    display: block;
+    -webkit-border-radius: .125rem;
+    -moz-border-radius: .125rem;
+    border-radius: .125rem;
+}
+
+.forceSocialPhoto.photoContainer {
+    float: left;
+    display: block;
+    padding-right: .25rem;
+    line-height: 1;
+    background-clip: content-box;
+}
+
+.forceHighlightsStencilDesktop .photoContainer:not(.forceOutputLookup) {
+    padding-right: 0;
+}
+
+.forceEntityIcon {
+    display: block;
+    border-radius: .125rem;
+}
+
+.forceEntityIcon.small {
+    width: 2rem;
+    height: 2rem;
+}
+
+.forceEntityIcon.roundedSquare {
+    border-radius: .25rem;
+}
+
+.forceHighlightsStencilDesktop .forceEntityIcon,
+.forceHighlightsStencilDesktop .forceSocialPhoto img,
+.forceHighlightsStencilDesktop .forceSocialPhoto_v2 img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.slds-media__body p,
+.slds-media__body h1,
+.slds-media__body h2 {
+    margin: 0;
+}
+
+.forceHighlightsStencilDesktop .actionsContainer {
+    -webkit-align-items: flex-end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    padding-top: .75rem;
+}
+
+.detailview_utils_prev,
+.detailview_utils_next,
+.detailview_utils_toggleactions,
+.detailview_utils_jumpto {
+    cursor: pointer;
+}
+
+.detailview_utils_jumpto img {
+    padding-top: 9px;
+}
+
+.detailview_utils_toggleactions img {
+    padding-top: 7px;
+    width: 16px;
+}
+
+.detailview_utils_prev img:hover,
+.detailview_utils_next img:hover,
+.detailview_utils_jumpto img:hover,
+.detailview_utils_toggleactions img:hover {
+    opacity: 0.5;
+}
+
+.detailview_utils_prev img[width='23']:hover,
+.detailview_utils_next img[width='23']:hover {
+    opacity: 1;
+}
+
+/*=========  END DETAIL VIEW ---HEADER---  ==========*/
+
+/*=========  DETAIL VIEW ---BODY---  ==========*/
+article {
+    display: block;
+}
+
+article.container::before,
+article.container::after {
+    content: normal;
+}
+
+@media only screen and (min-width: 768px) {
+    article.container {
+        max-width: 100%;
+    }
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard.container {
+    background-color: rgb(244, 246, 249);
+    margin: 1rem 0 0 0;
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard .merge-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: rgb(255, 255, 255);
+    background-color: rgb(242, 207, 91);
+    border-radius: .125rem;
+    text-align: center;
+    display: inline-block;
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard .forceIcon.merge-icon {
+    font-size: .845rem;
+}
+
+.forceBaseCard .header-title-container {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    max-width: 100%;
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard h2.header-title-container span.slds-truncate {
+    white-space: normal;
+}
+
+.slds-card__header {
+    padding-top: .75rem;
+    margin-bottom: .75rem;
+}
+
+.slds-card__body {
+    margin-bottom: .75rem;
+}
+
+.flexipageComponent {
+    background-color: rgb(244, 246, 249);
+    padding: 1rem ;
+    border: 1px solid rgb(216, 221, 230);
+}
+
+/*.flexipageComponent .slds-card {*/
+    /*border-bottom-left-radius: 0;*/
+    /*border-bottom-right-radius: 0;*/
+/*}*/
+
+.flexipageComponentComment {
+    margin-bottom: 3rem;
+}
+
+.blockStyleCss {
+    background-color: rgb(244, 246, 249);
+    border: 1px solid rgb(216, 221, 230);
+}
+
+.runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
+.runtime_sales_mergeMergeCandidatesPreviewCard .rightMailMergeData,
+.runtime_sales_mergeMergeCandidatesPreviewCard .generalData {
+    padding: .5rem 0;
+    text-align: left;
+    color: rgb(84, 105, 141);
+    font-size: .8125rem;
+}
+
+.generalData img{
+    margin-left: 0;
+}
+
+/*=========  END DETAIL VIEW ---BODY---  ==========*/
+
 .slds-table-moz {
     width: 100%;
 }
 
 tr td.detailViewContainer {;
-    padding : 30px 0;
+    padding: 1rem .5rem;
 }
 
 .mapButton td {
@@ -20,19 +231,11 @@ tr.slds-text-title--caps {
     padding: 0.625rem 1.3rem;
 }
 
-
-/*
-.slds-text-title--caps td span{
-    white-space: normal;
-    word-wrap: break-word;
-}
-*/
-
 .slds-table td {
     position: inherit;
 }
 
-.slds-table--cell-buffer tr>td:first-child {
+.slds-table--cell-buffer tr > td:first-child {
     padding-left: 0.5rem;
 }
 
@@ -56,16 +259,20 @@ input[type=submit].slds-button--small {
     border-bottom: 1px solid #555555;
 }
 
-tr td.table-aside {
-    border-left: 1px dashed #cccccc;
+tr td.action-block {
+    /*border-left: 1px dashed #cccccc;*/
+    padding: 1rem .5rem;
     width: 22%;
     vertical-align: top;
+}
+
+tr td.table-aside > .detailview_actionlinks {
+    margin-top: 3rem;
 }
 
 .actionLabel {
     border-bottom: 1px solid #d4d4d4;
 }
-
 
 /**
 - * Creates a green button style
@@ -111,7 +318,7 @@ tr td.table-aside {
     border-color: #04844b;
 }
 
-.slds-button+.slds-button {
+.slds-button + .slds-button {
     margin-left: 0;
 }
 
@@ -120,7 +327,7 @@ ul.slds-tabs--default__nav li {
     padding-top: 0;
 }
 
-.slds-dropdown__item>a {
+.slds-dropdown__item > a {
     padding: .2rem .5rem;
 }
 
@@ -168,16 +375,13 @@ li[title="More Information"] svg {
     margin: .1rem 0;
 }
 
-
 @media only screen and (max-width: 881px) {
     .slds-table--fixed-layout {
         min-width: 768px;
     }
 }
 
-
 /*=========   END DETAIL VIEW  ==========*/
-
 
 /*=========   BUTTON_LIST ==========*/
 
@@ -185,12 +389,9 @@ li[title="More Information"] svg {
     padding-right: 0;
 }
 
-
 /*=========   END BUTTON_LIST  ==========*/
 
-
 /*=========   DetailView - DetailViewUI - DetailViewUIUser  ==========*/
-
 
 /*remove dotted outline/border in Firefox*/
 
@@ -204,7 +405,7 @@ input[type="button"]::-moz-focus-inner,
 input[type="radio"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 select::-moz-focus-inner,
-input[type="file"]>input[type="button"]::-moz-focus-inner {
+input[type="file"] > input[type="button"]::-moz-focus-inner {
     outline: none !important;
 }
 
@@ -219,9 +420,7 @@ select:-moz-focusring {
     margin-bottom: 5px;
 }
 
-
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
-
 
 /*=========   DetailViewUtils.php  ==========*/
 
@@ -234,7 +433,6 @@ select:-moz-focusring {
     letter-spacing: 0.02rem;
 }
 
-
 /*=========   END DetailViewUtils.php  ==========*/
 
 /*=========   Inventory DetailView.tpl  ==========*/
@@ -243,4 +441,5 @@ select:-moz-focusring {
     border-left: 1px solid #fff;
 
 }
+
 /*=========   END InventoryDetailView.tpl  ==========*/

@@ -45,7 +45,7 @@ if($kaction=='retrieveProcessFlow'){
         $uid=$_SESSION["authenticated_user_id"];
         $roleid=$current_user->roleid;    
         $belong2role=in_array($roleid,$processflowsecurity);
-        if(!$belong2role) continue;
+        if(!$belong2role && !empty($adb->query_result($pfquery,$j,'processflowsecurity'))) continue;
         $exceptionAbb=makingException($id);
                 
         $details='';
