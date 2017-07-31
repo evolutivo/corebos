@@ -24,8 +24,8 @@ $adb->query("update mvqueryhistory set active=0 where id='$queryid'");
 
 if($mapid!=""){
   $seqmap=count($data);
-  $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($queryid,$data[$seqmap-1]->FirstModuleJSONvalue,$data[$seqmap-1]->FirstModuleJSONtext,$data[$seqmap-1]->FirstModuleJSONfield,$data[$seqmap-1]->SecondModuleJSONvalue,$data[$seqmap-1]->SecondModuleJSONtext,$data[$seqmap-1]->SecondModuleJSONfield,$data[$seqmap-1]->Labels,$data[$seqmap-1]->ValuesParagraf,$seq,'1'));
+  $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($queryid,$data[$seqmap-1]->FirstModuleJSONvalue,$data[$seqmap-1]->FirstModuleJSONtext,$data[$seqmap-1]->SecondModuleJSONvalue,$data[$seqmap-1]->SecondModuleJSONtext,$data[$seqmap-1]->ValuesParagraf,$seq,'1',$data[$seqmap-1]->FirstModuleJSONfield,$data[$seqmap-1]->SecondModuleJSONfield,$data[$seqmap-1]->Labels));
 }else {
-  $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->FirstModuleJSONfield,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->SecondModuleJSONfield,$data[$seq-1]->Labels,$data[$seq-1]->ValuesParagraf,$seq,'1'));
+  $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->ValuesParagraf,$seq,'1',$data[$seq-1]->FirstModuleJSONfield,$data[$seq-1]->SecondModuleJSONfield,$data[$seq-1]->Labels));
 }
 echo 'ok';

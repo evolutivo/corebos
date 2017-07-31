@@ -1733,9 +1733,9 @@
 <changeSet>
 	<author>albadisha</author>
 	<description>add fields to mvqueryhistory</description>
-	<filename>build/changeSets/addFieldsMVCreator.php</filename>
+	<filename>build/changeSets/2017/addFieldsMVCreator.php</filename>
 	<classname>addFieldsMVCreator</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
- 
+
 </updatesChangeLog>

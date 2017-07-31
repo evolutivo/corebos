@@ -26,7 +26,7 @@ class addFieldsMVCreator extends cbupdaterWorker {
   			$this->ExecuteQuery("ALTER TABLE  mvqueryhistory "
                                   . " ADD  firstmodulelabel VARCHAR( 250 )  NOT NULL,"
                                   . " ADD  secondmodulelabel VARCHAR( 250 )  NOT NULL, "
-                                  . " ADD  labels TEXT  NOT NULL ");
+                                  . " ADD  labels TEXT  NOT NULL");
 
       $this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
