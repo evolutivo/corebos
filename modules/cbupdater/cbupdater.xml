@@ -434,14 +434,14 @@
 	<classname>addEvoFieldsColumns</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
-<changeSet>        
+<changeSet>
 	<author>albana</author>
 	<description>Add Params to NgBlock</description>
 	<filename>build/changeSets/evolutivo/addFieldNgBlock_improvement.php</filename>
 	<classname>addFieldNgBlock_improvement</classname>
 	<systemupdate>false</systemupdate>
 </changeSet>
-<changeSet>        
+<changeSet>
 	<author>albana</author>
 	<description>Add Params to SubNgBlock</description>
 	<filename>build/changeSets/evolutivo/addSubNgBlock.php</filename>
@@ -777,7 +777,7 @@
         <classname>add_actions</classname>
         <systemupdate>true</systemupdate>
 </changeSet>
-<changeSet>        
+<changeSet>
 	<author>joebordes</author>
 	<description>HelpDesk Status on Calendar</description>
 	<filename>build/changeSets/HelpDeskStatusOnCalendar.php</filename>
@@ -1730,4 +1730,12 @@
 	<classname>addfieldethercalcid</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>albadisha</author>
+	<description>add fields to mvqueryhistory</description>
+	<filename>build/changeSets/addFieldsMVCreator.php</filename>
+	<classname>addFieldsMVCreator</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+ 
 </updatesChangeLog>
