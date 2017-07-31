@@ -20,9 +20,9 @@ $nameView = $_POST['nameView'];//nome della vista
 $campiSelezionati = $_POST['campiSelezionati'];
 $usergroup=$_POST['userorgroup'];
 $OptVAl = $_REQUEST['JoinOV'];
+
 $sendarray = array();
 $valuecombo = $_REQUEST['Valueli'];
-
 for ($j = 0; $j < count($valuecombo); $j++) {
     $expdies = explode("!", $valuecombo[$j]);
     $sendarray[] = array(
@@ -30,7 +30,7 @@ for ($j = 0; $j < count($valuecombo); $j++) {
         'Texti' => $expdies[1],
     );
 }
-
+//print_r($sendarray);
 $optionValue = array();
 $optgroup = array();
 for ($j = 0; $j < count($campiSelezionati); $j++) {
@@ -43,6 +43,8 @@ $secmodule = $_POST['smodule'];
 $Moduls = array();
 array_push($Moduls, $firstmodule);
 array_push($Moduls, $secmodule);
+
+
 //echo inerJoionwithCrmentity($Moduls);
 //$selField1 = explode(',',$stringaselField1);
 //$selField2 = explode(',',$stringaselField2);
@@ -50,13 +52,69 @@ array_push($Moduls, $secmodule);
 //$stringaFields2 = implode(",", selectValueswithjoincrmentity($OptVAl, $Moduls));
 $selTab1 = $_POST['selTab1'];
 $selTab2 = $_POST['selTab2'];
+
+/*print_r($selTab1);
+echo "<br>";
+print_r($selField1);
+echo "<br>";
+print_r($selTab2);
+echo "<br>";
+print_r($selField2);
+echo "<br>";
+print_r($OptVAl);*/
+
+
+
+
+
 $selTab3=array_unique(array_merge($selTab1,$selTab2));
 $primfield=$selTab1[0];
 $query = $adb->query("select entityidfield,tablename from vtiger_entityname where modulename='$primfield'");
 $entityidfield = $adb->query_result($query, 0, "entityidfield");
 $tablename = $adb->query_result($query, 0, "tablename");
 $entityidfields = $tablename . "." . $entityidfield;
-$generatetQuery = showJoinArray($selField1, $selField2, $nameView,$OptVAl, $selTab1, $selTab2, $entityidfields, $selTab3,$usergroup);
+
+
+$queryid=$_POST['queryid'];
+$mapid=$_POST['MapID'];
+
+
+if($mapid!='')
+{
+  $sql1 = $adb->query("select sequence from mvqueryhistory where id='$queryid' AND active='1'");
+  $seq=$adb->query_result($sql1, 0, "sequence");
+  $sql = $adb->query("select* from mvqueryhistory where id='$queryid'");
+  //$num=$adb->num_rows($sql);
+  $nr=count($_POST['selTab1']);
+  //$oldjoins=($num+1)-$nr;
+  for ($k = 0; $k < $seq; $k++) {
+      $FirstModule[] = $adb->query_result($sql, $k, "firstmodule");
+  	  $SecondModule[] = $adb->query_result($sql, $k, "secondmodule");
+  	  $FirstModuleField[] = $adb->query_result($sql, $k, "firstmodulefield");
+  	  $SecondModuleField[] = $adb->query_result($sql, $k, "secondmodulefield");
+  }
+  $labels = $adb->query_result($sql, 0, "labels");
+  $Labels=explode(',',$labels);
+  $selTab1=$selTab1[$nr-1];
+  $selTab2=$selTab2[$nr-1];
+  $selField1=$selField1[$nr-1];
+  $selField2=$selField2[$nr-1];
+  array_push($FirstModule,$selTab1);
+  array_push($SecondModule,$selTab2);
+  array_push($FirstModuleField,$selField1);
+  array_push($SecondModuleField,$selField2);
+  $selTab3=array_unique(array_merge($FirstModule,$SecondModule));
+  $primfield=$FirstModule[0];
+  $query = $adb->query("select entityidfield,tablename from vtiger_entityname where modulename='$primfield'");
+  $entityidfield = $adb->query_result($query, 0, "entityidfield");
+  $tablename = $adb->query_result($query, 0, "tablename");
+  $entityidfields = $tablename . "." . $entityidfield;
+  $generate=showJoinArray($FirstModuleField, $SecondModuleField, $nameView,$Labels, $FirstModule, $SecondModule, $entityidfields, $selTab3,$usergroup);
+  $generatetQuery = showJoinArray($FirstModuleField, $SecondModuleField, $nameView,$OptVAl, $FirstModule, $SecondModule, $entityidfields, $selTab3,$usergroup);
+} else {
+  $generatetQuery = showJoinArray($selField1, $selField2, $nameView,$OptVAl, $selTab1, $selTab2, $entityidfields, $selTab3,$usergroup);
+}
+
 /*
  * Stampa a video nel <div> con id="results" la query per la creazione della vista materializzata
  */
@@ -98,6 +156,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $maintab=strtolower($selTab1[$i]);
             $selTabmain=$selTab1[$i];
             $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index,$arr,$maintab));
+            //echo $stringaFields2;
             $strf=substr($stringaFields2, 0, -2);
             if($usergroup=='user')
             {
@@ -115,7 +174,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             {  coreBOS_Session::set('selectedfields',strtolower($selTab1[$i]).'_0.'. $primarySelectID . "," . $strf);
                $selfields=coreBOS_Session::get('selectedfields');
             }
-            else 
+            else
             $selfields=coreBOS_Session::get('selectedfields');
             $selectquery='<b> SELECT </b>'.$selfields;
             $strQuery .= '<b> FROM </b>' . strtolower($selTab1[$i]) .' as '.strtolower($selTab1[$i]).'_0 join vtiger_crmentity CRM_'.strtolower($selTab1[$i]).'_0 on CRM_'.strtolower($selTab1[$i]).'_0.crmid='.strtolower($selTab1[$i]).'_0.'.$firsttblid.' <b>'.$qjoin.'</b><b>INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'_0.'. $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selField2[$i].' join vtiger_crmentity CRM_'.strtolower($selTab2[$i]).'_'.$index.' on CRM_'.strtolower($selTab2[$i]).'_'.$index.'.crmid='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid.' <b>'.$q2join.'</b>';
@@ -138,7 +197,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             }
             $index2=$index;
             $index++;
-        } else {  
+        } else {
             if($selTab1[$i]==$selTabmain)
             {
             $index2--;
@@ -182,7 +241,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $index++;
         }
 
-    }
+    } //echo $selfields;
     return str_replace(",_"," ",$selectquery.' '.$strQuery);
 }
 function selectValueswithjoincrmentity($params, $Moduls,$nr,$arr,$maintab)
@@ -422,5 +481,3 @@ $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
 $smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
 $smarty->display("modules/MVCreator/WhereCondition.tpl");
 ?>
-
-

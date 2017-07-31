@@ -15,10 +15,17 @@
 *************************************************************************************************/
 $data=json_decode($_POST['fields']);
 $queryid=$_POST['queryid'];
+$mapid=$_POST['MapID'];
 global $adb;
 $q=$adb->query("select sequence from mvqueryhistory where id='$queryid' order by sequence DESC");
-$nr=$adb->num_rows($q);
+//$nr=$adb->num_rows($q);
 $seq=$adb->query_result($q,0,0)+1;
 $adb->query("update mvqueryhistory set active=0 where id='$queryid'");
-$adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->ValuesParagraf,$seq,'1'));
+
+if($mapid!=""){
+  $seqmap=count($data);
+  $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($queryid,$data[$seqmap-1]->FirstModuleJSONvalue,$data[$seqmap-1]->FirstModuleJSONtext,$data[$seqmap-1]->FirstModuleJSONfield,$data[$seqmap-1]->SecondModuleJSONvalue,$data[$seqmap-1]->SecondModuleJSONtext,$data[$seqmap-1]->SecondModuleJSONfield,$data[$seqmap-1]->Labels,$data[$seqmap-1]->ValuesParagraf,$seq,'1'));
+}else {
+  $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($queryid,$data[$seq-1]->FirstModuleJSONvalue,$data[$seq-1]->FirstModuleJSONtext,$data[$seq-1]->FirstModuleJSONfield,$data[$seq-1]->SecondModuleJSONvalue,$data[$seq-1]->SecondModuleJSONtext,$data[$seq-1]->SecondModuleJSONfield,$data[$seq-1]->Labels,$data[$seq-1]->ValuesParagraf,$seq,'1'));
+}
 echo 'ok';
