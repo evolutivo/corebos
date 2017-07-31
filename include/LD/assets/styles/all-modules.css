@@ -125,6 +125,10 @@ article {
     display: block;
 }
 
+.flexipageComponent > article {
+    border-radius: 0;
+}
+
 article.container::before,
 article.container::after {
     content: normal;
@@ -205,7 +209,9 @@ article.container::after {
     font-size: .8125rem;
 }
 
-.generalData img{
+.generalData img,
+.actionData img.
+.noSpace {
     margin-left: 0;
 }
 

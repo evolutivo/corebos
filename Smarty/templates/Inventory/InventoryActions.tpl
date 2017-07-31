@@ -12,136 +12,107 @@
 <!-- Avoid this actions display for PriceBook module-->
 
 <!-- display the Inventory Actions based on the Inventory Modules -->
-<table class="slds-table slds-no-row-hover slds-table--cell-buffer  slds-table-moz">
-    <tr class="slds-text-title slds-text-title--caps">
-	   <td class="genHeaderSmall actionLabel">{$APP.LBL_ACTIONS}</td>
-	</tr>
+	<div class="flexipageComponent" style="background-color: #fff; "> <!-- {if $MODULE eq 'PriceBooks'} margin-top: 5rem; {/if} -->
+	 	<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+	    	<div class="slds-card__header slds-grid">
+		        <header class="slds-media slds-media--center slds-has-flexi-truncate">
+		            <div class="slds-media__body">
+		                <h2 class="header-title-container" >
+		                    <span class="slds-text-heading--small slds-truncate actionLabel">
+		                        <b>{$APP.LBL_ACTIONS}</b>
+		                    </span>
+		                </h2>
+		            </div>
+		        </header>
+	    	</div>
+	    	<div class="slds-card__body slds-card__body--inner">
+	    		
+	    		<!-- Module based actions starts -->
+				{if $MODULE eq 'Products' || $MODULE eq 'Services'}
+				   <!-- Product/Services Actions starts -->
+					{if $MODULE eq 'Products'}
+						{assign var='module_id' value='product_id'}
+					{else}
+						{assign var='module_id' value='parent_id'}
+					{/if}
+					<div class="actionData">
+						<a href="javascript: document.DetailView.module.value='Quotes'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateQuote.gif'|@vtiger_imageurl:$THEME}" class="noSpace" hspace="2" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.module.value='Quotes'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.Quote}</a> 
+					</div>
 
-	<!-- Module based actions starts -->
-	{if $MODULE eq 'Products' || $MODULE eq 'Services'}
-	   <!-- Product/Services Actions starts -->
-		{if $MODULE eq 'Products'}
-			{assign var='module_id' value='product_id'}
-		{else}
-			{assign var='module_id' value='parent_id'}
-		{/if}
-	   <tr>
-		<td align="left" style="padding-left:5px;">
-	<a href="javascript: document.DetailView.module.value='Quotes'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateQuote.gif'|@vtiger_imageurl:$THEME}" hspace="2" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.module.value='Quotes'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.Quote}</a> 
-		</td>
-	   </tr>
-	   <tr>
-		<td align="left" style="padding-left:5px;">
-			<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" hspace="2" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.Invoice}</a> 
-		</td>
-	   </tr>
-	   <tr>
-		<td align="left" style="padding-left:5px;">
-<a href="javascript: document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateSalesOrder.gif'|@vtiger_imageurl:$THEME}" hspace="2" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.SalesOrder}</a> 
-		</td>
-	   </tr>
-	   <tr>
-		<td align="left" style="padding-left:5px;">
-			<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenPurchaseOrder.gif'|@vtiger_imageurl:$THEME}" hspace="2" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.PurchaseOrder}</a> 
-		</td>
-	   </tr>
+					<div class="actionData">
+						<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" class="noSpace" hspace="2" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.Invoice}</a> 
+					</div>
 
-	{elseif $MODULE eq 'Vendors'}
-	   <!-- Vendors Actions starts -->
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='Vendors'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.vendor_id.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">	<img src="{'actionGenPurchaseOrder.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='Vendors'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.vendor_id.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.PurchaseOrder}</a> 
-		</td>
-	   </tr>
-	   <!--
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
-			<a href="#" class="webMnu">List PurchaseOrders for this Vendor</a> 
-		</td>
-	   </tr>
-	   -->
-	   <!-- Vendors Actions ends -->
+					<div class="actionData">
+						<a href="javascript: document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateSalesOrder.gif'|@vtiger_imageurl:$THEME}" class="noSpace" hspace="2" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.SalesOrder}</a> 
+					</div>
 
-	{elseif $MODULE eq 'PurchaseOrder'}
-	   <!-- PO Actions starts -->
-	   <!--
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
-			<a href="#" class="webMnu">List Other PurchaseOrders to this Vendor</a> 
-		</td>
-	   </tr>
-	   -->
-	   <!-- PO Actions ends -->
+					<div class="actionData">
+						<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu"><img src="{'actionGenPurchaseOrder.gif'|@vtiger_imageurl:$THEME}" class="noSpace" hspace="2" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.{$module_id}.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.PurchaseOrder}</a> 
+					</div>
 
-	{elseif $MODULE eq 'SalesOrder'}
-	   <!-- SO Actions starts -->
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='SalesOrder'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.record.value='{$ID}'; document.DetailView.convertmode.value='sotoinvoice'; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='SalesOrder'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.record.value='{$ID}'; document.DetailView.convertmode.value='sotoinvoice'; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.Invoice}</a> 
-		</td>
-	   </tr>
-	   <!--
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
-			<a href="#" class="webMnu">List Linked Quotes</a> 
-		</td>
-	   </tr>
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
-			<a href="#" class="webMnu">List Linked Invoices</a> 
-		</td>
-	   </tr>
-	   -->
-	   <!-- SO Actions ends -->
-
-	{elseif $MODULE eq 'Quotes'}
-	   <!-- Quotes Actions starts -->
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='{$CONVERTMODE}'; document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a> 
-		<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='{$CONVERTMODE}'; document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu">{$APP.LBL_GENERATE} {$APP.Invoice}</a> 
-		</td>
-	   </tr>
-
-	   <tr>
-		<td align="left" style="padding-left:10px;border-bottom:1px dotted #CCCCCC;">
-			<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='quotetoso'; document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateSalesOrder.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-			<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='quotetoso'; document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu">{$APP.LBL_GENERATE} {$APP.SalesOrder}</a> 
-		</td>
-	   </tr>
-	   <!-- Quotes Actions ends -->
-
-	{elseif $MODULE eq 'Invoice'}
-	   <!-- Invoice Actions starts -->
-	   <!--
-	   <tr>
-		<td align="left" style="padding-left:10px;">
-			<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
-			<a href="#" class="webMnu">List Linked Quotes</a> 
-		</td>
-	   </tr>
-	   -->
-	   <!-- Invoice Actions ends -->
-
-	{/if}
-
+				{elseif $MODULE eq 'Vendors'}
+				 <!-- Vendors Actions starts -->
+					<div class="actionData">
+						<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='Vendors'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.vendor_id.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">	<img src="{'actionGenPurchaseOrder.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.module.value='PurchaseOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='Vendors'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.parent_id.value='{$ID}'; document.DetailView.vendor_id.value='{$ID}'; document.DetailView.record.value=''; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.PurchaseOrder}</a> 
+					</div>
+					<!-- <div class="actionData">
+						<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
+						<a href="#" class="webMnu">List PurchaseOrders for this Vendor</a> 
+					</div> -->
+				<!-- Vendors Actions ends -->
+				{elseif $MODULE eq 'PurchaseOrder'}
+				<!-- PO Actions starts -->
+					<!--  <div class="actionData">
+						<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
+						<a href="#" class="webMnu">List Other PurchaseOrders to this Vendor</a> 
+					 </div> -->
+			    <!-- PO Actions ends -->
+			    {elseif $MODULE eq 'SalesOrder'}
+	   			<!-- SO Actions starts -->
+	   				<div class="actionData">
+	   					<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='SalesOrder'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.record.value='{$ID}'; document.DetailView.convertmode.value='sotoinvoice'; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_module.value='SalesOrder'; document.DetailView.return_action.value='DetailView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.record.value='{$ID}'; document.DetailView.convertmode.value='sotoinvoice'; document.DetailView.submit();" class="webMnu">{$APP.LBL_CREATE_BUTTON_LABEL} {$APP.Invoice}</a> 
+					</div>
+					<!-- <div class="actionData">
+						<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
+						<a href="#" class="webMnu">List Linked Quotes</a>
+					</div>
+					<div class="actionData">
+						<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
+						<a href="#" class="webMnu">List Linked Invoices</a> 
+					</div> -->
+	   			<!-- SO Actions ends -->
+	   			{elseif $MODULE eq 'Quotes'}
+	   			<!-- Quotes Actions starts -->
+		   			<div class="actionData">
+		   				<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='{$CONVERTMODE}'; document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateInvoice.gif'|@vtiger_imageurl:$THEME}" class="noSpace" hspace="5" align="absmiddle" border="0"/></a> 
+						<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='{$CONVERTMODE}'; document.DetailView.module.value='Invoice'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu">{$APP.LBL_GENERATE} {$APP.Invoice}</a> 
+	   				</div>
+	   				<div class="actionData">
+		   				<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='quotetoso'; document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu"><img src="{'actionGenerateSalesOrder.gif'|@vtiger_imageurl:$THEME}" class="noSpace" hspace="5" align="absmiddle" border="0"/></a>
+						<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.convertmode.value='quotetoso'; document.DetailView.module.value='SalesOrder'; document.DetailView.action.value='EditView'; document.DetailView.return_id.value='{$ID}'; document.DetailView.submit();" class="webMnu">{$APP.LBL_GENERATE} {$APP.SalesOrder}</a> 
+					</div>
+				<!-- Quotes Actions ends -->
+				{elseif $MODULE eq 'Invoice'}
+			   <!-- Invoice Actions starts -->
+				   <!-- <div class="actionData">
+						<img src="{'pointer.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle"/>
+						<a href="#" class="webMnu">List Linked Quotes</a> 
+					</div> -->
+			   <!-- Invoice Actions ends -->
+				{/if}
 	<!-- Module based actions ends -->
 
 {* vtlib customization: Custom links on the Detail view basic links *}
 {if $CUSTOM_LINKS && $CUSTOM_LINKS.DETAILVIEWBASIC}
 	{foreach item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWBASIC}
-	<tr>
-		<td align="left" style="padding-left:10px;">
+		<div class="actionData">
 			{assign var="customlink_href" value=$CUSTOMLINK->linkurl}
 			{assign var="customlink_label" value=$CUSTOMLINK->linklabel}
 			{if $customlink_label eq ''}
@@ -154,15 +125,13 @@
 			<a class="webMnu" href="{$customlink_href}"><img hspace=5 align="absmiddle" border=0 src="{$CUSTOMLINK->linkicon}"></a>
 			{/if}
 			<a class="webMnu" href="{$customlink_href}">{$customlink_label}</a>
-		</td>
-	</tr>
+		</div>
 	{/foreach}
 {/if}
 
 {* vtlib customization: Custom links on the Detail view *}
 {if $CUSTOM_LINKS}
-<br>
-<tr><td>
+
 	{if !empty($CUSTOM_LINKS.DETAILVIEW)}
 		<table width="100%" border="0" cellpadding="5" cellspacing="0">
 			<tr><td align="left" class="dvtUnSelectedCell dvtCellLabel">
@@ -194,77 +163,87 @@
 	{/if}
 	
 	{if !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
-	{foreach key=CUSTOMLINK_NO item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
-		{assign var="customlink_href" value=$CUSTOMLINK->linkurl}
-		{assign var="customlink_label" value=$CUSTOMLINK->linklabel}
-		{* Ignore block:// type custom links which are handled earlier *}
-		{if !preg_match("/^block:\/\/.*/", $customlink_href)}
-			{if $customlink_label eq ''}
-				{assign var="customlink_label" value=$customlink_href}
-			{else}
-				{* Pickup the translated label provided by the module *}
-				{assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+		{foreach key=CUSTOMLINK_NO item=CUSTOMLINK from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
+			{assign var="customlink_href" value=$CUSTOMLINK->linkurl}
+			{assign var="customlink_label" value=$CUSTOMLINK->linklabel}
+			{* Ignore block:// type custom links which are handled earlier *}
+			{if !preg_match("/^block:\/\/.*/", $customlink_href)}
+				{if $customlink_label eq ''}
+					{assign var="customlink_label" value=$customlink_href}
+				{else}
+					{* Pickup the translated label provided by the module *}
+					{assign var="customlink_label" value=$customlink_label|@getTranslatedString:$CUSTOMLINK->module()}
+				{/if}
+				<br/>
+				<table border=0 cellspacing=0 cellpadding=0 width=100% class="rightMailMerge">
+					<tr>
+						<td class="rightMailMergeHeader">
+							<b>{$customlink_label}</b>
+							<img id="detailview_block_{$CUSTOMLINK_NO}_indicator" style="display:none;" src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0" align="absmiddle" />
+						</td>
+					</tr>
+					<tr style="height:25px">
+						<td class="rightMailMergeContent"><div id="detailview_block_{$CUSTOMLINK_NO}"></div></td>
+					</tr>
+					<script type="text/javascript">
+						vtlib_loadDetailViewWidget("{$customlink_href}", "detailview_block_{$CUSTOMLINK_NO}", "detailview_block_{$CUSTOMLINK_NO}_indicator");
+					</script>
+				</table>
 			{/if}
-			<br/>
-			<table border=0 cellspacing=0 cellpadding=0 width=100% class="rightMailMerge">
-				<tr>
-					<td class="rightMailMergeHeader">
-						<b>{$customlink_label}</b>
-						<img id="detailview_block_{$CUSTOMLINK_NO}_indicator" style="display:none;" src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0" align="absmiddle" />
-					</td>
-				</tr>
-				<tr style="height:25px">
-					<td class="rightMailMergeContent"><div id="detailview_block_{$CUSTOMLINK_NO}"></div></td>
-				</tr>
-				<script type="text/javascript">
-					vtlib_loadDetailViewWidget("{$customlink_href}", "detailview_block_{$CUSTOMLINK_NO}", "detailview_block_{$CUSTOMLINK_NO}_indicator");
-				</script>
-			</table>
-		{/if}
-	{/foreach}
+		{/foreach}
 	{/if}
-</td></tr>
+
 {/if}
 {* END *}
 <!-- Action links END -->
-
+			</div>
+		</article>
+	</div><!-- /.flexipageComponent -->
+<br>
 <!-- Following condition is added to avoid the Tools section in Products and Vendors -->
 {if $MODULE neq 'Products' && $MODULE neq 'Services' && $MODULE neq 'Vendors' && $MODULE neq 'PriceBooks'}
+	
+<div class="flexipageComponent" style="background-color: #fff;">
+    <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+         aria-describedby="header" style="margin: 0;">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <h2 class="header-title-container">
+                        <span class="slds-text-heading--small slds-truncate actionLabel">
+                            <b>{$APP.Tools}</b>
+                        </span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body--inner">
+	
 
-   <tr class="slds-text-title slds-text-title--caps">
-	<td class="actionLabel">
-		<span class="genHeaderSmall">{$APP.Tools}</span><br /> 
-	</td>
-   </tr>
+			<!-- To display the Export To PDF link for PO, SO, Quotes and Invoice - starts -->
+			{if $MODULE eq 'PurchaseOrder' || $MODULE eq 'SalesOrder' || $MODULE eq 'Quotes' || $MODULE eq 'Invoice'}
 
-<!-- To display the Export To PDF link for PO, SO, Quotes and Invoice - starts -->
-{if $MODULE eq 'PurchaseOrder' || $MODULE eq 'SalesOrder' || $MODULE eq 'Quotes' || $MODULE eq 'Invoice'}
+				{if $MODULE eq 'SalesOrder'}
+					{assign var=export_pdf_action value="CreateSOPDF"}
+				{else}
+					{assign var=export_pdf_action value="CreatePDF"}
+				{/if}
 
-	{if $MODULE eq 'SalesOrder'}
-		{assign var=export_pdf_action value="CreateSOPDF"}
-	{else}
-		{assign var=export_pdf_action value="CreatePDF"}
-	{/if}
+			   <div class="actionData">
+					<a href="index.php?module={$MODULE}&action={$export_pdf_action}&return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}" class="webMnu"><img src="{'actionGeneratePDF.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
+					<a href="index.php?module={$MODULE}&action={$export_pdf_action}&return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}" class="webMnu">{$APP.LBL_EXPORT_TO_PDF}</a>
+				</div>
+			<!-- Added to give link to  send Invoice PDF through mail -->
+			 <div class="actionData">
+					<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='{$MODULE}'; document.DetailView.action.value='SendPDFMail'; document.DetailView.record.value='{$ID}'; document.DetailView.return_id.value='{$ID}'; sendpdf_submit();" class="webMnu"><img src="{'PDFMail.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
+					<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='{$MODULE}'; document.DetailView.action.value='SendPDFMail'; document.DetailView.record.value='{$ID}'; document.DetailView.return_id.value='{$ID}'; sendpdf_submit();" class="webMnu">{$APP.LBL_SEND_EMAIL_PDF}</a> 
+				</div>
+			{/if}
+			<!-- Above if condition is added to avoid the Tools section in Products and Vendors -->
 
-   <tr>
-	<td align="left" style="padding-left:10px;">
-		<a href="index.php?module={$MODULE}&action={$export_pdf_action}&return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}" class="webMnu"><img src="{'actionGeneratePDF.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-		<a href="index.php?module={$MODULE}&action={$export_pdf_action}&return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}" class="webMnu">{$APP.LBL_EXPORT_TO_PDF}</a>
-	</td>
-   </tr>
-
-<!-- Added to give link to  send Invoice PDF through mail -->
- <tr>
-	<td align="left" style="padding-left:10px;">
-		<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='{$MODULE}'; document.DetailView.action.value='SendPDFMail'; document.DetailView.record.value='{$ID}'; document.DetailView.return_id.value='{$ID}'; sendpdf_submit();" class="webMnu"><img src="{'PDFMail.gif'|@vtiger_imageurl:$THEME}" hspace="5" align="absmiddle" border="0"/></a>
-		<a href="javascript: document.DetailView.return_module.value='{$MODULE}'; document.DetailView.return_action.value='DetailView'; document.DetailView.module.value='{$MODULE}'; document.DetailView.action.value='SendPDFMail'; document.DetailView.record.value='{$ID}'; document.DetailView.return_id.value='{$ID}'; sendpdf_submit();" class="webMnu">{$APP.LBL_SEND_EMAIL_PDF}</a> 
-	</td>
-   </tr>
-{/if}
-<!-- Above if condition is added to avoid the Tools section in Products and Vendors -->
-
-</table>
-
+		</div>
+	</article>
+</div><!-- /.flexipageComponent -->
 {literal}
 <script type='text/javascript'>
 function sendpdf_submit()
