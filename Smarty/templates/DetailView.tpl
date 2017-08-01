@@ -316,7 +316,34 @@
                             <br>
                             {include file='applicationmessage.tpl'}
                             <!-- Entity and More information tabs -->
-                            <table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
+
+                            
+                             <!--  <div class="slds-tabs--default">
+                               
+                            
+                                    <div class="slds-tabs--default__content slds-show" role="tabpanel" aria-labelledby="tab-default-1__item">
+                                      <div class="slds-tabs--scoped">
+                                            <ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
+                                              <li class="slds-tabs--scoped__item slds-active" title="Item One" role="presentation">
+                                              <a class="slds-tabs--scoped__link" href="#tab-scoped-1" role="tab" tabindex="0" aria-selected="true" 
+                                              aria-controls="tab-scoped-1" id="tab-scoped-1__item">Item One</a></li>
+
+                                              <li class="slds-tabs--scoped__item" title="Item Two" role="presentation">
+                                              <a class="slds-tabs--scoped__link" href="#tab-scoped-2" role="tab" tabindex="-1" aria-selected="false" 
+                                              aria-controls="tab-scoped-2" id="tab-scoped-2__item">Item Two</a></li>
+
+                                             </ul>
+                                            <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">Item One Content</div>
+                                            <div id="tab-scoped-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">Item Two Content</div>
+                                        </div>
+                                    </div>
+                            
+                                </div> -->
+
+                            <br>
+
+
+                            <table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
                                 <tr>
                                     <td>
                                         <table class="small {if $theme eq 'mltheme'}detailview_utils_table_top{/if}">
@@ -377,7 +404,7 @@
                                                         <!-- Command Buttons -->
                                                         <div class="slds-truncate">
                                                             <table class="slds-table slds-no-row-hover slds-table-moz"
-                                                                   ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 3rem;">
+                                                                   ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 2rem;">
                                                                 <form action="index.php" method="post"
                                                                       name="DetailView" id="formDetailView">
                                                                     <input type="hidden" id="hdtxt_IsAdmin"
@@ -391,7 +418,8 @@
                                                                                 <!-- This is added to display the existing comments -->
                                                                                 {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENTS) && $header eq $MOD.LBL_COMMENTS) || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
                                                                                 <div class="flexipageComponent" style="background-color: #fff;">
-                                                                                    <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+                                                                                    <article class="slds-card container MEDIUM forceBaseCard
+                                                                                     runtime_sales_mergeMergeCandidatesPreviewCard"
                                                                                              aria-describedby="header" style="margin: 0;">
                                                                                             <div class="slds-card__header slds-grid">
                                                                                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
@@ -571,9 +599,42 @@
                                                                                     </div>
                                                                                 {/if}
                                                                             </td>
-                                                                            <td class="noprint action-block" style="{$DEFAULT_ACTION_PANEL_STATUS}"
+                                                                        </tr>
+                                                                        {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
+                                                                        {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
+                                                                            {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
+                                                                                {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl) && $CUSTOM_LINK_DETAILVIEWWIDGET->linklabel neq 'DetailViewBlockCommentWidget' && $CUSTOM_LINK_DETAILVIEWWIDGET->top_widget neq '1'}
+                                                                                    {if ($smarty.foreach.BLOCKS.first && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence <= 1)
+                                                                                    || ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration+1)
+                                                                                    || ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration+1)}
+                                                                                        <tr>
+                                                                                            <td style="padding:5px;">{dvwidget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
+                                                                                        </tr>
+                                                                                    {/if}
+                                                                                {/if}
+                                                                            {/foreach}
+                                                                        {/if}
+                                                                    {/foreach}
+                                                                    {* END *}
+
+                                                                    {*-- End of Blocks--*}
+
+                                                                    <!-- Inventory - Product Details informations -->
+                                                                    {if isset($ASSOCIATED_PRODUCTS)}
+                                                                        <tr>
+                                                                            {$ASSOCIATED_PRODUCTS}
+                                                                        </tr>
+                                                                    {/if}
+                                                                    {if $SinglePane_View eq 'true' && $IS_REL_LIST|@count > 0}
+                                                                        {include file= 'RelatedListNew.tpl'}
+                                                                    {/if}
+                                                            </table>
+                                                        </div>
+
+                                                    </td>
+                                                    <td class="noprint action-block" style="{$DEFAULT_ACTION_PANEL_STATUS}"
                                                                                      id="actioncolumn">
-                                                                                <div class="flexipageComponent" style="background-color: #fff;">
+                                                                                <div class="flexipageComponent">
                                                                                     <!-- right side relevant info -->
                                                                                     <!-- Action links for Event & Todo START-by Minnie -->
                                                                                     <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
@@ -1033,39 +1094,6 @@
                                                                                         {/foreach}
                                                                                     {/if}
                                                                             </td>
-                                                                        </tr>
-                                                                        {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
-                                                                        {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
-                                                                            {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
-                                                                                {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl) && $CUSTOM_LINK_DETAILVIEWWIDGET->linklabel neq 'DetailViewBlockCommentWidget' && $CUSTOM_LINK_DETAILVIEWWIDGET->top_widget neq '1'}
-                                                                                    {if ($smarty.foreach.BLOCKS.first && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence <= 1)
-                                                                                    || ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration+1)
-                                                                                    || ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration+1)}
-                                                                                        <tr>
-                                                                                            <td style="padding:5px;">{dvwidget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
-                                                                                        </tr>
-                                                                                    {/if}
-                                                                                {/if}
-                                                                            {/foreach}
-                                                                        {/if}
-                                                                    {/foreach}
-                                                                    {* END *}
-
-                                                                    {*-- End of Blocks--*}
-
-                                                                    <!-- Inventory - Product Details informations -->
-                                                                    {if isset($ASSOCIATED_PRODUCTS)}
-                                                                        <tr>
-                                                                            {$ASSOCIATED_PRODUCTS}
-                                                                        </tr>
-                                                                    {/if}
-                                                                    {if $SinglePane_View eq 'true' && $IS_REL_LIST|@count > 0}
-                                                                        {include file= 'RelatedListNew.tpl'}
-                                                                    {/if}
-                                                            </table>
-                                                        </div>
-
-                                                    </td>
                                                 </tr>
                                             </table>
                                             <!-- PUBLIC CONTENTS STOPS-->

@@ -1,4 +1,84 @@
+/*=========  Button List  ==========*/
+#LB_buttonlist {
+    background-color: rgb(244, 246, 249);
+}
+
+/*.LD_buttonList div {
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.LD_buttonList div:hover {
+    background-color: rgb(234, 246, 249);
+    border-color: #fff;
+}
+*/
+.LD_buttonList th {
+    background-color: rgb(244, 246, 249)!important;
+}
+
+.uiMenu {
+    position: relative;
+}
+
+.forceHeaderMenuTrigger.uiPopupTrigger {
+    display: inline-block;
+}
+
+.forceHeaderMenuTrigger a {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: .25rem;
+    background: transparent none;
+    text-decoration: none;
+}
+
+.forceHeaderMenuTrigger .headerTrigger {
+    display: block;
+}
+
+.uiTooltip.tooltip-trigger {
+    display: inline;
+    position: relative;
+}
+
+.forceHeaderMenuTrigger .headerTrigger {
+    display: block;
+}
+.oneGlobalCreate svg {
+    fill: rgb(255, 255, 255);
+    margin: 1px;
+}
+
+.slds-global-header__button_icon-actions, .slds-global-header__button--icon-actions {   
+    background: rgb(82, 105, 141);
+    border-radius: .25rem;
+    color: rgb(255, 255, 255);
+}
+
+.slds-global-header__button_icon-actions:hover,
+.slds-global-header__button--icon-actions:hover {
+    background: rgb(102, 179, 255);
+    /*background: rgb(102, 102, 255);*/
+}
+
+.LB_Button .disabled,
+.LB_Button .disabled svg {
+    background: rgb(212, 212, 212);
+}
+
+/*=========  End Button List  ==========*/
+
 /*=========  DETAIL VIEW  ==========*/
+
+.slds-tabs--scoped__nav .slds-tabs--scoped__item:focus,
+.slds-tabs--scoped__nav .slds-tabs--scoped__item:active {
+    background-color: white;
+    color: #0070d2;
+    border-color: #d8dde6;
+}
+
+
 
 /*=========  DETAIL VIEW ---HEADER---  ==========*/
 .s1FixedFullWidth {
@@ -142,7 +222,7 @@ article.container::after {
 
 .runtime_sales_mergeMergeCandidatesPreviewCard.container {
     background-color: rgb(244, 246, 249);
-    margin: 1rem 0 0 0;
+    /*margin: 1rem 0 0 0;*/
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .merge-icon {
@@ -182,7 +262,7 @@ article.container::after {
 
 .flexipageComponent {
     background-color: rgb(244, 246, 249);
-    padding: 1rem ;
+    /*padding: 1rem ;*/
     border: 1px solid rgb(216, 221, 230);
 }
 
@@ -197,7 +277,6 @@ article.container::after {
 
 .blockStyleCss {
     background-color: rgb(244, 246, 249);
-    border: 1px solid rgb(216, 221, 230);
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
@@ -221,8 +300,9 @@ article.container::after {
     width: 100%;
 }
 
-tr td.detailViewContainer {;
+tr td.detailViewContainer {
     padding: 1rem .5rem;
+    border: 2px solid rgb(216, 221, 230);
 }
 
 .mapButton td {
@@ -267,7 +347,7 @@ input[type=submit].slds-button--small {
 
 tr td.action-block {
     /*border-left: 1px dashed #cccccc;*/
-    padding: 1rem .5rem;
+    padding: 2.5rem 1rem;
     width: 22%;
     vertical-align: top;
 }
@@ -449,3 +529,7 @@ select:-moz-focusring {
 }
 
 /*=========   END InventoryDetailView.tpl  ==========*/
+
+.dvtCellLabel {
+    text-align: right;
+}

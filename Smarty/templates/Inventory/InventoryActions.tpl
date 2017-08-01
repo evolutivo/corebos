@@ -12,7 +12,7 @@
 <!-- Avoid this actions display for PriceBook module-->
 
 <!-- display the Inventory Actions based on the Inventory Modules -->
-	<div class="flexipageComponent" style="background-color: #fff; "> <!-- {if $MODULE eq 'PriceBooks'} margin-top: 5rem; {/if} -->
+	<div class="flexipageComponent"> <!-- {if $MODULE eq 'PriceBooks'} margin-top: 5rem; {/if} -->
 	 	<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
 	    	<div class="slds-card__header slds-grid">
 		        <header class="slds-media slds-media--center slds-has-flexi-truncate">

@@ -7892,7 +7892,7 @@ a.slds-button--inverse:focus {
     margin-bottom: 0;
     border-bottom: 1px solid #d8dde6;
 }
-.slds-tabs--scoped .slds-has-overflow .slds-tabs--scoped__item.slds-active {
+.slds-tabs--scoped .slds-has-overflow .slds-tabs--scoped__item .slds-active {
     border-bottom-color: white;
 }
 .slds-tabs--scoped .slds-tab__scroll-controls {

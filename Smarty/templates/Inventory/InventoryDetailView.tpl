@@ -337,7 +337,7 @@ function DeleteTag(id,recordid)
                                                          
                                                               <!-- This is added to display the existing comments -->
                                                               {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
-                                                              <div class="flexipageComponent" style="background-color: #fff;">
+                                                              <div class="flexipageComponent">
                                                                   <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
                                                                            aria-describedby="header" style="margin: 0;">
                                                                           <div class="slds-card__header slds-grid">
