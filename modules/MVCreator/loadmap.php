@@ -1,4 +1,19 @@
 <?php
+/*************************************************************************************************
+ * Copyright 2014 JPL TSolucio, S.L. -- This file is a part of TSOLUCIO coreBOS Customizations.
+* Licensed under the vtiger CRM Public License Version 1.1 (the "License"); you may not use this
+* file except in compliance with the License. You can redistribute it and/or modify it
+* under the terms of the License. JPL TSolucio, S.L. reserves all rights not expressly
+* granted by the License. coreBOS distributed by JPL TSolucio S.L. is distributed in
+* the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+* warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. Unless required by
+* applicable law or agreed to in writing, software distributed under the License is
+* distributed on an "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND,
+* either express or implied. See the License for the specific language governing
+* permissions and limitations under the License. You may obtain a copy of the License
+* at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
+*************************************************************************************************/
+
 require_once('Smarty_setup.php');
 include 'XmlContent.php';
 include('modfields.php');
@@ -14,9 +29,11 @@ $qid=$_POST['queryid'];
 
 
 
-$sql="SELECT query from mvqueryhistory where id=? AND active=?";
+$sql="SELECT * from mvqueryhistory where id=? AND active=?";
 $result=$adb->pquery($sql, array($qid, 1));
-$query=str_replace("query", "", $result);
+$query=str_replace("query", "", $adb->query_result($result,0,'query'));
+$q=explode("FROM",$query);
+coreBOS_Session::set('selectedfields',str_replace(Array("<b> SELECT </b>","<b>"),Array("",""),$q[0]));
 
 function whereConditions($module)
 
@@ -56,20 +73,13 @@ function whereConditions($module)
   return $sendarray;
 
 }
-//$prv= WhereConditions('Messages');
-//print_r($prv);
-
-
-$sql1 = $adb->query("select* from mvqueryhistory where id='$qid'");
-$sql2 = $adb->query("select sequence from mvqueryhistory where id='$qid' AND active='1'");
-$seq=$adb->query_result($sql2, 0, "sequence");
+$seq=$adb->query_result($result, 0, "sequence");
 $seq=$seq-1;
-$FirstModule = $adb->query_result($sql1, $seq, "firstmodule");
-$SecondModule = $adb->query_result($sql1, $seq, "secondmodule");
+$FirstModule = $adb->query_result($result, $seq, "firstmodule");
+$SecondModule = $adb->query_result($result, $seq, "secondmodule");
 $first=whereConditions($FirstModule);
 $second=whereConditions($SecondModule);
 $labels=array_merge($first,$second);
-
 
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
@@ -84,8 +94,4 @@ else
     $smarty->assign("valueli", $labels);
 
 $smarty->display("modules/MVCreator/WhereCondition.tpl");
-
-
-
-
-  ?>
+?>

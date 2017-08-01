@@ -19,13 +19,14 @@ include 'XmlContent.php';
 $FirstmoduleXML = "";//"edmondi" . $_POST['MapID'];
 if (isset($_REQUEST['MapID'])) {
     $mapid = $_REQUEST['MapID'];
-    $FirstmoduleXML = takeFirstMOduleFromXMLMap($mapid);
+    $qid = $_REQUEST['queryid'];
+    $sql="SELECT * from mvqueryhistory where id=? AND active=?";
+    $result=$adb->pquery($sql, array($qid, 1));
+    $FirstmoduleXML=$adb->query_result($result,0,'firstmodule');
+    //$FirstmoduleXML = takeFirstMOduleFromXMLMap($mapid);
   // echo "brenda kushtit mapID ".$mapid;
 }
-//echo "Jashtekushtit mapID ";
-//echo $FirstmoduleXML;
-//echo '<option  selected>'.$FirstmoduleXML.' </option>';
-//exit();
+
 if (isset($_REQUEST['secModule']) && isset($_REQUEST['firstModule'])) {
     $secModule = implode(',', array_keys(array_flip(explode(',', $_REQUEST['secModule']))));
     $modulesAllowed = '"' . $_REQUEST['firstModule'] . '","' . str_replace(',', '","', $secModule) . '"';
