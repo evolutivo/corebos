@@ -29,8 +29,9 @@ $MapID = $_POST['MapId'];
 $QueryGenerate=$_POST['QueryGenerate'];
 $queryid = $_REQUEST['queryid'];
 $querysequence = $_REQUEST['querysequence'];
+if($querysequence!=''){
 $adb->query("update mvqueryhistory set active=0 where id='$queryid'");
-$adb->query("update mvqueryhistory set active=1 where id='$queryid' and sequence='$querysequence'");
+$adb->query("update mvqueryhistory set active=1 where id='$queryid' and sequence='$querysequence'");}
 $dd=str_replace("SELECT","",$QueryGenerate);
 $withoutselect="\"".$dd."\"";
 $onlyselect=explode("FROM",$withoutselect);

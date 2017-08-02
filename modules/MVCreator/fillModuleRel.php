@@ -22,7 +22,10 @@ include 'XmlContent.php';
 $FirstmoduleXML ="";
 if (isset( $_REQUEST['MapId'])) {
     $mapid =  $_REQUEST['MapId'];
-    $FirstmoduleXML = takeSecondMOduleFromXMLMap($mapid);
+    $qid = $_REQUEST['queryid'];
+    $sql="SELECT * from mvqueryhistory where id=? AND active=?";
+    $result=$adb->pquery($sql, array($qid, 1));
+    $FirstmoduleXML=$adb->query_result($result,0,'secondmodule');
 }
 
 

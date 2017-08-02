@@ -253,7 +253,7 @@ if (isset($_REQUEST['MapId'])) {
         }
         $log->debug("Exiting getAdvSearchfields method ...");
         $OPTION_SET .= "</optgroup>";
-        return $OPTION_SET;
+        return '';
     }
 }
 else{
@@ -310,6 +310,5 @@ $a =getModFields($module, $acno.$dbname,$FieldsArray);
 //}
 //}
 $a.=";".$num_rows.";".$link.";";
-//echo "edmondi 3".$link;
 echo $a;
 ?>
