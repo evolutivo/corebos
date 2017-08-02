@@ -124,6 +124,25 @@
         {rdelim}
 
 </script>
+
+<!-- Change tabs -->
+<script type="text/javascript">
+    function openCity(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("slds-tabs--scoped__content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("slds-tabs--scoped__item");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
 <div id="lstRecordLayout" class="layerPopup" style="display:none;width:325px;height:300px;"></div>
 
 
@@ -317,32 +336,6 @@
                             {include file='applicationmessage.tpl'}
                             <!-- Entity and More information tabs -->
 
-                            
-                             <!--  <div class="slds-tabs--default">
-                               
-                            
-                                    <div class="slds-tabs--default__content slds-show" role="tabpanel" aria-labelledby="tab-default-1__item">
-                                      <div class="slds-tabs--scoped">
-                                            <ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
-                                              <li class="slds-tabs--scoped__item slds-active" title="Item One" role="presentation">
-                                              <a class="slds-tabs--scoped__link" href="#tab-scoped-1" role="tab" tabindex="0" aria-selected="true" 
-                                              aria-controls="tab-scoped-1" id="tab-scoped-1__item">Item One</a></li>
-
-                                              <li class="slds-tabs--scoped__item" title="Item Two" role="presentation">
-                                              <a class="slds-tabs--scoped__link" href="#tab-scoped-2" role="tab" tabindex="-1" aria-selected="false" 
-                                              aria-controls="tab-scoped-2" id="tab-scoped-2__item">Item Two</a></li>
-
-                                             </ul>
-                                            <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">Item One Content</div>
-                                            <div id="tab-scoped-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">Item Two Content</div>
-                                        </div>
-                                    </div>
-                            
-                                </div> -->
-
-                            <br>
-
-
                             <table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
                                 <tr>
                                     <td>
@@ -350,7 +343,7 @@
                                             <tr>
                                                 <td class="dvtTabCache" align="right">
                                                     <div class="slds-tabs--default">
-                                                        <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
+                                                       <!--  <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                             <li class="slds-tabs--default__item slds-active" role="presentation"
                                                               title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}"> 
                                                                 <a class="slds-tabs--default__link" href="javascript:void(0);" 
@@ -383,7 +376,11 @@
                                                                 </div>
                                                             </li>
                                                              {/if}
-                                                        </ul>
+                                                        </ul> -->
+
+                                                        
+
+
                                                     </div>
                                                 </td>
                                                 
@@ -397,12 +394,27 @@
                                     <td>
                                         <div class="slds-truncate">
 
-                                            <table class="slds-table slds-no-row-hover dvtContentSpace slds-table-moz" style="border-bottom: 0;">
-                                                <tr>
-                                                    <td>
+                                            <table class="slds-table slds-no-row-hover dvtContentSpace slds-table-moz" style="border: 0;">
+                                                <tr style="background-color: #f7f9fb;">
+                                                    <td style="padding: 0;" valign="top">
+
+                                                    <div class="slds-tabs--scoped">
+                                                        <ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
+                                                          <li class="slds-tabs--scoped__item active" onclick="openCity(event, 'tab--scoped-1')"  title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                            <a class="slds-tabs--scoped__link "  href="javascript:void(0);"  role="tab" tabindex="0" aria-selected="true" 
+                                                          aria-controls="tab--scoped-1" id="tab--scoped--1__item">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</a>
+                                                          </li>
+                                                          {if $SinglePane_View eq 'false' && $IS_REL_LIST neq false && $IS_REL_LIST|@count > 0}
+                                                          <li class="slds-tabs--scoped__item" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                            <a class="slds-tabs--scoped__link" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}"  role="tab" tabindex="-1" aria-selected="false" 
+                                                          aria-controls="tab--scoped-2" id="tab--scoped-2__item">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+                                                          </li>
+                                                          {/if}
+                                                         </ul>
+                                                
                                                         <!-- content cache -->
                                                         <!-- Command Buttons -->
-                                                        <div class="slds-truncate">
+                                                        <div id="tab--scoped-1" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
                                                             <table class="slds-table slds-no-row-hover slds-table-moz"
                                                                    ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 2rem;">
                                                                 <form action="index.php" method="post"
@@ -630,6 +642,11 @@
                                                                     {/if}
                                                             </table>
                                                         </div>
+                                                        <div id="tab--scoped-2" role="tabpanel" aria-labelledby="tab--scoped-2__item" class="slds-tabs--scoped__content slds-hide">
+                                                            tab2 content test
+                                                        </div>
+
+                                                    </div><!-- /.slds-tabs--scoped -->
 
                                                     </td>
                                                     <td class="noprint action-block" style="{$DEFAULT_ACTION_PANEL_STATUS}"
@@ -1100,11 +1117,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr style="display: none;">
                                     <td>
                                         <table border=0 cellspacing=0 cellpadding=3 width=100% class="small" >
                                             <tr>
-                                                <td class="dvtTabCacheBottom" style="padding: 1px 0;">
+                                                <td class="dvtTabCacheBottom " style="padding: 1px 0;">
                                                     <div class="slds-tabs--default">
                                                         <ul class="slds-tabs--default__nav" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                             <li class="tabMenuBottom slds-tabs--default__item-b slds-active" role="presentation"
@@ -1144,7 +1161,7 @@
                                                 </td>
                                                 {*{include file='RelatedListNg.tpl' SOURCE='DV'}*}
                                                                                                                                                                                             
-                                                <td class="dvtTabCacheBottom">
+                                                <td class="dvtTabCacheBottom dvtBottomButtons">
 
                                                     <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer pull-right"
                                                          id="detailview_utils_thirdfiller">
@@ -1189,7 +1206,7 @@
                                             </tr>
                                             <tr>
                                                 <td></td>
-                                                <td class="pull-right">
+                                                <td class="pull-right dvtControlsButtons">
                                                 {if $privrecord neq ''}
                                                     <span class="detailview_utils_prev"
                                                           onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'"

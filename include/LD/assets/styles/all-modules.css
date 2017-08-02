@@ -1,6 +1,7 @@
 /*=========  Button List  ==========*/
 #LB_buttonlist {
-    background-color: rgb(244, 246, 249);
+    /*background-color: rgb(244, 246, 249);*/
+    background-color: #f7f9fb;
 }
 
 /*.LD_buttonList div {
@@ -71,6 +72,13 @@
 
 /*=========  DETAIL VIEW  ==========*/
 
+ul .slds-tabs--scoped__item {
+    border-right: 1px solid #d8dde6;
+}
+
+/*.slds-tabs--scoped__nav .slds-tabs--scoped__item,*/
+/*.slds-tabs--scoped__nav .slds-tabs--scoped__item .active,*/
+li.active,
 .slds-tabs--scoped__nav .slds-tabs--scoped__item:focus,
 .slds-tabs--scoped__nav .slds-tabs--scoped__item:active {
     background-color: white;
@@ -178,7 +186,7 @@
 }
 
 .detailview_utils_jumpto img {
-    padding-top: 9px;
+    /*padding-top: 9px;*/
 }
 
 .detailview_utils_toggleactions img {
@@ -201,6 +209,12 @@
 /*=========  END DETAIL VIEW ---HEADER---  ==========*/
 
 /*=========  DETAIL VIEW ---BODY---  ==========*/
+.detailview_table {
+    border-collapse: separate;
+    border-spacing: .5rem;
+    border: none;
+}
+
 article {
     display: block;
 }
@@ -221,7 +235,8 @@ article.container::after {
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard.container {
-    background-color: rgb(244, 246, 249);
+    /*background-color: rgb(244, 246, 249);*/
+    background-color: #fff;
     /*margin: 1rem 0 0 0;*/
 }
 
@@ -261,7 +276,7 @@ article.container::after {
 }
 
 .flexipageComponent {
-    background-color: rgb(244, 246, 249);
+    /*background-color: rgb(244, 246, 249);*/
     /*padding: 1rem ;*/
     border: 1px solid rgb(216, 221, 230);
 }
@@ -276,7 +291,7 @@ article.container::after {
 }
 
 .blockStyleCss {
-    background-color: rgb(244, 246, 249);
+    /*background-color: rgb(244, 246, 249);*/
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
@@ -346,8 +361,8 @@ input[type=submit].slds-button--small {
 }
 
 tr td.action-block {
-    /*border-left: 1px dashed #cccccc;*/
-    padding: 2.5rem 1rem;
+    /*padding: 2.5rem 1rem;*/
+    padding: 0 0 0 1rem;
     width: 22%;
     vertical-align: top;
 }
@@ -532,4 +547,12 @@ select:-moz-focusring {
 
 .dvtCellLabel {
     text-align: right;
+}
+
+.dvtBottomButtons {
+    padding: .2rem 1.5rem;
+}
+
+.dvtControlsButtons {
+    padding: .1rem 1.5rem;
 }
