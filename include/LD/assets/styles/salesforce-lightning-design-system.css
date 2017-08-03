@@ -1090,6 +1090,13 @@ a.slds-button--inverse:focus {
     fill: white;
 }
 
+.slds-icon_x-small, .slds-icon--x-small {
+    width: 1rem;
+    height: 1rem;
+    line-height: 1;
+}
+
+
 .slds-icon-action-change-owner {
     background-color: #54698d;
 }
@@ -8359,6 +8366,12 @@ th.slds-is-sortable:hover .slds-button {
 .slds-th__action:hover .slds-is-sortable__icon {
     display: inline-block;
 }
+
+.slds-th__action_form {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
 .slds-is-sortable__icon {
     width: 0.75rem;
     height: 0.75rem;

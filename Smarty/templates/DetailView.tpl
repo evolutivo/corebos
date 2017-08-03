@@ -232,7 +232,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer" 
-                                                     id="detailview_utils_thirdfiller" style="padding-top: 0; display: block;">
+                                                     id="detailview_utils_thirdfiller">
                                                     <p class="slds-text-heading--label slds-line-height--reset" style="text-align: right;">
                                                         {if $privrecord neq ''}
                                                             <span class="detailview_utils_prev"
@@ -283,7 +283,6 @@
                                                     <div class="slds-grid forceActionsContainer">
                                                         {if $EDIT_PERMISSION eq 'yes'}
                                                             <input class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
-                                                                   {*class="slds-button slds-button--small slds-button_success assideBtn"*}
                                                                    aria-live="assertive" type="button" name="Edit"
                                                                    title="{$APP.LBL_EDIT_BUTTON_TITLE}"
                                                                    accessKey="{$APP.LBL_EDIT_BUTTON_KEY}"
@@ -337,13 +336,13 @@
                             <!-- Entity and More information tabs -->
 
                             <table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
-                                <tr>
+                                <tr style="display: none;">
                                     <td>
                                         <table class="small {if $theme eq 'mltheme'}detailview_utils_table_top{/if}">
                                             <tr>
                                                 <td class="dvtTabCache" align="right">
                                                     <div class="slds-tabs--default">
-                                                       <!--  <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
+                                                        <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                             <li class="slds-tabs--default__item slds-active" role="presentation"
                                                               title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}"> 
                                                                 <a class="slds-tabs--default__link" href="javascript:void(0);" 
@@ -376,11 +375,7 @@
                                                                 </div>
                                                             </li>
                                                              {/if}
-                                                        </ul> -->
-
-                                                        
-
-
+                                                        </ul>
                                                     </div>
                                                 </td>
                                                 
@@ -394,9 +389,9 @@
                                     <td>
                                         <div class="slds-truncate">
 
-                                            <table class="slds-table slds-no-row-hover dvtContentSpace slds-table-moz" style="border: 0;">
-                                                <tr style="background-color: #f7f9fb;">
-                                                    <td style="padding: 0;" valign="top">
+                                            <table class="slds-table slds-no-row-hover dvtContentSpace">
+                                                <tr>
+                                                    <td valign="top" style="padding: 0;">
 
                                                     <div class="slds-tabs--scoped">
                                                         <ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
@@ -435,19 +430,30 @@
                                                                                              aria-describedby="header" style="margin: 0;">
                                                                                             <div class="slds-card__header slds-grid">
                                                                                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                                                                                    <div class="profilePicWrapper slds-media slds-no-space"
-                                                                                                         style="transform: scale3d(0.864715, 0.864715, 1) translate3d(4.32911px, 2.16456px, 0);">
-                                                                                                        <div class="slds-media__figure slds-icon forceEntityIcon">
-                                                                                                            <span class="photoContainer forceSocialPhoto">
-                                                                                                                <div class="small roundedSquare forceEntityIcon"
-                                                                                                                     style="background-color: #A094ED">
-                                                                                                                    <span class="uiImage">
-                                                                                                                        <img src="https://playful-raccoon-70441-dev-ed.my.salesforce.com/img/icon/t4v35/standard/contact_120.png"
-                                                                                                                             class="icon " alt="Contact"
-                                                                                                                             title="Contact">
-                                                                                                                    </span>
-                                                                                                                </div>
-                                                                                                            </span>
+                                                                                                    <div class="slds-media__figure" data-aura-rendered-by="1215:0">
+                                                                                                        <div class="extraSmall forceEntityIcon" style="background-color: #A094ED" 
+                                                                                                        data-aura-rendered-by="3:1782;a" data-aura-class="forceEntityIcon">
+                                                                                                        <span data-aura-rendered-by="6:1782;a" class="uiImage" data-aura-class="uiImage">
+                                                                                                            <a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$THEME}');">
+                                                                                                                {if isset($BLOCKINITIALSTATUS[$header]) && $BLOCKINITIALSTATUS[$header] eq 1}
+                                                                                                                    <span class="exp_coll_block inactivate">
+                                                                                                                <img id="aid{$header|replace:' ':''}"
+                                                                                                                     src="{'activate.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                     style="border: 0px solid #000000;"
+                                                                                                                     alt="{'LBL_Hide'|@getTranslatedString:'Settings'}"
+                                                                                                                     title="{'LBL_Hide'|@getTranslatedString:'Settings'}"/>
+                                                                                                                </span>
+                                                                                                                {else}
+                                                                                                                    <span class="exp_coll_block activate">
+                                                                                                                <img id="aid{$header|replace:' ':''}"
+                                                                                                                     src="{'inactivate.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                     style="border: 0px solid #000000;"
+                                                                                                                     alt="{'LBL_Show'|@getTranslatedString:'Settings'}"
+                                                                                                                     title="{'LBL_Show'|@getTranslatedString:'Settings'}"/>
+                                                                                                                </span>
+                                                                                                                {/if}
+                                                                                                            </a>
+                                                                                                        </span>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="slds-media__body">

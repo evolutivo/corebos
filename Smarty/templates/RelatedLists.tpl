@@ -85,7 +85,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 			<br>
 			<!-- Account details tabs -->
 			<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
-			<tr class="slds-text-title">
+			<tr class="slds-text-title" style="display: none;">
 				<td class="dvtTabCache">
 					{if isset($OP_MODE) && $OP_MODE eq 'edit_view'}
 						{assign var="action" value="EditView"}
@@ -94,7 +94,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 					{/if}
                 
                     <div class="slds-tabs--default">
-                        <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
+                        <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none; display: none;">
                             <li class="slds-tabs--default__item" role="presentation"
                               title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}"> 
                                 <a class="slds-tabs--default__link" href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}" 
@@ -131,12 +131,30 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 					<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace" style="border-bottom:0;">
 						<tr>
 							<td align=left>
-							<!-- content cache -->
-                                <table class="slds-table slds-no-row-hover slds-table--cell-buffer">
-                                {*<table border=0 cellspacing=0 cellpadding=0 width=100%>*}
-									<tr>
-                                        <th scope="col">
-                                            <div class="slds-truncate contains_rel_modules">
+							{if isset($OP_MODE) && $OP_MODE eq 'edit_view'}
+								{assign var="action" value="EditView"}
+							{else}
+								{assign var="action" value="DetailView"}
+							{/if}
+								<div class="slds-tabs--scoped">
+									<ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
+		                              	<li class="slds-tabs--scoped__item" onclick="openCity(event, 'tab--scoped-relatedList1')"  title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}" role="presentation">
+		                                	<a class="slds-tabs--scoped__link "  href="index.php?action={$action}&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}"  role="tab" tabindex="0" aria-selected="true" aria-controls="tab--scoped-relatedList1" id="tab--scoped--relatedList1__item">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</a>
+		                              	</li>
+
+		                              <li class="slds-tabs--scoped__item active" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}" role="presentation">
+		                              	{if $smarty.request.ng_tab neq ''}
+		                              	<a class="slds-tabs--scoped__link" href="javascript:void(0);"  role="tab" tabindex="-1" aria-selected="false" aria-controls="tab--scoped-relatedList2" id="tab--scoped-relatedList2__item">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+		                              	{else}
+		                              	<a class="slds-tabs--scoped__link" role="tab" tabindex="-1" aria-selected="false" aria-haspopup="true" aria-controls="tab--scoped-relatedList2" id="tab--scoped-relatedList2__item">
+                                        	{$APP.LBL_MORE} {$APP.LBL_INFORMATION}
+                                    	</a>
+		                             	
+		                              </li>
+		                              {/if}
+	                             	</ul>
+									<!-- content cache -->
+                                            <div id="tab--scoped-relatedList1" role="tabpanel" aria-labelledby="tab--scoped-relatedList1__item" class="slds-tabs--scoped__content slds-truncate contains_rel_modules">
 										<!-- General details -->
 												{include file='RelatedListsHidden.tpl'}
 												{if empty($ng_tab)}
@@ -164,9 +182,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 												</form>
 										<!-- End of Blocks-->
                                             </div>
-                                        </th>
-									</tr>
-								</table>
+								</div><!-- /.slds-tabs--scoped -->
 							</td>
 							{if isset($HASRELATEDPANESACTIONS) && $HASRELATEDPANESACTIONS eq 'true'}
 								{include file='RelatedPaneActions.tpl'}
@@ -175,7 +191,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 					</table>
 				</td>
 			</tr>
-			<tr>
+			<tr style="display: none;">
 				<td>
 					<table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
                         <tr>
@@ -208,23 +224,8 @@ function showHideStatus(sId,anchorImgId,sImagePath)
                                                 </a>
                                                 {/if}
                                             </li>
-
-                                            
-<!--
-                                            <div class="{if $smarty.request.ng_tab neq ''}detailview_utils_table_tab detailview_utils_table_tab_unselected detailview_utils_table_tab_unselected_bottom{else}detailview_utils_table_tab detailview_utils_table_tab_selected detailview_utils_table_tab_selected_bottom{/if}">													
-                                                
-                                                {if $smarty.request.ng_tab neq ''}
-                                                <a href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}">
-                                                    {$APP.LBL_MORE} {$APP.LBL_INFORMATION}
-                                                </a>
-                                                {else}
-                                                    {$APP.LBL_MORE} {$APP.LBL_INFORMATION}
-                                                {/if}
-                                                
-                                            </div>
--->
                                             {/if}
-                                            
+
                                         </ul>
                                     </div>
                                     {include file='RelatedListNg.tpl' SOURCE='RL'}

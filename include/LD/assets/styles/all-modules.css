@@ -178,6 +178,11 @@ li.active,
     padding-top: .75rem;
 }
 
+#detailview_utils_thirdfiller {
+    display: block;
+    padding: 0;
+}
+
 .detailview_utils_prev,
 .detailview_utils_next,
 .detailview_utils_toggleactions,
@@ -211,7 +216,7 @@ li.active,
 /*=========  DETAIL VIEW ---BODY---  ==========*/
 .detailview_table {
     border-collapse: separate;
-    border-spacing: .5rem;
+    border-spacing: .2rem;
     border: none;
 }
 
@@ -235,8 +240,8 @@ article.container::after {
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard.container {
-    /*background-color: rgb(244, 246, 249);*/
-    background-color: #fff;
+    background-color: rgb(244, 246, 249);
+    /*background-color: #fff;*/
     /*margin: 1rem 0 0 0;*/
 }
 
@@ -556,3 +561,13 @@ select:-moz-focusring {
 .dvtControlsButtons {
     padding: .1rem 1.5rem;
 }
+
+.dvtContentSpace {
+    border: none;
+}
+
+.dvtContentSpace > tr {
+    background-color: #f7f7fb;
+}
+
+
