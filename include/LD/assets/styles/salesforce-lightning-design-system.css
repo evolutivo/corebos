@@ -4940,6 +4940,7 @@ a.slds-button--inverse:focus {
     max-height: calc(((0.8125rem * 1.5) + 1rem) * 7);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overflow-x: hidden;
 }
 
 .slds-dropdown--length-10 {

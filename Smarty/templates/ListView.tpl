@@ -72,7 +72,7 @@ var Document_Folder_View = { $Document_Folder_View };
                                 <input type="hidden" name="search_cnt">
                             </td>
                             <td class="small" nowrap width=40%>
-                                <input name="submit" type="button" class="crmbutton small create" onClick="callSearch('Basic');document.basicSearch.searchtype.searchlaunched='basic';" value=" {$APP.LBL_SEARCH_NOW_BUTTON} ">&nbsp;
+                                <input name="submit" type="button" class="slds-button slds-button--small slds-button--brand" onClick="callSearch('Basic');document.basicSearch.searchtype.searchlaunched='basic';" value=" {$APP.LBL_SEARCH_NOW_BUTTON} ">&nbsp;
                             </td>
                             <td class="small closeX" valign="top" onMouseOver="this.style.cursor='pointer';" onclick="moveMe('searchAcc');searchshowhide('searchAcc','advSearch');document.basicSearch.searchtype.searchlaunched='';">[x]</td>
                         </tr>

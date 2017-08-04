@@ -140,7 +140,7 @@
     }
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
-}
+    }
 </script>
 
 <div id="lstRecordLayout" class="layerPopup" style="display:none;width:325px;height:300px;"></div>
@@ -259,8 +259,9 @@
                                                                   title="{$APP.LBL_JUMP_BTN}">
                                                                 <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
                                                                      accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
-                                                                     src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
-                                                                     id="jumpBtnIdTop"/>
+                                                                     src="{'replace_60.png'|@vtiger_imageurl:$THEME}" width="18"
+                                                                     id="jumpBtnIdTop"  />
+                                                                     <!-- src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}" -->
                                                             </span>&nbsp;
                                                         {/if}
                                                         {if $nextrecord neq ''}
@@ -400,9 +401,20 @@
                                                           aria-controls="tab--scoped-1" id="tab--scoped--1__item">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</a>
                                                           </li>
                                                           {if $SinglePane_View eq 'false' && $IS_REL_LIST neq false && $IS_REL_LIST|@count > 0}
-                                                          <li class="slds-tabs--scoped__item" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                          <li class="slds-tabs--scoped__item slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}" role="presentation">
                                                             <a class="slds-tabs--scoped__link" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}"  role="tab" tabindex="-1" aria-selected="false" 
                                                           aria-controls="tab--scoped-2" id="tab--scoped-2__item">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+                                                            <div class="slds-dropdown slds-dropdown--left" style="margin-top: 0;">
+                                                                <ul class="slds-dropdown__list slds-dropdown--length-7" role="menu">
+                                                                {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
+                                                                    <li class="slds-dropdown__item" role="presentation">
+                                                                        <a role="menuitem" tabindex="-1" class="drop_down"
+                                                                           href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&selected_header={$_RELATED_MODULE}&relation_id={$_RELATION_ID}#tbl_{$MODULE}_{$_RELATED_MODULE}">
+                                                                           {$_RELATED_MODULE|@getTranslatedString:$_RELATED_MODULE}</a>
+                                                                    </li>
+                                                                {/foreach}
+                                                                </ul>
+                                                            </div>
                                                           </li>
                                                           {/if}
                                                          </ul>
@@ -1241,8 +1253,10 @@
                                                                   title="{$APP.LBL_JUMP_BTN}">
                                                             <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
                                                                  accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
-                                                                 src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
-                                                                 id="jumpBtnIdTop"/>
+                                                                 src="{'replace_60.png'|@vtiger_imageurl:$THEME}"
+                                                                 id="jumpBtnIdTop" width="18"/>
+                                                                 <!-- src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}" -->
+                                                                 
                                                         </span>&nbsp;
                                                         {/if}
                                                         

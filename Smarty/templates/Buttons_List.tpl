@@ -40,33 +40,18 @@
                                    <div class="forceHeaderMenuTrigger">
                                         {if $CHECK.CreateView eq 'yes' && ($MODULE eq 'Calendar' || $MODULE eq 'Calendar4You')}
                                             <div id="LB_AddButton" class="LB_Button slds-truncate">
-                                                <span alt="{$MOD.LBL_ADD_EVENT}" title="{$MOD.LBL_ADD_EVENT}" {$ADD_ONMOUSEOVER} class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#new"></use>
-                                                    </svg>
-                                                </span>
-                                                <!-- <img src="{$IMAGE_PATH}utility/add_60.png" alt="{$MOD.LBL_ADD_EVENT}" title="{$MOD.LBL_ADD_EVENT}" border=0 {$ADD_ONMOUSEOVER}> -->
+                                                <img src="{$IMAGE_PATH}btnL3Add.gif" alt="{$MOD.LBL_ADD_EVENT}" title="{$MOD.LBL_ADD_EVENT}" border=0 {$ADD_ONMOUSEOVER}>
                                             </div>
                                         {elseif $CHECK.CreateView eq 'yes' && $MODULE neq 'Emails' && $MODULE neq 'Webmails'}
                                             <div class="slds-truncate LB_Button" id="LB_AddButton">
-                                                
-                                                <a class="globalCreateTrigger" href="index.php?module={$MODULE}&action=EditView&return_action=DetailView&parenttab={$CATEGORY}" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button"  data-aura-rendered-by="328:0;p" alt="{$APP.LBL_CREATE_BUTTON_LABEL} {$SINGLE_MOD|getTranslatedString:$MODULE}..." title="{$APP.LBL_CREATE_BUTTON_LABEL} {$SINGLE_MOD|getTranslatedString:$MODULE}...">
-                                                    <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                        <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                            <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#new"></use>
-                                                        </svg>
-                                                    </span>
+                                                <a class="globalCreateTrigger" href="index.php?module={$MODULE}&action=EditView&return_action=DetailView&parenttab={$CATEGORY}">
+                                                    <img src="{$IMAGE_PATH}btnL3Add.gif" alt="{$APP.LBL_CREATE_BUTTON_LABEL} {$SINGLE_MOD|getTranslatedString:$MODULE}..." title="{$APP.LBL_CREATE_BUTTON_LABEL} {$SINGLE_MOD|getTranslatedString:$MODULE}..." border=0>
                                                 </a>
-
                                             </div>
                                         {else}
-                                            <div id="LB_AddButtonFaded" class="slds-truncate LB_Button">
-
-                                                <!-- <img src="{'btnL3Add-Faded.gif'|@vtiger_imageurl:$THEME}" border=0> -->
-                                                <span class="disabled slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#add"></use>
-                                                    </svg>
+                                            <div id="LB_AddButtonFaded" class="slds-truncateLB_Button">
+                                                <span class="disabled">
+                                                    <img src="{'btnL3Add.gif'|@vtiger_imageurl:$THEME}" border=0>
                                                 </span>
                                             </div>
                                         {/if}
@@ -75,27 +60,20 @@
                             </th>
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                        <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                         {if $CHECK.index eq 'yes' && ($smarty.request.action eq 'ListView' || $smarty.request.action eq 'index') && $MODULE neq 'Emails' && $MODULE neq 'Webmails' && $MODULE neq 'Calendar4You'}
                                             <div id="LB_SearchButton" class="slds-truncate LB_Button">
-                                                <a class="globalCreateTrigger" href="javascript:;" onClick="moveMe('searchAcc');searchshowhide('searchAcc','advSearch');mergehide('mergeDup')" alt="{$APP.LBL_SEARCH_ALT}{$MODULE|getTranslatedString:$MODULE}..." title="{$APP.LBL_SEARCH_TITLE}{$MODULE|getTranslatedString:$MODULE}..." aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                    <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton">
-                                                        <img class="slds-icon--x-small" src="{$IMAGE_PATH}utility/search_61.png" border=0 >
-                                                    </span>
+                                                <a href="javascript:;" onClick="moveMe('searchAcc');searchshowhide('searchAcc','advSearch');mergehide('mergeDup')" >
+                                                    <img src="{$IMAGE_PATH}btnL3Search.gif" alt="{$APP.LBL_SEARCH_ALT}{$MODULE|getTranslatedString:$MODULE}..." title="{$APP.LBL_SEARCH_TITLE}{$MODULE|getTranslatedString:$MODULE}..." border=0>
                                                 </a>
-                                               <!--  <a href="javascript:;" onClick="moveMe('searchAcc');searchshowhide('searchAcc','advSearch');mergehide('mergeDup')" >
-                                                    <img src="{$IMAGE_PATH}/utility/search.png" alt="{$APP.LBL_SEARCH_ALT}{$MODULE|getTranslatedString:$MODULE}..." title="{$APP.LBL_SEARCH_TITLE}{$MODULE|getTranslatedString:$MODULE}..." border=0>
-                                                </a> -->
                                             </div>
                                         {else}
                                             <div id="LB_SearchButtonFaded" class="LB_Button slds-truncate">
-                                                <!-- <img src="{'btnL3Search-Faded.gif'|@vtiger_imageurl:$THEME}" border=0> -->
-                                                <span class="disabled slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <img class="slds-icon--x-small" src="{$IMAGE_PATH}utility/search_61.png" border=0 >
+                                                <span class="disabled">
+                                                    <img src="{'btnL3Search.gif'|@vtiger_imageurl:$THEME}" border=0>
                                                 </span>
                                             </div>
                                         {/if}
-                                        </div>
                                     </div>
                                 </div>
                             </th>
@@ -109,7 +87,7 @@
                         <tr class="LD_buttonList">
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                     {if $CALENDAR_DISPLAY eq 'true'}
 
                                         {if $CATEGORY eq 'Settings' || $CATEGORY eq 'Tools' || $CATEGORY eq 'Analytics'}
@@ -120,31 +98,17 @@
 
                                         {if $CHECK.Calendar eq 'yes'}
                                             <div id="LB_CalButton" class="LB_Button slds-truncate">
-
-                                                <!-- <a href="javascript:;" onclick="fnvshobj(this,'miniCal');getITSMiniCal('');">
+                                                <a href="javascript:;" onclick="fnvshobj(this,'miniCal');getITSMiniCal('');">
                                                     <img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_CALENDAR_ALT}" title="{$APP.LBL_CALENDAR_TITLE}" border=0>
-                                                </a> -->
-                                                <a class="globalCreateTrigger" href="javascript:;" onclick="fnvshobj(this,'miniCal');getITSMiniCal('');" alt="{$APP.LBL_CALENDAR_ALT}" title="{$APP.LBL_CALENDAR_TITLE}" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                    <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                        <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                            <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#monthlyview"></use>
-                                                        </svg>
-                                                    </span>
                                                 </a>
-
                                             </div>
+
                                         {else}
                                             <div id="LB_CalButtonFaded" class="LB_Button slds-truncate">
-
-                                                <span class="disabled slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#monthlyview"></use>
-                                                    </svg>
+                                                <span class="disabled">
+                                                    <img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}">
                                                 </span>
-                                                <!-- <img src="{'btnL3Calendar-Faded.gif'|@vtiger_imageurl:$THEME}"> -->
-
                                             </div>
-
                                         {/if}
 
                                     {/if}
@@ -153,18 +117,11 @@
                             </th>
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                     {if $WORLD_CLOCK_DISPLAY eq 'true'}
                                         <div id="LB_ClockButton" class="LB_Button slds-truncate">
-                                           <!--  <a href="javascript:;">
+                                            <a href="javascript:;">
                                                 <img src="{$IMAGE_PATH}btnL3Clock.gif" alt="{$APP.LBL_CLOCK_ALT}" title="{$APP.LBL_CLOCK_TITLE}" border=0 onClick="fnvshobj(this,'wclock');">
-                                            </a> -->
-                                            <a class="globalCreateTrigger" href="javascript:;" alt="{$APP.LBL_CLOCK_ALT}" title="{$APP.LBL_CLOCK_TITLE}" onClick="fnvshobj(this,'wclock');" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#clock"></use>
-                                                    </svg>
-                                                </span>
                                             </a>
                                         </div>
                                     {/if}
@@ -173,15 +130,11 @@
                             </th>
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                     {if $CALCULATOR_DISPLAY eq 'true'}
                                         <div id="LB_CalcButton" class="LB_Button slds-truncate">
-                                            <a class="globalCreateTrigger" href="javascript:;" alt="{$APP.LBL_CALCULATOR_ALT}" title="{$APP.LBL_CALCULATOR_TITLE}" onClick="fnvshobj(this,'calculator_cont');fetch_calc();" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#table"></use>
-                                                    </svg>
-                                                </span>
+                                            <a href="javascript:;">
+                                                <img src="{$IMAGE_PATH}btnL3Calc.gif" alt="{$APP.LBL_CALCULATOR_ALT}" title="{$APP.LBL_CALCULATOR_TITLE}" border=0 onClick="fnvshobj(this,'calculator_cont');fetch_calc();">
                                             </a>
                                         </div>
                                     {/if}
@@ -190,16 +143,11 @@
                             </th>
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                         <div id="LB_TrackButton" class="LB_Button slds-truncate">
-                                            <a class="globalCreateTrigger" href="javascript:;" alt="{$APP.LBL_LAST_VIEWED}" title="{$APP.LBL_LAST_VIEWED}" onClick="fnvshobj(this,'tracker');" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" data-aura-rendered-by="310:0;p">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#preview"></use>
-                                                    </svg>
-                                                </span>
+                                            <a href="javascript:;">
+                                                <img src="{$IMAGE_PATH}btnL3Tracker.gif" alt="{$APP.LBL_LAST_VIEWED}" title="{$APP.LBL_LAST_VIEWED}" border=0 onClick="fnvshobj(this,'tracker');">
                                             </a>
-                                            <!-- <img src="{$IMAGE_PATH}btnL3Tracker.gif" alt="{$APP.LBL_LAST_VIEWED}" title="{$APP.LBL_LAST_VIEWED}" border=0 onClick="fnvshobj(this,'tracker');"> -->
                                         </div>
                                     </div>
                                 </div>
@@ -214,118 +162,37 @@
                         <tr class="LD_buttonList">
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                     {if $CHECK.Import eq 'yes' && $MODULE neq 'Documents' && $MODULE neq 'Calendar' && $MODULE neq 'Calendar4You'}
-                                        <div id="LB_ImportButton" class="LB_Button slds-truncate">
-                                            <!-- <a href="index.php?module={$MODULE}&action=Import&step=1&return_module={$MODULE}&return_action=index&parenttab={$CATEGORY}">
-                                            <img src="{$IMAGE_PATH}tbarImport.gif" alt="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" border="0">
-                                            </a> -->
-                                            <a class="globalCreateTrigger" href="index.php?module={$MODULE}&action=Import&step=1&return_module={$MODULE}&return_action=index&parenttab={$CATEGORY}" alt="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton">        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#upload"></use>
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </div>
+                                        <div id="LB_ImportButton" class="LB_Button slds-truncate"><a href="index.php?module={$MODULE}&action=Import&step=1&return_module={$MODULE}&return_action=index&parenttab={$CATEGORY}"><img src="{$IMAGE_PATH}tbarImport.gif" alt="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" border="0"></a></div>
                                     {elseif $CHECK.Import eq 'yes' && $MODULE eq 'Calendar'}
-                                        <div id="LB_ImportButton" class="LB_Button slds-truncate">
-                                        
-                                        <!-- <a name='import_link' href="javascript:void(0);" onclick="fnvshobj(this,'CalImport');" >
-                                        <img src="{$IMAGE_PATH}tbarImport.gif" alt="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" 
-                                        title="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" border="0"></a> -->
-                                            <a class="globalCreateTrigger" name='import_link' href="javascript:void(0);" onclick="fnvshobj(this,'CalImport');" alt="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" aria-disabled="false" aria-haspopup="true" tabindex="0" role="button">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#upload"></use>
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </div>
+                                        <div id="LB_ImportButton" class="LB_Button slds-truncate"><a name='import_link' href="javascript:void(0);" onclick="fnvshobj(this,'CalImport');" ><img src="{$IMAGE_PATH}tbarImport.gif" alt="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_IMPORT} {$MODULE|getTranslatedString:$MODULE}" border="0"></a></div>
                                     {else}
-                                        <div id="LB_ImportButtonFaded" class="LB_Button slds-truncate">
-                                            <span class="disabled slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton">        
-                                                <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                    <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#upload"></use>
-                                                </svg>
-                                            </span>
-
-                                            <!-- <img src="{'tbarImport-Faded.gif'|@vtiger_imageurl:$THEME}" border="0"> -->
-                                        </div>
+                                        <div id="LB_ImportButtonFaded" class="LB_Button slds-truncate"><span class="disabled"><img src="{'tbarImport.gif'|@vtiger_imageurl:$THEME}" border="0"></span></div>
                                     {/if}
                                     </div>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                     {if $CHECK.Export eq 'yes' && $MODULE neq 'Calendar' && $MODULE neq 'Calendar4You'}
-                                        <div id="LB_ExportButton" class="LB_Button slds-truncate">
-                                            <a class="globalCreateTrigger" name='export_link' href="javascript:void(0)" onclick="return selectedRecords('{$MODULE}','{$CATEGORY}')" alt="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#download"></use>
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </div>
+                                        <div id="LB_ExportButton" class="LB_Button slds-truncate"><a name='export_link' href="javascript:void(0)" onclick="return selectedRecords('{$MODULE}','{$CATEGORY}')"><img src="{$IMAGE_PATH}tbarExport.gif" alt="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" border="0"></a></div>
                                     {elseif $CHECK.Export eq 'yes' && $MODULE eq 'Calendar'}
-                                        <div id="LB_ExportButton" class="LB_Button slds-truncate">
-                                            <!-- <a name='export_link' href="javascript:void(0);" onclick="fnvshobj(this,'CalExport');" >
-                                            <img src="{$IMAGE_PATH}tbarExport.gif" alt="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" 
-                                            title="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" border="0">
-                                            </a> -->
-
-                                            <a class="globalCreateTrigger" name='export_link' href="javascript:void(0);" onclick="fnvshobj(this,'CalExport');" alt="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#download"></use>
-                                                    </svg>
-                                                </span>
-                                            </a>
-                                        </div>
+                                        <div id="LB_ExportButton" class="LB_Button slds-truncate"><a name='export_link' href="javascript:void(0);" onclick="fnvshobj(this,'CalExport');" ><img src="{$IMAGE_PATH}tbarExport.gif" alt="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" title="{$APP.LBL_EXPORT} {$MODULE|getTranslatedString:$MODULE}" border="0"></a></div>
                                     {else}
-                                        <div id="LB_ExportButtonFaded" class="LB_Button slds-truncate">
-                                            <!-- <img src="{'tbarExport-Faded.gif'|@vtiger_imageurl:$THEME}" border="0"> -->
-                                            <span class="disabled slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton">        
-                                                <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                    <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#download"></use>
-                                                </svg>
-                                            </span>
-                                        </div>
+                                        <div id="LB_ExportButtonFaded" class="LB_Button slds-truncate"><span class="disabled"><img src="{'tbarExport.gif'|@vtiger_imageurl:$THEME}" border="0"></span></div>
                                     {/if}
                                     </div>
                                 </div>
                             </th>
                             <th scope="col">
                                 <div class="globalCreateContainer oneGlobalCreate">
-                                    <div class="orceHeaderMenuTrigger">
+                                    <div class="forceHeaderMenuTrigger">
                                     {if $CHECK.DuplicatesHandling eq 'yes' && ($smarty.request.action eq 'ListView' || $smarty.request.action eq 'index')}
-                                        <div id="LB_FindDuplButton" class="LB_Button slds-truncate">
-                                            <!-- <a href="javascript:;" 
-                                            onClick="moveMe('mergeDup');mergeshowhide('mergeDup');searchhide('searchAcc','advSearch');">
-                                            <img src="{'findduplicates.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_FIND_DUPLICATES}" 
-                                            title="{$APP.LBL_FIND_DUPLICATES}" border="0">
-                                            </a> -->
-
-                                            <a class="globalCreateTrigger" href="javascript:;" onClick="moveMe('mergeDup');mergeshowhide('mergeDup');searchhide('searchAcc','advSearch');" alt="{$APP.LBL_FIND_DUPLICATES}" title="{$APP.LBL_FIND_DUPLICATES}">
-                                                <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                    <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                        <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#cases"></use>
-                                                    </svg>
-                                                </span>
-                                            </a>
-
-                                        </div>
+                                        <div id="LB_FindDuplButton" class="LB_Button slds-truncate"><a href="javascript:;" onClick="moveMe('mergeDup');mergeshowhide('mergeDup');searchhide('searchAcc','advSearch');"><img src="{'findduplicates.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_FIND_DUPLICATES}" title="{$APP.LBL_FIND_DUPLICATES}" border="0"></a></div>
                                     {else}
-                                        <div id="LB_FindDuplButtonFaded" class="LB_Button slds-truncate">
-                                            <!-- <img src="{'FindDuplicates-Faded.gif'|@vtiger_imageurl:$THEME}" border="0"> -->
-                                            <span class="disabled slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                    <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#cases"></use>
-                                                </svg>
-                                            </span>
-                                        </div>
+                                        <div id="LB_FindDuplButtonFaded" class="LB_Button slds-truncate"><span class="disabled"><img src="{'findduplicates.gif'|@vtiger_imageurl:$THEME}" border="0"></span></div>
                                     {/if}
                                     </div>
                                 </div>
@@ -334,66 +201,26 @@
                     </table>
                     <td style="width:20px;" class="LB_Divider">&nbsp;</td>
                     <td class="small">
+                        <!-- Settings -->
                         <table class="slds-table slds-no-row-hover">
                             <tr class="LD_buttonList">
                                 <th scope="col">
                                     <div class="globalCreateContainer oneGlobalCreate">
-                                        <div class="orceHeaderMenuTrigger">
+                                        <div class="forceHeaderMenuTrigger">
                                         {if $MODULE eq 'Calendar4You'}
                                             {if $MODE neq 'DetailView' && $MODE neq 'EditView' && $MODE neq 'RelatedList'}
-                                            <div id="LB_ITSCalSettings" class="LB_Button slds-truncate" style="padding-left:50px;">
-                                                <!-- <a href="javascript:;" onclick="fnvshobj(this,'calSettings'); getITSCalSettings();">
-                                                    <img src="themes/softed/images/tbarSettings.gif" alt="Settings" title="Settings" 
-                                                    align="absmiddle" border="0">
-                                                </a> -->
-                                                
-                                                <a class="globalCreateTrigger" href="javascript:;" onclick="fnvshobj(this,'calSettings'); getITSCalSettings();" alt="Settings" title="Settings">
-                                                    <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                        <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                            <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#settings"></use>
-                                                        </svg>
-                                                    </span>
-                                                </a>
-                                            </div>
+                                            <div id="LB_ITSCalSettings" class="LB_Button slds-truncate" style="padding-left:50px;"><a href="javascript:;" onclick="fnvshobj(this,'calSettings'); getITSCalSettings();"><img src="themes/softed/images/tbarSettings.gif" alt="Settings" title="Settings" align="absmiddle" border="0"></a></div>
                                             {/if}
-                                            <div id="LB_TaskIcon" class="LB_Button slds-truncate">
-                                               <!--  <a href='index.php?module=Calendar&action=index'>
-                                                    <img src="themes/images/tasks-icon.png" alt="{'Tasks'|getTranslatedString:$MODULE}" 
-                                                    title="{'Tasks'|getTranslatedString:$MODULE}" border="0">
-                                                </a> -->
-
-                                                <a class="globalCreateTrigger" href='index.php?module=Calendar&action=index' alt="{'Tasks'|getTranslatedString:$MODULE}" title="{'Tasks'|getTranslatedString:$MODULE}">
-                                                    <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                        <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                            <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#settings"></use>
-                                                        </svg>
-                                                    </span>
-                                                </a>
-                                            </div>
+                                            <div id="LB_TaskIcon" class="LB_Button slds-truncate"><a href='index.php?module=Calendar&action=index'><img src="themes/images/tasks-icon.png" alt="{'Tasks'|getTranslatedString:$MODULE}" title="{'Tasks'|getTranslatedString:$MODULE}" border="0"></a></div>
                                         {/if}
                                         </div>
                                     </div>
                                 </th>
                                 <th scope="col">
                                     <div class="globalCreateContainer oneGlobalCreate">
-                                        <div class="orceHeaderMenuTrigger">
+                                        <div class="forceHeaderMenuTrigger">
                                         {if $CHECK.moduleSettings eq 'yes'}
-                                            <div id="LB_ModSettingsButton" class="LB_Button slds-truncate">
-
-                                                <!-- <a href='index.php?module=Settings&action=ModuleManager&module_settings=true&formodule={$MODULE}&parenttab=Settings'>
-                                                    <img src="{'settingsBox.png'|@vtiger_imageurl:$THEME}" alt="{$MODULE|getTranslatedString:$MODULE} {$APP.LBL_SETTINGS}" 
-                                                    title="{$MODULE|getTranslatedString:$MODULE} {$APP.LBL_SETTINGS}" border="0">
-                                                </a>
- -->
-                                                <a class="globalCreateTrigger" href='index.php?module=Settings&action=ModuleManager&module_settings=true&formodule={$MODULE}&parenttab=Settings' alt="{$MODULE|getTranslatedString:$MODULE} {$APP.LBL_SETTINGS}" title="{$MODULE|getTranslatedString:$MODULE} {$APP.LBL_SETTINGS}">
-                                                    <span class="slds-icon_container slds-icon-utility-add slds-button slds-button--icon slds-button--icon-small slds-button--icon-container slds-button--icon-x-small slds-global-header__button--icon-actions slds-m-horizontal--xx-small globalCreateButton" >        
-                                                        <svg class="slds-icon slds-icon--x-small slds-icon" focusable="false" data-key="add" aria-hidden="true" >
-                                                            <use xlink:href="{$IMAGE_PATH}utility-sprite/svg/symbols.svg#settings"></use>
-                                                        </svg>
-                                                    </span>
-                                                </a>
-
-                                            </div>
+                                            <div id="LB_ModSettingsButton" class="LB_Button slds-truncate"><a href='index.php?module=Settings&action=ModuleManager&module_settings=true&formodule={$MODULE}&parenttab=Settings'><img src="{'settingsBox.png'|@vtiger_imageurl:$THEME}" alt="{$MODULE|getTranslatedString:$MODULE} {$APP.LBL_SETTINGS}" title="{$MODULE|getTranslatedString:$MODULE} {$APP.LBL_SETTINGS}" border="0"></a></div>
                                         {/if}
                                         </div>
                                     </div>
