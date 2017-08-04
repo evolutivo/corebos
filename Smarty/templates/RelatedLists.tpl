@@ -67,24 +67,65 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 {ngtab2}
 <div id="editlistprice" style="position:absolute;width:300px;"></div>
 <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
-			<tr>
-	<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
-	<td class="showPanelBg" valign=top width=100%>
+	<tr>
+	<!-- <td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td> -->
+	<!-- <td class="showPanelBg" valign=top width=100%> -->
+	<td>
 		<!-- PUBLIC CONTENTS STARTS-->
-		<div class="small" style="padding:20px">
+		<div class="small" >
 			<table class="slds-table slds-no-row-hover slds-table--cell-buffer">
 				<tr class="slds-text-title--caps">
-					<td>
+					<td style="padding: 0;">
                     {* Module Record numbering, used MOD_SEQ_ID instead of ID *}
                     {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID}
                     {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
-				    <span class="dvHeaderText">[ {$USE_ID_VALUE} ] {$NAME} -  {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>&nbsp;&nbsp;&nbsp;<span class="small">{$UPDATEINFO}</span>&nbsp;<span id="vtbusy_info" style="display:none;" valign="bottom"><img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0"></span>
+					<div class="slds-page-header s1FixedFullWidth s1FixedTop forceHighlightsStencilDesktop" style="height: 70px;">
+	                    <div class="slds-grid primaryFieldRow"
+	                         style="transform: translate3d(0, -8.65823px, 0);">
+	                        <div class="slds-grid slds-col slds-has-flexi-truncate slds-media--center">
+	                        	<!-- ICON HERE -->
+	                            <div class="profilePicWrapper slds-media slds-no-space"
+	                                 style="transform: scale3d(0.864715, 0.864715, 1) translate3d(4.32911px, 2.16456px, 0);">
+	                                <div class="slds-media__figure slds-icon forceEntityIcon">
+	                                    <span class="photoContainer forceSocialPhoto">
+	                                        <div class="small roundedSquare forceEntityIcon"
+	                                             style="background-color: #A094ED">
+	                                            <span class="uiImage">
+	                                                <img src="https://brave-badger-117326-dev-ed.my.salesforce.com/img/icon/t4v35/standard/account_120.png"
+	                                                     class="icon " alt="Account"
+	                                                     title="Account">
+	                                            </span>
+	                                        </div>
+	                                    </span>
+	                                </div>
+	                            </div>
+	                            <!-- END ICON -->
+
+	                            <div class="slds-media__body">
+	                                <p class="slds-text-heading--label slds-line-height--reset"
+	                                   style="opacity: 1;">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</p>
+	                                <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
+	                                    <span class="uiOutputText">[ {$USE_ID_VALUE} ] {$NAME}</span>
+	                                    <span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>&nbsp;&nbsp;&nbsp;
+	                                    <span id="vtbusy_info" style="display:none; text-transform: capitalize;" valign="bottom">
+	                                        <img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">
+	                                    </span>
+	                                </h1>
+	                            </div>
+
+	                        </div>
+	                    </div> <!-- /.primaryFieldRow -->
+	                </div> <!-- /.forceHighlightsStencilDesktop -->
+
+
 				    </td>
                 </tr>
 			</table>
+			<!-- Lighting design Header -->
+
 			<br>
 			<!-- Account details tabs -->
-			<table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
+			<table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
 			<tr class="slds-text-title" style="display: none;">
 				<td class="dvtTabCache">
 					{if isset($OP_MODE) && $OP_MODE eq 'edit_view'}
@@ -130,7 +171,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 				<td>
 					<table border=0 cellspacing=0 cellpadding=3 width=100% class="dvtContentSpace" style="border-bottom:0;">
 						<tr>
-							<td align=left>
+							<td align=left style="padding: 0;">
 							{if isset($OP_MODE) && $OP_MODE eq 'edit_view'}
 								{assign var="action" value="EditView"}
 							{else}
