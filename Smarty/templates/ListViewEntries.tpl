@@ -109,8 +109,8 @@
 	                                </div>
 	                            </th>
 	                            {foreach name="listviewforeach" item=header from=$LISTHEADER}
-	                            <th class="slds-is-sortable slds-text-title--caps" scope="col">
-							          <span class="slds-truncate slds-text-link--reset slds-th__action" style="padding-left: .5rem;">
+	                            <th class="slds-text-title--caps" scope="col">
+							          <span class="slds-truncate slds-text-link--reset slds-th__action">
 							          <!-- <div class="slds-icon_container">
 							            <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
 							              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
@@ -132,7 +132,7 @@
 	                    	<!-- Table Contents -->
 	                        {foreach item=entity key=entity_id from=$LISTENTITY}
 	                        <tr id="row_{$entity_id}" class="slds-hint-parent slds-line-height--reset">
-	                            <td role="gridcell" class="slds-text-align--center" style="width: 3.25rem;">
+	                            <td role="gridcell" class="slds-text-align--center" >
 	                                <div class="slds-th__action slds-th__action_form">
 	                                    <span class="slds-checkbox">
 	                                    	{if $entity_id>0}
@@ -150,8 +150,8 @@
 	                            </td>
 
 	                            {foreach item=data from=$entity} {* vtlib customization: Trigger events on listview cell *}
-	                            <th scope="row" style="padding: 0 .5rem; height:15px">
-	                                <div class="slds-truncate" onmouseover="vtlib_listview.trigger('cell.onmouseover', this)" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">
+	                            <th scope="row">
+	                                <div class="slds-truncate slds-th__action" onmouseover="vtlib_listview.trigger('cell.onmouseover', this)" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">
 	                                	{$data}
 	                            	</div>
 	                            </th>

@@ -395,9 +395,10 @@ tr td.table-aside > .detailview_actionlinks {
     padding-right: 1rem;
     text-align: center;
     vertical-align: middle;
-    background-color: #4bca81;
-    border: 1px solid #4bca81;
+    background-color: #5cb85c;
+    border: 1px solid #4cae4c;
     color: #fff;
+    font-weight: bold;
 }
 
 .slds-button_success:link,
@@ -570,4 +571,19 @@ select:-moz-focusring {
     background-color: #f7f7fb;
 }
 
+/*=========   ListView Entries.tpl  ==========*/
+td[role="gridcell"] {
+    width: 3.25rem;
+    padding: 0 .5rem;
+}
 
+th[scope="row"] {
+    padding: 0 .5rem;
+}
+
+th[scope="row"] .slds-th__action {
+    padding: 0 .5rem;
+}
+
+
+/*=========   END ListView Entries.tpl  ==========*/

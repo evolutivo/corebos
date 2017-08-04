@@ -615,7 +615,7 @@ a.slds-button:focus {
 }
 
 .slds-button--small {
-    line-height: 1.75rem;
+    line-height: 1.5rem;
     min-height: 2rem;
 }
 

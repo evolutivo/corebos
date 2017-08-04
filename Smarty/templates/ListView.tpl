@@ -40,11 +40,12 @@ var Document_Folder_View = { $Document_Folder_View };
 <table class="slds-table slds-no-row-hover">
     <tr>
         <!-- <td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td> -->
-        <td  class="showPanelBg" valign="top" width=100% style="padding:10px;">
+        <!-- <td  class="showPanelBg" valign="top" width=100% style="padding:10px;"> -->
+        <td  class="" valign="top" width=98% style="padding:10px;">
             <!-- SIMPLE SEARCH -->
             <div id="searchAcc" style="{$DEFAULT_SEARCH_PANEL_STATUS};position:relative;">
                 <form name="basicSearch" method="post" action="index.php" onSubmit="document.basicSearch.searchtype.searchlaunched='basic';return callSearch('Basic');">
-                    <table width="100%" cellpadding="5" cellspacing="0" class="searchUIBasic small" align="center" border=0>
+                    <table width="99%" cellpadding="5" cellspacing="0" class="searchUIBasic small" align="center" border=0>
                         <tr>
                             <td class="searchUIName small" nowrap align="left">
                                 <span class="moduleName">{$APP.LBL_SEARCH}</span>
