@@ -96,37 +96,28 @@
 	                <table class="slds-table slds-table--bordered slds-table--fixed-layout" role="grid">
 	                    <thead>
 	                    	<!-- Table Headers -->
-	                        <tr class="slds-line-height--reset">
-	                            <th scope="col" class="slds-text-align--center" style="width: 3.25rem;">
-	                                <div class="slds-th__action slds-th__action_form">
-	                                    <span class="slds-checkbox">
-								            <input type="checkbox" value="on" name="selectall" id="selectCurrentPageRec" onClick=toggleSelect_ListView(this.checked, "selected_id")>
-								            <label class="slds-checkbox__label" for="selectCurrentPageRec">
-								            	<span class="slds-checkbox--faux"></span>
-	                                    		<span class="slds-form-element__label slds-assistive-text">Select All</span>
-	                                    	</label>
-	                                    </span>
-	                                </div>
-	                            </th>
-	                            {foreach name="listviewforeach" item=header from=$LISTHEADER}
-	                            <th class="slds-text-title--caps" scope="col">
+	                        <tr>
+								<th scope="col" class="slds-text-align--center" style="width: 3.25rem;" >
+									<div class="slds-th__action slds-th__action_form">
+										
+										<input type="checkbox" name="selectall" id="selectCurrentPageRec" onClick=toggleSelect_ListView(this.checked,"selected_id")>
+											
+									</div>
+								</th>
+								{foreach name="listviewforeach" item=header from=$LISTHEADER}
+								<th class="slds-text-title--caps" scope="col">
 							          <span class="slds-truncate slds-text-link--reset slds-th__action">
-							          <!-- <div class="slds-icon_container">
-							            <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
-							              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
-							            </svg>
-							          </div> -->
 							          	{$header}
 							          </span> 
 	                            </th>
-	                            {/foreach}
-	                        </tr>
+								{/foreach}
+							</tr>
 	                        <tr>
-	                            <td id="linkForSelectAll" class="linkForSelectAll" style="display:none;" colspan=15>
-	                                <span id="selectAllRec" class="selectall" style="display:inline;" onClick="toggleSelectAll_Records('{$MODULE}',true,'selected_id')">{$APP.LBL_SELECT_ALL} <span id="count"> </span> {$APP.LBL_RECORDS_IN} {$MODULE|@getTranslatedString:$MODULE}</span>
-	                                <span id="deSelectAllRec" class="selectall" style="display:none;" onClick="toggleSelectAll_Records('{$MODULE}',false,'selected_id')">{$APP.LBL_DESELECT_ALL} {$MODULE|@getTranslatedString:$MODULE}</span>
-	                            </td>
-	                        </tr>
+								<td id="linkForSelectAll" class="linkForSelectAll" style="display:none;" colspan=15>
+									<span id="selectAllRec" class="selectall" style="display:inline;" onClick="toggleSelectAll_Records('{$MODULE}',true,'selected_id')">{$APP.LBL_SELECT_ALL} <span id="count"> </span> {$APP.LBL_RECORDS_IN} {$MODULE|@getTranslatedString:$MODULE}</span>
+									<span id="deSelectAllRec" class="selectall" style="display:none;" onClick="toggleSelectAll_Records('{$MODULE}',false,'selected_id')">{$APP.LBL_DESELECT_ALL} {$MODULE|@getTranslatedString:$MODULE}</span>
+								</td>
+							</tr>
 	                    </thead>
 	                    <tbody>	
 	                    	<!-- Table Contents -->
@@ -225,34 +216,27 @@
                     <table border=0 cellspacing=1 cellpadding=3 width=100% class="lvt small">
                         <!-- Table Headers -->
                         <tr>
-                            <td class="lvtCol">
-                                <input type="checkbox" name="selectall" id="selectCurrentPageRec" onClick=toggleSelect_ListView(this.checked, "selected_id")>
-                            </td>
-                            {foreach name="listviewforeach" item=header from=$LISTHEADER}
-                            <td class="lvtCol">{$header}</td>
-                            {/foreach}
-                        </tr>
-                        <tr>
-                            <td id="linkForSelectAll" class="linkForSelectAll" style="display:none;" colspan=15>
-                                <span id="selectAllRec" class="selectall" style="display:inline;" onClick="toggleSelectAll_Records('{$MODULE}',true,'selected_id')">{$APP.LBL_SELECT_ALL} <span id="count"> </span> {$APP.LBL_RECORDS_IN} {$MODULE|@getTranslatedString:$MODULE}</span>
-                                <span id="deSelectAllRec" class="selectall" style="display:none;" onClick="toggleSelectAll_Records('{$MODULE}',false,'selected_id')">{$APP.LBL_DESELECT_ALL} {$MODULE|@getTranslatedString:$MODULE}</span>
-                            </td>
-                        </tr>
+							<td class="lvtCol"><input type="checkbox" name="selectall" id="selectCurrentPageRec" onClick=toggleSelect_ListView(this.checked,"selected_id")></td>
+							{foreach name="listviewforeach" item=header from=$LISTHEADER}
+								<td class="lvtCol">{$header}</td>
+							{/foreach}
+						</tr>
+						<tr>
+							<td id="linkForSelectAll" class="linkForSelectAll" style="display:none;" colspan=15>
+								<span id="selectAllRec" class="selectall" style="display:inline;" onClick="toggleSelectAll_Records('{$MODULE}',true,'selected_id')">{$APP.LBL_SELECT_ALL} <span id="count"> </span> {$APP.LBL_RECORDS_IN} {$MODULE|@getTranslatedString:$MODULE}</span>
+								<span id="deSelectAllRec" class="selectall" style="display:none;" onClick="toggleSelectAll_Records('{$MODULE}',false,'selected_id')">{$APP.LBL_DESELECT_ALL} {$MODULE|@getTranslatedString:$MODULE}</span>
+							</td>
+						</tr>
                         <!-- Table Contents -->
                         {foreach item=entity key=entity_id from=$LISTENTITY}
-                        <tr bgcolor=white onMouseOver="this.className='lvtColDataHover'" onMouseOut="this.className='lvtColData'" id="row_{$entity_id}">
-                            <td width="2%">
-	                            {if $entity_id>0}
-	                                <input type="checkbox" NAME="selected_id" id="{$entity_id}" value='{$entity_id}' onClick="check_object(this)">
-	                            {else}
-	                                <span class="listview_row_sigma">&Sigma;</span>
-	                            {/if}
-                            </td>
-                            {foreach item=data from=$entity} {* vtlib customization: Trigger events on listview cell *}
-                            <td onmouseover="vtlib_listview.trigger('cell.onmouseover', this)" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">{$data}</td>
-                            {/foreach}
-                        </tr>
-                        {foreachelse}
+							<tr bgcolor=white onMouseOver="this.className='lvtColDataHover'" onMouseOut="this.className='lvtColData'" id="row_{$entity_id}">
+								<td width="2%">{if $entity_id>0}<input type="checkbox" NAME="selected_id" id="{$entity_id}" value= '{$entity_id}' onClick="check_object(this)">{else}<span class="listview_row_sigma">&Sigma;</span>{/if}</td>
+								{foreach item=data from=$entity}
+									{* vtlib customization: Trigger events on listview cell *}
+									<td onmouseover="vtlib_listview.trigger('cell.onmouseover', this)" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">{$data}</td>
+								{/foreach}
+							</tr>
+						{foreachelse}
                         <tr>
                             <td style="background-color:#efefef;height:340px" align="center" colspan="{$smarty.foreach.listviewforeach.iteration+1}">
                                 <div id="no_entries_found" style="border: 3px solid rgb(153, 153, 153); background-color: rgb(255, 255, 255); width: 45%; position: relative;">
