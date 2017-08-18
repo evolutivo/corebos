@@ -39,13 +39,13 @@ class VTExpressionsManager{
 
 	function expressionFunctions() {
 		global $adb;
-		$return = array('concat' => 'concat(a,b)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)','time_diff(a)' => 'time_diff(a)',
+		$return = array('concat' => 'concat(a,b)', 'coalesce' => 'coalesce(a,...,n)', 'time_diffdays(a,b)' => 'time_diffdays(a,b)', 'time_diffdays(a)' => 'time_diffdays(a)', 'time_diff(a,b)' => 'time_diff(a,b)','time_diff(a)' => 'time_diff(a)',
 			'add_days' => 'add_days(datefield, noofdays)', 'sub_days' => 'sub_days(datefield, noofdays)', 'add_time(timefield, minutes)' => 'add_time(timefield, minutes)', 'sub_time(timefield, minutes)' => 'sub_time(timefield, minutes)',
 			'today' => "get_date('today')", 'tomorrow' => "get_date('tomorrow')", 'yesterday' => "get_date('yesterday')",'time' => "get_date('time')", 'format_date' => 'format_date(date,format)',
 			'next_date' => "get_nextdate(startDate,days,holidays,include_weekend)", 'next_date_laborable' => "get_nextdatelaborable(startDate,days,holidays,saturday_laborable)",
 			'substring' => 'substring(stringfield,start,end)', 'uppercase'=>'uppercase(stringfield)', 'lowercase'=>'lowercase(stringfield)', 'uppercasefirst'=>'uppercasefirst(stringfield)',
-			'uppercasewords'=>'uppercasewords(stringfield)', 'round' => 'round(numericfield,decimals)', 'ceil' => 'ceil(numericfield)', 'floor' => 'floor(numericfield)',
-			'getCurrentUserID' => 'getCurrentUserID()','getCurrentUserName' => 'getCurrentUserName({full})',
+			'uppercasewords'=>'uppercasewords(stringfield)', 'round' => 'round(numericfield,decimals)', 'ceil' => 'ceil(numericfield)', 'floor' => 'floor(numericfield)','modulo' => 'modulo(numericfield)',
+			'getCurrentUserID' => 'getCurrentUserID()','getCurrentUserName' => 'getCurrentUserName({full})','getCurrentUserField' => 'getCurrentUserField(fieldname)',
 			'getLatitude' => 'getLatitude(address)', 'getLongitude' => 'getLongitude(address)',
 			'getGEODistance' => 'getGEODistance(address_from,address_to)',
 			'getGEODistanceFromCompanyAddress' => 'getGEODistanceFromCompanyAddress(address)',

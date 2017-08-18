@@ -165,6 +165,9 @@ class ChartUtils {
 	static public function getChartHTML($labels, $values, $graph_title, $target_values, $html_imagename, $width, $height, $left, $right, $top, $bottom, $graph_type, $legend_position='right', $responsive=true) {
 		$lbls = implode(',',$labels);
 		$vals = str_replace('::',',',$values);
+		$realvals = explode(',',$vals);
+		$minscale = max(0,min($realvals)-2);
+		$maxscale = max($realvals)+1;
 		$lnks = array();
 		$cnt=0;
 		foreach ($target_values as $value) {
@@ -208,6 +211,12 @@ window.doChart{$html_imagename} = function(charttype) {
 			backgroundColor: [ $bcolor ]
 		}]
 	};
+	Chart.scaleService.updateScaleDefaults('linear', {
+		ticks: {
+			min: $minscale,
+			max: $maxscale
+		}
+	});
 	window.schart{$html_imagename} = new Chart(stuffchart,{
 		type: '{$graph_type}',
 		data: chartDataObject,

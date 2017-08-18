@@ -139,20 +139,23 @@ function vtws_getAssignedUserList($module,$user) {
 	$current_user = $hcuser;
 	return json_encode($usrinfo);
 }
-function vtws_AuthenticateContact($email,$password)
-{   global $adb,$log;
-    $log->debug("Entering AuthenticateContact function with parameter email: ".$email." password:".$password);
 
-    $nra=$adb->query_result($adb->pquery("select id
-     from vtiger_portalinfo
-     inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid
-     inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_portalinfo.id
-     where vtiger_crmentity.deleted=0 and user_name=? and user_password=?
-       and isactive=1 and vtiger_customerdetails.portal=1",array($email,$password)),0,0);
+function vtws_AuthenticateContact($email,$password) {
+	global $adb,$log;
+	$log->debug("Entering AuthenticateContact function with parameter email: ".$email." password:".$password);
 
-    if (!empty($nra)) return vtyiicpng_getWSEntityId('Contacts').$nra;
-    else return false;
+	$rs = $adb->pquery("select id
+		from vtiger_portalinfo
+		inner join vtiger_customerdetails on vtiger_portalinfo.id=vtiger_customerdetails.customerid
+		inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_portalinfo.id
+		where vtiger_crmentity.deleted=0 and user_name=? and user_password=?
+		 and isactive=1 and vtiger_customerdetails.portal=1",array($email,$password));
+	$nra = $adb->query_result($rs,0,0);
+
+	if (!empty($nra)) return vtyiicpng_getWSEntityId('Contacts').$nra;
+	else return false;
 }
+
 function vtws_getPicklistValues($fld_module) {
     global $adb,$log;
     include_once('modules/PickList/PickListUtils.php');
@@ -191,19 +194,30 @@ function vtws_getUItype($module,$user) {
     }
     return $resp;
 }
+
 function vtws_getReferenceValue($strids) {
 	global $log,$adb;
 	$ids=unserialize($strids);
 	$log->debug("Entering vtws_getReferenceValue with id ".implode(',',$ids));
-	foreach($ids as $id){
+	foreach ($ids as $id){
 		list($wsid,$realid)=explode('x',$id);
-		$modulename=$adb->query_result($adb->pquery('select name from vtiger_ws_entity where id=?',array($wsid)),0,0);
-		if($modulename=='DocumentFolders'){
-			$result[$id]=array('module'=>$modulename,'reference'=>$adb->query_result($adb->pquery('select foldername from vtiger_attachmentsfolder where folderid = ?',array($realid)),0,0));
+		$rs = $adb->pquery('select name from vtiger_ws_entity where id=?',array($wsid));
+		$modulename = $adb->query_result($rs,0,0);
+		if ($modulename=='DocumentFolders') {
+			$rs1 = $adb->pquery('select foldername from vtiger_attachmentsfolder where folderid = ?',array($realid));
+			$result[$id]=array('module'=>$modulename,'reference'=>$adb->query_result($rs1,0,0));
 		} elseif ($modulename=='Groups') {
-			$result[$id]=array('module'=>$modulename,'reference'=>$adb->query_result($adb->pquery('select groupname from vtiger_groups where groupid = ?',array($realid)),0,0));
+			$rs1 = $adb->pquery('select groupname from vtiger_groups where groupid = ?',array($realid));
+			$result[$id]=array('module'=>$modulename,'reference'=>$adb->query_result($rs1,0,0));
 		} else {
-			$entityinfo=getEntityName($modulename,$realid);
+			if ($modulename == 'Currency') {
+				$entityinfo[$realid] = getCurrencyName($realid, true);
+			} else {
+				$entityinfo = getEntityName($modulename,$realid);
+			}
+			if (empty($entityinfo[$realid])) {
+				$entityinfo[$realid] = '';
+			}
 			$result[$id]=array('module'=>$modulename,'reference'=>$entityinfo[$realid]);
 		}
 	}
@@ -963,23 +977,26 @@ function getFieldAutocomplete($term, $filter, $searchinmodule, $fields, $returnf
 		}
 	}
 	$current_user = VTWS_PreserveGlobal::preserveGlobal('current_user',$user);
-	$smod = new $searchinmodule();
+	$smod = CRMEntity::getInstance($searchinmodule);
 	$sindex = $smod->table_index;
 	$queryGenerator = new QueryGenerator($searchinmodule, $current_user);
 	$sfields = explode(',', $fields);
-	$rfields = explode(',', $returnfields);
+	$rfields = array_filter( explode(',', $returnfields) );
 	$flds = array_unique(array_merge($rfields,$sfields,array('id')));
+
 	$queryGenerator->setFields($flds);
 	foreach ($sfields as $sfld) {
 		$queryGenerator->addCondition($sfld,$term,$op,$queryGenerator::$OR);
 	}
+
 	$query = $queryGenerator->getQuery();
 	$rsemp=$adb->query($query);
 	$wsid = vtyiicpng_getWSEntityId($searchinmodule);
 	while ($emp=$adb->fetch_array($rsemp)) {
 		$rsp = array();
 		foreach ($rfields as $rf) {
-			$rsp[$rf] = html_entity_decode($emp[$rf],ENT_QUOTES,$default_charset);
+			$colum_name = $queryGenerator->getModuleFields()[$rf]->getColumnName();
+			$rsp[$rf] = html_entity_decode($emp[$colum_name],ENT_QUOTES,$default_charset);
 		}
 		$respuesta[]=array(
 			'crmid'=>$wsid.$emp[$sindex],

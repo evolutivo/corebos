@@ -18,6 +18,7 @@
 		</tbody>
 	</table>
 </div>
+<script src='modules/Calendar4You/fullcalendar/locale-all.js'></script>
 <div id="event_setting" style="border:1px solid #000000;position:absolute;display:none;z-index:10000;background-color:white"></div>
 <script>
 
@@ -68,12 +69,12 @@ Calendar_Event_Types = {literal}{
                         if(jQuery('#calendar_user_{$userid}').is(':checked')) {ldelim}
                            if (usersids != "") usersids +=",";
                            usersids += '{$userid}';
-                        {rdelim} 
+                        {rdelim}
                      {/foreach}
 
                      if (usersids == "") usersids = '0';
                  {rdelim}
-                 
+
                  var event_status = '';
                  {foreach name=calendar_event_status item=estatusdata key=estatus_key from=$EVENT_STATUS}
                      if(!jQuery('#calendar_event_status_{$estatusdata.id}').is(':checked')) {ldelim}
@@ -81,7 +82,7 @@ Calendar_Event_Types = {literal}{
                           event_status += '{$estatusdata.id}';
                      {rdelim}
                  {/foreach}
-                 
+
                  var task_status = '';
                  {foreach name=calendar_task_status item=tstatusdata key=tstatus_key from=$TASK_STATUS}
                      if(!jQuery('#calendar_task_status_{$tstatusdata.id}').is(':checked')) {ldelim}
@@ -89,7 +90,7 @@ Calendar_Event_Types = {literal}{
                           task_status += '{$tstatusdata.id}';
                      {rdelim}
                  {/foreach}
-                 
+
                  var task_priority = '';
                  {foreach name=calendar_task_priority item=tprioritydata key=tpriority_key from=$TASK_PRIORITY}
                      if(!jQuery('#calendar_task_priority_{$tprioritydata.id}').is(':checked')) {ldelim}
@@ -98,14 +99,14 @@ Calendar_Event_Types = {literal}{
                      {rdelim}
                  {/foreach}
                  {literal}
-                 
-                 var view_val = jQuery('#calendar_div').fullCalendar('getView'); 
+
+                 var view_val = jQuery('#calendar_div').fullCalendar('getView');
                  document.getElementById("status").style.display="inline";
                  jQuery.ajax({
                             url: 'index.php',
                             dataType: 'json',
                             data: {
-                                module: 'Calendar4You', 
+                                module: 'Calendar4You',
                                 action: 'Calendar4YouAjax',
                                 file: 'Events',
                                 typeids: typeids_val,
@@ -113,7 +114,7 @@ Calendar_Event_Types = {literal}{
                                 user_view_type: user_view_type,
                                 view: view_val.name,
                                 event_status: event_status,
-                                task_status: task_status, 
+                                task_status: task_status,
                                 task_priority: task_priority,
                                 save: loggeduser,
                                 start: Math.round(new Date(start).getTime() / 1000),
@@ -121,13 +122,13 @@ Calendar_Event_Types = {literal}{
                             },
                             success: function(data){
                                 var events = [];
-                                 
+
                                 for (var i = 0; i < data.length; i++){
                                     var object = data[i];
-                                    
+
                                     load_typeid = object['typeid'];
                                     load_userid = object['userid'];
-                                   
+
                                     if (user_view_type == "all"){
                                         event_color = Events_color['user_' + load_userid + '_color'];
                                         event_textColor = Events_color['user_' + load_userid + '_textColor'];
@@ -137,7 +138,7 @@ Calendar_Event_Types = {literal}{
                                         event_textColor = Events_color[load_typeid + '_textColor'];
                                         event_title_color = Events_color[load_typeid + '_title_color'];
                                     }
-                                    
+
                                     events.push({
                                         id: object['id'],
                                         typeid: object['typeid'],
@@ -151,14 +152,12 @@ Calendar_Event_Types = {literal}{
                                         allDay : object['allDay'],
                                         geventid: object['geventid'],
                                         color: event_color,
-                                        textColor: event_textColor, 
-                                        title_color: event_title_color, 
+                                        textColor: event_textColor,
+                                        title_color: event_title_color,
                                         borderColor: event_title_color
                                     });
                                 }
-                                
                                 callback(events);
-                                
                                 document.getElementById("status").style.display="none";
                             }
                         });
@@ -166,37 +165,38 @@ Calendar_Event_Types = {literal}{
          }
 
 jQuery(document).ready(function(){
-		
 	var lastView;
-        var date = new Date();
+	var date = new Date();
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
 
-    var config = {
-        
-        fixedWeekCount :false,
-        theme: true,
-        defaultView: '{/literal}{$DEFAULTVIEW}{literal}',     
-        allDayText: {/literal}'{$MOD.LBL_ALL_DAY}'{literal},
-        
-        weekends: {/literal}{$CALENDAR_SETTINGS.show_weekends}{literal},
-        minTime:  "{/literal}{$CALENDAR_SETTINGS.start_hour}{literal}",   
-        maxTime:  "{/literal}{$CALENDAR_SETTINGS.end_hour}{literal}", 
-        slotDuration: "{/literal}{$Calendar_Slot_Minutes}{literal}",
-        
-        header: {
+	var config = {
+
+		locale: '{/literal}{$USER_LANGUAGE}{literal}',
+		fixedWeekCount :false,
+		theme: true,
+		defaultView: '{/literal}{$DEFAULTVIEW}{literal}',
+		allDayText: {/literal}'{$MOD.LBL_ALL_DAY}'{literal},
+
+		weekends: {/literal}{$CALENDAR_SETTINGS.show_weekends}{literal},
+		minTime:  "{/literal}{$CALENDAR_SETTINGS.start_hour}{literal}",
+		maxTime:  "{/literal}{$CALENDAR_SETTINGS.end_hour}{literal}",
+		slotDuration: "{/literal}{$Calendar_Slot_Minutes}{literal}",
+		slotEventOverlap: {/literal}{$Calendar_Slot_Event_Overlap}{literal},
+
+		header: {
 			left: 'prev,next today ',
 			center: 'title',
 			right: 'agendaDay,agendaWeek,month'
 		},
 		editable: false,
-        
-        {/literal} 
-        
+
+{/literal}
+
         {if $IS_24 eq "true"}
             timeFormat: 'H:mm',
-            slotLabelFormat: 'H(:mm)', 
+            slotLabelFormat: 'H(:mm)',
         {else}
             timeFormat: 'h:mma',
             slotLabelFormat: 'h(:mm)a',
@@ -207,9 +207,9 @@ jQuery(document).ready(function(){
         monthNamesShort: ['{$CMOD.cal_month_short.1|escape}', '{$CMOD.cal_month_short.2|escape}', '{$CMOD.cal_month_short.3|escape}', '{$CMOD.cal_month_short.4|escape}', '{$CMOD.cal_month_short.5|escape}', '{$CMOD.cal_month_short.6|escape}', '{$CMOD.cal_month_short.7|escape}', '{$CMOD.cal_month_short.8|escape}', '{$CMOD.cal_month_short.9|escape}', '{$CMOD.cal_month_short.10|escape}', '{$CMOD.cal_month_short.11|escape}', '{$CMOD.cal_month_short.12|escape}'],
 
         firstDay:{$FISRTDAY},
-        dayNames: ['{$CMOD.LBL_DAY0|escape}','{$CMOD.LBL_DAY1|escape}', '{$CMOD.LBL_DAY2|escape}', '{$CMOD.LBL_DAY3|escape}', '{$CMOD.LBL_DAY4|escape}', '{$CMOD.LBL_DAY5|escape}', '{$CMOD.LBL_DAY6|escape}'], 
-  
-        dayNamesShort: ['{$CMOD.LBL_SM_SUN|escape}','{$CMOD.LBL_SM_MON|escape}', '{$CMOD.LBL_SM_TUE|escape}', '{$CMOD.LBL_SM_WED|escape}', '{$CMOD.LBL_SM_THU|escape}', '{$CMOD.LBL_SM_FRI|escape}', '{$CMOD.LBL_SM_SAT|escape}'], 
+        dayNames: ['{$CMOD.LBL_DAY0|escape}','{$CMOD.LBL_DAY1|escape}', '{$CMOD.LBL_DAY2|escape}', '{$CMOD.LBL_DAY3|escape}', '{$CMOD.LBL_DAY4|escape}', '{$CMOD.LBL_DAY5|escape}', '{$CMOD.LBL_DAY6|escape}'],
+
+        dayNamesShort: ['{$CMOD.LBL_SM_SUN|escape}','{$CMOD.LBL_SM_MON|escape}', '{$CMOD.LBL_SM_TUE|escape}', '{$CMOD.LBL_SM_WED|escape}', '{$CMOD.LBL_SM_THU|escape}', '{$CMOD.LBL_SM_FRI|escape}', '{$CMOD.LBL_SM_SAT|escape}'],
 
         buttonText: {ldelim}
             today:'{$APP.LBL_TODAY|escape}',
@@ -217,19 +217,19 @@ jQuery(document).ready(function(){
             week: '{$CMOD.LBL_WEEK|escape}',
             day: '{$CMOD.LBL_DAY|escape}',
             list: '{$MOD.LBL_LIST|escape}'
-        {rdelim},     
-        
-        eventSources: [Calendar_Event_Types],
-        {literal}
+        {rdelim},
+
+		eventSources: [Calendar_Event_Types],
+{literal}
 		loading: function(bool) {
 			if (bool) jQuery('#loading').show();
 			else jQuery('#loading').hide();
 		},
-        
+
         dayClick : function(date, jsEvent, view){
             if(date._ambigTime==true){
                 argg1 = 'createTodo';
-                type = 'todo'; 
+                type = 'todo';
             }
             else{
                 argg1 = 'addITSEvent';
@@ -241,33 +241,28 @@ jQuery(document).ready(function(){
             {if $IS_24 eq "true"}
             starthr = date.format('HH');
             startfmt = '';
-            
             endhr = date.format('HH');
             endfmt =  '';
             {else}
             starthr = date.format('hh');
             startfmt = date.format('a');
-            
             endhr = date.format('hh');
             endfmt = date.format('a');
             {/if}
             startmin = date.format('mm');
             endmin = date.format('mm');
-            
             var viewOption = 'hourview';
             var subtab = '';
-           
-            var startdate = formated_date;  
+            var startdate = formated_date;
             var enddate = formated_date;
 
 			eventlist = new Array({$EVENTLIST});
 			var timemodulearr = new Array({$TIMEMODULEARRAY});
 			var timemoduledet = {$TIMEMODULEDETAILS};
-            {literal}
-        	for(var i=0;i<(eventlist.length);i++){
-                document.getElementById("add"+eventlist[i].toLowerCase()).href="javascript:gITSshow('addITSEvent','"+eventlist[i]+"','"+startdate+"','"+enddate+"','"+starthr+"','"+startmin+"','"+startfmt+"','"+endhr+"','"+endmin+"','"+endfmt+"','"+viewOption+"','"+subtab+"');fnRemoveITSEvent();";
-        	}
-        	document.getElementById("addtodo").href="javascript:gITSshow('createTodo','todo','"+startdate+"','"+enddate+"','"+starthr+"','"+startmin+"','"+startfmt+"','"+endhr+"','"+endmin+"','"+endfmt+"','"+viewOption+"','"+subtab+"');fnRemoveITSEvent();";
+{literal}
+			for(var i=0;i<(eventlist.length);i++){
+				document.getElementById("add"+eventlist[i].toLowerCase()).href="javascript:gITSshow('addITSEvent','"+eventlist[i]+"','"+startdate+"','"+enddate+"','"+starthr+"','"+startmin+"','"+startfmt+"','"+endhr+"','"+endmin+"','"+endfmt+"','"+viewOption+"','"+subtab+"');fnRemoveITSEvent();";
+			}
 			for(var i=0;i<(timemodulearr.length);i++){
 				var tmmod = timemodulearr[i];
 				if (startfmt=='am' || startfmt=='') {
@@ -320,7 +315,7 @@ jQuery(document).ready(function(){
                                     url: 'index.php',
                                     dataType: 'html',
                                     data: {
-                                        module: 'Calendar4You', 
+                                        module: 'Calendar4You',
                                         action: 'Calendar4YouAjax',
                                         file: 'EventGoogleInfo',
                                         userid: calEvent.userid,
@@ -337,7 +332,7 @@ jQuery(document).ready(function(){
                                     url: 'index.php',
                                     dataType: 'json',
                                     data: {
-                                        module: 'Calendar4You', 
+                                        module: 'Calendar4You',
                                         action: 'Calendar4YouAjax',
                                         file: 'Events',
                                         view: 'agendaDay',
@@ -357,18 +352,18 @@ jQuery(document).ready(function(){
                 jQuery(this).css('cursor', 'default');
             }
         },
-        
+
         eventDragStart: function( event, jsEvent, ui, view ) {
             hideITSEventInfo();
         },
-        
+
         eventDrop: function(event,dayDelta,revertFunc){
               if (confirm("{/literal}{$MOD.MOVE_EVENT_QUESTION}{literal}")){
                 jQuery.ajax({
                             url: 'index.php',
                             dataType: 'json',
                             data: {
-                                        module: 'Calendar4You', 
+                                        module: 'Calendar4You',
                                         action: 'SaveEvent',
                                         mode: 'event_drop',
                                         record: event.id,
@@ -382,11 +377,11 @@ jQuery(document).ready(function(){
                 revertFunc();
             }
         },
-        
+
         eventResizeStart: function( event, jsEvent, ui, view ) {
             hideITSEventInfo();
         },
-        
+
         eventResize: function(event,dayDelta,revertFunc) {
 
             if (confirm("{/literal}{$MOD.RESIZE_EVENT_QUESTION}{literal}")){
@@ -394,7 +389,7 @@ jQuery(document).ready(function(){
                             url: 'index.php',
                             dataType: 'json',
                             data: {
-                                        module: 'Calendar4You', 
+                                        module: 'Calendar4You',
                                         action: 'SaveEvent',
                                         mode: 'event_resize',
                                         record: event.id,
@@ -402,38 +397,38 @@ jQuery(document).ready(function(){
                                         minute: dayDelta._milliseconds/60000,
                                     },
                                     success: function(data) {
-  
+
                                     }
                              });
             }
             else
-            {  
+            {
                 revertFunc();
             }
         },
-        
+
         eventRender: function (event, element){
             element.find('.fc-title').html(event.title);
             element.bind('dblclick', function(){
                 if (event.visibility == "public" && event.id.substr(0,1) != "g"){
                     fnHideDrop('event_info');
-                    window.location.href = "index.php?action=EventDetailView&module=Calendar4You&record="+ event.id + "&activity_mode="+ event.activity_mode + "&parenttab={/literal}{$CATEGORY}{literal}";
+                    window.location.href = "index.php?action=DetailView&module=cbCalendar&record="+ event.id + "&activity_mode="+ event.activity_mode + "&parenttab={/literal}{$CATEGORY}{literal}";
                 }
             });
-        },     
+        },
  }
 
-    jQuery('#calendar_div').fullCalendar(config);
+	jQuery('#calendar_div').fullCalendar(config);
 });
 
 function changeCalendarEvents(el){
-    jQuery('#logged_user').val('{/literal}{$CURRENT_USER_ID}{literal}');
-    jQuery('#calendar_div').fullCalendar( 'refetchEvents' );
+	jQuery('#logged_user').val('{/literal}{$CURRENT_USER_ID}{literal}');
+	jQuery('#calendar_div').fullCalendar( 'refetchEvents' );
 }
 
 function hideITSEventInfo(){
-    jQuery('#event_info').css('display', 'none');
-    jQuery('#event_info_content').html('');
+	jQuery('#event_info').css('display', 'none');
+	jQuery('#event_info_content').html('');
 
 }
 {/literal}
@@ -572,7 +567,7 @@ function hideITSEventInfo(){
 </table>
 <div id="calendar_div2"><br></div>
 <input type="hidden" name="logged_user" id="logged_user" value="">
-<script>  
+<script>
 function changeCalendarUserView(type) {ldelim}
 	if(type == "all") {ldelim}
 		{foreach name=act_types2 item=typedata key=typeid from=$ACTIVITYTYPES}

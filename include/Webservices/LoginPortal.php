@@ -131,6 +131,17 @@ include_once 'include/Webservices/AuthToken.php';
 			} else {
 				throw new WebServiceException(WebServiceErrorCode::$AUTHREQUIRED,'Given user is inactive');
 			}
+			$sessionManager->set("authenticatedUserId", $userId);
+			$accessinfo['sessionName'] = $sessionManager->getSessionId();
+			$accessinfo['user'] = array(
+				'id' => $wsid.'x'.$userId,
+				'user_name' => $user->column_fields['user_name'],
+				'accesskey' => $user->column_fields['accesskey'],
+				'contactid' => $ctowsid.'x'.$ctocmrid,
+			);
+			return $accessinfo;
+		} else {
+			throw new WebServiceException(WebServiceErrorCode::$AUTHREQUIRED,'Given user is inactive');
 		}
 		throw new WebServiceException(WebServiceErrorCode::$AUTHREQUIRED,"Given contact is inactive");
 	}        
@@ -232,5 +243,6 @@ include_once 'include/Webservices/AuthToken.php';
             $t=utf8_encode($v);
             return $t;
         }
+
 
 ?>

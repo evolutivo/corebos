@@ -8,9 +8,10 @@
  ********************************************************************************/
 
 function getaddITSEventPopupTime($starttime,$endtime,$format) {
+	if (empty($format)) $format = '24';
 	$timearr = Array();
 	list($sthr,$stmin) = explode(":",$starttime);
-	list($edhr,$edmin)  = explode(":",$endtime);
+	list($edhr,$edmin) = explode(":",$endtime);
 	if($format == 'am/pm') {
 		$hr = $sthr+0;
 		$timearr['startfmt'] = ($hr >= 12) ? "pm" : "am";
@@ -22,7 +23,7 @@ function getaddITSEventPopupTime($starttime,$endtime,$format) {
 		$timearr['endfmt'] = ($edhr >= 12) ? "pm" : "am";
 		if($edhr == 0) $edhr = 12;
 		$timearr['endhour'] = twoDigit(($edhr>12)?($edhr-12):$edhr);
-		$timearr['endmin']    = $edmin;
+		$timearr['endmin']  = $edmin;
 		return $timearr;
 	}
 	if($format == '24')	{
@@ -37,7 +38,7 @@ function getaddITSEventPopupTime($starttime,$endtime,$format) {
 }
 
 /**
- * Function creates HTML to display small(mini) Calendar 
+ * Function creates HTML to display small(mini) Calendar
  * @param array   $cal    - collection of objects and strings
  */
 function get_its_mini_calendar(& $cal) {
@@ -62,7 +63,7 @@ function get_its_mini_calendar(& $cal) {
 			$minical .= "<td class='calHdr' align='right'><a href='javascript:ghide(\"miniCal\");'><img src='". vtiger_imageurl('close.gif', $theme). "' align='right' border='0'></a>
 		</td></tr>";
 	$minical .= "<tr class='hdrNameBg'>";
-	//To display days in week 
+	//To display days in week
 	$minical .= '<th width="12%">'.$mod_strings['LBL_WEEK'].'</th>';
 	for ($i = 0; $i < 7; $i ++){
 		$weekday = $mod_strings['cal_weekdays_short'][$i];
@@ -127,7 +128,7 @@ function get_previous_its_cal(& $cal) {
 function get_next_its_cal(& $cal) {
 	global $mod_strings,$theme;
 	$category = getParentTab();
-	$link = "<a href='javascript:getITSMiniCal(\"view=".$cal['calendar']->view."".$cal['calendar']->get_datechange_info('next')."&parenttab=".$category."\")'  ><img src='". vtiger_imageurl('small_right.gif', $theme)."' border='0' align='absmiddle' /></a>";
+	$link = "<a href='javascript:getITSMiniCal(\"view=".$cal['calendar']->view."".$cal['calendar']->get_datechange_info('next')."&parenttab=".$category."\")' ><img src='". vtiger_imageurl('small_right.gif', $theme)."' border='0' align='absmiddle' /></a>";
 	return $link;
 }
 
@@ -252,7 +253,7 @@ function NOPermissionDiv() {
 }
 
 function getCalendar4YouListQuery($userid, $invites, $where = '', $type='1') {
-	global $log, $current_user;
+	global $log, $current_user, $adb;
 	$log->debug("Entering getCalendar4YouListQuery(" . $userid . "," . $where . ") method ...");
 	if ($userid != "") {
 		require('user_privileges/user_privileges_' . $userid . '.php');
@@ -263,7 +264,7 @@ function getCalendar4YouListQuery($userid, $invites, $where = '', $type='1') {
 
 	$query = "SELECT distinct vtiger_task.taskid as act_id, vtiger_crmentity.*, vtiger_task.*, vtiger_taskcf.*, ";
 
-	if ($type == '1') $query .= "vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_contactdetails.contactid, vtiger_account.accountid, vtiger_account.accountname, ";
+	$query .= 'vtiger_contactdetails.lastname, vtiger_contactdetails.firstname, vtiger_contactdetails.contactid, ';
 
 	$query .= "vtiger_crmentityrel.relcrmid AS parent_id,its4you_googlesync4you_events.geventid
 	FROM vtiger_task
@@ -360,7 +361,7 @@ function getCalendar4YouSharedCalendarId($sharedid) {
 	}
 	return $shared_ids;
 }
- 
+
 function setupCalendar4YouTemporaryTable($tableName, $tabId, $userid, $parentRole, $userGroups) {
 	global $adb;
 	$module = null;
@@ -436,26 +437,37 @@ function getCalendar4YouNonAdminModuleAccessQuery($module, $userid) {
 function transferForAddIntoTitle($type, $row, $CD) {
 	global $log, $current_user, $adb;
 	list($CD['fieldname'],$void) = explode(':', $CD['fieldname']);
-	if ($CD["uitype"] == "66") 
+	$Col_Field = array();
+	if ($CD['uitype'] == '66' and !empty($row['parent_id'])) {
 		$Col_Field = array($CD["fieldname"]=> $row["parent_id"]);
-	else
+	} elseif (!empty($row[$CD["columnname"]])) {
 		$Col_Field = array($CD["fieldname"]=> $row[$CD["columnname"]]);
+	}
 
-	if ($CD["fieldname"] == "duration_hours") 
+	if ($CD["fieldname"] == "duration_hours")
 		$Col_Field["duration_minutes"] = $row["duration_minutes"];
 
 	if ($CD["fieldname"] == "contact_id") {
 		$Col_Field["contact_id"] = getAssignedContactsForEvent($row["crmid"]);
-		$CD["uitype"] = "1";   
+		$CD['uitype'] = '1';
 	}
 	$Cal_Data = getDetailViewOutputHtml($CD["uitype"], $CD["fieldname"], $CD["fieldlabel"], $Col_Field, "2", $calendar_tabid, "Task");
-if ($CD['module']=='Calendar' or $CD['module']=='Events') {
+        if ($CD['module']=='Calendar' or $CD['module']=='Events') {
 		$Cal_Data = getDetailViewOutputHtml($CD['uitype'], $CD['fieldname'], $CD['fieldlabel'], $Col_Field, '2', $calendar_tabid, 'Calendar');
+                if (strpos($Cal_Data[1], 'vtlib_metainfo')===false) {
+			$Cal_Data[1] .= "<span type='vtlib_metainfo' vtrecordid='".$row["crmid"]."' vtfieldname='".$CD["fieldname"]."' vtmodule='Task' style='display:none;'></span>";
+		}
+
 		$trmodule = 'Calendar';
 	} else {
 		$queryGenerator = new QueryGenerator($CD['module'], $current_user);
-		$queryGenerator->setFields(array($CD['columnname']));
-		$queryGenerator->addCondition('id',$row['parent_id'],'e',$queryGenerator::$AND);
+		$queryGenerator->setFields(array($CD['fieldname']));
+		$frs = $adb->pquery('select fieldname
+			from vtiger_field
+			inner join vtiger_fieldmodulerel on vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid
+			where relmodule=? and module=?',array($CD['module'],'cbCalendar'));
+		$relfield = $adb->query_result($frs, 0, 0);
+		$queryGenerator->addCondition('id',$row[$relfield],'e',$queryGenerator::$AND);
 		$rec_query = $queryGenerator->getQuery();
 		$recinfo = $adb->pquery($rec_query,array());
 		$Cal_Data = array();
@@ -463,16 +475,21 @@ if ($CD['module']=='Calendar' or $CD['module']=='Events') {
 		$Cal_Data[1] = $adb->query_result($recinfo, 0, $CD['columnname']);
 		$trmodule = $CD['module'];
 	}
-	if ($CD["uitype"] == "15")
+        if ($CD['uitype'] == '10') {
+		$value = getEntityName(getSalesEntityType($Cal_Data[1]),$Cal_Data[1]);
+		$value = $value[$Cal_Data[1]];
+	}
+	elseif ($CD["uitype"] == "15")
 		$value = getTranslatedString($Cal_Data[1],'Task');
+
 	else
 		$value = $Cal_Data[1];
 
 	if ($type == "1")
-		return $Cal_Data[1];
+		return vtlib_purify($Cal_Data[1]);
 	else
 //		return "<br><b>".$Cal_Data[0]."</b>: ".$value;
-		return '<table><tr><td><b>'.$Cal_Data[0].':</b></td><td onmouseover="vtlib_listview.trigger(\'cell.onmouseover\', this)" onmouseout="vtlib_listview.trigger(\'cell.onmouseout\', this)">'.$value.'</td></tr></table>';
+		return '<table><tr><td><b>'.$Cal_Data[0].':</b></td><td onmouseover="vtlib_listview.trigger(\'cell.onmouseover\', this)" onmouseout="vtlib_listview.trigger(\'cell.onmouseout\', this)">'.vtlib_purify($value).'</td></tr></table>';
 }
 
 function getEventActivityMode($id) {
@@ -520,20 +537,22 @@ function getITSActFieldCombo($fieldname,$tablename,$from_module = '',$follow_act
 		if(count($subrole)> 0) {
 			$roleids = $subrole;
 			array_push($roleids, $roleid);
-		} else {	
+		} else {
 			$roleids = $roleid;
 		}
 		if (count($roleids) > 1) {
-			$q="select distinct $fieldname from  $tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = $tablename.picklist_valueid where roleid in (\"". implode($roleids,"\",\"") ."\") and picklistid in (select picklistid from $tablename) order by sortid asc";
+			$q="select $fieldname from $tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = $tablename.picklist_valueid where roleid in (\"". implode($roleids,"\",\"") ."\") and picklistid in (select picklistid from $tablename) order by sortid asc";
 		} else {
-			$q="select distinct $fieldname from $tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = $tablename.picklist_valueid where roleid ='".$roleid."' and picklistid in (select picklistid from $tablename) order by sortid asc";
+			$q="select $fieldname from $tablename inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = $tablename.picklist_valueid where roleid ='".$roleid."' and picklistid in (select picklistid from $tablename) order by sortid asc";
 		}
 	}
 	$Res = $adb->query($q);
 	$noofrows = $adb->num_rows($Res);
-
+	$previousValue = '';
 	for($i = 0; $i < $noofrows; $i++) {
 		$value = $adb->query_result($Res,$i,$fieldname);
+		if ($previousValue == $value) continue;
+		$previousValue = $value;
 		$value = html_entity_decode($value,ENT_QUOTES,$default_charset);
 		$label = getTranslatedString($value,'Task');
 		if ($value == $def) $selected = " selected"; else $selected = "";
@@ -558,9 +577,9 @@ function getAssignedContactsForEvent($actid) {
 	if ($num_rows > 0) {
 		while($row = $adb->fetchByAssoc($Result)) {
 			$contact_name = trim($row['firstname']." ".$row['lastname']);
-			$Contacts[] = "<a href='index.php?module=Contacts&action=DetailView&record=".$row['contactid']."'>".$contact_name."</a>"; 
+			$Contacts[] = "<a href='index.php?module=Contacts&action=DetailView&record=".$row['contactid']."'>".$contact_name."</a>";
 		}
-		$contacts = implode(", ",$Contacts); 
+		$contacts = implode(", ",$Contacts);
 	}
 	return $contacts;
 }
@@ -576,12 +595,12 @@ function getAllModulesWithDateFields() {
 	} else {
 		$sqlmods = '';
 		$profileList = getCurrentUserProfileList();
-		$sql = "select * from vtiger_profile2globalpermissions where globalactionid=1 and  profileid in (".generateQuestionMarks($profileList).");";
+		$sql = "select * from vtiger_profile2globalpermissions where globalactionid=1 and profileid in (".generateQuestionMarks($profileList).");";
 		$result = $adb->pquery($sql,array($profileList));
 		if ($result and $adb->num_rows($result)>0) {
 			for($i=0; $i<$adb->num_rows($result); $i++){
 				$permission = $adb->query_result($result,$i,'globalactionpermission');
-				if($permission != 1 || $permission != '1') {  // can see everything
+				if($permission != 1 || $permission != '1') { // can see everything
 					$sqlmods = 'SELECT distinct cbfld.tabid,vtiger_tab.name
 						FROM vtiger_field as cbfld
 						INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
@@ -600,6 +619,7 @@ function getAllModulesWithDateFields() {
 			$params = array($profileList);
 		}
 	}
+	$sqlmods .= " and vtiger_tab.name not in ('cbCalendar','Calendar','Events')";
 	$rsmwd = $adb->pquery($sqlmods,$params);
 	$modswithdates = array();
 	while ($mod = $adb->fetch_array($rsmwd)) {
@@ -621,12 +641,12 @@ function getAllModulesWithDateTimeFields() {
 	} else {
 		$sqlmods = '';
 		$profileList = getCurrentUserProfileList();
-		$sql = "select * from vtiger_profile2globalpermissions where globalactionid=1 and  profileid in (".generateQuestionMarks($profileList).");";
+		$sql = "select * from vtiger_profile2globalpermissions where globalactionid=1 and profileid in (".generateQuestionMarks($profileList).");";
 		$result = $adb->pquery($sql,array($profileList));
 		if ($result and $adb->num_rows($result)>0) {
 			for($i=0; $i<$adb->num_rows($result); $i++){
 				$permission = $adb->query_result($result,$i,'globalactionpermission');
-				if($permission != 1 || $permission != '1') {  // can see everything
+				if($permission != 1 || $permission != '1') { // can see everything
 					$sqlmods = 'SELECT distinct cbfld.tabid,vtiger_tab.name
 						FROM vtiger_field as cbfld
 						INNER JOIN vtiger_tab on cbfld.tabid = vtiger_tab.tabid
@@ -648,6 +668,7 @@ function getAllModulesWithDateTimeFields() {
 			$params = array($profileList);
 		}
 	}
+	$sqlmods .= " and vtiger_tab.name not in ('cbCalendar','Calendar','Events')";
 	$rsmwd = $adb->pquery($sqlmods,$params);
 	$modswithdt = array();
 	while ($mod = $adb->fetch_array($rsmwd)) {
@@ -760,7 +781,7 @@ function Calendar_getReferenceFieldColumnsList($module,$sort=true) {
 	foreach ($reffields as $fld => $mods) {
 		foreach ($mods as $mod) {
 			if (!vtlib_isEntityModule($mod)) continue; // reference to a module without fields
-			if (isset($ret_module_list[$mod])) continue;  // we already have this one
+			if (isset($ret_module_list[$mod])) continue; // we already have this one
 			$Fields_Array = array();
 			$module_handler = vtws_getModuleHandlerFromName($mod, $current_user);
 			$module_meta = $module_handler->getMeta();
