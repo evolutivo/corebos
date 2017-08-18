@@ -252,6 +252,7 @@ function getDefaultSharingAction()
 	$sql= 'select * from vtiger_def_org_share where editstatus in(0,1)';
 	$result = $adb->pquery($sql, array());
 	$permissionRow=$adb->fetch_array($result);
+	$copy = array();
 	do
 	{
 		for($j=0;$j<count($permissionRow);$j++)
@@ -865,7 +866,7 @@ function _vtisPermitted($module,$actionname,$record_id='') {
 	{
 		if($actionid == 3 || $actionid == 4)
 		{
-			if($module == 'Calendar')
+			if ($module == 'Calendar' || $module == 'cbCalendar')
 			{
 				if($recOwnType == 'Users')
 				{
@@ -3947,10 +3948,12 @@ function isCalendarPermittedBySharing($recordId)
 {
 	global $adb, $current_user;
 	$permission = 'no';
-	$query = "select * from vtiger_sharedcalendar where userid in(select smownerid from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid where activityid=? and visibility='Public' and smownerid !=0) and sharedid=?";
-	$result=$adb->pquery($query, array($recordId, $current_user->id));
-	if($adb->num_rows($result) >0)
-	{
+	$query = "select 1 from vtiger_sharedcalendar where sharedid=? and
+			userid in (select smownerid as usrid from vtiger_activity inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid where vtiger_activity.activityid=? and visibility='Public' and smownerid !=0)
+		UNION
+			select 1 from vtiger_invitees where vtiger_invitees.activityid=? and inviteeid=?";
+	$result = $adb->pquery($query, array($current_user->id,$recordId,$recordId,$current_user->id));
+	if ($adb->num_rows($result) > 0) {
 		$permission = 'yes';
 	}
 	return $permission;

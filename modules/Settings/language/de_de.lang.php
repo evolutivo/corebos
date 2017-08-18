@@ -68,12 +68,9 @@ $mod_strings = Array(
     'EDITQUOTEPICKLISTVALUES'=>'Bearbeite Angebote',
     'EDITINVOICEPICKLISTVALUES'=>'Bearbeite Rechnungen',
 
-    // Added for Release vtigerCRM 3.2 PATCH 1.0
-
     //Settings/index.php
     'LBL_PICKLIST_FIELD_SETTINGS'=>'Auswahllisten Feldeinstellungen:',
 
-    //SETTINGS/CustomFieldList.php,ComboFieldList.php,CreateCustomField.php
     'Leads'=>'Lead',
     'Accounts'=>'Organisationen',
     'Contacts'=>'Personen',
@@ -688,7 +685,6 @@ $mod_strings = Array(
     'LBL_MOVE_ROLE'=>'Rolle verschieben',
     'LBL_BACKUP_DESC'=>' Sie können ein vollständiges Backup Ihrer Datenbank auf einen FTP Server machen. Dieses Backup wird dann automatisch ausgeführt, wenn sich der admin Nutzer ausloggt. Sie müssen sicherstellen, dass Ihr FTP Server über ausreichend Speicherplatz verfügt. Die Backup Datei liegt dann im folgenden Format vor: "backup-datum-zeit.sql".',
 
-    // Added/Updated for vtiger CRM 5.0.4
     'LBL_SUPPORT_NOTICIATION'=>'Ende Supportfall',
     'LBL_SUPPORT_NOTICIATION_MONTH'=>'Supportfall ist in einem Monat beendet' ,
     'LBL_SUPPORT_DESCRIPTION'=>'Mitteilung über einen abgeschlossenen Supportfall',
@@ -700,7 +696,9 @@ $mod_strings = Array(
     'ERR_CUSTOM_FIELD_WITH_NAME'=>'Ein benutzerdefiniertes Feld mit dem Namen ',
     'ERR_ALREADY_EXISTS'=>' existiert bereits.',
     'ERR_SPECIFY_DIFFERENT_LABEL'=>'Bitte eine andere Bezeichung auswählen',
-    'LBL_TOOLS_TO_BE_SHOWN'=>'Werkzeuge zur Anzeige',
+	'ROWSIZEERROR' => 'Row size too large. Reached maximum size limit of database table size.',
+	'ADDFIELDERROR' => 'Custom field could not be added due to a database error.',
+	'LBL_TOOLS_TO_BE_SHOWN'=>'Werkzeuge zur Anzeige',
     'LBL_PICKLIST_GLOBAL_DELETE'=>'globales Löschen',
     'LBL_PICKLIST_TRANSFER'=>'übertrage die Einträge von ',
     'LBL_REPLACE_VALUE_WITH'=>'Ersetze Einträge mit ',
@@ -1000,10 +998,7 @@ $mod_strings = Array(
     'ModTracker' => 'Modulverfolger',
     'LBL_MODTRACKER_DESCRIPTION' => 'Wähle zu verfolgende Module',
 
-    'LBL_MENUS_TO_SHOW'=>'Wähle Module, die im Hauptmenü gezeigt werden sollen',
-    'LBL_MENU_DESC'=>'Menüreihenfolge anpassen',
     'LBL_MENU_EDITOR'=>'Menüeditor',
-    'LBL_MENUS_TO_SHOW_DESCRIPTION' => 'Benutze die Pfeile, um die Menüeinträge zu ordnen. Die ersten 10 erscheinen im Haupmenü, die restlichen sind über <b><i>Mehr</i></b> -Auswahl erreichbar.',
     'LBL_ALL_MODULES' => 'alle Module',
     'LBL_SELECTED_MODULES' => 'gewählte Module',
 

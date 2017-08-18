@@ -934,13 +934,9 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 			else
 				$varreturnset = $returnset;
 
-			if ($module == 'Calendar') {
+			if ($module == 'cbCalendar') {
 				$actvity_type = $adb->query_result($list_result, $list_result_count, 'activitytype');
-				if ($actvity_type == 'Task')
-					$varreturnset .= '&activity_mode=Task';
-				else{
-					$varreturnset .= '&activity_mode=Events';
-				}
+				$varreturnset .= '&activity_mode=' . ($actvity_type == 'Task' ? 'Task' : 'Call');
 			}
 
 			//Added for Actions ie., edit and delete links in listview
@@ -1278,11 +1274,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 		$uitype = $key;
 		$colname = $value;
 	}
-	//added for getting event status in Custom view - Jaguar
-	if ($module == 'Calendar' && ($colname == "status" || $colname == "eventstatus")) {
-		$colname = "activitystatus";
-	}
-	//Ends
 	$field_val = $adb->query_result($list_result, $list_result_count, $colname);
 	if ($uitype != 8) {
 		$temp_val = html_entity_decode($field_val, ENT_QUOTES, $default_charset);
@@ -1307,6 +1298,30 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 			$value = '';
 		}
 	} // END
+	elseif ($uitype == '1025') {
+		$parent_id = $temp_val;
+		if (!empty($parent_id)) {
+			$values=explode(' |##| ',$parent_id);
+			for ($fvalues=0; $fvalues<sizeof($values); $fvalues++) {
+				$srchmod =  getSalesEntityType($values[$fvalues]);
+				$id = $values[$fvalues];
+				$displayValueArray = getEntityName($srchmod, $id);
+				if (!empty($displayValueArray)) {
+					foreach ($displayValueArray as $key=>$value2) {
+						$shown_val = $value2;
+					}
+				}
+				if (!(vtlib_isModuleActive($srchmod) and isPermitted($srchmod,'DetailView',$id))) {
+					$content[$fvalues]=textlength_check($shown_val);
+				} else {
+					$content[$fvalues]='<a href="index.php?module='.$srchmod.'&action=DetailView&record='.$id.'">'.textlength_check($shown_val).'</a>';
+				}
+			}
+			$value = textlength_check(implode(',',$content));
+		} else {
+			$value = '';
+		}
+	}
 	else if ($uitype == 53) {
 		$value = $adb->query_result($list_result, $list_result_count, 'user_name');
 		// When Assigned To field is used in Popup window
@@ -1398,7 +1413,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 		if ($value != "<font color='red'>" . $app_strings['LBL_NOT_ACCESSIBLE'] . "</font>") {
 			$value = textlength_check($value);
 		}
-	} elseif ($uitype == 16 || $uitype == 1613 || $uitype == 1614) {
+	} elseif ($uitype == 16 || $uitype == 1613 || $uitype == 1614 || $uitype == 1615) {
 		$value = getTranslatedString($temp_val, $currentModule);
 		$value = textlength_check($value);
 	} elseif ($uitype == 71 || $uitype == 72) {
@@ -1434,7 +1449,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 		} else {
 			$value = '<a href="http://' . $field_val . '" target="_blank">' . textlength_check($temp_val) . '</a>';
 		}
-	} elseif ($uitype == 13 || $uitype == 104 && ($_REQUEST['action'] != 'Popup' && (empty($_REQUEST['file']) or $_REQUEST['file'] != 'Popup'))) {
+	} elseif ($uitype == 13 && ($_REQUEST['action'] != 'Popup' && (empty($_REQUEST['file']) or $_REQUEST['file'] != 'Popup'))) {
 		if ($_SESSION['internal_mailer'] == 1) {
 			//check added for email link in user detailview
 			if ($module == 'Calendar') {
@@ -1822,12 +1837,8 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					$tax_str = trim($tax_str, ',');
 					$rate = $current_user->column_fields['conv_rate'];
 
-					if (getFieldVisibilityPermission($module, $current_user->id, 'unit_price') == '0') {
-						$unitprice = $adb->query_result($list_result, $list_result_count, 'unit_price');
-						if ($_REQUEST['currencyid'] != null) {
-							$prod_prices = getPricesForProducts($_REQUEST['currencyid'], array($entity_id), $module);
-							$unitprice = $prod_prices[$entity_id];
-						}
+					if (getFieldVisibilityPermission($module, $current_user->id, 'cost_price') == '0') {
+						$unitprice = $adb->query_result($list_result, $list_result_count, 'cost_price');
 					} else {
 						$unitprice = '';
 					}
@@ -1983,6 +1994,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					} else {
 						$sre_param = ', "'.$_REQUEST['email_field'].'"';
 					}
+					$emailaddress2 = '';
 					if ($module == 'Accounts') {
 						$name = $adb->query_result($list_result, $list_result_count, 'accountname');
 						$accid = $adb->query_result($list_result, $list_result_count, 'accountid');
@@ -2078,7 +2090,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid ( $module ) ));
-						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
 						$fieldid = $adb->query_result ( $queryres, 0, 'fieldid' );
 						$slashes_name = popup_from_html ( $name );
 						$slashes_name = htmlspecialchars ( $slashes_name, ENT_QUOTES, $default_charset );
@@ -2095,7 +2106,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid ( $module )));
-						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
 						$fieldid = $adb->query_result ( $queryres, 0, 'fieldid' );
 						$slashes_name = popup_from_html ( $name );
 						$slashes_name = htmlspecialchars ( $slashes_name, ENT_QUOTES, $default_charset );
@@ -2112,7 +2122,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid( $module )));
-						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
 						$fieldid = $adb->query_result ( $queryres, 0, 'fieldid' );
 						$slashes_name = popup_from_html ( $name );
 						$slashes_name = htmlspecialchars ( $slashes_name, ENT_QUOTES, $default_charset );
@@ -2129,7 +2138,6 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 						}
 						$querystr = "SELECT fieldid,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)";
 						$queryres = $adb->pquery( $querystr, array( getTabid( $module )));
-						// Change this index 0 - to get the vtiger_fieldid based on email1 or email2
 						$fieldid = $adb->query_result ( $queryres, 0, 'fieldid' );
 						$slashes_name = popup_from_html ( $name );
 						$slashes_name = htmlspecialchars ( $slashes_name, ENT_QUOTES, $default_charset );
@@ -2137,13 +2145,24 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					}
 					else {
 						$name = getFullNameFromQResult($list_result, $list_result_count, $module);
-						$emailaddress = $adb->query_result($list_result, $list_result_count, "email1");
-
+						$querystr = 'SELECT fieldid,fieldname,fieldlabel,columnname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)';
+						$queryres = $adb->pquery($querystr, array(getTabid($module)));
+						if ($queryres and $adb->num_rows($queryres)>0) {
+							$fieldid = $adb->query_result($queryres, 0, 'fieldid');
+							$emailaddress = $adb->query_result($list_result, $list_result_count, $adb->query_result($queryres, 0, 'fieldname'));
+							$email_check = 1;
+							if ($adb->num_rows($queryres)>1) {
+								$emailaddress2 = $adb->query_result($list_result, $list_result_count, $adb->query_result($queryres, 1, 'fieldname'));
+							}
+						} else {
+							$fieldid = -1;
+							$emailaddress = '';
+							$email_check = 0;
+						}
 						$slashes_name = popup_from_html($name);
 						$slashes_name = htmlspecialchars($slashes_name, ENT_QUOTES, $default_charset);
-						$email_check = 1;
 						$count = counterValue();
-						$value = '<a href="javascript:if (document.getElementById(\'closewindow\').value==\'true\') {window.close();}" onclick=\'return set_return_emails(' . $entity_id . ',-1,"' . decode_html($slashes_name) . '","' . $emailaddress . '","' . $emailaddress2 . '","' . $email_check . '"'.$sre_param.'); \'id = ' . $count . '>' . textlength_check($name) . '</a>';
+						$value = '<a href="javascript:if (document.getElementById(\'closewindow\').value==\'true\') {window.close();}" onclick=\'return set_return_emails(' . $entity_id . ',' . $fieldid . ',"' . decode_html($slashes_name) . '","' . $emailaddress . '","' . $emailaddress2 . '","' . $email_check . '"'.$sre_param.'); \'id = ' . $count . '>' . textlength_check($name) . '</a>';
 					}
 				} elseif ($popuptype == "specific_vendor_address") {
 					require_once('modules/Vendors/Vendors.php');
@@ -2203,10 +2222,10 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					$actvity_type = ($actvity_type != '') ? $actvity_type : $adb->query_result($list_result, $list_result_count, 'type');
 					if ($actvity_type == "Task") {
 						$count = counterValue();
-						$value = '<a href="index.php?action=EventDetailView&module=Calendar4You&record=' . $entity_id . '&activity_mode=Task&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						$value = '<a href="index.php?action=DetailView&module=cbCalendar&record=' . $entity_id . '&activity_mode=Task&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 					} else {
 						$count = counterValue();
-						$value = '<a href="index.php?action=EventDetailView&module=Calendar4You&record=' . $entity_id . '&activity_mode=Events&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
+						$value = '<a href="index.php?action=DetailView&module=cbCalendar&record=' . $entity_id . '&activity_mode=Events&parenttab=' . $tabname . '" id = ' . $count . '>' . textlength_check($temp_val) . '</a>';
 					}
 				} elseif ($module == 'Emails') {
 					$value = $temp_val;
@@ -2225,8 +2244,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 					}
 				}
 			}
-		} elseif ($module == 'Calendar' && ($fieldname == 'time_start' ||
-				$fieldname == 'time_end')) {
+		} elseif ($module == 'Calendar' && ($fieldname == 'time_start' || $fieldname == 'time_end')) {
 			$dateField = 'date_start';
 			if ($fieldname == 'time_end') {
 				$dateField = 'due_date';
@@ -2249,7 +2267,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 		}
 	}
 
-	// Mike Crowe Mod --------------------------------------------------------Make right justified and vtiger_currency value
+	// right justify currency value
 	if (in_array($uitype, array(71, 72, 7, 9, 90))) {
 		$value = '<span align="right">' . $value . '</div>';
 	}
@@ -2921,67 +2939,7 @@ function AlphabeticalSearch($module, $action, $fieldname, $query, $type, $popupt
  * Returns an string value
  */
 function getRelatedToEntity($module, $list_result, $rset) {
-	global $log;
-	$log->debug("Entering getRelatedToEntity(" . $module . "," . $list_result . "," . $rset . ") method ...");
-
-	global $adb;
-	$seid = $adb->query_result($list_result, $rset, "relatedto");
-	$action = "DetailView";
-
-	if (isset($seid) && $seid != '') {
-		$parent_module = $parent_module = getSalesEntityType($seid);
-		if ($parent_module == 'Accounts') {
-			$numrows = $adb->num_rows($evt_result);
-
-			$parent_module = $adb->query_result($evt_result, 0, 'setype');
-			$parent_id = $adb->query_result($evt_result, 0, 'crmid');
-
-			if ($numrows > 1) {
-				$parent_module = 'Multiple';
-				$parent_name = $app_strings['LBL_MULTIPLE'];
-			}
-			//Raju -- Ends
-			$parent_query = "SELECT accountname FROM vtiger_account WHERE accountid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = $adb->query_result($parent_result, 0, "accountname");
-		}
-		if ($parent_module == 'Leads') {
-			$parent_query = "SELECT firstname,lastname FROM vtiger_leaddetails WHERE leadid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = getFullNameFromQResult($parent_result, 0, "Leads");
-		}
-		if ($parent_module == 'Potentials') {
-			$parent_query = "SELECT potentialname FROM vtiger_potential WHERE potentialid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = $adb->query_result($parent_result, 0, "potentialname");
-		}
-		if ($parent_module == 'Products') {
-			$parent_query = "SELECT productname FROM vtiger_products WHERE productid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = $adb->query_result($parent_result, 0, "productname");
-		}
-		if ($parent_module == 'PurchaseOrder') {
-			$parent_query = "SELECT subject FROM vtiger_purchaseorder WHERE purchaseorderid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = $adb->query_result($parent_result, 0, "subject");
-		}
-		if ($parent_module == 'SalesOrder') {
-			$parent_query = "SELECT subject FROM vtiger_salesorder WHERE salesorderid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = $adb->query_result($parent_result, 0, "subject");
-		}
-		if ($parent_module == 'Invoice') {
-			$parent_query = "SELECT subject FROM vtiger_invoice WHERE invoiceid=?";
-			$parent_result = $adb->pquery($parent_query, array($seid));
-			$parent_name = $adb->query_result($parent_result, 0, "subject");
-		}
-
-		$parent_value = "<a href='index.php?module=" . $parent_module . "&action=" . $action . "&record=" . $seid . "'>" . $parent_name . "</a>";
-	} else {
-		$parent_value = '';
-	}
-	$log->debug("Exiting getRelatedToEntity method ...");
-	return $parent_value;
+	return getRelatedTo($module, $list_result, $rset);
 }
 
 /* * Function to get parent name for a given parent id
@@ -2996,29 +2954,23 @@ function getRelatedTo($module, $list_result, $rset) {
 	$tabname = getParentTab();
 	if ($module == "Documents") {
 		$notesid = $adb->query_result($list_result, $rset, "notesid");
-		$action = "DetailView";
 		$evt_query = 'SELECT vtiger_senotesrel.crmid, vtiger_crmentity.setype
-					FROM vtiger_senotesrel
-					INNER JOIN vtiger_crmentity
-					ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid
-				WHERE vtiger_senotesrel.notesid = ?';
+			FROM vtiger_senotesrel
+			INNER JOIN vtiger_crmentity ON vtiger_senotesrel.crmid = vtiger_crmentity.crmid
+			WHERE vtiger_senotesrel.notesid = ?';
 		$params = array($notesid);
 	} else if ($module == "Products") {
 		$productid = $adb->query_result($list_result, $rset, "productid");
-		$action = "DetailView";
 		$evt_query = 'SELECT vtiger_seproductsrel.crmid, vtiger_crmentity.setype
-					FROM vtiger_seproductsrel
-					INNER JOIN vtiger_crmentity
-					ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid
-					WHERE vtiger_seproductsrel.productid =?';
+			FROM vtiger_seproductsrel
+			INNER JOIN vtiger_crmentity ON vtiger_seproductsrel.crmid = vtiger_crmentity.crmid
+			WHERE vtiger_seproductsrel.productid =?';
 		$params = array($productid);
 	} else {
 		$activity_id = $adb->query_result($list_result, $rset, "activityid");
-		$action = "DetailView";
 		$evt_query = 'SELECT vtiger_seactivityrel.crmid, vtiger_crmentity.setype
 			FROM vtiger_seactivityrel
-			INNER JOIN vtiger_crmentity
-				ON vtiger_seactivityrel.crmid = vtiger_crmentity.crmid
+			INNER JOIN vtiger_crmentity ON vtiger_seactivityrel.crmid = vtiger_crmentity.crmid
 			WHERE vtiger_seactivityrel.activityid=?';
 		$params = array($activity_id);
 
@@ -3030,7 +2982,7 @@ function getRelatedTo($module, $list_result, $rset) {
 			}
 		}
 	}
-	//added by raju to change the related to in emails inot multiple if email is for more than one contact
+	// change the related to in emails to multiple if email is related with more than one contact
 	$evt_result = $adb->pquery($evt_query, $params);
 	$numrows = $adb->num_rows($evt_result);
 
@@ -3041,7 +2993,6 @@ function getRelatedTo($module, $list_result, $rset) {
 		$parent_module = 'Multiple';
 		$parent_name = $app_strings['LBL_MULTIPLE'];
 	}
-	//Raju -- Ends
 	if ($module == 'HelpDesk' && ($parent_module == 'Accounts' || $parent_module == 'Contacts')) {
 		global $theme;
 		$module_icon = '<img src="themes/images/' . $parent_module . '.gif" alt="' . $app_strings[$parent_module] . '" title="' . $app_strings[$parent_module] . '" border=0 align=center> ';
@@ -3049,101 +3000,17 @@ function getRelatedTo($module, $list_result, $rset) {
 		$module_icon = '';
 	}
 
-	$action = "DetailView";
-	if ($parent_module == 'Accounts') {
-		$parent_query = "SELECT accountname FROM vtiger_account WHERE accountid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = textlength_check($adb->query_result($parent_result, 0, "accountname"));
-	}
-	if ($parent_module == 'Leads') {
-		$parent_query = "SELECT firstname,lastname FROM vtiger_leaddetails WHERE leadid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = getFullNameFromQResult($parent_result, 0, "Leads");
-	}
-	if ($parent_module == 'Potentials') {
-		$parent_query = "SELECT potentialname FROM vtiger_potential WHERE potentialid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = textlength_check($adb->query_result($parent_result, 0, "potentialname"));
-	}
-	if ($parent_module == 'Products') {
-		$parent_query = "SELECT productname FROM vtiger_products WHERE productid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "productname");
-	}
-	if ($parent_module == 'Quotes') {
-		$parent_query = "SELECT subject FROM vtiger_quotes WHERE quoteid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "subject");
-	}
-	if ($parent_module == 'PurchaseOrder') {
-		$parent_query = "SELECT subject FROM vtiger_purchaseorder WHERE purchaseorderid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "subject");
-	}
-	if ($parent_module == 'Invoice') {
-		$parent_query = "SELECT subject FROM vtiger_invoice WHERE invoiceid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "subject");
-	}
-	if ($parent_module == 'SalesOrder') {
-		$parent_query = "SELECT subject FROM vtiger_salesorder WHERE salesorderid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "subject");
-	}
-	if ($parent_module == 'Contacts' && ($module == 'Emails' || $module == 'HelpDesk')) {
-		$parent_query = "SELECT firstname,lastname FROM vtiger_contactdetails WHERE contactid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = getFullNameFromQResult($parent_result, 0, "Contacts");
-	}
-	if ($parent_module == 'Vendors' && ($module == 'Emails' || $module == 'Calendar')) {  //MSL
-		$parent_query = "SELECT vendorname FROM vtiger_vendor WHERE vendorid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "vendorname");
-	}
-	if($parent_module == 'Project' && $module == 'Emails') {
-		$parent_query = "SELECT projectid,projectname FROM vtiger_project WHERE projectid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result,0,"projectname");
-	}
-	if($parent_module == 'ProjectTask' && $module == 'Emails') {
-		$parent_query = "SELECT projecttaskid,projecttaskname FROM vtiger_projecttask WHERE projecttaskid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result,0,"projecttaskname");
-	}
-	if($parent_module == 'Potentials' && $module == 'Emails') {
-		$parent_query = "SELECT potentialid,potentialname FROM vtiger_potential WHERE potentialid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result,0,"potentialname");
-	}
-	if ($parent_module == 'HelpDesk') {
-		$parent_query = "SELECT title FROM vtiger_troubletickets WHERE ticketid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "title");
-		//if(strlen($parent_name) > 25)
-		//{
-		$parent_name = textlength_check($parent_name);
-		//}
-	}
-	if ($parent_module == 'Campaigns') {
-		$parent_query = "SELECT campaignname FROM vtiger_campaign WHERE campaignid=?";
-		$parent_result = $adb->pquery($parent_query, array($parent_id));
-		$parent_name = $adb->query_result($parent_result, 0, "campaignname");
-		//if(strlen($parent_name) > 25)
-		//{
-		$parent_name = textlength_check($parent_name);
-		//}
-	}
-
-	//added by rdhital for better emails - Raju
 	if ($parent_module == 'Multiple') {
 		$parent_value = $parent_name;
 	} else {
-		$parent_value = $module_icon . "<a href='index.php?module=" . $parent_module . "&action=" . $action . "&record=" . $parent_id . "&parenttab=" . $tabname . "'>" . textlength_check($parent_name) . "</a>";
+		$ename = getEntityName($parent_module, array($parent_id));
+		$parent_name = $ename[$parent_id];
+		$parent_name = textlength_check($parent_name);
+		$parent_value = $module_icon . "<a href='index.php?module=" . $parent_module . '&action=DetailView&record=' . $parent_id . "&parenttab=" . $tabname . "'>" . textlength_check($parent_name) . "</a>";
 		$modMetaInfo = getEntityFieldNames($parent_module);
 		$modEName = (is_array($modMetaInfo['fieldname']) ? $modMetaInfo['fieldname'][0] : $modMetaInfo['fieldname']);
 		$parent_value .= "<span type='vtlib_metainfo' vtrecordid='{$parent_id}' vtfieldname='{$modEName}' vtmodule='$parent_module' style='display:none;'></span>";
 	}
-	//code added by raju ends
 	$log->debug("Exiting getRelatedTo method ...");
 	return $parent_value;
 }

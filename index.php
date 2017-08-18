@@ -16,7 +16,7 @@
 global $entityDel, $display;
 
 if(version_compare(phpversion(), '5.2.0') < 0 or version_compare(phpversion(), '7.1.0') >= 0) {
-	insert_charset_header();
+	header('Content-Type: text/html; charset=UTF-8');
 	$serverPhpVersion = phpversion();
 	require_once('phpversionfail.php');
 	die();
@@ -43,20 +43,10 @@ if(get_magic_quotes_gpc() == 1){
 	$_GET = array_map('stripslashes_checkstrings', $_GET);
 }
 
-/** Function to set, character set in the header, as given in include/language/*_lang.php */
-function insert_charset_header()
-{
-	global $app_strings, $default_charset;
-	$charset = $default_charset;
-	if(isset($app_strings['LBL_CHARSET'])) {
-		$charset = $app_strings['LBL_CHARSET'];
-	}
-	header('Content-Type: text/html; charset='. $charset);
-}
+header('Content-Type: text/html; charset='. $default_charset);
 
-insert_charset_header();
 // Create or reestablish the current session
-coreBOS_Session::init(true);
+coreBOS_Session::init(true, true);
 
 if(isset($_REQUEST['view'])) {
 	$view = $_REQUEST["view"];
@@ -72,11 +62,6 @@ require_once('config.inc.php');
 if (!isset($dbconfig['db_hostname']) || $dbconfig['db_status']=='_DB_STAT_') {
 	header("Location: install.php");
 	exit();
-}
-
-// load up the config_override.php file.  This is used to provide default user settings
-if (is_file('config_override.php')) {
-	require_once('config_override.php');
 }
 
 // Set the default timezone preferred by user
@@ -117,6 +102,10 @@ if($action == 'Export')
 if($action == 'ExportAjax')
 {
 	include ('include/utils/ExportAjax.php');
+}
+$nologinaction = array('sendnew2facode');
+if (in_array($action, $nologinaction) and file_exists('modules/Utilities/'.$action.'.php')) {
+	include ('modules/Utilities/'.$action.'.php');
 }
 // vtlib customization: Module manager export
 if($action == 'ModuleManagerExport') {
@@ -171,6 +160,8 @@ if(isset($_SESSION["authenticated_user_id"]) && (isset($_SESSION["app_unique_key
 if (isset($_SESSION["authenticated_user_id"]) && isset($module) && $module == 'Users' && $action == 'Login') {
 	$default_action = GlobalVariable::getVariable('Application_Default_Action','index','',$_SESSION["authenticated_user_id"]);
 	$default_module = GlobalVariable::getVariable('Application_Default_Module','Home','',$_SESSION["authenticated_user_id"]);
+	$result = $adb->pquery('select tabid from vtiger_tab where name=?', array($default_module));
+	if (!$result or $adb->num_rows($result)==0) $default_module = 'Home';
 	header("Location: index.php?action=$default_action&module=$default_module");
 }
 
@@ -216,7 +207,6 @@ if(isset($action) && isset($module))
 		preg_match("/^downloadfile/", $action) ||
 		preg_match("/^massdelete/", $action) ||
 		preg_match("/^updateLeadDBStatus/",$action) ||
-		preg_match("/^AddCustomFieldToDB/", $action) ||
 		preg_match("/^updateRole/",$action) ||
 		preg_match("/^UserInfoUtil/",$action) ||
 		preg_match("/^deleteRole/",$action) ||
@@ -345,8 +335,8 @@ if(isset($action) && isset($module))
 	}
 	$currentModule = $module;
 } else {
-	// use $default_module and $default_action as set in config.php
-	// Redirect to the correct module with the correct action.  We need the URI to include these fields.
+	// use $default_module and $default_action
+	// Redirect to the correct module with the correct action. We need the URI to include these fields.
 	if(isset($_SESSION["authenticated_user_id"])){
 		$userid = $_SESSION["authenticated_user_id"];
 	}else{
@@ -354,6 +344,8 @@ if(isset($action) && isset($module))
 	}
 	$default_action = GlobalVariable::getVariable('Application_Default_Action','index','',$userid);
 	$default_module = GlobalVariable::getVariable('Application_Default_Module','Home','',$userid);
+	$result = $adb->pquery('select tabid from vtiger_tab where name=?', array($default_module));
+	if (!$result or $adb->num_rows($result)==0) $default_module = 'Home';
 	header("Location: index.php?action=$default_action&module=$default_module");
 	exit();
 }

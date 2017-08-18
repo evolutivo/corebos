@@ -83,7 +83,7 @@ function get_select_options(&$option_list, $selected, $advsearch = 'false') {
  */
 function get_select_options_with_id(&$option_list, $selected_key, $advsearch = 'false') {
 	global $log;
-	$log->debug("Entering and Exiting get_select_options_with_id (" . print_r($option_list,true) . "," . $selected_key . "," . $advsearch . ") method ...");
+	$log->debug("Entering and Exiting get_select_options_with_id (" . print_r($option_list,true) . "," . print_r($selected_key,true) . "," . $advsearch . ") method ...");
 	return get_select_options_with_id_separate_key($option_list, $option_list, $selected_key, $advsearch);
 }
 
@@ -797,6 +797,7 @@ function getUserName($userid) {
 function getUserFullName($userid) {
 	global $log, $adb;
 	$log->debug("Entering getUserFullName($userid) method ...");
+	$user_name = '';
 	if ($userid != '') {
 		if (strpos($userid,'x')) list($wsid,$userid) = explode('x', $userid);
 		$displayValueArray = getEntityName('Users', $userid);
@@ -805,8 +806,6 @@ function getUserFullName($userid) {
 				$user_name = $value;
 			}
 		}
-	} else {
-		$user_name = '';
 	}
 	$log->debug('Exiting getUserFullName method ...');
 	return $user_name;
@@ -1940,13 +1939,13 @@ function QuickCreate($module) {
 	return $form_data;
 }
 
-function getUserslist($setdefval = true) {
+function getUserslist($setdefval = true, $selecteduser = '') {
 	global $log, $current_user, $module, $adb, $assigned_user_id;
 	$log->debug("Entering getUserslist() method ...");
 	require('user_privileges/user_privileges_' . $current_user->id . '.php');
 	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
-
-	if ($is_admin == false && $profileGlobalPermission[2] == 1 && ($defaultOrgSharingPermission[getTabid($module)] == 3 or $defaultOrgSharingPermission[getTabid($module)] == 0)) {
+	$tabid = getTabid($module);
+	if ($is_admin == false && $profileGlobalPermission[2] == 1 && (is_null($tabid) or $defaultOrgSharingPermission[$tabid] == 3 or $defaultOrgSharingPermission[$tabid] == 0)) {
 		$user_array = get_user_array(FALSE, "Active", $current_user->id, 'private');
 	} else {
 		$user_array = get_user_array(FALSE, "Active", $current_user->id);
@@ -1957,6 +1956,8 @@ function getUserslist($setdefval = true) {
 		foreach ($value as $username => $selected) {
 			if ($setdefval == false) {
 				$change_owner .= "<option value=$userid>" . $username . "</option>";
+			} elseif (is_numeric($selecteduser)) {
+				$change_owner .= "<option value=$userid ". ($userid==$selecteduser ? 'selected' : '') .">" . $username . "</option>";
 			} else {
 				$change_owner .= "<option value=$userid $selected>" . $username . "</option>";
 			}
@@ -2264,10 +2265,11 @@ function getMergedDescription($description, $id, $parent_type) {
 		$description = $emailTemplate->getProcessedDescription();
 	}
 	$templateVariablePair = explode('$', $description);
-	$tokenDataPair = explode('$', $description);
+	$token_data_pair = explode('$', $description);
 	$fields = Array();
 	for ($i = 1; $i < count($token_data_pair); $i+=2) {
-		$module = explode('-', $tokenDataPair[$i]);
+		if (strpos($token_data_pair[$i], '-') === false) continue;
+		$module = explode('-', $token_data_pair[$i]);
 		$fields[$module[0]][] = $module[1];
 	}
 	if (isset($fields['custom']) && is_array($fields['custom']) && count($fields['custom']) > 0) {
@@ -2335,7 +2337,8 @@ function get_announcements() {
 	global $default_charset, $currentModule;
 	$announcement = GlobalVariable::getVariable('Application_Announcement','',$currentModule);
 	if ($announcement != '') {
-			$announcement = html_entity_decode($announcement, ENT_QUOTES, $default_charset);
+		$announcement = html_entity_decode($announcement, ENT_QUOTES, $default_charset);
+		$announcement = vtlib_purify($announcement);
 	}
 	return $announcement;
 }
@@ -3385,19 +3388,28 @@ function getReturnPath($host, $from_email) {
 
 	// Review if the host is not local
 	if (!in_array(strtolower($host), array('localhost'))) {
-		list($from_name, $from_domain) = explode('@', $from_email);
+		if (strpos($from_email, '@')) {
+			list($from_name, $from_domain) = explode('@', $from_email);
+		} else {
+			$from_name = $from_domain = '';
+		}
 
 		//strip [,] from domain name in case ip address is used as domain: xyz@[192.45.32.67]
 		preg_replace("/[\[\]]/",$from_domain,$from_domain);
 
 		// If from-email domain is not matching (or sub-domain) of host
 		// reset the return-path
-		if (strpos($host, $from_domain)== false) {
-			$from_domain = trim($from_domain);
-
-			if(preg_match( '/^((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))$/', $host)){
+		if ($from_domain == '' or strpos($host, $from_domain) == false) {
+			if (preg_match( '/^((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))$/', $host)) {
 				$returnpath = $returnname . '@[' . $host.']';
-			}else{
+			} else {
+				if (strpos($host, '.')) {
+					$cmps = explode('.', $host);
+					while (count($cmps)>2) {
+						array_shift($cmps);
+					}
+					$host = implode('.', $cmps);
+				}
 				$returnpath = $returnname . '@' . $host;
 			}
 		}

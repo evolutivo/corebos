@@ -96,7 +96,7 @@ class Emails extends CRMEntity {
 					$realid = explode("@", $myids[$i]);
 					$mycrmid = $realid[0];
 					//added to handle the relationship of emails with vtiger_users
-					if ($realid[1] == -1) {
+					if (getmoduleforfield($realid[1]) == 'Users') {
 						$del_q = 'delete from vtiger_salesmanactivityrel where smid=? and activityid=?';
 						$adb->pquery($del_q, array($mycrmid, $actid));
 						$mysql = 'insert into vtiger_salesmanactivityrel values(?,?)';
@@ -154,7 +154,7 @@ include_once("modules/Documents/Documents.php");
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = vtlib_purify($_REQUEST[$fileindex . '_hidden']);
+				$files['original_name'] = (empty($_REQUEST[$fileindex.'_hidden']) ? vtlib_purify($files['name']) : vtlib_purify($_REQUEST[$fileindex.'_hidden']));
 				$file_saved = $this->uploadAndSaveFile($id, $module, $files);
 }             }
 foreach ($_FILES as $fileindex => $files) {
@@ -564,6 +564,16 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		$this->db->pquery('UPDATE vtiger_crmentity SET modifiedtime = ? WHERE crmid = ?', array(date('y-m-d H:i:d'), $id));
 	}
 
+	function getListButtons($app_strings) {
+		global $currentModule;
+		$list_buttons = Array();
+
+		if (isPermitted($currentModule, 'Delete', '') == 'yes')
+			$list_buttons['del'] = $app_strings['LBL_MASS_DELETE'];
+		unset($list_buttons['mass_edit']);
+		return $list_buttons;
+	}
+
 }
 
 /** Function to get the emailids for the given ids form the request parameters
@@ -610,6 +620,7 @@ function get_to_emailids($module) {
 	}
 	if(empty($emailFields))
 		return false;
+	$params = $idlist;
 	if ($module == 'Leads') {
 		$query = 'SELECT firstname,lastname,'.implode(",", $emailFields).',vtiger_leaddetails.leadid as id
 				  FROM vtiger_leaddetails
@@ -655,13 +666,26 @@ function get_to_emailids($module) {
 				  INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_troubletickets.ticketid
 				  LEFT JOIN vtiger_ticketcf ON vtiger_ticketcf.ticketid = vtiger_troubletickets.ticketid
 				  WHERE vtiger_crmentity.deleted=0 AND vtiger_troubletickets.ticketid IN ('.generateQuestionMarks($idlist).')';
-	} else { // vendors
+	} else if ($module == 'Vendors') {
 		$query = 'SELECT vtiger_vendor.vendorname, '.implode(",", $emailFields).',vtiger_vendor.vendorid as id FROM vtiger_vendor
 				   INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_vendor.vendorid
 				   LEFT JOIN vtiger_vendorcf ON vtiger_vendorcf.vendorid= vtiger_vendor.vendorid
 				   WHERE vtiger_crmentity.deleted=0 AND vtiger_vendor.vendorid IN ('.generateQuestionMarks($idlist).')';
+	} else {
+		$minfo = getEntityFieldNames($module);
+		$qg = new QueryGenerator($module, $current_user);
+		$fields = $emailFields;
+		$fields[] = $minfo['fieldname'];
+		$fields[] = 'id';
+		$qg->setFields($fields);
+		$qg->addCondition('id', $idlist, 'i');
+		$query = $qg->getQuery();
+		$query = preg_replace('/'.$minfo['entityidfield'].'/', $minfo['entityidfield'].' as id', $query, 1);
+		$fldrs = $adb->pquery('select columnname from vtiger_field where tabid=? and fieldname=?',array(getTabid($module),$minfo['fieldname']));
+		$minfo['columnname'] = $adb->query_result($fldrs, 0, 0);
+		$params = array();
 	}
-	$result = $adb->pquery($query,$idlist);
+	$result = $adb->pquery($query,$params);
 
 	$idlists = $mailids = '';
 	if($adb->num_rows($result)>0){
@@ -680,8 +704,12 @@ function get_to_emailids($module) {
 						$mailids .= $entityvalue['potentialname'] . "<" . $entityvalue[$emailFieldName] . ">,";
 					} else if($module == "HelpDesk"){
 						$mailids .= $entityvalue['title'] . "<" . $entityvalue[$emailFieldName] . ">,";
-					} else {
+					} else if($module == "Vendors"){
+						$mailids .= $entityvalue['vendorname'] . "<" . $entityvalue[$emailFieldName] . ">,";
+					} else if($module == "Accounts"){
 						$mailids .= $entityvalue['accountname'] . "<" . $entityvalue[$emailFieldName] . ">,";
+					} else {
+						$mailids .= $entityvalue[$minfo['columnname']] . "<" . $entityvalue[$emailFieldName] . ">,";
 					}
 				}
 			}
