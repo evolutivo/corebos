@@ -10,7 +10,7 @@
 -->*}
 <script type="text/javascript" src="modules/{$MODULE}/{$MODULE}.js"></script>
 {if empty($Module_Popup_Edit)}
-<TABLE id="LB_buttonlist" border=0 cellspacing=0 cellpadding=0 width=100% class=small>
+<TABLE id="LB_buttonlist" border=0 cellspacing=0 cellpadding=0 width=100% class="small homePageButtons">
 <tr><td style="height:2px"></td></tr>
 <tr>
 	{if empty($CATEGORY)}
