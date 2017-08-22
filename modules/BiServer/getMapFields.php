@@ -5,13 +5,14 @@ $cbmapid = $_POST['mapID'];
 $SQLforMap = $adb->pquery("Select content,mapname,selected_fields from vtiger_cbmap where cbmapid = ?",array($cbmapid));
 $mapSql = str_replace('"','',html_entity_decode($adb->query_result($SQLforMap,0,"selected_fields"),ENT_QUOTES));
 //get fields from map SQL
-
 $sqlQueryfields = explode(",",$mapSql);
+
 $nr = count($sqlQueryfields);
 //DEFINE COLUMNS ALIAS
  $queryFromMap = str_replace('"','',$adb->query_result($SQLforMap,0,'content'));
  $explodeFrom = explode("FROM",$queryFromMap);
  $getSqlFields = explode(",",str_replace("SELECT","",$explodeFrom[0]));
+
   for($k=0; $k<count($sqlQueryfields);$k++)
   {
      $i = $k+1;
@@ -23,7 +24,7 @@ $nr = count($sqlQueryfields);
      $fldTypessarrcodes=array("V","N","D","DT");
      $fldTypessqlhtml = "";
      //$fldtblnamearr table name
-     
+
      $fieldinfo = explode(";",getColumnLabel($fldtblnamearr[1],$fldtblnamearr[0]));
      $fldType= $fieldinfo[1];
      $fldLabel = $fieldinfo[0];
@@ -56,8 +57,13 @@ $typ='<input type="hidden" name="maptypef'.$i.'" id="maptypef'.$i.'" value="fiel
             $a.="</td>";
             $a.="<td><select id=\"modulfieldtype$i\" name=\"modulfieldtype$i\">".$fldTypessqlhtml."</select>";
             $a.="</td>";
-             $a.= "<td><input type='checkbox'  id='checkanalyzed$i' name='checkanalyzed$i'  class='k-checkbox'>";
-                   $a.="<label class='k-checkbox-label' for='checkanalyzed$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;  
+            if ($i==1) {
+                $a.= "<td><input type='radio'  id='idmain$i' name='main' value='$i'checked></td>";
+            } else {
+                $a.= "<td><input type='radio'  id='idmain$i' name='main'value='$i'></td>";
+            }
+            $a.= "<td><input type='checkbox'  id='checkanalyzed$i' name='checkanalyzed$i'  class='k-checkbox'>";
+               $a.="<label class='k-checkbox-label' for='checkanalyzed$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;
                    $a.= "</tr>";
 }
 else {
@@ -79,11 +85,11 @@ else {
             $a.="<td><select id=\"modulfieldtype$i\" name=\"modulfieldtype$i\">".$fldTypessqlhtml."</select>";
             $a.="</td>";
              $a.= "<td><input type='checkbox'  id='checkanalyzedlogg$i' name='checkanalyzedlogg$i'  class='k-checkbox'>";
-                   $a.="<label class='k-checkbox-label' for='checkanalyzedlogg$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;    
-                   $a.= "</tr>";  
+                   $a.="<label class='k-checkbox-label' for='checkanalyzedlogg$i' id='checkanalyzedname$i' >Analyzed</label></td>"   ;
+                   $a.= "</tr>";
 }
  }
- 
+
  function getColumnLabel($fldname,$fldtable){
   global $adb;
        $fldname = trim($fldname);

@@ -39,7 +39,7 @@ if($mvtype == "report"){
   curl_setopt($channel, CURLOPT_TIMEOUT, 1000);
   $response = json_decode(curl_exec($channel));
 
-  //get report selected fields 
+  //get report selected fields
     $selectedReportColumns = array();
     $selectedReportColumnsLabel = array();
     $replaceColumnsContainingDots = array();
@@ -47,7 +47,7 @@ if($mvtype == "report"){
     $reportFieldsType = array();
     $k = 0;
     for($i=0;$i<$val;$i++)
-    {   
+    {
         //get selected fields
          $j= $i+1;
         if(isset($_REQUEST['checkf'.$j])){
@@ -68,7 +68,7 @@ if($mvtype == "report"){
             $tablename = $fldtabname[0];
             $columnname = $fldtabname[1];
             $selectedReportColumnsLabel[$k]= preg_replace('/[#*. <,>]/','',$_REQUEST['modulfieldlabel'.$j]);
-            $fldtype = $adb->query_result($adb->pquery("Select typeofdata from vtiger_field 
+            $fldtype = $adb->query_result($adb->pquery("Select typeofdata from vtiger_field
                                           where columnname=? and tablename=?",array($columnname,$tablename)),0,'typeofdata');
 
             if(substr($fldtype,0,1) == 'N')
@@ -78,7 +78,7 @@ if($mvtype == "report"){
                 $data .="\r\n".'$reportIndexFields["'.$selectedReportColumnsLabel[$k].'"]=array("type"=>"'.$coltype.'");';
             }
             else if(substr($fldtype,0,1) == 'D')
-            { 
+            {
                 $coltype='date';
                 if(substr($fldtype,0,2) == 'DT') $format = 'yyyy-MM-dd HH:mm:ss';
                 else $format = 'yyyy-MM-dd';
@@ -98,11 +98,11 @@ if($mvtype == "report"){
           }
     }
    $mvtableColumns = implode(",", $selectedReportColumns);
-    //check if index exist 
+    //check if index exist
         if(count($response->denorm->mappings->$index)!=0)
         {
-          $fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
-          $writeFields1 = '$fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" =>"[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\',\'date_optional_time\']"));';   
+          $fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'));
+          $writeFields1 = '$fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" =>"[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\',\'date_optional_time\']"));';
 
           //DELETE INDEX
 
@@ -133,7 +133,7 @@ if($mvtype == "report"){
         }
         else
         {
-        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']')));   
+        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']')));
         $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']")));';
         $endpointUrl = "http://$ip:9200/$index";
          $channel = curl_init();
@@ -154,7 +154,7 @@ if($mvtype == "report"){
       $data .= "\r\n".$writeFields1 ;
       $data .= writeIndexFieldsToFile(implode(",",$selectedReportColumnsLabel));
        //add data in elastic
-           
+
         $endpointUrl2 = "http://$ip:9200/$index/denorm";
         $focus1=new ReportRun($reportId);
 	$currencyfieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (71,72,10)", array());
@@ -175,7 +175,7 @@ if($mvtype == "report"){
 				}
 			}
 		}
-//Replace special characters on columns of report query                
+//Replace special characters on columns of report query
         $SQLforReport = preg_replace("/[^A-Za-z0-9_=\s,<>%\'\'()!.:-]/","",$focus1->sGetSQLforReport($reportId,$nu));
         $SQLforReport = str_replace($replaceColumnsContainingDots, $replacedColumnsContainingDots, $SQLforReport);
        //write report query for index creation
@@ -199,23 +199,25 @@ if($mvtype == "report"){
         curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
         curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-        $response2 = curl_exec($channel11);  
-        }       
+        $response2 = curl_exec($channel11);
+        }
  }
  else{
      //Create index from mv
      //create index -for logging index creation
     error_log("".date('Y-m-d H:i:s')." Create Index started\n ",3,$indexlLog);
     if($actionTodo == "createindex")
-     $mapid = $_REQUEST['maploggingsql'];   
+     $mapid = $_REQUEST['maploggingsql'];
     else $mapid = $_REQUEST['mapsql'];
     $SQLforMap = $adb->pquery("Select content,mapname,selected_fields from vtiger_cbmap where cbmapid = ?",array($mapid));
     $mapFields = str_replace('"','',html_entity_decode($adb->query_result($SQLforMap,0,"selected_fields"),ENT_QUOTES));
     //get fields from map SQL
     $mapSql = str_replace('"','',html_entity_decode($adb->query_result($SQLforMap,0,"content"),ENT_QUOTES));
     //function to get tabid
+
     $mapname = $adb->query_result($SQLforMap,0,"mapname");
     $sqlQueryfields = explode(",",$mapFields);
+
     $sqlFields=array();
     $selectedMapColumns = array();
     $elasticFields = array();
@@ -226,19 +228,19 @@ if($mvtype == "report"){
     $index = strtolower($pref.'_'.preg_replace('/[^A-Za-z0-9\-]/', '', $mapname));
     else     $index = strtolower($pref.'_'.preg_replace('/[^A-Za-z0-9\-]/', '',$tab ));
     error_log("".date('Y-m-d H:i:s')."Index name =".$index."\n ",3,$indexlLog);
-    $k1=0;  
-    //Query to check for index existence 
+    $k1=0;
+    //Query to check for index existence
    $checkIndex = $adb->pquery("Select * from vtiger_elastic_indexes where elasticname = ?",array($index));
    $indexExist = $adb->num_rows($checkIndex);
    $handler = createBiServerScript("script_map_denorm_".$index,"INDEXES");
    $data = "<?php \r\n";
    $data .= 'include_once("include/utils/CommonUtils.php");';
    $data .= "\n\r".'global $adb;'."\r\n";
-   $data .="\r\n".'$reportIndexFields = array();'; 
+   $data .="\r\n".'$reportIndexFields = array();';
    $formatarr =array();
       //Write fileds structture to php file
      for($i=0;$i<$val;$i++)
-     {   
+     {
         //get selected fields
         $j= $i+1;
         if($actionTodo == "createindex") $checked = isset($_REQUEST['checkflogg'.$j]);
@@ -254,11 +256,11 @@ if($mvtype == "report"){
             }
             $colname[$k1] = $_REQUEST['colname'.$j];
             $analyzedChecked = $_REQUEST['checkanalyzed'.$j];
-            //get Field type 
+            //get Field type
             if($analyzedChecked == "on" || $analyzedChecked==1)
                 $analyzed = "analyzed";
             else $analyzed = "not_analyzed";
-            //get Field type 
+            //get Field type
             $fldtabname = explode('.',$_REQUEST['colname'.$j]);
             $tablename = $fldtabname[0];
             $columnname = $fldtabname[1];
@@ -295,13 +297,81 @@ if($mvtype == "report"){
      }
         $fieldtypearr[] = $coltype;
         $allFields[] = preg_replace('/[#*. <,>]/','',$_REQUEST['modulfieldlabel'.$j]);
+
      }
-     $log->debug("ketu".$entityfield);
+
+     for($i=0;$i<$val;$i++){
+       if (isset($_REQUEST['checkf'.$i])){
+         $check=1;
+       }
+     }
+
+
+  /*  if($actionTodo == "createindex2" && $check==1) {
+        $reportIndexFields["roles"]=array("type"=>"string");
+           $data.="\r\n".'$reportIndexFields["roles"]=array("type"=>"string");';
+    }*/
+
+
+
+ function getDbTables($colname)
+  {
+   for ($k=0; $k<count($colname); $k++) {
+      $fldtabname1[] = explode('.',$colname[$k]);
+      $db[]=  $fldtabname1[$k][0];
+      $db1[]=$fldtabname1[$k][1];
+      $dbtables[]=substr($db[$k],0,-2);
+
+      if(substr($dbtables[$k],0,4)=="CRM_") {
+        $dbtables[$k]="vtiger_crmentity";
+      }
+      if($dbtables[$k]=="CR"){
+        $dbtables[$k]="vtiger_crmentity";
+      }
+   }
+
+return $dbtables;
+
+}
+
+
+function getRoles($id) {
+    global $adb,$current_user;
+    require_once("modules/Users/CreateUserPrivilegeFile.php");
+    require_once("include/utils/GetUserGroups.php");
+  //if($defaultOrgSharingPermission[getTabid("$moduleName")] == 3){
+    $q=$adb->pquery("select smownerid from vtiger_crmentity  where crmid=?",array($id));
+    $owner=$adb->query_result($q,0,"smownerid");
+    $role=$adb->query("select parentrole,vtiger_role.roleid from vtiger_user2role join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid  where vtiger_user2role.userid=$owner");
+    $current_user_roles=$adb->query_result($role,0,"roleid");
+  //$roleid=$adb->query_result($role,0,"parentrole");
+    $parrol=getParentRole($current_user_roles);
+    $roleid=implode("::",$parrol);
+    $userGroupFocus=new GetUserGroups();
+    $userGroupFocus->getAllUserGroups($owner);
+    $current_user_groups= $userGroupFocus->user_groups;
+    if(count($current_user_groups)!=0)
+    $grpid='::'.implode("::",$current_user_groups);
+    $def_org_share=getAllDefaultSharingAction();
+    $arr=getUserModuleSharingRoles($moduleName,$owner,$def_org_share ,$current_user_roles,$parrol,$current_user_groups);
+    $gr=$adb->pquery("select * from vtiger_groups where groupid=?",array($owner));
+    if($adb->num_rows($gr)==0){
+    if(count(array_keys($arr['read']['ROLE']))!=0)
+    $roleid.='::'.implode('::',array_keys($arr['read']['ROLE']));}
+    else $roleid.=implode('::',array_keys($arr['read']['GROUP']));
+    $roleid.='::'.$owner;
+
+    return $roleid;
+}
+
+
+    $log->debug("ketu".$entityfield);
+
      //Get tabid
     $elasticTabid = getTabIdFromQuery($entityfield);
     $lanbelsToInsert = implode(",", $allFields);
     if($indexExist == 0){
-    //Create connection 
+    //Create connection
     if($actionTodo == "createindex")
     $endpointUrl2 = "http://$ip:9200/$index/_mapping/norm";
     else $endpointUrl2 = "http://$ip:9200/$index/_mapping/denorm";
@@ -317,11 +387,11 @@ if($mvtype == "report"){
         if(count($response->$index->mappings->norm)!=0)
         {
           if($actionTodo == "createindex"){
-          $fields1=array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']'));   
-          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
+          $fields1=array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']'));
+          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'));
           }
-          else 
-          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']'));       
+          else
+          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']'));
           if($actionTodo == "createindex"){
           $endpointUrl = "http://$ip:9200/$index/norm/_mapping?ignore_conflicts=true";
           $channel = curl_init();
@@ -350,8 +420,8 @@ if($mvtype == "report"){
         else
         {
         if($actionTodo == "createindex"){
-        $fields1=array("mappings"=>array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'),"denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));   
-        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']")));';   
+        $fields1=array("mappings"=>array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'),"denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));
+        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']")));';
         $endpointUrl = "http://$ip:9200/$index";
         $channel = curl_init();
         $typreofindex = "norm,denorm";
@@ -365,8 +435,8 @@ if($mvtype == "report"){
         $response = json_decode(curl_exec($channel));
         }
         else{
-        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']')));   
-        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']")));';   
+        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']')));
+        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']")));';
         $typreofindex = "denorm";
         $endpointUrl = "http://$ip:9200/$index";
         error_log("New index endpoint url  for index structure = ".$endpointUrl." \n",3,$indexlLog);
@@ -378,7 +448,7 @@ if($mvtype == "report"){
         curl_setopt($channel, CURLOPT_CONNECTTIMEOUT, 100);
         curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($channel, CURLOPT_TIMEOUT, 1000);
-        $response = json_decode(curl_exec($channel));   
+        $response = json_decode(curl_exec($channel));
         }
         }
       //CREATE BISERVER SCRIPT
@@ -390,16 +460,80 @@ if($mvtype == "report"){
       fwrite($handler, $data);
       //END CREATE BISERVER SCRIPT
       //POPULATE INDEX WITH DATA
-       $fields1 = $adb->pquery($mapSql,array());
-       $data = array();
-       for($i=0; $i< $adb->num_rows($fields1); $i++){
+
+      $fields1 = $adb->pquery($mapSql,array());
+      $data = array();
+
+
+      $radioid=$_REQUEST['main'];
+      $idrad=$radioid-1;
+      $selcolno=count($colname);
+      $allcolno=count($allFields);
+      for($i=0;$i<$selcolno;$i++){
+          $fld[]= explode('.',$colname[$i]);
+          $columns[]=$fld[$i][1];
+      }
+      for($i=0;$i<$allcolno;$i++){
+        $j=$i+1;
+        $allcol[]=$_REQUEST['colname'.$j];
+        $allfld[]= explode('.',$allcol[$i]);
+        $allcolumns[]=$allfld[$i][1];
+      }
+
+      $alltables=getDbTables($allcol);
+      $vtigertbls=getDbTables($colname);
+
+      for($i=0; $i< $adb->num_rows($fields1); $i++){
+          if($actionTodo == "createindex2" && $check==1) {
+              if($idrad==0){
+                  $recordid = $adb->query_result($fields1,$i,$idrad);
+                   $data["roles"] = getRoles($recordid);
+              } else {
+                $tabdata = $adb->query_result($fields1,$i,$idrad);
+
+                $res=array_intersect($allFields,$selectedMapColumns);
+                $keys=array_keys($res);
+                $keyno=count($keys);
+                for($m=0;$m<$keyno;$m++){
+                  if($idrad==$keys[$m]){
+                    $idradd=$m;
+                  } else {
+                    $bool=0;
+                  }
+                }
+                if($bool==0){
+                    $select="SELECT* FROM $alltables[$idrad] WHERE $allcolumns[$idrad]='".$tabdata."'";
+                    $que = $adb->pquery("show columns from $alltables[$idrad] where `Key` = 'PRI'",array());
+                } else {
+                  $select="SELECT* FROM $vtigertbls[$idradd] WHERE $columns[$idradd]='".$tabdata."'";
+                  $que = $adb->pquery("show columns from $vtigertbls[$idradd] where `Key` = 'PRI'",array());
+                }
+
+                $result=$adb->query($select);
+                $key=$adb->query_result($que);
+                $recordid=$adb->query_result($result,0,$key);
+                $data["roles"] = getRoles($recordid);
+            }
+}
            for($j=0;$j< count($selectedMapColumns);$j++)
            {
                $resultdata = $adb->query_result($fields1,$i,$j);
                if($fieldtypearr[$j] == 'date' && $resultdata=='')
                      $data[$selectedMapColumns[$j]] = null;
-               else  $data[$selectedMapColumns[$j]] = $resultdata ;   
+               else if($allFields[$j]!=$selectedMapColumns[$j]){
+                   $res=array_intersect($allFields,$selectedMapColumns);
+                   $keys=array_keys($res);
+                   $resultdata = $adb->query_result($fields1,$i,$keys[$j]);
+                   $data[$selectedMapColumns[$j]] = $resultdata;
+               } else {
+                   $data[$selectedMapColumns[$j]] = $resultdata ;
+               }
+
            }
+
+
+
+
         if($actionTodo == "createindex"){
         $endpointUrl2 = "http://$ip:9200/$index/norm";
         $channel11 = curl_init();
@@ -414,7 +548,7 @@ if($mvtype == "report"){
         curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
         $response2 = curl_exec($channel11);
         }
-        
+
         $endpointUrl2 = "http://$ip:9200/$index/denorm";
         $channel11 = curl_init();
         //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -436,71 +570,71 @@ if($mvtype == "report"){
         }
   }
   else{
-      //index exist 
+      //index exist
       if($actionTodo == "createindex"){
           //Update Elastic Tables
           updateElasticLabels($index,$lanbelsToInsert);
           updateLoggingConf($index,$mapSql,$elasticTabid,$mapFields,$mapid);
-          
+
           //Update Elastic Mapping
       }
   }
- } 
+ }
  function getColumnname($fieldid,$colname=null,$tablename=null)
- { 
+ {
      global $adb;
     if($fieldid!=''){
     $q=$adb->pquery("select columnname,typeofdata,tablename from vtiger_field where fieldid=?",array($fieldid));
     }
-    else 
+    else
     $q=$adb->pquery("select columnname,typeofdata,tablename from vtiger_field where columnname=? and tablename=?",array($colname,$tablename));
     $arr[0]=$adb->query_result($q,0,0);
     $arr[1]=$adb->query_result($q,0,1);
     $arr[2]=$adb->query_result($q,0,2);
     return $arr;
   }
-  
+
   function insertElasticIndex($indexname,$fields,$type){
       global $adb;
       $adb->pquery("Insert into vtiger_elastic_indexes(elasticname,status,fieldlabel,type) values(?,?,?,?)",array($indexname,"Open",$fields,$type));
   }
-  
+
   function updateElasticLabels($indexname,$fields){
       global $adb;
       $sql = $adb->pquery("Select id from vtiger_elastic_indexes where elasticname = ?",array($indexname));
       $elasticId = $adb->query_result($sql,0,'id');
       $adb->pquery("Update vtiger_elastic_indexes set fieldlabel = ? where id = ?",array($fields,$elasticId));
   }
-  
+
   function updateLoggingConf($index,$query,$elasticTabid,$mapFields,$mapid){
       global $adb;
-      $adb->pquery("Update vtiger_loggingconfiguration set indextype=?,queryelastic=?, mapid =? where  tabid =?",array($index,$query,$mapid,$elasticTabid));   
+      $adb->pquery("Update vtiger_loggingconfiguration set indextype=?,queryelastic=?, mapid =? where  tabid =?",array($index,$query,$mapid,$elasticTabid));
   }
-  
+
   function getTabIdFromQuery($idfield){
       global $adb;
-      //get entity field from query 
+      //get entity field from query
       $sql = $adb->pquery("Select tabid from vtiger_entityname where entityidfield Like ?",array($idfield));
       $tabid = $adb->query_result($sql,0,'tabid');
       return $tabid;
   }
-  
+
   function createBiServerScript($filename,$fileDir){
     global $root_directory;
     $my_file = $root_directory."modules/BiServer/$fileDir/$filename".".php";
     $handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);
     return $handle;
   }
-  
+
   function writeIndexFieldsToFile($indexFieldsStructure){
       $data .= "\r\n".'$selectedMapColumns = explode(",","'.$indexFieldsStructure.'");';
       return $data;
   }
-  
+
   function writeIndexToFile($sql,$ip,$index,$type,$entityfield=''){
       $data .= "\r\n".'$ip= "'.$ip.'";';
       $data .= "\r\n".'$index= "'.$index.'";';
-      $data .= "\r\n".'$entityfield= "'.$entityfield.'";';   
+      $data .= "\r\n".'$entityfield= "'.$entityfield.'";';
       if($type == 1){
         $data.='
 $focus1=new ReportRun('.$sql.');
@@ -521,11 +655,11 @@ $focus1=new ReportRun('.$sql.');
 					}
 				}
 			}
-		}';  
+		}';
         $data .= "\r\n".'$SQLforReport = preg_replace("/[^A-Za-z0-9_=\s,<>%\'\'()!.:-]/","",$focus1->sGetSQLforReport('.$sql.',$nu));';
         $data .= "\r\n".'$SQLforReport = str_replace($replaceColumnsContainingDots, $replacedColumnsContainingDots, $SQLforReport);';
-        $data .= "\r\n".'$mapSql= $SQLforReport;';   
-      }   
+        $data .= "\r\n".'$mapSql= $SQLforReport;';
+      }
     else $data .= "\r\n".'$mapSql= "'.$sql.'";';
                   //Delete index
     $data .= "\r\n".'$endpointUrl = "http://$ip:9200/$index";';
@@ -558,8 +692,8 @@ $focus1=new ReportRun('.$sql.');
   $data .= "\r\n".'$type = $reportIndexFields[$selectedMapColumns[$j]][\'type\'];';
   $data .= "\r\n".'$format = $reportIndexFields[$selectedMapColumns[$j]][\'format\'];';
   $data .= "\r\n".'if($type == "date" && ($adb->query_result($fields,$i,$j) == "" || $adb->query_result($fields,$i,$j) == null))';
-  $data .= "\r\n".'if($format == "yyyy-MM-dd HH:mm:ss") $data[$selectedMapColumns[$j]] = "1970-01-01 00:00:00"; '; 
-  $data .= "\r\n".' else $data[$selectedMapColumns[$j]] = "1970-01-01"; ';       
+  $data .= "\r\n".'if($format == "yyyy-MM-dd HH:mm:ss") $data[$selectedMapColumns[$j]] = "1970-01-01 00:00:00"; ';
+  $data .= "\r\n".' else $data[$selectedMapColumns[$j]] = "1970-01-01"; ';
   $data .= "\r\n else";
   $data .= "\r\n".'$data[$selectedMapColumns[$j]] = $adb->query_result($fields,$i,$j) ;';
   $data .= "\r\n".'}';
@@ -567,7 +701,7 @@ $focus1=new ReportRun('.$sql.');
   $data .= "\r\n".'}';
       return $data;
   }
-  
+
   function writeCreateUpdateToFIle($inputtype=''){
    $data .="\n\r".'/**';
    $data .="\n\r".'* @param type $filename';
@@ -606,7 +740,7 @@ $focus1=new ReportRun('.$sql.');
 //    $data .="\n\r".'$response2 = curl_exec($channel11);';
 //    $data .="\n\r".'}';
 //    $data .="\n\r".'else {';
-    $data .="\n\r".'$endpointUrl = "http://$ip:9200/$indextype/denorm";';   
+    $data .="\n\r".'$endpointUrl = "http://$ip:9200/$indextype/denorm";';
     $data .="\n\r".'$channel11 = curl_init();';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_URL, $endpointUrl);';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);';
