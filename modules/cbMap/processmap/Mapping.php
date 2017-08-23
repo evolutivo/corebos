@@ -100,6 +100,10 @@ class Mapping extends processcbMap {
 			$setype = getSalesEntityType($ofields['record_id']);
 			$entityId = vtws_getId(vtws_getEntityId($setype),$ofields['record_id']);
 		}
+		if (empty($ofields['assigned_user_id'])) {
+			$userwsid = vtws_getEntityId('Users');
+			$ofields['assigned_user_id'] = vtws_getId($userwsid, $current_user->id);
+		}
 		$tfields = $arguments[1];
 		foreach ($mapping['fields'] as $targetfield => $sourcefields) {
 			$value = '';
@@ -126,18 +130,26 @@ class Mapping extends processcbMap {
 					$adminUser = $util->adminUser();
 					$entityCache = new VTEntityCache($adminUser);
 					$testexpression = array_pop($fieldinfo);
+					if (strtoupper($idx[0])=='FIELD') {
+						$testexpression = trim($testexpression);
+						if (substr($testexpression,0,1) != '$') {
+							$testexpression = '$' . $testexpression;
+						}
+					}
 					$ct = new VTSimpleTemplate($testexpression);
 					$value.= $ct->render($entityCache, $entityId).$delim;
 					$util->revertUser();
 				} elseif (empty($ofields['record_id']) and (strtoupper($idx[0])=='FIELD' or strtoupper($idx[0])=='TEMPLATE')) {
-					if (empty($ofields['assigned_user_id'])) {
-						$userwsid = vtws_getEntityId('Users');
-						$ofields['assigned_user_id'] = vtws_getId($userwsid, $current_user->id);
-					}
 					$util = new VTWorkflowUtils();
 					$adminUser = $util->adminUser();
 					$entityCache = new VTEntityCache($adminUser);
 					$testexpression = array_pop($fieldinfo);
+					if (strtoupper($idx[0])=='FIELD') {
+						$testexpression = trim($testexpression);
+						if (substr($testexpression,0,1) != '$') {
+							$testexpression = '$' . $testexpression;
+						}
+					}
 					$ct = new VTSimpleTemplateOnData($testexpression);
 					$value.= $ct->render($entityCache,$mapping['origin'],$ofields).$delim;
 					$util->revertUser();

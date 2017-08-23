@@ -20,6 +20,7 @@ class VTUpdateFieldsTask extends VTTask {
 
 	public function doTask(&$entity) {
 		global $adb, $current_user, $default_charset, $log, $logbg,$from_wf;
+		$breaks = array('<br />','<br>','<br/>');
 		$from_wf = true;
 		$logbg->info('Entering workflow task VTUpdateFieldsTask');
 		$util = new VTWorkflowUtils();
@@ -93,6 +94,9 @@ class VTUpdateFieldsTask extends VTTask {
 						$date = new DateTimeField($fieldValue);
 						$fieldValue = $date->getDisplayDate();
 					}
+					if (in_array($fieldInstance->getUIType(), array(19,20,21))) {
+						$fieldValue = str_ireplace($breaks, "\n", $fieldValue);
+					}
 				}
 
 				if ($fieldInstance->getFieldDataType() === 'owner') {
@@ -102,7 +106,9 @@ class VTUpdateFieldsTask extends VTTask {
 					if ($userId == 0 && $groupId == 0) {
 						$fieldValue = $focus->column_fields[$fieldName];
 					} else {
-						$fieldValue = ($userId == 0) ? $groupId : $userId;
+                                                $userEntityId=vtws_getEntityId('Users').'x';
+                                                $groupEntityId=vtws_getEntityId('Groups').'x';
+						$fieldValue = ($userId == 0) ? $groupEntityId.$groupId : $userEntityId.$userId;
 					}
 				}
 

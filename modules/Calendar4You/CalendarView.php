@@ -87,6 +87,7 @@ $smarty->assign("CREATE_PERMISSION",($Calendar4You->CheckPermissions("CREATE") ?
 //	$add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".(isset($subtab) ? $subtab : '')."\",\"".$eventlist."\");'";
 //	$smarty->assign('ADD_ONMOUSEOVER', $add_javascript);
 
+
 	$smarty->assign('EVENTLIST', trim($eventlists_array,","));
 	$timeModules = getAllModulesWithDateTimeFields();
 	$timeModluleDetails = array();
@@ -132,8 +133,9 @@ $Activity_Types = $Module_Types = array();
 //	"checked"=>$task_checked
 //);
 
+
 $ActTypes = getActTypesForCalendar();
-if (!$load_ch || $Ch_Views["1"]["invite"]) $invite_checked = true; else $invite_checked = false;
+if (!$load_ch || !empty($Ch_Views['1']['invite'])) $invite_checked = true; else $invite_checked = false;
 
 foreach ($ActTypes AS $act_id => $act_name) {
 	if (!$load_ch || !empty($Ch_Views["1"][$act_id])) $event_checked = true; else $event_checked = false;
@@ -309,20 +311,11 @@ $dat_fmt = $current_user->date_format;
 if ($dat_fmt == '') {
 	$dat_fmt = 'dd-mm-yyyy';
 }
-switch ($dat_fmt) {
-	case 'mm-dd-yyyy':
-	case 'yyyy-mm-dd':
-		$CALENDAR_DAYMONTHFORMAT = 'M/d';
-		break;
-	case 'dd-mm-yyyy':
-	default:
-		$CALENDAR_DAYMONTHFORMAT = 'd/M';
-		break;
-}
-$smarty->assign('CALENDAR_DAYMONTHFORMAT', $CALENDAR_DAYMONTHFORMAT);
+$smarty->assign('USER_LANGUAGE', substr($current_language, 0, 2));
 $dat_fmt = str_replace("mm","MM",$dat_fmt);
 $smarty->assign('USER_DATE_FORMAT', $dat_fmt);
 $smarty->assign('Calendar_Slot_Minutes', "00:".GlobalVariable::getVariable('Calendar_Slot_Minutes', 15).":00");
+$smarty->assign('Calendar_Slot_Event_Overlap', (GlobalVariable::getVariable('Calendar_Slot_Event_Overlap', 1) ? 'true' : 'false'));
 $smarty->assign('Calendar_Modules_Panel_Visible', GlobalVariable::getVariable('Calendar_Modules_Panel_Visible', 1));
 
 $smarty->display('modules/Calendar4You/CalendarView.tpl');

@@ -15,9 +15,9 @@ $destinationModule = vtlib_purify($_REQUEST['destination_module']);
 
 $forCRMRecord = vtlib_purify($_REQUEST['parentid']);
 $mode = isset($_REQUEST['mode']) ? $_REQUEST['mode'] : '';
-if(isset($override_action))
+if (isset($override_action))
 	$action = $override_action;
-elseif($singlepane_view == 'true' or isPresentRelatedListBlockWithModule($currentModule,$destinationModule))
+elseif ($singlepane_view == 'true' or isPresentRelatedListBlockWithModule($currentModule,$destinationModule))
 	$action = 'DetailView';
 else
 	$action = 'CallRelatedList';
@@ -38,15 +38,18 @@ if($mode == 'delete') {
 		$action = 'CampaignsAjax&file=CallRelatedList&ajax=true';
 	} else {
 		// Split the string of ids
-		$ids = explode (';',$idlist);
-		if(!empty($ids)) {
+		$ids = explode (';',trim($idlist,';'));
+		if (!empty($ids)) {
 			$focus->delete_related_module($currentModule, $forCRMRecord, $destinationModule, $ids);
+		}
+		if (isset($_REQUEST['action']) and $_REQUEST['action'] == 'CampaignsAjax' and isset($_REQUEST['ajax'])) {
+			$action = 'CampaignsAjax&file=CallRelatedList&ajax=true';
 		}
 	}
 } else {
-	if(!empty($idlist)) {
+	if (!empty($idlist)) {
 		$ids = explode (';',trim($idlist,';'));
-	} else if(!empty($_REQUEST['entityid'])){
+	} else if (!empty($_REQUEST['entityid'])){
 		$ids = $_REQUEST['entityid'];
 	}
 	if(!empty($ids)) {

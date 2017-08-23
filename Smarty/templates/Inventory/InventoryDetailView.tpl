@@ -114,6 +114,24 @@ function DeleteTag(id,recordid)
 
 </script>
 
+<!-- Change tabs -->
+<script type="text/javascript">
+    function openCity(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("slds-tabs--scoped__content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("slds-tabs--scoped__item");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
 <div id="lstRecordLayout" class="layerPopup" style="display:none;width:325px;height:300px;"></div>
 
 <table width="100%" cellpadding="2" cellspacing="0" border="0" class="detailview_wrapper_table">
@@ -123,7 +141,7 @@ function DeleteTag(id,recordid)
     {include file='Buttons_List.tpl'}
 
     <!-- Contents -->
-    <table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
+    <table border=0 cellspacing=0 cellpadding=0 width=98% align=center>
        <tr>
       <!-- {*<td valign=top><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>*} -->
         <td>
@@ -167,6 +185,53 @@ function DeleteTag(id,recordid)
                                     </div>
                                 </div>
                                 <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer" id="detailview_utils_thirdfiller">
+                                    <p class="slds-text-heading--label slds-line-height--reset" style="text-align: right;">
+                                      {if $privrecord neq ''}
+                                            <span class="detailview_utils_prev"
+                                                  onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'"
+                                                  title="{$APP.LNK_LIST_PREVIOUS}">
+                                                                <img align="absmiddle"
+                                                                     accessKey="{$APP.LNK_LIST_PREVIOUS}"
+                                                                     name="privrecord"
+                                                                     value="{$APP.LNK_LIST_PREVIOUS}"
+                                                                     src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}"/>
+                                                        </span>&nbsp;
+                                        {else}
+                                            <span class="detailview_utils_prev"
+                                                  title="{$APP.LNK_LIST_PREVIOUS}">
+                                                                <img align="absmiddle" width="23"
+                                                                     src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
+                                                        </span>&nbsp;
+                                        {/if}
+                                        {if $privrecord neq '' || $nextrecord neq ''}
+                                            <span class="detailview_utils_jumpto" id="jumpBtnIdTop"
+                                                  onclick="
+                                                          var obj = this;
+                                                          var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');"
+                                                  title="{$APP.LBL_JUMP_BTN}">
+                                                            <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
+                                                                 accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
+                                                                 src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
+                                                                 id="jumpBtnIdTop"/>
+                                                        </span>&nbsp;
+                                        {/if}
+                                        {if $nextrecord neq ''}
+                                            <span class="detailview_utils_next"
+                                                  onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'"
+                                                  title="{$APP.LNK_LIST_NEXT}">
+                                                            <img align="absmiddle"
+                                                                 accessKey="{$APP.LNK_LIST_NEXT}"
+                                                                 name="nextrecord"
+                                                                 src="{'rec_next.gif'|@vtiger_imageurl:$THEME}"">
+                                                        </span>&nbsp;
+                                        {else}
+                                            <span class="detailview_utils_next" title="{$APP.LNK_LIST_NEXT}">
+                                                            <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
+                                                                 width="23"
+                                                                 src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
+                                                        </span>&nbsp;
+                                        {/if}
+                                    </p>
                                     <div class="slds-grid forceActionsContainer">
                                         {if $EDIT_PERMISSION eq 'yes'}
                                             <input class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
@@ -195,54 +260,7 @@ function DeleteTag(id,recordid)
                                                    type="button" name="Delete"
                                                    value="{$APP.LBL_DELETE_BUTTON_LABEL}"/>&nbsp;
                                         {/if}
-                                        {if $privrecord neq ''}
-                                            <span class="detailview_utils_prev"
-                                                  onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'"
-                                                  title="{$APP.LNK_LIST_PREVIOUS}">
-                                                                <img align="absmiddle"
-                                                                     accessKey="{$APP.LNK_LIST_PREVIOUS}"
-                                                                     name="privrecord"
-                                                                     value="{$APP.LNK_LIST_PREVIOUS}"
-                                                                     src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}"
-                                                                     style="padding-top: 6px;"/>
-                                                        </span>&nbsp;
-                                        {else}
-                                            <span class="detailview_utils_prev"
-                                                  title="{$APP.LNK_LIST_PREVIOUS}">
-                                                                <img align="absmiddle" width="23"
-                                                                     style="padding-top: 6px;"
-                                                                     src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
-                                                        </span>&nbsp;
-                                        {/if}
-                                        {if $privrecord neq '' || $nextrecord neq ''}
-                                            <span class="detailview_utils_jumpto" id="jumpBtnIdTop"
-                                                  onclick="
-                                                          var obj = this;
-                                                          var lhref = getListOfRecords(obj, '{$MODULE}',{$ID},'{$CATEGORY}');"
-                                                  title="{$APP.LBL_JUMP_BTN}">
-                                                            <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
-                                                                 accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
-                                                                 src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
-                                                                 id="jumpBtnIdTop"/>
-                                                        </span>&nbsp;
-                                        {/if}
-                                        {if $nextrecord neq ''}
-                                            <span class="detailview_utils_next"
-                                                  onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$nextrecord}&parenttab={$CATEGORY}&start={$nextrecordstart}'"
-                                                  title="{$APP.LNK_LIST_NEXT}">
-                                                            <img align="absmiddle"
-                                                                 accessKey="{$APP.LNK_LIST_NEXT}"
-                                                                 name="nextrecord"
-                                                                 src="{'rec_next.gif'|@vtiger_imageurl:$THEME}"
-                                                                 style="padding-top: 6px;">
-                                                        </span>&nbsp;
-                                        {else}
-                                            <span class="detailview_utils_next" title="{$APP.LNK_LIST_NEXT}">
-                                                            <img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
-                                                                 width="23" style="padding-top: 6px;"
-                                                                 src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
-                                                        </span>&nbsp;
-                                        {/if}
+                                        
                                         <!-- <span class="detailview_utils_toggleactions">
                                             <img align="absmiddle" title="{$APP.TOGGLE_ACTIONS}"
                                                  src="{'list_60.png'|@vtiger_imageurl:$THEME}"
@@ -266,14 +284,15 @@ function DeleteTag(id,recordid)
 
               {include file='applicationmessage.tpl'}
               <!-- Entity and More information tabs -->
-              <table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
-                 <tr>
+              <table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
+                 <tr style="display: none;">
                    <td>
                        <table border=0 cellspacing=0 cellpadding=3 width=100% class="small">
                            <tr>
                                <td class="dvtTabCache" style="padding: 1px 0;">
                                    <div class="slds-tabs--default">
-                                        <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none;">
+                                        <!-- display none -->
+                                        <ul class="slds-tabs--default__nav tabMenuTop" role="tablist" style="margin-bottom:0; border-bottom:none; display: none;">
                                             <li class="slds-tabs--default__item slds-active" role="presentation" title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}">
                                                 <a class="slds-tabs--default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-haspopup="true" aria-controls="tab-default-1">
                                                     <span class="slds-truncate">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</span>
@@ -305,6 +324,7 @@ function DeleteTag(id,recordid)
                                             </li>
                                             {/if}
                                         </ul>
+                                        <!-- display none -->
                                    </div>   
                                </td>
                                {*{include file='RelatedListNg.tpl' SOURCE='DV'}*}
@@ -315,17 +335,28 @@ function DeleteTag(id,recordid)
 
                   <tr>
                       <td>
-                            <table class="slds-table slds-no-row-hover dvtContentSpace slds-table-moz" style="border-bottom: 0;">
+                        <div class="slds-truncate">
+                            <table class="slds-table slds-no-row-hover dvtContentSpace">
                                 <tr>
-                                  <td >
+                                  <td valign="top" style="padding: 0;">
                                     <!-- content cache -->
-                                    <div class="slds-truncate">
-                                      <table class="slds-table slds-no-row-hover slds-table-moz" ng-controller="detailViewng" >
-                                        <tr>
-                                          <td>
+                                      <div class="slds-tabs--scoped">
+                                              <ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
+                                              <li class="slds-tabs--scoped__item active" onclick="openCity(event, 'tab--scoped-1')"  title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                <a class="slds-tabs--scoped__link "  href="javascript:void(0);"  role="tab" tabindex="0" aria-selected="true" 
+                                              aria-controls="tab--scoped-1" id="tab--scoped--1__item">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</a>
+                                              </li>
+                                              {if $SinglePane_View eq 'false' && $IS_REL_LIST neq false && $IS_REL_LIST|@count > 0}
+                                              <li class="slds-tabs--scoped__item" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                <a class="slds-tabs--scoped__link" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}"  role="tab" tabindex="-1" aria-selected="false" 
+                                              aria-controls="tab--scoped-2" id="tab--scoped-2__item">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+                                              </li>
+                                              {/if}
+                                             </ul>
+
                                             <!-- Command Buttons -->
-                                            <div class="slds-truncate">
-                                              <table class="slds-table slds-no-row-hover slds-table-moz" style="border-collapse:separate; border-spacing: 1rem 3rem;">
+                                            <div id="tab--scoped-1" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
+                                              <table class="slds-table slds-no-row-hover slds-table-moz" ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 3rem;">
                                                 <form editable-form action="index.php" method="post" name="DetailView" id="formDetailView">
                                                   <input type="hidden" id="hdtxt_IsAdmin" value="{if isset($hdtxt_IsAdmin)}{$hdtxt_IsAdmin}{else}0{/if}">
                                                     {include file='DetailViewHidden.tpl'}
@@ -337,7 +368,7 @@ function DeleteTag(id,recordid)
                                                          
                                                               <!-- This is added to display the existing comments -->
                                                               {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
-                                                              <div class="flexipageComponent" style="background-color: #fff;">
+                                                              <div class="flexipageComponent">
                                                                   <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
                                                                            aria-describedby="header" style="margin: 0;">
                                                                           <div class="slds-card__header slds-grid">
@@ -500,15 +531,9 @@ function DeleteTag(id,recordid)
                                                                   </div>
                                                               {/if}
                                                       </td>
-                                                      {if $MODULE neq 'PriceBooks'}
-                                                       <!-- Inventory Actions -->
-                                                      <td style="{$DEFAULT_ACTION_PANEL_STATUS}" class="noprint action-block" id="actioncolumn">
-                                                              {include file="Inventory/InventoryActions.tpl"}
-                                                              <!-- <br> -->
-                                                              <!-- To display the Tag Clouds -->
-                                                              <div>{include file="TagCloudDisplay.tpl"}</div>
-                                                        </td>
-                                                       {/if} 
+                                                      <!-- {if $MODULE neq 'PriceBooks'} -->
+                                                      
+                                                       <!-- {/if}  -->
                                                   </tr>
                                                   {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
                                                   {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
@@ -531,31 +556,39 @@ function DeleteTag(id,recordid)
                                                 <!-- Product Details informations -->
                                                 {if isset($ASSOCIATED_PRODUCTS)}{$ASSOCIATED_PRODUCTS}{/if} 
                                               </table>  
-                                            </div> 
+                                            </div>
+                                            <div id="tab--scoped-2" role="tabpanel" aria-labelledby="tab--scoped-2__item" class="slds-tabs--scoped__content slds-hide">
+                                                tab2 content test
+                                            </div>
                                             <!-- The following table is used to display the buttons -->
                                             {if $SinglePane_View eq 'true'} {include file= 'RelatedListNew.tpl'} {/if}  
-                                            </td>
-                                         </tr>
-                                       </table><!-- /.slds-table slds-no-row-hover slds-table-moz -->
-                                    
+                                            
                                     </div><!-- /.slds-truncate -->
                                     <!-- end content cache -->
                                   </td>
+                                   <!-- Inventory Actions -->
+                                    <td style="{$DEFAULT_ACTION_PANEL_STATUS}" class="noprint action-block" id="actioncolumn">
+                                        {include file="Inventory/InventoryActions.tpl"}
+                                        <br>
+                                        <!-- To display the Tag Clouds -->
+                                        <div>{include file="TagCloudDisplay.tpl"}</div>
+                                    </td>
                                   
 
                                 </tr>
                                 <!--BOTTOM TAB MENU-->
-                                {if $MODULE neq 'PriceBooks'}
+                                <!-- {if $MODULE neq 'PriceBooks'}
                                   {include file="Inventory/BottomButtons.tpl"}
-                                {/if}
+                                {/if} -->
                               </table>
+                              </div>
                             </td>
 
                           </tr>
                           <!--BOTTOM TAB MENU only for PriceBooks-->
-                          {if $MODULE eq 'PriceBooks'}
+                          <!-- {if $MODULE eq 'PriceBooks'}
                             {include file="Inventory/BottomButtons.tpl"}
-                          {/if}
+                          {/if} -->
                       </table>
 
                     </td> 

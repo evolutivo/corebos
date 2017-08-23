@@ -124,6 +124,25 @@
         {rdelim}
 
 </script>
+
+<!-- Change tabs -->
+<script type="text/javascript">
+    function openCity(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("slds-tabs--scoped__content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("slds-tabs--scoped__item");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+    }
+</script>
+
 <div id="lstRecordLayout" class="layerPopup" style="display:none;width:325px;height:300px;"></div>
 
 
@@ -213,7 +232,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer" 
-                                                     id="detailview_utils_thirdfiller" style="padding-top: 0; display: block;">
+                                                     id="detailview_utils_thirdfiller">
                                                     <p class="slds-text-heading--label slds-line-height--reset" style="text-align: right;">
                                                         {if $privrecord neq ''}
                                                             <span class="detailview_utils_prev"
@@ -240,8 +259,9 @@
                                                                   title="{$APP.LBL_JUMP_BTN}">
                                                                 <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
                                                                      accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
-                                                                     src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
-                                                                     id="jumpBtnIdTop"/>
+                                                                     src="{'replace_60.png'|@vtiger_imageurl:$THEME}" width="18"
+                                                                     id="jumpBtnIdTop"  />
+                                                                     <!-- src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}" -->
                                                             </span>&nbsp;
                                                         {/if}
                                                         {if $nextrecord neq ''}
@@ -264,7 +284,6 @@
                                                     <div class="slds-grid forceActionsContainer">
                                                         {if $EDIT_PERMISSION eq 'yes'}
                                                             <input class="slds-button slds-button--neutral not-selected slds-not-selected uiButton"
-                                                                   {*class="slds-button slds-button--small slds-button_success assideBtn"*}
                                                                    aria-live="assertive" type="button" name="Edit"
                                                                    title="{$APP.LBL_EDIT_BUTTON_TITLE}"
                                                                    accessKey="{$APP.LBL_EDIT_BUTTON_KEY}"
@@ -316,8 +335,9 @@
                             <br>
                             {include file='applicationmessage.tpl'}
                             <!-- Entity and More information tabs -->
-                            <table border=0 cellspacing=0 cellpadding=0 width=95% align=center>
-                                <tr>
+
+                            <table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
+                                <tr style="display: none;">
                                     <td>
                                         <table class="small {if $theme eq 'mltheme'}detailview_utils_table_top{/if}">
                                             <tr>
@@ -370,14 +390,40 @@
                                     <td>
                                         <div class="slds-truncate">
 
-                                            <table class="slds-table slds-no-row-hover dvtContentSpace slds-table-moz" style="border-bottom: 0;">
+                                            <table class="slds-table slds-no-row-hover dvtContentSpace">
                                                 <tr>
-                                                    <td>
+                                                    <td valign="top" style="padding: 0;">
+
+                                                    <div class="slds-tabs--scoped">
+                                                        <ul class="slds-tabs--scoped__nav" role="tablist" style="margin-bottom: 0;">
+                                                          <li class="slds-tabs--scoped__item active" onclick="openCity(event, 'tab--scoped-1')"  title="{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                            <a class="slds-tabs--scoped__link "  href="javascript:void(0);"  role="tab" tabindex="0" aria-selected="true" 
+                                                          aria-controls="tab--scoped-1" id="tab--scoped--1__item">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</a>
+                                                          </li>
+                                                          {if $SinglePane_View eq 'false' && $IS_REL_LIST neq false && $IS_REL_LIST|@count > 0}
+                                                          <li class="slds-tabs--scoped__item slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" title="{$APP.LBL_MORE} {$APP.LBL_INFORMATION}" role="presentation">
+                                                            <a class="slds-tabs--scoped__link" href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}"  role="tab" tabindex="-1" aria-selected="false" 
+                                                          aria-controls="tab--scoped-2" id="tab--scoped-2__item">{$APP.LBL_MORE} {$APP.LBL_INFORMATION}</a>
+                                                            <div class="slds-dropdown slds-dropdown--left" style="margin-top: 0;">
+                                                                <ul class="slds-dropdown__list slds-dropdown--length-7" role="menu">
+                                                                {foreach key=_RELATION_ID item=_RELATED_MODULE from=$IS_REL_LIST}
+                                                                    <li class="slds-dropdown__item" role="presentation">
+                                                                        <a role="menuitem" tabindex="-1" class="drop_down"
+                                                                           href="index.php?action=CallRelatedList&module={$MODULE}&record={$ID}&parenttab={$CATEGORY}&selected_header={$_RELATED_MODULE}&relation_id={$_RELATION_ID}#tbl_{$MODULE}_{$_RELATED_MODULE}">
+                                                                           {$_RELATED_MODULE|@getTranslatedString:$_RELATED_MODULE}</a>
+                                                                    </li>
+                                                                {/foreach}
+                                                                </ul>
+                                                            </div>
+                                                          </li>
+                                                          {/if}
+                                                         </ul>
+                                                
                                                         <!-- content cache -->
                                                         <!-- Command Buttons -->
-                                                        <div class="slds-truncate">
+                                                        <div id="tab--scoped-1" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
                                                             <table class="slds-table slds-no-row-hover slds-table-moz"
-                                                                   ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 3rem;">
+                                                                   ng-controller="detailViewng" style="border-collapse:separate; border-spacing: 1rem 2rem;">
                                                                 <form action="index.php" method="post"
                                                                       name="DetailView" id="formDetailView">
                                                                     <input type="hidden" id="hdtxt_IsAdmin"
@@ -391,23 +437,35 @@
                                                                                 <!-- This is added to display the existing comments -->
                                                                                 {if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENTS) && $header eq $MOD.LBL_COMMENTS) || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
                                                                                 <div class="flexipageComponent" style="background-color: #fff;">
-                                                                                    <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
+                                                                                    <article class="slds-card container MEDIUM forceBaseCard
+                                                                                     runtime_sales_mergeMergeCandidatesPreviewCard"
                                                                                              aria-describedby="header" style="margin: 0;">
                                                                                             <div class="slds-card__header slds-grid">
                                                                                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                                                                                    <div class="profilePicWrapper slds-media slds-no-space"
-                                                                                                         style="transform: scale3d(0.864715, 0.864715, 1) translate3d(4.32911px, 2.16456px, 0);">
-                                                                                                        <div class="slds-media__figure slds-icon forceEntityIcon">
-                                                                                                            <span class="photoContainer forceSocialPhoto">
-                                                                                                                <div class="small roundedSquare forceEntityIcon"
-                                                                                                                     style="background-color: #A094ED">
-                                                                                                                    <span class="uiImage">
-                                                                                                                        <img src="https://playful-raccoon-70441-dev-ed.my.salesforce.com/img/icon/t4v35/standard/contact_120.png"
-                                                                                                                             class="icon " alt="Contact"
-                                                                                                                             title="Contact">
-                                                                                                                    </span>
-                                                                                                                </div>
-                                                                                                            </span>
+                                                                                                    <div class="slds-media__figure" data-aura-rendered-by="1215:0">
+                                                                                                        <div class="extraSmall forceEntityIcon" style="background-color: #A094ED" 
+                                                                                                        data-aura-rendered-by="3:1782;a" data-aura-class="forceEntityIcon">
+                                                                                                        <span data-aura-rendered-by="6:1782;a" class="uiImage" data-aura-class="uiImage">
+                                                                                                            <a href="javascript:showHideStatus('tbl{$header|replace:' ':''}','aid{$header|replace:' ':''}','{$THEME}');">
+                                                                                                                {if isset($BLOCKINITIALSTATUS[$header]) && $BLOCKINITIALSTATUS[$header] eq 1}
+                                                                                                                    <span class="exp_coll_block inactivate">
+                                                                                                                <img id="aid{$header|replace:' ':''}"
+                                                                                                                     src="{'activate.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                     style="border: 0px solid #000000;"
+                                                                                                                     alt="{'LBL_Hide'|@getTranslatedString:'Settings'}"
+                                                                                                                     title="{'LBL_Hide'|@getTranslatedString:'Settings'}"/>
+                                                                                                                </span>
+                                                                                                                {else}
+                                                                                                                    <span class="exp_coll_block activate">
+                                                                                                                <img id="aid{$header|replace:' ':''}"
+                                                                                                                     src="{'inactivate.gif'|@vtiger_imageurl:$THEME}"
+                                                                                                                     style="border: 0px solid #000000;"
+                                                                                                                     alt="{'LBL_Show'|@getTranslatedString:'Settings'}"
+                                                                                                                     title="{'LBL_Show'|@getTranslatedString:'Settings'}"/>
+                                                                                                                </span>
+                                                                                                                {/if}
+                                                                                                            </a>
+                                                                                                        </span>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="slds-media__body">
@@ -571,9 +629,47 @@
                                                                                     </div>
                                                                                 {/if}
                                                                             </td>
-                                                                            <td class="noprint action-block" style="{$DEFAULT_ACTION_PANEL_STATUS}"
+                                                                        </tr>
+                                                                        {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
+                                                                        {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
+                                                                            {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
+                                                                                {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl) && $CUSTOM_LINK_DETAILVIEWWIDGET->linklabel neq 'DetailViewBlockCommentWidget' && $CUSTOM_LINK_DETAILVIEWWIDGET->top_widget neq '1'}
+                                                                                    {if ($smarty.foreach.BLOCKS.first && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence <= 1)
+                                                                                    || ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration+1)
+                                                                                    || ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration+1)}
+                                                                                        <tr>
+                                                                                            <td style="padding:5px;">{dvwidget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
+                                                                                        </tr>
+                                                                                    {/if}
+                                                                                {/if}
+                                                                            {/foreach}
+                                                                        {/if}
+                                                                    {/foreach}
+                                                                    {* END *}
+
+                                                                    {*-- End of Blocks--*}
+
+                                                                    <!-- Inventory - Product Details informations -->
+                                                                    {if isset($ASSOCIATED_PRODUCTS)}
+                                                                        <tr>
+                                                                            {$ASSOCIATED_PRODUCTS}
+                                                                        </tr>
+                                                                    {/if}
+                                                                    {if $SinglePane_View eq 'true' && $IS_REL_LIST|@count > 0}
+                                                                        {include file= 'RelatedListNew.tpl'}
+                                                                    {/if}
+                                                            </table>
+                                                        </div>
+                                                        <div id="tab--scoped-2" role="tabpanel" aria-labelledby="tab--scoped-2__item" class="slds-tabs--scoped__content slds-hide">
+                                                            tab2 content test
+                                                        </div>
+
+                                                    </div><!-- /.slds-tabs--scoped -->
+
+                                                    </td>
+                                                    <td class="noprint action-block" style="{$DEFAULT_ACTION_PANEL_STATUS}"
                                                                                      id="actioncolumn">
-                                                                                <div class="flexipageComponent" style="background-color: #fff;">
+                                                                                <div class="flexipageComponent">
                                                                                     <!-- right side relevant info -->
                                                                                     <!-- Action links for Event & Todo START-by Minnie -->
                                                                                     <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard"
@@ -1033,50 +1129,17 @@
                                                                                         {/foreach}
                                                                                     {/if}
                                                                             </td>
-                                                                        </tr>
-                                                                        {* vtlib Customization: Embed DetailViewWidget block:// type if any *}
-                                                                        {if $CUSTOM_LINKS && !empty($CUSTOM_LINKS.DETAILVIEWWIDGET)}
-                                                                            {foreach item=CUSTOM_LINK_DETAILVIEWWIDGET from=$CUSTOM_LINKS.DETAILVIEWWIDGET}
-                                                                                {if preg_match("/^block:\/\/.*/", $CUSTOM_LINK_DETAILVIEWWIDGET->linkurl) && $CUSTOM_LINK_DETAILVIEWWIDGET->linklabel neq 'DetailViewBlockCommentWidget' && $CUSTOM_LINK_DETAILVIEWWIDGET->top_widget neq '1'}
-                                                                                    {if ($smarty.foreach.BLOCKS.first && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence <= 1)
-                                                                                    || ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration+1)
-                                                                                    || ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration+1)}
-                                                                                        <tr>
-                                                                                            <td style="padding:5px;">{dvwidget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
-                                                                                        </tr>
-                                                                                    {/if}
-                                                                                {/if}
-                                                                            {/foreach}
-                                                                        {/if}
-                                                                    {/foreach}
-                                                                    {* END *}
-
-                                                                    {*-- End of Blocks--*}
-
-                                                                    <!-- Inventory - Product Details informations -->
-                                                                    {if isset($ASSOCIATED_PRODUCTS)}
-                                                                        <tr>
-                                                                            {$ASSOCIATED_PRODUCTS}
-                                                                        </tr>
-                                                                    {/if}
-                                                                    {if $SinglePane_View eq 'true' && $IS_REL_LIST|@count > 0}
-                                                                        {include file= 'RelatedListNew.tpl'}
-                                                                    {/if}
-                                                            </table>
-                                                        </div>
-
-                                                    </td>
                                                 </tr>
                                             </table>
                                             <!-- PUBLIC CONTENTS STOPS-->
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr style="display: none;">
                                     <td>
                                         <table border=0 cellspacing=0 cellpadding=3 width=100% class="small" >
                                             <tr>
-                                                <td class="dvtTabCacheBottom" style="padding: 1px 0;">
+                                                <td class="dvtTabCacheBottom " style="padding: 1px 0;">
                                                     <div class="slds-tabs--default">
                                                         <ul class="slds-tabs--default__nav" role="tablist" style="margin-bottom:0; border-bottom:none;">
                                                             <li class="tabMenuBottom slds-tabs--default__item-b slds-active" role="presentation"
@@ -1116,7 +1179,7 @@
                                                 </td>
                                                 {*{include file='RelatedListNg.tpl' SOURCE='DV'}*}
                                                                                                                                                                                             
-                                                <td class="dvtTabCacheBottom">
+                                                <td class="dvtTabCacheBottom dvtBottomButtons">
 
                                                     <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer pull-right"
                                                          id="detailview_utils_thirdfiller">
@@ -1161,7 +1224,7 @@
                                             </tr>
                                             <tr>
                                                 <td></td>
-                                                <td class="pull-right">
+                                                <td class="pull-right dvtControlsButtons">
                                                 {if $privrecord neq ''}
                                                     <span class="detailview_utils_prev"
                                                           onclick="location.href='index.php?module={$MODULE}&viewtype={if isset($VIEWTYPE)}{$VIEWTYPE}{/if}&action=DetailView&record={$privrecord}&parenttab={$CATEGORY}&start={$privrecordstart}'"
@@ -1190,8 +1253,10 @@
                                                                   title="{$APP.LBL_JUMP_BTN}">
                                                             <img align="absmiddle" title="{$APP.LBL_JUMP_BTN}"
                                                                  accessKey="{$APP.LBL_JUMP_BTN}" name="jumpBtnIdTop"
-                                                                 src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}"
-                                                                 id="jumpBtnIdTop"/>
+                                                                 src="{'replace_60.png'|@vtiger_imageurl:$THEME}"
+                                                                 id="jumpBtnIdTop" width="18"/>
+                                                                 <!-- src="{'rec_jump.gif'|@vtiger_imageurl:$THEME}" -->
+                                                                 
                                                         </span>&nbsp;
                                                         {/if}
                                                         

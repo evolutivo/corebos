@@ -39,6 +39,7 @@ $smarty->assign('ADD_ONMOUSEOVER', "onMouseOver=\"fnvshobj(this,'addButtonDropDo
 $abelist = '';
 if($current_user->column_fields['is_admin']=='on') {
 	$Res = $adb->pquery("select * from vtiger_event_type where event_type<>'--None--'",array());
+
 } else {
 	$role_id=$current_user->roleid;
 	$subrole = getRoleSubordinates($role_id);
@@ -55,6 +56,7 @@ if($current_user->column_fields['is_admin']=='on') {
 		$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid in (". generateQuestionMarks($roleids) .") and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc",array($roleids));
 	} else {
 		$Res=$adb->pquery("select distinct event_type from vtiger_event_type inner join vtiger_role2picklist on vtiger_role2picklist.picklistvalueid = vtiger_event_type.picklist_valueid where roleid = ? and picklistid in (select picklistid from vtiger_picklist) and event_type<>'--None--' order by sortid asc",array($role_id));
+
 	}
 }
 for($i=0; $i<$adb->num_rows($Res);$i++) {

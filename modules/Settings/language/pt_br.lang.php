@@ -104,17 +104,8 @@ $mod_strings = Array(
 'EDITQUOTEPICKLISTVALUES'=>'Edita Lista Opções Cotação',
 'EDITINVOICEPICKLISTVALUES'=>'Edita Lista Opções Fatura',
 
-
-// Added for Release vtigerCRM 3.2 PATCH 1.0
-
 //Settings/index.php
-
-
 'LBL_PICKLIST_FIELD_SETTINGS'=>'Configurações Campos Lista de Opções:',
-
-
-
-//SETTINGS/CustomFieldList.php,ComboFieldList.php,CreateCustomField.php
 
 'Leads'=>'Lead',
 
@@ -884,7 +875,6 @@ $mod_strings = Array(
 'LBL_MOVE_ROLE'=>'Mover Função',
 'LBL_BACKUP_DESC'=>' O Sistema de CRM permite-lhe fazer backup do Banco de Dados salvando-o em seu Servidor FTP. O CRM fará backup de todos os dados toda vez que o Administrador sair do Sistema. Verifique se existe espaço suficiente no seu Servido FTP. O arquivo backup criado terá o seguinte formato: "backup_date_time.sql".',
 
-// Added/Updated for vtiger CRM 5.0.4
 'LBL_SUPPORT_NOTICIATION'=>'Notificação Fim do Suporte',
 'LBL_SUPPORT_NOTICIATION_MONTH'=>'Notificação de Final de Suporte antecedência mensal' ,
 'LBL_SUPPORT_DESCRIPTION'=>'Notificar quando o suporte estiver quase no fim',
@@ -896,6 +886,8 @@ $mod_strings = Array(
 'ERR_CUSTOM_FIELD_WITH_NAME'=>'Customzar Campo com o Nome ',
 'ERR_ALREADY_EXISTS'=>' já existe.',
 'ERR_SPECIFY_DIFFERENT_LABEL'=>'Por gentileza, especifique um Rótulo diferente',
+'ROWSIZEERROR' => 'Row size too large. Reached maximum size limit of database table size.',
+'ADDFIELDERROR' => 'Custom field could not be added due to a database error.',
 'LBL_TOOLS_TO_BE_SHOWN'=>'Ferramentas a serem exibidas',
 'LBL_PICKLIST_TRANSFER'=>'Transferindo os valores de ',
 'LBL_REPLACE_VALUE_WITH'=>'Substituir valor com ',
@@ -1195,10 +1187,7 @@ $mod_strings = Array(
 'ModTracker' => 'Rastreador de Módulo',
 'LBL_MODTRACKER_DESCRIPTION' => 'Selecionar Módulos para rastrear',
 
-'LBL_MENUS_TO_SHOW'=>'Selecionar os Módulos para serem apresentados no menu principal',
-'LBL_MENU_DESC'=>'Customizar sequência do Menu',
 'LBL_MENU_EDITOR'=>'Editor de Menu',
-'LBL_MENUS_TO_SHOW_DESCRIPTION' => 'Você pode utilizar as setas para ordenar os itens do Menu. Os 10 primeiros itens aparecem no menu principal e os demais são apresentados no dropdown <b><i>Mais</i></b>',
 'LBL_ALL_MODULES' => 'Todos os Módulos',
 'LBL_SELECTED_MODULES' => 'Módulos Selecionados',
 

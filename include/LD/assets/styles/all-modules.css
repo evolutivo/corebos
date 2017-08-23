@@ -1,6 +1,149 @@
+/*=========  Button List  ==========*/
+
+#LB_buttonlist {
+    /*background-color: rgb(244, 246, 249);*/
+    background-color: #f7f9fb;
+}
+
+
+
+/*.LD_buttonList div {
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+.LD_buttonList div:hover {
+    background-color: rgb(234, 246, 249);
+    border-color: #fff;
+}
+*/
+
+.LD_buttonList th {
+    background-color: rgb(244, 246, 249)!important;
+}
+
+.uiMenu {
+    position: relative;
+}
+
+.forceHeaderMenuTrigger.uiPopupTrigger {
+    display: inline-block;
+}
+
+.forceHeaderMenuTrigger a {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: .25rem;
+    background: transparent none;
+    text-decoration: none;
+}
+
+.forceHeaderMenuTrigger .headerTrigger {
+    display: block;
+}
+
+.uiTooltip.tooltip-trigger {
+    display: inline;
+    position: relative;
+}
+
+.forceHeaderMenuTrigger .headerTrigger {
+    display: block;
+}
+
+.oneGlobalCreate svg {
+    fill: rgb(255, 255, 255);
+    margin: 1px;
+}
+
+.slds-global-header__button_icon-actions,
+.slds-global-header__button--icon-actions {
+    background: rgb(82, 105, 141);
+    border-radius: .25rem;
+    color: rgb(255, 255, 255);
+}
+
+.slds-global-header__button_icon-actions:hover,
+.slds-global-header__button--icon-actions:hover {
+    background: rgb(102, 179, 255);
+    /*background: rgb(102, 102, 255);*/
+}
+
+.slds-table-buttons th {
+    padding-right: 0;
+}
+
+.LB_Button {
+    padding: .2rem;
+}
+
+.forceHeaderMenuTrigger img {
+    width: 20px;
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.forceHeaderMenuTrigger img:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+
+
+/*=========   END BUTTON_LIST  ==========*/
+
+.homePageButtons img {
+    height: 20px;
+    width: 20px;
+}
+
+.homePageButtons img {
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.homePageButtons img:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+
 /*=========  DETAIL VIEW  ==========*/
 
+ul .slds-tabs--scoped__item {
+    border-right: 1px solid #d8dde6;
+}
+
+.detailview_utils_jumpto img {
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.detailview_utils_jumpto img:hover {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+
+/*.slds-tabs--scoped__nav .slds-tabs--scoped__item,*/
+
+
+/*.slds-tabs--scoped__nav .slds-tabs--scoped__item .active,*/
+
+li.active,
+.slds-tabs--scoped__nav .slds-tabs--scoped__item:focus,
+.slds-tabs--scoped__nav .slds-tabs--scoped__item:active {
+    background-color: white;
+    color: #0070d2;
+    border-color: #d8dde6;
+}
+
+
+
+
+
 /*=========  DETAIL VIEW ---HEADER---  ==========*/
+
 .s1FixedFullWidth {
     left: 0;
     right: 0;
@@ -90,6 +233,11 @@
     padding-top: .75rem;
 }
 
+#detailview_utils_thirdfiller {
+    display: block;
+    padding: 0;
+}
+
 .detailview_utils_prev,
 .detailview_utils_next,
 .detailview_utils_toggleactions,
@@ -98,7 +246,7 @@
 }
 
 .detailview_utils_jumpto img {
-    padding-top: 9px;
+    /*padding-top: 9px;*/
 }
 
 .detailview_utils_toggleactions img {
@@ -118,14 +266,24 @@
     opacity: 1;
 }
 
+
+
 /*=========  END DETAIL VIEW ---HEADER---  ==========*/
 
+
 /*=========  DETAIL VIEW ---BODY---  ==========*/
+
+.detailview_table {
+    border-collapse: separate;
+    border-spacing: .2rem;
+    border: none;
+}
+
 article {
     display: block;
 }
 
-.flexipageComponent > article {
+.flexipageComponent>article {
     border-radius: 0;
 }
 
@@ -142,7 +300,8 @@ article.container::after {
 
 .runtime_sales_mergeMergeCandidatesPreviewCard.container {
     background-color: rgb(244, 246, 249);
-    margin: 1rem 0 0 0;
+    /*background-color: #fff;*/
+    /*margin: 1rem 0 0 0;*/
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .merge-icon {
@@ -181,14 +340,22 @@ article.container::after {
 }
 
 .flexipageComponent {
-    background-color: rgb(244, 246, 249);
-    padding: 1rem ;
+    /*background-color: rgb(244, 246, 249);*/
+    /*padding: 1rem ;*/
     border: 1px solid rgb(216, 221, 230);
 }
 
+
+
 /*.flexipageComponent .slds-card {*/
-    /*border-bottom-left-radius: 0;*/
-    /*border-bottom-right-radius: 0;*/
+
+
+/*border-bottom-left-radius: 0;*/
+
+
+/*border-bottom-right-radius: 0;*/
+
+
 /*}*/
 
 .flexipageComponentComment {
@@ -196,8 +363,7 @@ article.container::after {
 }
 
 .blockStyleCss {
-    background-color: rgb(244, 246, 249);
-    border: 1px solid rgb(216, 221, 230);
+    /*background-color: rgb(244, 246, 249);*/
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
@@ -210,10 +376,11 @@ article.container::after {
 }
 
 .generalData img,
-.actionData img.
-.noSpace {
+.actionData img. .noSpace {
     margin-left: 0;
 }
+
+
 
 /*=========  END DETAIL VIEW ---BODY---  ==========*/
 
@@ -221,8 +388,9 @@ article.container::after {
     width: 100%;
 }
 
-tr td.detailViewContainer {;
+tr td.detailViewContainer {
     padding: 1rem .5rem;
+    border: 2px solid rgb(216, 221, 230);
 }
 
 .mapButton td {
@@ -241,7 +409,7 @@ tr.slds-text-title--caps {
     position: inherit;
 }
 
-.slds-table--cell-buffer tr > td:first-child {
+.slds-table--cell-buffer tr>td:first-child {
     padding-left: 0.5rem;
 }
 
@@ -266,19 +434,21 @@ input[type=submit].slds-button--small {
 }
 
 tr td.action-block {
-    /*border-left: 1px dashed #cccccc;*/
-    padding: 1rem .5rem;
+    /*padding: 2.5rem 1rem;*/
+    padding: 0 0 0 1rem;
     width: 22%;
     vertical-align: top;
 }
 
-tr td.table-aside > .detailview_actionlinks {
+tr td.table-aside>.detailview_actionlinks {
     margin-top: 3rem;
 }
 
 .actionLabel {
     border-bottom: 1px solid #d4d4d4;
 }
+
+
 
 /**
 - * Creates a green button style
@@ -295,9 +465,10 @@ tr td.table-aside > .detailview_actionlinks {
     padding-right: 1rem;
     text-align: center;
     vertical-align: middle;
-    background-color: #4bca81;
-    border: 1px solid #4bca81;
+    background-color: #5cb85c;
+    border: 1px solid #4cae4c;
     color: #fff;
+    font-weight: bold;
 }
 
 .slds-button_success:link,
@@ -324,7 +495,7 @@ tr td.table-aside > .detailview_actionlinks {
     border-color: #04844b;
 }
 
-.slds-button + .slds-button {
+.slds-button+.slds-button {
     margin-left: 0;
 }
 
@@ -333,8 +504,8 @@ ul.slds-tabs--default__nav li {
     padding-top: 0;
 }
 
-.slds-dropdown__item > a {
-    padding: .2rem .5rem;
+.slds-dropdown__item>a {
+    padding: .1rem .5rem;
 }
 
 .assideBtn {
@@ -387,17 +558,13 @@ li[title="More Information"] svg {
     }
 }
 
+
+
 /*=========   END DETAIL VIEW  ==========*/
 
-/*=========   BUTTON_LIST ==========*/
-
-.slds-table-buttons th {
-    padding-right: 0;
-}
-
-/*=========   END BUTTON_LIST  ==========*/
 
 /*=========   DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
 
 /*remove dotted outline/border in Firefox*/
 
@@ -411,7 +578,7 @@ input[type="button"]::-moz-focus-inner,
 input[type="radio"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 select::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
+input[type="file"]>input[type="button"]::-moz-focus-inner {
     outline: none !important;
 }
 
@@ -426,7 +593,10 @@ select:-moz-focusring {
     margin-bottom: 5px;
 }
 
+
+
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
 
 /*=========   DetailViewUtils.php  ==========*/
 
@@ -439,13 +609,60 @@ select:-moz-focusring {
     letter-spacing: 0.02rem;
 }
 
+
+
 /*=========   END DetailViewUtils.php  ==========*/
 
+
 /*=========   Inventory DetailView.tpl  ==========*/
+
 .borderFix {
     border-right: 1px solid #fff;
     border-left: 1px solid #fff;
-
 }
 
+
+
 /*=========   END InventoryDetailView.tpl  ==========*/
+
+.dvtCellLabel {
+    text-align: right;
+}
+
+.dvtBottomButtons {
+    padding: .2rem 1.5rem;
+}
+
+.dvtControlsButtons {
+    padding: .1rem 1.5rem;
+}
+
+.dvtContentSpace {
+    border: none;
+}
+
+.dvtContentSpace>tr {
+    background-color: #f7f7fb;
+}
+
+
+
+/*=========   ListView Entries.tpl  ==========*/
+
+td[role="gridcell"] {
+    width: 3.25rem;
+    padding: 0 .5rem;
+}
+
+th[scope="row"] {
+    padding: 0 .5rem;
+}
+
+th[scope="row"] .slds-th__action {
+    padding: 0 .5rem;
+}
+
+
+
+
+/*=========   END ListView Entries.tpl  ==========*/

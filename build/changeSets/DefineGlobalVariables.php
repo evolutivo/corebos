@@ -33,9 +33,10 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Debug_Calculate_Response_Time',
 
 				'Application_Global_Search_SelectedModules',
+				'Application_Global_Search_Binary',
+				'Application_Global_Search_TopModules',
 				'Application_Storage_Directory',
 				'Application_Storage_SaveStrategy',
-				'Application_Global_Search_Binary',
 				'Application_OpenRecordInNewXOnRelatedList',
 				'Application_OpenRecordInNewXOnListView',
 				'Application_MaxFailedLoginAttempts',
@@ -71,12 +72,16 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_Group_Selection_Permitted',
 				'Application_B2B',
 				'Application_FirstTimeLogin_Template',
+				'Application_Permit_Assign_Up',
+				'Application_Permit_Assign_SameRole',
 
 				'Calendar_Modules_Panel_Visible',
 				'Calendar_Default_Reminder_Minutes',
 				'Calendar_Slot_Minutes',
+				'Calendar_Slot_Event_Overlap',
 				'Calendar_Show_Inactive_Users',
 				'Calendar_Show_Group_Events',
+				'Calendar_Push_End_On_Start_Change',
 
 				'CronTasks_cronWatcher_mailto',
 
@@ -97,6 +102,10 @@ class DefineGlobalVariables extends cbupdaterWorker {
 
 				'Users_ReplyTo_SecondEmail',
 				'Users_Default_Send_Email_Template',
+				'Users_Select_Inactive',
+				'User_AuthenticationType',
+				'User_2FAAuthentication',
+				'User_2FAAuthentication_SendMethod',
 
 				'Accounts_BlockDuplicateName',
 				'Campaign_CreatePotentialOnAccountRelation',
@@ -106,6 +115,9 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Import_Full_CSV',
 				'Import_Batch_Limit',
 				'Import_Scheduled_Limit',
+				'Export_Field_Separator_Symbol',
+				'Export_RelatedField_GetValueFrom',
+				'Export_RelatedField_NameForSearch',
 				'Lead_Convert_TransferToAccount',
 				'Lead_Convert_OpportunitySelected',
 				'PBX_Get_Line_Prefix',
@@ -117,10 +129,13 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Product_Maximum_Number_Images',
 				'Workflow_Send_Email_ToCCBCC',
 				'Workflow_GeoDistance_Country_Default',
+				'Workflow_GeoDistance_ServerIP',
+				'Workflow_GeoDistance_Email',
 				'ModComments_DefaultCriteria',
 				'ModComments_DefaultBlockStatus',
 				'EMail_OpenTrackingEnabled',
 				'Email_Attachments_Folder',
+				'EMail_Maximum_Number_Attachments',
 				'ToolTip_MaxFieldValueLength',
 				'HelpDesk_Support_EMail',
 				'HelpDesk_Support_Name',
@@ -133,6 +148,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
                                 'ContextIOSecret',
                                 'ContextIOUserId',
                             
+
 				'HomePage_Widget_Group_Size',
 
 				'Report_Send_Scheduled_ifEmpty',
@@ -142,6 +158,11 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Inventory_ListPrice_ReadOnly',
 				'GContacts_Max_Results',
 
+				'CustomerPortal_PDF',
+				'CustomerPortal_PDFTemplate_Quote',
+				'CustomerPortal_PDFTemplate_SalesOrder',
+				'CustomerPortal_PDFTemplate_Invoice',
+				'CustomerPortal_PDFTemplate_PurchaseOrder',
 			);
 			$delete_these = array(
 				'preload_prototype',
@@ -159,6 +180,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'upload_maxsize',
 				'helpdesk_support_email_id',
 				'helpdesk_support_email_reply_id',
+				'helpdesk_support_name',
 				'limitpage_navigation',
 				'default_timezone',
 				'import_dir',
@@ -311,11 +333,11 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				}
 				$field->setPicklistValues($global_variables);
 				foreach ($delete_these as $gvar) {
-					$sql = 'select * from vtiger_gvname where gvname=?';
+					$sql = 'select * from vtiger_gvname where BINARY gvname=?';
 					$result = $adb->pquery($sql, array($gvar));
 					if ($adb->num_rows($result)>0) {
 						$origPicklistID = $adb->query_result($result, 0, 'picklist_valueid');
-						$sql = 'delete from vtiger_gvname where gvname=?';
+						$sql = 'delete from vtiger_gvname where BINARY gvname=?';
 						$this->ExecuteQuery($sql, array($gvar));
 						$sql = 'delete from vtiger_role2picklist where picklistvalueid=?';
 						$this->ExecuteQuery($sql, array($origPicklistID));
