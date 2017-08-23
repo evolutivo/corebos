@@ -69,6 +69,6 @@ $mod_strings = Array(
     'reportcreated'=>'Report Created',
     'indexcreated'=>'Index Created',
     'DELETEINDEX'=>'Delete Indexes',
-    'ID'=>'ID',
+    'ID'=>'ID'
 );
 ?>
