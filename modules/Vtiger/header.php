@@ -39,7 +39,7 @@ $cnt = count($qc_modules);
 $smarty->assign("CNT", $cnt);
 global $adb;
 $allDashboards=array();
-$dashboardExtensions=$adb->pquery("SELECT * FROM dashboardbuilder_extensions WHERE generated=1",array());
+$dashboardExtensions=$adb->pquery("SELECT * FROM dashboardbuilder_extensions WHERE generated_form=1",array());
 while($dashboardExtensions && $row=$adb->fetch_array($dashboardExtensions)){
     $allDashboards[]=$row['name'];
 }
