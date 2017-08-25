@@ -207,7 +207,7 @@ if($folder=="INDEXES"){
     $fname=substr($filename,0,strrpos($filename,'.'));
     $index=substr($fname,18);
 
-    $endpointUrl = "http://$ip:9200/$index/_search?pretty";
+    $endpointUrl = "http://$ip:9200/$index/_search?size=10000&pretty";
 
     $channel = curl_init();
 
@@ -216,6 +216,7 @@ if($folder=="INDEXES"){
     curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
 
     curl_setopt($channel, CURLOPT_CUSTOMREQUEST, "GET");
+  //  curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($json));
 
     curl_setopt($channel, CURLOPT_CONNECTTIMEOUT, 100);
 
