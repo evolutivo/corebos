@@ -28,7 +28,6 @@ class workflow_contact_passwordset extends cbupdaterWorker {
 			
 			//Create WorkFlow and task
 			require_once("include/events/SqlResultIterator.inc");
-			require_once("include/Zend/Json.php");
 			require_once("modules/com_vtiger_workflow/VTWorkflowApplication.inc");
 			require_once("modules/com_vtiger_workflow/VTWorkflowManager.inc");
 			require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
@@ -38,9 +37,7 @@ class workflow_contact_passwordset extends cbupdaterWorker {
 			$wm = new VTWorkflowManager($adb);
 			$wf = $wm->newWorkflow("Contacts");
 			$wf->description = "Save Contacts password";
-			$wf->taskId = $taskId;
 			$wm->save($wf);
-
 			$workflowId =  $wf->id;
 
 			$tm = new VTTaskManager($adb);
@@ -50,7 +47,6 @@ class workflow_contact_passwordset extends cbupdaterWorker {
 			$task->trigger=null;
 			$task->methodName = "Contacts password generation";
 			$tm->saveTask($task);
-
 			$this->sendMsg('Changeset '.get_class($this).' applied! Add Workflow Custom Function complete!');
 			$this->markApplied();
 		}
