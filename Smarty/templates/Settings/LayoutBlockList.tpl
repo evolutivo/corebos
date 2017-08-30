@@ -34,7 +34,17 @@ function getCustomFieldList(customField)
 		document.getElementById("cfList").innerHTML=response;
 	{rdelim});
 {rdelim}
-
+function makeFieldSelected(oField,fieldid,blockid)
+{ldelim}
+	if(gselected_fieldtype != '')
+	{ldelim}
+		document.getElementById(gselected_fieldtype).className = 'customMnu';
+	{rdelim}
+	oField.className = 'customMnuSelected';
+	gselected_fieldtype = oField.id;
+	selFieldType(fieldid,'','',blockid)
+	document.getElementById('selectedfieldtype_'+blockid).value = fieldid;
+{rdelim}
 function changeFieldorder(what_to_do,fieldid,blockid,modulename)
 {ldelim}
 	document.getElementById('vtbusy_info').style.display = "block";
