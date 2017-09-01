@@ -196,14 +196,47 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			{
 				$chk_val = '';
 			}
-			$pickListValue = to_html($pickListValue);
+			$pickListValue = in($pickListValue);
 			if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate')
 				$options[] = array(htmlentities(getTranslatedString($pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
 			else
 				$options[] = array(getTranslatedString($pickListValue),$pickListValue,$chk_val );
 		}
 		$fieldvalue [] = $options;
+	
 	}
+	elseif($uitype == 44) {
+
+		$picklistValues = getListFiles('perspectives');
+		$valueArr = explode("|##|", $value);
+		foreach ($valueArr as $key => $value) {
+			$valueArr[$key] = trim(html_entity_decode($value, ENT_QUOTES, $default_charset));
+		}
+		$pickcount = 0;
+		$options = array();
+		if(!empty($picklistValues)){
+			foreach($picklistValues as $order=>$pickListValue){
+				if(in_array(trim($pickListValue),$valueArr)){
+					$chk_val = "selected";
+					$pickcount++;
+				}else{
+					$chk_val = '';
+				}
+				if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate'){
+					$options[] = array(htmlentities(getTranslatedString($pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
+				}else{
+					$options[] = array(getTranslatedString($pickListValue),$pickListValue,$chk_val );
+				}
+			}
+
+			if($pickcount == 0 && !empty($value)){
+				$options[] = array($app_strings['LBL_NOT_ACCESSIBLE'],$value,'selected');
+			}
+		}
+		$editview_label[]=getTranslatedString($fieldlabel,$module_name,$value);
+		$fieldvalue[] = $options;
+
+        }
 	elseif($uitype == 1613 || $uitype == 1614 || $uitype == 1615) {
 		require_once 'modules/PickList/PickListUtils.php';
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);

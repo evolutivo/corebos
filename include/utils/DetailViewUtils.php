@@ -103,6 +103,47 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 	} elseif ($uitype == 13) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = $col_fields[$fieldname];
+	}elseif ($uitype == 44) {
+                ini_set('display_errors', '0');
+		$label_fld[] = getTranslatedString($fieldlabel, $module);
+		$col_fields[$fieldname] = trim(html_entity_decode($col_fields[$fieldname], ENT_QUOTES, $default_charset));
+		$label_fld[] = $col_fields[$fieldname];
+		$roleid = $current_user->roleid;
+
+		$valueArr = explode("|##|", $col_fields[$fieldname]);
+		//$picklistValues = getAssignedPicklistValues($fieldname, $roleid, $adb);
+                  $picklistValues = getListFiles("perspectives");
+                
+
+		//Mikecrowe fix to correctly default for custom pick lists
+		$options = array();
+		$count = 0;
+		$found = false;
+		if (!empty($picklistValues)) {
+			$pickcount = 0;
+			foreach ($picklistValues as $order => $pickListValue) {
+				if (in_array(trim($pickListValue), array_map("trim", $valueArr))) {
+					$chk_val = "selected";
+					$pickcount++;
+				} else {
+					$chk_val = '';
+				}
+				if (isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate') {
+					$options[] = array(htmlentities(getTranslatedString($pickListValue), ENT_QUOTES, $default_charset), $pickListValue, $chk_val);
+				} else {
+					$options[] = array(getTranslatedString($pickListValue), $pickListValue, $chk_val);
+				}
+			}
+
+			if ($pickcount == 0 && !empty($value)) {
+				$options[] = array($app_strings['LBL_NOT_ACCESSIBLE'], $value, 'selected');
+			}
+		}
+		$label_fld ["options"] = $options;
+                //var_dump($label_fld);
+                //exit();
+                
+                
 	} elseif ($uitype == 16) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$label_fld[] = getTranslatedString($col_fields[$fieldname], $module);
@@ -171,7 +212,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$options[] = array($app_strings['LBL_NOT_ACCESSIBLE'], $value, 'selected');
 			}
 		}
-		$label_fld ["options"] = $options;
+		$label_fld ["options"] = $options;                
 	} elseif ($uitype == 1024 || $uitype == 1025) {
 		require_once 'modules/PickList/PickListUtils.php';
 		$label_fld[] = getTranslatedString($fieldlabel, $module);

@@ -687,7 +687,12 @@
                                                                                         </div>
                                                                                         <div class="slds-card__body slds-card__body--inner">
                                                                                             <div class="actionData">
-
+                                                                                                    {if $MODULE eq 'Perspectives'}
+                                                                                                        <form action="index.php?module=Perspectives&action=PerspectivesAjax&file=installcmp" method="post">
+                                                                                                            <input type="hidden" name="recordid" value="{$ID}">
+                                                                                                            <input type="submit" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" value="install" name="installcmp">
+                                                                                                        </form>
+                                                                                                    {/if}
                                                                                                     {if $MODULE eq 'HelpDesk'}
                                                                                                         {if $CONVERTASFAQ eq 'permitted'}
                                                                                                                     <a class="webMnu"

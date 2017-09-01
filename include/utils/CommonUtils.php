@@ -2441,7 +2441,22 @@ function getTranslatedString($str, $module = '') {
 	$trans_str = (!empty($temp_mod_strings[$str]) ? $temp_mod_strings[$str] : (!empty($app_strings[$str]) ? $app_strings[$str] : $str));
 	return $trans_str;
 }
+/**Function used to get all files from specfic directory 
+ * @param string $dir input directory name that we want to control
+ * @return array $files - return an array with all files founded in the directory
+ */
+function getListFiles($dir) {
+    
+    if ((realpath(__DIR__ . '/../..') . "/" . $dir)) {
 
+        $file_matcher = realpath(__DIR__ . '/../..') . "/" . $dir . '/*.{json}';
+        $files = array();
+        foreach (glob($file_matcher, GLOB_BRACE) as $file) {
+            $files[] = basename($file);
+        }
+    }
+    return $files;
+}
 /**
  * Get translated currency name string.
  * @param String $str - input currency name
