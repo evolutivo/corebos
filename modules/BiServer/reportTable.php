@@ -28,30 +28,34 @@ $replaceColumnsContainingDots = array();
 $replacedColumnsContainingDots = array();
 $selectedReportColumnsLabel[0] = "id";
 for($i=0;$i<$val;$i++)
- {   
+ {
     //get selected fields
     $j= $i+1;
     if(isset($_REQUEST['checkf'. $j])){
-        $selectedReportColumns[$i] = preg_replace('/[^A-Za-z0-9_=\s,<>%\'\'()!.:\\-àèòùì]/','',html_entity_decode($_REQUEST['field'. $j]));
+
+       $selectedReportColumns[$i] = preg_replace('/[^A-Za-z0-9_=\s,<>%\'\'()!.:\\-àèòùì]/','',html_entity_decode($_REQUEST['field'. $j]));
         if(strpos($selectedReportColumns[$i],".") || strpos($selectedReportColumns[$i],"-"))
         {
           $replaceColumnsContainingDots[] = $selectedReportColumns[$i];
           $selectedReportColumns[$i] = str_replace('.', '', $_REQUEST['field'. $j]);
           $selectedReportColumns[$i] = str_replace('-', '', $selectedReportColumns[$i]);
-          $replacedColumnsContainingDots[] = $selectedReportColumns[$i] ;
-        }
-        $colname1[$i]=$_REQUEST['colname'.$i];
+          $replacedColumnsContainingDots[] = $selectedReportColumns[$i];
+
+       }
+        $colname1[$i]=$_REQUEST['colname'.$j];
         $modname1[$i] = $_REQUEST['modul'.$i];
         $selectedReportColumnsLabel[$j] = $_REQUEST['modulfieldlabel'.$j];
       }
 }
+
+
 $replace = implode(",",$replaceColumnsContainingDots);
 $replaced = implode(",",$replacedColumnsContainingDots);
 $fieldLabels = implode(",", $selectedReportColumnsLabel);
 if($BiServerDeleted ==1){
     //add column deleted
-$selectedReportColumns[]="deleted";    
-$mvtableColumns = implode(",", $selectedReportColumns);  
+$selectedReportColumns[]="deleted";
+$mvtableColumns = implode(",", $selectedReportColumns);
 }
 else $mvtableColumns = implode(",", $selectedReportColumns);
 $colname2 = implode(",",$colname);
@@ -66,11 +70,12 @@ $query="SELECT * from vtiger_report where reportid = $reportid";
 $result = $adb->query($query);
 $fl= $adb->query_result($result,0,'reportname');
 
+
 if($nr == 0){
    $fl1 = str_replace(" ","",$fl);
    $fl2 = str_replace("-","",$fl1);
    $id = str_replace(" ","",$reportid);
-   
+
 $my_file = $root_directory.'modules/BiServer/Reports/script_report_'.$id."".$fl2."".$tab.'.php';
 $handle = fopen($my_file, 'w') or die('Cannot open file:  '.$my_file);
 $data = '<?php
@@ -79,8 +84,8 @@ $current_user->id=1 ;
 include_once("modules/Reports/Reports.php");
 include("modules/Reports/ReportRun.php");
 include_once("include/utils/CommonUtils.php");
-require_once(\'include/database/PearDatabase.php\');  
-require_once("include/utils/utils.php"); 
+require_once(\'include/database/PearDatabase.php\');
+require_once("include/utils/utils.php");
 require_once(\'vtlib/Vtiger/Module.php\');';
 fwrite($handle, $data);
 $data='
@@ -106,7 +111,7 @@ $focus1=new ReportRun('.$reportid.');
 
 $s = $focus1->sGetSQLforReport('.$reportid.',$nu,"","",'.$BiServerDeleted.');
 $fields = explode(",",$s);
-$replaceColumnsContainingDots  = "'.$replaceColumnsContainingDots.'"; 
+$replaceColumnsContainingDots  = "'.$replaceColumnsContainingDots.'";
 $replacedColumnsContainingDots  = "'.$replacedColumnsContainingDots.'";
 $reportClumns = preg_replace("/[^A-Za-z0-9_=\s,<>%\'\'()!.:\\\-]/","",$focus1->getQueryColumnsList('.$reportid.'));
 if(strpos($fields[0],\'_Id\')!== false)
@@ -123,14 +128,14 @@ for($i=0;$i<count($nrfiel);$i++)
     $nm = getTranslatedString($colona[1],  $colona[0]);
     $collabel[$i] = "$nm";
 }
-    $collabel1=implode(",",$collabel); 
-    
+    $collabel1=implode(",",$collabel);
+
 $adb->pquery("drop table IF EXISTS  mv_'.$id."".$fl2."".$tab.'");
 $adb->pquery("create table mv_'.$id."".$fl2."".$tab.' ($s)");
 $adb->pquery("ALTER TABLE mv_'.$id."".$fl2."".$tab.'
               ADD COLUMN id INT NOT NULL AUTO_INCREMENT FIRST,
               ADD PRIMARY KEY (id)");
-              
+
 $lq = "SELECT id from vtiger_scripts WHERE name = \'script_report_'.$id."".$fl2."".$tab.'.php\' ";
 $id = $adb->pquery($lq);
 $id1 = $adb->query_result($id,0,"id");
@@ -152,23 +157,23 @@ $data = '<?php
 global $adb;
 $current_user->id=1 ;
 include_once("modules/Reports/Reports.php");
-include("modules/Reports/ReportRun.php");
+include_once("modules/Reports/ReportRun.php");
 include_once("include/utils/CommonUtils.php");
-require_once(\'include/database/PearDatabase.php\');  
-require_once("include/utils/utils.php"); 
-require_once(\'vtlib/Vtiger/Module.php\'); 
+include_once("include/database/PearDatabase.php");
+include_once("include/utils/utils.php");
+include_once("vtlib/Vtiger/Module.php");
 $val = '.$val.';
 $colname1 = "'.$colname21.'";
 $modname1 = "'.$modname21.'";
 $selectedReportColumns = "'.$fieldname21.'";
-$replaceColumnsContainingDots  = explode(",","'.$replace.'"); 
+$replaceColumnsContainingDots  = explode(",","'.$replace.'");
 $replacedColumnsContainingDots  = explode(",","'.$replaced.'");
 $colname = "'.$colname2.'";
 $modname = "'.$modname2.'";
 $fieldname = "'.$fieldname2.'";
 $fieldLabels = "'.$fieldLabels.'";';
-fwrite($handle, $data);
-$data = '
+
+$data .= '
 $focus1=new ReportRun('.$reportid.');
 	$currencyfieldres = $adb->pquery("SELECT tabid, fieldlabel, uitype from vtiger_field WHERE uitype in (71,72,10)", array());
 		if($currencyfieldres) {
@@ -188,7 +193,7 @@ $focus1=new ReportRun('.$reportid.');
 				}
 			}
 		}
-//Replace special characters on columns of report query   
+//Replace special characters on columns of report query
 $reportQuery = $focus1->sGetSQLforReport('.$reportid.',$nu,"","",'.$BiServerDeleted.');
 $SQLforReport = preg_replace("/[^A-Za-z0-9_=\s,<>%\"\'\\\-()!.:àèòùì]/","",html_entity_decode($reportQuery));
 $SQLforReport = str_replace($replaceColumnsContainingDots, $replacedColumnsContainingDots, $SQLforReport);
@@ -215,11 +220,11 @@ for($i=0;$i<count($nrfiel);$i++)
 $col = implode(",",$colonne);
 //CREATING MV TABLE
 $adb->pquery("drop table IF EXISTS  mv_'.$id."".$fl2."".$tab.'");
-$q1 = $adb->query("create table mv_'.$id."".$fl2."".$tab.' AS Select  '.$mvtableColumns.' From ($SQLforReport) AS reportTable");
+$q1 = $adb->query("create table mv_'.$id."".$fl2."".$tab.' AS Select '.$mvtableColumns.' From ($SQLforReport) AS reportTable");
 //Adding primary key to the new created table
 $adb->pquery("ALTER TABLE mv_'.$id."".$fl2."".$tab.'
               ADD COLUMN id INT NOT NULL AUTO_INCREMENT FIRST,
-              ADD PRIMARY KEY (id)");                                                
+              ADD PRIMARY KEY (id)");
 $fieldname = explode(",",$selectedReportColumns);
   for($i=0;$i<$nr;$i++)
   {
@@ -228,7 +233,7 @@ $fieldname = explode(",",$selectedReportColumns);
        {
           if($nrfiel[$j] == $fieldname[$k] && $k<count($nrmod) )
            {
-              $l = "SELECT tablename,fieldname,entityidfield from vtiger_entityname WHERE tabid = $nrmod[$k] "; 
+              $l = "SELECT tablename,fieldname,entityidfield from vtiger_entityname WHERE tabid = $nrmod[$k] ";
               $name = $adb->pquery($l);
               $name1=$adb->query_result($name,0,"fieldname");
               $tab1=$adb->query_result($name,0,"tablename");
@@ -240,7 +245,7 @@ $fieldname = explode(",",$selectedReportColumns);
                $uiname1=str_replace("\'","\\\'",$adb->query_result($uiname,0,0));
                $colona = preg_replace(\'/[^A-Za-z0-9]/\',\'\',$nrfiel[$j]);
                $f[$j] = "$colona = \'$uiname1\'";}else{$colona = preg_replace(\'/[^A-Za-z0-9]/\',\'\',$nrfiel[$j]);$f[$j] = "$colona = \'\'";}
-               $k++;                                 
+               $k++;
           }
           else
          {
@@ -252,12 +257,12 @@ $fieldname = explode(",",$selectedReportColumns);
      $f1=implode(",",$f);
      echo $f1;
      $q =  "insert into mv_'.$id."".$fl2."".$tab.' set $f1";
- //    $adb->pquery($q); 
+ //    $adb->pquery($q);
      $lq = "SELECT id from vtiger_scripts WHERE name = \'script_report_'.$id."".$fl2."".$tab.'.php\' ";
      $id = $adb->pquery($lq);
      $id1=$adb->query_result($id,0,"id");
      $q1 = "UPDATE `vtiger_scripts` SET `fieldlabel`= \'$fieldLabels\' WHERE `id` =$id1 ";
-     $adb->pquery($q1);  
+     $adb->pquery($q1);
   }
      $setColumnLabels= "SELECT id from vtiger_scripts WHERE name = \'script_report_'.$id."".$fl2."".$tab.'.php\' ";
      $id = $adb->query($setColumnLabels);
@@ -266,7 +271,7 @@ $fieldname = explode(",",$selectedReportColumns);
      $adb->query($q1);
   ';
     fwrite($handle, $data);
-    fclose($handle);  
+    fclose($handle);
 }
 }
 else{
@@ -277,7 +282,7 @@ $selectedMapColumnsLabel = array();
 $selectedMapColumnsLabel[0] = "id";
 $selectedMapColumns = array();
 for($i=0;$i<$val;$i++)
- {   
+ {
     //get selected fields
     $j= $i+1;
     if( isset($_REQUEST['checkf'. $j]) && $_REQUEST['checkf'. $j]==1){
@@ -299,30 +304,30 @@ $data = '<?php
 global $adb;
 $current_user->id=1 ;
 include_once("include/utils/CommonUtils.php");
-require_once(\'include/database/PearDatabase.php\');  
-require_once("include/utils/utils.php"); 
-require_once(\'vtlib/Vtiger/Module.php\'); 
+require_once(\'include/database/PearDatabase.php\');
+require_once("include/utils/utils.php");
+require_once(\'vtlib/Vtiger/Module.php\');
 
-//get map query 
+//get map query
 $SQLforMap = $adb->pquery("Select content from vtiger_cbmap where cbmapid = ?",array('.$mapid.'));
 $mapSql = str_replace(\'"\',\'\',html_entity_decode($adb->query_result($SQLforMap,0,"content"),ENT_QUOTES));
 $fromQueryPart = explode("FROM",$mapSql);
 $fieldLabels = "'.$fieldLabels.'";
 //CREATING MV TABLE
-$adb->pquery("drop table IF EXISTS  mv_map'.$tab.'"); 
+$adb->pquery("drop table IF EXISTS  mv_map'.$tab.'");
 $q1 = $adb->query("create table mv_map'.$tab.' AS Select '.$mvtableColumns.' From (SELECT '.$mvtableSelectColumns.' FROM $fromQueryPart[1]) AS mapTable");
 //Adding primary key to the new created table
 $adb->pquery("ALTER TABLE mv_map'.$tab.'
               ADD COLUMN id INT NOT NULL AUTO_INCREMENT FIRST,
-              ADD PRIMARY KEY (id)");  
+              ADD PRIMARY KEY (id)");
      $lq = "SELECT id from vtiger_scripts WHERE name = \'script_report_'."map".$tab.'.php\' ";
      $id = $adb->pquery($lq);
      $id1=$adb->query_result($id,0,"id");
      $q1 = "UPDATE `vtiger_scripts` SET `fieldlabel`= \'$fieldLabels\' WHERE `id` =$id1 ";
-     $adb->pquery($q1);                
+     $adb->pquery($q1);
 ';
     fwrite($handle, $data);
-    fclose($handle); 
+    fclose($handle);
 }
 echo $my_file;
 ?>
