@@ -17,6 +17,11 @@ $mod_strings = Array(
 	'LBL_MODULEBLOCK_INFORMATION' => 'Información ModuleName',
 	'LBL_DESCRIPTION_INFORMATION' => 'Descripción',
 
+        'LBL_PERSPECTIVES_INFORMATION' => 'Perspectives Information',
+        'SINGLE_Perspectives' => 'Perspectives',
+	'Perspective No'=> 'Perspective No',
+	'Perspective Name' => 'Perspective Name',
+        'Perspective File' => 'Perspective File'
 );
 
 ?>

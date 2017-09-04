@@ -17,7 +17,11 @@ $mod_strings = Array(
 	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Verkoopkans omschrijving',
 
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+        'LBL_PERSPECTIVES_INFORMATION' => 'Perspectives Information',
+        'SINGLE_Perspectives' => 'Perspectives',
+	'Perspective No'=> 'Perspective No',
+	'Perspective Name' => 'Perspective Name',
+        'Perspective File' => 'Perspective File'
 );
 
 ?>

@@ -9,15 +9,20 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-	'ModuleName' => 'Module Name',
-	'SINGLE_ModuleName' => 'Module Name',
+	'ModuleName' => 'Perspectives',
+	'ModuleName' => 'Perspectives',
 	'ModuleName ID' => 'Module Name ID',
 
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
 	'LBL_MODULEBLOCK_INFORMATION' => 'ModuleBlock Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 
-	'ModuleFieldLabel' => 'ModuleFieldLabel Text',
+        'LBL_PERSPECTIVES_INFORMATION' => 'Perspectives Information',
+        'SINGLE_Perspectives' => 'Perspectives',
+	'Perspective No'=> 'Perspective No',
+	'Perspective Name' => 'Perspective Name',
+        'Perspective File' => 'Perspective File'
 );
+
 
 ?>

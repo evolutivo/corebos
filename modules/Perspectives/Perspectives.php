@@ -1,16 +1,23 @@
 <?php
-/*+**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- ************************************************************************************/
+/*************************************************************************************************
+ * Copyright 2014 Opencubed -- This file is a part of TSOLUCIO coreBOS customizations.
+ * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+ * Vizsage Public License (the "License"). You may not use this file except in compliance with the
+ * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+ * and share improvements. However, for proper details please read the full License, available at
+ * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+ * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+ * applicable law or agreed to in writing, any software distributed under the License is distributed
+ * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the
+ * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+ ***********************************************************************************************
+ *  Module       : Perspectives
+ *  Version      : 5.4.0
+ *  Author       : axhemshahaj
+ *************************************************************************************************/
 require_once('data/CRMEntity.php');
 require_once('data/Tracker.php');
-
-ini_set('display_errors', 'On');
 
 class Perspectives extends CRMEntity {
 	var $db, $log; // Used in class functions of CRMEntity
@@ -53,12 +60,18 @@ class Perspectives extends CRMEntity {
 		/* Format: Field Label => Array(tablename => columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'Perspective Name'=> Array('perspectives' => 'perspective_name'),
-		'Perspective File'=> Array('perspectives' => 'perspective_file')
+		'Perspective File'=> Array('perspectives' => 'perspective_file'),
+                'Assigned To' => Array('crmentity' => 'smownerid'),
+		'Created Time' => Array('crmentity' => 'createdTime'),
+		'Modified Time' => Array('crmentity' => 'modifiedTime')
 	);
 	var $list_fields_name = Array(
 		/* Format: Field Label => fieldname */
 		'Perspective Name'=> 'perspective_name',
-		'Perspective File'=> 'perspective_file'
+		'Perspective File'=> 'perspective_file',
+		'Assigned To' => 'assigned_user_id',
+		'Created Time'=> 'createdTime',
+		'Modified Time'=> 'modifiedtime'
 	);
 
 	// Make the field link to detail view from list view (Fieldname)
@@ -97,7 +110,7 @@ class Perspectives extends CRMEntity {
 	var $default_sort_order='ASC';
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
-	var $mandatory_fields = Array('perspective_name', 'perspective_file');
+	var $mandatory_fields = Array('createdtime', 'modifiedtime','perspective_name', 'perspective_file');
 
 	function save_module($module) {
 		if ($this->HasDirectImageField) {
