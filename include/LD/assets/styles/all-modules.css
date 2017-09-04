@@ -1,22 +1,45 @@
+/*========    Header    ==========*/
+
+.headerlink img {
+    width: 25px;
+    vertical-align: text-bottom;
+}
+
+.headerlink img:hover {
+    opacity: 0.7;
+}
+
+.td-space td {
+    padding-left: 3px;
+}
+
+#qccombo {
+    cursor: pointer;
+}
+
+
+
+
+/*========    End Header    ==========*/
+
+.slds-table tbody tr {
+    counter-increment: row-number;
+}
+
+.dvtCellInfo img,
+.dvtCellInfo .slds-select,
+.dvtCellInfo .slds-radio--faux {
+    cursor: pointer;
+}
+
+
+
+
 /*=========  Button List  ==========*/
 
 #LB_buttonlist {
-    /*background-color: rgb(244, 246, 249);*/
     background-color: #f7f9fb;
 }
-
-
-
-/*.LD_buttonList div {
-    border: 1px solid #ccc;
-    background-color: #fff;
-}
-
-.LD_buttonList div:hover {
-    background-color: rgb(234, 246, 249);
-    border-color: #fff;
-}
-*/
 
 .LD_buttonList th {
     background-color: rgb(244, 246, 249)!important;
@@ -25,6 +48,18 @@
 .uiMenu {
     position: relative;
 }
+
+
+
+
+
+
+
+
+
+/*.extraSmall:hover {
+    background-color: #90b8e8;
+}*/
 
 .forceHeaderMenuTrigger.uiPopupTrigger {
     display: inline-block;
@@ -88,6 +123,31 @@
     transform: rotate(360deg);
 }
 
+.slds-button {
+    cursor: pointer;
+}
+
+.slds-table td.searchAlph {
+    padding: .2rem;
+}
+
+.searchAlph:hover {
+    background-color: #e2e5ff;
+    /*color: #fff;*/
+}
+
+
+.header-title-container .slds-truncate {
+    white-space: normal;
+}
+
+
+
+
+
+
+
+
 
 
 /*=========   END BUTTON_LIST  ==========*/
@@ -108,39 +168,68 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /*=========  DETAIL VIEW  ==========*/
 
 ul .slds-tabs--scoped__item {
     border-right: 1px solid #d8dde6;
 }
 
-.detailview_utils_jumpto img {
+.detailview_utils_jumpto img,
+.calendar-icon img {
     -webkit-transition: -webkit-transform .5s ease-in-out;
     transition: transform .5s ease-in-out;
 }
 
-.detailview_utils_jumpto img:hover {
+.detailview_utils_jumpto img:hover,
+.calendar-icon img:hover {
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }
 
+.calendar-icon img {
+    vertical-align: inherit;
+    width: 18px;
+    cursor: pointer;
+}
 
-/*.slds-tabs--scoped__nav .slds-tabs--scoped__item,*/
-
-
-/*.slds-tabs--scoped__nav .slds-tabs--scoped__item .active,*/
+.slds-select {
+    font-size: .8rem;
+}
 
 li.active,
 .slds-tabs--scoped__nav .slds-tabs--scoped__item:focus,
 .slds-tabs--scoped__nav .slds-tabs--scoped__item:active {
     background-color: white;
     color: #0070d2;
-    border-color: #d8dde6;
+    /*border-color: #d8dde6;*/
+}
+
+.slds-tabs--scoped__nav li {
+    border-right: 1px solid #d8dde6;
 }
 
 
-
-
+.uiOutputText {
+    display: block;
+    /* or inline-block */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    width: 850px;
+    white-space: nowrap;
+}
 
 /*=========  DETAIL VIEW ---HEADER---  ==========*/
 
@@ -154,12 +243,14 @@ li.active,
     transition: left .25s;
 }
 
+.forceHighlightsStencilSettings.s1FixedTop,
 .forceHighlightsStencilDesktop.s1FixedTop {
     /*position: fixed;*/
     border-top: none;
     z-index: 7000;
 }
 
+.forceHighlightsStencilSettings,
 .forceHighlightsStencilDesktop {
     min-height: 60px;
 }
@@ -169,6 +260,7 @@ li.active,
     position: relative;
 }
 
+.forceHighlightsStencilSettings.profilePicWrapper,
 .forceHighlightsStencilDesktop.profilePicWrapper {
     -webkit-box-flex: 0;
     flex: none;
@@ -180,11 +272,16 @@ li.active,
     align-items: flex-start;
 }
 
+.profilePicWrapper {
+    padding-bottom: .7rem;
+}
+
 .forceEntityIcon {
     display: block;
     -webkit-border-radius: .125rem;
     -moz-border-radius: .125rem;
     border-radius: .125rem;
+    height: 1.1rem;
 }
 
 .forceSocialPhoto.photoContainer {
@@ -195,6 +292,7 @@ li.active,
     background-clip: content-box;
 }
 
+.forceHighlightsStencilSettings .photoContainer:not(.forceOutputLookup),
 .forceHighlightsStencilDesktop .photoContainer:not(.forceOutputLookup) {
     padding-right: 0;
 }
@@ -220,12 +318,20 @@ li.active,
     height: 2rem;
 }
 
+.forceHighlightsStencilSettings .forceEntityIcon,
+.forceHighlightsStencilSettings .forceSocialPhoto img,
+.forceHighlightsStencilSettings .forceSocialPhoto_v2 img {
+    width: 48px;
+    height: 48px;
+}
+
 .slds-media__body p,
 .slds-media__body h1,
 .slds-media__body h2 {
     margin: 0;
 }
 
+.forceHighlightsStencilSettings .actionsContainer,
 .forceHighlightsStencilDesktop .actionsContainer {
     -webkit-align-items: flex-end;
     -ms-flex-align: end;
@@ -264,6 +370,31 @@ li.active,
 .detailview_utils_prev img[width='23']:hover,
 .detailview_utils_next img[width='23']:hover {
     opacity: 1;
+}
+
+.uiImage img[title='Vendors'],
+.uiImage img[title='InventoryDetails'],
+.uiImage img[title='GlobalVariable'],
+.uiImage img[title='Invoice'] {
+    padding: 3px;
+}
+
+.text-left {
+    text-align: left!important;
+}
+
+.slds-width {
+    width: 100%;
+}
+
+#availableusers option:first-child,
+#selectedusers option:first-child {
+    border: none;
+}
+
+#availableusers option,
+#selectedusers option {
+    border-radius: 0;
 }
 
 
@@ -345,25 +476,12 @@ article.container::after {
     border: 1px solid rgb(216, 221, 230);
 }
 
-
-
-/*.flexipageComponent .slds-card {*/
-
-
-/*border-bottom-left-radius: 0;*/
-
-
-/*border-bottom-right-radius: 0;*/
-
-
-/*}*/
-
 .flexipageComponentComment {
     margin-bottom: 3rem;
 }
 
-.blockStyleCss {
-    /*background-color: rgb(244, 246, 249);*/
+.blockStyleCss>td {
+    white-space: normal!important;
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
@@ -382,15 +500,106 @@ article.container::after {
 
 
 
+.slds-tabs--scoped__content {
+    padding-top: 0;
+}
+
+
+
+
+
+
+
+
+
 /*=========  END DETAIL VIEW ---BODY---  ==========*/
+
+
+/*=========  DETAIL VIEW ---Actions---  ==========*/
+
+.webMnu img {
+    border-radius: 5px;
+    width: 20px;
+    padding: .1rem;
+    margin: 0 .2rem!important;
+}
+
+.actionlink_lbl_show_contact_hierarchy img,
+.actionlink_lbl_show_account_hierarchy img {
+    background-color: #558384;
+}
+
+.actionlink_sendemail img {
+    background-color: #95bf42;
+}
+
+.actionlink_downloaddocument img {
+    background-color: #95bf42;
+    padding: .2rem;
+}
+
+.actionlink_addevent img {
+    background-color: #a25016;
+}
+
+.actionlink_addtodo img {
+    background-color: #5bd6d6;
+}
+
+.actionlink_lbl_add_note img,
+.actionlink_checkdocinteg img {
+    background-color: #daa520;
+}
+
+.actionlink_convertlead img {
+    background-color: #558384;
+}
+
+.actionGenerateInvoice img {
+    background-color: #daa520;
+}
+
+.actionGenerateQuote img {
+    background-color: #88c651;
+}
+
+.actionGeneratePurchaseOrder img {
+    background-color: #468499;
+    padding: 0;
+}
+
+.actionGenerateSalesOrder img,
+.actionListLinkedQuotes img {
+    background-color: #a0522d;
+    padding: 0;
+}
+
+.actionlink_converttoinvoice img {
+    background-color: #8ab82d;
+}
+
+.actionGenerateQuote img {}
+
+.customLinkModule img {
+    background-color: #6dc066;
+}
+
+
+
+
+
+
+
+
+/*=========  END DETAIL VIEW ---Actions-  ==========*/
 
 .slds-table-moz {
     width: 100%;
 }
 
 tr td.detailViewContainer {
-    padding: 1rem .5rem;
-    border: 2px solid rgb(216, 221, 230);
+    padding: .5rem;
+    /*border: 2px solid rgb(216, 221, 230);*/
 }
 
 .mapButton td {
@@ -425,7 +634,7 @@ input[type=button].slds-button--small {
 }
 
 input[type=submit].slds-button--small {
-    min-height: 1.75rem;
+    min-height: 1rem;
     font-size: 11px;
     border-left: 1px solid #ffffff;
     border-top: 1px solid #ffffff;
@@ -447,6 +656,30 @@ tr td.table-aside>.detailview_actionlinks {
 .actionLabel {
     border-bottom: 1px solid #d4d4d4;
 }
+
+.slds-button--x-small {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    margin: .2rem .6rem;
+}
+
+.dvtCellInfo input[type="radio"] {
+    margin-top: 0;
+}
+
+.dvtCellInfo select {
+    margin: .5rem 0;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -471,14 +704,26 @@ tr td.table-aside>.detailview_actionlinks {
     font-weight: bold;
 }
 
-.slds-button_success:link,
+
+
+
+
+
+
+
+
+
+
+
+
+/*.slds-button_success:link,
 .slds-button_success:visited,
 .slds-button_success:active,
 .slds-button--success:link,
 .slds-button--success:visited,
 .slds-button--success:active {
     color: #16325c;
-}
+}*/
 
 .slds-button_success:hover,
 .slds-button_success:focus,
@@ -505,7 +750,11 @@ ul.slds-tabs--default__nav li {
 }
 
 .slds-dropdown__item>a {
-    padding: .1rem .5rem;
+    padding: 2px 5px 2px 5px;
+}
+
+.slds-dropdown__list li.slds-dropdown__item {
+    padding: 0;
 }
 
 .assideBtn {
@@ -543,13 +792,19 @@ li[title="More Information"] svg {
     border-bottom: none;
 }
 
+.slds-checkbox--faux {
+    cursor: pointer;
+}
+
 .slds-select option {
     background-color: #fff;
     color: #000;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     border-top: 1px solid #d4d4d4;
-    padding: .2rem .5rem;
+    padding: .1rem .5rem;
     margin: .1rem 0;
+    font-size: inherit;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 881px) {
@@ -557,6 +812,41 @@ li[title="More Information"] svg {
         min-width: 768px;
     }
 }
+
+.img-background {
+    background-color: cornflowerblue!important;
+}
+
+.createview_field_row tr,
+.createview_field_row td {
+    height: .1rem!important;
+}
+
+.createview_field_row .slds-select {
+    width: 75%;
+}
+
+.createview_field_row select {
+    margin: 0;
+}
+
+.createview_field_row textarea,
+.dvtCellInfo textarea {
+    min-height: 35px;
+}
+
+.createview_field_row .slds-input {
+    line-height: .875rem!important;
+    min-height: calc(1.7rem + (1px * 2)!important);
+    font-size: .875rem!important;
+    margin: 0!important;
+}
+
+
+
+
+
+
 
 
 
@@ -595,6 +885,37 @@ select:-moz-focusring {
 
 
 
+.LD-icons {
+    width: 25px;
+    vertical-align: top;
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+    cursor: pointer;
+}
+
+.LD-icons:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+#tagfields span {
+    text-decoration: underline;
+    padding: .1rem;
+}
+
+#tagfields span img {
+    width: 10px;
+}
+
+
+
+
+
+
+
+
+
+
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
 
 
@@ -611,6 +932,14 @@ select:-moz-focusring {
 
 
 
+
+
+
+
+
+
+
+
 /*=========   END DetailViewUtils.php  ==========*/
 
 
@@ -620,6 +949,11 @@ select:-moz-focusring {
     border-right: 1px solid #fff;
     border-left: 1px solid #fff;
 }
+
+
+
+
+
 
 
 
@@ -647,22 +981,119 @@ select:-moz-focusring {
 
 
 
+
+
+/*=========   ListView.tpl  ==========*/
+
+.background {
+    background-color: #f7f9fb!important;
+}
+
+.ld-font {
+    font-family: 'Salesforce Sans';
+}
+
+.ld-font span {
+    letter-spacing: initial;
+}
+
+.slds-hint-parent th[scope="row"] div {
+    height: 15px;
+}
+
+@media screen and (max-width: 1400px) {
+    .ld-font th:nth-child(2) {
+        padding: .5rem 0;
+    }
+}
+
+.ld-font th:nth-child(4) {
+    /*padding: .5rem 0;*/
+    width: 140px;
+}
+
+.ld-font th.slds-text-title--caps span {
+    font-size: .8rem;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+
+
+
+/*=========   END ListView.tpl  ==========*/
+
+
 /*=========   ListView Entries.tpl  ==========*/
+
+.layerPopupTransport td {
+    padding: 0 .5rem;
+}
 
 td[role="gridcell"] {
     width: 3.25rem;
-    padding: 0 .5rem;
+    padding: .2REM .5rem;
 }
 
 th[scope="row"] {
-    padding: 0 .5rem;
+    padding: .2rem .5rem;
+    text-align: left;
 }
 
-th[scope="row"] .slds-th__action {
-    padding: 0 .5rem;
+th[scope="col"] {
+    text-align: left;
 }
 
 
 
 
 /*=========   END ListView Entries.tpl  ==========*/
+
+
+/*========= Dashboard buttons ========*/
+
+.lds-img img {
+    width: 20px;
+}
+
+.lds-img td {
+    padding: 0!important;
+}
+
+.lds-img img:hover {
+    opacity: .7;
+}
+
+
+
+
+/*========= End Dashboard buttons ========*/
+
+
+/*===========Related List Data Content===========*/
+
+
+/*=======CustomView.tpl=======*/
+
+.align-left td:not(:first-child) {
+    text-align: left;
+}
+
+.font-size select {
+    font-size: .8rem;
+}
+
+/*=======End CustomView.tpl=======*/
+
+
+/*===========END Related List Data Content===========*/
+
+/*=======Start Popup UI10=============*/
+/*@media screen and (max-width: 886px) {*/
+    /*.mediaQuery .slds-input ,
+    .mediaQuery .slds-select {
+
+    }*/
+/*}*/
+
+/*=======End Popup UI10=============*/
