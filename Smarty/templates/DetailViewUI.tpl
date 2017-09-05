@@ -361,7 +361,7 @@
 			</div>
 			<br>
 			<input name="button_{$label}" type="button" class="slds-button slds-button_success slds-button--x-small" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');" /> <!--{* {$APP.LBL_OR} *}-->
-			<a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="link detailview_ajaxbutton cancel ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+			<a href="javascript:;" onclick="hndCancel('dtlview_{$label}','editarea_{$label}','{$label}')" class="slds-button slds-button--destructive slds-button--x-small">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 		</div>
 	</td>
 	{elseif $keyid eq '53'}

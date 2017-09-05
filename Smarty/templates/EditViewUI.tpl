@@ -188,10 +188,10 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 		{elseif $uitype eq 21 || $uitype eq 24}
 			<td ng-show ="show_logic('{$fldname}')" width=20% class="dvtCellLabel{if $mandatory_field == '*'} mandatory_field_label{/if}" align=right>
 					<font color="red">{$mandatory_field}</font>
-				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
+				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="slds-input" >{/if}
 			</td>
 			<td ng-show ="show_logic('{$fldname}')" width=30% align=left class="dvtCellInfo">
-				<textarea value="{$fldvalue}" name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="slds-textarea"  rows=2>{$fldvalue}</textarea>
+				<textarea value="{$fldvalue}" name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="slds-textarea" style="width:75%;" rows=2>{$fldvalue}</textarea>
 			</td>
 		{elseif ($uitype eq 15 && $fldname neq 'gvname' ) || $uitype eq 16  || $uitype eq '31' || $uitype eq '32' || $uitype eq '1613' || $uitype eq '1614'}
 			<td ng-show ="show_logic('{$fldname}')" width="20%" class="dvtCellLabel{if $mandatory_field == '*'} mandatory_field_label{/if}" align=right>
@@ -203,10 +203,10 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 					<select name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="slds-select">
 				{else}
 					<input name="{$fldname}" type="hidden"  value="{literal}{{{/literal}{$fldname}{literal}}}{/literal}" />
-                                        <select   tabindex="{$vt_tab}" class="slds-select" style="z-index:1000000;"
-                                                ng-disabled="!editable_logic('{$fldname}')"
-                                                ng-model="{$fldname}"
-                                                ng-options="s.value as s.text for s in {$fldname}_values | {$fldname}_filter :this">
+                    <select   tabindex="{$vt_tab}" class="slds-select" style="z-index:1000000;"
+                            ng-disabled="!editable_logic('{$fldname}')"
+                            ng-model="{$fldname}"
+                            ng-options="s.value as s.text for s in {$fldname}_values | {$fldname}_filter :this">
 				{/if}
 			</td>
                 {elseif $uitype eq 15}
@@ -591,9 +591,9 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{/foreach}
 
 				{if $uitype eq 5 || $uitype eq 23}
-					<br><font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
+					<br>&nbsp;&nbsp;&nbsp;<font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
 				{else}
-					<br><font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
+					<br>&nbsp;&nbsp;&nbsp;<font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
 				{/if}
 
 				<script type="text/javascript" id='massedit_calendar_{$fldname}'>
@@ -618,7 +618,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 					{assign var=dateStr value="$date_str"}
 				{/foreach}
 
-				<br><font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
+				<br>&nbsp;&nbsp;&nbsp;<font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
 
 				<script type="text/javascript" id='massedit_calendar_{$fldname}'>
 					Calendar.setup ({ldelim}
