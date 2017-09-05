@@ -2201,7 +2201,7 @@ class CRMEntity {
 			$relationconditions = '('.implode(' or ', $relconds).')';
 			$calStatus = getAssignedPicklistValues('eventstatus', $current_user->roleid, $adb, $app_strings);
 			$relid = $adb->run_query_field('select relation_id from vtiger_relatedlists where tabid='.$cur_tab_id.' and related_tabid='.$rel_tab_id,'relation_id');
-			$button .= '<select name="cbcalendar_filter" class="small"
+			$button .= '<select name="cbcalendar_filter" class="slds-select" style="width:25%;vertical-align: inherit;"
 			 onchange="loadRelatedListBlock(\'module='.$currentModule.'&action='.$currentModule.'Ajax&file=DetailViewAjax&record='.$id.'&ajxaction=LOADRELATEDLIST&header=Activities&relation_id='.$relid.'&cbcalendar_filter=\'+this.options[this.options.selectedIndex].value+\'&actions=add&parenttab=Support\',\'tbl_'.$currentModule.'_Activities\',\''.$currentModule.'_Activities\');">
 			<option value="all">'.getTranslatedString('LBL_ALL').'</option>';
 			foreach ($calStatus as $cstatkey => $cstatvalue) {
@@ -2217,7 +2217,7 @@ class CRMEntity {
 					$wfs = new VTWorkflowManager($adb);
 					$racbr = $wfs->getRACRuleForRecord($currentModule, $id);
 					if (!$racbr or $racbr->hasRelatedListPermissionTo('create',$related_module)) {
-						$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "' class='crmbutton small create'" .
+						$button .= "<input title='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "' class='slds-button slds-button--small slds-button_success'" .
 							" onclick='this.form.action.value=\"EditView\";this.form.module.value=\"$related_module\"' type='submit' name='button'" .
 							" value='" . getTranslatedString('LBL_ADD_NEW') . " " . getTranslatedString($singular_modname, $related_module) . "'>&nbsp;";
 					}
