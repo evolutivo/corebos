@@ -339,6 +339,8 @@ li.active,
 .uiImage img[title='Vendors'],
 .uiImage img[title='InventoryDetails'],
 .uiImage img[title='GlobalVariable'],
+.uiImage img[title='Payment'],
+.uiImage img[title='Assets'],
 .uiImage img[title='Invoice'] {
     padding: 3px;
 }
