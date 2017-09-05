@@ -92,9 +92,9 @@
 			{else}
 				<br>
 				{if $fromlink eq 'qcreate'}
-				<select id="{$fldname}_type" class="small slds-select" style="width: 75%;" name="{$fldname}_type" onChange='document.QcEditView.{$fldname}_display.value=""; document.QcEditView.{$fldname}.value="";'>
+				<select id="{$fldname}_type" class="slds-select" style="width: 75%;" name="{$fldname}_type" onChange='document.QcEditView.{$fldname}_display.value=""; document.QcEditView.{$fldname}.value="";'>
 				{else}
-				<select id="{$fldname}_type" class="small slds-select" style="width: 75%;" name="{$fldname}_type" onChange='document.EditView.{$fldname}_display.value=""; document.EditView.{$fldname}.value="";document.getElementById("qcform").innerHTML=""'>
+				<select id="{$fldname}_type" class="slds-select" style="width: 75%;" name="{$fldname}_type" onChange='document.EditView.{$fldname}_display.value=""; document.EditView.{$fldname}.value="";document.getElementById("qcform").innerHTML=""'>
 				{/if}
 				{foreach item=option from=$fldlabel.options}
 					<option value="{$option}"
@@ -200,7 +200,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			</td>
 			<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
 				{if $MODULE eq 'Calendar'}
-					<select name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="slds-select" style="width:160px;">
+					<select name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="slds-select">
 				{else}
 					<input name="{$fldname}" type="hidden"  value="{literal}{{{/literal}{$fldname}{literal}}}{/literal}" />
                                         <select   tabindex="{$vt_tab}" class="slds-select" style="z-index:1000000;"
@@ -668,8 +668,8 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			<td width="20%" class="dvtCellLabel" align=right>To:&nbsp;</td>
 			<td width="90%" colspan="3">
 				<input name="{$fldname}" type="hidden" value="{$secondvalue}">
-				<textarea readonly name="parent_name" cols="70" rows="2">{$fldvalue}</textarea>&nbsp;
-				<select name="parent_type" class="small">
+				<textarea readonly class="slds-textarea" name="parent_name" cols="70" rows="2">{$fldvalue}</textarea>&nbsp;
+				<select name="parent_type" class="slds-select">
 					{foreach key=labelval item=selectval from=$fldlabel}
 						<option value="{$labelval}" {$selectval}>{$labelval}</option>
 					{/foreach}
@@ -715,7 +715,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 
 			<td width="30%" align=left class="dvtCellInfo">
 			{if $fldvalue neq ''}
-			<select name="salutationtype" class="small">
+			<select name="salutationtype" class="slds-select">
 				{foreach item=arr from=$fldvalue}
 				<option value="{$arr[1]}" {$arr[2]}>
 				{$arr[0]}
@@ -866,14 +866,14 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			</td>
 			<td width="30%" align=left class="dvtCellInfo">
 			   {if $secondvalue eq 1 && isset($smarty.request.record) && $CURRENT_USERID != $smarty.request.record}
-			   	<select id="user_status" name="{$fldname}" tabindex="{$vt_tab}" class="small">
+			   	<select id="user_status" name="{$fldname}" tabindex="{$vt_tab}" class="slds-select">
 			   {else}
-			   	<select id="user_status" disabled name="{$fldname}" class="small">
+			   	<select id="user_status" disabled name="{$fldname}" class="slds-select">
 			   {/if}
 				{foreach item=arr from=$fldvalue}
-                                        <option value="{$arr[1]}" {$arr[2]} >
-                                                {$arr[0]}
-                                        </option>
+	                <option value="{$arr[1]}" {$arr[2]} >
+	                        {$arr[0]}
+	                </option>
 				{/foreach}
 			   </select>
 			</td>
@@ -919,9 +919,9 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			</td>
 			<td width="30%" align=left class="dvtCellInfo">
 			   {if $secondvalue eq 1 || $uitype eq 117}
-				<select name="{$fldname}" tabindex="{$vt_tab}" class="small">
+				<select name="{$fldname}" tabindex="{$vt_tab}" class="slds-select">
 			   {else}
-				<select disabled name="{$fldname}" tabindex="{$vt_tab}" class="small">
+				<select disabled name="{$fldname}" tabindex="{$vt_tab}" class="slds-select">
 			   {/if}
 				{assign var="curr_stat" value=""}
 				{foreach item=arr key=uivalueid from=$fldvalue}
@@ -979,7 +979,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 					{assign var=sendname value=$val_arr[2]}
 					{assign var=disp_text value=$val_arr[3]}
 					{assign var=sel_val value=$val_arr[4]}
-					<select name="{$sendname}" class="small">
+					<select name="{$sendname}" class="slds-select">
 						{section name=reminder start=$start max=$end loop=$end step=1 }
 							{if $smarty.section.reminder.index eq $sel_val}
 								{assign var=sel_value value="SELECTED"}
@@ -998,7 +998,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 		{if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 		</td>
 		<td width="30%" align=left class="dvtCellInfo">
-			<select name="{$fldname}" tabindex="{$vt_tab}" class="small">
+			<select name="{$fldname}" tabindex="{$vt_tab}" class="slds-select">
 				{foreach item=v key=k from=$fldvalue}
 				<option value="{$k}">{$v}</option>
 				{/foreach}
@@ -1010,7 +1010,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			{if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}" id="{$fldname}_mass_edit_check" class="small" >{/if}
         </td>
         <td width="30%" align=left class="dvtCellInfo">
-			<select class="small" name="{$fldname}" onchange="changeDldType((this.value=='I')? 'file': 'text');">
+			<select class="slds-select" name="{$fldname}" onchange="changeDldType((this.value=='I')? 'file': 'text');">
 				{section name=combo loop=$fldlabel}
 					<option value="{$fldlabel_combo[combo]}" {$fldlabel_sel[combo]} >{$fldlabel[combo]} </option>
 				{/section}
