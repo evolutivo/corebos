@@ -285,7 +285,6 @@ class Potentials extends CRMEntity {
 		return $return_value;
 	}
 
-<<<<<<< HEAD
 	/** Returns a list of the associated calls
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
@@ -354,8 +353,7 @@ class Potentials extends CRMEntity {
 		return $return_value;
 	}
 
-=======
->>>>>>> 052f4a5d6dee1e809d97692c75c94cb2536a9744
+
 	 /**
 	 * Function to get Contact related Products
 	 * @param  integer   $id  - contactid
