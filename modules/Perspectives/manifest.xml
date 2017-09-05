@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2017-09-05 07:36:20</exporttime>
+<exporttime>2017-09-05 14:59:11</exporttime>
 <name>Perspectives</name>
 <label>Perspectives</label>
 <parent>Tools</parent>
@@ -65,7 +65,7 @@
 <defaultvalue></defaultvalue>
 <sequence>2</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>C~O</typeofdata>
+<typeofdata>V~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>1</displaytype>
@@ -81,9 +81,9 @@
 <generatedtype>1</generatedtype>
 <fieldlabel>Assigned To</fieldlabel>
 <readonly>1</readonly>
-<presence>2</presence>
+<presence>0</presence>
 <defaultvalue></defaultvalue>
-<sequence>3</sequence>
+<sequence>4</sequence>
 <maximumlength>100</maximumlength>
 <typeofdata>V~M</typeofdata>
 <quickcreate>1</quickcreate>
@@ -94,18 +94,18 @@
 <masseditable>1</masseditable>
 </field>
 <field>
-<fieldname>CreatedTime</fieldname>
+<fieldname>createdtime</fieldname>
 <uitype>70</uitype>
 <columnname>createdtime</columnname>
 <tablename>vtiger_crmentity</tablename>
 <generatedtype>1</generatedtype>
 <fieldlabel>Created Time</fieldlabel>
 <readonly>1</readonly>
-<presence>2</presence>
+<presence>0</presence>
 <defaultvalue></defaultvalue>
-<sequence>4</sequence>
+<sequence>6</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>T~O</typeofdata>
+<typeofdata>DT~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>2</displaytype>
@@ -114,7 +114,7 @@
 <masseditable>1</masseditable>
 </field>
 <field>
-<fieldname>ModifiedTime</fieldname>
+<fieldname>modifiedtime</fieldname>
 <uitype>70</uitype>
 <columnname>modifiedtime</columnname>
 <tablename>vtiger_crmentity</tablename>
@@ -123,9 +123,9 @@
 <readonly>1</readonly>
 <presence>2</presence>
 <defaultvalue></defaultvalue>
-<sequence>5</sequence>
+<sequence>8</sequence>
 <maximumlength>100</maximumlength>
-<typeofdata>T~O</typeofdata>
+<typeofdata>DT~O</typeofdata>
 <quickcreate>1</quickcreate>
 <quickcreatesequence></quickcreatesequence>
 <displaytype>2</displaytype>
@@ -172,6 +172,18 @@
 <status>enabled</status>
 </action>
 </actions>
+<customlinks>
+<customlink>
+<linktype>DETAILVIEWBASIC</linktype>
+<linklabel>LBL_CMPINSTALL_BUTTON</linklabel>
+<linkurl><![CDATA[javascript:composer_install('$MODULE$', '$RECORD$');]]></linkurl>
+<linkicon><![CDATA[]]></linkicon>
+<sequence></sequence>
+<handler_path><![CDATA[]]></handler_path>
+<handler_class><![CDATA[]]></handler_class>
+<handler><![CDATA[]]></handler>
+</customlink>
+</customlinks>
 <crons>
 </crons>
 </module>
