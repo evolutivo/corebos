@@ -230,6 +230,10 @@
 																			<img src="{'global_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="GlobalVariable" title="GlobalVariable">
 																		{elseif $MODULE eq 'cbCalendar'}
 																			<img src="{'todo_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Todo" title="Todo">
+																		{elseif $MODULE eq 'CobroPago'}
+																			<img src="{'payment_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Payment" title="Payment">
+																		{elseif $MODULE eq 'Assets'}
+																			<img src="{'assets_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Assets" title="Assets">
 																		{/if}
 																	</span>
 																</div>

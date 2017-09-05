@@ -123,6 +123,10 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 																<img src="{'custom_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Services" title="Services">
 															{elseif $MODULE eq 'PurchaseOrder'}
 																<img src="{'purchase_order_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="PurchaseOrder" title="PurchaseOrder">
+															{elseif $MODULE eq 'CobroPago'}
+																<img src="{'payment_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Payment" title="Payment">
+															{elseif $MODULE eq 'Assets'}
+																<img src="{'assets_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Assets" title="Assets">
 															{/if}
 														</span>
 													</div>

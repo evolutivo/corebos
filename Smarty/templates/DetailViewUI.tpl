@@ -401,20 +401,14 @@
 					{else}
 						<span id="assign_team" style="display: none;">
 					{/if}
-					<div class="slds-form-element">
-						<div class="slds-form-element__control">
-							<div class="slds-select_container">
-								<select id="txtbox_G{$label}" onchange="setSelectValue('{$label}')" name="assigned_group_id" class="groupname small slds-select">
-								{foreach item=arr key=id from=$keyoptions.2}
-									{foreach key=sel_value item=value from=$arr}
-										 <option value="{$id}" {$value}>{$sel_value}</option>
-									{/foreach}
-								{/foreach}
-								</select>
-							</div>
-						</div>
-					</div>
-					</span>
+					<select id="txtbox_G{$label}" onchange="setSelectValue('{$label}')" name="assigned_group_id" class="groupname slds-select">
+					{foreach item=arr key=id from=$keyoptions.2}
+						{foreach key=sel_value item=value from=$arr}
+							 <option value="{$id}" {$value}>{$sel_value}</option>
+						{/foreach}
+					{/foreach}
+					</select>
+						</span>
 
 			<br>
 				<a name="button_{$label}" class="slds-button slds-button_success slds-button--x-small" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$label}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');">{$APP.LBL_SAVE_LABEL}</a> 
@@ -495,21 +489,14 @@
 			<div id="editarea_{$keyfldname}" style="display:none;">
 				{if count($data.extendedfieldinfo.options) eq 1} {assign var="use_parentmodule" value=$data.extendedfieldinfo.options.0}
 				<input type='hidden' class='small' id="{$keyfldname}_type" name="{$keyfldname}_type" value="{$use_parentmodule}"> {assign var=vtui10func value=$use_parentmodule|getvtlib_open_popup_window_function:$keyfldname:$MODULE} {else} {assign var=vtui10func value="vtlib_open_popup_window"}
-				<br>
-				<div class="slds-form-element">
-					<div class="slds-form-element__control">
-						<div class="slds-select_container">
-							<select id="{$keyfldname}_type" class="small slds-select" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
-								{foreach item=option from=$data.extendedfieldinfo.options}
-									<option value="{$option}"
-									{if $data.extendedfieldinfo.selected == $option}selected{/if}>
-									{$option|@getTranslatedString:$option}
-									</option>
-								{/foreach}
-							</select> 
-						</div>
-					</div>
-				</div>
+				<select id="{$keyfldname}_type" class="small slds-select" name="{$keyfldname}_type" onChange='document.getElementById("{$keyfldname}_display").value=""; document.getElementById("txtbox_{$keyfldname}").value="";'>
+					{foreach item=option from=$data.extendedfieldinfo.options}
+						<option value="{$option}"
+						{if $data.extendedfieldinfo.selected == $option}selected{/if}>
+						{$option|@getTranslatedString:$option}
+						</option>
+					{/foreach}
+				</select> 
 				{/if}
 				<input id="txtbox_{$keyfldname}" name="{$keyfldname}" type="hidden" value="{$data.extendedfieldinfo.entityid}">
 				<br/><input id="{$keyfldname}_display" name="{$keyfldname}_display" readonly type="text" class="slds-input" value="{$data.extendedfieldinfo.displayvalue}"> 

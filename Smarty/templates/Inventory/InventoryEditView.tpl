@@ -60,7 +60,7 @@
 															{elseif $MODULE eq 'Vendors'}
 																<img src="{'vendors_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Vendors" title="Vendors">
 															{elseif $MODULE eq 'PurchaseOrder'}
-																<img src="{'purchase_order_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="PurchaseOrder" title="PurchaseOrder">
+																<img src="{'purchase_order_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="PurchaseOrder" title="PurchaseOrder" >
 															{/if}
 														</span>
 													</div>
