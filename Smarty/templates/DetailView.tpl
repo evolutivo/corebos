@@ -240,7 +240,7 @@
 													<div class="slds-media__body">
 														<p class="slds-text-heading--label slds-line-height--reset" style="opacity: 1;">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</p>
 														<h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
-														<span class="uiOutputText">[ {$USE_ID_VALUE} ] {$NAME}</span>
+														<span class="uiOutputText"><font color="purple">[ {$USE_ID_VALUE} ]</font> {$NAME}</span>
 															<span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>
 															<span id="vtbusy_info" style="display:none; text-transform: capitalize;" valign="bottom">
 																<img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">
