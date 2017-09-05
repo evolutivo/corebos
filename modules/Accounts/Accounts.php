@@ -280,6 +280,7 @@ class Accounts extends CRMEntity {
 		return $return_value;
 	}
 
+
 	/** Returns a list of the associated tasks */
 	function get_activities($id, $cur_tab_id, $rel_tab_id, $actions=false) {
 		global $log, $singlepane_view,$currentModule,$current_user;

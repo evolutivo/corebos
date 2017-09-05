@@ -53,6 +53,7 @@
 	<script type="text/javascript" src="include/jquery/jquery.js"></script>
 	<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
 	<script type="text/javascript" src="include/js/meld.js"></script>
+        <script type="text/javascript" src="include/js/corebosjshooks.js"></script>
 	<script type="text/javascript" src="include/js/general.js"></script>
 	<!-- vtlib customization: Javascript hook -->
 	<script type="text/javascript" src="include/js/vtlib.js"></script>
@@ -93,7 +94,7 @@
 	<!-- END -->
 {/if}
     <!-- END -->
-{if MODULE_NAME neq 'ElasticSearchExtension' && $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' && $MODULE_NAME neq 'EtherCalc' }   
+{if MODULE_NAME neq 'ElasticSearchExtension' && $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' && $MODULE_NAME neq 'EtherCalc' and $MODULE_NAME neq 'FormBuilder'}   
  
      <script type="text/javascript" src="Smarty/angular/angular.js"></script>
         <script  src="Smarty/angular/ng-table.js"></script>
@@ -137,7 +138,7 @@
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'ElasticSearchExtension' and $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch' and $MODULE_NAME neq 'EtherCalc'}   
+    {if $MODULE_NAME neq 'ElasticSearchExtension' and $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch' and $MODULE_NAME neq 'EtherCalc' and $MODULE_NAME neq 'FormBuilder'}   
         <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
             <script>
                 angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',

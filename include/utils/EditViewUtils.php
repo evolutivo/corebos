@@ -40,9 +40,11 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 
 	// vtlib customization: Related type field
 	if($uitype == '10') {
-		global $adb;
-		$fldmod_result = $adb->pquery('SELECT relmodule, status FROM vtiger_fieldmodulerel WHERE fieldid=
-			(SELECT fieldid FROM vtiger_field, vtiger_tab WHERE vtiger_field.tabid=vtiger_tab.tabid AND fieldname=? AND name=? and vtiger_field.presence in (0,2)) order by sequence',
+		$fldmod_result = $adb->pquery('SELECT relmodule, status
+				FROM vtiger_fieldmodulerel
+				INNER JOIN vtiger_tab ON vtiger_fieldmodulerel.relmodule=vtiger_tab.name and vtiger_tab.presence=0
+				WHERE fieldid=
+				(SELECT fieldid FROM vtiger_field, vtiger_tab WHERE vtiger_field.tabid=vtiger_tab.tabid AND fieldname=? AND name=? and vtiger_field.presence in (0,2) and vtiger_tab.presence=0) order by sequence',
 			Array($fieldname, $module_name));
 
 		$entityTypes = Array();
@@ -150,27 +152,19 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		if(empty($value)) {
 			if ($generatedtype != 2) {
 				$date = new DateTimeField();
-				$isodate = $date->getDBInsertDateTimeValue();
-				$date = new DateTimeField($isodate);
 				$disp_value = substr($date->getDisplayDateTimeValue(),0,16);
+				list($void,$curr_time) = explode(' ',$disp_value);
 			} else {
-				$disp_value = '';
+				$disp_value = $curr_time = '';
 			}
 		} else {
 			$date = new DateTimeField($value);
-			$isodate = $date->getDBInsertDateTimeValue();
-			$date = new DateTimeField($isodate);
 			$disp_value = substr($date->getDisplayDateTimeValue(),0,16);
+			list($void,$curr_time) = explode(' ',$disp_value);
 		}
 		$value = $disp_value;
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$date_format = parse_calendardate($app_strings['NTC_DATE_FORMAT']).' '.($current_user->hour_format=='24' ? '%H' : '%I').':%M';
-		if(!empty($curr_time)) {
-			$curr_time = DateTimeField::convertToUserTimeZone($curr_time);
-			$curr_time = $curr_time->format('H:i');
-		} else {
-			$curr_time = '';
-		}
 		$fieldvalue[] = array($disp_value => $curr_time);
 		$fieldvalue[] = array($date_format=>$current_user->date_format.' '.$current_user->hour_format);
 	}
@@ -202,15 +196,48 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			{
 				$chk_val = '';
 			}
-			$pickListValue = to_html($pickListValue);
+			$pickListValue = in($pickListValue);
 			if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate')
 				$options[] = array(htmlentities(getTranslatedString($pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
 			else
 				$options[] = array(getTranslatedString($pickListValue),$pickListValue,$chk_val );
 		}
 		$fieldvalue [] = $options;
+	
 	}
-	elseif($uitype == 1613 || $uitype == 1614) {
+	elseif($uitype == 44) {
+
+		$picklistValues = getListFiles('perspectives');
+		$valueArr = explode("|##|", $value);
+		foreach ($valueArr as $key => $value) {
+			$valueArr[$key] = trim(html_entity_decode($value, ENT_QUOTES, $default_charset));
+		}
+		$pickcount = 0;
+		$options = array();
+		if(!empty($picklistValues)){
+			foreach($picklistValues as $order=>$pickListValue){
+				if(in_array(trim($pickListValue),$valueArr)){
+					$chk_val = "selected";
+					$pickcount++;
+				}else{
+					$chk_val = '';
+				}
+				if(isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate'){
+					$options[] = array(htmlentities(getTranslatedString($pickListValue),ENT_QUOTES,$default_charset),$pickListValue,$chk_val );
+				}else{
+					$options[] = array(getTranslatedString($pickListValue),$pickListValue,$chk_val );
+				}
+			}
+
+			if($pickcount == 0 && !empty($value)){
+				$options[] = array($app_strings['LBL_NOT_ACCESSIBLE'],$value,'selected');
+			}
+		}
+		$editview_label[]=getTranslatedString($fieldlabel,$module_name,$value);
+		$fieldvalue[] = $options;
+
+        }
+	elseif($uitype == 1613 || $uitype == 1614 || $uitype == 1615) {
 		require_once 'modules/PickList/PickListUtils.php';
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$fieldvalue [] = getPicklistValuesSpecialUitypes($uitype,$fieldname,$value);
@@ -255,6 +282,38 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		require_once 'modules/PickList/PickListUtils.php';
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$fieldvalue [] = getPicklistValuesSpecialUitypes($uitype,$fieldname,$value);
+	}
+	elseif ($uitype == 1025){
+		$entityTypes = Array();
+		$parent_id = $value;
+		$values = explode(' |##| ', $value);
+		foreach ($cbMapFI['searchfields'] as $k=>$value) {
+			$entityTypes[] = $k;
+		}
+
+		if (!empty($value) && !empty($values[0])) {
+			$valueType= $srchmod=  getSalesEntityType($values[0]);
+			$field_val = getEntityFieldNames($srchmod);
+
+			$response=array();
+			$shown_val='';
+			foreach ($values as $val) {
+				$displayValueArray = getEntityName($valueType, $val);
+				if (!empty($displayValueArray)) {
+					foreach ($displayValueArray as $key=>$value2) {
+						$shown_val = $value2;
+					}
+				}
+				$response[]=html_entity_decode($shown_val,ENT_QUOTES,$default_charset);
+			}
+			$displayValue=implode(',',$response).',';
+		} else {
+			$displayValue='';
+			$valueType='';
+			$value='';
+		}
+		$editview_label[] = Array('options'=>$entityTypes, 'selected'=>$valueType, 'displaylabel'=>getTranslatedString($fieldlabel, $module_name));
+		$fieldvalue[] = Array('displayvalue'=>$displayValue,'entityid'=>$parent_id);
 	}
 	elseif($uitype == 17)
 	{
@@ -320,7 +379,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$combo_lbl_name = 'assigned_user_id1';
 		}
 
-		//Control will come here only for Products - Handler and Quotes - Inventory Manager
 		if($is_admin==false && $profileGlobalPermission[2] == 1 && ($defaultOrgSharingPermission[getTabid($module_name)] == 3 or $defaultOrgSharingPermission[getTabid($module_name)] == 0))
 		{
 			$ua = get_user_array(FALSE, "Active", $assigned_user_id,'private');
@@ -821,115 +879,69 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	elseif($uitype == 357)
 	{
 		$pmodule = isset($_REQUEST['pmodule']) ? $_REQUEST['pmodule'] : (isset($_REQUEST['par_module']) ? $_REQUEST['par_module'] : null);
-
-		if($pmodule == 'Contacts')
-		{
-			$contact_selected = 'selected';
-		}
-		elseif($pmodule == 'Accounts')
-		{
-			$account_selected = 'selected';
-		}
-		elseif($pmodule == 'Leads')
-		{
-			$lead_selected = 'selected';
-		}
-		elseif($pmodule == 'Vendors')
-		{
-			$vendor_selected = 'selected';
-		}
-		elseif($pmodule == 'Users')
-		{
-			$user_selected = 'selected';
-		}
-		elseif($pmodule == 'Project')
-		{
-			$project_selected = 'selected';
-		}
-		elseif($pmodule == 'ProjectTask')
-		{
-			$projecttask_selected = 'selected';
-		}
-		elseif($pmodule == 'Potentials')
-		{
-			$potentials_selected = 'selected';
-		}
-		elseif($pmodule == 'HelpDesk')
-		{
-			$helpdesk_selected = 'selected';
-		}
-		if(isset($_REQUEST['emailids']) && $_REQUEST['emailids'] != '')
-		{
+		if (isset($_REQUEST['emailids']) && $_REQUEST['emailids'] != '') {
 			$parent_id = $_REQUEST['emailids'];
 			$parent_name='';
 
 			$myids=explode("|",$parent_id);
-			for ($i=0;$i<(count($myids)-1);$i++)
-			{
+			for ($i=0;$i<(count($myids)-1);$i++) {
 				$realid=explode("@",$myids[$i]);
 				$entityid=$realid[0];
 				$nemail=count($realid);
 
-				if ($pmodule=='Accounts'){
+				if ($pmodule=='Accounts') {
 					require_once('modules/Accounts/Accounts.php');
 					$myfocus = new Accounts();
 					$myfocus->retrieve_entity_info($entityid,"Accounts");
 					$fullname=br2nl($myfocus->column_fields['accountname']);
-					$account_selected = 'selected';
 				}
-				elseif ($pmodule=='Contacts'){
+				elseif ($pmodule=='Contacts') {
 					require_once('modules/Contacts/Contacts.php');
 					$myfocus = new Contacts();
 					$myfocus->retrieve_entity_info($entityid,"Contacts");
 					$fname=br2nl($myfocus->column_fields['firstname']);
 					$lname=br2nl($myfocus->column_fields['lastname']);
 					$fullname=$lname.' '.$fname;
-					$contact_selected = 'selected';
 				}
-				elseif ($pmodule=='Leads'){
+				elseif ($pmodule=='Leads') {
 					require_once('modules/Leads/Leads.php');
 					$myfocus = new Leads();
 					$myfocus->retrieve_entity_info($entityid,"Leads");
 					$fname=br2nl($myfocus->column_fields['firstname']);
 					$lname=br2nl($myfocus->column_fields['lastname']);
 					$fullname=$lname.' '.$fname;
-					$lead_selected = 'selected';
 				}
-				elseif ($pmodule=='Project'){
+				elseif ($pmodule=='Project') {
 					require_once('modules/Project/Project.php');
 					$myfocus = new Project();
 					$myfocus->retrieve_entity_info($entityid,"Project");
 					$fname=br2nl($myfocus->column_fields['projectname']);
-					$lname=br2nl($myfocus->column_fields['projectid']);
 					$fullname=$fname;
-					$project_selected = 'selected';
 				}
-				elseif ($pmodule=='ProjectTask'){
+				elseif ($pmodule=='ProjectTask') {
 					require_once('modules/ProjectTask/ProjectTask.php');
 					$myfocus = new ProjectTask();
 					$myfocus->retrieve_entity_info($entityid,"ProjectTask");
 					$fname=br2nl($myfocus->column_fields['projecttaskname']);
-					$lname=br2nl($myfocus->column_fields['projecttaskid']);
 					$fullname=$fname;
-					$projecttask_selected = 'selected';
 				}
-				elseif ($pmodule=='Potentials'){
+				elseif ($pmodule=='Potentials') {
 					require_once('modules/Potentials/Potentials.php');
 					$myfocus = new Potentials();
 					$myfocus->retrieve_entity_info($entityid,"Potentials");
 					$fname=br2nl($myfocus->column_fields['potentialname']);
-					$lname=br2nl($myfocus->column_fields['potentialid']);
 					$fullname=$fname;
-					$potentials_selected = 'selected';
 				}
-				elseif ($pmodule=='HelpDesk'){
+				elseif ($pmodule=='HelpDesk') {
 					require_once('modules/HelpDesk/HelpDesk.php');
 					$myfocus = new HelpDesk();
 					$myfocus->retrieve_entity_info($entityid,"HelpDesk");
 					$fname=br2nl($myfocus->column_fields['title']);
-					$lname=br2nl($myfocus->column_fields['ticketid']);
 					$fullname=$fname;
-					$helpdesk_selected = 'selected';
+				}
+				else {
+					$ename = getEntityName($pmodule, array($entityid));
+					$fullname = br2nl($ename[$entityid]);
 				}
 				for ($j=1;$j<$nemail;$j++){
 					$querystr='select columnname from vtiger_field where fieldid=? and vtiger_field.presence in (0,2)';
@@ -960,19 +972,15 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		}
 		else
 		{
-			$contact_selected = $account_selected = $vendor_selected = $lead_selected = $user_selected = '';
 			$parent_name='';
 			$parent_id='';
-			if(!empty($_REQUEST['record']))
-			{
+			if (!empty($_REQUEST['record'])) {
 				$myemailid= vtlib_purify($_REQUEST['record']);
 				$mysql = "select crmid from vtiger_seactivityrel where activityid=?";
 				$myresult = $adb->pquery($mysql, array($myemailid));
 				$mycount=$adb->num_rows($myresult);
-				if($mycount >0)
-				{
-					for ($i=0;$i<$mycount;$i++)
-					{
+				if ($mycount >0) {
+					for ($i=0;$i<$mycount;$i++) {
 						$mycrmid=$adb->query_result($myresult,$i,'crmid');
 						$parent_module = getSalesEntityType($mycrmid);
 						if($parent_module == "Leads")
@@ -981,9 +989,8 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 							$result = $adb->pquery($sql, array($mycrmid));
 							$full_name = getFullNameFromQResult($result,0,"Leads");
 							$myemail=$adb->query_result($result,0,"email");
-							$parent_id .=$mycrmid.'@0|' ; //make it such that the email adress sent is remebered and only that one is retrived
+							$parent_id .=$mycrmid.'@0|' ;
 							$parent_name .= $full_name.'<'.$myemail.'>; ';
-							$lead_selected = 'selected';
 						}
 						elseif($parent_module == "Contacts")
 						{
@@ -991,9 +998,8 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 							$result = $adb->pquery($sql, array($mycrmid));
 							$full_name = getFullNameFromQResult($result,0,"Contacts");
 							$myemail=$adb->query_result($result,0,"email");
-							$parent_id .=$mycrmid.'@0|';//make it such that the email adress sent is remebered and only that one is retrived
+							$parent_id .=$mycrmid.'@0|';
 							$parent_name .= $full_name.'<'.$myemail.'>; ';
-							$contact_selected = 'selected';
 						}
 						elseif($parent_module == "Accounts")
 						{
@@ -1001,18 +1007,16 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 							$result = $adb->pquery($sql, array($mycrmid));
 							$account_name = $adb->query_result($result,0,"accountname");
 							$myemail=$adb->query_result($result,0,"email1");
-							$parent_id .=$mycrmid.'@0|';//make it such that the email adress sent is remebered and only that one is retrived
+							$parent_id .=$mycrmid.'@0|';
 							$parent_name .= $account_name.'<'.$myemail.'>; ';
-							$account_selected = 'selected';
 						}elseif($parent_module == "Users")
 						{
 							$sql = "select user_name,email1 from vtiger_users where id=?";
 							$result = $adb->pquery($sql, array($mycrmid));
 							$account_name = $adb->query_result($result,0,"user_name");
 							$myemail=$adb->query_result($result,0,"email1");
-							$parent_id .=$mycrmid.'@0|';//make it such that the email adress sent is remebered and only that one is retrived
+							$parent_id .=$mycrmid.'@0|';
 							$parent_name .= $account_name.'<'.$myemail.'>; ';
-							$user_selected = 'selected';
 						}
 						elseif($parent_module == "Vendors")
 						{
@@ -1020,25 +1024,39 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 							$result = $adb->pquery($sql, array($mycrmid));
 							$vendor_name = $adb->query_result($result,0,"vendorname");
 							$myemail=$adb->query_result($result,0,"email");
-							$parent_id .=$mycrmid.'@0|';//make it such that the email adress sent is remebered and only that one is retrived
+							$parent_id .=$mycrmid.'@0|';
 							$parent_name .= $vendor_name.'<'.$myemail.'>; ';
-							$vendor_selected = 'selected';
+						}
+						else
+						{
+							$emailfield = getFirstEmailField($pmodule);
+							if ($emailfield != '') {
+								$qg = new QueryGenerator($pmodule, $current_user);
+								$qg->setFields(array($emailfield));
+								$qg->addCondition('id', $mycrmid, 'e');
+								$query = $qg->getQuery();
+								$result = $adb->query($query);
+								$myemail = $adb->query_result($result,0,$emailfield);
+							} else {
+								$myemail = '';
+							}
+							$parent_id .=$mycrmid.'@0|';
+							$minfo = getEntityName($pmodule,array($mycrmid));
+							$parent_name .= $minfo[$mycrmid] . '<'.$myemail.'>; ';
 						}
 					}
 				}
 			}
-			$editview_label[] = array(
-					'Contacts'=>$contact_selected,
-					'Accounts'=>$account_selected,
-					'Vendors'=>$vendor_selected,
-					'Leads'=>$lead_selected,
-					'Users'=>$user_selected
-					);
+			$emailmodules = modulesWithEmailField();
+			$evlbl = array();
+			foreach ($emailmodules as $mod) {
+				$evlbl[$mod] = ($pmodule == $mod ? 'selected' : '');
+			}
+			$editview_label[] = $evlbl;
 			$fieldvalue[] = $parent_name;
 			$fieldvalue[] = $parent_id;
 		}
 	}
-	//end of rdhital/Raju
 	elseif ($uitype == 9 || $uitype == 7) {
 		$editview_label[] = getTranslatedString($fieldlabel, $module_name);
 		$fldrs = $adb->pquery('select typeofdata from vtiger_field
@@ -1670,7 +1688,7 @@ function getAssociatedProducts($module,$focus,$seid='')
 		$product_Detail[$i]['hdnProductId'.$i] = $hdnProductId;
 		$product_Detail[$i]['productName'.$i]= $productname;
 		/* Added to fix the issue Product Pop-up name display*/
-		if($_REQUEST['action'] == 'CreateSOPDF' || $_REQUEST['action'] == 'CreatePDF' || $_REQUEST['action'] == 'SendPDFMail')
+		if (isset($_REQUEST['action']) and ($_REQUEST['action'] == 'CreateSOPDF' || $_REQUEST['action'] == 'CreatePDF' || $_REQUEST['action'] == 'SendPDFMail'))
 			$product_Detail[$i]['productName'.$i]= htmlspecialchars($product_Detail[$i]['productName'.$i]);
 		$product_Detail[$i]['hdnProductcode'.$i] = $hdnProductcode;
 		$product_Detail[$i]['productDescription'.$i]= $productdescription;
@@ -1681,14 +1699,15 @@ function getAssociatedProducts($module,$focus,$seid='')
 		}
 		if ($MDMapFound) {
 			foreach ($cbMapFields['detailview']['fields'] as $mdfield) {
-				$mdrs = $adb->pquery('select '.$mdfield['fieldinfo']['name'].' from vtiger_inventorydetails
+				$mdrs = $adb->pquery('select '.$mdfield['fieldinfo']['name'].',vtiger_inventorydetails.inventorydetailsid from vtiger_inventorydetails
 						inner join vtiger_crmentity on crmid=vtiger_inventorydetails.inventorydetailsid
 						inner join vtiger_inventorydetailscf on vtiger_inventorydetailscf.inventorydetailsid=vtiger_inventorydetails.inventorydetailsid
 						where deleted=0 and related_to=? and lineitem_id=?',
 					array($focus->id,$adb->query_result($result, $i - 1, 'lineitem_id')));
 				if ($mdrs) {
 					$col_fields = array();
-					$col_fields[$mdfield['fieldinfo']['name']] = $adb->query_result($mdrs, 0, 0);
+					$col_fields[$mdfield['fieldinfo']['name']] = $adb->query_result($mdrs, 0, $mdfield['fieldinfo']['name']);
+					$col_fields['record_id'] = $adb->query_result($mdrs, 0, 'inventorydetailsid');
 					$foutput = getOutputHtml($mdfield['fieldinfo']['uitype'], $mdfield['fieldinfo']['name'], $mdfield['fieldinfo']['label'], 100, $col_fields, 0, 'InventoryDetails', 'edit', $mdfield['fieldinfo']['typeofdata']);
 					$product_Detail[$i]['moreinfo'.$i][] = $foutput;
 				}

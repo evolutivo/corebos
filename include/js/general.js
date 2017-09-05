@@ -150,7 +150,7 @@ function set_cookie( name, value, exp_y, exp_m, exp_d, path, domain, secure )
 // Retrieving cookies
 function get_cookie(cookie_name)
 {
-	var results = document.cookie.match(cookie_name + '=(.*?)(;|$)');
+	var results = document.cookie.match('(^| )' + cookie_name + '=(.*?)(;|$)');
 	if (results) return (unescape(results[1]));
 	else return null;
 }
@@ -314,7 +314,7 @@ function patternValidate(fldName,fldLabel,type) {
 function splitDateVal(dateval) {
 	var datesep;
 	var dateelements = new Array(3);
-
+	if (dateval==undefined) return dateelements;
 	if (dateval.indexOf("-")>=0) datesep="-";
 	else if (dateval.indexOf(".")>=0) datesep=".";
 	else if (dateval.indexOf("/")>=0) datesep="/";
@@ -1370,7 +1370,7 @@ function doformValidation(edit_type) {
 			}
 		}
 	}
-	if(statusvalue == "Planned")
+	if(statusvalue == "Planned" && startdatevalue != undefined)
 	{
 		var dateelements=splitDateVal(startdatevalue);
 		var hourval=parseInt(timeval.substring(0,timeval.indexOf(":")));
@@ -1919,7 +1919,7 @@ function InternalMailer(record_id,field_id,field_name,par_module,type) {
 			break;
 	}
 	var opts = "menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes";
-	openPopUp('xComposeEmail',this,url,'createemailWin',830,662,opts);
+	openPopUp('xComposeEmail',this,url,'createemailWin',1000,800,opts);
 }
 
 function fnHide_Event(obj){
@@ -1929,7 +1929,7 @@ function fnHide_Event(obj){
 function ReplyCompose(id,mode)
 {
 	url = 'index.php?module=Emails&action=EmailsAjax&file=EditView&record='+id+'&reply=true';
-	openPopUp('xComposeEmail',this,url,'createemailWin',820,689,'menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes');
+	openPopUp('xComposeEmail',this,url,'createemailWin',1000,800,'menubar=no,toolbar=no,location=no,status=no,resizable=no,scrollbars=yes');
 }
 
 function OpenCompose(id,mode,crmid)
@@ -2996,7 +2996,21 @@ function updateBaseCurrencyValue() {
 			base_currency_ele.value = cur_ele.value;
 	}
 }
-
+function standarizeFormatCurrencyValue(val) {
+	if(val != undefined && val != null && val != 0) {
+		if(typeof userCurrencySeparator != 'undefined') {
+			while(val.indexOf(userCurrencySeparator) != -1) {
+				val = val.replace(userCurrencySeparator,'');
+			}
+		}
+		if(typeof userDecimalSeparator != 'undefined') {
+			if(val.indexOf(userDecimalSeparator) != -1) {
+				val = val.replace(userDecimalSeparator,'.');
+			}
+		}
+	}
+	return val;
+}
 /******************************************************************************/
 /* Activity reminder Customization: Setup Callback */
 function ActivityReminderProgressIndicator(show) {
@@ -4995,4 +5009,360 @@ function CLIPBOARD_CLASS(canvas_id, autoresize) {
 		};
 		pastedImage.src = source;
 	};
+}
+
+
+var throttle = function(func, limit) {
+	var inThrottle = undefined;
+	return function() {
+		var args = arguments,
+			context = this;
+		if (!inThrottle) {
+			func.apply(context, args);
+			inThrottle = true;
+			return setTimeout(function() {
+				return inThrottle = false;
+			}, limit);
+		}
+	};
+};
+
+document.addEventListener("DOMContentLoaded", function(event) {
+
+	/* ======= Auto complete part relations ====== */
+	var acInputs = document.getElementsByClassName("autocomplete-input");
+	for (var i = 0; i < acInputs.length; i++) {
+		(function(_i){
+			var ac = new AutocompleteRelation(acInputs[_i], _i);
+			acInputs[_i].addEventListener("input", function(e){
+				throttle(ac.get(e), 500);
+			});
+		})(i);
+	}
+
+});
+
+function AutocompleteRelation(target, i) {
+
+	this.inputField 	= target;
+	this.data 			= JSON.parse(target.getAttribute("data-autocomp"));
+	this.targetUL 		= document.getElementsByClassName("relation-autocomplete__target")[i];
+	this.hiddenInput	= document.getElementsByClassName("relation-autocomplete__hidden")[i];
+	this.displayFields 	= this.showFields();
+	this.entityName		= this.entityField();
+	this.moduleName 	= this.data.searchmodule;
+	this.fillfields		= this.fillFields();
+	this.maxResults 	= 5;
+	this.multiselect 	= this.multiselect();
+	if(this.multiselect==='true'){
+		target.style.width='95%';
+	}
+
+	this.targetUL.show 	= function() {
+		if (!this.classList.contains("active")) {
+			(function(){
+				var allAcLists = document.getElementsByClassName("relation-autocomplete__target");
+				for (var i = 0; i < allAcLists.length; i++) {
+					allAcLists[i].hide();
+				}
+			})();
+			this.style.opacity = 1;
+			this.classList.add("active");
+		}
+	}
+	this.targetUL.hide 	= function() {
+		if (this.classList.contains("active")) {
+			this.style.opacity = 0;
+			this.classList.remove("active");
+		}
+	}
+
+	this.targetUL.style.transition = "opacity 100ms ease";
+}
+
+AutocompleteRelation.prototype.get = function(e) {
+
+	var term = e.target.value;
+	if(this.multiselect==='true'){
+		var array=term.split(',');
+		var nr_opt=array.length;
+		term=array[nr_opt-1];
+	}
+	if (term.length > 3) {
+		this.data.term = term;
+		var acInstance = this;
+
+		this.displayFields 	= this.showFields();
+		this.entityName		= this.entityField();
+		this.fillfields		= this.fillFields();
+		acInstance.isReferenceField(e);
+
+		var r = new XMLHttpRequest();
+		r.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+				var json_data = JSON.parse(r.response)
+				if(json_data.length == 0)
+					acInstance.clearTargetUL()
+				else
+					acInstance.set(json_data)
+			}
+		};
+		r.open("GET", "index.php?module=Utilities&action=UtilitiesAjax&file=getAutocomplete&data="+encodeURIComponent(JSON.stringify(this.data)), true);
+		r.send();
+	} else {
+		this.clearTargetUL();
+		this.targetUL.hide();
+	}
+}
+
+AutocompleteRelation.prototype.set = function(items) {
+
+	if (items.length > 0) {
+		this.clearTargetUL();
+		this.targetUL.show();
+		var acInstance = this;
+		var limit = acInstance.maxResults < items.length ? acInstance.maxResults : items.length;
+		for (var i = 0; i < limit; i++) {
+
+			var li = this.buildListItem(items[i]);
+			this.targetUL.appendChild(li);
+
+			li.addEventListener("click", function(e){
+				acInstance.select({
+					label 		: this.getAttribute("data-label"),
+					value 		: this.getAttribute("data-crmid")
+				});
+				acInstance.fillOtherFields(this);
+			});
+
+		}
+	}
+}
+
+AutocompleteRelation.prototype.select = function(params) {
+
+	var label = params.label;
+	var value = params.value;
+
+	// this.inputField.value 	= label;
+	// this.hiddenInput.value 	= value;
+
+	// Housekeeping after selection
+	this.clearTargetUL();
+	this.targetUL.hide();
+	// Schedular.AutoComplete.Current.clear();
+}
+
+AutocompleteRelation.prototype.buildListItem = function(item) {
+	var li = document.createElement("li");
+	li.className = "slds-listbox__item";
+	li.setAttribute("role", "presentation");
+	li.setAttribute("data-crmid", item.crmid);
+	li.setAttribute("data-label", item[this.entityName]);
+
+	for (var field in item) {
+		if(field != this.entityName)
+			li.setAttribute("data-" + field, item[field])
+	}
+
+	var span = document.createElement("span");
+	span.setAttribute("class", "slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta");
+	span.setAttribute("role", "option");
+
+	li.appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-media__figure");
+
+	li.children[0].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-icon_container slds-icon-standard-account");
+	span.setAttribute("title", "TO FILL!");
+
+	li.children[0].children[0].appendChild(span);
+
+	var svg = document.createElement("svg");
+	svg.setAttribute("class", "slds-icon slds-icon_small");
+	svg.setAttribute("aria-hidden", "true");
+
+	li.children[0].children[0].children[0].appendChild(svg);
+
+	var use = document.createElement("use");
+	use.setAttribute("xlink:href", "include/LD/assets/icons/standard-sprite/svg/symbols.svg#account");
+
+	li.children[0].children[0].children[0].children[0].appendChild(use);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-assistive-text");
+	span.innerText = "Description of icon";
+
+	li.children[0].children[0].children[0].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-media__body");
+
+	li.children[0].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-listbox__option-text slds-listbox__option-text_entity");
+	span.innerHTML = item[this.entityName];
+
+	li.children[0].children[1].appendChild(span);
+
+	span = document.createElement("span");
+	span.setAttribute("class", "slds-listbox__option-meta slds-listbox__option-meta_entity");
+	span.innerText = this.buildSecondayReturnFields(item);
+
+	li.children[0].children[1].appendChild(span);
+
+	return li;
+}
+
+AutocompleteRelation.prototype.buildSecondayReturnFields = function(item) {
+	var returnString = "";
+	for (var i = 0; i < this.displayFields.length; i++) {
+		if (i != 0) {
+			returnString = returnString + item[this.displayFields[i]];
+			if (i < this.displayFields.length - 1) {
+				returnString += "\n";
+			}
+		}
+	}
+	return returnString;
+}
+
+AutocompleteRelation.prototype.clearTargetUL = function () {
+	while (this.targetUL.firstChild) {
+		this.targetUL.removeChild(this.targetUL.firstChild);
+		this.targetUL.hide();
+	}
+}
+
+AutocompleteRelation.prototype.fillOtherFields = function (data) {
+	var fields = this.fillfields;
+	fields_length = fields.length
+
+	for (var i = 0; i < fields_length; i++) {
+		this_field = fields[i].split("=");
+
+		get_field_value = data.getAttribute("data-" + this_field[1] )
+
+		field_element = document.getElementsByName(this_field[0])[0];
+
+		if(this_field[0] == "assigned_user_id") {
+			field_element = this.fillAssignField(get_field_value);
+		}
+		var field_root_name = this.inputField.name.substring(0, this.inputField.name.indexOf("_display"));
+		if(this.multiselect==='true' && (this_field[0]==field_root_name+'_display' || this_field[0]==field_root_name || this_field[0]==this.inputField.name)){
+			if(this_field[0]==field_root_name+'_display'){
+				var array=field_element.value.split(',');
+				var nr_opt=array.length;
+				array[nr_opt-1]=get_field_value;
+				field_element.value = array.join(',')+',';
+			}
+			else{
+				var array=field_element.value.split(' |##| ').filter(item => item);
+				var nr_opt=array.length;
+				array.push(get_field_value);
+				field_element.value = array.join(' |##| ');
+			}
+		}
+		else{
+			field_element.value = get_field_value;
+		}
+	}
+
+}
+
+AutocompleteRelation.prototype.fillAssignField = function (value) {
+	var type, active_piclist;
+	var user_picklist = document.getElementById("assigned_user_id");
+	var group_picklist = document.getElementById("assigned_group_id");
+
+	var assigntype = document.getElementsByName("assigntype");
+
+	if( user_picklist.innerHTML.indexOf('value="' + value + '"') > -1 ) {
+		type = "U";
+		active_piclist = user_picklist;
+	}
+	else {
+		type = "T";
+		active_piclist = group_picklist;
+	}
+
+	for(var i = 0; i < assigntype.length; i++) {
+		assigntype[i].checked = false;
+		if(assigntype[i].value == type)
+			assigntype[i].checked = true;
+	}
+
+	toggleAssignType(type);
+	return active_piclist;
+}
+
+AutocompleteRelation.prototype.isReferenceField = function (e) {
+	var current_field_name = e.target.name;
+
+	if(current_field_name.indexOf("_display") !== -1) {
+
+		var field_root_name = current_field_name.substring(0, current_field_name.indexOf("_display"))
+		var reference_type_field = document.getElementsByName(field_root_name + "_type");
+
+		if(reference_type_field.length > 0) {
+			ref_module = reference_type_field[0].value;
+			var ref_field_id = document.getElementsByName(field_root_name);
+			ref_record_id = ref_field_id[0].value;
+
+			this.data.referencefield = {module:ref_module, fieldname:field_root_name}
+			this.extendFillFields([field_root_name +"="+field_root_name, field_root_name+"_display="+field_root_name+"_display"]);
+		}
+	}
+}
+
+AutocompleteRelation.prototype.getReferenceModule = function () {
+	var current_field_name = this.inputField.name;
+	var field_root_name = current_field_name.substring(0, current_field_name.indexOf("_display"))
+	var reference_type_field = document.getElementsByName(field_root_name + "_type");
+	return reference_type_field[0].value
+}
+
+AutocompleteRelation.prototype.extendFillFields = function (other_fields) {
+	this.fillfields = this.fillfields.concat(other_fields)
+}
+
+AutocompleteRelation.prototype.showFields = function () {
+	try {
+		return this.data.showfields.split(",");
+	} catch(e) {
+		ref_module = this.getReferenceModule();
+		return this.data.showfields[ref_module].split(",");
+	}
+}
+
+AutocompleteRelation.prototype.entityField = function () {
+	if(typeof this.data.entityfield === 'string')
+		return this.data.entityfield
+	else {
+		ref_module = this.getReferenceModule();
+		return this.data.entityfield[ref_module];
+	}
+}
+
+AutocompleteRelation.prototype.fillFields = function () {
+	try {
+		return this.data.fillfields.split(",");
+	} catch(e) {
+		ref_module = this.getReferenceModule();
+		return this.data.fillfields[ref_module].split(",");
+	}
+}
+
+AutocompleteRelation.prototype.multiselect = function () {
+	if(typeof this.data.multiselect === 'string')
+		return this.data.multiselect
+	else if(typeof this.data.multiselect === undefined){
+		ref_module = this.getReferenceModule();
+		return this.data.multiselect[ref_module];
+	}
 }

@@ -251,7 +251,7 @@ class Vtiger_Link {
         static function getAllByType($tabid, $type=false, $parameters=false) {
             global $adb;
                 if(vtlib_isModuleActive('BusinessActions')){
-                $qry_actions="Select sequence from vtiger_businessactions join vtiger_crmentity on crmid=businessactionsid where deleted=0";
+                $qry_actions="Select sequence from vtiger_businessactions join vtiger_crmentity on crmid=businessactionsid where deleted=0 limit 1";
                 $res_actions=$adb->query($qry_actions);}
                 if($adb->num_rows($res_actions)>0){
                     $instances=self::getAllByType_BA($tabid, $type, $parameters);

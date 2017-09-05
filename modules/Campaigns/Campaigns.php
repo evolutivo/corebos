@@ -193,9 +193,9 @@ class Campaigns extends CRMEntity {
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if($return_value == null)
+		if ($return_value == null)
 			$return_value = Array();
-		else if($is_CampaignStatusAllowed) {
+		else if ($is_CampaignStatusAllowed and !empty($return_value['header'])) {
 			$statusPos = count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
 			$return_value = $this->add_status_popup($return_value, $statusPos, 'Accounts');
 		}
@@ -293,9 +293,9 @@ class Campaigns extends CRMEntity {
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if($return_value == null)
+		if ($return_value == null)
 			$return_value = Array();
-		else if($is_CampaignStatusAllowed) {
+		else if ($is_CampaignStatusAllowed and !empty($return_value['header'])) {
 			$statusPos = count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
 			$return_value = $this->add_status_popup($return_value, $statusPos, 'Contacts');
 		}
@@ -390,9 +390,9 @@ class Campaigns extends CRMEntity {
 
 		$return_value = GetRelatedList($this_module, $related_module, $other, $query, $button, $returnset);
 
-		if($return_value == null)
+		if ($return_value == null)
 			$return_value = Array();
-		else if($is_CampaignStatusAllowed) {
+		else if ($is_CampaignStatusAllowed and !empty($return_value['header'])) {
 			$statusPos = count($return_value['header']) - 2; // Last column is for Actions, exclude that. Also the index starts from 0, so reduce one more count.
 			$return_value = $this->add_status_popup($return_value, $statusPos, 'Leads');
 		}
@@ -402,6 +402,7 @@ class Campaigns extends CRMEntity {
 		$log->debug("Exiting get_leads method ...");
 		return $return_value;
 	}
+
 
 	/**
 	 * Function to get Campaign related Activities
@@ -485,38 +486,36 @@ class Campaigns extends CRMEntity {
 		return $return_value;
 
 	}
+
 	/*
 	 * Function populate the status columns' HTML
 	 * @param - $related_list return value from GetRelatedList
 	 * @param - $status_column index of the status column in the list.
 	 * returns true on success
 	 */
-	function add_status_popup($related_list, $status_column = 7, $related_module)
-	{
+	function add_status_popup($related_list, $status_column = 7, $related_module) {
 		global $adb;
 		if (empty($this->campaignrelstatus)) {
 			$this->campaignrelstatus = array();
 		}
 		if (count($this->campaignrelstatus)==0) {
 			$result = $adb->query('SELECT * FROM vtiger_campaignrelstatus;');
-			while($row = $adb->fetchByAssoc($result))
-			{
+			while ($row = $adb->fetchByAssoc($result)) {
 				$r = $row;
 				$r['campaignrelstatusi18n'] = getTranslatedString($row['campaignrelstatus'],'Campaigns');
 				$this->campaignrelstatus[$row['campaignrelstatus']] = $r;
 			}
 		}
-		foreach($related_list['entries'] as $key => &$entry)
-		{
-			$popupitemshtml = '';
-			foreach($this->campaignrelstatus as $campaingrelstatus)
-			{
-				$camprelstatus = $campaingrelstatus['campaignrelstatusi18n'];
-				$popupitemshtml .= "<a onmouseover=\"javascript: showBlock('campaignstatus_popup_$key')\" href=\"javascript:updateCampaignRelationStatus('$related_module', '".$this->id."', '$key', '".$campaingrelstatus['campaignrelstatusid']."', '".addslashes($camprelstatus)."');\">$camprelstatus</a><br />";
+		if (isset($related_list['entries'])) {
+			foreach ($related_list['entries'] as $key => &$entry) {
+				$popupitemshtml = '';
+				foreach ($this->campaignrelstatus as $campaingrelstatus) {
+					$camprelstatus = $campaingrelstatus['campaignrelstatusi18n'];
+					$popupitemshtml .= "<a onmouseover=\"javascript: showBlock('campaignstatus_popup_$key')\" href=\"javascript:updateCampaignRelationStatus('$related_module', '".$this->id."', '$key', '".$campaingrelstatus['campaignrelstatusid']."', '".addslashes($camprelstatus)."');\">$camprelstatus</a><br />";
+				}
+				$popuphtml = '<div onmouseover="javascript:clearTimeout(statusPopupTimer);" onmouseout="javascript:closeStatusPopup(\'campaignstatus_popup_'.$key.'\');" style="margin-top: -14px; width: 200px;" id="campaignstatus_popup_'.$key.'" class="calAction"><div style="background-color: #FFFFFF; padding: 8px;">'.$popupitemshtml.'</div></div>';
+				$entry[$status_column] = "<a href=\"javascript: showBlock('campaignstatus_popup_$key');\">[+]</a> <span id='campaignstatus_$key'>".$entry[$status_column]."</span>".$popuphtml;
 			}
-			$popuphtml = '<div onmouseover="javascript:clearTimeout(statusPopupTimer);" onmouseout="javascript:closeStatusPopup(\'campaignstatus_popup_'.$key.'\');" style="margin-top: -14px; width: 200px;" id="campaignstatus_popup_'.$key.'" class="calAction"><div style="background-color: #FFFFFF; padding: 8px;">'.$popupitemshtml.'</div></div>';
-
-			$entry[$status_column] = "<a href=\"javascript: showBlock('campaignstatus_popup_$key');\">[+]</a> <span id='campaignstatus_$key'>".$entry[$status_column]."</span>".$popuphtml;
 		}
 		return $related_list;
 	}
@@ -581,21 +580,18 @@ class Campaigns extends CRMEntity {
 	function save_related_module($module, $crmid, $with_module, $with_crmids) {
 		$adb = PearDatabase::getInstance();
 
-		if(!is_array($with_crmids)) $with_crmids = Array($with_crmids);
-		foreach($with_crmids as $with_crmid) {
+		if (!is_array($with_crmids)) $with_crmids = Array($with_crmids);
+		foreach ($with_crmids as $with_crmid) {
 			if ($with_module == 'Leads') {
-				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaignleadrel WHERE campaignid = ? AND leadid = ?',
-												array($crmid, $with_crmid));
-				if($checkResult && $adb->num_rows($checkResult) > 0) {
+				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaignleadrel WHERE campaignid = ? AND leadid = ?', array($crmid, $with_crmid));
+				if ($checkResult && $adb->num_rows($checkResult) > 0) {
 					continue;
 				}
 				$sql = 'INSERT INTO vtiger_campaignleadrel VALUES(?,?,1)';
 				$adb->pquery($sql, array($crmid, $with_crmid));
-
-			} elseif($with_module == 'Contacts') {
-				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaigncontrel WHERE campaignid = ? AND contactid = ?',
-												array($crmid, $with_crmid));
-				if($checkResult && $adb->num_rows($checkResult) > 0) {
+			} elseif ($with_module == 'Contacts') {
+				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaigncontrel WHERE campaignid = ? AND contactid = ?', array($crmid, $with_crmid));
+				if ($checkResult && $adb->num_rows($checkResult) > 0) {
 					continue;
 				}
 				$sql = 'INSERT INTO vtiger_campaigncontrel VALUES(?,?,1)';
@@ -603,10 +599,9 @@ class Campaigns extends CRMEntity {
 				if (GlobalVariable::getVariable('Campaign_CreatePotentialOnContactRelation', '0')=='1') {
 					self::createPotentialRelatedTo($with_crmid, $crmid);
 				}
-			} elseif($with_module == 'Accounts') {
-				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaignaccountrel WHERE campaignid = ? AND accountid = ?',
-												array($crmid, $with_crmid));
-				if($checkResult && $adb->num_rows($checkResult) > 0) {
+			} elseif ($with_module == 'Accounts') {
+				$checkResult = $adb->pquery('SELECT 1 FROM vtiger_campaignaccountrel WHERE campaignid = ? AND accountid = ?', array($crmid, $with_crmid));
+				if ($checkResult && $adb->num_rows($checkResult) > 0) {
 					continue;
 				}
 				$sql = 'INSERT INTO vtiger_campaignaccountrel VALUES(?,?,1)';
@@ -617,6 +612,33 @@ class Campaigns extends CRMEntity {
 			} else {
 				parent::save_related_module($module, $crmid, $with_module, $with_crmid);
 			}
+		}
+	}
+
+	function delete_related_module($module, $crmid, $with_module, $with_crmid) {
+		global $adb;
+		if (!is_array($with_crmid))
+			$with_crmid = Array($with_crmid);
+		$data = array();
+		$data['sourceModule'] = $module;
+		$data['sourceRecordId'] = $crmid;
+		$data['destinationModule'] = $with_module;
+		foreach ($with_crmid as $relcrmid) {
+			$data['destinationRecordId'] = $relcrmid;
+			cbEventHandler::do_action('corebos.entity.link.delete',$data);
+			if ($with_module == 'Documents') {
+				$adb->pquery('DELETE FROM vtiger_senotesrel WHERE crmid=? AND notesid=?', Array($crmid, $relcrmid));
+			} elseif ($with_module == 'Leads') {
+				$adb->pquery('DELETE FROM vtiger_campaignleadrel WHERE campaignid=? AND leadid=?', Array($crmid, $relcrmid));
+			} elseif ($with_module == 'Contacts') {
+				$adb->pquery('DELETE FROM vtiger_campaigncontrel WHERE campaignid=? AND contactid=?', Array($crmid, $relcrmid));
+			} elseif ($with_module == 'Accounts') {
+				$adb->pquery('DELETE FROM vtiger_campaignaccountrel WHERE campaignid=? AND accountid=?', Array($crmid, $relcrmid));
+			} else {
+				$adb->pquery('DELETE FROM vtiger_crmentityrel WHERE (crmid=? AND module=? AND relcrmid=? AND relmodule=?) OR (relcrmid=? AND relmodule=? AND crmid=? AND module=?)',
+					Array($crmid, $module, $relcrmid, $with_module,$crmid, $module, $relcrmid, $with_module));
+			}
+			cbEventHandler::do_action('corebos.entity.link.delete.final',$data);
 		}
 	}
 

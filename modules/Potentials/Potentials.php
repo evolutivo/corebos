@@ -285,6 +285,7 @@ class Potentials extends CRMEntity {
 		return $return_value;
 	}
 
+<<<<<<< HEAD
 	/** Returns a list of the associated calls
 	 * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc..
 	 * All Rights Reserved..
@@ -353,6 +354,8 @@ class Potentials extends CRMEntity {
 		return $return_value;
 	}
 
+=======
+>>>>>>> 052f4a5d6dee1e809d97692c75c94cb2536a9744
 	 /**
 	 * Function to get Contact related Products
 	 * @param  integer   $id  - contactid
@@ -459,37 +462,6 @@ class Potentials extends CRMEntity {
 		$return_data = Array('header'=>$header,'entries'=>$entries_list);
 		$log->debug("Exiting get_stage_history method ...");
 		return $return_data;
-	}
-
-	/**
-	* Function to get Potential related Task & Event which have activity type Held, Completed or Deferred.
-	* @param  integer   $id
-	* returns related Task or Event record in array format
-	*/
-	function get_history($id)
-	{
-			global $log;
-			$log->debug("Entering get_history(".$id.") method ...");
-			$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-							'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-			$query = "SELECT vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.status,
-		vtiger_activity.eventstatus, vtiger_activity.activitytype,vtiger_activity.date_start,
-		vtiger_activity.due_date, vtiger_activity.time_start,vtiger_activity.time_end,
-		vtiger_crmentity.modifiedtime, vtiger_crmentity.createdtime,
-		vtiger_crmentity.description,case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-				from vtiger_activity
-				inner join vtiger_seactivityrel on vtiger_seactivityrel.activityid=vtiger_activity.activityid
-				inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-				left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-				left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-				where (vtiger_activity.activitytype != 'Emails')
-				and (vtiger_activity.status = 'Completed' or vtiger_activity.status = 'Deferred' or (vtiger_activity.eventstatus = 'Held' and vtiger_activity.eventstatus != ''))
-				and vtiger_seactivityrel.crmid=".$id."
-				and vtiger_crmentity.deleted = 0";
-		//Don't add order by, because, for security, one more condition will be added with this query in include/RelatedListView.php
-
-		$log->debug("Exiting get_history method ...");
-		return getHistory('Potentials',$query,$id);
 	}
 
 	/**
@@ -761,7 +733,6 @@ class Potentials extends CRMEntity {
 		}
 		if (isPermitted ( 'Potentials', 'EditView', '' ) == 'yes') {
 			$list_buttons ['mass_edit'] = $app_strings ['LBL_MASS_EDIT'];
-			$list_buttons ['c_owner'] = $app_strings ['LBL_CHANGE_OWNER'];
 		}
 		if (isPermitted ( 'Emails', 'CreateView', '' ) == 'yes') {
 			$list_buttons ['s_mail'] = $app_strings ['LBL_SEND_MAIL_BUTTON'];

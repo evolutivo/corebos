@@ -16,7 +16,7 @@
 <script type="text/javascript" src="include/js/FieldDependencies.js"></script>
 {if !isset($Document_Folder_View)} {assign var=Document_Folder_View value=0} {/if}
 <script>
-var Document_Folder_View = { $Document_Folder_View };
+var Document_Folder_View = {$Document_Folder_View};
 </script>
 {include file='Buttons_List.tpl'}
 <div id="searchingUI" style="display:none;">

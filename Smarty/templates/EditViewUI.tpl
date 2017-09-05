@@ -210,7 +210,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{/if}
 			</td>
                 {elseif $uitype eq 15}
-                <td width="20%" class="dvtCellLabel" align=right>
+                        <td width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>
 				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
@@ -232,6 +232,29 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{/foreach}
 				</select>
 			</td>
+                {elseif $uitype eq 44}
+                        <td width="20%" class="dvtCellLabel" align=right>
+				<font color="red">{$mandatory_field}</font>
+				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
+			</td>
+			<td width="30%" align=left class="dvtCellInfo">
+				{if $MODULE eq 'Calendar'}
+					<select name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="small" style="width:160px;">
+				{else}
+					<select name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class="small" style="width:280px;">
+				{/if}
+				{foreach item=arr from=$fldvalue}
+					{if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE}
+					<option value="{$arr[0]}" {$arr[2]}>{$arr[0]}</option>
+					{else}
+					<option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
+					{/if}
+				{foreachelse}
+					<option value=""></option>
+					<option value="" style='color: #777777' disabled>{$APP.LBL_NONE}</option>
+				{/foreach}
+				</select>
+			</td>                                             
 		{elseif $uitype eq 33 || $uitype eq 3313 || $uitype eq 3314 || $uitype eq 1024}
 			<td ng-show ="show_logic('{$fldname}')" width="20%" class="dvtCellLabel{if $mandatory_field == '*'} mandatory_field_label{/if}" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
@@ -243,7 +266,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{/foreach}
 				</select>
 			</td>
-
+                        
 		{elseif $uitype eq 53}
 			<td width="20%" class="dvtCellLabel{if $mandatory_field == '*'} mandatory_field_label{/if}" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}

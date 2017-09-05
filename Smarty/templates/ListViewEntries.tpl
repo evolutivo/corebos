@@ -8,7 +8,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
 ********************************************************************************/
--->*} {if isset($smarty.request.ajax) && $smarty.request.ajax neq ''} &#&#&#{if isset($ERROR)}{$ERROR}{/if}&#&#&# {/if}
+-->*} {if isset($smarty.request.ajax) && $smarty.request.ajax neq ''} 
+&#&#&#{if isset($ERROR)}{$ERROR}{/if}&#&#&# 
+{/if}
 <script type="text/javascript" src="include/js/ListView.js"></script>
 <form name="massdelete" method="POST" id="massdelete" onsubmit="VtigerJS_DialogBox.block();">
 	<input name='search_url' id="search_url" type='hidden' value='{$SEARCH_URL}'>

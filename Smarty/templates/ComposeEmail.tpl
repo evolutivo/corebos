@@ -11,7 +11,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset={$APP.LBL_CHARSET}">
+<meta http-equiv="Content-Type" content="text/html; charset={$LBL_CHARSET}">
 <title>{$MOD.TITLE_COMPOSE_MAIL}</title>
 <link REL="SHORTCUT ICON" HREF="themes/images/favicon.ico">
 <style type="text/css">@import url("themes/{$THEME}/style.css");</style>
@@ -34,6 +34,8 @@
 <input type="hidden" name="record" value="{$ID}">
 <input type="hidden" name="mode" value="{if isset($MODE)}{$MODE}{/if}">
 <input type="hidden" name="action">
+<input type="hidden" name="return_action" value="{if isset($RETURN_ACTION)}{$RETURN_ACTION}{/if}">
+<input type="hidden" name="return_module" value="{if isset($RETURN_MODULE)}{$RETURN_MODULE}{/if}">
 <input type="hidden" name="popupaction" value="create">
 <input type="hidden" name="hidden_toid" id="hidden_toid">
 <table class="small mailClient" border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -132,13 +134,13 @@
 	<td class="cellText" style="padding: 5px;">
 		<!--<input name="{$elements.2.0}" type="file" class="small txtBox" value="" size="78"/>-->
 		<input name="del_file_list" type="hidden" value="">
-		<div id="files_list" style="border: 1px solid grey; width: 500px; padding: 5px; background: rgb(255, 255, 255) none repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; font-size: x-small">{$APP.Files_Maximum_6}
+		<div id="files_list" style="border: 1px solid grey; width: 500px; padding: 5px; background: rgb(255, 255, 255) none repeat scroll 0%; -moz-background-clip: initial; -moz-background-origin: initial; -moz-background-inline-policy: initial; font-size: x-small">{$APP.Files_Maximum}{$EMail_Maximum_Number_Attachments}</span>
 			<input id="my_file_element" type="file" name="{$elements.2.0}" tabindex="7" onchange="validateFilename(this)" >
 			<input type="hidden" name="{$elements.2.0}_hidden" value="" />
 			<span id="limitmsg" style= "color:red; display:'';">{'LBL_MAX_SIZE'|@getTranslatedString:$MODULE} {$UPLOADSIZE}{'LBL_FILESIZEIN_MB'|@getTranslatedString:$MODULE}</span>
 		</div>
 		<script>
-			var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), 6 );
+			var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), {$EMail_Maximum_Number_Attachments} );
 			multi_selector.count = 0
 			multi_selector.addElement( document.getElementById( 'my_file_element' ) );
 		</script>

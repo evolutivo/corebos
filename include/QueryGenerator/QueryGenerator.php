@@ -357,9 +357,9 @@ class QueryGenerator {
 		$this->stdFilterList = $customView->getStdFilterByCvid($viewId);
 		$this->advFilterList = $customView->getAdvFilterByCvid($viewId);
 
-		if(is_array($this->stdFilterList)) {
+		if (is_array($this->stdFilterList)) {
 			$value = array();
-			if(!empty($this->stdFilterList['columnname'])) {
+			if (!empty($this->stdFilterList['columnname'])) {
 				$this->startGroup('');
 				$name = explode(':',$this->stdFilterList['columnname']);
 				$name = $name[2];
@@ -954,13 +954,10 @@ class QueryGenerator {
 					$concatSql = getSqlForNameInDisplayFormat(array('first_name'=>"vtiger_users.first_name",'last_name'=>"vtiger_users.last_name"), 'Users');
 					$fieldSql .= "$fieldGlue (trim($concatSql) $valueSql or "."vtiger_groups.groupname $valueSql)";
 				} else {
-					if($fieldName == 'birthday' && !$this->isRelativeSearchOperators(
-							$conditionInfo['operator'])) {
-						$fieldSql .= "$fieldGlue DATE_FORMAT(".$field->getTableName().'.'.
-								$field->getColumnName().",'%m%d') ".$valueSql;
+					if ($fieldName == 'birthday' && !$this->isRelativeSearchOperators($conditionInfo['operator'])) {
+						$fieldSql .= "$fieldGlue DATE_FORMAT(".$field->getTableName().'.'.$field->getColumnName().",'%m%d') ".$valueSql;
 					} else {
-						$fieldSql .= "$fieldGlue ".$field->getTableName().'.'.
-								$field->getColumnName().' '.$valueSql;
+						$fieldSql .= "$fieldGlue ".$field->getTableName().'.'.$field->getColumnName().' '.$valueSql;
 					}
 				}
 				if(($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k') && ($field->getFieldDataType() == 'owner' || $field->getFieldDataType() == 'picklist') ) {
@@ -1207,7 +1204,8 @@ class QueryGenerator {
 					$sql[] = 'IS NULL or '.$field->getTableName().'.'.$field->getColumnName()." = ''";
 					return $sql;
 				}
-			} elseif($field->getFieldDataType()=='picklist' || $field->getFieldDataType()=='multipicklist') {
+			} elseif ($field->getFieldDataType()=='picklist' || $field->getFieldDataType()=='multipicklist'
+					and !in_array($field->getUIType(),array('1613','1614','1615','1024','3313','3314'))) {
 				if(!isValueInPicklist($value,$field->getFieldName()))
 					$value = getTranslationKeyFromTranslatedValue($this->module, $value);
 			} else if ($field->getFieldDataType() === 'currency') {
@@ -1318,11 +1316,11 @@ class QueryGenerator {
 		$moduleFields = $this->getModuleFields();
 		$field = $moduleFields[$name];
 		$type = $field ? $field->getFieldDataType() : false;
-		if($type == 'datetime') {
-			if(strrpos($value, ' ') === false) {
-				if($first) {
+		if ($type == 'datetime') {
+			if (strrpos($value, ' ') === false) {
+				if ($first) {
 					return $value.' 00:00:00';
-				}else{
+				} else {
 					return $value.' 23:59:59';
 				}
 			}

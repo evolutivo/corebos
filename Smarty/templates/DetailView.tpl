@@ -181,6 +181,7 @@
 
 
 <table width="100%" cellpadding="2" cellspacing="0" border="0" class="detailview_wrapper_table">
+
 	<tr>
 		<td class="detailview_wrapper_cell">
 			{include file='Buttons_List.tpl'}

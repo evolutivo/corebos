@@ -353,6 +353,7 @@ class Contacts extends CRMEntity {
 		$log->debug("Entering get_history method ...");
 		return getHistory('Contacts',$query,$id);
 	}
+
 	/**
 	* Function to get Contact related Tickets.
 	* @param  integer   $id      - contactid

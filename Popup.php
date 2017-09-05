@@ -29,6 +29,7 @@ global $current_language;
 $smarty->assign('LANGUAGE', $current_language);
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
+$smarty->assign('LBL_CHARSET', $default_charset);
 $smarty->assign("THEME", $theme);
 $smarty->assign('THEME_PATH', "themes/$theme/");
 $smarty->assign('IMAGE_PATH', "themes/$theme/images/");
@@ -351,6 +352,9 @@ else
 		$smarty->assign("RECORDID",vtlib_purify($_REQUEST['recordid']));
 	}
 
+	if ($currentModule == 'Users' && !GlobalVariable::getVariable('Users_Select_Inactive',1,'Users')) {
+		$where_relquery .= " and vtiger_users.status!='Inactive'";
+	}
 	if($currentModule == 'Users' && !empty($_REQUEST['recordid'])){
 		$where_relquery .=" and vtiger_users.id!=".$adb->sql_escape_string($_REQUEST['recordid']);
 		$smarty->assign("RECORDID",vtlib_purify($_REQUEST['recordid']));

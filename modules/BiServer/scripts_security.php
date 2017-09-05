@@ -4,21 +4,21 @@ require_once('include/database/PearDatabase.php');
 require_once('include/utils/utils.php');
 //maurizio.tesa@gmail.com
 global $adb,$date_var,$current_user,$log,$root_directory;
- 
+
 $kaction=$_REQUEST['kaction'];
 $content=array();
 
-if($kaction=='retrieve'){ 
- 
+if($kaction=='retrieve'){
+
  $query=$adb->query("SELECT *
                           from  vtiger_scripts_security
                           join vtiger_scripts on scriptid=id
                           join vtiger_role on vtiger_role.roleid=vtiger_scripts_security.roleid
                           ");
   $nr_file=$adb->num_rows($query);
-  
+
 for($i=0;$i<$nr_file;$i++){
-  
+
   $sec_id=$adb->query_result($query,$i,'sec_id');
   $scriptname=$adb->query_result($query,$i,'name');
   $scriptid=$adb->query_result($query,$i,'scriptid');
@@ -38,13 +38,13 @@ for($i=0;$i<$nr_file;$i++){
   $content[$i]['export_scr']=($export==1 ? true : false);
   $content[$i]['delete_scr']=($delete==1 ? true : false);
   $content[$i]['execute_scr']=($execute==1 ? true : false);
-      
+
 }
 
 echo json_encode($content);
 }
 elseif($kaction=='save'){
- 
+
 global $log,$adb;
 $models=$_REQUEST['models'];
 $model_values=array();
@@ -59,12 +59,12 @@ $query="Update vtiger_scripts_security"
         . "  delete_scr=?,"
         . "  execute_scr=? "
      . "  where sec_id=?";
-$log->debug('klm6 '.$query);     
+$log->debug('klm6 '.$query);
 $query=$adb->pquery($query,array($mv->scriptid,$mv->roleid,($mv->export_scr == true ? 1 : 0),
     ($mv->delete_scr== true ? 1 : 0),($mv->execute_scr== true ? 1 : 0),$mv->id));
 }
 elseif($kaction=='delete'){
-    
+
 global $log,$adb;
 $models=$_REQUEST['models'];
 $model_values=array();
@@ -91,11 +91,11 @@ elseif($kaction=='add'){
     $query=$adb->pquery($query,array($mv->scriptid,$mv->roleid,$mv->export_scr,$mv->delete_scr,$mv->execute_scr));
 }
 
-elseif($kaction=='list_script'){ 
- 
+elseif($kaction=='list_script'){
+
      $query=$adb->pquery("SELECT *
                           from  vtiger_scripts
-                          where deleted_script <> 1",array());
+                          where deleted_script <> 1 and folder <> 'js' and folder <> 'kendoui' and folder <> 'styles' and folder <> 'language'",array());
       $nr_file=$adb->num_rows($query);
 
     for($i=0;$i<$nr_file;$i++){
@@ -109,8 +109,8 @@ elseif($kaction=='list_script'){
 
     echo json_encode($content);
 }
-elseif($kaction=='list_role'){ 
- 
+elseif($kaction=='list_role'){
+
      $query=$adb->pquery("SELECT *
                           from  vtiger_role
                           ",array());
@@ -165,5 +165,3 @@ elseif($kaction=='list_role'){
 
 
  ?>
-
-

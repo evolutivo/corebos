@@ -1059,13 +1059,6 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
-	<author>brisilda</author>
-	<description>Add new fields to cbmap table</description>
-	<filename>build/changeSets/addFieldsCbMapCondition.php</filename>
-	<classname>addFieldsCbMapCondition</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
-<changeSet>
         <author>joebordes</author>
 	<description>Add cost price and total to Inventory Details</description>
 	<filename>build/changeSets/addCostPriceID.php</filename>
@@ -1641,6 +1634,13 @@
 </changeSet>
 <changeSet>
 	<author>joebordes</author>
+	<description>Install Calendar remake module</description>
+	<filename>build/changeSets/2017/installcbcalendar.php</filename>
+	<classname>installcbcalendar</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
 	<description>Image fields supported on all modules: products and contacts. first step towards multiimage field which is only working now on Products</description>
 	<filename>build/changeSets/2017/supportForImageFieldsonProducts.php</filename>
 	<classname>supportForImageFieldsonProducts</classname>
@@ -1737,5 +1737,32 @@
 	<classname>addFieldsMVCreator</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
-
+<changeSet>
+	<author>joebordes</author>
+	<description>Set MassEditable to 0 for uitype 4 fields</description>
+	<filename>build/changeSets/2017/fixMassEditableOnuitype4.php</filename>
+	<classname>fixMassEditableOnuitype4</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>changeActivityRelatedListTocbCalendar</description>
+	<filename>build/changeSets/2017/changeActivityRelatedListTocbCalendar.php</filename>
+	<classname>changeActivityRelatedListTocbCalendar</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>joebordes</author>
+	<description>Add UIType 1614 and 1615 to Webservice Field Type</description>
+	<filename>build/changeSets/2017/addUIType1614and1615WebserviceFieldType.php</filename>
+	<classname>addUIType1614and1615WebserviceFieldType</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>axhemshahaj</author>
+	<description>Create Perspectives Module</description>
+	<filename>build/changeSets/installperspectives.php</filename>
+	<classname>installperspectives</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

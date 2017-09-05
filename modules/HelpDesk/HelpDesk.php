@@ -418,7 +418,7 @@ class HelpDesk extends CRMEntity {
 					} else {
 						$contact_name='';
 					}
-					$list .= $contact_name;
+					$list .= '<a href="index.php?module=Contacts&action=DetailView&record='.$contactid.'">'.$contact_name.'</a>';
 				}
 				$date = new DateTimeField($adb->query_result($result,$i,'createdtime'));
 				$list .= ' on '.$date->getDisplayDateTimeValue().' &nbsp;';
@@ -490,33 +490,6 @@ class HelpDesk extends CRMEntity {
 		return $query;
 	}
 
-
-	/**	Function used to get the Activity History
-	 *	@param	int	$id - ticket id to which we want to display the activity history
-	 *	@return array	- return an array which will be returned from the function getHistory
-	 */
-	function get_history($id)
-	{
-		global $log;
-		$log->debug("Entering get_history(".$id.") method ...");
-		$userNameSql = getSqlForNameInDisplayFormat(array('first_name'=>
-						'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
-		$query = "SELECT vtiger_activity.activityid, vtiger_activity.subject, vtiger_activity.status, vtiger_activity.eventstatus, vtiger_activity.date_start, vtiger_activity.due_date,vtiger_activity.time_start,vtiger_activity.time_end,vtiger_activity.activitytype, vtiger_troubletickets.ticketid, vtiger_troubletickets.title, vtiger_crmentity.modifiedtime,vtiger_crmentity.createdtime, vtiger_crmentity.description,
-			case when (vtiger_users.user_name not like '') then $userNameSql else vtiger_groups.groupname end as user_name
-			from vtiger_activity
-			inner join vtiger_seactivityrel on vtiger_seactivityrel.activityid= vtiger_activity.activityid
-			inner join vtiger_troubletickets on vtiger_troubletickets.ticketid = vtiger_seactivityrel.crmid
-			inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_activity.activityid
-			left join vtiger_groups on vtiger_groups.groupid=vtiger_crmentity.smownerid
-			left join vtiger_users on vtiger_users.id=vtiger_crmentity.smownerid
-			where (vtiger_activity.activitytype != 'Emails')
-			and (vtiger_activity.status = 'Completed' or vtiger_activity.status = 'Deferred' or (vtiger_activity.eventstatus = 'Held' and vtiger_activity.eventstatus != ''))
-			and vtiger_seactivityrel.crmid=".$id." and vtiger_crmentity.deleted = 0";
-		//Don't add order by, because, for security, one more condition will be added with this query in include/RelatedListView.php
-		$log->debug("Entering get_history method ...");
-		return getHistory('HelpDesk',$query,$id);
-	}
-
 	/** Function to get the update ticket history for the specified ticketid
 	 * @param $id -- $ticketid:: Type Integer
 	 */
@@ -525,7 +498,7 @@ class HelpDesk extends CRMEntity {
 		if($mode != 'edit') {
 			$updatelog = self::getUpdateLogCreateMessage($focus->column_fields, $assigned_group_name, $assigntype);
 		} else {
-			$updatelog = self::getUpdateLogEditMessage($focus->id,$focus->column_fields);
+			$updatelog = self::getUpdateLogEditMessage($focus->id,$focus->column_fields, $assigntype);
 		}
 		return $updatelog;
 	}
@@ -552,7 +525,7 @@ class HelpDesk extends CRMEntity {
 		return $updatelog;
 	}
 
-	public static function getUpdateLogEditMessage($ticketid,$column_fields) {
+	public static function getUpdateLogEditMessage($ticketid,$column_fields, $assigntype) {
 		global $adb,$log,$current_user;
 		//First retrieve the existing information
 		$tktresult = $adb->pquery("select * from vtiger_troubletickets where ticketid=?", array($ticketid));
@@ -710,13 +683,16 @@ class HelpDesk extends CRMEntity {
 		}
 
 		$wsParentId = $entityData->get('parent_id');
-		$parentIdParts = explode('x', $wsParentId);
-		$parentId = $parentIdParts[1];
+		if (empty($wsParentId)) {
+			$parentId = 0;
+		} else {
+			$parentIdParts = explode('x', $wsParentId);
+			$parentId = $parentIdParts[1];
+		}
 		$desc = getTranslatedString('Ticket ID', $moduleName) . ' : ' . $entityId . '<br>'
-				. getTranslatedString('Ticket Title', $moduleName) . ' : ' . $temp . ' '
-				. $entityData->get('ticket_title');
+			. getTranslatedString('Ticket Title', $moduleName) . ' : ' . $temp . ' ' . $entityData->get('ticket_title');
 		$desc .= "<br><br>" . getTranslatedString('Hi', $moduleName) . " " . getParentName($parentId) . ",<br><br>"
-				. getTranslatedString('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . getTranslatedString('LBL_DETAIL', $moduleName) . "<br>";
+			. getTranslatedString('LBL_PORTAL_BODY_MAILINFO', $moduleName) . " " . $reply . " " . getTranslatedString('LBL_DETAIL', $moduleName) . "<br>";
 		$desc .= "<br>" . getTranslatedString('Ticket No', $moduleName) . " : " . $entityData->get('ticket_no');
 		$desc .= "<br>" . getTranslatedString('Status', $moduleName) . " : " . $entityData->get('ticketstatus');
 		$desc .= "<br>" . getTranslatedString('Category', $moduleName) . " : " . $entityData->get('ticketcategories');
@@ -750,14 +726,18 @@ class HelpDesk extends CRMEntity {
 		$entityId = $parts[1];
 
 		$wsParentId = $entityData->get('parent_id');
-		$parentIdParts = explode('x', $wsParentId);
-		$parentId = $parentIdParts[1];
+		if (empty($wsParentId)) {
+			$parentId = 0;
+		} else {
+			$parentIdParts = explode('x', $wsParentId);
+			$parentId = $parentIdParts[1];
+		}
 		$PORTAL_URL = GlobalVariable::getVariable('Application_Customer_Portal_URL','http://your_support_domain.tld/customerportal');
 		$portalUrl = "<a href='" . $PORTAL_URL . "/index.php?module=HelpDesk&action=index&ticketid=" . $entityId . "&fun=detail'>"
-				. getTranslatedString('LBL_TICKET_DETAILS', $moduleName) . "</a>";
+			. getTranslatedString('LBL_TICKET_DETAILS', $moduleName) . "</a>";
 		$contents = getTranslatedString('Dear', $moduleName) . " " . getParentName(parentId) . ",<br><br>";
 		$contents .= getTranslatedString('reply', $moduleName) . ' <b>' . $entityData->get('ticket_title')
-				. '</b>' . getTranslatedString('customer_portal', $moduleName);
+			. '</b>' . getTranslatedString('customer_portal', $moduleName);
 		$contents .= getTranslatedString("link", $moduleName) . '<br>';
 		$contents .= $portalUrl;
 		$contents .= '<br><br>' . getTranslatedString("Thanks", $moduleName) . '<br><br>' . getTranslatedString("Support_team", $moduleName);

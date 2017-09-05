@@ -107,10 +107,10 @@ class DataTransform{
 				}
 				$row['contact_id'] = implode(';', $ctowsids);
 			}
-		} elseif(strtolower($meta->getEntityName()) == "calendar") {
-			if(empty($row['sendnotification']) || strtolower($row['sendnotificaiton'])=='no'
-					|| $row['sendnotificaiton'] == '0' || $row['sendnotificaiton'] == 'false'
-					|| strtolower($row['sendnotificaiton']) == 'n') {
+		} elseif (strtolower($meta->getEntityName()) == "calendar") {
+			if (empty($row['sendnotification']) || strtolower($row['sendnotification'])=='no'
+					|| $row['sendnotification'] == '0' || $row['sendnotification'] == 'false'
+					|| strtolower($row['sendnotification']) == 'n') {
 				unset($row['sendnotification']);
 			}
 		}
@@ -268,6 +268,12 @@ class DataTransform{
 				if(!empty($row[$fieldName])){
 					$dateFieldObj = new DateTimeField($row[$fieldName]);
 					$row[$fieldName] = $dateFieldObj->getDisplayDate($current_user);
+				}
+			}
+			if ($fieldObj->getFieldDataType()=="datetime") {
+				if(!empty($row[$fieldName])){
+					$dateFieldObj = new DateTimeField($row[$fieldName]);
+					$row[$fieldName] = substr($dateFieldObj->getDisplayDateTimeValue(),0,16);
 				}
 			}
 		}

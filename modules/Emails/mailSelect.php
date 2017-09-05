@@ -29,19 +29,17 @@ $querystr = "select fieldid, fieldname, fieldlabel, columnname from vtiger_field
 $res=$adb->pquery($querystr, array(getTabid($pmodule)));
 $numrows = $adb->num_rows($res);
 $returnvalue = Array();
-for($i = 0; $i < $numrows; $i++)
-{
+for ($i = 0; $i < $numrows; $i++) {
 	$value = Array();
 	$fieldname = $adb->query_result($res,$i,"fieldname");
 	$permit = getFieldVisibilityPermission($pmodule, $userid, $fieldname);
-	if($permit == '0')
-	{
-		$temp=$adb->query_result($res,$i,'columnname');
-		$columnlists [] = $temp;
-		$fieldid=$adb->query_result($res,$i,'fieldid');
-		$fieldlabel =$adb->query_result($res,$i,'fieldlabel');
-		$value[] = getTranslatedString($fieldlabel);
-		$returnvalue [$fieldid]= $value;
+	if ($permit == '0') {
+		$temp = $adb->query_result($res,$i,'columnname');
+		$columnlists[] = $temp;
+		$fieldid = $adb->query_result($res,$i,'fieldid');
+		$fieldlabel = $adb->query_result($res,$i,'fieldlabel');
+		$value[] = getTranslatedString($fieldlabel,$pmodule);
+		$returnvalue[$fieldid] = $value;
 	}
 }
 $entity_name = '';
@@ -126,6 +124,22 @@ if ($single_record && count($columnlists) > 0) {
 				if($con_eval != "") $val_cnt++;
 			}
 			$entity_name = $adb->query_result($result,0,'title');
+			break;
+		default:
+			$minfo = getEntityField($pmodule);
+			$qg = new QueryGenerator($pmodule, $current_user);
+			$fields = $columnlists;
+			$fields[] = $minfo['fieldname'];
+			$qg->setFields($fields);
+			$qg->addCondition('id', $idlist, 'e');
+			$query = $qg->getQuery();
+			$result = $adb->query($query);
+			foreach ($columnlists as $columnname) {
+				$con_eval = $adb->query_result($result,0,$columnname);
+				$field_value[$count++] = $con_eval;
+				if($con_eval != "") $val_cnt++;
+			}
+			$entity_name = $adb->query_result($result,0,$minfo['fieldname']);
 			break;
 	}
 }
