@@ -195,8 +195,8 @@ $focus1=new ReportRun('.$reportid.');
 		}
 //Replace special characters on columns of report query
 $reportQuery = $focus1->sGetSQLforReport('.$reportid.',$nu,"","",'.$BiServerDeleted.');
-$SQLforReport = preg_replace("/[^A-Za-z0-9_=\s,<>%\"\'\\\-()!.:àèòùì]/","",html_entity_decode($reportQuery));
-$SQLforReport = str_replace($replaceColumnsContainingDots, $replacedColumnsContainingDots, $SQLforReport);
+//$SQLforReport = preg_replace("/[^A-Za-z0-9_=\s,<>%\"\'\\\-()!.:àèòùì]/","",html_entity_decode($reportQuery));
+//$SQLforReport = str_replace($replaceColumnsContainingDots, $replacedColumnsContainingDots, $SQLforReport);
 //$result = $adb->query("$s");
 $reportClumns = preg_replace("/[^A-Za-z0-9_=\s,<>%\"\'\\\-()!.:àèòùì]/","",$focus1->getQueryColumnsList('.$reportid.'));
 $nr = $adb->num_rows($result);
@@ -220,7 +220,7 @@ for($i=0;$i<count($nrfiel);$i++)
 $col = implode(",",$colonne);
 //CREATING MV TABLE
 $adb->pquery("drop table IF EXISTS  mv_'.$id."".$fl2."".$tab.'");
-$q1 = $adb->query("create table mv_'.$id."".$fl2."".$tab.' AS Select '.$mvtableColumns.' From ($SQLforReport) AS reportTable");
+$q1 = $adb->query("create table mv_'.$id."".$fl2."".$tab.' AS Select '.$mvtableColumns.' From ($reportQuery) AS reportTable");
 //Adding primary key to the new created table
 $adb->pquery("ALTER TABLE mv_'.$id."".$fl2."".$tab.'
               ADD COLUMN id INT NOT NULL AUTO_INCREMENT FIRST,

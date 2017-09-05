@@ -21,7 +21,8 @@ $mod_strings = Array(
         'SINGLE_Perspectives' => 'Perspectives',
 	'Perspective No'=> 'Perspective No',
 	'Perspective Name' => 'Perspective Name',
-        'Perspective File' => 'Perspective File'
+        'Perspective File' => 'Perspective File',
+        'LBL_CMPINSTALL_BUTTON'=> 'Composer Install'
 
 );
 
