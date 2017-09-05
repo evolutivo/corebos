@@ -2147,11 +2147,15 @@ function fnLoadCvValues(obj1,obj2,SelTab,unSelTab){
 	var tabName2 = document.getElementById(obj2);
 	var tagName1 = document.getElementById(SelTab);
 	var tagName2 = document.getElementById(unSelTab);
-	if(tabName1.className == "dvtUnSelectedCell")
-		tabName1.className = "dvtSelectedCell";
+	if(tabName1.className == "unSelectedTab")
+		tabName1.className = "selectedTab";
+		tabName1.classList.add("active");
+		tabName2.classList.remove("active");
 
-	if(tabName2.className == "dvtSelectedCell")
-		tabName2.className = "dvtUnSelectedCell";
+	if(tabName2.className == "selectedTab")
+		tabName2.className = "unSelectedTab";
+		tabName2.classList.remove("active");
+		tabName1.classList.add("active");
 
 	tagName1.style.display='block';
 	tagName2.style.display='none';

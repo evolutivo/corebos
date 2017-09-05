@@ -161,7 +161,7 @@
 		<td valign=top align=left><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
 		<td align="center" valign=bottom>
 			<div align ="center" width ="50%" border='3' style="padding:5px;" class="noprint">
-                            {if $QCreateAction.QuickCreate eq 'yes'}
+				{if $QCreateAction.QuickCreate eq 'yes'}
 				<table border=0 cellspacing=0 cellpadding=0 id="search" align="center">
 					<tr>
 						<form name="UnifiedSearch" method="post" action="index.php" style="margin:0px" onsubmit="if (document.getElementById('query_string').value=='') return false; VtigerJS_DialogBox.block();">

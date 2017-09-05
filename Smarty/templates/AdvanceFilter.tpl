@@ -100,7 +100,7 @@ function addConditionRow(groupIndex) {ldelim}
 	node2.setAttribute('class', 'dvtCellLabel');
 	node2.setAttribute('width', '25%');
 
-	node2.innerHTML = '<select name="fop'+columnIndex+'" id="fop'+columnIndex+'" class="repBox" style="width:100px;" onchange="addRequiredElements('+columnIndex+');">'+FOPTION_ADV+
+	node2.innerHTML = '<select name="fop'+columnIndex+'" id="fop'+columnIndex+'" class="repBox slds-select" style="width:100px;" onchange="addRequiredElements('+columnIndex+');">'+FOPTION_ADV+
 							'<option value="">{'LBL_NONE'|@getTranslatedString:$MODULE}</option>'+
 						'</select>';
 	newNode.appendChild(node2);
@@ -108,7 +108,7 @@ function addConditionRow(groupIndex) {ldelim}
 	node3.setAttribute('class', 'dvtCellLabel');
 	newNode.appendChild(node3);
 	{if $SOURCE eq 'reports'}
-		node3.innerHTML = '<input name="fval'+columnIndex+'" id="fval'+columnIndex+'" class="repBox" type="text" value="">'+
+		node3.innerHTML = '<input name="fval'+columnIndex+'" id="fval'+columnIndex+'" class="repBox slds-input" type="text" value="">'+
 						'<img height=20 width=20 align="absmiddle" style="cursor: pointer;" title="{$APP.LBL_FIELD_FOR_COMPARISION}" alt="{$APP.LBL_FIELD_FOR_COMPARISION}" src="themes/images/terms.gif" onClick="hideAllElementsByName(\'relFieldsPopupDiv\'); fnShowDrop(\'show_val'+columnIndex+'\');"/>'+
 						'<img align="absmiddle" style="cursor: pointer;" onclick="document.getElementById(\'fval'+columnIndex+'\').value=\'\';return false;" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/>'+
 						'<div class="layerPopup" id="show_val'+columnIndex+'" name="relFieldsPopupDiv" >'+
@@ -131,7 +131,7 @@ function addConditionRow(groupIndex) {ldelim}
 														'<tr>'+
 															'<td width="30%" align="left" class="cellLabel small">{$MOD.LBL_RELATED_FIELDS}</td>'+
 															'<td width="30%" align="left" class="cellText">'+
-																'<select name="fval_'+columnIndex+'" id="fval_'+columnIndex+'" onChange="AddFieldToFilter('+columnIndex+',this);" class="detailedViewTextBox">'+
+																'<select name="fval_'+columnIndex+'" id="fval_'+columnIndex+'" onChange="AddFieldToFilter('+columnIndex+',this);" class="slds-select">'+
 																	'<option value="">{$MOD.LBL_NONE}</option>'+
 																	REL_FIELDS+
 																'</select>'+
@@ -154,7 +154,7 @@ function addConditionRow(groupIndex) {ldelim}
 							'</table>'+
 						'</div>';
 	{else}
-		node3.innerHTML = '<input name="fval'+columnIndex+'" id="fval'+columnIndex+'" class="repBox" type="text" value="">'+ '<img align="absmiddle" style="cursor: pointer;" onclick="document.getElementById(\'fval'+columnIndex+'\').value=\'\';return false;" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/>';
+		node3.innerHTML = '<input name="fval'+columnIndex+'" id="fval'+columnIndex+'" class="slds-input" type="text" value="">'+ '<img align="absmiddle" style="cursor: pointer;" onclick="document.getElementById(\'fval'+columnIndex+'\').value=\'\';return false;" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/>';
 	{/if}
 
 	node4 = document.createElement('td');
@@ -181,7 +181,7 @@ function addGroupConditionGlue(groupIndex) {ldelim}
 
 	var groupConditionGlueElement = document.getElementById('groupconditionglue_'+groupIndex);
 	if(groupConditionGlueElement) {ldelim}
-		groupConditionGlueElement.innerHTML = "<select name='gpcon"+groupIndex+"' id='gpcon"+groupIndex+"' class='small'>"+
+		groupConditionGlueElement.innerHTML = "<select name='gpcon"+groupIndex+"' id='gpcon"+groupIndex+"' class='slds-select small'>"+
 			"<option value='and'>{'LBL_CRITERIA_AND'|@getTranslatedString:$MODULE}</option>"+
 			"<option value='or'>{'LBL_CRITERIA_OR'|@getTranslatedString:$MODULE}</option>"+
 		"</select>";
@@ -214,7 +214,7 @@ function addConditionGroup(parentNodeId) {ldelim}
 			"</tr>"+
 			"<tr id='groupfooter_"+groupIndex+"'>"+
 				"<td colspan='5' align='left'>"+
-					"<input type='button' class='crmbutton edit small' value='{$APP.LBL_NEW_CONDITION}' onclick='addConditionRow(\""+groupIndex+"\")' />"+
+					"<input type='button' class='slds-button slds-button--small slds-button_success' value='{$APP.LBL_NEW_CONDITION}' onclick='addConditionRow(\""+groupIndex+"\")' />"+
 				"</td>"+
 			"</tr>"+
 		"</table>"+
@@ -260,12 +260,12 @@ function add_grouping_criteria(grouping_criteria) {ldelim}
 					} else {
 						document.getElementById('fval'+advft_column_index_count).value = columnvalue;
 					}
-                                        var keyprev=key-1;
+										var keyprev=key-1;
 					if(document.getElementById('fcon'+keyprev))
 						document.getElementById('fcon'+keyprev).value = group_columns[keyprev].column_condition;
 				}
 			}
-                        var iprev=i-1;
+						var iprev=i-1;
 			if(document.getElementById('gpcon'+iprev))
 				document.getElementById('gpcon'+iprev).value = grouping_criteria[iprev].condition;
 		}
@@ -276,16 +276,32 @@ function add_grouping_criteria(grouping_criteria) {ldelim}
 </script>
 
 <div style="overflow:auto;margin-top: 30px;" id='adv_filter_div' name='adv_filter_div'>
-	<table class="small" border="0" cellpadding="5" cellspacing="0" width="100%">
-		<tr>
-			<td class="detailedViewHeader" align="left"><b>{'LBL_ADVANCED_FILTER'|@getTranslatedString:$MODULE}</b></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="right">
-				<input type="button" class="crmbutton create small" value="{'LBL_NEW_GROUP'|@getTranslatedString:$MODULE}" onclick="addNewConditionGroup('adv_filter_div')" />
-			</td>
-		</tr>
-	</table>
+		<!--Lighting Desing -->
+	<div class="flexipageComponent" style="background-color: #fff; ">
+		<article class="slds-card container MEDIUM forceBaseCard
+		 runtime_sales_mergeMergeCandidatesPreviewCard"
+				 aria-describedby="header" style="margin: 0;">
+				<div class="slds-card__header slds-grid">
+					<header class="slds-media slds-media--center slds-has-flexi-truncate">
+						<div class="slds-media__body" style="text-align: left;">
+							<h2 class="header-title-container" >
+								<span class="slds-text-heading--small slds-truncate">
+									<b>{'LBL_ADVANCED_FILTER'|@getTranslatedString:$MODULE}</b>
+								</span>
+							</h2>
+						</div>
+						<div class="commentData" style="text-align: right;">
+							<input type="button" class="slds-button slds-button--brand slds-button--small" value="{'LBL_NEW_GROUP'|@getTranslatedString:$MODULE}" onclick="addNewConditionGroup('adv_filter_div')" />
+						</div>
+					</header>
+				</div>
+				<div class="slds-card__body slds-card__body--inner">
+					
+				</div>
+			
+		</article>
+	</div>
+	<!-- Lighting Design -->
 <script>
 	{if $SOURCE neq 'reports'}
 		{if isset($CRITERIA_GROUPS) && $CRITERIA_GROUPS|@count > 0}
