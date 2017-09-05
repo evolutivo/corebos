@@ -15,12 +15,7 @@
 
 #qccombo {
     cursor: pointer;
-}
-
-
-
-
-/*========    End Header    ==========*/
+}/*========    End Header    ==========*/
 
 .slds-table tbody tr {
     counter-increment: row-number;
@@ -30,12 +25,7 @@
 .dvtCellInfo .slds-select,
 .dvtCellInfo .slds-radio--faux {
     cursor: pointer;
-}
-
-
-
-
-/*=========  Button List  ==========*/
+}/*=========  Button List  ==========*/
 
 #LB_buttonlist {
     background-color: #f7f9fb;
@@ -48,11 +38,6 @@
 .uiMenu {
     position: relative;
 }
-
-
-
-
-
 
 
 
@@ -139,18 +124,7 @@
 
 .header-title-container .slds-truncate {
     white-space: normal;
-}
-
-
-
-
-
-
-
-
-
-
-/*=========   END BUTTON_LIST  ==========*/
+}/*=========   END BUTTON_LIST  ==========*/
 
 .homePageButtons img {
     height: 20px;
@@ -166,17 +140,6 @@
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -230,6 +193,7 @@ li.active,
     width: 850px;
     white-space: nowrap;
 }
+
 
 /*=========  DETAIL VIEW ---HEADER---  ==========*/
 
@@ -399,6 +363,7 @@ li.active,
 
 
 
+
 /*=========  END DETAIL VIEW ---HEADER---  ==========*/
 
 
@@ -507,11 +472,6 @@ article.container::after {
 
 
 
-
-
-
-
-
 /*=========  END DETAIL VIEW ---BODY---  ==========*/
 
 
@@ -586,11 +546,6 @@ article.container::after {
 
 
 
-
-
-
-
-
 /*=========  END DETAIL VIEW ---Actions-  ==========*/
 
 .slds-table-moz {
@@ -660,7 +615,7 @@ tr td.table-aside>.detailview_actionlinks {
 .slds-button--x-small {
     height: 1.5rem;
     line-height: 1.5rem;
-    margin: .2rem .6rem;
+    /*margin: .2rem .6rem;*/
 }
 
 .dvtCellInfo input[type="radio"] {
@@ -670,17 +625,6 @@ tr td.table-aside>.detailview_actionlinks {
 .dvtCellInfo select {
     margin: .5rem 0;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
@@ -703,18 +647,6 @@ tr td.table-aside>.detailview_actionlinks {
     color: #fff;
     font-weight: bold;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*.slds-button_success:link,
 .slds-button_success:visited,
@@ -833,6 +765,7 @@ li[title="More Information"] svg {
 .createview_field_row textarea,
 .dvtCellInfo textarea {
     min-height: 35px;
+    margin: .5rem 0;
 }
 
 .createview_field_row .slds-input {
@@ -841,11 +774,6 @@ li[title="More Information"] svg {
     font-size: .875rem!important;
     margin: 0!important;
 }
-
-
-
-
-
 
 
 
@@ -887,9 +815,7 @@ select:-moz-focusring {
 
 .LD-icons {
     width: 25px;
-    vertical-align: top;
-    -webkit-transition: -webkit-transform .5s ease-in-out;
-    transition: transform .5s ease-in-out;
+    /*vertical-align: top;*/
     cursor: pointer;
 }
 
@@ -905,18 +831,7 @@ select:-moz-focusring {
 
 #tagfields span img {
     width: 10px;
-}
-
-
-
-
-
-
-
-
-
-
-/*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+}/*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
 
 
 /*=========   DetailViewUtils.php  ==========*/
@@ -929,17 +844,6 @@ select:-moz-focusring {
     text-transform: uppercase;
     letter-spacing: 0.02rem;
 }
-
-
-
-
-
-
-
-
-
-
-
 /*=========   END DetailViewUtils.php  ==========*/
 
 
@@ -949,11 +853,6 @@ select:-moz-focusring {
     border-right: 1px solid #fff;
     border-left: 1px solid #fff;
 }
-
-
-
-
-
 
 
 
@@ -978,11 +877,6 @@ select:-moz-focusring {
 .dvtContentSpace>tr {
     background-color: #f7f7fb;
 }
-
-
-
-
-
 /*=========   ListView.tpl  ==========*/
 
 .background {
@@ -1016,12 +910,7 @@ select:-moz-focusring {
     font-size: .8rem;
     word-wrap: break-word;
     white-space: normal;
-}
-
-
-
-
-/*=========   END ListView.tpl  ==========*/
+}/*=========   END ListView.tpl  ==========*/
 
 
 /*=========   ListView Entries.tpl  ==========*/
@@ -1042,12 +931,7 @@ th[scope="row"] {
 
 th[scope="col"] {
     text-align: left;
-}
-
-
-
-
-/*=========   END ListView Entries.tpl  ==========*/
+}/*=========   END ListView Entries.tpl  ==========*/
 
 
 /*========= Dashboard buttons ========*/
@@ -1062,12 +946,7 @@ th[scope="col"] {
 
 .lds-img img:hover {
     opacity: .7;
-}
-
-
-
-
-/*========= End Dashboard buttons ========*/
+}/*========= End Dashboard buttons ========*/
 
 
 /*===========Related List Data Content===========*/
@@ -1083,17 +962,26 @@ th[scope="col"] {
     font-size: .8rem;
 }
 
+
 /*=======End CustomView.tpl=======*/
 
 
 /*===========END Related List Data Content===========*/
 
+
 /*=======Start Popup UI10=============*/
+
+
 /*@media screen and (max-width: 886px) {*/
-    /*.mediaQuery .slds-input ,
+
+
+/*.mediaQuery .slds-input ,
     .mediaQuery .slds-select {
 
     }*/
+
+
 /*}*/
+
 
 /*=======End Popup UI10=============*/

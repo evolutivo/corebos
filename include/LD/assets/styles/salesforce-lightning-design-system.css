@@ -3973,7 +3973,7 @@ a.slds-button--inverse:focus {
 .slds-select[size],
 .slds-select[multiple] {
     min-height: calc(1.5rem + (1px * 2));
-    height: inherit;
+    height: auto;
 }
 
 .slds-select[size] option,
