@@ -687,12 +687,7 @@
                                                                                         </div>
                                                                                         <div class="slds-card__body slds-card__body--inner">
                                                                                             <div class="actionData">
-                                                                                                    {if $MODULE eq 'Perspectives'}
-                                                                                                        <form action="index.php?module=Perspectives&action=PerspectivesAjax&file=installcmp" method="post">
-                                                                                                            <input type="hidden" name="recordid" value="{$ID}">
-                                                                                                            <input type="submit" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" value="install" name="installcmp">
-                                                                                                        </form>
-                                                                                                    {/if}
+
                                                                                                     {if $MODULE eq 'HelpDesk'}
                                                                                                         {if $CONVERTASFAQ eq 'permitted'}
                                                                                                                     <a class="webMnu"
@@ -704,7 +699,6 @@
                                                                                                                        href="index.php?return_module={$MODULE}&return_action=DetailView&record={$ID}&return_id={$ID}&module={$MODULE}&action=ConvertAsFAQ">
                                                                                                                        {$MOD.LBL_CONVERT_AS_FAQ_BUTTON_LABEL}</a>
                                                                                                         {/if}
-
 
                                                                                                     {elseif $TODO_PERMISSION eq 'true' || $EVENT_PERMISSION eq 'true' || $CONTACT_PERMISSION eq 'true'|| $MODULE eq 'Contacts' || $MODULE eq 'Leads' || ($MODULE eq 'Documents')}
 
@@ -738,7 +732,6 @@
                                                                                                                   
                                                                                                             {/if}
                                                                                                         {/if}
-
                                                                                                         {if $MODULE eq 'Leads'}
                                                                                                             {if $CONVERTLEAD eq 'permitted'}
                                                                                                            
@@ -755,7 +748,12 @@
                                                                                                            
                                                                                                             {/if}
                                                                                                         {/if}
-                                                                                                        
+                                                                                                        {if $MODULE eq 'Perspectives'}
+                                                                                                            <a href="javascript:;" class="webMnu" onClick="composer_install('{$MODULE}','{$ID}');">
+                                                                                                                <img hspace="5" align="absmiddle" border="0" src="themes/images/no_icon.png">
+                                                                                                            </a>
+                                                                                                            <a href="javascript:;" class="webMnu" onClick="composer_install('{$MODULE}','{$ID}');">{$MOD.LBL_CMPINSTALL_BUTTON}</a>
+                                                                                                        {/if}
                                                                                                         <!-- Start: Actions for Documents Module -->
                                                                                                         {if $MODULE eq 'Documents'}
                                                                                                                

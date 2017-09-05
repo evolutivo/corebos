@@ -5362,3 +5362,19 @@ AutocompleteRelation.prototype.multiselect = function () {
 		return this.data.multiselect[ref_module];
 	}
 }
+
+function composer_install(module, record)
+{
+    jQuery.ajax({
+        url: ' index.php?module=Perspectives&action=PerspectivesAjax&file=installcmp',
+        type: 'POST',
+        data: {module_name: module, record_id: record},
+        dataType: 'JSON',
+        error: function (data) {
+            console.log(data);
+        },
+        success: function (response) {
+            window.location.href = "index.php?module=" + response.module + "&action=DetailView&record=" + response.record_id;
+        }
+    });
+}

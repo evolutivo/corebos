@@ -1,6 +1,6 @@
 <?php
 
-/*************************************************************************************************
+/* * ***********************************************************************************************
  * Copyright 2014 Opencubed -- This file is a part of TSOLUCIO coreBOS customizations.
  * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
  * Vizsage Public License (the "License"). You may not use this file except in compliance with the
@@ -12,32 +12,30 @@
  * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the
  * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
- ***********************************************************************************************
+ * **********************************************************************************************
  *  Module       : Perspectives
  *  Version      : 5.4.0
  *  Author       : axhemshahaj
- *************************************************************************************************/
+ * *********************************************************************************************** */
 
-if (isset($_REQUEST['installcmp'])) {
+if (isset($_REQUEST['module_name']) && isset($_REQUEST['record_id'])) {
 
-    $recordid = htmlspecialchars($_POST['recordid']);
+    $recordid = htmlspecialchars($_REQUEST['record_id']);
+    $module = htmlspecialchars($_REQUEST['module_name']);
+
     $filename = getFileNameById($recordid);
     $dir = 'perspectives';
-    $source = realpath(__DIR__ . '/../..') . "/" . $dir . '/' . $filename;
-    $destination = realpath(__DIR__ . '/../..') . "/" . $filename;
-
+    global $root_directory;
+    $source = $root_directory . $dir . '/' . $filename;
+    $destination = $root_directory . $filename;
     //copy filename from dir to root folder 
     copy($source, $destination);
-    $my_url = "http://" . $_SERVER['SERVER_NAME'];
+    //rename files to 'composer.json'
     rename($filename, 'composer.json');
-
-    //$output = shell_exec("/test.php '".$my_url."' '".$my_refer."'");
     //execute command view shell_exec()
     shell_exec($root_directory . ' php composer.phar install ');
-
-    $return_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[SERVER_NAME]" . '/evolutivocore/index.php?module=Perspectives&parenttab=ptab&action=DetailView&record=' . $recordid . '';
-
-    header("Location: {$return_link}");
+    echo json_encode(array('module' => $module, 'record_id' => $recordid));
+    exit();
 }
 
 /**
