@@ -98,15 +98,15 @@
 																						<div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer">
 																							<div class="slds-grid forceActionsContainer">
 																								{if $IS_ADMIN eq 'true' && !$mustChangePassword}
-																									<input type="button" onclick="gotourl('index.php?module=cbLoginHistory&action=ListView&page=1&user_list={$ID}');" value="{$MOD.LBL_VIEW_AUDIT_TRAIL}" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" aria-live="assertive"/>
-																									<input type="button" onclick="VtigerJS_DialogBox.block();window.document.location.href = 'index.php?module=Users&action=UsersAjax&file=CalculatePrivilegeFiles&record={$ID}';" value="{$MOD.LBL_RECALCULATE_BUTTON}" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" aria-live="assertive"/>
+																									<input type="button" onclick="gotourl('index.php?module=cbLoginHistory&action=ListView&page=1&user_list={$ID}');" value="{$MOD.LBL_VIEW_AUDIT_TRAIL}" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" aria-live="assertive"/>&nbsp;
+																									<input type="button" onclick="VtigerJS_DialogBox.block();window.document.location.href = 'index.php?module=Users&action=UsersAjax&file=CalculatePrivilegeFiles&record={$ID}';" value="{$MOD.LBL_RECALCULATE_BUTTON}" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" aria-live="assertive"/>&nbsp;
 																								{/if}
 																								{if $IS_ADMIN eq 'true'}
 																									{$DUPLICATE_BUTTON}
 																								{/if}
 																									{$EDIT_BUTTON}
 																								{if $CATEGORY eq 'Settings' && $ID neq 1 && $ID neq $CURRENT_USERID}
-																									<input type="button" onclick="deleteUser({$ID});" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" aria-live="assertive" value="{$UMOD.LBL_DELETE}"/>
+																									&nbsp;<input type="button" onclick="deleteUser({$ID});" class="slds-button slds-button--neutral not-selected slds-not-selected uiButton" aria-live="assertive" value="{$UMOD.LBL_DELETE}"/>
 																								{/if}
 																							</div>
 																						</div>

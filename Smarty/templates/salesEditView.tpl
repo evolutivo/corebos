@@ -77,7 +77,7 @@
 												{/if}
 												<p class="slds-text-heading--label slds-line-height--reset">{$APP.LBL_EDITING} {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</p>
 												<h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
-													<span class="uiOutputText">[ {$USE_ID_VALUE} ] {$NAME}</span>
+													<span class="uiOutputText"><font color="purple">[ {$USE_ID_VALUE} ]</font>{$NAME}</span>
 													<span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>
 												</h1>
 											{/if}
@@ -104,7 +104,7 @@
 				<tr>
 					<td valign=top align=left >
 						<!-- General details -->
-						<table class="slds-table slds-no-row-hover slds-table-moz dvtContentSpace">
+						<table class="slds-table slds-no-row-hover slds-table-moz dvtContentSpace" ng-controller="editViewng">
 							<!-- Top buttons -->
 							<tr>
 								<td colspan=4 style="padding:5px">
