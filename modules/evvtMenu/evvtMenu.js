@@ -17,14 +17,14 @@
  *************************************************************************************************/
 
 function getMenuInfo(info){
-	$('#evvtmenuid').val(info['evvtmenuid']);
-	$('#mparent').val(info['mparent']);
-	$('#mtype').val(info['mtype']);
-	$('#mlabel').val(info['mlabel']);
+	document.getElementById('evvtmenuid').value = (info['evvtmenuid']);
+	document.getElementById('mparent').value = (info['mparent']);
+	document.getElementById('mtype').value = (info['mtype']);
+	document.getElementById('mlabel').value = (info['mlabel']);
 	document.getElementById("mvisible").checked = (info['mvisible']=='1');
-	if(info.mtype==='module') $('#modname').val(info['mvalue']);
-	if(info.mtype==='url') $('#mvalue').val(info['mvalue']);
-	$('#mpermission').val(info['mpermission'].split(','));
+	if(info.mtype==='module') document.getElementById('modname').value = (info['mvalue']);
+	if(info.mtype==='url') document.getElementById('mvalue').value = (info['mvalue']);
+	document.getElementById('mpermission').value = (info['mpermission'].split(','));
 	showFormParts(info['mtype']);
 }
 
