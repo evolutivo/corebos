@@ -100,7 +100,7 @@ function addConditionRow(groupIndex) {ldelim}
 	node2.setAttribute('class', 'dvtCellLabel');
 	node2.setAttribute('width', '25%');
 
-	node2.innerHTML = '<select name="fop'+columnIndex+'" id="fop'+columnIndex+'" class="repBox slds-select" style="width:100px;" onchange="addRequiredElements('+columnIndex+');">'+FOPTION_ADV+
+	node2.innerHTML = '<select name="fop'+columnIndex+'" id="fop'+columnIndex+'" class="repBox slds-select" style="width:150px;" onchange="addRequiredElements('+columnIndex+');">'+FOPTION_ADV+
 							'<option value="">{'LBL_NONE'|@getTranslatedString:$MODULE}</option>'+
 						'</select>';
 	newNode.appendChild(node2);
@@ -142,7 +142,7 @@ function addConditionRow(groupIndex) {ldelim}
 													'<table width="100%" cellspacing="0" cellpadding="5" border="0" class="layerPopupTransport">'+
 														'<tr>'+
 															'<td width="50%" align="center">'+
-																'<input type="button" style="width: 70px;" value="{$APP.LBL_DONE}" name="button" onclick="hideAllElementsByName(\'relFieldsPopupDiv\');" class="crmbutton small create" accesskey="X" title="{$APP.LBL_DONE}"/>'+
+																'<input type="button" style="width: 70px;" value="{$APP.LBL_DONE}" name="button" onclick="hideAllElementsByName(\'relFieldsPopupDiv\');" class="slds-button slds-button--small slds-button_success" accesskey="X" title="{$APP.LBL_DONE}"/>'+
 															'</td>'+
 														'</tr>'+
 													'</table>'+

@@ -9069,8 +9069,8 @@ a.slds-button--inverse:focus {
     border-top: 1px solid #d8dde6;
 }
 
-.slds-table--bordered tbody tr,
-.slds-table--bordered tbody td,
+/*.slds-table--bordered tbody tr,*/
+/*.slds-table--bordered tbody td,*/
 .slds-table--bordered tbody th {
     border-top: 1px solid #d8dde6;
 }
