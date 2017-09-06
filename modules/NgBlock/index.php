@@ -172,7 +172,7 @@ elseif($kaction=='get_tab'){
 elseif($kaction=='get_elastic_indexes'){
     global $adb;
     $content=array();
-    $ip='193.182.16.34';//GlobalVariable::getVariable('ip_elastic_server', '');//;//$dbconfig['ip_server'];
+    $ip=GlobalVariable::getVariable('ip_elastic_server', '');//;//$dbconfig['ip_server'];
     $endpointUrl = "http://$ip:9200/_cat/indices?v";
     $channel1 = curl_init();
     curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -189,16 +189,16 @@ elseif($kaction=='get_elastic_indexes'){
     $arr_el=array();
     for($i_c=1;$i_c<sizeof($arr);$i_c++) {
         $specific_arr=explode(' ',$arr[$i_c]);
-        if(!empty($specific_arr[4])){
+        if(!empty($specific_arr[5])){
             $res=$adb->pquery("Select  * from
                 vtiger_elastic_indexes 
-                where elasticname=?",array($specific_arr[4]));
-            $arr_el[]=$specific_arr[4];
+                where elasticname=?",array($specific_arr[5]));
+            $arr_el[]=$specific_arr[5];
             if($adb->num_rows($res)==0){
                 $adb->pquery("Insert into 
                           vtiger_elastic_indexes (elasticid,elasticname,status)
                           values(?,?,?)
-                          ",array($i_c,$specific_arr[4],'open'));
+                          ",array($i_c,$specific_arr[5],'open'));
             }           
         }
     }
