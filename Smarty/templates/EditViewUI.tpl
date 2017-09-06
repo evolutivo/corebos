@@ -610,7 +610,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{foreach key=date_value item=time_value from=$fldvalue}
 					{assign var=date_val value="$date_value"}
 				{/foreach}
-				<input name="{$fldname}" tabindex="{$vt_tab}" id="jscal_field_{$fldname}" type="text"  size="16" maxlength="16" value="{$date_val}">
+				<input name="{$fldname}" tabindex="{$vt_tab}" class="slds-input" id="jscal_field_{$fldname}" type="text"  size="16" maxlength="16" value="{$date_val}">
 				<img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}" id="jscal_trigger_{$fldname}" style="width:18px;vertical-align: inherit;">
 
 				{foreach key=date_format item=date_str from=$secondvalue}
