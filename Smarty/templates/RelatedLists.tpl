@@ -121,6 +121,12 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 																<img src="{'vendors_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Vendors" title="Vendors">
 															{elseif $MODULE eq 'Services'}
 																<img src="{'custom_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Services" title="Services">
+															{elseif $MODULE eq 'PurchaseOrder'}
+																<img src="{'purchase_order_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="PurchaseOrder" title="PurchaseOrder">
+															{elseif $MODULE eq 'CobroPago'}
+																<img src="{'payment_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Payment" title="Payment">
+															{elseif $MODULE eq 'Assets'}
+																<img src="{'assets_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Assets" title="Assets">
 															{/if}
 														</span>
 													</div>
@@ -130,7 +136,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 										<div class="slds-media__body">
 											<p class="slds-text-heading--label slds-line-height--reset" style="opacity: 1;">{$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</p>
 											<h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
-											<span class="uiOutputText">[ {$USE_ID_VALUE} ] {$NAME}</span>
+												<span class="uiOutputText"><font color="purple">[ {$USE_ID_VALUE} ] </font>{$NAME}</span>
 												<span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>
 												<span id="vtbusy_info" style="display:none; text-transform: capitalize;" valign="bottom">
 													<img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">

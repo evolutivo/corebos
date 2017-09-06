@@ -27,7 +27,7 @@ select:-moz-focusring {
     margin-bottom: 0;
     width: 100%;
     resize: vertical;
-    min-height: 26px;
+    min-height: 35px;
 }
 
 .editable-wrap .editable-input {
@@ -88,6 +88,7 @@ a.editable-click {
     word-wrap: break-word;
     white-space: normal;
     padding: 3px 0 0 0;
+    line-height: initial;
 }
 
 .editable-click:hover,
