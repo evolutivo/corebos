@@ -67,6 +67,12 @@
 																<img src="{'payment_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Payment" title="Payment">
 															{elseif $MODULE eq 'Assets'}
 																<img src="{'assets_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Assets" title="Assets">
+															{elseif $MODULE eq 'ModComments'}
+																<img src="{'quick_text_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Comments" title="Comments">
+															{elseif $MODULE eq 'GlobalVariable'}
+																<img src="{'global_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="GlobalVariable" title="GlobalVariable">
+															{elseif $MODULE eq 'HelpDesk'}
+																<img src="{'help_desk_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="HelpDesk" title="HelpDesk">
 															{/if}
 														</span>
 													</div>
@@ -81,7 +87,7 @@
 												{/if}
 												<p class="slds-text-heading--label slds-line-height--reset">{$APP.LBL_EDITING} {$SINGLE_MOD|@getTranslatedString:$MODULE} {$APP.LBL_INFORMATION}</p>
 												<h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
-													<span class="uiOutputText"><font color="purple">[ {$USE_ID_VALUE} ]</font>{$NAME}</span>
+													<span class="uiOutputText"><font color="purple">[ {$USE_ID_VALUE} ]</font> {$NAME}</span>
 													<span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>
 												</h1>
 											{/if}
