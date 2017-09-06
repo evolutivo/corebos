@@ -234,6 +234,12 @@
 																			<img src="{'payment_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Payment" title="Payment">
 																		{elseif $MODULE eq 'Assets'}
 																			<img src="{'assets_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Assets" title="Assets">
+																		{elseif $MODULE eq 'ProjectMilestone'}
+																			<img src="{'project_milestone_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="ProjectMilestone" title="ProjectMilestone">
+																		{elseif $MODULE eq 'ProjectTask'}
+																			<img src="{'project_tasks_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="ProjectTask" title="ProjectTask">
+																		{elseif $MODULE eq 'Project'}
+																			<img src="{'project_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Project" title="Project">
 																		{/if}
 																	</span>
 																</div>
@@ -245,7 +251,7 @@
 														<h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle">
 														<span class="uiOutputText"><font color="purple">[ {$USE_ID_VALUE} ]</font> {$NAME}</span>
 															<span class="small" style="text-transform: capitalize;">{$UPDATEINFO}</span>
-															<span id="vtbusy_info" style="display:none; text-transform: capitalize;" valign="bottom">
+															<span class="small" id="vtbusy_info" style="display:none; text-transform: capitalize;" >
 																<img src="{'vtbusy.gif'|@vtiger_imageurl:$THEME}" border="0">
 															</span>
 														</h1>

@@ -73,6 +73,16 @@
 																<img src="{'global_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="GlobalVariable" title="GlobalVariable">
 															{elseif $MODULE eq 'HelpDesk'}
 																<img src="{'help_desk_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="HelpDesk" title="HelpDesk">
+															{elseif $MODULE eq 'Faq'}
+																<img src="{'faq_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Faq" title="Faq">
+															{elseif $MODULE eq 'ServiceContracts'}
+																<img src="{'service_contract_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="ServiceContracts" title="ServiceContracts">
+															{elseif $MODULE eq 'ProjectMilestone'}
+																<img src="{'project_milestone_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="ProjectMilestone" title="ProjectMilestone">
+															{elseif $MODULE eq 'ProjectTask'}
+																<img src="{'project_tasks_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="ProjectTask" title="ProjectTask">
+															{elseif $MODULE eq 'Project'}
+																<img src="{'project_120.png'|@vtiger_imageurl:$THEME}" class="icon " alt="Project" title="Project">
 															{/if}
 														</span>
 													</div>

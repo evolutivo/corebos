@@ -260,7 +260,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
 			<td ng-show ="show_logic('{$fldname}')" width="30%" align=left class="dvtCellInfo">
-				<select multiple="" name="{$fldname}[]" id="{$fldname}" size="4" tabindex="{$vt_tab}" class="small slds-select">
+				<select multiple="" name="{$fldname}[]" id="{$fldname}" size="4" tabindex="{$vt_tab}" class="small slds-select" style="height: auto;">
 				{foreach item=arr from=$fldvalue}
 					<option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
 				{/foreach}
@@ -721,7 +721,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{$arr[0]}
 				</option>
 				{/foreach}
-			</select>
+			</select><br/>
 			{if $MASS_EDIT eq '1'}<br />{/if}
 			{/if}
 			<input type="text" name="{$fldname}" tabindex="{$vt_tab}" class="slds-input"  style="width:58%;" value= "{$secondvalue}" >
@@ -798,8 +798,8 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				{/if}
 				<div id="displaySize"></div>
 				</div>
-				<div style="width:50px;height:50px;overflow: hidden;">
-					<canvas style="border:1px solid grey;" id="{$fldname}_canvas" tabindex="{$vt_tab}1}"></canvas>
+				<div style="width:50px;height:50px;overflow: hidden;border:1px solid grey;">
+					<canvas id="{$fldname}_canvas" tabindex="{$vt_tab}1}"></canvas>
 					<input name="{$fldname}_canvas_image" id="{$fldname}_canvas_image" type="hidden" value="" />
 					<input name="{$fldname}_canvas_image_set" id="{$fldname}_canvas_image_set" type="hidden" value="0" />
 					<script>var {$fldname}_CLIPBOARD = new CLIPBOARD_CLASS("{$fldname}_canvas", true);</script>

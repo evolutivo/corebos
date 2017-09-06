@@ -265,8 +265,7 @@
 		<span id="dtlview_{$keyfldname}"><a href="skype:{$keyval}?call" onclick="event.stopPropagation();"><img src="{'skype.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SKYPE}" title="{$APP.LBL_SKYPE}"	align="absmiddle"/> {$keyval}</a></span>
 		<div id="editarea_{$keyfldname}" style="display:none;">
 			<input class="slds-input"	type="text" id="txtbox_{$keyfldname}" name="{$keyfldname}" maxlength='100' value="{$keyval}"/>
-			<br><input name="button_{$keyfldname}" type="button" class="slds-button slds-button_success slds-button_small save" style="font-size:11px;" 
-						 value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();" /> 
+			<br><input name="button_{$keyfldname}" type="button" class="slds-button slds-button_success slds-button--x-small" value="{$APP.LBL_SAVE_LABEL}" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();" /> 
 				<!--{* {$APP.LBL_OR} *}-->
 			<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="link slds-button slds-button--destructive slds-button--x-small">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 		</div>
