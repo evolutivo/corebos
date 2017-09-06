@@ -134,7 +134,7 @@ class NgBlock {
             $entries=Array();
             $tabid=  getTabid('Adocdetail');
             global $dbconfig;
-            $ip='193.182.16.34';//GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
+            $ip=GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
             $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
         //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
             $channel1 = curl_init();
