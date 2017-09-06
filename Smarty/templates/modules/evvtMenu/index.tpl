@@ -121,6 +121,7 @@
               <div class="slds-form-element__control">
                   <div class="slds-select_container">
                       <select name="mparent" id="mparent" class="slds-select">
+                            <option value="0" selected>--none--</option>
                           {foreach item=details key=k from=$PARENTS}
                               <option value="{$k}">{$details}</option>
                           {/foreach}
