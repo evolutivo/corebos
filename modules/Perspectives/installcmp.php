@@ -28,13 +28,14 @@ if (isset($_REQUEST['module_name']) && isset($_REQUEST['record_id'])) {
     global $root_directory;
     $source = $root_directory . $dir . '/' . $filename;
     $destination = $root_directory . $newfilename;
-    
+
     //read and write to file.
     $contents = readaFile($source);
     writeFile($destination, $contents);
-    
+
     //execute command via shell_exec()
-    shell_exec($root_directory . ' php composer.phar install ');
+    //$output = shell_exec('composer install 2>&1; echo $?');
+    shell_exec('composer install 2>&1');
     echo json_encode(array('module' => $module, 'record_id' => $recordid));
     exit();
 }
@@ -44,38 +45,40 @@ if (isset($_REQUEST['module_name']) && isset($_REQUEST['record_id'])) {
  * @param type $file
  * @return string
  */
-function readaFile($file){
+function readaFile($file) {
     $contents = "";
     $openfile = fopen($file, 'r') or die("can't open file");
     //check if opened file is empty[No data]
-    if(filesize($file) != 0){
-        while(!feof($openfile)){
+    if (filesize($file) != 0) {
+        while (!feof($openfile)) {
             $contents .= fgets($openfile);
         }
         fclose($openfile);
-    }else{
+    } else {
         echo 'File has no Data to read';
     }
     return $contents;
 }
+
 /**
  *
  * @param string $destination
  * @param string $contents
  * @return string message if file is created or nor.
  */
-function writeFile($destination,$contents){
+function writeFile($destination, $contents) {
     $output = "";
-    if($contents != ""){
+    if ($contents != "") {
         $composer = fopen($destination, 'w') or die("can't open file");
-        fwrite($composer,$contents);
+        fwrite($composer, $contents);
         fclose($composer);
         $output .= 'Composer.json crated succesfully';
-    }else{
+    } else {
         $output .= "Can not crate composer.json file";
     }
     return $output;
 }
+
 /**
  *
  * @global type $adb
@@ -93,4 +96,3 @@ function getFileNameById($recordId) {
         return NULL;
     }
 }
-
