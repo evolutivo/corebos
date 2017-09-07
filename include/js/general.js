@@ -5378,6 +5378,7 @@ function composer_install(module, record)
             console.log(data);
         },
         success: function (response) {
+            alert('Composer installed successfully');
             window.location.href = "index.php?module=" + response.module + "&action=DetailView&record=" + response.record_id;
         }
     });
