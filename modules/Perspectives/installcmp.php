@@ -35,7 +35,9 @@ if (isset($_REQUEST['module_name']) && isset($_REQUEST['record_id'])) {
 
     //execute command via shell_exec()
     //$output = shell_exec('composer install 2>&1; echo $?');
-    shell_exec('composer install 2>&1');
+    putenv('HOME=/root');
+    shell_exec("composer install 2>&1");
+    shell_exec("composer update 2>&1");
     echo json_encode(array('module' => $module, 'record_id' => $recordid));
     exit();
 }
