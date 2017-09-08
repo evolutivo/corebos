@@ -605,12 +605,6 @@
 																		</div>
 																		{/if}
 																	{/if}
-                                                                                                                                        {if $MODULE eq 'Perspectives'}
-                                                                                                                                            <a href="javascript:;" class="webMnu" onClick="composer_install('{$MODULE}','{$ID}');">
-                                                                                                                                                <img hspace="5" align="absmiddle" border="0" src="themes/images/no_icon.png">
-                                                                                                                                            </a>
-                                                                                                                                            <a href="javascript:;" class="webMnu" onClick="composer_install('{$MODULE}','{$ID}');">{$MOD.LBL_CMPINSTALL_BUTTON}</a>
-                                                                                                                                        {/if}
 																	<!-- Start: Actions for Documents Module -->
 																	{if $MODULE eq 'Documents'}
 																		{if $DLD_TYPE eq 'I' && $FILE_STATUS eq '1' && $FILE_EXIST eq 'yes'}
