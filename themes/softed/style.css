@@ -414,7 +414,7 @@ a:hover {
 	color: #000000;
 }
 
-td span {
+td span:not(.search-dropdown) {
     word-wrap: break-word;
     white-space: normal;
 }
@@ -1734,7 +1734,7 @@ datatable stats {
 	overflow: scroll;
 	resize: both;
 	display: none;
-	z-index:10000001;
+	z-index:10000;
 	background-color:#ddd;
 	background-image:url(images/layerPopupBg.gif) ;
 	border:2px solid #000000;
@@ -2176,7 +2176,7 @@ textarea {
 }
 
 .layerHeadingULine {
-	border-bottom:1px solid #717351;
+	border-bottom: 1px solid #d8dde6;
 }
 
 .layerPopupTransport {
@@ -2243,7 +2243,7 @@ a.customMnuSelected{
 
 /* Drop Down Menu */
 a.drop_down{
-	width:155px;
+	width:150px;
 	text-align:left;
 	font-family:  Arial, Helvetica, sans-serif;
 	font-size: 11px;
@@ -2865,9 +2865,12 @@ a.allMnu:Hover{
 	background-color:#eef;
 	color:#333;
 }
-#search{
+#search1{
 	border:3px solid #4E8DCC;
 	background-color:#ffffef;
+	width :50%;
+}
+#search1{
 	width :50%;
 }
 .drop_mnu_user{
@@ -2978,12 +2981,6 @@ a.allMnu:Hover{
 	background-color: #dff0d8;
 	border-color: #d6e9c6;
 	color: #3c763d;
-}
-
-#LB_TaskIcon img {
-	background-color: #4bc076;
-	width: 28px;
-	border-radius: 4px;
 }
 
 .detailview_utils_table_top, .detailview_utils_table_bottom {
