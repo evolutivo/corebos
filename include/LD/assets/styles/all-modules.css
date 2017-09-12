@@ -17,6 +17,10 @@
     cursor: pointer;
 }
 
+#cbmenu {
+    margin: 0;
+}
+
 /*========    Search    ==========*/
 .slds-pill__remove img{
     width: 16px;
@@ -503,15 +507,6 @@ article.container::after {
 }
 
 
-
-
-
-
-
-
-
-
-
 /*=========  END DETAIL VIEW ---BODY---  ==========*/
 
 
@@ -583,13 +578,6 @@ article.container::after {
 .customLinkModule img {
     background-color: #6dc066;
 }
-
-
-
-
-
-
-
 
 
 
@@ -680,19 +668,6 @@ tr td.table-aside>.detailview_actionlinks {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
 - * Creates a green button style
 - *
@@ -713,19 +688,6 @@ tr td.table-aside>.detailview_actionlinks {
     color: #fff;
     font-weight: bold;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*.slds-button_success:link,
@@ -922,14 +884,9 @@ select:-moz-focusring {
 }
 
 
-
-
-
-
-
-
-
-
+.globalVariableRow td {
+    white-space: normal!important;
+}
 
 
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
