@@ -116,7 +116,7 @@ if(isset($langid) && $langid !='' && $pmodule!='' ){
 			}
 			fwrite($fd, ');'.$line_break.'?>');
 			fclose($fd);
-			$dbQuery='UPDATE vtiger_language SET lastupdated=? WHERE languageid=?';
+			$dbQuery='UPDATE vtiger_language SET lastupdated=? WHERE id=?';
 			$result = $adb->pquery($dbQuery,array($now,$langid));
 		}
 	  } elseif($pmodule=='JavaScript') {
@@ -144,7 +144,7 @@ if(isset($langid) && $langid !='' && $pmodule!='' ){
 			}
 			fwrite($fd,$line_break.'};');
 			fclose($fd);
-			$dbQuery='UPDATE vtiger_language SET lastupdated=? WHERE languageid=?';
+			$dbQuery='UPDATE vtiger_language SET lastupdated=? WHERE id=?';
 			$result = $adb->pquery($dbQuery,array($now,$langid));
 		}
 	  } else {
@@ -189,7 +189,7 @@ if(isset($langid) && $langid !='' && $pmodule!='' ){
 			}
 			fwrite($fd,');'.$line_break.'?>');
 			fclose($fd);
-			$dbQuery='UPDATE vtiger_language SET lastupdated=? WHERE languageid=?';
+			$dbQuery='UPDATE vtiger_language SET lastupdated=? WHERE id=?';
 			$result = $adb->pquery($dbQuery,array($now,$langid));
 		  }
 		}  // if no language prefix
