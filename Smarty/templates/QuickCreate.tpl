@@ -15,7 +15,7 @@
 <td>
 	<table border="0" cellspacing="0" cellpadding="0" width="100%" class='small' style="cursor: move;">
 	<tr>
-		<td width="90%" class="mailSubHeader" background="{'qcBg.gif'|@vtiger_imageurl:$THEME}"><b >{$APP.LBL_CREATE_BUTTON_LABEL} {$QCMODULE}</b></td>
+		<td width="90%" class="mailSubHeader"><b>{$APP.LBL_CREATE_BUTTON_LABEL} {$QCMODULE}</b></td>
 		<td nowrap class="mailSubHeader moduleName" align=right><i>{$APP.LBL_QUICK_CREATE}</i></td></tr>
 	</table>
 
@@ -37,8 +37,8 @@
 		<!-- save cancel buttons -->
 		<table border="0" cellspacing="0" cellpadding="5" width="100%" class=qcTransport>
 			<tr>
-				<td width="50%" align="right"><input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="crmbutton small save" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  "></td>
-				<td width="50%" align="left"><input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="crmbutton small cancel" onclick="hide('{if $FROM eq 'popup'}qcformpop{else}qcform{/if}');" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  "></td>
+				<td width="50%" align="right"><input title="{$APP.LBL_SAVE_BUTTON_TITLE}" accessKey="{$APP.LBL_SAVE_BUTTON_KEY}" class="slds-button slds-button_success slds-button--small" type="submit" name="button" value="  {$APP.LBL_SAVE_BUTTON_LABEL}  "></td>
+				<td width="50%" align="left"><input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="slds-button slds-button--destructive slds-button--small" onclick="hide('{if $FROM eq 'popup'}qcformpop{else}qcform{/if}');" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  "></td>
 			</tr>
 		</table>
 
