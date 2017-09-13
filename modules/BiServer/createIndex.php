@@ -21,8 +21,8 @@ if($mvtype == "report"){
   $pref = GlobalVariable::getVariable('ip_elastic_indexprefix', '');
   $index = $pref."_".$reportId."_".$tab;
   echo "INDEXNAME=".$index;
-  $endpointUrl = "http://$ip:9200/$index/denorm/_mapping";
-  $channel = curl_init();
+ $endpointUrl = "http://$ip:9200/$index/denorm/_mapping";
+ $channel = curl_init();
    $handler = createBiServerScript("script_report_denorm_".$tab,"INDEXES");
    $data = "<?php \r\n";
    $data .= 'include_once("include/utils/CommonUtils.php");';
@@ -417,9 +417,9 @@ function getRoles($id) {
             curl_setopt($channel, CURLOPT_TIMEOUT, 1000);
             $response = json_decode(curl_exec($channel));
         }
-        else
+       else
         {
-        if($actionTodo == "createindex"){
+          if($actionTodo == "createindex"){
         $fields1=array("mappings"=>array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'),"denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));
         $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']")));';
         $endpointUrl = "http://$ip:9200/$index";
@@ -450,7 +450,7 @@ function getRoles($id) {
         curl_setopt($channel, CURLOPT_TIMEOUT, 1000);
         $response = json_decode(curl_exec($channel));
         }
-        }
+      }
       //CREATE BISERVER SCRIPT
 
       $data .= "\r\n".$writeFields1 ;
@@ -531,38 +531,87 @@ function getRoles($id) {
 
            }
 
+           $all[]=$data;
+           $bulkSize=1000;
+           if(!function_exists('jsonData')){
+               function jsonData($dataarray){
+                   $in[0]='{"index":{}}';
+                   $json=json_encode($dataarray);
+                   $json_nlines1=str_replace('\n','',$json);
+                   $json_rep=str_replace('},','}\n',$json_nlines1);
+                   $json_rep1=str_replace('\r','',$json_rep);
+                   $json_rep2=str_replace('\"}\n','\"},',$json_rep1);
+                   $finJson=substr($json_rep2, 1, -1);
+                   $json_array=explode('\n',$finJson);
+                   $no=count($json_array);
+                   for($z=0;$z<$no;$z++){
+                       array_splice($json_array,2*$z,0,$in);
+                   }
+                   $json_array[(2*$no)]='\n';
+                   $JSON=join("\n",$json_array);
+
+              return $JSON;
+              }
+           }
 
 
+if(($i+1)%$bulkSize==0){
 
-        if($actionTodo == "createindex"){
-        $endpointUrl2 = "http://$ip:9200/$index/norm";
+    if($actionTodo == "createindex"){
+        $endpointUrl2 = "http://$ip:9200/$index/norm/_bulk?pretty";
+      } else {
+            $endpointUrl2 = "http://$ip:9200/$index/denorm/_bulk?pretty";
+      }
+
+        $bulkdata=jsonData($all);
+
         $channel11 = curl_init();
         //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
         curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($channel11, CURLOPT_POST, true);
-        //curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
-        curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
-        $response2 = curl_exec($channel11);
-        }
-
-        $endpointUrl2 = "http://$ip:9200/$index/denorm";
-        $channel11 = curl_init();
-        //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
-        curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($channel11, CURLOPT_POST, true);
-        //curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($channel11, CURLOPT_POSTFIELDS,$bulkdata);
         curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
         curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
         curl_setopt($channel11, CURLOPT_VERBOSE, true);
         $response2 = curl_exec($channel11);
-        echo ($response2);
+        //echo ($response2);
+        $all=array();
+    }
+    if($i==$adb->num_rows($fields1)-1){
+      $x=($adb->num_rows($fields1)-1)%$bulkSize;
+      if($x==0){
+        //do nothing
+      } else {
+        $bulkdata=jsonData($all);
+
+      }
+
+      if($actionTodo == "createindex"){
+      $endpointUrl2 = "http://$ip:9200/$index/norm/_bulk?pretty";
+      } else {
+        $endpointUrl2 = "http://$ip:9200/$index/denorm/_bulk?pretty";
+    }
+      $channel11 = curl_init();
+      //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($channel11, CURLOPT_URL, $endpointUrl2);
+      curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($channel11, CURLOPT_POST, true);
+      curl_setopt($channel11, CURLOPT_CUSTOMREQUEST, "PUT");
+      curl_setopt($channel11, CURLOPT_POSTFIELDS,$bulkdata);
+      curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);
+      curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
+      curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
+      curl_setopt($channel11, CURLOPT_VERBOSE, true);
+      $response2 = curl_exec($channel11);
+      //echo ($response2);
+
+    }
+
+
+
         }
         insertElasticIndex($index,$lanbelsToInsert,$typreofindex);
         if($actionTodo == "createindex"){
@@ -579,7 +628,7 @@ function getRoles($id) {
           //Update Elastic Mapping
       }
   }
- }
+}
  function getColumnname($fieldid,$colname=null,$tablename=null)
  {
      global $adb;
@@ -753,4 +802,3 @@ $focus1=new ReportRun('.$sql.');
     $data .="\n\r".'}';
     return $data;
   }
-?>
