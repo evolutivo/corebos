@@ -23,7 +23,7 @@
 	<tr>
 		<td>
 			<!-- quick create UI starts -->
-			<table border="0" cellspacing="0" cellpadding="5" width="100%" class="small" bgcolor="white" >
+			<table border="0" cellspacing="0" cellpadding="5" width="100%" class="small quickCreateTable" bgcolor="white" >
 			{assign var="fromlink" value="qcreate"}
 			{foreach item=subdata from=$QUICKCREATE}
 				<tr>

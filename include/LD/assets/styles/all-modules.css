@@ -21,6 +21,10 @@
     margin: 0;
 }
 
+.quickCreateTable tr .dvtCellInfo .slds-select {
+    width: 75%;
+}
+
 /*========    Search    ==========*/
 .slds-pill__remove img{
     width: 16px;
