@@ -961,4 +961,19 @@ function vtws_getWebserviceDefaultLanguage() {
 	return $default_language;
 }
 
+function vtws_callCelery($operation, $data) {
+    $fields =array('operation'=>$operation, "data" => $data);
+    $url = GlobalVariable::getVariable('celery_url','');
+    $channel = curl_init();
+    curl_setopt($channel, CURLOPT_URL, $url);
+    curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($channel, CURLOPT_POST, true);
+    curl_setopt($channel, CURLOPT_POSTFIELDS, $fields);
+    curl_setopt($channel, CURLOPT_CONNECTTIMEOUT, 100);
+    curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($channel, CURLOPT_TIMEOUT, 1000);
+    $response = curl_exec($channel);
+    return json_decode($response,true);
+}
+
 ?>
