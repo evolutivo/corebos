@@ -85,6 +85,8 @@ class DefineGlobalVariables extends cbupdaterWorker {
 
 				'CronTasks_cronWatcher_mailto',
 
+                                'celery_url',
+                            
 				'BusinessMapping_SalesOrder2Invoice',
 				'BusinessMapping_PotentialOnCampaignRelation',
 				'BusinessMapping_Quotes2Invoice',
