@@ -18,46 +18,45 @@
  *************************************************************************************************/
 -->*}
 <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
+
 {strip}
-<td class="detailViewContainer" valign="top">
-	<div class="forceRelatedListSingleContainer">
-		<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
-			<div class="slds-card__header slds-grid">
-				<header class="slds-media slds-media--center slds-has-flexi-truncate">
-					<div class="slds-media__figure">
-						<div class="extraSmall forceEntityIcon">
-							<span class="uiImage">
-								<a href="javascript:showHideStatus('tbl{$NG_BLOCK_NAME|replace:' ':''}','aid{$NG_BLOCK_NAME|replace:' ':''}','{$IMAGE_PATH}');">
-									{if $OPENED eq 1}
-										<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevrondown_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Display" title="Display"/>
-									{else}
-										<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevronright_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Hide" title="Hide"/>
-									{/if}
-								</a>
-							</span>
-						</div>
-					</div>
-					<div class="slds-media__body">
-						<h2>
-							<span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="{$header}">
-								<b>{$NG_BLOCK_NAME}</b>
-							</span>
-						</h2>
-					</div>
-				</header>
-				<div class="slds-no-flex">
-					<div class="actionsContainer mapButton">
-						{if $NG_BLOCK_NAME eq $MOD.LBL_ADDRESS_INFORMATION && ($MODULE eq 'Accounts') }
-							{if $MODULE eq 'Leads'}
-								<input name="mapbutton" value="{$APP.LBL_LOCATE_MAP}" class="slds-button slds-button--small slds-button_success" type="button" onClick="searchMapLocation( 'Main' )" title="{$APP.LBL_LOCATE_MAP}">
-							{/if}
-						{/if}
+<div class="forceRelatedListSingleContainer">
+	<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
+		<div class="slds-card__header slds-grid">
+			<header class="slds-media slds-media--center slds-has-flexi-truncate">
+				<div class="slds-media__figure">
+					<div class="extraSmall forceEntityIcon">
+						<span class="uiImage">
+							<a href="javascript:showHideStatus('tbl{$NG_BLOCK_NAME|replace:' ':''}','aid{$NG_BLOCK_NAME|replace:' ':''}','{$IMAGE_PATH}');">
+								{if $OPENED eq 1}
+									<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevrondown_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Display" title="Display"/>
+								{else}
+									<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevronright_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Hide" title="Hide"/>
+								{/if}
+							</a>
+						</span>
 					</div>
 				</div>
+				<div class="slds-media__body">
+					<h2>
+						<span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="{$header}">
+							<b>{$NG_BLOCK_NAME}</b>
+						</span>
+					</h2>
+				</div>
+			</header>
+			<div class="slds-no-flex">
+				<div class="actionsContainer mapButton">
+					{if $NG_BLOCK_NAME eq $MOD.LBL_ADDRESS_INFORMATION && ($MODULE eq 'Accounts') }
+						{if $MODULE eq 'Leads'}
+							<input name="mapbutton" value="{$APP.LBL_LOCATE_MAP}" class="slds-button slds-button--small slds-button_success" type="button" onClick="searchMapLocation( 'Main' )" title="{$APP.LBL_LOCATE_MAP}">
+						{/if}
+					{/if}
+				</div>
 			</div>
-		</article>
-	</div>
-</td>
+		</div>
+	</article>
+</div>
 {/strip}
 
 {if $OPENED eq 1}
