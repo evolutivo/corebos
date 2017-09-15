@@ -17,7 +17,7 @@
 		<td>&nbsp;</td>
 		<td class="dvtCellLabel" width=25%><span>{'LBL_FILE_TYPE'|@getTranslatedString:$MODULE}</span></td>
 		<td class="dvtCellInfo" width=50%>
-			<select name="type" id="type" class="small" onchange="ImportJs.handleFileTypeChange();">
+			<select name="type" id="type" class="slds-select" onchange="ImportJs.handleFileTypeChange();">
 				{foreach item=_FILE_TYPE from=$SUPPORTED_FILE_TYPES}
 				<option value="{$_FILE_TYPE}">{$_FILE_TYPE|@getTranslatedString:$MODULE}</option>
 				{/foreach}
@@ -28,7 +28,7 @@
 		<td>&nbsp;</td>
 		<td class="dvtCellLabel" width=25%><span>{'LBL_CHARACTER_ENCODING'|@getTranslatedString:$MODULE}</span></td>
 		<td class="dvtCellInfo" width=50%>
-			<select name="file_encoding" id="file_encoding" class="small">
+			<select name="file_encoding" id="file_encoding" class="slds-select">
 				{foreach key=_FILE_ENCODING item=_FILE_ENCODING_LABEL from=$SUPPORTED_FILE_ENCODING}
 				<option value="{$_FILE_ENCODING}">{$_FILE_ENCODING_LABEL|@getTranslatedString:$MODULE}</option>
 				{/foreach}
@@ -39,7 +39,7 @@
 		<td>&nbsp;</td>
 		<td class="dvtCellLabel" width=25%><span>{'LBL_DELIMITER'|@getTranslatedString:$MODULE}</span></td>
 		<td class="dvtCellInfo" width=50%>
-			<select name="delimiter" id="delimiter" class="small">
+			<select name="delimiter" id="delimiter" class="slds-select">
 				{foreach key=_DELIMITER item=_DELIMITER_LABEL from=$SUPPORTED_DELIMITERS}
 				<option value="{$_DELIMITER}">{$_DELIMITER_LABEL|@getTranslatedString:$MODULE}</option>
 				{/foreach}
