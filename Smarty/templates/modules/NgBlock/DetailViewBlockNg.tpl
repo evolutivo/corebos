@@ -18,45 +18,44 @@
  *************************************************************************************************/
 -->*}
 <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
-
 {strip}
-<div class="forceRelatedListSingleContainer">
-	<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
-		<div class="slds-card__header slds-grid">
-			<header class="slds-media slds-media--center slds-has-flexi-truncate">
-				<div class="slds-media__figure">
-					<div class="extraSmall forceEntityIcon">
-						<span class="uiImage">
-							<a href="javascript:showHideStatus('tbl{$NG_BLOCK_NAME|replace:' ':''}','aid{$NG_BLOCK_NAME|replace:' ':''}','{$IMAGE_PATH}');">
-								{if $OPENED eq 1}
-									<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevrondown_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Display" title="Display"/>
-								{else}
-									<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevronright_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Hide" title="Hide"/>
-								{/if}
-							</a>
-						</span>
+	<div class="forceRelatedListSingleContainer">
+		<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
+			<div class="slds-card__header slds-grid">
+				<header class="slds-media slds-media--center slds-has-flexi-truncate">
+					<div class="slds-media__figure">
+						<div class="extraSmall forceEntityIcon">
+							<span class="uiImage">
+								<a href="javascript:showHideStatus('tbl{$NG_BLOCK_NAME|replace:' ':''}','aid{$NG_BLOCK_NAME|replace:' ':''}','{$IMAGE_PATH}');">
+									{if $OPENED eq 1}
+										<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevrondown_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Display" title="Display"/>
+									{else}
+										<img id="aid{$NG_BLOCK_NAME|replace:' ':''}" src="{'chevronright_60.png'|@vtiger_imageurl:$THEME}" width="16" alt="Hide" title="Hide"/>
+									{/if}
+								</a>
+							</span>
+						</div>
+					</div>
+					<div class="slds-media__body">
+						<h2>
+							<span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="{$header}">
+								<b>{$NG_BLOCK_NAME}</b>
+							</span>
+						</h2>
+					</div>
+				</header>
+				<div class="slds-no-flex">
+					<div class="actionsContainer mapButton">
+						{if $NG_BLOCK_NAME eq $MOD.LBL_ADDRESS_INFORMATION && ($MODULE eq 'Accounts') }
+							{if $MODULE eq 'Leads'}
+								<input name="mapbutton" value="{$APP.LBL_LOCATE_MAP}" class="slds-button slds-button--small slds-button_success" type="button" onClick="searchMapLocation( 'Main' )" title="{$APP.LBL_LOCATE_MAP}">
+							{/if}
+						{/if}
 					</div>
 				</div>
-				<div class="slds-media__body">
-					<h2>
-						<span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="{$header}">
-							<b>{$NG_BLOCK_NAME}</b>
-						</span>
-					</h2>
-				</div>
-			</header>
-			<div class="slds-no-flex">
-				<div class="actionsContainer mapButton">
-					{if $NG_BLOCK_NAME eq $MOD.LBL_ADDRESS_INFORMATION && ($MODULE eq 'Accounts') }
-						{if $MODULE eq 'Leads'}
-							<input name="mapbutton" value="{$APP.LBL_LOCATE_MAP}" class="slds-button slds-button--small slds-button_success" type="button" onClick="searchMapLocation( 'Main' )" title="{$APP.LBL_LOCATE_MAP}">
-						{/if}
-					{/if}
-				</div>
 			</div>
-		</div>
-	</article>
-</div>
+		</article>
+	</div>
 {/strip}
 
 {if $OPENED eq 1}
@@ -65,83 +64,83 @@
 	<div class="slds-truncate" style="display:none;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
 {/if}
 
-<table border=0 cellspacing=0 cellpadding=0 width="100%" class="small">
-	<tr>
-		<td>
-			<table ng-controller="block_{$NG_BLOCK_ID}"  ng-table="tableParams" class="table table-bordered table-responsive">
-			{if $ADD_RECORD eq 1 }
-			<tr class="dvtCellLabel">
-				{math equation="x" x=$FIELD_LABEL|@count assign="nr_col"} 
+		<table border=0 cellspacing=0 cellpadding=0 width="100%" class="small">
+			<tr>
 				<td>
-					<img width="20" height="20" ng-click="open(user,'create')" src="themes/softed/images/btnL3Add.gif" />
-					{if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
-						<a ng-click="open(user,'create')">{'Crea Nota'|@getTranslatedString:'Crea Nota'}</a> 
-					{else}
-						<a ng-click="open(user,'create')">{'Add New'|@getTranslatedString:'Add New'} {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
-					{/if}
-				</td> 
-				<td colspan="{$nr_col}">
-					<a ng-click="open(user,'choose')">{'Choose'|@getTranslatedString:'Choose'} {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
-				</td>
-			</tr>
-			{/if}
-			<tr class="dvtCellLabel">
-				{foreach key=index item=fieldlabel from=$FIELD_LABEL} 
-					{if $COLUMN_NAME_LIST.$index eq true} 
-					<td> <b>{$fieldlabel}</b> </td> 
-					{/if}
-				{/foreach} 
-				<td> </td> 
-			</tr>
-			<tr ng-repeat="user in $data"  class="dvtCellInfo">
-				{foreach key=index item=fieldname from=$COLUMN_NAME} 
-				 {if $COLUMN_NAME_LIST.$index eq true}  
-					  {if $index eq 0}
-						  <td >
-							 <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}_display{literal}}}{/literal}</a>
-						  </td> 
-					  {else}
-						  <td > 
-							  {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
-								  <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
-							  {elseif in_array($FIELD_UITYPE.$index,array(5,6,23,26,53,56) )}
-								  <div ng-bind-html="user.{$fieldname}_display"></div> 
-							  {elseif in_array($FIELD_UITYPE.$index,array(69,105,28) )}
-								  <a ng-click="downloadfile(user.preview)"><b>{literal}{{{/literal}user.{$fieldname}{literal}}}{/literal}</b></a>
-							  {else}
-								  <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
-							  {/if}
-						  </td>
-					  {/if}
-				 {/if} 
-				{/foreach} 
-				<td  width="80" >
-				<table> 
-					  <tr>
-						  {if $EDIT_RECORD eq 1}
-						  <td>
-							  <img ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'edit')" src="themes/images/editfield.gif" /> 
-						  </td>
-						  {/if}
-						  {if $DELETE_RECORD eq 1}
-						  <td>
-							  <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record(user)" src="themes/images/delete.gif" />
-						  </td> 
-						  {/if}
-						  {foreach key=count_i item=block_id from=$SUB_NG} 
+					<table ng-controller="block_{$NG_BLOCK_ID}"  ng-table="tableParams" class="table table-bordered table-responsive">
+						{if $ADD_RECORD eq 1 }
+							<tr class="dvtCellLabel text-left">
+								{math equation="x" x=$FIELD_LABEL|@count assign="nr_col"} 
 								<td>
-									<img width="20" height="20" ng-click="show_sub_ng_block(user,'{$block_id}')" src="themes/images/quickview.png" />
+									<img width="20" height="20" ng-click="open(user,'create')" src="themes/softed/images/btnL3Add.gif" />
+									{if $MODULE_NAME eq 'Project' && $POINTING_MODULE eq 'Messages'}
+										<a ng-click="open(user,'create')">{'Crea Nota'|@getTranslatedString:'Crea Nota'}</a> 
+									{else}
+										<a ng-click="open(user,'create')">{'Add New'|@getTranslatedString:'Add New'} {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+									{/if}
 								</td> 
-						  {/foreach} 
-					  </tr>			 
-				 </table>   
+								<td colspan="{$nr_col}">
+									<a ng-click="open(user,'choose')" style="cursor: ">{'Choose'|@getTranslatedString:'Choose'} {$NG_BLOCK_NAME}</a> &nbsp;&nbsp;&nbsp;
+								</td>
+							</tr>
+						{/if}
+							<tr class="dvtCellLabel text-left">
+								{foreach key=index item=fieldlabel from=$FIELD_LABEL} 
+									{if $COLUMN_NAME_LIST.$index eq true} 
+									<td> <b>{$fieldlabel}</b> </td> 
+									{/if}
+								{/foreach} 
+								<td> </td> 
+							</tr>
+							<tr ng-repeat="user in $data"  class="dvtCellInfo">
+								{foreach key=index item=fieldname from=$COLUMN_NAME} 
+								 {if $COLUMN_NAME_LIST.$index eq true}  
+									  {if $index eq 0}
+										  <td >
+											 <a href="{literal}{{user.href}}{/literal}">{literal}{{user.{/literal}{$fieldname}_display{literal}}}{/literal}</a>
+										  </td> 
+									  {else}
+										  <td > 
+											  {if in_array($FIELD_UITYPE.$index,array(10,51,50,73,68,57,59,58,76,75,81,78,80) )}
+												  <div ng-bind-html="user.{$fieldname}_display | sanitize"></div> 
+											  {elseif in_array($FIELD_UITYPE.$index,array(5,6,23,26,53,56) )}
+												  <div ng-bind-html="user.{$fieldname}_display"></div> 
+											  {elseif in_array($FIELD_UITYPE.$index,array(69,105,28) )}
+												  <a ng-click="downloadfile(user.preview)"><b>{literal}{{{/literal}user.{$fieldname}{literal}}}{/literal}</b></a>
+											  {else}
+												  <div ng-bind-html="user.{$fieldname} | sanitize"></div> 
+											  {/if}
+										  </td>
+									  {/if}
+								 {/if} 
+								{/foreach} 
+								<td  width="80" >
+								<table> 
+									  <tr>
+										  {if $EDIT_RECORD eq 1}
+										  <td>
+											  <img ng-if="!user.$edit" width="20" height="20" ng-click="open(user,'edit')" src="themes/images/editfield.gif" /> 
+										  </td>
+										  {/if}
+										  {if $DELETE_RECORD eq 1}
+										  <td>
+											  <img ng-if="!user.$edit" width="20" height="20" ng-click="delete_record(user)" src="themes/images/delete.gif" />
+										  </td> 
+										  {/if}
+										  {foreach key=count_i item=block_id from=$SUB_NG} 
+												<td>
+													<img width="20" height="20" ng-click="show_sub_ng_block(user,'{$block_id}')" src="themes/images/quickview.png" />
+												</td> 
+										  {/foreach} 
+									  </tr>			 
+								 </table>   
+								</td>
+							</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
-		</td>
-	</tr>
-</table>
-</div>
+	</div>
 
 <script type="text/ng-template" id="DetailViewBlockNgEdit{$NG_BLOCK_ID}.html">
 
