@@ -49,6 +49,13 @@
 	<tr id="has_header_container">
 		<td>&nbsp;</td>
 		<td class="dvtCellLabel" width=25%><span>{'LBL_HAS_HEADER'|@getTranslatedString:$MODULE}</span></td>
-		<td class="dvtCellInfo" width=50%><input type="checkbox" class="small" id="has_header" name="has_header" checked /></td>
+		<td class="dvtCellInfo" width=50%>
+			<span class="slds-checkbox">
+				<input type="checkbox" class="small" id="has_header" name="has_header" checked />
+				<label class="slds-checkbox__label" for="has_header">
+					<span class="slds-checkbox--faux"></span>
+				</label>
+			</span>
+		</td>
 	</tr>
 </table>
