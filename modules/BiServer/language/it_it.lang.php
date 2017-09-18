@@ -69,6 +69,7 @@ $mod_strings = Array(
     'exportpermission'=>'Non hai i permessi per eseguire questo script',
     'reportcreated'=>'Report Creato',
     'indexcreated'=>'Index Creato',
+    'DELETEINDEX'=>'Cancella Indexes',
     'ID'=>'ID'
 );
 ?>
