@@ -9,7 +9,7 @@
  ********************************************************************************/
 -->*}
 <span class="small">{'LBL_USE_SAVED_MAPPING'|@getTranslatedString:$MODULE}</span>&nbsp;&nbsp;
-<select name="saved_maps" id="saved_maps" class="small" onchange="ImportJs.loadSavedMap();">
+<select name="saved_maps" id="saved_maps" class="slds-select" style="width: 30%;" onchange="ImportJs.loadSavedMap();">
 	<option id="-1" value="" selected>--{'LBL_SELECT'|@getTranslatedString:$MODULE}--</option>
 	{foreach key=_MAP_ID item=_MAP from=$SAVED_MAPS}
 	<option id="{$_MAP_ID}" value="{$_MAP->getStringifiedContent()}">{$_MAP->getValue('name')}</option>

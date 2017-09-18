@@ -22,28 +22,28 @@
 </div>
 
 {*<!-- Main Contents Start Here -->*}
-<table width="97%" class="small showPanelBg" cellpadding="0" cellspacing="0" border="0" align="center" valign="top">
-<tr>
-	<td width="100%" align="center" valign="top" height="350">
-		<div id="MainMatrix" class="show_tab topMarginHomepage" style="padding:0px;width:100%">
-			<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
-			{foreach item=tablestuff from=$HOMEFRAME name="homeframe"}
+<table border=0 cellspacing=0 cellpadding=0 width=100% align="center" valign="top">
+	<tr>
+		<td width="100%" align="center" valign="top" height="350">
+			<div id="MainMatrix" class="show_tab topMarginHomepage" style="padding:0px;width:100%">
+				<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
+				{foreach item=tablestuff from=$HOMEFRAME name="homeframe"}
 				{*<!-- create divs for each widget - the contents will be loaded dynamically from javascript -->*}
-				{include file="Home/MainHomeBlock.tpl"}
-				<script>
-					{*<!-- load contents for the widget-->*}
-					{if $tablestuff.Stufftype eq 'Default' && $tablestuff.Stufftitle eq 'Home Page Dashboard'|@getTranslatedString:'Home'}
-						fetch_homeDB({$tablestuff.Stuffid});
-					{elseif $tablestuff.Stufftype eq 'DashBoard'}
-						loadStuff({$tablestuff.Stuffid},'{$tablestuff.Stufftype}');
-					{elseif $tablestuff.Stufftype eq 'ReportCharts'}
-						loadStuff({$tablestuff.Stuffid},'{$tablestuff.Stufftype}');
-					{/if}
-				</script>
-			{/foreach}
-		</div>
-	</td>
-</tr>
+					{include file="Home/MainHomeBlock.tpl"}
+					<script>
+						// load contents for the widget
+						{if $tablestuff.Stufftype eq 'Default' && $tablestuff.Stufftitle eq 'Home Page Dashboard'|@getTranslatedString:'Home'}
+							fetch_homeDB({$tablestuff.Stuffid});
+						{elseif $tablestuff.Stufftype eq 'DashBoard'}
+							loadStuff({$tablestuff.Stuffid},'{$tablestuff.Stufftype}');
+						{elseif $tablestuff.Stufftype eq 'ReportCharts'}
+							loadStuff({$tablestuff.Stuffid},'{$tablestuff.Stufftype}');
+						{/if}
+					</script>
+				{/foreach}
+			</div>
+		</td>
+	</tr>
 </table>
 
 {*<!-- Main Contents Ends Here -->*}

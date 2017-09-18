@@ -680,10 +680,12 @@ if(($i+1)%$bulkSize==0){
       return $data;
   }
 
-  function writeIndexToFile($sql,$ip,$index,$type,$entityfield=''){
+  function writeIndexToFile($sql,$ip,$index,$type,$bulkSize,$entityfield=''){
+      $bulkSize=1000;
       $data .= "\r\n".'$ip= "'.$ip.'";';
       $data .= "\r\n".'$index= "'.$index.'";';
       $data .= "\r\n".'$entityfield= "'.$entityfield.'";';
+      $data .= "\r\n".'$bulkSize= "'.$bulkSize.'";';
       if($type == 1){
         $data.='
 $focus1=new ReportRun('.$sql.');
@@ -746,7 +748,21 @@ $focus1=new ReportRun('.$sql.');
   $data .= "\r\n else";
   $data .= "\r\n".'$data[$selectedMapColumns[$j]] = $adb->query_result($fields,$i,$j) ;';
   $data .= "\r\n".'}';
-  $data.= "\n\r".'generateBiServerScript($ip,$index,$entityfield,$adb->query_result($fields,$i,0),$data);';
+  $data.="\r\n".'$all[]=$data;';
+
+  $data.="\r\n".'if(($i+1)%'.$bulkSize.'==0){';
+  $data.="\r\n".'$bulkdata=jsonData($all);';
+  $data.= "\n\r".'generateBiServerScript($ip,$index,$entityfield,$adb->query_result($fields,$i,0),$bulkdata);';
+  $data.="\n\r".' $all=array();}';
+  $data.="\n\r".'if($i==$adb->num_rows($fields)-1){';
+  $data.="\n\r".'$x=($adb->num_rows($fields)-1)%'.$bulkSize.';';
+  $data.="\n\r".'if($x==0){';
+  $data.="\n\r".'//do nothing';
+  $data.="\n\r".'} else {';
+  $data.="\n\r".'$bulkdata=jsonData($all);';
+  $data.="\n\r".'}';
+  $data.="\n\r".'generateBiServerScript($ip,$index,$entityfield,$adb->query_result($fields,$i,0),$bulkdata);';
+  $data .= "\r\n".'}';
   $data .= "\r\n".'}';
       return $data;
   }
@@ -759,7 +775,7 @@ $focus1=new ReportRun('.$sql.');
    $data .="\n\r".'* @param type $entityfield';
    $data .="\n\r".'* @param type $recordId - Id of entity';
    $data .="\n\r".'*/';
-   $data .="\n\r".'function generateBiServerScript($ip,$indextype,$entityfield,$recordId,$data){';
+   $data .="\n\r".'function generateBiServerScript($ip,$indextype,$entityfield,$recordId,$bulkdata){';
    $data .="\n\r".'global $adb;';
    if($inputtype == "map"){
    $data .="\n\r".'$endpointUrl = "http://$ip:9200/$indextype/denorm/_search?pretty";';
@@ -789,16 +805,31 @@ $focus1=new ReportRun('.$sql.');
 //    $data .="\n\r".'$response2 = curl_exec($channel11);';
 //    $data .="\n\r".'}';
 //    $data .="\n\r".'else {';
-    $data .="\n\r".'$endpointUrl = "http://$ip:9200/$indextype/denorm";';
+    $data .="\n\r".'$endpointUrl = "http://$ip:9200/$indextype/denorm/_bulk";';
     $data .="\n\r".'$channel11 = curl_init();';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_URL, $endpointUrl);';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_RETURNTRANSFER, true);';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_POST, true);';
-    $data .="\n\r".'curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($data));';
+    $data .="\n\r".'curl_setopt($channel11, CURLOPT_POSTFIELDS,$bulkdata);';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_CONNECTTIMEOUT, 100);';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);';
     $data .="\n\r".'curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);';
     $data .="\n\r".'$response = curl_exec($channel11);';
     $data .="\n\r".'}';
+    $data .="\n\r".'function jsonData($datarray){';
+    $data .="\n\r".'$in[0]=\'{"index":{}}\';';
+    $data .="\n\r".'$json=json_encode($datarray);';
+    $data .="\n\r".'$json_nlines1=str_replace(\'\n\',\'\',$json);';
+    $data .="\n\r".'$json_rep=str_replace(\'},\',\'}\n\',$json_nlines1);';
+    $data .="\n\r".'$json_rep1=str_replace(\'\r\',\'\',$json_rep);';
+    $data .="\n\r".'$json_rep2=str_replace(\'\"}\n\',\'\"},\',$json_rep1);';
+    $data .="\n\r".'$finJson=substr($json_rep2, 1, -1);';
+    $data .="\n\r".' $json_array=explode(\'\n\',$finJson);';
+    $data .="\n\r".'$no=count($json_array);';
+    $data .="\n\r".'for($z=0;$z<$no;$z++){';
+    $data .="\n\r".'array_splice($json_array,2*$z,0,$in);}';
+    $data .="\n\r".'$json_array[(2*$no)]=\'\n\';';
+    $data .="\n\r".' $JSON=join("\n",$json_array);';
+    $data .="\n\r".'return $JSON;}';
     return $data;
   }

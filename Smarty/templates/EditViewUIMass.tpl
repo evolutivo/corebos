@@ -880,14 +880,14 @@
 			</td>
 			<td width="30%" align=left class="dvtCellInfo">
 				{if $fldvalue neq ''}
-					<select  name="salutationtype" class="small">
+					<select  name="salutationtype" class="slds-select" style="width:30%">
 						{foreach item=arr from=$fldvalue}
 							<option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
 						{/foreach}
 					</select>
 					{if $MASS_EDIT eq '1'}<br />{/if}
 				{/if}
-				<input type="text" name="{$fldname}" tabindex="{$vt_tab}" class="slds-input" value= "{$secondvalue}" >
+				<input type="text" name="{$fldname}" tabindex="{$vt_tab}" class="slds-input" value= "{$secondvalue}" />
 			</td>
 		{elseif $uitype eq 22}
 			<td width="20%" class="dvtCellLabel" align=right>
