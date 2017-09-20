@@ -65,7 +65,7 @@ function getMenuBranch($mparent) {
  * @return string
  */
 function getMenuJSON2() {
-	global $adb;
+	global $adb, $default_charset;
 	$menustructure = array(array('id'=>0, 'parent'=>'#', 'text' => 'Menu'));
 	$menurs = $adb->query("SELECT * FROM `vtiger_evvtmenu` ORDER BY mseq ASC");
 	if ($menurs and $adb->num_rows($menurs)>0) {
@@ -74,8 +74,8 @@ function getMenuJSON2() {
 				'evvtmenuid' => $menu['evvtmenuid'],
 				'mparent' =>$menu['mparent'],
 				'mtype' => $menu['mtype'],
-				'mvalue' => $menu['mvalue'],
-				'mlabel' => $menu['mlabel'],
+				'mvalue' => html_entity_decode($menu['mvalue'],ENT_QUOTES,$default_charset),
+				'mlabel' => html_entity_decode($menu['mlabel'],ENT_QUOTES,$default_charset),
 				'mvisible' => $menu['mvisible'],
 				'mpermission' => $menu['mpermission'],
 				'mseq' => $menu['mseq'],
@@ -86,8 +86,7 @@ function getMenuJSON2() {
 				'parent' => $menu['mparent'],
 				'text' => $menu['mlabel'],
 				'li_attr' => array('class'=>'jstree-drop',),
-				'a_attr' => array('onclick' => 'getMenuInfo('.$info.');',
-								'mseq' => $menu['mseq'])
+				'a_attr' => array('onclick' => 'getMenuInfo('.$info.');', 'mseq' => $menu['mseq'])
 			);
 		}
 	}
@@ -211,34 +210,36 @@ function getAdminevvtMenu() {
 
 function checkevvtMenuInstalled() {
 	global $log;
-	// first we make sure we have Global Variable
-	if(!vtlib_isModuleActive('GlobalVariable')) {
-		global $current_user;
-		$holduser = $current_user;
-		ob_start();
-		include 'modules/cbupdater/getupdatescli.php';
-		$rsup = $adb->query("select cbupdaterid from vtiger_cbupdater where classname='installglobalvars'");
-		$updid = $adb->query_result($rsup,0,0);
-		$argv[0] = 'doworkcli';
-		$argv[1] = 'apply';
-		$argv[2] = $updid;
-		include 'modules/cbupdater/doworkcli.php';
-		ob_end_clean();
-		$current_user = $holduser;
-	}
-	if(!vtlib_isModuleActive('evvtMenu')) {
-		global $current_user;
-		$holduser = $current_user;
-		ob_start();
-		include 'modules/cbupdater/getupdatescli.php';
-		$rsup = $adb->query("select cbupdaterid from vtiger_cbupdater where classname='ldMenu'");
-		$updid = $adb->query_result($rsup,0,0);
-		$argv[0] = 'doworkcli';
-		$argv[1] = 'apply';
-		$argv[2] = $updid;
-		include 'modules/cbupdater/doworkcli.php';
-		ob_end_clean();
-		$current_user = $holduser;
+	if(vtlib_isModuleActive('cbupdater')) {
+		// first we make sure we have Global Variable
+		if(!vtlib_isModuleActive('GlobalVariable')) {
+			global $current_user;
+			$holduser = $current_user;
+			ob_start();
+			include 'modules/cbupdater/getupdatescli.php';
+			$rsup = $adb->query("select cbupdaterid from vtiger_cbupdater where classname='installglobalvars'");
+			$updid = $adb->query_result($rsup,0,0);
+			$argv[0] = 'doworkcli';
+			$argv[1] = 'apply';
+			$argv[2] = $updid;
+			include 'modules/cbupdater/doworkcli.php';
+			ob_end_clean();
+			$current_user = $holduser;
+		}
+		if(!vtlib_isModuleActive('evvtMenu')) {
+			global $current_user;
+			$holduser = $current_user;
+			ob_start();
+			include 'modules/cbupdater/getupdatescli.php';
+			$rsup = $adb->query("select cbupdaterid from vtiger_cbupdater where classname='ldMenu'");
+			$updid = $adb->query_result($rsup,0,0);
+			$argv[0] = 'doworkcli';
+			$argv[1] = 'apply';
+			$argv[2] = $updid;
+			include 'modules/cbupdater/doworkcli.php';
+			ob_end_clean();
+			$current_user = $holduser;
+		}
 	}
 }
 checkevvtMenuInstalled();

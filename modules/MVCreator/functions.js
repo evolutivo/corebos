@@ -14,6 +14,7 @@ var counter = 0;
 var firstModule;
 var secModule;
 var sFieldRel;
+
 /*
  * Cancella l'ultimo Join, e se è presente solo un Join, richiama la funzione deleteJoin().
  */
@@ -182,8 +183,9 @@ function generateJoin(SelectedValue="",History=0) {
         ValueselectedArray = ValueselectedArray.concat(res);
         JoinOptgroupWithValue.push(optlabel + ":" + ValueselectedArray[0] + ":" + ValueselectedArray[1]);
 
-    });
 
+    });
+    localStorage.setItem("labels", JoinOptgroupWithValue);
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
     var valuei = [];
@@ -199,8 +201,8 @@ function generateJoin(SelectedValue="",History=0) {
 
         valuei.push(sel.options[i].value+'!'+sel.options[i].text);
         //texti.push(sel.options[i].text);
-    }
-
+  }
+     //console.log(valuei);
     if (campiSelezionati.length != 0) {
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
@@ -208,11 +210,14 @@ function generateJoin(SelectedValue="",History=0) {
         selField2.push(secondoCampo);
         selTab1.push(firstModule);
         selTab2.push(secModule);
+
+        var queryid=document.getElementById('queryid').value;
+        var MapID=$('#MapID').val();
+
         nameView = (document.getElementById('nameView').value);
         // var sel123 =  jQuery('#selectableFields');
         // var optionsCombo = sel123[0].innerHTML;
         var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
-
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
         jQuery.ajax({
             type: "POST",
@@ -232,12 +237,14 @@ function generateJoin(SelectedValue="",History=0) {
                 userorgroup:userorgroup,
                // Texti:texti,
                 campiSelezionati:SelectedValue.length!=0 ? SelectedValue : campiSelezionati,
-                nameView: nameView
+                nameView: nameView,
+                queryid:queryid,
+                MapID:MapID
             },
             dataType: "html",
             success: function (msg) {
                 document.getElementById('results').innerHTML = "";
-                if (History==1) 
+                if (History==1)
                  {
                      document.getElementById('generatedjoin').innerHTML = "";
                  }
@@ -249,9 +256,12 @@ function generateJoin(SelectedValue="",History=0) {
                 alert(mv_arr.failedcall);
             }
         });
-        // getFirstModule();
-    emptycombo(); }
-}
+
+    // getFirstModule();
+      emptycombo(); }
+  }
+
+
 /*
  * Invia i dati delle <section> relative alle tabelle actions/dataUpadate.php,
  * dove poi ci saranno delle funzioni che inseriranno tutti i campi delle
@@ -260,7 +270,7 @@ function generateJoin(SelectedValue="",History=0) {
 function empty_element(elementByID){
       $(elementByID).html("");
  }
- 
+
  function newValue_element(elementByID,valueinsert){
      $(elementByID).html("");
       $(elementByID).html(valueinsert);
@@ -391,7 +401,7 @@ function creaVista() {
 
 /*
  * Prende tutte le tabelle della query di creazione della vista, e le inserisce in un'unico array.
- * Tutte le tabelle contenute in esso sono le tabelle di cui si vogliono 
+ * Tutte le tabelle contenute in esso sono le tabelle di cui si vogliono
  * controllare i log di mysql.
  */
 function creaArray() {
@@ -873,8 +883,8 @@ function selDB(obj) {
 //        dataType: "html",
 //        success: function(msg)
 //        {
-//              jQuery("#selTab").html(msg); 
-//                            
+//              jQuery("#selTab").html(msg);
+//
 //        },
 //        error: function()
 //        {
@@ -1038,6 +1048,8 @@ function getFirstModuleFields(obj, Mapid, queryid) {
                 $('#selectableFields').empty();
             jQuery('#selectableFields').append(str1).change();
             jQuery('#selField1').val(str3);
+            //document.getElementById('results').innerHTML=str;
+            //console.log(str);
         }
     });
 }
@@ -1070,7 +1082,7 @@ function getSecModuleFields(obj, MapId) {
             var str1 = s[0];
             var str2 = s[1];
             if (jQuery('#selectableFields optgroup[label= ' + secModule + ']').html() == null)
-            //  $("#selectableFields").empty();
+            // $("#selectableFields").empty();
                 jQuery('#selectableFields').append(str1).change();
             if (invers == 1) {
                 jQuery('#selField1').val(index);
@@ -1113,6 +1125,7 @@ function SaveMap() {
         // url = "index.php?module=MVCreator&action=MVCreatorAjax&file=compositoreQuery";
         var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
+
         jQuery.ajax({
             type: "POST",
             url: url,
@@ -1154,6 +1167,8 @@ function SaveMap() {
         });
         // getFirstModule(selTab2);
     //}
+
+
 }
 
 // function to send value for create new  map
@@ -1245,22 +1260,43 @@ function LoadPickerMap() {
 
 //this function open and set value from map ia choose
 function NextAndLoadFromMap() {
+
+//var su="Leads";
     jQuery("#LoadfromMapFirstStep").hide();
     var SelectPicker = $("#GetALLMaps").val();
     var mapid=SelectPicker.split("##");
-    jQuery.ajax({
+    //getFirstModuleFields(su,mapid[0],mapid[1]);
+
+   jQuery.ajax({
         type: "POST",
         url: "index.php?module=MVCreator&action=MVCreatorAjax&file=creazioneCondizioniJoin",
         data: "MapID=" + mapid[0]+"&queryid="+mapid[1],
         dataType: "html",
         async: false,
-        success: function (msg) {
-            jQuery("#LoadfromMapSecondStep").html(msg);
+        success: function (data) {
+            jQuery("#LoadfromMapSecondStep").html(data);
         },
         error: function () {
             alert(mv_arr.failedcall);
         }
     });
+    //jQuery("#results").hide();
+    jQuery.ajax({
+        type: "POST",
+        url: "index.php?module=MVCreator&action=MVCreatorAjax&file=loadmap",
+        data: "MapID=" + mapid[0]+"&queryid="+mapid[1],
+        dataType: "html",
+        async: false,
+        success: function (msg) {
+          document.getElementById('results').innerHTML="";
+          jQuery("#results").html(msg);
+        },
+        error: function () {
+            alert(mv_arr.failedcall);
+        }
+    });
+
+
     getFirstModule("", mapid[0],mapid[1]);
 
 

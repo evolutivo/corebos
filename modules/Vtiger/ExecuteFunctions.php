@@ -227,6 +227,18 @@ switch ($functiontocall) {
 			$ret = '';
 		}
 		break;
+	case 'updateBrowserTabSession':
+		$newssid = vtlib_purify($_REQUEST['newtabssid']);
+		$oldssid = vtlib_purify($_REQUEST['oldtabssid']);
+		foreach ($_SESSION as $key => $value) {
+			if (strpos($key, $oldssid) !== false and strpos($key, $oldssid.'__prev') === false) {
+				$newkey = str_replace($oldssid, $newssid, $key);
+				coreBOS_Session::set($newkey, $value);
+				coreBOS_Session::set($key, $_SESSION[$key.'__prev']);
+			}
+		}
+		$ret = '';
+		break;
 	case 'getEmailTemplateVariables':
 		$module = vtlib_purify($_REQUEST['module_from']);
 		$allOptions=getEmailTemplateVariables(array($module,'Accounts'));
@@ -243,6 +255,18 @@ switch ($functiontocall) {
 			$ret = $upload->handleUpload($filePath, false);
 		} else {
 			$ret = '';
+		}
+		break;
+	case 'getNumberDisplayValue':
+		$value = vtlib_purify($_REQUEST['val']);
+		if (empty($value)) {
+			$ret = '0';
+		} else {
+			$currencyField = new CurrencyField($value);
+			$decimals = vtlib_purify($_REQUEST['decimals']);
+			$currencyField->initialize($current_user);
+			$currencyField->setNumberofDecimals(min($decimals,$currencyField->getCurrencyDecimalPlaces()));
+			$ret = $currencyField->getDisplayValue(null,true,true);
 		}
 		break;
 	case 'ismoduleactive':

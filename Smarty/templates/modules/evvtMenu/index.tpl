@@ -121,6 +121,7 @@
               <div class="slds-form-element__control">
                   <div class="slds-select_container">
                       <select name="mparent" id="mparent" class="slds-select">
+                            <option value="0" selected>--none--</option>
                           {foreach item=details key=k from=$PARENTS}
                               <option value="{$k}">{$details}</option>
                           {/foreach}
@@ -128,6 +129,10 @@
                   </div>
               </div>
           </div>
+		<div id="permissionForm">
+			<label class="slds-form-element__label evvtmenu-label" for="mvisible">{'MenuVisible'|getTranslatedString:$MODULE}</label>
+			<input type="checkbox" name="mvisible" id="mvisible" checked>
+		</div>
           <div id="permissionForm">
           <label class="slds-form-element__label evvtmenu-label" for="mpermission">{'MenuPermission'|getTranslatedString:$MODULE}</label>
           {html_options name="mpermission[]" id="mpermission" multiple="multiple" options=$PROFILES}

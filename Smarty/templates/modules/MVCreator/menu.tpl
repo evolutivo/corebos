@@ -93,7 +93,7 @@
                 </div>
             </div>
         </div>
-        <button style="margin-left:80%;margin-top: 30px;" onclick="NextAndLoadFromMap()"
+        <button id="set" style="margin-left:80%;margin-top: 30px;" onclick="NextAndLoadFromMap();"
                 class="slds-button slds-button--neutral">Next
         </button>
     </div>

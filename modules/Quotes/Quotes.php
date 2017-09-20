@@ -230,7 +230,7 @@ class Quotes extends CRMEntity {
 			if(is_string($actions)) $actions = explode(',', strtoupper($actions));
 			if(in_array('ADD', $actions) && isPermitted($related_module,1, '') == 'yes') {
 				if(getFieldVisibilityPermission('Calendar',$current_user->id,'parent_id', 'readwrite') == '0') {
-					$button .= "<input title='".getTranslatedString('LBL_ADD_NEW'). " ". getTranslatedString('LBL_TODO', $related_module) ."' class='crmbutton small create'" .
+					$button .= "<input title='".getTranslatedString('LBL_ADD_NEW'). " ". getTranslatedString('LBL_TODO', $related_module) ."' class='slds-button slds-button--small slds-button_success'" .
 						" onclick='this.form.action.value=\"EventEditView\";this.form.module.value=\"Calendar4You\";this.form.return_module.value=\"$this_module\";this.form.activity_mode.value=\"Task\";' type='submit' name='button'" .
 						" value='". getTranslatedString('LBL_ADD_NEW'). " " . getTranslatedString('LBL_TODO', $related_module) ."'>&nbsp;";
 				}
@@ -313,7 +313,7 @@ class Quotes extends CRMEntity {
 		$query = 'select vtiger_quotestagehistory.*, vtiger_quotes.quote_no from vtiger_quotestagehistory inner join vtiger_quotes on vtiger_quotes.quoteid = vtiger_quotestagehistory.quoteid inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_quotes.quoteid where vtiger_crmentity.deleted = 0 and vtiger_quotes.quoteid = ?';
 		$result=$adb->pquery($query, array($id));
 		$noofrows = $adb->num_rows($result);
-
+		$header = Array();
 		$header[] = $app_strings['Quote No'];
 		$header[] = $app_strings['LBL_ACCOUNT_NAME'];
 		$header[] = $app_strings['LBL_AMOUNT'];
@@ -331,8 +331,8 @@ class Quotes extends CRMEntity {
 		//- ==> picklist field is not permitted in profile
 		//Not Accessible - picklist is permitted in profile but picklist value is not permitted
 		$error_msg = ($quotestage_access != 1)? getTranslatedString('LBL_NOT_ACCESSIBLE'): '-';
-
-		while($row = $adb->fetch_array($result)) {
+		$entries_list = Array();
+		while ($row = $adb->fetch_array($result)) {
 			$entries = Array();
 
 			$entries[] = $row['quote_no'];
@@ -346,7 +346,7 @@ class Quotes extends CRMEntity {
 			$entries_list[] = $entries;
 		}
 
-		$return_data = Array('header'=>$header,'entries'=>$entries_list);
+		$return_data = Array('header'=>$header,'entries'=>$entries_list,'navigation'=>array('',''));
 		$log->debug("Exiting get_quotestagehistory method ...");
 		return $return_data;
 	}

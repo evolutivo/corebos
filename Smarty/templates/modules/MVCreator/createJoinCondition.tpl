@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="kendoui/styles/kendo.common.min.css">
 <link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
 
+
 {*<link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
 {*<link type="text/css" href="modules/MVCreator/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
 
@@ -48,7 +49,7 @@
     </div>
    <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:70px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
    <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
-   </select><br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick=" generateJoin();hide('userorgroup');openalertsJoin();"></center></div>               
+   </select><br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hide('userorgroup');openalertsJoin();"></center></div>
     {*
     <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">
@@ -229,7 +230,7 @@
                     {*{if !empty($FirstSecModule)}*}
                     {*<input type="hidden" name="MapID" value="{$MapID}" id="MapID">*}
                     {*{else}*}
-                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">                    
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
                     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
                     <input type="hidden" name="querysequence" id="querysequence" value="">
                     {*{/if}*}
@@ -262,6 +263,8 @@
 </div>
 <div id="null"></div>
 <div>
+  <div id="queryfrommap"></div>
+  <div>
          <div class="slds">
              <div class="slds-modal" aria-hidden="false" role="dialog" id="modalrezultquerymodal">
                 <div class="slds-modal__container">
@@ -278,7 +281,7 @@
                          <div class="slds-scrollable">
                              <!-- <div class="slds-form-element"> -->
                                 <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="insertintobodyrezult">
-                                 </table>                             
+                                 </table>
                              <!-- </div> -->
                          </div>
                      </div>
@@ -292,11 +295,11 @@
                  </div>
              </div>
              <div class="slds-backdrop" id="backdropquery"></div>
- 
+
              <!-- Button To Open Modal -->
              {*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
          </div>
- 
+
      </div>
 {literal}
     <script>
@@ -480,7 +483,7 @@
             text-align: center;
             border-radius: 6px;
             padding: 5px 0;
-            
+
             /* Position the tooltip */
             position: absolute;
             z-index: 1;
@@ -511,24 +514,30 @@
             $( document ).tooltip();
           } );
 
+
         var JSONForCOndition = [];
-        function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval, SecondModuleJSONtxt, SecondModuleJSONval,Valueparagrafi, JSONARRAY) {
+        function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval,FirstModuleJSONField, SecondModuleJSONtxt, SecondModuleJSONval,SecondModuleJSONField,labels,Valueparagrafi, JSONARRAY) {
             JSONForCOndition.push({
                 idJSON: JSONForCOndition.length + 1,
                 FirstModuleJSONtext: FirstModuleJSONtxt,
                 FirstModuleJSONvalue: FirstModuleJSONval,
+                FirstModuleJSONfield: FirstModuleJSONField,
                 SecondModuleJSONtext: SecondModuleJSONtxt,
-                ValuesParagraf:Valueparagrafi,
                 SecondModuleJSONvalue: SecondModuleJSONval,
+                SecondModuleJSONfield: SecondModuleJSONField,
+                Labels:labels,
+                ValuesParagraf:Valueparagrafi,
+
                 // selectedfields: JSONARRAY,
                 //selectedfields: {JSONARRAY}
             });
+
             jQuery.ajax({
 				type : 'POST',
-				data : {'fields':JSON.stringify(JSONForCOndition),'queryid':document.getElementById('queryid').value},
+				data : {'fields':JSON.stringify(JSONForCOndition),'queryid':document.getElementById('queryid').value,'MapID':$('#MapID').val()},
 				url : "index.php?module=MVCreator&action=MVCreatorAjax&file=savequeryhistory"
 			}).done(function(msg) {
-                        
+ //console.log(msg);
                         }
                         );
              console.log(JSONForCOndition);
@@ -565,17 +574,17 @@
         function openmodalrezultquery(idforquery){
                   var selectedfieldsfromhistory=[];
                   var queryfromselected;
-                  for (var ii = 0; ii <= JSONForCOndition.length; ii++) {                    
-                     if (ii==idforquery) 
+                  for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+                     if (ii==idforquery)
                      {
                          check=true;
                        //   selectedfieldsfromhistory = JSONForCOndition[ii].selectedfields;
                            queryfromselected = $('#generatedjoin').text();
-                          
+
                      }
-                                        
-                 } 
- 
+
+                 }
+
               var url = "index.php?module=MVCreator&action=MVCreatorAjax&file=PreviewRezult";
                  jQuery.ajax({
                       type: "POST",
@@ -592,27 +601,28 @@
                      error: function () {
                          alert(mv_arr.failedcall);
                      }
-                 });         
+                 });
        }
        $('#Previewbtn').click(function(){
- 			  PreviewQuery();	
+ 			  PreviewQuery();
  			});
         function closeModalForRunquery() {
              //var myLength = $("#SaveasMapTextImput").val();
-             
+
                  $('#ErrorVAlues').text('');
                  $('#modalrezultquerymodal').removeClass('slds-fade-in-open');
                  $('#backdropquery').removeClass('slds-backdrop--open');
-                
-            
+
+
          }
- 
+
           function closeModalwithoutcheckrezultquery() {
              $('#ErrorVAlues').text('');
              $('#modalrezultquerymodal').removeClass('slds-fade-in-open');
              $('#backdropquery').removeClass('slds-backdrop--open');
          }
-         
+
+
         function openalertsJoin() {
             $('#AlertsAddDiv div').remove();
            // var idJSON = 1;
@@ -628,16 +638,29 @@
 
             var FrirstMOduleval = $('#mod option:selected').val();// $('#mod').value;
             var FrirstMOduletxt = $('#mod option:selected').text();// $('#mod').value;generatedConditions
-            var SecondMOduleval = $('#secmodule option:selected').val();
+            var SecondMOduleval = secModule;
             var SecondMOduletxt = $('#secmodule option:selected').text();
             var generatedjoin=$( "#generatedjoin" ).html();
             var generatedConditions=$( "#generatedConditions" ).html();
-            addINJSON(FrirstMOduletxt, FrirstMOduleval, SecondMOduletxt, SecondMOduleval,generatedjoin, selectHtml());
+            var selField1 = document.getElementById('selField1').value;
+            var selField2 = document.getElementById('selField2').value;
+            if(SecondMOduleval==undefined){
+              SecondMOduleval='';
+            }
+            var labels=localStorage.getItem("labels");
+
+            //console.log(labels);
+            //console.log(selField1);
+            //console.log(selField2);
+            //console.log(SecondMOduleval);
+
+            addINJSON(FrirstMOduletxt, FrirstMOduleval,selField1, SecondMOduletxt, SecondMOduleval, selField2, labels, generatedjoin, selectHtml());
+
 			// console.log(FrirstMOduletxt);
-			// console.log(FrirstMOduleval);
+			//console.log(FrirstMOduleval);
 			// console.log(SecondMOduletxt);
-			// console.log(SecondMOduleval);
-			// console.log(selectHtml);
+			//console.log(SecondMOduleval);
+		 //console.log(secModule);
             var check=false;
             var length_history=JSONForCOndition.length;
             //alert(length_history-1);
@@ -648,13 +671,13 @@
                 var selectedfields = JSONForCOndition[ii].ValuesParagraf;
                 // console.log(idd+firmod+secmod);
                 // console.log(selectedfields);
-                if (ii==(length_history-1)) 
+                if (ii==(length_history-1))
                 {
                     check=true;
-                     
+
                 }
                 else{
-                   check=false; 
+                   check=false;
                 }
                 var alerstdiv = alertsdiv(idd, firmod, secmod,check);
                 $('#AlertsAddDiv').append(alerstdiv);
@@ -663,6 +686,7 @@
             }
 
         }
+
 
         function ReturnAllDataHistory(){
 
@@ -679,19 +703,19 @@
                 valuehistoryquery=JSONForCOndition[ii].ValuesParagraf;
                 // console.log(idd+firmod+secmod);
                 // console.log(selectedfields);
-                if (ii==(length_history-1)) 
+                if (ii==(length_history-1))
                 {
                     check=true;
-                     
+
                 }
                 else{
-                   check=false; 
+                   check=false;
                 }
                 var alerstdiv = alertsdiv(idd, firmod, secmod,check);
                 $('#AlertsAddDiv').append(alerstdiv);
 
                 $( "#generatedjoin" ).html(valuehistoryquery);
-                
+
             }
 
         }
@@ -707,13 +731,13 @@
             INSertAlerstJOIN +='<span  title="run the query to show the result" style="float:right;margin-top:-10px;margin-right:-86px;"><i class="icono-display" onclick="openmodalrezultquery('+Idd+');"></i></span>';
             }
             else{
-                INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-plusCircle"></i></span>'; 
+                INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-plusCircle"></i></span>';
             }
             INSertAlerstJOIN += '</div';
             return INSertAlerstJOIN;
         }
 
-       
+
 
        function show_query_History(id_history){
          $('#AlertsAddDiv div').remove();
@@ -726,28 +750,28 @@
                 var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
                  //console.log(idd+firmod+secmod);
                 //console.log(selectedfields);
-                if (ii==id_history) 
+                if (ii==id_history)
                 {
                     check=true;
                      valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
                       $( "#generatedjoin" ).html(valuehistoryquery);
-                     
+
                 }
                 else{
-                   check=false; 
+                   check=false;
                 }
                 var alerstdiv = alertsdiv(idd, firmod, secmod,check);
                 $('#AlertsAddDiv').append(alerstdiv);
 
-                
-                
+
+
             }
 
        }
         function closeAlertsAndremoveJoin(remuveid) {
 
             var check = false;
-            
+
             for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
                 if (ii == remuveid) {
                      //JSONForCOndition.remove(remuveid);
@@ -761,7 +785,7 @@
               var remuvediv="#alerts_"+remuveid;
               $( "div" ).remove( remuvediv);
               ReturnAllDataHistory();
-               
+
                // $('#selectableFields option:selected').attr("selected", null);
             }
             else {

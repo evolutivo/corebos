@@ -15,31 +15,31 @@ $kaction=$_REQUEST['kaction'];
 $content=array();
 
 if($kaction=='retrieve'){
- 
+
     $srcfile=$root_directory.'modules/BiServer/';
-    
+
     $files = scandir($srcfile);
     $i=0;
     foreach($files as $folder) {
-    
+
         if($folder == '.' || $folder == '..' || $folder == '.svn' ||
                 $folder == 'language' || $folder == 'Deleted_scripts' || $folder == 'CSV_files') continue;
-        
+
         if(is_dir($root_directory.'modules/BiServer/'.$folder))
                 {
                      $fol=$root_directory.'modules/BiServer/'.$folder.'/';
                      $folder_files = scandir($fol);
-                     
+
                      foreach($folder_files as $file) {
                          if($file == '.' || $file == '..' || $file == '.svn') continue;
-                         
+
                          $query=$adb->pquery("SELECT *
                                                   from  vtiger_scripts
                                                   left join vtiger_script_actions on vtiger_scripts.id = vtiger_script_actions.scriptid
                                                   where name = ?
                                                   ",array($file));
                           $nr_file=$adb->num_rows($query);
-                          
+
                           if($nr_file!=0){  //if the script exists then control its rights according to role
                           $active=$adb->query_result($query,0,'execution_cron');
                           $period=$adb->query_result($query,0,'period');
@@ -57,7 +57,7 @@ if($kaction=='retrieve'){
                               $export_scr=$adb->query_result($query_sec,0,'export_scr');
                               $delete_scr=$adb->query_result($query_sec,0,'delete_scr');
                               $execute_scr=$adb->query_result($query_sec,0,'execute_scr');
-                              if(  ($roleid!=$current_role &&  !$is_superadmin) || 
+                              if(  ($roleid!=$current_role &&  !$is_superadmin) ||
                                       ($deleted_script==1 && !$is_superadmin)  )
                                   continue;
                               $content[$i]['name']=$file;
@@ -71,28 +71,28 @@ if($kaction=='retrieve'){
                               $content[$i]['execute_scr']=($execute_scr ==1 ? true : false);
                               $i=$i+1;
                           }
-                          
+
                           }
                           else{
                           $query=$adb->pquery("
                              Insert into vtiger_scripts
                               (name,period,active,deleted_script,folder)
-                              values (?,?,?,?,?)",array($file,'','','',$folder)); 
+                              values (?,?,?,?,?)",array($file,'','','',$folder));
 //                          $content[$i]['name']=$file;
 //                          $content[$i]['period']='';
 //                          $content[$i]['folder']=$folder;
 //                          $content[$i]['active']='';
                           }
                     }
-                  
+
                 }
-    
+
 
         }
         echo json_encode($content);
 }
 //elseif($kaction=='save'){
-// 
+//
 //global $log,$adb;
 //$models=$_REQUEST['models'];
 //$model_values=array();
@@ -103,11 +103,11 @@ if($kaction=='retrieve'){
 //$query="Update vtiger_scripts"
 //     . " set period='".$mv->period."'"
 //     . " where name=?";
-//     
+//
 //$query=$adb->pquery($query,array($mv->name));
 //}
 elseif($kaction=='delete'){
-    
+
 global $log,$adb,$current_user;
 $models=$_REQUEST['models'];
 $model_values=array();
@@ -116,7 +116,7 @@ $model_values=json_decode($models);
 $nr=count($model_values);
 $mv=$model_values[$nr-1];
 $is_superadmin=($current_user->user_name== 'superadmin' ? true : false);
-    
+
 $query=$adb->pquery("SELECT *
                           from  vtiger_scripts
                           join vtiger_scripts_security on vtiger_scripts.id=vtiger_scripts_security.scriptid
@@ -138,7 +138,7 @@ if($is_superadmin)
 
     $query=$adb->pquery($query,array($mv->name));
     echo 'Successfully  deleted';
-}  
+}
 elseif($delete_scr!='1' && !$is_superadmin)
     {echo 'You don\'t have permission to delete this script';} //script can not be deleted
 elseif($active=='1')
@@ -171,21 +171,21 @@ else{
 //                      $content[$i]['active']=false;
 //                      $i=$i+1;
 //                    }
-//                  
+//
 //                }
 //    echo json_encode($content);
 //
 //        }
 //}
 elseif($kaction=='execute'){
- 
+
     $filename=$_REQUEST['filename'];
     $folder=$_REQUEST['folder'];
     $srcfile=$root_directory.'modules/BiServer/'.$folder.'/'.$filename;
     shell_exec("php  $srcfile");
 }
 elseif($kaction=='export'){
- 
+
     $filename=$_REQUEST['filename'];
     $folder=$_REQUEST['folder'];
     $query1=$adb->pquery("SELECT fieldlabel from  vtiger_scripts
@@ -194,90 +194,137 @@ elseif($kaction=='export'){
 //    if($folder !='Reports')
 //    {
 //        $f=substr($filename,0,strrpos($filename,'.'));
-//        $tbl=strtolower($folder).'_'.$f;    
+//        $tbl=strtolower($folder).'_'.$f;
 //    }
 //    else
 //    {
-    $f=substr($filename,0,strrpos($filename,'.'));
-    $arr=explode('_',$f);
-    for($t=2;$t<sizeof($arr);$t++){
-    $name.=$arr[$t].'_';
-    }
-    $log->debug('name '.$name);
-    $tbl='mv_'.substr($name,0,strlen($name)-1);
-        
-    $csv_filename=$root_directory.'modules/BiServer/CSV_files/'.$tbl.'.csv';
-    $sql="SELECT * FROM $tbl";   
-    shell_exec("rm -rf   $csv_filename");
-    $fp = fopen($csv_filename, 'w');
-    $query=$adb->pquery($sql,array());
-    if($query){
 
-    if($fieldlabel!='')
-    {
-        $m=explode(',',$fieldlabel);
+$que=$adb->pquery("SELECT folder from  vtiger_scripts where name = ? ",array($filename));
+$folder=$adb->query_result($que,0,'folder');
+
+if($folder=="INDEXES"){
+    $ip = GlobalVariable::getVariable('ip_elastic_server', '');
+    $fname=substr($filename,0,strrpos($filename,'.'));
+    $index=substr($fname,18);
+
+    $endpointUrl = "http://$ip:9200/$index/_search?size=10000&pretty";
+
+    $channel = curl_init();
+
+    curl_setopt($channel, CURLOPT_URL, $endpointUrl);
+
+    curl_setopt($channel, CURLOPT_RETURNTRANSFER, true);
+
+    curl_setopt($channel, CURLOPT_CUSTOMREQUEST, "GET");
+  //  curl_setopt($channel11, CURLOPT_POSTFIELDS, json_encode($json));
+
+    curl_setopt($channel, CURLOPT_CONNECTTIMEOUT, 100);
+
+    curl_setopt($channel, CURLOPT_SSL_VERIFYPEER, false);
+
+    curl_setopt($channel, CURLOPT_TIMEOUT, 1000);
+
+    $response = json_decode(curl_exec($channel),true);
+
+    $no=count($response['hits']['hits']);
+    for($i=0;$i<$no;$i++){
+        $indexData[]=$response['hits']['hits'][$i]['_source'];
     }
-    else{
-        $row1 = $adb->fetch_array($query);
-        $m=array_keys($row1);  
-    }  
-    for($i=0;$i<sizeof($m);$i++){
-        if(is_string($m[$i]))
-        {$r[]=$m[$i];}
-    }
-    fputcsv($fp, $r,';');
-    
-    while ($row = $adb->fetch_array($query) ) {
-    $r=array();
-    for($i=0;$i<sizeof($row);$i++){
-      $r[]=$row[$i];
-    }  
-      fputcsv($fp, $r,';');
+    $header=array_keys($indexData[0]);
+    $csv_filename=$root_directory.'modules/BiServer/CSV_files/'.$index.'.csv';
+    $fp = fopen($csv_filename, 'w');
+    fputcsv($fp, $header);
+    for($i=0;$i<$no;$i++){
+      fputcsv($fp, $indexData[$i]);
     }
     fclose($fp);
-    $csv_file='modules/BiServer/CSV_files/'.$tbl.'.csv';
+    $csv_file='modules/BiServer/CSV_files/'.$index.'.csv';
     $host  = $_SERVER['HTTP_HOST'];
     $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-    echo "http://$host$uri/$csv_file"; 
-    }
-    else{
-        echo 'ERROR';
-    }
-    
+    echo "http://$host$uri/$csv_file";
+   //print_r($indexData[0]);
+} else {
+  $f=substr($filename,0,strrpos($filename,'.'));
+  $arr=explode('_',$f);
+  for($t=2;$t<sizeof($arr);$t++){
+  $name.=$arr[$t].'_';
+  }
+  $log->debug('name '.$name);
+  $tbl='mv_'.substr($name,0,strlen($name)-1);
+  $csv_filename=$root_directory.'modules/BiServer/CSV_files/'.$tbl.'.csv';
+  $sql="SELECT * FROM $tbl";
+  shell_exec("rm -rf   $csv_filename");
+
+  $fp = fopen($csv_filename, 'w');
+  $query=$adb->pquery($sql,array());
+  if($query){
+
+  if($fieldlabel!='')
+  {
+      $m=explode(',',$fieldlabel);
+  }
+  else{
+      $row1 = $adb->fetch_array($query);
+      $m=array_keys($row1);
+  }
+  for($i=0;$i<sizeof($m);$i++){
+      if(is_string($m[$i]))
+      {$r[]=$m[$i];}
+  }
+  fputcsv($fp, $r,';');
+
+  while ($row = $adb->fetch_array($query) ) {
+  $r=array();
+  for($i=0;$i<sizeof($row);$i++){
+    $r[]=$row[$i];
+  }
+    fputcsv($fp, $r,';');
+  }
+  fclose($fp);
+  $csv_file='modules/BiServer/CSV_files/'.$tbl.'.csv';
+  $host  = $_SERVER['HTTP_HOST'];
+  $uri   = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+  echo "http://$host$uri/$csv_file";
+  }
+  else{
+      echo 'ERROR';
+  }
+
+}
 }
 elseif($kaction=='cron'){
- 
+
     global $log;
     $fileid=$_REQUEST['fileid'];
     $time=$_REQUEST['time'];
     $period=$_REQUEST['period'];
     $folder=$_REQUEST['folder'];
-    $type=$_REQUEST['type'];           
+    $type=$_REQUEST['type'];
     $query=$adb->pquery("SELECT execution_cron
                           from  vtiger_scripts
                           join vtiger_script_actions on vtiger_scripts.id = vtiger_script_actions.scriptid
                           where scriptid = ?",array($fileid));
     $nr=$adb->num_rows($query);
-    if($type=='add'){    
+    if($type=='add'){
         if($nr>0){
             $query1="Update vtiger_script_actions"
             . " set execution_cron='1',"
             . " script_action='execute',"
             . " frecuency=?,"
             . " time=?"
-            . " where scriptid=?";     
+            . " where scriptid=?";
             $query=$adb->pquery($query1,array($period,$time,$fileid));
         }
         else{
             $query="Insert into vtiger_script_actions (scriptid,script_action,frecuency,time,execution_cron)"
-             . " values(?,?,?,?,?) ";     
+             . " values(?,?,?,?,?) ";
             $query=$adb->pquery($query,array($fileid,'execute',$period,$time,'1'));
         }
     }
     elseif($type=='remove') {
         $query="Update vtiger_script_actions"
          . " set execution_cron='0' "
-         . " where scriptid=?";     
+         . " where scriptid=?";
         $query=$adb->pquery($query,array($fileid));
     }
 }

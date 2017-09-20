@@ -134,22 +134,21 @@ class NgBlock {
             $entries=Array();
             $tabid=  getTabid('Adocdetail');
             global $dbconfig;
-            $ip='193.182.16.34';//GlobalVariable::getVariable('ip_elastic_server', '');//'193.182.16.34';//$dbconfig['ip_server'];
+            $ip=GlobalVariable::getVariable('ip_elastic_server', '');
             $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty";
         //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
-            $channel1 = curl_init();
-            curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
-            curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($channel1, CURLOPT_POST, true);
-            //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
-            //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
-            curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
-            curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
-            $response1 = json_decode(curl_exec($channel1));
-            $tot=$response1->hits->total;
-
-            $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty&size=$tot";
+//            $channel1 = curl_init();
+//            curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
+//            curl_setopt($channel1, CURLOPT_RETURNTRANSFER, true);
+//            curl_setopt($channel1, CURLOPT_POST, true);
+//            //curl_setopt($channel1, CURLOPT_CUSTOMREQUEST, "PUT");
+//            //curl_setopt($channel1, CURLOPT_POSTFIELDS, json_encode($fields1));
+//            curl_setopt($channel1, CURLOPT_CONNECTTIMEOUT, 100);
+//            curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
+//            curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
+//            $response1 = json_decode(curl_exec($channel1));
+//            $tot=$response1->hits->total;
+            $endpointUrl = "http://$ip:9200/$indextype/$typ/_search?pretty&size=10000";
         //    $fields1 =array('query'=>array("term"=>array("adocdetailid"=>$id)),'sort'=>array('modifiedtime'=>array('order'=>'asc')));
             $channel1 = curl_init();
             curl_setopt($channel1, CURLOPT_URL, $endpointUrl);
@@ -161,7 +160,6 @@ class NgBlock {
             curl_setopt($channel1, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($channel1, CURLOPT_TIMEOUT, 1000);
             $response1 = json_decode(curl_exec($channel1));
-
             foreach ($response1->hits->hits as $row) {
               $user = getUserName($row->_source->userchange);
               $update_log = explode(";",$row->_source->changedvalues);

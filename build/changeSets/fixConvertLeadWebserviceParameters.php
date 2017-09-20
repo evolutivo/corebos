@@ -21,8 +21,8 @@ class fixConvertLeadWebserviceParameters extends cbupdaterWorker {
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
-			$this->ExecuteQuery("DELETE FROM vtiger_ws_operation_parameters WHERE operationid = (SELECT operationid FROM vtiger_ws_operation WHERE name = 'convertlead')");
-			$this->ExecuteQuery("INSERT INTO vtiger_ws_operation_parameters (operationid, name, TYPE, SEQUENCE) VALUES ((SELECT operationid FROM vtiger_ws_operation WHERE name = 'convertlead'), 'element', 'encoded', '1')");
+			$this->ExecuteQuery("DELETE FROM vtiger_ws_operation_parameters WHERE operationid IN (SELECT operationid FROM vtiger_ws_operation WHERE name = 'convertlead')");
+			$this->ExecuteQuery("INSERT INTO vtiger_ws_operation_parameters (operationid, name, TYPE, SEQUENCE) VALUES ((SELECT operationid FROM vtiger_ws_operation WHERE name = 'convertlead' Limit 1), 'element', 'encoded', '1' )");
 			$this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
 		}

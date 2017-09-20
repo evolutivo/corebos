@@ -10,7 +10,7 @@ global $mod_strings;
 
 $smarty->assign("MOD",$mod_strings);
 $srcfile=$root_directory.'modules/BiServer/';
-$folders=array();  
+$folders=array();
 $files = scandir($srcfile);
 $i=0;
 foreach($files as $folder) {
@@ -42,6 +42,7 @@ $mapquery="SELECT mapname ,cbmapid from vtiger_cbmap join vtiger_crmentity
           on crmid = cbmapid where deleted =0 and maptype = ?";
 $resultmaps = $adb->pquery($mapquery,array("SQL"));
 $num_rows =$adb->num_rows($resultmaps);
+$resMap='<option value="None">None</option>';
 if($num_rows!=0){
 for($i=0;$i<$num_rows;$i++)
 {
@@ -74,4 +75,3 @@ $smarty->display("modules/BiServer/ListTabs.tpl");
 
 
 ?>
-

@@ -4,14 +4,16 @@ chdir("../..");
 include_once("include/database/PearDatabase.php");
 include_once("include/utils/utils.php");
 include_once("modules/GlobalVariable/GlobalVariable.php");
-global $current_user;
+global $current_user,$site_URL;
 $current_user->id=1;
 $userName=GlobalVariable::getVariable('ecusername','');
 $userAccessKey=GlobalVariable::getVariable('ecuseraccesskey', '');
 $endpointUrl=GlobalVariable::getVariable('ecendpointurl', '');
 $ethercalcendpoint=GlobalVariable::getVariable('ecendpoint', '');
+//var_dump($_REQUEST);
 $idnew=$_REQUEST['id'];
 global $adb;
+//echo "select name,spid,id from ethercalc where id=$idnew";
 $query1=$adb->query("select name,spid,id from ethercalc where id=$idnew");
 $name=$adb->query_result($query1,0,0);
 $spid=$adb->query_result($query1,0,1);
@@ -110,7 +112,7 @@ foreach($respdecoded as $key=>$value){
 
     }
 }
-function generaspreadsheet($allstring,$ethercalcendpoint,$adb,$opspread){
+function generaspreadsheet($allstring,$ethercalcendpoint,$adb,$opspread,$spid,$site_URL){
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $ethercalcendpoint);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -119,8 +121,16 @@ curl_setopt($ch, CURLOPT_POST, TRUE);
 curl_setopt($ch,CURLOPT_POSTFIELDS,$allstring);
 $response=curl_exec($ch);
 $newresp=substr($ethercalcendpoint,0,-1).substr($response,1);
-echo $newresp;
+//echo $newresp;
+$ecthis=substr($ethercalcendpoint,7,-1).substr($response,1);
+$newtouse=$site_URL."/modules/Spreadsheets/newsp.php?id=".substr($response,1);
 $adb->query("update ethercalc set name='$newresp',createdtime=NOW() where id=$opspread");
+//echo "update vtiger_spreadsheets set ethercalcid='$newtouse' where spreadsheetsid=$spid";
+$newuse=array();
+$newuse['ethlink']=$ecthis;
+$newuse['ethurl']=$newtouse;
+echo json_encode($newuse);
+$adb->query("update vtiger_spreadsheets set ethercalcid='$newtouse' where spreadsheetsid=$spid");
 }
 
 function callnew($url, $params, $type = "GET") {
@@ -176,7 +186,7 @@ for($k=0;$k<count($allrows);$k++){
 	//exit;
 	if($respdecoded[$k+1][0]==''){
 	$createprojectquery = callnew($endpointUrl, array("operation" => "create", "sessionName" => $sessionid, "elementType" => $usemodule,"element"=>$crthisnew),"POST");
-	var_dump($createprojectquery);
+	//var_dump($createprojectquery);
 	//exit;
 	$crmidact=$createprojectquery["result"]["id"];
 	$createdtimeact=$createprojectquery["result"]["createdtime"];
@@ -191,16 +201,16 @@ for($k=0;$k<count($allrows);$k++){
     	$rowact=$rowact.$respdecoded[$k+1][0].",".$respdecoded[$k+1][1].",".$respdecoded[$k+1][2].",".implode(",",$allrows[$k])."\n";
     	$crthis["id"]=$respdecoded[$k+1][0];
     	$crthisnew=json_encode($crthis);
-    	var_dump($crthisnew);
+    	//var_dump($crthisnew);
     	//exit;
     	 $updatequerytask = callnew($endpointUrl, array("operation" => "update", "sessionName" => $sessionid,"element"=>$crthisnew),"POST");
     }
 }
-echo "nefundfare";
-var_dump($rowact);
-echo "nefundfare";
+//echo "nefundfare";
+//var_dump($rowact);
+//echo "nefundfare";
 if($rowact!=""){
 $generastring=$allnewrows.$rowact;
-generaspreadsheet($generastring,$ethercalcendpoint,$adb,$opspread);
+generaspreadsheet($generastring,$ethercalcendpoint,$adb,$opspread,$spid,$site_URL);
 }
 ?>

@@ -37,7 +37,7 @@ class DateTimeField {
 		$log->debug("Entering getDBInsertDateValue(" . $this->datetime . ") method ...");
 		$value = explode(' ', $this->datetime);
 		if (count($value) == 2) {
-			$value[0] = self::convertToUserFormat($value[0]);
+			$value[0] = self::convertToUserFormat($value[0], $user);
 		}
 
 		$insert_time = '';
@@ -60,8 +60,88 @@ class DateTimeField {
 		return $this->getDBInsertDateValue($user) . ' ' . $this->getDBInsertTimeValue($user);
 	}
 
+	public function getDBInsertDateTimeValueComponents($user = null) {
+		global $current_user;
+		if (empty($user)) {
+			$user = $current_user;
+		}
+
+		$format = $user->date_format;
+		if (empty($format)) {
+			$format = 'dd-mm-yyyy';
+		}
+		$datetime = $this->getDBInsertDateTimeValue($user);
+		if (strpos($this->datetime,' ')>0) {
+			list($date,$time) = explode(' ', $datetime);
+		} else {
+			$date = $datetime;
+			$time = '';
+		}
+		list($y, $m, $d) = explode('-', $date);
+		if (strlen($y) != 4) {
+			if ($format == 'dd-mm-yyyy') {
+				list($d, $m, $y) = explode('-', $date);
+			} elseif ($format == 'mm-dd-yyyy') {
+				list($m, $d, $y) = explode('-', $date);
+			} elseif ($format == 'yyyy-mm-dd') {
+				list($y, $m, $d) = explode('-', $date);
+			}
+		}
+		$components = array(
+			'year' => $y,
+			'month' => $m,
+			'day' => $d,
+		);
+
+		$tcomponents = explode(':',$time);
+		if (isset($tcomponents[0])) $components['hour'] = $tcomponents[0];
+		if (isset($tcomponents[1])) $components['minute'] = $tcomponents[1];
+		if (isset($tcomponents[2])) $components['second'] = $tcomponents[2];
+		return $components;
+	}
+
 	public function getDisplayDateTimeValue ($user = null) {
 		return $this->getDisplayDate($user) . ' ' . $this->getDisplayTime($user);
+	}
+
+	public function getDisplayDateTimeValueComponents($user = null) {
+		global $current_user;
+		if (empty($user)) {
+			$user = $current_user;
+		}
+
+		$format = $user->date_format;
+		if (empty($format)) {
+			$format = 'dd-mm-yyyy';
+		}
+		$datetime = $this->getDisplayDateTimeValue($user);
+		if (strpos($this->datetime,' ')>0) {
+			list($date,$time) = explode(' ', $datetime);
+		} else {
+			$date = $datetime;
+			$time = '';
+		}
+		list($y, $m, $d) = explode('-', $date);
+		if (strlen($y) != 4) {
+			if ($format == 'dd-mm-yyyy') {
+				list($d, $m, $y) = explode('-', $date);
+			} elseif ($format == 'mm-dd-yyyy') {
+				list($m, $d, $y) = explode('-', $date);
+			} elseif ($format == 'yyyy-mm-dd') {
+				list($y, $m, $d) = explode('-', $date);
+			}
+		}
+		$components = array(
+			'year' => $y,
+			'month' => $m,
+			'day' => $d,
+		);
+
+		$tcomponents = explode(':',$time);
+		if (isset($tcomponents[0])) $components['hour'] = $tcomponents[0];
+		if (isset($tcomponents[1])) $components['minute'] = $tcomponents[1];
+		if (isset($tcomponents[2])) $components['second'] = $tcomponents[2];
+		return $components;
 	}
 
 	/**
@@ -229,7 +309,12 @@ class DateTimeField {
                             $hour = '00:00';
                         }
                         if($hour >= '24:00') $time = $date.' 00:00';
-			$myDateTime = new DateTime($time, $sourceTimeZone);
+			try {
+				$myDateTime = new DateTime($time, $sourceTimeZone);
+			} catch (Exception $e) {
+				$cleantime = self::sanitizeDate($time, '');
+				$myDateTime = new DateTime($cleantime, $sourceTimeZone);
+			}
 
 			// convert this to target timezone using the DateTimeZone object
 			$targetTimeZone = new DateTimeZone($targetTimeZoneName);
@@ -240,7 +325,7 @@ class DateTimeField {
 		return $myDateTime;
 	}
 
-	/** Function to set timee values compatible to database (GMT)
+	/** Function to set time values compatible to database (GMT)
 	 * @param $user -- value :: Type Users
 	 * @returns $insert_date -- insert_date :: Type string
 	 */

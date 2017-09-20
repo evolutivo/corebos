@@ -31,6 +31,7 @@ class VTFieldExpressionEvaluater{
 		);
 		$this->functions = array(
 				'concat'=>'__vt_concat',
+				'coalesce'=>'__cb_coalesce',
 				'time_diff' => '__vt_time_diff',
 				'time_diffdays' => '__vt_time_diffdays',
 				'add_days' => '__vt_add_days',
@@ -49,8 +50,10 @@ class VTFieldExpressionEvaluater{
 				'round' => '__vt_round',
 				'ceil' => '__vt_ceil',
 				'floor' => '__vt_floor',
+				'modulo' => '__cb_modulo',
 				'getCurrentUserID' => '__getCurrentUserID',
 				'getCurrentUserName' => '__getCurrentUserName',
+				'getCurrentUserField' => '__getCurrentUserField',
 				'getLatitude' => '__cb_getLatitude',
 				'getLongitude' => '__cb_getLongitude',
 				'getGEODistance' => '__cb_getGEODistance',
@@ -132,7 +135,11 @@ class VTFieldExpressionEvaluater{
 	function env($sym,$raw=false){
 		if($this->env) {
 			$val = $this->env->get($sym->value);
-			$module = Vtiger_Module::getInstance($this->env->moduleName);
+			if (isset($this->env->moduleName)) {
+				$module = Vtiger_Module::getInstance($this->env->moduleName);
+			} else {
+				$module = Vtiger_Module::getInstance($this->env->getModuleName());
+			}
 			$field = Vtiger_Field::getInstance($sym->value,$module);
 			if ($field and !$raw) {
 				global $adb,$log;

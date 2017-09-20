@@ -47,15 +47,15 @@
    <a class="k-button k-button-icontext k-grid-email" href="\#" onclick="send_email_now();">Send Email Now</a>
 </script>
     {literal}
-<style> 
+<style>
  .k-edit-form-container
 {
     width: 500px;
-}    
+}
 .k-edit-form-container .k-edit-field  .k-dropdown
 {
     width: 98%;
-}  
+}
 tr.d0 td {
   background-color: #F8EFFB;
   color: black;
@@ -133,11 +133,11 @@ var blockURL_security="module=BiServer&action=BiServerAjax&file=scripts_security
 var is_superadmin='{/literal}{$is_superadmin}{literal}';
 var check_yes='modules/BiServer/check_yes.png';
 var check_no='modules/BiServer/check_no.png';
-        
+
 function choose_fields(divId){
      var reportID = document.getElementById('clientreport2').options[document.getElementById('clientreport2').selectedIndex].value;
-     console.log(reportID);
-     console.log(divId);
+     //console.log(reportID);
+     //console.log(divId);
      var url = "index.php?module=BiServer&action=BiServerAjax&file=getFields";
        jQuery.ajax({
             type: "POST",
@@ -160,7 +160,7 @@ function showMapFields(id,type){
        var count;
         count = 'count';
        }
-            else 
+            else
                 {
                      divId = 'fieldTab1';
                      count = 'countlogg';
@@ -176,14 +176,15 @@ function showMapFields(id,type){
              jQuery("#"+divId).empty();
              if(type !== "index")
              jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidslogg" id="allidslogg"  onchange=\'checkvalues("'+divId+'",this.id)\'><label class="k-checkbox-label" for="allidslogg">  {/literal}{$MOD.fieldlist}{literal}</label></b></td><td  width="30%"><b>{/literal}{$MOD.fieldlabels}{literal}</b></td><td  width="30%"><b>{/literal}{$MOD.fieldtypes}{literal}</b></td><td width="35%" ><b><input type="checkbox" class="k-checkbox" name="allidsanalyzedlogg" id="allidsanalyzedlogg"  onchange=\'checkvalues("'+divId+'",this.id)\'><label class="k-checkbox-label" for="allidsanalyzedlogg"> {/literal}{$MOD.analyzed}{literal} </label></b></td></tr>');
-             else  
-              jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" name="allids" id="allids"  class="k-checkbox" onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allids">  {/literal}{$MOD.fieldlist}{literal} </label></b></td><td  width="30%"><b>{/literal}{$MOD.fieldlabels}{literal}</b></td><td  width="30%"><b>{/literal}{$MOD.fieldtypes}{literal}</b></td><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidsanalyzed" id="allidsanalyzed"  onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allidsanalyzed"> {/literal}{$MOD.analyzed}{literal} </label></b></td> </tr>');
+             else
+              jQuery("#"+divId).html('<tr class="dheader"><td width="35%"><b><input type="checkbox" name="allids" id="allids"  class="k-checkbox" onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allids">  {/literal}{$MOD.fieldlist}{literal} </label></b></td><td  width="30%"><b>{/literal}{$MOD.fieldlabels}{literal}</b></td><td  width="30%"><b>{/literal}{$MOD.fieldtypes}{literal}</b></td><td width="35%"><b>{/literal}{$MOD.ID}{literal}</b></td><td width="35%"><b><input type="checkbox" class="k-checkbox" name="allidsanalyzed" id="allidsanalyzed"  onchange=\'checkvalues("fieldTab2",this.id)\'><label class="k-checkbox-label" for="allidsanalyzed"> {/literal}{$MOD.analyzed}{literal} </label></b></td> </tr>');
              jQuery("#"+divId).append(res[0]);
+             //console.log(response);
             }
         });
 }
 
-function checkvalues(divId,checkallid){  
+function checkvalues(divId,checkallid){
 
 var oTable = document.getElementById(divId);
 iMax = oTable.rows.length;
@@ -192,31 +193,32 @@ if(checkallid == "allids" || checkallid == "allidsanalyzed")
 else var count ='countlogg';
  console.log("ketu"+checkallid);
   for(i=1;i<=document.getElementById(count).value;i++){
- if(checkallid == "allids"){   
+ if(checkallid == "allids"){
  if(document.getElementById('checkf'+i).disabled !== true)
- document.getElementById('checkf'+i).checked = document.getElementById('allids').checked;  
+ document.getElementById('checkf'+i).checked = document.getElementById('allids').checked;
  if(document.getElementById('allids').checked == true) document.getElementById('checkf'+i).value=1;
- else document.getElementById('checkf'+i).value=0;   
+ else document.getElementById('checkf'+i).value=0;
  }
  if(checkallid == "allidsanalyzed"){
  if(document.getElementById('checkanalyzed'+i).disabled !== true)
- document.getElementById('checkanalyzed'+i).checked = document.getElementById('allidsanalyzed').checked;  
+ document.getElementById('checkanalyzed'+i).checked = document.getElementById('allidsanalyzed').checked;
  if(document.getElementById('allidsanalyzed').checked == true) document.getElementById('checkanalyzed'+i).value=1;
- else document.getElementById('checkanalyzed'+i).value=0;   
+ else document.getElementById('checkanalyzed'+i).value=0;
  }
 
- if(checkallid == "allidslogg"){   
+
+ if(checkallid == "allidslogg"){
      console.log("Vjen ketu");
  if(document.getElementById('checkflogg'+i).disabled !== true)
- document.getElementById('checkflogg'+i).checked = document.getElementById('allidslogg').checked;  
+ document.getElementById('checkflogg'+i).checked = document.getElementById('allidslogg').checked;
  if(document.getElementById('allidslogg').checked == true) document.getElementById('checkflogg'+i).value=1;
- else document.getElementById('checkflogg'+i).value=0;   
+ else document.getElementById('checkflogg'+i).value=0;
  }
  if(checkallid== "allidsanalyzedlogg"){
  if(document.getElementById('checkanalyzedlogg'+i).disabled !== true)
- document.getElementById('checkanalyzedlogg'+i).checked = document.getElementById('allidsanalyzedlogg').checked;  
+ document.getElementById('checkanalyzedlogg'+i).checked = document.getElementById('allidsanalyzedlogg').checked;
  if(document.getElementById('allidsanalyzedlogg').checked == true) document.getElementById('checkanalyzedlogg'+i).value=1;
- else document.getElementById('checkanalyzedlogg'+i).value=0;   
+ else document.getElementById('checkanalyzedlogg'+i).value=0;
  }
 }
 }
@@ -224,7 +226,7 @@ else var count ='countlogg';
 function createSqlMv(filename){
 var nometab = document.getElementById("tablename2").value;
 var reportId = document.getElementById("clientreport2").value;
-var data = jQuery('#tabelascript2').serialize(); 
+var data = jQuery('#tabelascript2').serialize();
 var url = "index.php?module=BiServer&action=BiServerAjax&file="+filename;
 var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
        jQuery.ajax({
@@ -243,8 +245,8 @@ var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
                     }
                });
             }
-    });   
-} 
+    });
+}
 
 jQuery(document).ready(function() {
 
@@ -255,7 +257,7 @@ jQuery(document).ready(function() {
                             }
                         }
                     });
-       
+
         scri=jQuery("#scripts").kendoGrid({
                 dataSource: {
                     transport: {
@@ -280,7 +282,7 @@ jQuery(document).ready(function() {
                                  complete: function(e) {
                                      alert(e.responseText);
                                  jQuery("#scripts").data("kendoGrid").dataSource.read();
-                                 
+
                                  }
                                  },
                         create: {
@@ -341,7 +343,7 @@ jQuery(document).ready(function() {
                  }
             });
         jQuery('#cron_script_time').timepicker({ 'timeFormat': 'H:i' });
-           
+
         jQuery("#scripts_security").kendoGrid({
                 dataSource: {
                     transport: {
@@ -406,7 +408,7 @@ jQuery(document).ready(function() {
                                   delete_scr: {type: "boolean"},
                                   execute_scr: {type: "boolean"},
                                   folder: {type: "string"},
-                                  
+
                                      }
                                  }
                             }
@@ -457,14 +459,14 @@ jQuery(document).ready(function() {
                 { field: "execute_scr" , title:"{/literal}{$MOD.Execute}{literal}", width: "50px",
                     template: "<img  src= #= execute_scr ? '"+check_yes+"' : '"+check_no+"' #  >"},
                 { command: [ "edit","destroy"], title: " ", width: "100px"},
-                
+
                 ],
                  editable: {
                  mode:"popup",
                  confirmation: "{/literal}{$MOD.are_sure}{literal}"
                  }
             });
-            
+
         jQuery("#scripts_email").kendoGrid({
                 dataSource: {
                     transport: {
@@ -529,7 +531,7 @@ jQuery(document).ready(function() {
                                   subject: {type: "string"},
                                   cont: {type: "string"},
                                   zipped: {type: "boolean"}
-                                  
+
                                      }
                                  }
                             }
@@ -581,7 +583,7 @@ jQuery(document).ready(function() {
                     template: "<img  src= #= execution_cron ? '"+check_yes+"' : '"+check_no+"' #  >"},
                 //{ command: [{ text: 'Send Mail Now', template: sendemail}], title: " ", width: "50px"},
                 { command: [ "edit","destroy"], title: " ", width: "50px"},
-                
+
                 ],
                  editable: {
                  mode:"popup",
@@ -589,18 +591,18 @@ jQuery(document).ready(function() {
                  width: '800px'
                  }
             });
-            
+
        var myurl='index.php?module=BiServer&action=BiServerAjax&file=importActions';
        var  dataSource = new kendo.data.DataSource({
         transport: {
             read:  {
-                    url: myurl,                                          
+                    url: myurl,
                     dataType: "json"
-                    }   
-                },  
+                    }
+                },
         batch:true,
-        pageSize: 15,                      
-    
+        pageSize: 15,
+
         schema: {
         model: {
         id:"id",
@@ -609,7 +611,7 @@ jQuery(document).ready(function() {
         filelist: { type: "string"},
         }
         }
-        }      
+        }
         });
     jQuery("#actions").kendoGrid({
         dataSource: dataSource,
@@ -626,17 +628,17 @@ jQuery(document).ready(function() {
            ]
 
     });
-    
+
 var  dataSourceIndexes = new kendo.data.DataSource({
         transport: {
             read:  {
-                    url: 'index.php?module=BiServer&action=BiServerAjax&file=deleteIndexes&kaction=read',                                          
+                    url: 'index.php?module=BiServer&action=BiServerAjax&file=deleteIndexes&kaction=read',
                     dataType: "json"
                     },
             destroy:  {
-                    url: 'index.php?module=BiServer&action=BiServerAjax&file=deleteIndexes&kaction=delete',                                          
+                    url: 'index.php?module=BiServer&action=BiServerAjax&file=deleteIndexes&kaction=delete',
                     type: "POST",
-                    complete: function(e) {  
+                    complete: function(e) {
                      jQuery("#deleteindex").data("kendoGrid").dataSource.read();
                      }
                  },
@@ -645,10 +647,10 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                             return {models: kendo.stringify(options.models)};
                              }
                            }
-                },  
+                },
         batch:true,
-        pageSize: 15,                      
-    
+        pageSize: 15,
+
         schema: {
         model: {
         id:"id",
@@ -657,9 +659,9 @@ var  dataSourceIndexes = new kendo.data.DataSource({
         filelist: { type: "string"},
         }
         }
-        }      
+        }
         });
-        
+
         jQuery("#deleteindex").kendoGrid({
         dataSource: dataSourceIndexes,
         pageable: true,
@@ -689,17 +691,17 @@ var  dataSourceIndexes = new kendo.data.DataSource({
     jQuery("#mapsql").kendoDropDownList();
     jQuery("#maploggingsql").kendoDropDownList();
  });
- 
-        
+
+
        function execscript(e) {
             kendo.ui.progress(jQuery("#actions"), true);
             var dataItem = this.dataItem(jQuery(e.currentTarget).closest("tr"));
             id = dataItem.id;
             parameters="";
-            runNewAction(id,parameters , 'Alert') 
+            runNewAction(id,parameters , 'Alert')
             kendo.ui.progress(jQuery("#actions"), false);
         }
-               
+
        function execute_script() {
            event.preventDefault();
            var grid = jQuery("#scripts").data("kendoGrid");
@@ -715,7 +717,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                         data:blockURL+'&kaction=execute&filename='+filename+'&folder='+folder,
 		success: function(response) {
                           //alert(response.responseText);
-                          
+
                           alert('{/literal}{$MOD.success}{literal}');
                           VtigerJS_DialogBox.unblock();
                	}
@@ -723,7 +725,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
             );}
             else alert('{/literal}{$MOD.permission}{literal}');
         }
-        
+
        function export_script() {
            event.preventDefault();
            var grid = jQuery("#scripts").data("kendoGrid");
@@ -753,14 +755,14 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                           myWindow.focus();
                           }
                           VtigerJS_DialogBox.unblock();
-                          
+
                	}
                 }
             );
            }
            else alert('{/literal}{$MOD.exportpermission}{literal}');
         }
-        
+
        function cron(type) {
            event.preventDefault();
            var grid = jQuery("#scripts").data("kendoGrid");
@@ -779,7 +781,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                     url:'index.php?',
                                     type: 'post',
                                     data:blockURL+'&kaction=cron&fileid='+fileid+'&folder='+folder+'&type='+type+'&time='+time+'&period='+period,
-                            success: function(response) {                         
+                            success: function(response) {
                                       grid.dataSource.read();
                             }
                             });
@@ -793,35 +795,35 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                             url:'index.php?',
                             type: 'post',
                             data:blockURL+'&kaction=cron&fileid='+fileid+'&folder='+folder+'&type='+type,
-                    success: function(response) {                         
+                    success: function(response) {
                               grid.dataSource.read();
                     }
                 });
            }
-           
+
         }
-        
+
         function send_email_now()
-        {        
+        {
            event.preventDefault();
            var grid = jQuery("#scripts_email").data("kendoGrid");
            var selectedItem = grid.dataItem(grid.select());
            var id=selectedItem.id;
-           
+
            VtigerJS_DialogBox.block();
            jQuery.ajax({
                         url:'index.php?',
                 	type: 'post',
                         data:blockURL_email+'&kaction=sendmail_now&actionid='+id,
 		success: function(response) {
-                          
+
                           alert(response);
                           VtigerJS_DialogBox.unblock();
                	}
                 }
             );
         }
-        
+
        function show_folder()
         {
             var val =document.getElementById('folder').value;
@@ -830,7 +832,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                document.getElementById('txt_script_file').style.display='inline';
             }
         }
-        
+
        function show_source(){
         var sourceID = document.getElementById('mvsource').options[document.getElementById('mvsource').selectedIndex].value;
         if(sourceID == "1")
@@ -852,19 +854,21 @@ var  dataSourceIndexes = new kendo.data.DataSource({
          }
             jQuery("#fieldTab2").empty();
        }
-       
+
        function createElasticIndex(submitid){
         var nometab = document.getElementById("tablename2").value;
         var reportId = document.getElementById("clientreport2").value;
-       if(submitid != "createindex") var data = jQuery('#tabelascript2').serialize(); 
-        else  var data =jQuery('#tabelascript').serialize(); 
+       if(submitid != "createindex") var data = jQuery('#tabelascript2').serialize();
+        else  var data =jQuery('#tabelascript').serialize();
         var url = "index.php?module=BiServer&action=BiServerAjax&file=createIndex";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
+        console.log(data);
        jQuery.ajax({
             type: "POST",
             data :"nometab="+nometab+"&reportId="+reportId+ "&"+ data+"&submitid="+submitid,
             url: url,
             success: function(response) {
+              console.log(response);
                if (box) box.remove();
              //add jquery window dialog box
                jQuery("#dialog-elasticindex").dialog({
@@ -876,9 +880,9 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                   }
                });
             }
-    }); 
+    });
   }
-         
+
 {/literal}
 </script>
 <br>
@@ -887,7 +891,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
         <td valign="top"><img src="{'showPanelTopLeft.gif'|@vtiger_imageurl:$THEME}"></td>
         <td class="showPanelBg" align="center" style="padding: 10px;" valign="top">
            <table border="0" width="90%">
-                <tr>			
+                <tr>
                         <td class=heading2 valign=bottom><b>{$MOD.LBL_BISERVER}</b></td>
                 </tr>
                 <tr>
@@ -897,10 +901,10 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                 </tr>
            </table>
 	<div align=center>
-            
+
             <div id="tabstrip">
                     <ul>
-                        
+
                         <li class="k-state-active">
                            {$MOD.BI_SERVER}
                         </li>
@@ -924,14 +928,14 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                          <li>
                           {$MOD.DELETEINDEX}
                         </li>
-                    </ul>                        
+                    </ul>
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_server">
                                     <table border="0" width="100%">
-                                      {*  <tr >
+                                    <!--  {*  <tr >
                                         <td class="dvInnerHeader">
-                                            <b> Importa file script</b> 
+                                            <b> Importa file script</b>
                                         </td>
                                     </tr>
 
@@ -939,13 +943,13 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                     <tr>
                                         <td class="dvtCellLabel">
                                             <br/><br/>
-                                            <form  name="import_script" enctype="multipart/form-data" method="Post" 
+                                            <form  name="import_script" enctype="multipart/form-data" method="Post"
                                                    action="index.php?module=BiServer&action=scripts&kaction=import_script_file">
                                                 Folder :&nbsp;&nbsp; <select  id="folder" name="folder" class="small" onchange="show_folder();">
                                                 {foreach item=option from=$folders}
-                                                        <option value="{$option}" >{$option}</option> 
+                                                        <option value="{$option}" >{$option}</option>
                                                 {/foreach}
-                                                <option value="Other" >Other</option> 
+                                                <option value="Other" >Other</option>
                                             </select>
                                             <input type="text" id="txt_script_file" name="txt_script_file" style="display:none;"/>
                                             &nbsp;&nbsp;File :&nbsp;&nbsp;<input type="file" id="btn_import_script_file" name="btn_import_script_file" />
@@ -953,7 +957,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
 
                                             </form>
                                         </td>
-                                    </tr>*}
+                                    </tr>*}-->
                                     <tr>
                                         <td>
                                             <br/><br/>
@@ -961,15 +965,15 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                         </td>
                                     </tr>
                                     </table>
-                    
-                            </div> <br/><br/>                 
+
+                            </div> <br/><br/>
                             </div>
-                                    
-                            {* BI Server Security *}        
+
+                            {* BI Server Security *}
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_server_security">
-                                    <table border="0" width="100%">                                     
+                                    <table border="0" width="100%">
                                     <tr>
                                         <td >
                                             <br/><br/>
@@ -977,15 +981,15 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                         </td>
                                     </tr>
                                     </table>
-                    
-                            </div> <br/><br/>                 
-                            </div>{* BI Server Security ends*}  
-                            
-                            {* BI Server Email *}        
+
+                            </div> <br/><br/>
+                            </div>{* BI Server Security ends*}
+
+                            {* BI Server Email *}
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_server_email">
-                                    <table border="0" width="100%">                                     
+                                    <table border="0" width="100%">
                                     <tr>
                                         <td >
                                             <br/><br/>
@@ -1003,23 +1007,23 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                                 <td>{$MOD.Periodicity}</td>
                                                 <td>
                                                     <select id="periodicity" name="periodicity">
-                                                        <option>{$MOD.hourly}</option> 
-                                                        <option>{$MOD.daily}</option> 
-                                                        <option>{$MOD.monthly}</option> 
+                                                        <option>{$MOD.hourly}</option>
+                                                        <option>{$MOD.daily}</option>
+                                                        <option>{$MOD.monthly}</option>
                                                     </select>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
-                    
-                            </div> <br/><br/>                 
-                            </div>{* BI Server Email ends*}  
-                            
-                            {* Actions *}        
+
+                            </div> <br/><br/>
+                            </div>{* BI Server Email ends*}
+
+                            {* Actions *}
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_server_actions">
-                                    <table border="0" width="60%">                                     
+                                    <table border="0" width="60%">
                                     <tr>
                                         <td >
                                             <br/><br/>
@@ -1027,14 +1031,14 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                         </td>
                                     </tr>
                                     </table>
-                    
-                            </div> <br/><br/>                 
-                            </div>{* Actions ends*} 
-                                                        
+
+                            </div> <br/><br/>
+                            </div>{* Actions ends*}
+
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_create_report">
-                                    <table border="0" width="100%">                                     
+                                    <table border="0" width="100%">
                                     <tr>
                                         <td >
                                             <br/><br/>
@@ -1053,7 +1057,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                                     <td><input class="k-input"  type="text" value="" name="tablename2"  id="tablename2"> </td>
                                                     <td align="right">
                                                        <input type='checkbox' class='k-checkbox' id='checkdeleted' name='checkdeleted'>
-                                                       <label class='k-checkbox-label' for='checkdeleted'>{$MOD.DELETED}</label>           
+                                                       <label class='k-checkbox-label' for='checkdeleted'>{$MOD.DELETED}</label>
                                                     </td>
                                                 </tr>
                                             <tr>
@@ -1080,7 +1084,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                             </table>
                                                 <br><br>
                                             <table width="85%"  class="small" cellspacing="1" border="0" cellpadding="0" id='fieldTab2'>
-                                            </table> 
+                                            </table>
                                                 <br><br>
                                                 <center>
                                                  <input type="submit" name="button2" id="button2" style="margin-right: 60px;" class="k-button" value="{$MOD.CREATETABLE}" onclick="createSqlMv('reportTable');return false;">
@@ -1106,14 +1110,14 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                         </td>
                                     </tr>
                                     </table>
-                    
-                            </div> <br/><br/>                 
+
+                            </div> <br/><br/>
                             </div>
-       
+
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_create_logging_index">
-                                    <table border="0" width="100%">                                     
+                                    <table border="0" width="100%">
                                     <tr>
                                         <td >
                                             <br/><br/>
@@ -1132,7 +1136,7 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                         </table>
                                             <br><br>
                                         <table width="85%"  class="small" cellspacing="1" border="0" cellpadding="0" id='fieldTab1'>
-                                        </table> 
+                                        </table>
                                             <br><br>
                                             <center>
                                          <input type="submit" name="createindex" id="createindex" style="margin-right: 60px;" class="k-button" value="{$MOD.CREATEINDEX}" onclick="createElasticIndex(this.id);return false;">
@@ -1144,21 +1148,20 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                               </p>
                                             </div>
                                                </form>
-
                                         </div>
                                          </div>
                                         </td>
                                     </tr>
                                     </table>
-                    
-                            </div> <br/><br/>                 
+
+                            </div> <br/><br/>
                             </div>
-                                              
-                          {* Delete Index *}        
+
+                          {* Delete Index *}
                             <div class="weather" >
                             <br/><br/>
                             <div id="bi_server_deleteindex">
-                                    <table border="0" width="60%">                                     
+                                    <table border="0" width="60%">
                                     <tr>
                                         <td >
                                             <br/><br/>
@@ -1166,15 +1169,14 @@ var  dataSourceIndexes = new kendo.data.DataSource({
                                         </td>
                                     </tr>
                                     </table>
-                    
-                            </div> <br/><br/>                 
-                            </div>{* Delete Index  ends*}                   
+
+                            </div> <br/><br/>
+                            </div>{* Delete Index  ends*}
             </div>  {* tab div *}
-            
-            
+
+
     </div>{* center div *}
     </td>
 </tr>
 </tbody>
 </table>
-

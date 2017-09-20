@@ -1,6 +1,242 @@
+/*========    Header    ==========*/
+
+.headerlink img {
+    width: 25px;
+    vertical-align: text-bottom;
+}
+
+.headerlink img:hover {
+    opacity: 0.7;
+}
+
+.td-space td {
+    padding-left: 3px;
+}
+
+#qccombo {
+    cursor: pointer;
+}
+
+#cbmenu {
+    margin: 0;
+}
+
+.quickCreateTable tr .dvtCellInfo .slds-select {
+    width: 75%;
+}
+
+/*========    Search    ==========*/
+.slds-pill__remove img{
+    width: 16px;
+    cursor: pointer;
+}
+/*========    End Search    ==========*/
+
+
+/*========    End Header    ==========*/
+.slds-table tbody tr {
+    counter-increment: row-number;
+}
+
+.dvtCellInfo img,
+.dvtCellInfo .slds-select,
+.dvtCellInfo .slds-radio--faux {
+    cursor: pointer;
+}
+
+/*=========  Button List  ==========*/
+
+#LB_buttonlist {
+    background-color: #f7f9fb;
+}
+
+.uiMenu {
+    position: relative;
+}
+
+.close-icon img{
+    width: 16px;
+}
+
+
+.forceHeaderMenuTrigger.uiPopupTrigger {
+    display: inline-block;
+}
+
+.forceHeaderMenuTrigger a {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: .25rem;
+    background: transparent none;
+    text-decoration: none;
+}
+
+.forceHeaderMenuTrigger .headerTrigger {
+    display: block;
+}
+
+.uiTooltip.tooltip-trigger {
+    display: inline;
+    position: relative;
+}
+
+.forceHeaderMenuTrigger .headerTrigger {
+    display: block;
+}
+
+.oneGlobalCreate svg {
+    fill: rgb(255, 255, 255);
+    margin: 1px;
+}
+
+.slds-global-header__button_icon-actions,
+.slds-global-header__button--icon-actions {
+    background: rgb(82, 105, 141);
+    border-radius: .25rem;
+    color: rgb(255, 255, 255);
+}
+
+.slds-global-header__button_icon-actions:hover,
+.slds-global-header__button--icon-actions:hover {
+    background: rgb(102, 179, 255);
+    /*background: rgb(102, 102, 255);*/
+}
+
+.slds-table-buttons th {
+    padding-right: 0;
+}
+
+.LB_Button {
+    padding: .2rem;
+}
+
+.forceHeaderMenuTrigger img {
+    width: 20px;
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.forceHeaderMenuTrigger img:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+.slds-button {
+    cursor: pointer;
+}
+
+.slds-table td.searchAlph {
+    padding: .2rem;
+}
+
+.searchAlph:hover {
+    background-color: #e2e5ff;
+    /*color: #fff;*/
+}
+
+
+.header-title-container .slds-truncate {
+    white-space: normal;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*=========   END BUTTON_LIST  ==========*/
+
+.homePageButtons img {
+    height: 20px;
+    width: 20px;
+}
+
+.homePageButtons img {
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.homePageButtons img:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*=========  DETAIL VIEW  ==========*/
 
+ul .slds-tabs--scoped__item {
+    border-right: 1px solid #d8dde6;
+}
+
+.detailview_utils_jumpto img,
+.calendar-icon img {
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+}
+
+.detailview_utils_jumpto img:hover,
+.calendar-icon img:hover {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.calendar-icon img {
+    vertical-align: inherit;
+    width: 18px;
+    cursor: pointer;
+}
+
+.slds-select {
+    font-size: .8rem;
+}
+
+li.active,
+.slds-tabs--scoped__nav .slds-tabs--scoped__item:focus,
+.slds-tabs--scoped__nav .slds-tabs--scoped__item:active {
+    background-color: white;
+    color: #0070d2;
+    /*border-color: #d8dde6;*/
+}
+
+.slds-tabs--scoped__nav li {
+    border-right: 1px solid #d8dde6;
+}
+
+
+.uiOutputText {
+    display: block;
+    /* or inline-block */
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    width: 850px;
+    white-space: nowrap;
+}
+
+
+
 /*=========  DETAIL VIEW ---HEADER---  ==========*/
+
 .s1FixedFullWidth {
     left: 0;
     right: 0;
@@ -11,12 +247,14 @@
     transition: left .25s;
 }
 
+.forceHighlightsStencilSettings.s1FixedTop,
 .forceHighlightsStencilDesktop.s1FixedTop {
     /*position: fixed;*/
     border-top: none;
     z-index: 7000;
 }
 
+.forceHighlightsStencilSettings,
 .forceHighlightsStencilDesktop {
     min-height: 60px;
 }
@@ -26,6 +264,7 @@
     position: relative;
 }
 
+.forceHighlightsStencilSettings.profilePicWrapper,
 .forceHighlightsStencilDesktop.profilePicWrapper {
     -webkit-box-flex: 0;
     flex: none;
@@ -37,11 +276,16 @@
     align-items: flex-start;
 }
 
+.profilePicWrapper {
+    padding-bottom: .7rem;
+}
+
 .forceEntityIcon {
     display: block;
     -webkit-border-radius: .125rem;
     -moz-border-radius: .125rem;
     border-radius: .125rem;
+    height: 1.1rem;
 }
 
 .forceSocialPhoto.photoContainer {
@@ -52,6 +296,7 @@
     background-clip: content-box;
 }
 
+.forceHighlightsStencilSettings .photoContainer:not(.forceOutputLookup),
 .forceHighlightsStencilDesktop .photoContainer:not(.forceOutputLookup) {
     padding-right: 0;
 }
@@ -77,17 +322,30 @@
     height: 2rem;
 }
 
+.forceHighlightsStencilSettings .forceEntityIcon,
+.forceHighlightsStencilSettings .forceSocialPhoto img,
+.forceHighlightsStencilSettings .forceSocialPhoto_v2 img {
+    width: 48px;
+    height: 48px;
+}
+
 .slds-media__body p,
 .slds-media__body h1,
 .slds-media__body h2 {
     margin: 0;
 }
 
+.forceHighlightsStencilSettings .actionsContainer,
 .forceHighlightsStencilDesktop .actionsContainer {
     -webkit-align-items: flex-end;
     -ms-flex-align: end;
     align-items: flex-end;
     padding-top: .75rem;
+}
+
+#detailview_utils_thirdfiller {
+    display: block;
+    padding: 0;
 }
 
 .detailview_utils_prev,
@@ -98,7 +356,7 @@
 }
 
 .detailview_utils_jumpto img {
-    padding-top: 9px;
+    /*padding-top: 9px;*/
 }
 
 .detailview_utils_toggleactions img {
@@ -118,11 +376,52 @@
     opacity: 1;
 }
 
+.uiImage img[title='Vendors'],
+.uiImage img[title='InventoryDetails'],
+.uiImage img[title='GlobalVariable'],
+.uiImage img[title='Invoice'] {
+    padding: 3px;
+}
+
+.text-left {
+    text-align: left!important;
+}
+
+.slds-width {
+    width: 100%;
+}
+
+#availableusers option:first-child,
+#selectedusers option:first-child {
+    border: none;
+}
+
+#availableusers option,
+#selectedusers option {
+    border-radius: 0;
+}
+
+
+
+
+
 /*=========  END DETAIL VIEW ---HEADER---  ==========*/
 
+
 /*=========  DETAIL VIEW ---BODY---  ==========*/
+
+.detailview_table {
+    border-collapse: separate;
+    border-spacing: .2rem;
+    border: none;
+}
+
 article {
     display: block;
+}
+
+.flexipageComponent>article {
+    border-radius: 0;
 }
 
 article.container::before,
@@ -138,7 +437,8 @@ article.container::after {
 
 .runtime_sales_mergeMergeCandidatesPreviewCard.container {
     background-color: rgb(244, 246, 249);
-    margin: 1rem 0 0 0;
+    /*background-color: #fff;*/
+    /*margin: 1rem 0 0 0;*/
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .merge-icon {
@@ -177,23 +477,17 @@ article.container::after {
 }
 
 .flexipageComponent {
-    background-color: rgb(244, 246, 249);
-    padding: 1rem ;
+    /*background-color: rgb(244, 246, 249);*/
+    /*padding: 1rem ;*/
     border: 1px solid rgb(216, 221, 230);
 }
-
-/*.flexipageComponent .slds-card {*/
-    /*border-bottom-left-radius: 0;*/
-    /*border-bottom-right-radius: 0;*/
-/*}*/
 
 .flexipageComponentComment {
     margin-bottom: 3rem;
 }
 
-.blockStyleCss {
-    background-color: rgb(244, 246, 249);
-    border: 1px solid rgb(216, 221, 230);
+.blockStyleCss>td {
+    white-space: normal!important;
 }
 
 .runtime_sales_mergeMergeCandidatesPreviewCard .actionData,
@@ -205,18 +499,104 @@ article.container::after {
     font-size: .8125rem;
 }
 
-.generalData img{
+.generalData img,
+.actionData img. .noSpace {
     margin-left: 0;
 }
 
+
+
+.slds-tabs--scoped__content {
+    padding-top: 0;
+}
+
+.dvtCellInfo input[name="firstname"] {
+    width: 65%;
+}
+
 /*=========  END DETAIL VIEW ---BODY---  ==========*/
+
+
+/*=========  DETAIL VIEW ---Actions---  ==========*/
+
+.webMnu img {
+    border-radius: 5px;
+    width: 20px;
+    padding: .1rem;
+    margin: 0 .2rem!important;
+}
+
+.actionlink_lbl_show_contact_hierarchy img,
+.actionlink_lbl_show_account_hierarchy img {
+    background-color: #558384;
+}
+
+.actionlink_sendemail img {
+    background-color: #95bf42;
+}
+
+.actionlink_downloaddocument img {
+    background-color: #95bf42;
+    padding: .2rem;
+}
+
+.actionlink_addevent img {
+    background-color: #a25016;
+}
+
+.actionlink_addtodo img {
+    background-color: #5bd6d6;
+}
+
+.actionlink_lbl_add_note img,
+.actionlink_checkdocinteg img {
+    background-color: #daa520;
+}
+
+.actionlink_convertlead img {
+    background-color: #558384;
+}
+
+.actionGenerateInvoice img {
+    background-color: #daa520;
+}
+
+.actionGenerateQuote img {
+    background-color: #88c651;
+}
+
+.actionGeneratePurchaseOrder img {
+    background-color: #468499;
+    padding: 0;
+}
+
+.actionGenerateSalesOrder img,
+.actionListLinkedQuotes img {
+    background-color: #a0522d;
+    padding: 0;
+}
+
+.actionlink_converttoinvoice img {
+    background-color: #8ab82d;
+}
+
+.actionGenerateQuote img {}
+
+.customLinkModule img {
+    background-color: #6dc066;
+}
+
+
+
+/*=========  END DETAIL VIEW ---Actions-  ==========*/
 
 .slds-table-moz {
     width: 100%;
 }
 
-tr td.detailViewContainer {;
-    padding: 1rem .5rem;
+tr td.detailViewContainer {
+    padding: .5rem;
+    /*border: 2px solid rgb(216, 221, 230);*/
 }
 
 .mapButton td {
@@ -235,7 +615,7 @@ tr.slds-text-title--caps {
     position: inherit;
 }
 
-.slds-table--cell-buffer tr > td:first-child {
+.slds-table--cell-buffer tr>td:first-child {
     padding-left: 0.5rem;
 }
 
@@ -251,7 +631,7 @@ input[type=button].slds-button--small {
 }
 
 input[type=submit].slds-button--small {
-    min-height: 1.75rem;
+    min-height: 1rem;
     font-size: 11px;
     border-left: 1px solid #ffffff;
     border-top: 1px solid #ffffff;
@@ -260,19 +640,40 @@ input[type=submit].slds-button--small {
 }
 
 tr td.action-block {
-    /*border-left: 1px dashed #cccccc;*/
-    padding: 1rem .5rem;
+    /*padding: 2.5rem 1rem;*/
+    padding: 0 0 0 1rem;
     width: 22%;
     vertical-align: top;
 }
 
-tr td.table-aside > .detailview_actionlinks {
+tr td.action-block-calendar {
+    padding: 0 0 0 1rem;
+    width: 20%;
+    vertical-align: top;
+}
+
+tr td.table-aside>.detailview_actionlinks {
     margin-top: 3rem;
 }
 
 .actionLabel {
     border-bottom: 1px solid #d4d4d4;
 }
+
+.slds-button--x-small {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    margin: .2rem .6rem;
+}
+
+.dvtCellInfo input[type="radio"] {
+    margin-top: 0;
+}
+
+.dvtCellInfo select {
+    margin: .5rem 0;
+}
+
 
 /**
 - * Creates a green button style
@@ -289,19 +690,21 @@ tr td.table-aside > .detailview_actionlinks {
     padding-right: 1rem;
     text-align: center;
     vertical-align: middle;
-    background-color: #4bca81;
-    border: 1px solid #4bca81;
+    background-color: #5cb85c;
+    border: 1px solid #4cae4c;
     color: #fff;
+    font-weight: bold;
 }
 
-.slds-button_success:link,
+
+/*.slds-button_success:link,
 .slds-button_success:visited,
 .slds-button_success:active,
 .slds-button--success:link,
 .slds-button--success:visited,
 .slds-button--success:active {
     color: #16325c;
-}
+}*/
 
 .slds-button_success:hover,
 .slds-button_success:focus,
@@ -318,7 +721,7 @@ tr td.table-aside > .detailview_actionlinks {
     border-color: #04844b;
 }
 
-.slds-button + .slds-button {
+.slds-button+.slds-button {
     margin-left: 0;
 }
 
@@ -327,8 +730,12 @@ ul.slds-tabs--default__nav li {
     padding-top: 0;
 }
 
-.slds-dropdown__item > a {
-    padding: .2rem .5rem;
+.slds-dropdown__item>a {
+    padding: 2px 5px 2px 5px;
+}
+
+.slds-dropdown__list li.slds-dropdown__item {
+    padding: 0;
 }
 
 .assideBtn {
@@ -366,13 +773,19 @@ li[title="More Information"] svg {
     border-bottom: none;
 }
 
+.slds-checkbox--faux {
+    cursor: pointer;
+}
+
 .slds-select option {
     background-color: #fff;
     color: #000;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     border-top: 1px solid #d4d4d4;
-    padding: .2rem .5rem;
+    padding: .1rem .5rem;
     margin: .1rem 0;
+    font-size: inherit;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 881px) {
@@ -381,17 +794,41 @@ li[title="More Information"] svg {
     }
 }
 
-/*=========   END DETAIL VIEW  ==========*/
-
-/*=========   BUTTON_LIST ==========*/
-
-.slds-table-buttons th {
-    padding-right: 0;
+.img-background {
+    background-color: cornflowerblue!important;
 }
 
-/*=========   END BUTTON_LIST  ==========*/
+.createview_field_row tr,
+.createview_field_row td {
+    height: .1rem!important;
+}
+
+.createview_field_row .slds-select {
+    width: 75%;
+}
+
+.createview_field_row select {
+    margin: 0;
+}
+
+.createview_field_row textarea,
+.dvtCellInfo textarea {
+    min-height: 35px;
+}
+
+.createview_field_row .slds-input {
+    line-height: .875rem!important;
+    min-height: calc(1.7rem + (1px * 2)!important);
+    font-size: .875rem!important;
+    margin: 0!important;
+}
+
+
+/*=========   END DETAIL VIEW  ==========*/
+
 
 /*=========   DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
 
 /*remove dotted outline/border in Firefox*/
 
@@ -405,7 +842,7 @@ input[type="button"]::-moz-focus-inner,
 input[type="radio"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 select::-moz-focus-inner,
-input[type="file"] > input[type="button"]::-moz-focus-inner {
+input[type="file"]>input[type="button"]::-moz-focus-inner {
     outline: none !important;
 }
 
@@ -420,7 +857,33 @@ select:-moz-focusring {
     margin-bottom: 5px;
 }
 
+
+
+.LD-icons {
+    width: 25px;
+    vertical-align: top;
+    -webkit-transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+    cursor: pointer;
+}
+
+.LD-icons:hover {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+
+#tagfields span {
+    text-decoration: underline;
+    padding: .1rem;
+}
+
+#tagfields span img {
+    width: 10px;
+}
+
+
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
+
 
 /*=========   DetailViewUtils.php  ==========*/
 
@@ -433,13 +896,185 @@ select:-moz-focusring {
     letter-spacing: 0.02rem;
 }
 
+
 /*=========   END DetailViewUtils.php  ==========*/
 
+
 /*=========   Inventory DetailView.tpl  ==========*/
+
 .borderFix {
     border-right: 1px solid #fff;
     border-left: 1px solid #fff;
-
 }
 
+
 /*=========   END InventoryDetailView.tpl  ==========*/
+
+.dvtCellLabel {
+    text-align: right;
+}
+
+.dvtBottomButtons {
+    padding: .2rem 1.5rem;
+}
+
+.dvtControlsButtons {
+    padding: .1rem 1.5rem;
+}
+
+.dvtContentSpace {
+    border: none;
+}
+
+.dvtContentSpace>tr {
+    background-color: #f7f7fb;
+}
+
+
+
+
+
+
+
+/*=========   ListView.tpl  ==========*/
+
+.background {
+    background-color: #f7f9fb!important;
+}
+
+.ld-font {
+    font-family: 'Salesforce Sans';
+}
+
+.ld-font span {
+    letter-spacing: initial;
+}
+
+.slds-hint-parent th[scope="row"] div {
+    height: 15px;
+}
+
+@media screen and (max-width: 1400px) {
+    .ld-font th:nth-child(2) {
+        padding: .5rem 0;
+    }
+}
+
+.ld-font th:nth-child(4) {
+    /*padding: .5rem 0;*/
+    width: 140px;
+}
+
+.ld-font th.slds-text-title--caps span {
+    font-size: .8rem;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+
+
+
+
+
+/*=========   END ListView.tpl  ==========*/
+
+
+/*=========   ListView Entries.tpl  ==========*/
+
+.layerPopupTransport td {
+    padding: 0 .5rem;
+}
+
+td[role="gridcell"] {
+    width: 3.25rem;
+    padding: .2REM .5rem;
+}
+
+th[scope="row"] {
+    padding: .2rem .5rem;
+    text-align: left;
+}
+
+th[scope="col"] {
+    text-align: left;
+}
+
+
+/*=========   END ListView Entries.tpl  ==========*/
+
+
+/*========= Dashboard buttons ========*/
+
+.lds-img img {
+    width: 20px;
+}
+
+.lds-img td {
+    padding: 0!important;
+}
+
+.lds-img img:hover {
+    opacity: .7;
+}
+
+
+/*========= End Dashboard buttons ========*/
+
+
+/*===========Related List Data Content===========*/
+
+
+/*=======CustomView.tpl=======*/
+
+.align-left td:not(:first-child) {
+    text-align: left;
+}
+
+.font-size select {
+    font-size: .8rem;
+}
+
+
+/*=======End CustomView.tpl=======*/
+
+
+/*===========END Related List Data Content===========*/
+
+
+/*=======Start Calendar Module=============*/
+
+.slds-form-element__label-custom {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin-right: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.slds-line-height--reset .no-padding {
+    padding: 0!important;
+}
+
+.calendar-activity-blocks {
+    font-weight: bold;
+    margin: 3px;
+    padding: 1px;
+}
+
+.calendar-activity-module-blocks {
+    font-weight: bold;
+    border-width: 2px;
+    border-style: solid;
+    margin: 3px;
+    padding: 1px;
+    border-radius: 3px;
+}
+
+/*=======End Calendar Module=============*/
+
+/*=======Impotrt_Default_Values_widget=============*/
+#defaultValuesElementsContainer .small .slds-input,
+#defaultValuesElementsContainer .slds-select {
+    width: 25%;
+}
+
+/*======= End Import_Default_Values_widget=============*/

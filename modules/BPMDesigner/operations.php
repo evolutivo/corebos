@@ -24,7 +24,7 @@ if($kaction=='savePF'){
 elseif($kaction=='saveGraph'){
     global $adb;
     $models = $_REQUEST['models'];
-    $mv = json_decode($models);
+    $mv = json_decode(file_get_contents('php://input'));
     for($i=0;$i<sizeof($mv->elements->nodes);$i++){
         $node=$mv->elements->nodes[$i];
         if ($node->data->id!=''){

@@ -87,6 +87,7 @@ function getBrowserVariables(&$smarty) {
 	}
 	$swmd5file = file_get_contents('include/sw-precache/service-worker.md5');
 	$swmd5 = substr($swmd5file,0,strpos($swmd5file,' '));
+	$corebos_browsertabID = (empty($_COOKIE['corebos_browsertabID']) ? '' : $_COOKIE['corebos_browsertabID']);
 	if ($smarty) {
 		$smarty->assign('GVTMODULE',$vars['gVTModule']);
 		$smarty->assign('THEME', $vars['gVTTheme']);
@@ -99,6 +100,7 @@ function getBrowserVariables(&$smarty) {
 		$smarty->assign('USER_NUMBER_DECIMALS', $vars['userNumberOfDecimals']);
 		$smarty->assign('USER_LANGUAGE', $current_language);
 		$smarty->assign('SW_MD5', $swmd5);
+		$smarty->assign('corebos_browsertabID', $corebos_browsertabID);
 	}
 }
 
@@ -200,40 +202,35 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 {
 	global $log, $current_user;
 	$log->debug("Entering get_user_array(".$add_blank.",". $status.",".$assigned_user.",".$private.") method ...");
-	if(isset($current_user) && $current_user->id != '')
-	{
+	if (isset($current_user) && $current_user->id != '') {
 		require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
 		require('user_privileges/user_privileges_'.$current_user->id.'.php');
 	}
 	static $user_array = null;
 	$module = isset($_REQUEST['module']) ? $_REQUEST['module'] : '';
 
-	if($user_array == null)
-	{
+	if ($user_array == null) {
 		require_once('include/database/PearDatabase.php');
 		$db = PearDatabase::getInstance();
 		$temp_result = Array();
 		// Including deleted users for now.
 		if (empty($status)) {
-				$query = "SELECT id, user_name from vtiger_users";
-				$params = array();
+			$query = "SELECT id, user_name from vtiger_users";
+			$params = array();
 		} else {
-				if($private == 'private')
-				{
-					$log->debug("Sharing is Private. Only the current user should be listed");
-					$query = "select id as id,user_name as user_name,first_name,last_name from vtiger_users where id=? and status='Active' union select vtiger_user2role.userid as id,vtiger_users.user_name as user_name ,
-						vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name
-						from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ? and status='Active' union
-						select shareduserid as id,vtiger_users.user_name as user_name ,
-						vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name from vtiger_tmp_write_user_sharing_per inner join vtiger_users on vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid where status='Active' and vtiger_tmp_write_user_sharing_per.userid=? and vtiger_tmp_write_user_sharing_per.tabid=?";
-					$params = array($current_user->id, $current_user_parent_role_seq."::%", $current_user->id, getTabid($module));
-				}
-				else
-				{
-					$log->debug("Sharing is Public. All vtiger_users should be listed");
-					$query = "SELECT id, user_name,first_name,last_name from vtiger_users WHERE status=?";
-					$params = array($status);
-				}
+			$assignUP = GlobalVariable::getVariable('Application_Permit_Assign_Up', 0, $module, $current_user->id);
+			if ($private == 'private' and empty($assignUP)) {
+				$assignBrothers = GlobalVariable::getVariable('Application_Permit_Assign_SameRole', 0, $module, $current_user->id);
+				$query = "select id as id,user_name as user_name,first_name,last_name from vtiger_users where id=? and status='Active' union select vtiger_user2role.userid as id,vtiger_users.user_name as user_name ,
+					vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name
+					from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ? and status='Active' union
+					select shareduserid as id,vtiger_users.user_name as user_name ,
+					vtiger_users.first_name as first_name ,vtiger_users.last_name as last_name from vtiger_tmp_write_user_sharing_per inner join vtiger_users on vtiger_users.id=vtiger_tmp_write_user_sharing_per.shareduserid where status='Active' and vtiger_tmp_write_user_sharing_per.userid=? and vtiger_tmp_write_user_sharing_per.tabid=?";
+				$params = array($current_user->id, (isset($current_user_parent_role_seq) ? $current_user_parent_role_seq : '').(empty($assignBrothers) ? '::%' : '%'), $current_user->id, getTabid($module));
+			} else {
+				$query = "SELECT id, user_name,first_name,last_name from vtiger_users WHERE status=?";
+				$params = array($status);
+			}
 		}
 		if (!empty($assigned_user)) {
 			$query .= " OR id=?";
@@ -244,14 +241,13 @@ function get_user_array($add_blank=true, $status="Active", $assigned_user="",$pr
 
 		$result = $db->pquery($query, $params, true, "Error filling in user array: ");
 
-		if ($add_blank==true){
+		if ($add_blank==true) {
 			// Add in a blank row
 			$temp_result[''] = '';
 		}
 
 		// Get the id and the name.
-		while($row = $db->fetchByAssoc($result))
-		{
+		while ($row = $db->fetchByAssoc($result)) {
 			$temp_result[$row['id']] = getFullNameFromArray('Users', $row);
 		}
 
@@ -961,11 +957,14 @@ function getColumnFields($module) {
 function getUserEmail($userid) {
 	global $log, $adb;
 	$log->debug('Entering getUserEmail('.print_r($userid,true).') method ...');
-	if($userid != '') {
+	$email = '';
+	if (!empty($userid) and is_numeric($userid)) {
 		$sql = 'select email1 from vtiger_users where id=?';
 		if (!is_array($userid)) $userid = array($userid);
 		$result = $adb->pquery($sql, $userid);
-		$email = $adb->query_result($result,0,'email1');
+		if ($result and $adb->num_rows($result)>0) {
+			$email = $adb->query_result($result,0,'email1');
+		}
 	}
 	$log->debug('Exiting getUserEmail method ...');
 	return $email;
@@ -2888,17 +2887,14 @@ function getMigrationCharsetFlag() {
 }
 
 /** Function to convert a given time string to Minutes */
-function ConvertToMinutes($time_string)
-{
+function ConvertToMinutes($time_string) {
+	if (empty($time_string)) return 0;
 	$interval = explode(' ', $time_string);
 	$interval_minutes = intval($interval[0]);
 	$interval_string = strtolower($interval[1]);
-	if($interval_string == 'hour' || $interval_string == 'hours')
-	{
+	if ($interval_string == 'hour' || $interval_string == 'hours') {
 		$interval_minutes = $interval_minutes * 60;
-	}
-	elseif($interval_string == 'day' || $interval_string == 'days')
-	{
+	} elseif ($interval_string == 'day' || $interval_string == 'days') {
 		$interval_minutes = $interval_minutes * 1440;
 	}
 	return $interval_minutes;
@@ -4198,7 +4194,8 @@ function DeleteEntity($module,$return_module,$focus,$record,$return_id) {
 	global $log;
 	$log->debug("Entering DeleteEntity method ($module, $return_module, $record, $return_id)");
 	if (!empty($record)) {
-		if (getSalesEntityType($record)!=$module) {
+		$setype = getSalesEntityType($record);
+		if ($setype != $module and !($module == 'cbCalendar' and $setype == 'Calendar')) {
 			return array(true,getTranslatedString('LBL_PERMISSION'));
 		}
 		if ($module != $return_module && !empty($return_module) && !empty($return_id)) {
@@ -4416,15 +4413,15 @@ function getRecordInfoFromID($id){
 }
 
 /**
- * this function accepts an tabiD and returns the tablename, fieldname and fieldlabel for email field
- * @param integer $tabid - the tabid of current module
- * @return string $fields - the array of mail field's tablename, fieldname and fieldlabel
+ * this function accepts a tabiD and returns the tablename, fieldname and fieldlabel of the first email field it finds
+ * @param integer $tabid - the tabid of the module
+ * @return array $fields - array of the email field's tablename, fieldname and fieldlabel or empty if not found
  */
-function getMailFields($tabid){
+function getMailFields($tabid) {
 	global $adb;
 	$fields = array();
-	$result = $adb->pquery("SELECT tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid=? AND uitype IN (13,104)", array($tabid));
-	if($adb->num_rows($result)>0){
+	$result = $adb->pquery("SELECT tablename,fieldlabel,fieldname FROM vtiger_field WHERE tabid=? AND uitype='13'", array($tabid));
+	if ($adb->num_rows($result)>0) {
 		$tablename = $adb->query_result($result, 0, "tablename");
 		$fieldname = $adb->query_result($result, 0, "fieldname");
 		$fieldlabel = $adb->query_result($result, 0, "fieldlabel");
@@ -4471,28 +4468,29 @@ function getValidDBInsertDateValue($value) {
 	$value = trim($value);
 	if (empty($value)) return '';
 	$delim = array('/','.');
-	foreach ($delim as $delimiter){
+	foreach ($delim as $delimiter) {
 		$x = strpos($value, $delimiter);
-		if($x === false) continue;
-		else{
+		if ($x === false) continue;
+		else {
 			$value=str_replace($delimiter, '-', $value);
 			break;
 		}
 	}
+
 	list($y,$m,$d) = explode('-',$value);
-	if(strlen($y) == 1) $y = '0'.$y;
-	if(strlen($m) == 1) $m = '0'.$m;
-	if(strlen($d) == 1) $d = '0'.$d;
+	if (strlen($y) == 1) $y = '0'.$y;
+	if (strlen($m) == 1) $m = '0'.$m;
+	if (strlen($d) == 1) $d = '0'.$d;
 	$value = implode('-', array($y,$m,$d));
 
-	if(strlen($y)<4){
+	if (preg_match("/^[0-9]{2,4}[-][0-3]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $value) == 0) {
+		return '';
+	}
+
+	if (strlen($y)<4) {
 		$insert_date = DateTimeField::convertToDBFormat($value);
 	} else {
 		$insert_date = $value;
-	}
-
-	if (preg_match("/^[0-9]{2,4}[-][0-1]{1,2}?[0-9]{1,2}[-][0-3]{1,2}?[0-9]{1,2}$/", $insert_date) == 0) {
-		return '';
 	}
 
 	$log->debug("Exiting getValidDBInsertDateValue method ...");
@@ -4505,11 +4503,11 @@ function getValidDBInsertDateTimeValue($value) {
 	if(count($valueList) == 2) {
 		$dbDateValue = getValidDBInsertDateValue($valueList[0]);
 		$dbTimeValue = $valueList[1];
-		if(!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
+		if (!empty($dbTimeValue) && strpos($dbTimeValue, ':') === false) {
 			$dbTimeValue = $dbTimeValue.':';
 		}
 		$timeValueLength = strlen($dbTimeValue);
-		if(!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == ($timeValueLength-1)) {
+		if (!empty($dbTimeValue) && strrpos($dbTimeValue, ':') == ($timeValueLength-1)) {
 			$dbTimeValue = $dbTimeValue.'00';
 		}
 		try {
@@ -4518,9 +4516,10 @@ function getValidDBInsertDateTimeValue($value) {
 		} catch (Exception $ex) {
 			return '';
 		}
-	} elseif(count($valueList == 1)) {
+	} elseif (count($valueList == 1)) {
 		return getValidDBInsertDateValue($value);
 	}
+	return '';
 }
 
 /** Function to set the PHP memory limit to the specified value, if the memory limit set in the php.ini is less than the specified value
@@ -4641,6 +4640,36 @@ function getEmailRelatedModules() {
 		}
 	}
 	return $relatedModules;
+}
+
+function hasEmailField($module) {
+	global $adb;
+	$querystr = 'SELECT fieldid FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)';
+	$queryres = $adb->pquery($querystr, array(getTabid($module)));
+	return ($queryres and $adb->num_rows($queryres)>0);
+}
+
+function getFirstEmailField($module) {
+	global $adb;
+	$querystr = 'SELECT fieldname FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)';
+	$queryres = $adb->pquery($querystr, array(getTabid($module)));
+	if ($queryres and $adb->num_rows($queryres)>0) {
+		$emailfield = $adb->query_result($queryres, 0,0);
+	} else {
+		$emailfield = '';
+	}
+	return $emailfield;
+}
+
+function modulesWithEmailField() {
+	global $adb;
+	$querystr = 'SELECT distinct vtiger_tab.name FROM vtiger_field INNER JOIN vtiger_tab ON vtiger_tab.tabid=vtiger_field.tabid WHERE uitype=13 and vtiger_field.presence in (0,2)';
+	$queryres = $adb->query($querystr);
+	$emailmodules = array();
+	while ($mod = $adb->fetch_array($queryres)) {
+		$emailmodules[] = $mod['name'];
+	}
+	return $emailmodules;
 }
 
 function getInventoryModules() {

@@ -14,18 +14,18 @@
  ********************************************************************************/
 /*********************************************************************************
  * $Header: /advent/projects/wesat/vtiger_crm/sugarcrm/modules/Accounts/language/en_us.lang.php,v 1.18 2005/03/19 08:59:20 rank Exp $
- * Description:  Defines the English language pack 
+ * Description:  Defines the English language pack
  * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
  * All Rights Reserved.
  * Contributor(s): ______________________________________..
  ********************************************************************************/
- 
+
 $mod_strings = Array(
     'CREATETABLE'=>'Crea MV',
     'CREATEMVINDEX'=>'Crea MV/INDEX',
     'CREATELOGGINGINDEX'=>'CREA LOGGING INDEX',
     'BI_SERVER'=>'BI Server',
-    'BI_SERVER_SECURITY'=>'Sicurezza BI Server',   
+    'BI_SERVER_SECURITY'=>'Sicurezza BI Server',
     'BI_SERVER_MAIL_REPORT'=>'BI Server Report Email',
     'BI_ACTIONS'=>'Azioni',
     'Time'=>'Ora',
@@ -68,6 +68,8 @@ $mod_strings = Array(
     'reportnotexist'=>'Il report non esiste.\n\Problema di creazione',
     'exportpermission'=>'Non hai i permessi per eseguire questo script',
     'reportcreated'=>'Report Creato',
-    'indexcreated'=>'Index Creato'
+    'indexcreated'=>'Index Creato',
+    'DELETEINDEX'=>'Cancella Indexes',
+    'ID'=>'ID'
 );
 ?>

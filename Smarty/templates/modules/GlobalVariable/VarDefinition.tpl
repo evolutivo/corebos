@@ -14,7 +14,7 @@
 </style>
 {/literal}
 <div class="cb-alert-info">{$GlobalVariableDefinitonsHeader.UseDescriptionMessage}</div>
-<div class='gvdefstable'>
+<div class='gvdefstable' style="height: 500px; overflow: auto;">
 <table id="gvdefstable">
 <thead>
 	<tr>

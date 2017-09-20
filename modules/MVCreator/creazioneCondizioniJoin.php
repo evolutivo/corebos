@@ -18,9 +18,9 @@ if (isset($_POST['MapID'])) {
     $MapId = $_POST['MapID'];
 }
 if(isset($_POST['queryid'])){
-$queryid=$_POST['queryid'];   
+$queryid=$_POST['queryid'];
 }
-else 
+else
 $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
 //echo "<h2>".$MapId."</h2>";
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme,$adb,$root_directory,$current_user;
@@ -37,6 +37,7 @@ $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("MapID", $MapId);
 $smarty->assign("queryid", $queryid);
+$smarty->assign("NameView", $NameView);
 $output = $smarty->fetch('modules/MVCreator/createJoinCondition.tpl');
 echo $output;
 ?>

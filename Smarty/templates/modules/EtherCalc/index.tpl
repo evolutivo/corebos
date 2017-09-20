@@ -41,20 +41,21 @@
 </button>
 </div>
 </div>
-<div >
-<div ng-show="frameName1==''" style="height:170%">
- <iframe onload="this.width=screen.width;this.height=screen.height;" name="{literal}{{frameName1}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl1)}}{/literal}"></iframe>
- </div>
-<div ng-show="frameName!=''" style="height:170%">
-<iframe onload="this.width=screen.width;this.height=screen.height;" name="{literal}{{frameName}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl)}}{/literal}"></iframe>
- <div style="font-size:20px;">
+ <div ng-show="frameName!=''" style="font-size:20px;">
  <button ng-click="showlist(data)" class="btn-primary">
   Show List
 </button>
 <button ng-click="updatedata(ethid)" class="btn-primary">
 Update Data
 </button>
+<a href="{literal}{{newurl}}{/literal}">Link</a>
 </div>
+<div >
+<div ng-show="frameName1==''" style="height:170%">
+ <iframe onload="this.width=screen.width;this.height=screen.height;" name="{literal}{{frameName1}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl1)}}{/literal}"></iframe>
+ </div>
+<div ng-show="frameName!=''" style="height:170%">
+<iframe onload="this.width=screen.width;this.height=screen.height;" name="{literal}{{frameName}}{/literal}" ng-src="{literal}{{trustSrcurl(frameUrl)}}{/literal}"></iframe>
  </div>
  </div>
         </div>

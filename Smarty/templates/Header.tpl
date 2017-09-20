@@ -19,8 +19,8 @@
 	<link rel="stylesheet" href="include/print.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="include/LD/assets/styles/salesforce-lightning-design-system.css" type="text/css" />
 	<link rel="stylesheet" href="include/LD/assets/styles/mainmenu.css" type="text/css" />
-    <link rel="stylesheet" href="include/LD/assets/styles/settings.css" type="text/css" />
-    <link rel="stylesheet" href="include/LD/assets/styles/all-modules.css" type="text/css" />
+	<link rel="stylesheet" href="include/LD/assets/styles/settings.css" type="text/css" />
+	<link rel="stylesheet" href="include/LD/assets/styles/all-modules.css" type="text/css" />
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
 {if $HEADERCSS}
 	<!-- Custom Header CSS -->
@@ -53,6 +53,7 @@
 	<script type="text/javascript" src="include/jquery/jquery.js"></script>
 	<script type="text/javascript" src="include/jquery/jquery-ui.js"></script>
 	<script type="text/javascript" src="include/js/meld.js"></script>
+		<script type="text/javascript" src="include/js/corebosjshooks.js"></script>
 	<script type="text/javascript" src="include/js/general.js"></script>
 	<!-- vtlib customization: Javascript hook -->
 	<script type="text/javascript" src="include/js/vtlib.js"></script>
@@ -69,16 +70,16 @@
 	<script type="text/javascript" src="jscalendar/calendar.js"></script>
 	<script type="text/javascript" src="jscalendar/calendar-setup.js"></script>
 	<script type="text/javascript" src="jscalendar/lang/calendar-{$APP.LBL_JSCALENDAR_LANG}.js"></script>
-        {/if}
+		{/if}
 	{if $MODULE_NAME eq 'MarketingDashboard' && $MODULE_NAME eq 'evvtApps' && $MODULE_NAME eq 'VtappSecurity'}<script src="kendoui/js/jquery.min.js"></script>{/if}
-        {if $MODULE_NAME neq 'MarketingDashboard'}<script type="text/javascript" charset="utf-8">
-        jQuery.noConflict();
-        </script>{/if}
-        <link href="kendoui/styles/kendo.common.min.css" rel="stylesheet"/>
-        <link href="kendoui/styles/kendo.uniform.min.css" rel="stylesheet"/>
-        <script src="kendoui/js/kendo.web.min.js"></script>
-        <script src="kendoui/js/kendo.pager.min.js"></script>
-    <!-- asterisk Integration -->
+		{if $MODULE_NAME neq 'MarketingDashboard'}<script type="text/javascript" charset="utf-8">
+		jQuery.noConflict();
+		</script>{/if}
+		<link href="kendoui/styles/kendo.common.min.css" rel="stylesheet"/>
+		<link href="kendoui/styles/kendo.uniform.min.css" rel="stylesheet"/>
+		<script src="kendoui/js/kendo.web.min.js"></script>
+		<script src="kendoui/js/kendo.pager.min.js"></script>
+	<!-- asterisk Integration -->
 {if $USE_ASTERISK eq 'true'}
 	<script type="text/javascript" src="include/js/asterisk.js"></script>
 	<script type="text/javascript">
@@ -92,32 +93,32 @@
 	{/foreach}
 	<!-- END -->
 {/if}
-    <!-- END -->
-{if MODULE_NAME neq 'ElasticSearchExtension' && $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' && $MODULE_NAME neq 'EtherCalc' }   
- 
-     <script type="text/javascript" src="Smarty/angular/angular.js"></script>
-        <script  src="Smarty/angular/ng-table.js"></script>
-        <script src="Smarty/angular/angular-multi-select.js"></script>  
-        <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
-        <link rel="stylesheet" href="Smarty/angular/ng-table.css" />
-        <script src="Smarty/angular/ui-bootstrap-tpls-0.13.4.js"></script>
-        <link rel="stylesheet" href="Smarty/angular/ng-tags-input.min.css" />
-        <script src="Smarty/angular/ng-tags-input.min.js"></script>
-        <!-- xeditable   -->
-        <link href="Smarty/angular/xeditable.css" rel="stylesheet">
-        <script src="Smarty/angular/xeditable.js"></script>
-        <script type="text/javascript" src="Smarty/angular/angular-route/angular-route.min.js"></script>
-        <script type="text/javascript" src="Smarty/angular/sortable/dist/ng-sortable.js"></script>
-        <link rel="stylesheet" href="Smarty/angular/bootstrap/css/font-awesome.min.css">
-        <link rel="stylesheet" href="Smarty/angular/bootstrap/css/font.googleapis.css">
-        <script src='Smarty/angular/textAngular-rangy.min.js'></script>
-        <script src='Smarty/angular/textAngular-sanitize.min.js'></script>
-        <script src='Smarty/angular/textAngular.min.js'></script>
-        <link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
+	<!-- END -->
+{if MODULE_NAME neq 'ElasticSearchExtension' && $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq  'ElasticSearch' && $MODULE_NAME neq 'EtherCalc' and $MODULE_NAME neq 'FormBuilder'}   
+
+	<script type="text/javascript" src="Smarty/angular/angular.js"></script>
+		<script  src="Smarty/angular/ng-table.js"></script>
+		<script src="Smarty/angular/angular-multi-select.js"></script>  
+		<link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
+		<link rel="stylesheet" href="Smarty/angular/ng-table.css" />
+		<script src="Smarty/angular/ui-bootstrap-tpls-0.13.4.js"></script>
+		<link rel="stylesheet" href="Smarty/angular/ng-tags-input.min.css" />
+		<script src="Smarty/angular/ng-tags-input.min.js"></script>
+		<!-- xeditable   -->
+		<link href="Smarty/angular/xeditable.css" rel="stylesheet">
+		<script src="Smarty/angular/xeditable.js"></script>
+		<script type="text/javascript" src="Smarty/angular/angular-route/angular-route.min.js"></script>
+		<script type="text/javascript" src="Smarty/angular/sortable/dist/ng-sortable.js"></script>
+	        <link rel="stylesheet" href="Smarty/angular/bootstrap/css/font-awesome.min.css">
+                <link rel="stylesheet" href="Smarty/angular/bootstrap/css/font.googleapis.css">
+		<script src='Smarty/angular/textAngular-rangy.min.js'></script>
+		<script src='Smarty/angular/textAngular-sanitize.min.js'></script>
+		<script src='Smarty/angular/textAngular.min.js'></script>
+		<link rel="stylesheet" type="text/css" href="Smarty/angular/bootstrap.min.css"/>
 {/if}
 {if $MODULE_NAME neq 'VtappSecurity' && $MODULE_NAME neq 'com_vtiger_workflow' && $MODULE_NAME neq 'MarketingDashboard'} 
-        <!--<script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>-->
-   	<script type="text/javascript">
+		<!--<script type="text/javascript" src="Smarty/angular/jquery-1.9.1.js"></script>-->
+	<script type="text/javascript">
 		jQuery.noConflict();
 	</script>
 {/if}
@@ -137,21 +138,21 @@
 	<!-- END -->
 {/if}
 {* END *}
-    {if $MODULE_NAME neq 'ElasticSearchExtension' and $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch' and $MODULE_NAME neq 'EtherCalc'}   
-        <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
-            <script>
-                angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
-                                            'ngTagsInput','textAngular','ui.sortable','ngRoute']);
-            </script>
-    {elseif $MODULE_NAME eq 'Adocmaster'}
-      <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
-            <script>
-                angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
-                                            'ngTagsInput','textAngular']);
-            </script>
-    {else}
+	{if $MODULE_NAME neq 'ElasticSearchExtension' and $MODULE_NAME neq 'Adocmaster' and $MODULE_NAME neq 'OpenStreetMap' and $MODULE_NAME neq 'evvtMap' and $MODULE_NAME neq 'FieldFormulas' and $MODULE_NAME neq 'Reports' and $MODULE_NAME neq 'com_vtiger_workflow' and $MODULE_NAME neq 'NgBlock' and $MODULE_NAME neq 'ESClient' and $MODULE_NAME neq 'evvtApps' and $MODULE_NAME neq 'VtappSecurity' and $MODULE_NAME neq 'Settings' and $MODULE_NAME neq 'ElasticSearch' and $MODULE_NAME neq 'EtherCalc' and $MODULE_NAME neq 'FormBuilder'}   
+		<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
+			<script>
+				angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
+											'ngTagsInput','textAngular','ui.sortable','ngRoute']);
+			</script>
+	{elseif $MODULE_NAME eq 'Adocmaster'}
+	  <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small ng-app="demoApp" ng-cloak {if $MODULE_NAME eq 'PointofSale' || $MODULE_NAME eq 'Distributor'} onload="autocompleteAddressPOS();" {/if}> 
+			<script>
+				angular.module('demoApp', ['ngTable','ui.bootstrap','multi-select','xeditable',
+											'ngTagsInput','textAngular']);
+			</script>
+	{else}
 	<body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small >
-    {/if}
+	{/if}
 	{* PREFECTHING IMAGE FOR BLOCKING SCREEN USING VtigerJS_DialogBox API *}
 	<img src="{'layerPopupBg.gif'|@vtiger_imageurl:$THEME}" style="display: none;"/>
 {if empty($Module_Popup_Edit)}
@@ -159,28 +160,26 @@
 	<tr>
 		<td valign=top align=left><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
 		<td align="center" valign=bottom>
-			<div align ="center" width ="50%" border='3' style="padding:5px;" class="noprint">
-                            {if $QCreateAction.QuickCreate eq 'yes'}
-				<table border=0 cellspacing=0 cellpadding=0 id="search" align="center">
-					<tr>
+			<div align ="center" style="width: 50%;margin: .5rem 0;" id="search" class="slds-combobox_container slds-has-object-switcher">
+				{if $QCreateAction.QuickCreate eq 'yes'}
+				<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+					<button class="slds-button slds-button_icon" onclick="UnifiedSearch_SelectModuleForm(this);" aria-haspopup="true" title="Select object to search in" style="padding: .5rem;">
+						<img src="themes/images/chevrondown_60.png" style="width: 16px;" >
+					</button>
+				</div>
+				<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+					<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
 						<form name="UnifiedSearch" method="post" action="index.php" style="margin:0px" onsubmit="if (document.getElementById('query_string').value=='') return false; VtigerJS_DialogBox.block();">
-							<td style="background-color:#ffffef;border:1px;border-color:black;vertical-align:middle;" nowrap>
-								<input type="hidden" name="action" value="UnifiedSearch" style="margin:0px">
+							<input type="hidden" name="action" value="UnifiedSearch" style="margin:0px">
 								<input type="hidden" name="module" value="Home" style="margin:0px">
 								<input type="hidden" name="parenttab" value="{$CATEGORY}" style="margin:0px">
 								<input type="hidden" name="search_onlyin" value="--USESELECTED--" style="margin:0px">
-								<input type="text" name="query_string" id="query_string" value="{$QUERY_STRING}" class="searchBox" onFocus="this.value=''" >
-							</td>
-							<td align ="right" style="background-color:#FFFFEF; vertical-align:middle;padding:5px;" onclick="UnifiedSearch_SelectModuleForm(this);">
-								<a href='javascript:void(0);' ><img src="{'arrow_down_black.png'|@vtiger_imageurl:$THEME}" align='left' border=0></a>
-							</td>
-							<td style="background-color:#cccccc">
-								<input type="image" class="searchBtn" alt="{$APP.LBL_FIND}" title="{$APP.LBL_FIND}" width="70%" height="70%" src="{'searchicon.PNG'|@vtiger_imageurl:$THEME}" align='left' border=1>
-							</td>
+								<input type="text" name="query_string" id="query_string" value="{$QUERY_STRING}" class="slds-input slds-combobox__input" onFocus="this.value=''" >
+								<input type="image" alt="{$APP.LBL_FIND}" title="{$APP.LBL_FIND}" src="themes/softed/images/btnL3Search.gif" width="16px" style="vertical-align: middle;">
 						</form>
-					</tr>
-				</table>
-                            {/if}
+					</div>
+				</div>
+				{/if}
 			</div>
 		</td>
 		<td class=small nowrap align="right" style="padding-right:10px;">
@@ -341,7 +340,7 @@
 <div id="calculator_cont" style="position:absolute; z-index:10000" ></div>
 {include file="Clock.tpl"}
 
-<div id="qcform" style="position:absolute;width:700px;top:80px;left:450px;z-index:90000;"></div>
+<div id="qcform" style="position:absolute;width:910px;top:80px;left:450px;z-index:90000;"></div>
 
 <!-- Unified Search module selection feature -->
 <div id="UnifiedSearch_moduleformwrapper" style="position:absolute;width:417px;z-index:100002;display:none;"></div>
@@ -386,16 +385,23 @@
 <div id="status" style="position:absolute;display:none;left:850px;top:95px;height:27px;white-space:nowrap;"><img src="{'status.gif'|@vtiger_imageurl:$THEME}"></div>
 
 <div id="tracker" style="display:none;position:absolute;z-index:100000001;" class="layerPopup">
-	<table border="0" cellpadding="5" cellspacing="0" width="200">
-		<tr style="cursor:move;">
-			<td colspan="2" class="mailClientBg small" id="Track_Handle"><strong>{$APP.LBL_LAST_VIEWED}</strong></td>
-			<td align="right" style="padding:5px;" class="mailClientBg small">
-				<a href="javascript:;"><img src="{'close.gif'|@vtiger_imageurl:$THEME}" border="0" onClick="fninvsh('tracker')" hspace="5" align="absmiddle"></a>
-			</td></tr>
+	<table class="slds-table slds-no-row-hover" width="200">
+		<tr class="slds-text-title--header" style="cursor:move;">
+			<th scope="col" id="Track_Handle">
+				<div class="slds-truncate moduleName">
+					<strong>{$APP.LBL_LAST_VIEWED}</strong>
+				</div>
+			</th>
+			<th scope="col" style="padding: .5rem 0 .5rem 2.5rem;">
+				<div class="slds-truncate">
+					<a href="javascript:;"><img src="{'close.gif'|@vtiger_imageurl:$THEME}" border="0" onClick="fninvsh('tracker')" hspace="5" align="absmiddle"></a>
+				</div>
+			</th>
+		</tr>
 	</table>
-	<table border="0" cellpadding="5" cellspacing="0" width="200" class="hdrNameBg">
+	<table class="slds-table slds-no-row-hover slds-table--bordered" width="200">
 		{foreach name=trackinfo item=trackelements from=$TRACINFO}
-			<tr>
+			<tr class="slds-line-height--reset">
 				<td class="trackerListBullet small" align="center" width="12">{$smarty.foreach.trackinfo.iteration}</td>
 				<td class="trackerList small"> <a href="index.php?module={$trackelements.module_name}&action=DetailView&record={$trackelements.crmid}&parenttab={$CATEGORY}">{$trackelements.item_summary}</a> </td><td class="trackerList small">&nbsp;</td></tr>
 		{/foreach}
