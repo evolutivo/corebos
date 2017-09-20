@@ -108,8 +108,8 @@
         <script src="Smarty/angular/xeditable.js"></script>
         <script type="text/javascript" src="Smarty/angular/angular-route/angular-route.min.js"></script>
         <script type="text/javascript" src="Smarty/angular/sortable/dist/ng-sortable.js"></script>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,300">
+        <link rel="stylesheet" href="Smarty/angular/bootstrap/css/font-awesome.min.css">
+        <link rel="stylesheet" href="Smarty/angular/bootstrap/css/font.googleapis.css">
         <script src='Smarty/angular/textAngular-rangy.min.js'></script>
         <script src='Smarty/angular/textAngular-sanitize.min.js'></script>
         <script src='Smarty/angular/textAngular.min.js'></script>
