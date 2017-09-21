@@ -1076,3 +1076,8 @@ th[scope="col"] {
 }
 
 /*======= End Import_Default_Values_widget=============*/
+
+.JCLRgrip:hover {
+    width: .15rem;
+    background-color: #0070d2;
+}

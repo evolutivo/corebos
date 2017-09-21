@@ -118,7 +118,7 @@
 
 				<!-- =====================LIGHITNG DESGIN LIST VIEW =========== -->
 				<div>
-					<table id="resizableTable" class="slds-table slds-table--bordered slds-table--fixed-layout ld-font">
+					<table id="resizableTable" class="slds-table slds-table--bordered slds-table_resizable-cols slds-table--fixed-layout ld-font" style="font-size: 9px; letter-spacing: normal;">
 						<thead>
 							<!-- Table Headers -->
 							<tr>
@@ -133,7 +133,7 @@
 									</div>
 								</th>
 								{foreach name="listviewforeach" item=header from=$LISTHEADER}
-								<th aria-sort="none" class="slds-text-title_caps" style="padding: .5rem .2rem;" aria-label="Name" scope="col">
+								<th aria-sort="none" class="slds-text-title_caps slds-is-resizable" style="padding: .5rem .2rem;" aria-label="Name" scope="col">
 									<a class="slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
 										<span class="slds-truncate slds-text-link--reset">
 											{$header}
