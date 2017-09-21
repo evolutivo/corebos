@@ -15,11 +15,11 @@
 <script type="text/javascript" src="include/js/colResizable-1.6.min.js"></script>
 <script type="text/javascript">
 	jQuery(function(){
-		jQuery("#sample").colResizable({
+		jQuery("#resizableTable").colResizable({
 				liveDrag:true, 
 				gripInnerHtml:"<div class='grip'></div>", 
 				draggingClass:"dragging", 
-				resizeMode:'flex'
+				resizeMode:'fit'
 			});
 		});
 </script>
@@ -118,7 +118,7 @@
 
 				<!-- =====================LIGHITNG DESGIN LIST VIEW =========== -->
 				<div>
-					<table id="sample" class="slds-table slds-table--bordered slds-table--fixed-layout ld-font">
+					<table id="resizableTable" class="slds-table slds-table--bordered slds-table--fixed-layout ld-font">
 						<thead>
 							<!-- Table Headers -->
 							<tr>
