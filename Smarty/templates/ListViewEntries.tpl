@@ -12,6 +12,17 @@
 &#&#&#{if isset($ERROR)}{$ERROR}{/if}&#&#&# 
 {/if}
 <script type="text/javascript" src="include/js/ListView.js"></script>
+<script type="text/javascript" src="include/js/colResizable-1.6.min.js"></script>
+<script type="text/javascript">
+	jQuery(function(){
+		jQuery("#sample").colResizable({
+				liveDrag:true, 
+				gripInnerHtml:"<div class='grip'></div>", 
+				draggingClass:"dragging", 
+				resizeMode:'flex'
+			});
+		});
+</script>
 <form name="massdelete" method="POST" id="massdelete" onsubmit="VtigerJS_DialogBox.block();">
 	<input name='search_url' id="search_url" type='hidden' value='{$SEARCH_URL}'>
 	<input name="idlist" id="idlist" type="hidden">
@@ -105,10 +116,9 @@
 				</table>
 				<!-- List View's Buttons and Filters ends -->
 
-
 				<!-- =====================LIGHITNG DESGIN LIST VIEW =========== -->
 				<div>
-					<table class="slds-table slds-table--bordered slds-table--fixed-layout ld-font">
+					<table id="sample" class="slds-table slds-table--bordered slds-table--fixed-layout ld-font">
 						<thead>
 							<!-- Table Headers -->
 							<tr>
@@ -123,10 +133,12 @@
 									</div>
 								</th>
 								{foreach name="listviewforeach" item=header from=$LISTHEADER}
-								<th class="slds-text-title--caps" scope="col">
-									<span class="slds-truncate slds-text-link--reset" style="padding: .5rem 0;">
-										{$header}
-									</span>
+								<th aria-sort="none" class="slds-text-title_caps" style="padding: .5rem .2rem;" aria-label="Name" scope="col">
+									<a class="slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+										<span class="slds-truncate slds-text-link--reset">
+											{$header}
+										</span>
+									</a>
 								</th>
 								{/foreach}
 							</tr>
@@ -137,7 +149,7 @@
 								</td>
 							</tr>
 						</thead>
-						<tbody>	
+						<tbody>
 							<!-- Table Contents -->
 							{foreach item=entity key=entity_id from=$LISTENTITY}
 							<tr class="slds-hint-parent slds-line-height--reset" id="row_{$entity_id}">
