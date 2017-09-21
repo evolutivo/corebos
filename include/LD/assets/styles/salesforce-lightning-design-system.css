@@ -9398,6 +9398,9 @@ slds-input-has-icon_left .slds-input__icon, .slds-input-has-icon--left .slds-inp
 .slds-table td {
     padding: 0.5rem;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /*word-break: break-all;*/
     position: relative;
 }
 
@@ -9583,9 +9586,6 @@ th.slds-is-sortable:hover .slds-button {
     background: #0070d2;
 }
 
-.slds-resizable__input:focus~.slds-resizable__handle {
-    opacity: 1;
-}
 
 .slds-table--fixed-layout {
     table-layout: fixed;
@@ -12755,6 +12755,79 @@ th.slds-is-sortable:hover .slds-button {
 .slds-scrollable--x::-webkit-scrollbar-track {
     background: #a8b7c7;
 }
+
+
+/**
+ * Resizable data table columns
+ *
+ * @selector .slds-table_resizable-cols
+ * @restrict .slds-table_fixed-layout
+ */
+.slds-table_resizable-cols thead th,
+.slds-table--resizable-cols thead th {
+  padding: 0; }
+
+/**
+ * Resizable handle
+ *
+ * @selector .slds-resizable
+ * @restrict .slds-is-resizable div
+ */
+.slds-resizable {
+  max-width: 100%;
+  /**
+   * Grab handle to resize column
+   *
+   * @selector .slds-resizable__handle
+   * @restrict .slds-resizable span
+   */
+  /**
+   * Grab handle divider indicator when resizing column
+   *
+   * @selector .slds-resizable__divider
+   * @restrict .slds-resizable__handle span
+   */ }
+
+.slds-no-cell-focus .slds-has-focus.slds-is-resizable:hover .slds-th__action {
+  background-color: #f4f6f9;
+  box-shadow: #d8dde6 -0.25rem 0 0 inset; }
+
+.slds-has-focus.slds-is-resizable .slds-th__action,
+.slds-has-focus.slds-is-resizable .slds-th__action:focus,
+.slds-has-focus.slds-is-resizable .slds-th__action:hover,
+.slds-has-focus.slds-is-resizable .slds-th__action:focus:hover,
+.slds-is-resizable .slds-th__action:focus,
+.slds-is-resizable .slds-th__action:focus:hover {
+  background-color: #fdfdfd;
+  box-shadow: #0070d2 0 0 0 1px inset, #0070d2 -0.25rem 0 0 inset; }
+
+
+.slds-resizable__handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 0.25rem;
+  height: 100%;
+  background: #0070d2;
+  display: block;
+  cursor: col-resize;
+  opacity: 0;
+  z-index: 5000; }
+
+.slds-resizable__handle:hover, .slds-resizable__handle:focus, .slds-resizable__handle:active {
+  opacity: 1; }
+
+.slds-resizable__divider {
+  position: absolute;
+  right: 0;
+  height: 100vh;
+  width: 1px;
+  background: #0070d2; }
+
+.slds-resizable__input:focus ~ .slds-resizable__handle {
+  opacity: 1; }
+
+
 
 .slds-size--xx-small {
     width: 6rem;

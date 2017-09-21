@@ -32,7 +32,7 @@
 </table>
 
 <!-- Lighting Design -->
-<table class="slds-table slds-table--bordered slds-no-row-hover slds-table--fixed-layout ld-font">
+<table class="slds-table slds-table--bordered slds-table--resizable-cols slds-no-row-hover slds-table--fixed-layout ld-font">
 	<!-- Table Headers -->
 	<thead>
 		<tr class="slds-line-height--reset">
@@ -62,7 +62,7 @@
 		{if $MODULE eq 'Campaigns'}
 		<tr class="rel_mod_data_campaigns">
 			<th role="gridcell" id="{$MODULE}_{$RELATED_MODULE}_linkForSelectAll" class="linkForSelectAll" style="display:none;" colspan=10>
-				<div class="slds-truncate">			
+				<div class="slds-truncate">
 					<span id="{$MODULE}_{$RELATED_MODULE}_selectAllRec" class="selectall" style="display:inline;" onClick="rel_toggleSelectAll_Records('{$MODULE}','{$RELATED_MODULE}',true,'{$MODULE}_{$RELATED_MODULE}_selected_id')">{$APP.LBL_SELECT_ALL} <span id={$RELATED_MODULE}_count class="folder"> </span> {$APP.LBL_RECORDS_IN} {$RELATED_MODULE|@getTranslatedString:$RELATED_MODULE} {$APP.LBL_RELATED_TO_THIS} {$APP.SINGLE_Campaigns}</span>
 					<span id="{$MODULE}_{$RELATED_MODULE}_deSelectAllRec" class="selectall" style="display:none;" onClick="rel_toggleSelectAll_Records('{$MODULE}','{$RELATED_MODULE}',false,'{$MODULE}_{$RELATED_MODULE}_selected_id')">{$APP.LBL_DESELECT_ALL} {$RELATED_MODULE|@getTranslatedString:$RELATED_MODULE} {$APP.LBL_RELATED_TO_THIS} {$APP.SINGLE_Campaigns}</span>
 				</div>
@@ -77,7 +77,7 @@
 				</div>
 			</th>
 			{/if} {foreach key=index item=_RECORD_DATA from=$_RECORD} {* vtlib customization: Trigger events on listview cell *}
-			<th scope="gridcell" onmouseover="vtlib_listview.trigger('cell.onmouseover', this)" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">{$_RECORD_DATA}</th>
+			<th scope="gridcell" class="slds-text-align--left" onmouseover="vtlib_listview.trigger('cell.onmouseover', this)" onmouseout="vtlib_listview.trigger('cell.onmouseout', this)">{$_RECORD_DATA}</th>
 			{/foreach}
 		</tr>
 		{foreachelse}
