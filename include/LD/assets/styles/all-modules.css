@@ -167,21 +167,6 @@
     transform: rotate(360deg);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*=========  DETAIL VIEW  ==========*/
 
 ul .slds-tabs--scoped__item {
@@ -881,7 +866,6 @@ select:-moz-focusring {
     width: 10px;
 }
 
-
 /*=========   END DetailView - DetailViewUI - DetailViewUIUser  ==========*/
 
 
@@ -896,8 +880,22 @@ select:-moz-focusring {
     letter-spacing: 0.02rem;
 }
 
-
 /*=========   END DetailViewUtils.php  ==========*/
+
+/*=========   HomeBlock.tpl ==========*/
+.homePageMatrixHdr .slds-radio--faux {
+    margin-right: 0!important;
+}
+
+.homePageMatrixHdr {
+    height: 35px;
+    padding: 5px;
+}
+
+.homePageMatrixHdr .slds-select{
+    width: 30%;
+}
+/*=========   End HomeBlock.tpl ==========*/
 
 
 /*=========   Inventory DetailView.tpl  ==========*/
