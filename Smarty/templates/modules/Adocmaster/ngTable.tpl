@@ -1,6 +1,4 @@
 {ngtabadoc}
-<link data-require="ng-table@*" data-semver="0.3.0" rel="stylesheet" href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css" />
-<link data-require="bootstrap-css@*" data-semver="3.0.0" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/css/bootstrap.min.css">
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="modules/Adocmaster/angulareditable/ng-table.css">
