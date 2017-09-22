@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/css/jquery.bsmselect.css">
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/examples/example.css">
 <link rel="stylesheet" type="text/css" href="kendoui/styles/kendo.common.min.css">
-<link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
+<link rel="stylesheet" href="Smarty/templates/modules/MVCreator/icono.min.css">
 
 
 {*<link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}

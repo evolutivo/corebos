@@ -1,6 +1,6 @@
-<link type="text/css" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+<link type="text/css" href="Smarty/templates/modules/MVCreator/jquery-ui.css" rel="stylesheet"/>
+<script type="text/javascript" src="Smarty/templates/modules/MVCreator/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="Smarty/templates/modules/MVCreator/jquery-ui.js"></script>
 <link type="text/css" href="modules/MVCreator/css/style.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css" rel="stylesheet"/>

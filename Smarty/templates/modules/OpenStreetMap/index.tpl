@@ -1,10 +1,10 @@
 <script src="modules/OpenStreetMap/js/en_us.lang.js"></script>
 <link rel="stylesheet" href="modules/OpenStreetMap/css/ui-lightness/jquery-ui.min.css" />
 <script src="modules/OpenStreetMap/js/jquery-ui.min.js"></script>
-<script type='text/javascript' src='http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2'></script>
+<script type='text/javascript' src='modules/OpenStreetMap/js/leaflet.js?2'></script>
 <link rel="stylesheet" href="modules/OpenStreetMap/js/routing/leaflet-routing-machine-2.6.2/dist/leaflet-routing-machine.css" />
 <script src="modules/OpenStreetMap/js/routing/leaflet-routing-machine-2.6.2/dist/leaflet-routing-machine.js"></script>
-<link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<link rel="stylesheet" type="text/css" href="modules/OpenStreetMap/css/leaflet.css" />
 <script src="modules/OpenStreetMap/js/l.control.geosearch.js"></script>
 <script src="modules/OpenStreetMap/js/l.geosearch.provider.openstreetmap.js"></script>
 <link rel="stylesheet" href="modules/OpenStreetMap/css/l.geosearch.css" />

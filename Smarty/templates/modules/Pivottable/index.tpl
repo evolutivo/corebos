@@ -18,8 +18,8 @@
  *************************************************************************************************/
 -->*}
 <script  src="Smarty/angular/ng-table.js"></script>
-<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<script src="modules/Pivottable/js/ui-bootstrap-tpls-0.6.0.js"></script>
+<link href="modules/Pivottable/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="Smarty/angular/angular-multi-select.js"></script>  
 <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
 {if $currTab eq 'sorting'}
