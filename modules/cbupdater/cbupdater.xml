@@ -1765,4 +1765,11 @@
 	<classname>installperspectives</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Ethercalc action changes</description>
+	<filename>build/changeSets/evolutivo/ethercalcactionchanges.php</filename>
+	<classname>ethercalcactionchanges</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
