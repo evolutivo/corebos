@@ -4,9 +4,9 @@
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="Smarty/templates/modules/EtherCalc/js/angular.js"></script>
+        <link href="modules/EtherCalc/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <script src="Smarty/templates/modules/EtherCalc/js/bootstrap.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="modules/EtherCalc/css/elestilo.css">
         <script src="modules/EtherCalc/js/ng-table.js"></script>
          <script type="text/javascript" src="modules/EtherCalc/js/angular-resource.min.js"></script>
