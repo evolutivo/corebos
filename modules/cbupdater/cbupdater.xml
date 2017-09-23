@@ -1772,4 +1772,11 @@
 	<classname>ethercalcactionchanges</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>maximbondarenko</author>
+	<description>Add preview to document in Documents module</description>
+	<filename>build/changeSets/createAditionalLink.php</filename>
+	<classname>createaditionallink</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
