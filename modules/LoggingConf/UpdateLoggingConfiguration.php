@@ -43,7 +43,7 @@ $type1=implode(",",$type);
 //     $pref=GlobalVariable::getVariable('ip_elastic_indexprefix', '');
 ////    $random = strtolower(vtlib_purify($_REQUEST['Screen'])).substr( md5(rand()), 0, 7);
 //     if($brelastic=='undefined')
-//     $ind=strtolower($pref.vtlib_purify($_REQUEST['Screen']));  
+//     $ind=strtolower($pref.vtlib_purify($_REQUEST['Screen']));
 //     else $ind=strtolower($pref);
 ////}
 ////else $ind=$indextype;
@@ -76,7 +76,7 @@ $type1=implode(",",$type);
 //    if(substr($col[1],0,1)=='N')
 //    {$coltype='double';
 //        $loggingFields[$col[0].$_REQUEST['Screen']]=array("type"=>$coltype,"index"=>"not_analyzed");
-//        
+//
 //    }
 //    else if(substr($col[1],0,1)=='D')
 //    { $coltype='date';
@@ -135,7 +135,7 @@ $type1=implode(",",$type);
 //}
 //}
 //}
-// }    
+// }
 //$ent=getEntityField(vtlib_purify($_REQUEST['Screen']));
 //$tbl=$ent['tablename'];
 //$id=$ent['entityid'];
@@ -149,7 +149,7 @@ $type1=implode(",",$type);
 //if(count($response2->$ind->mappings->denorm)!=0)
 //{
 //
-//$fields1=array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
+//$fields1=array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));
 //$endpointUrl2 = "http://$ip:9200/$ind/denorm/_mapping?ignore_conflicts=true";
 // $channel11 = curl_init();
 ////curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -162,7 +162,7 @@ $type1=implode(",",$type);
 //curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 //curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
 //$response2 = json_decode(curl_exec($channel11));
-//$fields111=array("norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
+//$fields111=array("norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));
 //$endpointUrl21 = "http://$ip:9200/$ind/norm/_mapping?ignore_conflicts=true";
 // $channel11 = curl_init();
 ////curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -177,7 +177,7 @@ $type1=implode(",",$type);
 //$response2 = json_decode(curl_exec($channel11));
 //}
 //else{
-//$fields1=array("mappings"=>array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'),"norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));   
+//$fields1=array("mappings"=>array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'),"norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));
 //$endpointUrl2 = "http://$ip:9200/$ind";
 // $channel11 = curl_init();
 ////curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -257,7 +257,7 @@ $type1=implode(",",$type);
 //if(count($response2->$ind->mappings->denorm)!=0)
 //{
 //
-//$fields1=array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
+//$fields1=array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));
 //$endpointUrl2 = "http://$ip:9200/$ind1[$i]/denorm/_mapping?ignore_conflicts=true";
 // $channel11 = curl_init();
 ////curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -270,7 +270,7 @@ $type1=implode(",",$type);
 //curl_setopt($channel11, CURLOPT_SSL_VERIFYPEER, false);
 //curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
 //$response2 = json_decode(curl_exec($channel11));
-//$fields111=array("norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));   
+//$fields111=array("norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'));
 //$endpointUrl21 = "http://$ip:9200/$ind1[$i]/norm/_mapping?ignore_conflicts=true";
 //$channel11 = curl_init();
 ////curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -285,7 +285,7 @@ $type1=implode(",",$type);
 //$response2 = json_decode(curl_exec($channel11));
 //}
 //else{
-//$fields1=array("mappings"=>array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'),"norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));   
+//$fields1=array("mappings"=>array("denorm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']'),"norm"=>array("properties"=>$loggingFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));
 //$endpointUrl2 = "http://$ip:9200/$ind1[$i]";
 // $channel11 = curl_init();
 ////curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -302,27 +302,28 @@ $type1=implode(",",$type);
 //if($response2->acknowledged==true)
 //$create=1;
 //else $create=0;
-// }    
+// }
 // $ind=implode(",",$ind1);
 // }
-// }  
+// }
 // if(($create)<1)
 // $ind='';
-     
+
 //Updating the database
 if($elog=='undefined' && $denorm=='undefined' && $norm=='undefined')
-{break;}
+{//break;
+}
 else{
 $update_params[]=$fieldsarray;
 $update_params[]=$type1;
 $q=$adb->query("show columns from vtiger_loggingconfiguration where Field='fieldselastic'");
 if($adb->num_rows($q)==1){
-$setfields=',fieldselastic=?';  
+$setfields=',fieldselastic=?';
 $update_params[]=$fieldselarray;
 }
 $q2=$adb->query("show columns from vtiger_loggingconfiguration where Field='relmodules'");
 if($adb->num_rows($q2)==1){
-$setfields.=',relmodules=?'; 
+$setfields.=',relmodules=?';
 if($relmodule=="")
 $update_params[]=0;
 else

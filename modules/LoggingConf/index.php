@@ -37,7 +37,7 @@ $image_path=$theme_path."images/";
 
 //$field_module = Array('Leads','Accounts','Contacts','Potentials','HelpDesk','Products','Notes','Calendar','Events','Vendors','PriceBooks','Quotes','PurchaseOrder','SalesOrder','Invoice','Campaigns','Faq');
  $field_module=getLoggingModules();
- 
+
 $allfields=Array();
 foreach($field_module as $fld_module=>$mod_name)
 {
@@ -64,8 +64,8 @@ function getStdOutput($fieldListResult, $noofrows, $lang_strings,$profileid)
 		else
 			$standCustFld []= $fieldlabel;
 
-
-		if(isLogged($adb->query_result($fieldListResult,$i,"fieldid") ,$adb->query_result($fieldListResult,$i,"tabid")))
+    $check=isLogged($adb->query_result($fieldListResult,$i,"fieldid") ,$adb->query_result($fieldListResult,$i,"tabid"));
+		if($check[0])
 		{
 			$visible ="<img src='" . vtiger_imageurl('prvPrfSelectedTick.gif', $theme) . "'>";
 		}
@@ -107,6 +107,6 @@ $smarty->assign("IMAGE_PATH",$image_path);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("CMOD", $mod_strings);
 $smarty->assign("MODE",'view');
+
 $smarty->display("LoggConfContents.tpl");
 ?>
-
