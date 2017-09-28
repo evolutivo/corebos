@@ -36,7 +36,7 @@ if(isset($_REQUEST['dup_check']) && $_REQUEST['dup_check'] != '')
 		die;
 	}
 }
-if(!empty($_REQUEST['user_role']) && !is_admin($current_user) && $_REQUEST['user_role'] != $current_user->roleid){
+if(!empty($_REQUEST['user_role']) && !is_admin($current_user) && !UserSettingsPermissions() && $_REQUEST['user_role'] != $current_user->roleid){
 	$log->fatal("SECURITY:Non-Admin user:". $current_user->id . " attempted to change user role");
 	$theme = basename(vtlib_purify($theme));
 	echo "<link rel='stylesheet' type='text/css' href='themes/$theme/style.css'>";
@@ -64,8 +64,8 @@ if((empty($_SESSION['Users_FORM_TOKEN']) || $_SESSION['Users_FORM_TOKEN']
 	die;
 }
 
-if (isset($_POST['record']) && !is_admin($current_user) && $_POST['record'] != $current_user->id) echo ("Unauthorized access to user administration.");
-elseif (!isset($_POST['record']) && !is_admin($current_user)) echo ("Unauthorized access to user administration.");
+if (isset($_POST['record']) && !is_admin($current_user) && !UserSettingsPermissions() && $_POST['record'] != $current_user->id) echo ("Unauthorized access to user administration.");
+elseif (!isset($_POST['record']) && !is_admin($current_user) && !UserSettingsPermissions()) echo ("Unauthorized access to user administration.");
 
 $focus = new Users();
 if(isset($_REQUEST["record"]) && $_REQUEST["record"] != '')
@@ -108,7 +108,7 @@ if(empty($_REQUEST['changepassword']) || $_REQUEST['changepassword'] != 'true')
 			exit;
 		}
 	}
-	if(strtolower($current_user->is_admin) == 'off' && isset($_POST['is_admin']) && strtolower($_POST['is_admin']) == 'on')
+	if(strtolower($current_user->is_admin) == 'off' && !UserSettingsPermissions() && isset($_POST['is_admin']) && strtolower($_POST['is_admin']) == 'on')
 	{
 		$log->fatal("SECURITY:Non-Admin ". $current_user->id . " attempted to change is_admin settings for user:". $focus->id);
 		header("Location: index.php?module=Users&action=Logout");

@@ -508,15 +508,16 @@ if(!$skipSecurityCheck && $use_current_login)
 
 	if(isset($_REQUEST['record']) && $_REQUEST['record'] != '') {
 		$display = isPermitted($module,$now_action,$_REQUEST['record']);
+
 	} else {
 		if ($now_action=='EditView' or $now_action=='EventEditView' or $now_action=='Save') $now_action = 'CreateView';
 		$display = isPermitted($module,$now_action);
+		if(!UserSettingsPermissions() && !is_admin($current_user)) $display='no';
 	}
 	$seclog->debug('########### Pemitted ---> '.$display.'  ##############');
 } else {
 	$seclog->debug('########### Pemitted ---> yes  ##############');
 }
-
 if($display == "no"
 		and !(($currentModule=='Tooltip' and $action==$module."Ajax" and $_REQUEST['file']=='ComputeTooltip')
 			or ($currentModule=='GlobalVariable' and $action==$module."Ajax" and $_REQUEST['file']=='SearchGlobalVar'))

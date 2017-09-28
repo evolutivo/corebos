@@ -10,7 +10,7 @@
 require_once 'modules/Users/Users.php';
 global $adb,$app_strings;
 
-if (!is_admin($current_user)) {
+if (!is_admin($current_user) and !UserSettingsPermissions()) {
 	die("<br><br><center>".$app_strings['LBL_PERMISSION']." <a href='javascript:window.history.back()'>".$app_strings['LBL_GO_BACK'].".</a></center>");
 }
 

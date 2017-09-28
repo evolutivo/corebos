@@ -90,9 +90,9 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 			</td>
 			<td width=30% align=left class="dvtCellInfo">
                             {if $uitype eq 2 && $MODULE eq 'Potentials' && $fldname eq 'potentialname'}
-                                
+
                                 <input  {$uitype} type="text" name="{$fldname}" disabled tabindex="{$vt_tab}" value="{$smarty.now|date_format:"%Y-%m"}" tabindex="{$vt_tab}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'">
-			
+
                             {else}
 				<input  type="text" name="{$fldname}" tabindex="{$vt_tab}" value="{$fldvalue}" tabindex="{$vt_tab}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'">
 			{/if}
@@ -100,7 +100,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 		{elseif $uitype eq 3 || $uitype eq 4}<!-- Non Editable field, only configured value will be loaded -->
 				<td width=20% class="dvtCellLabel" align=right><font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small">{/if}</td>
                                 <td width=30% align=left class="dvtCellInfo"><input readonly type="text" tabindex="{$vt_tab}" name="{$fldname}" id ="{$fldname}" {if $MODE eq 'edit'} value="{$fldvalue}" {else} value="{$MOD_SEQ_ID}" {/if} class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'"></td>
-		{elseif $uitype eq 11 || $uitype eq 1 || $uitype eq 13 || $uitype eq 7}	
+		{elseif $uitype eq 11 || $uitype eq 1 || $uitype eq 13 || $uitype eq 7}
                 <td width=20% class="dvtCellLabel" align=right><font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}</td>
 
 			{if $fldname eq 'tickersymbol' && $MODULE eq 'Accounts'}
@@ -114,7 +114,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 					<input type="text" name="{$fldname}" tabindex="{$vt_tab}" id ="{$fldname}" value="{$fldvalue}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn';" onBlur="this.className='detailedViewTextBox';" style="width:65px; background-color: {$fldvalue}" >
 					&nbsp;
 					<img src="include/js/colorpickerhand-16.png" id="jscp_trigger_{$fldname}" name="jscp_trigger_{$fldname}" onclick="cp2.select(document.EditView.{$fldname},'jscp_trigger_{$fldname}');return false;">
-					<script language="JavaScript">cp2.writeDiv()</script>					
+					<script language="JavaScript">cp2.writeDiv()</script>
 				</td>
                       {else}
 				<td width=30% align=left class="dvtCellInfo">
@@ -143,7 +143,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 					<font color="red">{$mandatory_field}</font>
 				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
-                
+
                             <td colspan=3>
                             <textarea tets class="detailedViewTextBox" tabindex="{$vt_tab}" onFocus="this.className='detailedViewTextBoxOn'" name="{$fldname}"  onBlur="this.className='detailedViewTextBox'" cols="90" rows="8">{$fldvalue}</textarea>
 				{if $fldlabel eq $MOD.Solution}
@@ -164,7 +164,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
 			<td width="30%" align=left class="dvtCellInfo">
-                            
+
 				{if $MODULE eq 'Calendar'}
 			   		<select  name="{$fldname}" tabindex="{$vt_tab}" class="small" style="width:160px;">
 				{else}
@@ -185,7 +185,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 					<option value="" style='color: #777777' disabled>{$APP.LBL_NONE}</option>
 				{/foreach}
 			   </select>
-				
+
 			</td>
 		{elseif $uitype eq 33}
 			<td width="20%" class="dvtCellLabel" align=right>
@@ -507,10 +507,10 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 					{assign var=time_val value="$time_value"}
 				{/foreach}
 
-				<input name="{$fldname}" tabindex="{$vt_tab}" id="jscal_field_{$fldname}" type="text" style="border:1px solid #bababa;" size="11" maxlength="10" 
+				<input name="{$fldname}" tabindex="{$vt_tab}" id="jscal_field_{$fldname}" type="text" style="border:1px solid #bababa;" size="11" maxlength="10"
                                   {*{if $OP_MODE == 'create' && ($fldname eq 'quotegeneration' || $fldname eq 'cf_919' || $fldname eq 'closedate')}
                                   {elseif $OP_MODE == 'create' && ($fldname eq 'cf_915' || $fldname eq 'closingdate')} value="{$today}"
-                                  {else}  value="{$date_val}" {/if}*} 
+                                  {else}  value="{$date_val}" {/if}*}
                                   {if  $MODULE eq 'Task' && $fldname eq 'data_app' && $OP_MODE == 'create_view'} {else}value="{$date_val}" {/if}
                                   {if  $MODULE eq 'Potentials' && $fldname eq 'closingdate'} onchange="var t=this.value;var m = t.split('-');document.getElementById('annorif').value=m[2];document.getElementById('meserif').value=m[1];"{/if} >
                                 <img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}" id="jscal_trigger_{$fldname}">
@@ -520,7 +520,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 					{else}
                                       {if $MODULE eq 'Task'}
                                        <select name="time_start" tabindex="{$vt_tab}" style="border:1px solid #bababa;" >{$opts}</select>
-                                      {else} 
+                                      {else}
                                       <input name="time_start" tabindex="{$vt_tab}" style="border:1px solid #bababa;" size="5" maxlength="5" type="text" value="{$time_val}">
                                         {/if} {/if}
                                 {/if}
@@ -662,7 +662,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 			<td width=10% align=left class="dvtCellInfo">
 				<input type="text" tabindex="{$vt_tab}" name="{$fldname}" id ="{$fldname}" value="{$fldvalue}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'">
 			</td>
-			
+
 		{elseif $uitype eq 69}
 			<td width="20%" class="dvtCellLabel" align=right>
 				<font color="red">{$mandatory_field}</font>{$usefldlabel}
@@ -726,16 +726,15 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 						{if ($secondvalue eq 1 && $CURRENT_USERID != $smarty.request.record) || ($MODE == 'create')}
 							<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox" checked>
 						{else}
-							<input name="{$fldname}" type="hidden" value="on">
-							<input name="{$fldname}" disabled tabindex="{$vt_tab}" type="checkbox" checked>
+						  <input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox" checked>
 						{/if}
 					</td>
 				{else}
 					<td width="30%" align=left class="dvtCellInfo">
 						{if ($secondvalue eq 1 && $CURRENT_USERID != $smarty.request.record) || ($MODE == 'create')}
 							<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox">
-						{else}
-							<input name="{$fldname}" disabled tabindex="{$vt_tab}" type="checkbox">
+						{elseif ($MODE == 'edit')}
+							<input name="{$fldname}" tabindex="{$vt_tab}" type="checkbox">
 						{/if}
 					</td>
 				{/if}
@@ -744,12 +743,11 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
 			<td width="30%" align=left class="dvtCellInfo">
-			{if $thirdvalue eq 1}
 				<input name="role_name" id="role_name" readonly class="txtBox" tabindex="{$vt_tab}" value="{$secondvalue}" type="text">&nbsp;
 				<a href="javascript:openPopup();"><img src="{'select.gif'|@vtiger_imageurl:$THEME}" align="absmiddle" border="0"></a>
-			{else}
-				<input name="role_name" id="role_name" tabindex="{$vt_tab}" class="txtBox" readonly value="{$secondvalue}" type="text">&nbsp;
-			{/if}
+
+
+
 			<input name="user_role" id="user_role" value="{$fldvalue}" type="hidden">
 			</td>
 		{elseif $uitype eq 104}<!-- Mandatory Email Fields -->
@@ -1014,7 +1012,7 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 			   </tr>
 			{/foreach}
 
-			<td colspan="2" class="dvtCellInfo">&nbsp;</td>   
+			<td colspan="2" class="dvtCellInfo">&nbsp;</td>
 		{elseif $MODULE eq 'Task' && $header eq $MOD.LBLDESCRIPTIONINFORMATION}
                                <td align="right" class="dvtCellLabel" style="border:0px solid red;" ><b>{$APP.Contacts}</b></td>
                                 <td class="dvtCellInfo" align="left" style="border:0px solid red;">
@@ -1027,8 +1025,8 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
                                         <input type='button' value='{$APP.LNK_DELETE}' class="crmButton small edit" onclick='removeActContacts();'>
 
                                 </td>
-              {elseif $MODULE eq 'Potentials'} 
-                              
+              {elseif $MODULE eq 'Potentials'}
+
                   <td align="right" class="dvtCellLabel" style="border:0px solid red;" ><b>{$APP.Contacts}</b></td>
                                 <td class="dvtCellInfo" align="left" style="border:0px solid red;">
                                         <input name="contactidlist" id="contactidlist" value="{$CONTACTSID}" type="hidden">
@@ -1041,4 +1039,3 @@ alt="Clear" title="Clear" LANGUAGE=javascript	onClick="this.form.{$fldname}.valu
 
                                 </td>
               {/if}
-            

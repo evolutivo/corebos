@@ -539,7 +539,7 @@ function isPermittedBusinessRule($module,$actionname)
     global $current_user,$adb;
     $userProfileArr = getUserProfile($current_user->id);
     $roleid=$current_user->roleid;
-    //check Button Control for current module 
+    //check Button Control for current module
     if(vtlib_isModuleActive('BusinessRules')){
     $q_business_rule="Select businessrule,linktomap"
                     ." from vtiger_businessrules
@@ -553,22 +553,22 @@ function isPermittedBusinessRule($module,$actionname)
     $res_business_rule = $adb->pquery($q_business_rule,array($module));
         if($adb->num_rows($res_business_rule)>0){
             for($count=0;$count<$adb->num_rows($res_business_rule);$count++){
-                $linktomap = $adb->query_result($res_business_rule,$count,'linktomap');  
+                $linktomap = $adb->query_result($res_business_rule,$count,'linktomap');
                 if(!empty($linktomap)) {
                     $mapfocus =  CRMEntity::getInstance("cbMap");
                     $mapfocus->retrieve_entity_info($linktomap,"cbMap");
                     $mapButtonControl = $mapfocus->getMapPermissionActions();
-                    $profiles = $mapButtonControl['target_profiles']; 
-                    $roles = $mapButtonControl['target_roles']; 
+                    $profiles = $mapButtonControl['target_profiles'];
+                    $roles = $mapButtonControl['target_roles'];
                     $buttons = $mapButtonControl['target_actions'];
-                    //we have a business rule for this user 
+                    //we have a business rule for this user
                     if((count(array_intersect($profiles ,$userProfileArr)) != 0 || in_array($roleid,$roles))
                             )
-                    { 
+                    {
                         if(in_array($actionname,$buttons)){
                           return false;
                         }
-                    }   
+                    }
                 }
             }
         }
@@ -580,7 +580,7 @@ function isPermittedBusinessRule($module,$actionname)
 function UserSettingsPermissions()
 {
 	global $log, $adb, $current_user, $seclog;
-	
+
 	$sql = "SELECT * FROM vtiger_role2profile NATURAL JOIN vtiger_profile2tab NATURAL JOIN vtiger_tab WHERE vtiger_tab.name = 'UserSettings' AND roleid=? AND vtiger_profile2tab.permissions = 0";
 	$result = $adb->pquery($sql,array($current_user->roleid));
 	if($adb->num_rows($result) == 1)
@@ -625,33 +625,29 @@ function _vtisPermitted($module,$actionname,$record_id='') {
 	//Checking the Access for the Settings Module
 	if($module == 'Settings' || $module == 'Administration' || $module == 'Users' || $parenttab == 'Settings')
 	{
-		if (!$is_admin)
-		{
-			$permission = "no";
-
-			if(UserSettingsPermissions())
-			{
-				if($module == "Settings")
-				{
-					if($actionname == "listroles" || $actionname == "RoleDetailView" || $actionname == "SaveRole" || $actionname == "createrole" || $actionname == "ListProfiles"|| $actionname == "profilePrivileges" || $actionname == "listgroups" || $actionname =="GroupDetailView" || $actionname == "createnewgroup")
-					{
-						$permission = "yes";
-					}
-				}
-
-				if($module = "Users")
-				{
-					if($actionname == "index" || $actionname == "EditView"|| $actionname == "Save"|| $actionname == "ListView" || $actionname == "SaveGroup" || $actionname == "UpdateProfileChanges" || $actionname=="DetailView")
-					{
-						$permission = "yes";
-					}
-				}
-			}	
-		}
-		else
+		if(UserSettingsPermissions())
 		{
 			$permission = "yes";
+			if($module == "Settings")
+			{
+				if($actionname == "listroles" || $actionname == "RoleDetailView" || $actionname == "SaveRole" || $actionname == "createrole" || $actionname == "ListProfiles"|| $actionname == "profilePrivileges" || $actionname == "listgroups" || $actionname =="GroupDetailView" || $actionname == "createnewgroup")
+				{
+					$permission = "yes";
+				}
+			}
+
+			if($module = "Users")
+			{
+				if($actionname == "index" || $actionname == "EditView"|| $actionname == "Save"|| $actionname == "ListView" || $actionname == "SaveGroup" || $actionname == "UpdateProfileChanges" || $actionname=="DetailView")
+				{
+					$permission = "yes";
+				}
+			}
 		}
+	else if($is_admin)
+	{
+		$permission = "yes";
+	}
 		$log->debug("Exiting isPermitted method ...");
 		return $permission;
 	}

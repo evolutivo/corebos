@@ -857,7 +857,7 @@ class Users extends CRMEntity {
 				$fldvalue = $this->get_column_value($columname, $fldvalue, $fieldname, $uitype, $datatype);
 				//$fldvalue =null;
 			}
-			if ($columname == 'is_admin' and !is_admin($current_user)) {// only admin users can change admin field
+			if ($columname == 'is_admin' and !is_admin($current_user) and !UserSettingsPermissions()) {// only admin users can change admin field
 				if ($insertion_mode == 'edit') {// we force the same value that is currently set in database
 					$rs = $adb->pquery('select is_admin from vtiger_users where id=?', array($this->id));
 					$fldvalue = $adb->query_result($rs, 0, 0);
@@ -1050,7 +1050,7 @@ class Users extends CRMEntity {
 	 */
 	function save($module_name, $fileid = '') {
 		global $log, $adb, $current_user;
-		if (!UserSettingsPermissions() and $current_user->id != $this->id) {// only admin users can change other users profile
+		if (!UserSettingsPermissions() and !is_admin($current_user) and $current_user->id != $this->id) {// only admin users can change other users profile
 			return false;
 		}
 		$userrs = $adb->pquery('select roleid from vtiger_user2role where userid = ?', array($this->id));
