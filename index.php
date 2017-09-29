@@ -511,8 +511,8 @@ if(!$skipSecurityCheck && $use_current_login)
 
 	} else {
 		if ($now_action=='EditView' or $now_action=='EventEditView' or $now_action=='Save') $now_action = 'CreateView';
-		$display = isPermitted($module,$now_action);
-		if(!UserSettingsPermissions() && !is_admin($current_user)) $display='no';
+		  $display = isPermitted($module,$now_action);
+
 	}
 	$seclog->debug('########### Pemitted ---> '.$display.'  ##############');
 } else {

@@ -622,35 +622,40 @@ function _vtisPermitted($module,$actionname,$record_id='') {
 		return $permission;
 	}
 
+
 	//Checking the Access for the Settings Module
 	if($module == 'Settings' || $module == 'Administration' || $module == 'Users' || $parenttab == 'Settings')
 	{
-		if(UserSettingsPermissions())
+		if (!$is_admin && !UserSettingsPermissions())
+		{
+			$permission = "no";
+
+		}
+		else if(!$is_admin && UserSettingsPermissions())
+		{
+
+					if($module == "Settings")
+						{
+							if($actionname == "listroles" || $actionname == "RoleDetailView" || $actionname == "SaveRole" || $actionname == "createrole" || $actionname == "ListProfiles"|| $actionname == "profilePrivileges" || $actionname == "listgroups" || $actionname =="GroupDetailView" || $actionname == "createnewgroup")
+							{
+								$permission = "yes";
+							}
+						}
+
+						if($module == "Users")
+						{
+							 $permission = "yes";
+
+						}
+
+		} else
 		{
 			$permission = "yes";
-			if($module == "Settings")
-			{
-				if($actionname == "listroles" || $actionname == "RoleDetailView" || $actionname == "SaveRole" || $actionname == "createrole" || $actionname == "ListProfiles"|| $actionname == "profilePrivileges" || $actionname == "listgroups" || $actionname =="GroupDetailView" || $actionname == "createnewgroup")
-				{
-					$permission = "yes";
-				}
-			}
-
-			if($module = "Users")
-			{
-				if($actionname == "index" || $actionname == "EditView"|| $actionname == "Save"|| $actionname == "ListView" || $actionname == "SaveGroup" || $actionname == "UpdateProfileChanges" || $actionname=="DetailView")
-				{
-					$permission = "yes";
-				}
-			}
 		}
-	else if($is_admin)
-	{
-		$permission = "yes";
-	}
 		$log->debug("Exiting isPermitted method ...");
 		return $permission;
 	}
+
 
 	//Checking whether the user is admin
 	if ($is_admin)
