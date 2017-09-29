@@ -11,6 +11,7 @@
 require_once('Smarty_setup.php');
 require_once("include/utils/utils.php");
 global $current_language;
+global $current_user;
 include_once("modules/Settings/language/$current_language.lang.php");
 // Users amd Access Management
 
@@ -47,4 +48,12 @@ $items[] = array(
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("ITEMS",$items);
 $smarty->assign('ACCESSMANAG',$mod_strings['LBL_USER_MANAGEMENT']);
+
+if(!UserSettingsPermissions() && !is_admin($current_user)){
+$smarty->assign('APP', $app_strings);
+if ($action==$module."Ajax") {
+	$smarty->assign('PUT_BACK_ACTION', false);
+}
+$smarty->display('modules/Vtiger/OperationNotPermitted.tpl');
+} else
 $smarty->display("modules/UserSettings/index.tpl");
