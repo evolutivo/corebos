@@ -191,6 +191,7 @@ function generateJoin(SelectedValue="",History=0) {
     var valuei = [];
     var texti = [];
     var userorgroup=document.getElementById('usergroup').value;
+    var cftables=document.getElementById('cf').value;
     var sel = document.getElementById("selectableFields");
     for (var i = 0; i < sel.options.length; i++) {
         if (sel.options[i].selected == true) {
@@ -235,6 +236,7 @@ function generateJoin(SelectedValue="",History=0) {
                 JoinOV: JoinOptgroupWithValue,
                 Valueli:valuei,
                 userorgroup:userorgroup,
+                cftables:cftables,
                // Texti:texti,
                 campiSelezionati:SelectedValue.length!=0 ? SelectedValue : campiSelezionati,
                 nameView: nameView,

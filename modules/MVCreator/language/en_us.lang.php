@@ -72,6 +72,7 @@ $mod_strings = Array(
     'generate'=>'Generate',
     'conditions'=>'Conditions',
     'exit'=>'Exit',
-    'addjoin'=>'Add Join Smownerid'
+    'addjoin'=>'Add Join Smownerid',
+    'addCF'=>'Add Join CF'
 );
 ?>
