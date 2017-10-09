@@ -19,6 +19,7 @@ $selField2 = $_POST['selField2'];//stringa con tutte i campi scelti in selField1
 $nameView = $_POST['nameView'];//nome della vista
 $campiSelezionati = $_POST['campiSelezionati'];
 $usergroup=$_POST['userorgroup'];
+$cftables=$_POST['cftables'];
 $OptVAl = $_REQUEST['JoinOV'];
 
 $sendarray = array();
@@ -78,12 +79,12 @@ if($mapid!='')
   //$oldjoins=($num+1)-$nr;
   for ($k = 0; $k < $seq; $k++) {
         $FirstModule[] = $adb->query_result($sql, $k, "firstmodule");
-  	$SecondModule[] = $adb->query_result($sql, $k, "secondmodule");
-  	$FirstModuleField[] = $adb->query_result($sql, $k, "firstmodulefield");
-  	$SecondModuleField[] = $adb->query_result($sql, $k, "secondmodulefield");
+  	    $SecondModule[] = $adb->query_result($sql, $k, "secondmodule");
+  	    $FirstModuleField[] = $adb->query_result($sql, $k, "firstmodulefield");
+  	    $SecondModuleField[] = $adb->query_result($sql, $k, "secondmodulefield");
         $selFieldload1[]=$adb->query_result($sql, $k, "firstmodulelabel");
         $selFieldload2[]=$adb->query_result($sql, $k, "secondmodulelabel");;
-        
+
   }
   $labels = $adb->query_result($sql, 0, "labels");
   $Labels=explode(',',$labels);
@@ -100,43 +101,68 @@ if($mapid!='')
   $entityidfield = $adb->query_result($query, 0, "entityidfield");
   $tablename = $adb->query_result($query, 0, "tablename");
   $entityidfields = $tablename . "." . $entityidfield;
-  $generate=showJoinArray($FirstModuleField, $SecondModuleField, $nameView,$Labels, $FirstModule, $SecondModule, $entityidfields, $selTab3,$usergroup,$selFieldload1,$selFieldload2);
-  $generatetQuery = showJoinArray($FirstModuleField, $SecondModuleField, $nameView,$OptVAl, $FirstModule, $SecondModule, $entityidfields, $selTab3,$usergroup,$selFieldload1,$selFieldload2);
+  $generate=showJoinArray($FirstModuleField, $SecondModuleField, $nameView,$Labels, $FirstModule, $SecondModule, $entityidfields, $selTab3,$usergroup,$cftables,$selFieldload1,$selFieldload2);
+  $generatetQuery = showJoinArray($FirstModuleField, $SecondModuleField, $nameView,$OptVAl, $FirstModule, $SecondModule, $entityidfields, $selTab3,$usergroup,$cftables,$selFieldload1,$selFieldload2);
 } else {
-  $generatetQuery = showJoinArray($selField1, $selField2, $nameView,$OptVAl, $selTab1, $selTab2, $entityidfields, $selTab3,$usergroup);
+  $generatetQuery = showJoinArray($selField1, $selField2, $nameView,$OptVAl, $selTab1, $selTab2, $entityidfields, $selTab3,$usergroup,$cftables);
 }
+
+
 
 /*
  * Stampa a video nel <div> con id="results" la query per la creazione della vista materializzata
  */
-function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTab1, $selTab2, $primarySelectID, $Moduls,$usergroup,$selFieldload1,$selFieldload2)
+function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTab1, $selTab2, $primarySelectID, $Moduls,$usergroup,$cftables,$selFieldload1,$selFieldload2)
 {
     $acc = 0;
     $cont= 0;
     $lead= 0;
     $index=0;
     $strQuery = '';
-    global $log;
+    global $log,$adb;
     $prim=explode(".",$primarySelectID);
     $primarySelectID=$prim[1];
     for ($i = 0; $i < count($selTab1); $i++) {
-        if ($selTab1[$i] == "Potentials") {
-            $selTab1[$i] = "vtiger_potential";
-        } else if ($selTab1[$i] == "Accounts") {
-            $selTab1[$i] = "vtiger_account";
-        } else if ($selTab1[$i] == "Contacts") {
-            $selTab1[$i] = "vtiger_contactdetails";
+        $selTab1mod[$i]=strtolower($selTab1[$i]);
+        $selTab2mod[$i]=strtolower($selTab2[$i]);
+        if(substr($selTab1mod[$i],-1)=='s')
+          $selTab1mod[$i]=substr($selTab1mod[$i],0,-1);
+        if(substr($selTab2mod[$i],-1)=='s')
+          $selTab2mod[$i]=substr($selTab2mod[$i],0,-1);
+        if($selTab1[$i]=='Territory') {
+          $selTab1[$i]=='vtiger_territory';
+          $cftable1[$i]=='vtiger_territorycf';
+      } else if ($selTab1[$i]=='HelpDesk') {
+          $selTab1[$i]='vtiger_troubletickets';
+          $cftable1[$i]='vtiger_ticketcf';
+      } else {
+          $q1 = $adb->query("select tablename from vtiger_entityname where modulename='$selTab1[$i]'");
+          $selTab1[$i]=$adb->query_result($q1,0,'tablename');
+          $cf1=$adb->query("show tables LIKE '$selTab1[$i]%cf'");
+          $cftable1[$i]=$adb->query_result($cf1,0,0);
+          if($cftable1[$i]==''){
+            $cf11=$adb->query("show tables LIKE '%$selTab1mod[$i]%cf'");
+            $cftable1[$i]=$adb->query_result($cf11,0,0);
+          }
+      }
+      if($selTab2[$i]=='Territory') {
+        $selTab2[$i]=='vtiger_territory';
+        $cftable2[$i]=='vtiger_territorycf';
+    } else if ($selTab1[$i]=='HelpDesk') {
+        $selTab2[$i]='vtiger_troubletickets';
+        $cftable2[$i]='vtiger_ticketcf';
+    } else {
+        $q2 = $adb->query("select tablename from vtiger_entityname where modulename='$selTab2[$i]'");
+        $selTab2[$i]=$adb->query_result($q2,0,'tablename');
+        $cf2=$adb->query("show tables LIKE '$selTab2[$i]%cf'");
+        $cftable2[$i]=$adb->query_result($cf2,0,0);
+        if($cftable2[$i]==''){
+          $cf22=$adb->query("show tables LIKE '%$selTab2mod[$i]%cf'");
+          $cftable2[$i]=$adb->query_result($cf22,0,0);
         }
-         else if ($selTab1[$i] == "Leads") {
-            $selTab1[$i] = "vtiger_leaddetails";
-        } else {
-            $selTab1[$i] = "vtiger_" . strtolower($selTab1[$i]);
-        }
-        if ($selTab2[$i] == "Potentials") $selTab2[$i] = "vtiger_potential";
-        else if ($selTab2[$i] == "Accounts") $selTab2[$i] = "vtiger_account";
-        else if ($selTab2[$i] == "Contacts") $selTab2[$i] = "vtiger_contactdetails";
-        else if ($selTab2[$i] == "Leads") $selTab2[$i] = "vtiger_leaddetails";
-        else $selTab2[$i] = "vtiger_" . strtolower($selTab2[$i]);
+    }
+
+
         if($index==0) $index=1;
         $firsttblid=getentityidfield(strtolower($selTab1[$i]));
         $secondtblid=getentityidfield(strtolower($selTab2[$i]));
@@ -147,7 +173,6 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $maintab=strtolower($selTab1[$i]);
             $selTabmain=$selTab1[$i];
             $stringaFields2 = implode(",", selectValueswithjoincrmentity($stringaFields, $Moduls,$index,$arr,$maintab));
-            //echo $stringaFields2;
             $strf=substr($stringaFields2, 0, -2);
             if($usergroup=='user')
             {
@@ -161,6 +186,12 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $q2join=' join vtiger_groups Group_'.strtolower($selTab2[$i]).'_'.$index.' on Group_'.strtolower($selTab2[$i]).'_'.$index.'.groupid=CRM_'.strtolower($selTab2[$i]).'_'.$index.'.smownerid ';
             $strf=str_replace(Array('CRM_'.strtolower($selTab1[$i]).'_0.smownerid','CRM_'.strtolower($selTab2[$i]).'_'.$index.'.smownerid'),Array('Group_'.strtolower($selTab1[$i]).'_0.groupname','Group_'.strtolower($selTab2[$i]).'_'.$index.'.groupname'),substr($stringaFields2, 0, -2));
             }
+            if($cftables=='cf'){
+              $qjoincf=' JOIN '.$cftable1[$i].' as '.$cftable1[$i].'_0 on '.$cftable1[$i].'_0.'.$firsttblid.'='.strtolower($selTab1[$i]).'_0.'.$firsttblid;
+              $q2joincf=' JOIN '.$cftable2[$i].' as '.$cftable2[$i].'_'.$index.' on '.$cftable2[$i].'_'.$index.'.'.$secondtblid.'='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid;
+              $strf=str_replace(Array($cftable1[$i].'_'.$index,$cftable2[$i].'_'.$index),Array($cftable1[$i].'_0',$cftable2[$i].'_'.$index),substr($stringaFields2, 0, -2));
+            }
+
             if(coreBOS_Session::get('selectedfields')=='')
             {  coreBOS_Session::set('selectedfields',strtolower($selTab1[$i]).'_0.'. $primarySelectID . "," . $strf);
                $selfields=coreBOS_Session::get('selectedfields');
@@ -176,7 +207,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $selfld2=$selFieldload2[$i];
             else
             $selfld2=$selField2[$i];
-            $strQuery .= '<b> FROM </b>' . strtolower($selTab1[$i]) .' as '.strtolower($selTab1[$i]).'_0 join vtiger_crmentity CRM_'.strtolower($selTab1[$i]).'_0 on CRM_'.strtolower($selTab1[$i]).'_0.crmid='.strtolower($selTab1[$i]).'_0.'.$firsttblid.' <b>'.$qjoin.'</b><b>INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'_0.'. $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity CRM_'.strtolower($selTab2[$i]).'_'.$index.' on CRM_'.strtolower($selTab2[$i]).'_'.$index.'.crmid='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid.' <b>'.$q2join.'</b>';
+            $strQuery .= '<b> FROM </b>' . strtolower($selTab1[$i]) .' as '.strtolower($selTab1[$i]).'_0 join vtiger_crmentity CRM_'.strtolower($selTab1[$i]).'_0 on CRM_'.strtolower($selTab1[$i]).'_0.crmid='.strtolower($selTab1[$i]).'_0.'.$firsttblid.' <b>'.$qjoin.''.$qjoincf.' </b><b>INNER JOIN </b> '.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'_0.'. $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity CRM_'.strtolower($selTab2[$i]).'_'.$index.' on CRM_'.strtolower($selTab2[$i]).'_'.$index.'.crmid='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid.' <b>'.$q2join.''.$q2joincf.'</b>';
          //  if(count($selTab1)==1)
            // $strQuery .= inerJoionwithCrmentity($Moduls,$stringaFields,$index,strtolower($selTab1[$i]));
 //             if (($selTab2[$i] == "vtiger_account" || $selTab1[$i] == "vtiger_account" ) && $acc == 0) {
@@ -217,6 +248,9 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $qjoin1=' join vtiger_groups Group_'.$selTab2[$i].'_'.$index.' on Group_'.$selTab2[$i].'_'.$index.'.groupid=CRM_'.$selTab2[$i].'_'.$index.'.smownerid ';
             $strf2=str_replace(Array('CRM_'.strtolower($selTab1[$i]).'_0.smownerid','CRM_'.strtolower($selTab2[$i]).'_'.$index.'.smownerid'),Array('Group_'.strtolower($selTab1[$i]).'_0.groupname','Group_'.strtolower($selTab2[$i]).'_'.$index.'.groupname'),substr($stringaFields2, 0, -2));
             }
+            if($cftables=='cf') {
+              $qjoin1cf=' JOIN '.$cftable1[$i].' as '.$cftable1[$i]. '_'. $index.' join '.$cftable2[$i]. ' as '.$cftable2[$i].'_'.$index.' on '.$cftable2[$i].'_'.$index.'.'.$secondtblid.'='.$selTab2[$i].'_'.$index.'.'.$secondtblid;
+            }
             $selfields2=coreBOS_Session::get('selectedfields')."," . $strf2;
             $selectquery='<b> SELECT </b>'.$selfields2 ;
             if($selField1[$i]==''){
@@ -228,7 +262,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $selfld2=$selFieldload2[$i];
             else
             $selfld2=$selField2[$i];
-            $strQuery .= '<b> INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . $selTab2[$i].'_'.$index . '<b> ON </b>' . strtolower($selTab1[$i]).'_'.($index-1).'.' . $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity as CRM_'.$selTab2[$i].'_'.$index.' on CRM_'.$selTab2[$i].'_'.$index.'.crmid='.$selTab2[$i].'_'.$index.'.'.$secondtblid.'<b>'.$qjoin1.'</b>';
+            $strQuery .= '<b> INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . $selTab2[$i].'_'.$index . '<b> ON </b>' . strtolower($selTab1[$i]).'_'.($index-1).'.' . $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity as CRM_'.$selTab2[$i].'_'.$index.' on CRM_'.$selTab2[$i].'_'.$index.'.crmid='.$selTab2[$i].'_'.$index.'.'.$secondtblid.'<b>'.$qjoin1.' '.$qjoin1cf.'</b>';
             //$strQuery1 .= '<b> INNER JOIN </b>' . $selTab2[$i] . '<b> ON </b>' ;//. strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
 //            if ($selTab2[$i] == "vtiger_account" && $acc == 0) {
 //                $strQuery .= '<b> INNER </b> join vtiger_accountbillads as vtiger_accountbillads_'.$index.' <b> ON </b> vtiger_account_'.$index.'.accountid=vtiger_accountbillads_'.$index.'.accountaddressid';
@@ -273,6 +307,7 @@ function selectValueswithjoincrmentity($params, $Moduls,$nr,$arr,$maintab)
                 }
                 elseif ($splitvalues[1]==$tablename || $splitvalues[1]!=$maintab){
                     array_push($Querysplit,  $splitvalues[1]."_".$nr . "." . $splitvalues[2]);
+
                 }
                 else {
                     array_push($Querysplit,  $splitvalues[1] . "_0." . $splitvalues[2]);//($nr > 0 ? $splitvalues[1]."_".$nr . "." . $splitvalues[2] : $splitvalues[1] . "." . $splitvalues[2]);
@@ -281,13 +316,13 @@ function selectValueswithjoincrmentity($params, $Moduls,$nr,$arr,$maintab)
 
             }
             $index++;
-//            return $Querysplit;
+          //return $Querysplit;
         }
 
-        return array_unique($Querysplit);
+       return array_unique($Querysplit);
+
     }
 }
-
 //function selectValueswithoutjoincrmentity($params, $Moduls)
 //{
 //    $Querysplit = array();

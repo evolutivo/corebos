@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/css/jquery.bsmselect.css">
 <link rel="stylesheet" type="text/css" href="modules/MVCreator/bsmSelect/examples/example.css">
 <link rel="stylesheet" type="text/css" href="kendoui/styles/kendo.common.min.css">
-<link rel="stylesheet" href="Smarty/templates/modules/MVCreator/icono.min.css">
+<link rel="stylesheet" href="http://icono-49d6.kxcdn.com/icono.min.css">
 
 
 {*<link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>*}
@@ -47,10 +47,11 @@
         </ul>
 
     </div>
-   <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:70px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
+   <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
    <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
-   </select><br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hide('userorgroup');openalertsJoin();"></center></div>
-    {*
+   </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
+   <br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();"></center></div>
+   {*
     <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">
         <input type="radio" id="addJoin" name="radio"  onclick="generateJoin();"/>
@@ -719,7 +720,14 @@
             }
 
         }
+        function hidediv(divId)
+        {
 
+                var id = document.getElementById(divId);
+
+                id.style.display = 'none';
+
+        }
         function alertsdiv(Idd, Firstmodulee, secondmodule,last_check) {
 
             var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
