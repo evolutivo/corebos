@@ -581,7 +581,7 @@ if(($i+1)%$bulkSize==0){
         $all=array();
     }
     if($i==$adb->num_rows($fields1)-1){
-      $x=($adb->num_rows($fields1)-1)%$bulkSize;
+      $x=($adb->num_rows($fields1))%$bulkSize;
       if($x==0){
         //do nothing
       } else {
@@ -606,7 +606,7 @@ if(($i+1)%$bulkSize==0){
       curl_setopt($channel11, CURLOPT_TIMEOUT, 1000);
       curl_setopt($channel11, CURLOPT_VERBOSE, true);
       $response2 = curl_exec($channel11);
-      //echo ($response2);
+    //  echo ($response2);
 
     }
 
