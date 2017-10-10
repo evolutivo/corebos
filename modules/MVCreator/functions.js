@@ -1267,21 +1267,21 @@ function NextAndLoadFromMap() {
     jQuery("#LoadfromMapFirstStep").hide();
     var SelectPicker = $("#GetALLMaps").val();
     var mapid=SelectPicker.split("##");
-    getFirstModuleFields(su,mapid[0],mapid[1]);
+    //getFirstModuleFields(su,mapid[0],mapid[1]);
 
-//   jQuery.ajax({
-//        type: "POST",
-//        url: "index.php?module=MVCreator&action=MVCreatorAjax&file=creazioneCondizioniJoin",
-//        data: "MapID=" + mapid[0]+"&queryid="+mapid[1],
-//        dataType: "html",
-//        async: false,
-//        success: function (data) {
-//            jQuery("#LoadfromMapSecondStep").html(data);
-//        },
-//        error: function () {
-//            alert(mv_arr.failedcall);
-//        }
-//    });
+   jQuery.ajax({
+        type: "POST",
+        url: "index.php?module=MVCreator&action=MVCreatorAjax&file=creazioneCondizioniJoin",
+        data: "MapID=" + mapid[0]+"&queryid="+mapid[1],
+        dataType: "html",
+        async: false,
+        success: function (data) {
+            jQuery("#LoadfromMapSecondStep").html(data);
+        },
+        error: function () {
+            alert(mv_arr.failedcall);
+        }
+    });
     //jQuery("#results").hide();
     jQuery.ajax({
         type: "POST",

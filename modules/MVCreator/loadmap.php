@@ -27,9 +27,7 @@ $smarty = new vtigerCRM_Smarty();
 $mid=$_POST['MapID'];
 $qid=$_POST['queryid'];
 
-echo $mid; 
-echo  $qid; 
-exit(); 
+
 
 $sql="SELECT * from mvqueryhistory where id=? AND active=?";
 $result=$adb->pquery($sql, array($qid, 1));
