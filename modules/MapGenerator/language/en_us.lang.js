@@ -12,4 +12,6 @@ var mv_arr = {
 'namealreadyused':'View name has already been used!',
 'Choseobject':'You need to select a value to continue ',
 'ChoseMap':'You need to select which map you want ',
+'ReturnFromPost':'Something was wrong ',
+'NameQuery':'The name for Map must be minimum 5 chars ',
 }

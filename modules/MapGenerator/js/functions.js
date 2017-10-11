@@ -15,6 +15,451 @@ var firstModule;
 var secModule;
 var sFieldRel;
 
+
+
+
+
+
+$( function() {
+    $( document ).tooltip();
+  } );
+
+
+var JSONForCOndition = [];
+function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval,FirstModuleJSONField, SecondModuleJSONtxt, SecondModuleJSONval,SecondModuleJSONField,labels,Valueparagrafi, JSONARRAY) {
+    JSONForCOndition.push({
+        idJSON: JSONForCOndition.length + 1,
+        FirstModuleJSONtext: FirstModuleJSONtxt,
+        FirstModuleJSONvalue: FirstModuleJSONval,
+        FirstModuleJSONfield: FirstModuleJSONField,
+        SecondModuleJSONtext: SecondModuleJSONtxt,
+        SecondModuleJSONvalue: SecondModuleJSONval,
+        SecondModuleJSONfield: SecondModuleJSONField,
+        Labels:labels,
+        ValuesParagraf:Valueparagrafi,
+
+        // selectedfields: JSONARRAY,
+        //selectedfields: {JSONARRAY}
+    });
+
+    jQuery.ajax({
+		type : 'POST',
+		data : {'fields':JSON.stringify(JSONForCOndition),'queryid':document.getElementById('queryid').value,'MapID':$('#MapID').val()},
+		url : "index.php?module=MapGenerator&action=MapGeneratorAjax&file=savequeryhistory"
+	}).done(function(msg) {
+//console.log(msg);
+                }
+                );
+     console.log(JSONForCOndition);
+}
+
+//FUNCTIO GET VALUE FROM SELECTED Fields
+function selectHtml() {
+    //var sel = jQuery('#selectableFields');
+   // return sel[0].innerHTML;
+     var campiSelezionati = [];
+    var sel = document.getElementById("selectableFields");
+    for (var n = 0; n < sel.options.length; n++) {
+        if (sel.options[n].selected == true) {
+            //dd=x.options[i].value;
+            campiSelezionati.push(sel.options[n].value);
+
+        }
+    }
+    return campiSelezionati;
+}
+
+
+function emptycombo(){
+    var select = document.getElementById("selectableFields");
+    var length = select.options.length;
+    var j=0;
+    while(select.options.length!=0){
+        for (var i1 = 0; i1 < length; i1++) {
+            select.options[i1] = null;
+        }
+    }
+}
+
+function openmodalrezultquery(idforquery){
+          var selectedfieldsfromhistory=[];
+          var queryfromselected;
+          for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+             if (ii==idforquery)
+             {
+                 check=true;
+               //   selectedfieldsfromhistory = JSONForCOndition[ii].selectedfields;
+                   queryfromselected = $('#generatedjoin').text();
+
+             }
+
+         }
+
+      var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=PreviewRezult";
+         jQuery.ajax({
+              type: "POST",
+              url: url,
+              async: false,
+              data: "queryhistory=" + queryfromselected,
+             success: function (msg) {
+                 // alert(msg);
+                  $('#backdropquery').addClass('slds-backdrop--open');
+                  $('#modalrezultquerymodal').addClass('slds-fade-in-open');
+                  jQuery("#insertintobodyrezult").html(msg);
+                 //alert();
+             },
+             error: function () {
+                 alert(mv_arr.failedcall);
+             }
+         });
+}
+$('#Previewbtn').click(function(){
+		  PreviewQuery();
+		});
+function closeModalForRunquery() {
+     //var myLength = $("#SaveasMapTextImput").val();
+
+         $('#ErrorVAlues').text('');
+         $('#modalrezultquerymodal').removeClass('slds-fade-in-open');
+         $('#backdropquery').removeClass('slds-backdrop--open');
+
+
+ }
+
+  function closeModalwithoutcheckrezultquery() {
+     $('#ErrorVAlues').text('');
+     $('#modalrezultquerymodal').removeClass('slds-fade-in-open');
+     $('#backdropquery').removeClass('slds-backdrop--open');
+ }
+
+
+function openalertsJoin() {
+    $('#AlertsAddDiv div').remove();
+   // var idJSON = 1;
+    var campiSelezionati = [];
+    var sel = document.getElementById("selectableFields");
+    for (var n = 0; n < sel.options.length; n++) {
+        if (sel.options[n].selected == true) {
+            //dd=x.options[i].value;
+            campiSelezionati.push(sel.options[n].value);
+
+        }
+    }
+
+    var FrirstMOduleval = $('#mod option:selected').val();// $('#mod').value;
+    var FrirstMOduletxt = $('#mod option:selected').text();// $('#mod').value;generatedConditions
+    var SecondMOduleval = secModule;
+    var SecondMOduletxt = $('#secmodule option:selected').text();
+    var generatedjoin=$( "#generatedjoin" ).html();
+    var generatedConditions=$( "#generatedConditions" ).html();
+    var selField1 = document.getElementById('selField1').value;
+    var selField2 = document.getElementById('selField2').value;
+    if(SecondMOduleval==undefined){
+      SecondMOduleval='';
+    }
+    var labels=localStorage.getItem("labels");
+
+    //console.log(labels);
+    //console.log(selField1);
+    //console.log(selField2);
+    //console.log(SecondMOduleval);
+
+    addINJSON(FrirstMOduletxt, FrirstMOduleval,selField1, SecondMOduletxt, SecondMOduleval, selField2, labels, generatedjoin, selectHtml());
+
+	// console.log(FrirstMOduletxt);
+	//console.log(FrirstMOduleval);
+	// console.log(SecondMOduletxt);
+	//console.log(SecondMOduleval);
+ //console.log(secModule);
+    var check=false;
+    var length_history=JSONForCOndition.length;
+    //alert(length_history-1);
+    for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+        var idd =ii// JSONForCOndition[ii].idJSON;
+        var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+        var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+        var selectedfields = JSONForCOndition[ii].ValuesParagraf;
+        // console.log(idd+firmod+secmod);
+        // console.log(selectedfields);
+        if (ii==(length_history-1))
+        {
+            check=true;
+
+        }
+        else{
+           check=false;
+        }
+        var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+        $('#AlertsAddDiv').append(alerstdiv);
+        // generateJoin();
+        // emptycombo();
+    }
+
+}
+
+
+function ReturnAllDataHistory(){
+
+      $('#AlertsAddDiv div').remove();
+      $( "#generatedjoin" ).html("");
+     var check=false;
+     var valuehistoryquery;
+    var length_history=JSONForCOndition.length;
+    //alert(length_history-1);
+    for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+        var idd =ii// JSONForCOndition[ii].idJSON;
+        var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+        var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+        valuehistoryquery=JSONForCOndition[ii].ValuesParagraf;
+        // console.log(idd+firmod+secmod);
+        // console.log(selectedfields);
+        if (ii==(length_history-1))
+        {
+            check=true;
+
+        }
+        else{
+           check=false;
+        }
+        var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+        $('#AlertsAddDiv').append(alerstdiv);
+
+        $( "#generatedjoin" ).html(valuehistoryquery);
+
+    }
+
+}
+
+function alertsdiv(Idd, Firstmodulee, secondmodule,last_check) {
+
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');">&times;</span>';
+    // INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');"><i class="icono-eye"></</span>';
+    INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> ' + Firstmodulee + '=>' + secondmodule;
+    if (last_check==true) {//icono-plusCircle
+    INSertAlerstJOIN +='<span title="You are here " style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-checkCircle"></i></span>';
+    INSertAlerstJOIN +='<span  title="run the query to show the result" style="float:right;margin-top:-10px;margin-right:-86px;"><i class="icono-display" onclick="openmodalrezultquery('+Idd+');"></i></span>';
+    }
+    else{
+        INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-plusCircle"></i></span>';
+    }
+    INSertAlerstJOIN += '</div';
+    return INSertAlerstJOIN;
+}
+
+
+
+function show_query_History(id_history){
+ $('#AlertsAddDiv div').remove();
+ document.getElementById('querysequence').value=id_history+1;
+ for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+        var idd =ii// JSONForCOndition[ii].idJSON;
+        //valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+         var idd =ii// JSONForCOndition[ii].idJSON;
+        var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+        var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+         //console.log(idd+firmod+secmod);
+        //console.log(selectedfields);
+        if (ii==id_history)
+        {
+            check=true;
+             valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+              $( "#generatedjoin" ).html(valuehistoryquery);
+
+        }
+        else{
+           check=false;
+        }
+        var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+        $('#AlertsAddDiv').append(alerstdiv);
+
+
+
+    }
+
+}
+function closeAlertsAndremoveJoin(remuveid) {
+
+    var check = false;
+
+    for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+        if (ii == remuveid) {
+             //JSONForCOndition.remove(remuveid);
+             JSONForCOndition.splice(remuveid,1);
+            check = true
+			//console.log(remuveid);
+           // console.log(ReturnAllDataHistory());
+         }
+    }
+    if (check) {
+      var remuvediv="#alerts_"+remuveid;
+      $( "div" ).remove( remuvediv);
+      ReturnAllDataHistory();
+
+       // $('#selectableFields option:selected').attr("selected", null);
+    }
+    else {
+        alert("{/literal}{$MOD.conditionwrong}{literal}");
+    }
+
+
+}
+
+
+//function for first combo first module
+function GetFirstModuleCombo(selectObject) {
+    alert("Edmondi ");
+    var value = selectObject.value;
+    //getSecModule(value);
+    //getFirstModuleFields(value);
+}
+//function for second combo second module
+ function GetSecondModuleCombo(selectObject) {
+    var value = selectObject.value;
+    getSecModuleFields(value);
+}
+
+
+// Creates the buttonset.
+jQuery("#radio").buttonset()
+// Adds our custom CSS class which changes the orientation.
+    .addClass("ui-buttonset-vertical")
+
+    // Remove the corner classes that don"t amke sense with the new layout.
+    .find("label").removeClass("ui-corner-left ui-corner-right")
+
+// Hack needed to adjust the top border on the next label uring hover.
+    .on("mouseenter", function (e) {
+        jQuery(this).next().next().addClass("ui-transparent-border-top");
+    })
+
+    // Hack needed to adjust the top border on the next label uring hover.
+    .on("mouseleave", function (e) {
+        jQuery(this).next().next().removeClass("ui-transparent-border-top");
+    })
+
+    // Apply proper corner styles.
+    .filter(":first").addClass("ui-corner-top")
+    .end()
+    .filter(":last").addClass("ui-corner-bottom");
+
+jQuery("#btnRight").click(function () {
+    var selectedItem = jQuery("#leftValues option:selected");
+    jQuery("#rightValues").append(selectedItem);
+});
+
+jQuery("#btnLeft").click(function () {
+    var selectedItem = jQuery("#rightValues option:selected");
+    jQuery("#leftValues").append(selectedItem);
+});
+
+//        jQuery('#selectableFields').dblclick(function () {
+//                //add where conditions
+//            var txt = this.id;
+//            var box = jQuery("#condition");
+//            box.val(box.val() + txt);
+//        });
+jQuery(document).on('click', '.addWhereCond', function () {
+    var txt = this.id;
+    console.log(txt);
+    var box = jQuery("#condition");
+    box.val(box.val() + txt);
+});
+
+function addCondition() {
+    var txt = " " + jQuery("#qoperators option:selected").val();
+    var box = jQuery("#condition");
+    box.val(box.val() + txt);
+}
+//        jQuery('#selectableFields').multiSelect({
+//            columns: 4,
+//            placeholder: 'Select Languages',
+//            search: true,
+//            selectAll: true
+//        });
+
+/// jQuery( "#mode")
+//.selectmenu({change: function( event, ui ) {
+//                                            getSecModule(ui.item);
+//                                            getFirstModuleFields(ui.item)
+//                                              }})
+// .selectmenu("menuWidget" )
+//.addClass( "overflow" );
+
+// jQuery( "#secmodule")
+//.selectmenu({change: function( event, ui ) {
+//                                             getSecModuleFields(ui.item);
+//                                             }})
+// .selectmenu("menuWidget" )
+
+//$ = jQuery.noConflict();
+
+//Modal Open
+$('#saveasmap').click(function () {
+    $('#backdrop').addClass('slds-backdrop--open');
+    $('#modal').addClass('slds-fade-in-open');
+});
+
+//Modal Close
+function closeModal() {
+    var myLength = $("#SaveasMapTextImput").val();
+    if (myLength.length > 5) {
+        $('#ErrorVAlues').text('');
+        $('#modal').removeClass('slds-fade-in-open');
+        $('#backdrop').removeClass('slds-backdrop--open');
+        SaveasMap();
+    }
+    else {
+        $('#ErrorVAlues').text('{/literal}{$MOD.morefivechars}{literal}');
+    }
+}
+function closeModalwithoutcheck() {
+    $('#ErrorVAlues').text('');
+    $('#modal').removeClass('slds-fade-in-open');
+    $('#backdrop').removeClass('slds-backdrop--open');
+}
+
+
+jQuery("#selField1").button();
+jQuery("#selField2").button();
+//        var selectMultiple = jQuery("#selectableFields").bsmSelect({
+//            showEffect: function ($el) {
+//                $el.fadeIn();
+//            },
+//            hideEffect: function ($el) {
+//                $el.fadeOut(function () {
+//                    jQuery(this).remove();
+//                });
+//            },
+//            plugins: [jQuery.bsmSelect.plugins.sortable()],
+//            title: 'Select Fields',
+//            highlight: 'highlight',
+//            addItemTarget: 'top',
+//            removeLabel: '<strong>X</strong>',
+//            containerClass: 'bsmContainer',                // Class for container that wraps this widget
+//            listClass: 'bsmList-custom',                   // Class for the list ($ol)
+//            listItemClass: 'bsmListItem-custom',           // Class for the <li> list items
+//            listItemLabelClass: 'bsmListItemLabel-custom', // Class for the label text that appears in list items
+//            removeClass: 'bsmListItemRemove-custom',       // Class given to the "remove" link
+//            extractLabel: function ($o) {
+//
+//                if (typeof $o.parents('optgroup').attr('label') !== "undefined")
+//                    return $o.parents('optgroup').attr('label') + "&nbsp;>&nbsp;" + $o.html();
+//                else {
+//                    var optval = ($o[0].value).split(":");
+//                    var tabl = optval[0].split("_");
+//                    optgr = tabl[1].charAt(0).toUpperCase() + tabl[1].substr(1).toLowerCase();
+//                    return optgr + "&nbsp;>&nbsp;" + $o.html();
+//                }
+//            }
+//        });
+
+
+
+
+
+
+
 /*
  * Cancella l'ultimo Join, e se è presente solo un Join, richiama la funzione deleteJoin().
  */
@@ -107,7 +552,7 @@ function addJoin(action) {
                     }
                     if (jQuery("#condition").val() != 'undefined')
                         var whereCondition = jQuery("#condition").val();
-                    nameView = (document.getElementById('nameView').value);
+                    nameView = (document.getElementById('MapName').value);
                     nameDb = (document.getElementById('nameDb').value);
                     if (action == "join") url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=compositoreQuery&mod=" + firstModule;
                     else if (action == "script") url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=creaScript&whereCondition=" + whereCondition + "&mod=" + firstModule;
@@ -171,6 +616,13 @@ function showform(form){
     fnvshobj(form,'userorgroup');
     posLay(form, "userorgroup");
 }
+
+function hidediv(divId)
+{
+	var id = document.getElementById(divId);
+        id.style.display = 'none';
+}
+
 function generateJoin(SelectedValue="",History=0) {
     var JoinOptgroupWithValue = [];
     $('#selectableFields').find("option:selected").each(function () {
@@ -215,7 +667,7 @@ function generateJoin(SelectedValue="",History=0) {
         var queryid=document.getElementById('queryid').value;
         var MapID=$('#MapID').val();
 
-        nameView = (document.getElementById('nameView').value);
+        nameView = (document.getElementById('MapName').value);
         // var sel123 =  jQuery('#selectableFields');
         // var optionsCombo = sel123[0].innerHTML;
         var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=compositoreQuery";
@@ -297,7 +749,7 @@ function generateScript() {
         selField2.push(secondoCampo);
         selTab1.push(firstModule);
         selTab2.push(secModule);
-        nameView = (document.getElementById('nameView').value);
+        nameView = (document.getElementById('MapName').value);
         if (jQuery("#whereCond").val() != 'undefined') {
             jQuery("#whereCond").trigger("change");
             var whereCondition = jQuery("#whereCond").val();
@@ -319,7 +771,7 @@ function generateScript() {
 }
 
 function generateMap() {
-    nameView = (document.getElementById('nameView').value);
+    nameView = (document.getElementById('MapName').value);
     querygenerate = $('#generatedjoin').text();
     querygeneratecondition = $('#generatedConditions').text();
     var campiSelezionati = [];
@@ -385,7 +837,7 @@ function creaVista() {
     var stringa = ((document.getElementById("results").innerHTML));
     var query = stripTag(stringa);
     var nameDb = (document.getElementById('nameDb').value);
-    var nameView = ((document.getElementById("nameView").value));
+    var nameView = ((document.getElementById("MapName").value));
     jQuery.ajax({
         type: "POST",
         url: "index.php?module=MapGenerator&action=MapGeneratorAjax&file=creaVista",
@@ -759,7 +1211,7 @@ function openMenuManage() {
  * Controlla se l'utente ha inserito il nome della vista
  */
 function isEmpty() {
-    var testo = document.getElementById('nameView').value;
+    var testo = document.getElementById('MapName').value;
     empty = false;
     if (testo === "") {
         empty = true;
@@ -788,7 +1240,7 @@ function openMenuJoin() {
     });
 
     var presente = false;
-    var nameView = ((document.getElementById("nameView").value));
+    var nameView = ((document.getElementById("MapName").value));
     for (i = 0; i < allTable.length; i++) {
         if (nameView === allTable[i]) {
             presente = true;
@@ -838,7 +1290,7 @@ function openMenuJoin2() {
     mycheck = new Array();
     allTable = new Array();
     var presente = false;
-    var nameView = ((document.getElementById("nameView").value));
+    var nameView = ((document.getElementById("MapName").value));
     for (i = 0; i < allTable.length; i++) {
         if (nameView === allTable[i]) {
             presente = true;
@@ -1123,7 +1575,7 @@ function SaveMap() {
         selField2.push(secondoCampo);
         selTab1.push(firstModule);
         selTab2.push(secModule);
-        nameView = (document.getElementById('nameView').value);
+        nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
         var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
@@ -1195,7 +1647,7 @@ function SaveasMap() {
         selField2.push(secondoCampo);
         selTab1.push(firstModule);
         selTab2.push(secModule);
-        nameView = (document.getElementById('nameView').value);
+        nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
         var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});

@@ -6,6 +6,7 @@
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css" rel="stylesheet"/>
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
+<script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/MapGenerator.js"></script>
 
 {literal}
@@ -79,9 +80,10 @@
 
 <div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
      aria-labelledby="tab-default-1__item">
+<div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
+     aria-labelledby="tab-default-1__item">
 <div id="DivObjectID">
    <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.NameView}:</h3></div>
-	{*<div class='allinea' type='text' id='nameViewDiv'><input id='nameView' name='nameView'></div>*}
 	<div class="slds-form-element__control allinea" id='nameViewDiv'>
 	  <div class="slds-form-element"  style="width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">
@@ -95,12 +97,21 @@
 	                </div>
 	            </div>
 	        </div>
-	   {* <input type="text" id="nameView" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />*}
+	        
+	   
 	  </div>
 </div>
 <div id="MapDivID" style="display: none;">
+ <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.InsertNameQuery}:</h3></div>
+	<div class="slds-form-element__control allinea" id='nameViewDiv'>
+	  <div class="slds-form-element"  style="margin:0; width:100%;height:100%; ">
+	            <div  class="slds-form-element__control">	                
+	                     <input type="text" id="nameView" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
+	            </div>	            
+	        </div>	       
+	  </div>
+	  	
    <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.TypeMapNone}:</h3></div>
-	{*<div class='allinea' type='text' id='nameViewDiv'><input id='nameView' name='nameView'></div>*}
 	<div class="slds-form-element__control allinea" id='nameViewDiv'>
 	  <div class="slds-form-element"  style="width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">
@@ -117,14 +128,9 @@
 	            </div>
 	            
 	        </div>
-	       
-	   {* <input type="text" id="nameView" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />*}
-	  </div>
-	  
-	  <button style="margin-left:80%;margin-top: 30px;" class="slds-button slds-button--neutral" id='sendTab' onclick='openMenuJoin2()'>Next</button>
+	   </div>	   
+</div>	  
 </div>
- 
-    {*{include file="modules/MapGenerator/createView.tpl"}*}
 </div>
 <div id="tab-default-2" class="slds-tabs--default__content slds-hide" role="tabpanel"
      aria-labelledby="tab-default-2__item">
@@ -147,9 +153,11 @@
     <div id="LoadfromMapSecondStep">
     </div>
 </div>
-
 </div>
-
+</div>
+<br/>
+<br/>
+<br/>
 
 <script>
 

@@ -80,6 +80,7 @@ $mod_strings = Array(
     'Script'=>'Script',
     'Map'=>'Map',
     'TypeMapNone'=>'Choose the type of Map',
+    'InsertNameQuery'=>'Insert the name ',
     'TypeMapSQL'=>'SQL',
     'TypeMapMapping'=>'Mapping',
     'TypeMapIOMap'=>'IOMap',
