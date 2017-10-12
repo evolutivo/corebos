@@ -14,4 +14,7 @@ var mv_arr = {
 'ChoseMap':'You need to select which map you want ',
 'ReturnFromPost':'Something was wrong ',
 'NameQuery':'The name for Map must be minimum 5 chars ',
+'attributeselect':'This drop down not have relation with another else',
+'divshowmodal':'Missing attribute data-div-show="Name of div to show" ',
+'Buttonsendajax':'Missing Module and filename  ',
 }

@@ -13,6 +13,8 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
+        
+        <li><button class="slds-button slds-button--brand"  data-send="true" data-send-type="Mapping,MapName" data-send-url="MapGenerator,SaveTypeMaps,post" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -91,12 +93,12 @@
     </div>
 
 
-    <div id="selJoin" style="float:left; overflow: hidden;width:80% height:300px;">
+    <div id="selJoin" style="float:left; overflow: hidden;width:80%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                       <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" id="mod" name="mod" class="slds-select">
+                       <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" data-select-relation-id="Firstfield" id="FirstModul" name="mod" class="slds-select">
                         </select>
                        </div>
                 </div>
@@ -105,7 +107,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                       <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" id="mod" name="mod" class="slds-select">
+                       <select  id="Firstfield" name="mod" class="slds-select">
                         </select>
                        </div>
                 </div>
@@ -116,7 +118,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        <select id="secmodule" data-select-autolod="true" data-select-method="GetSecondModuleCombo" name="secmodule" class="slds-select">
+                        <select id="secmodule" data-select-autolod="true"  data-select-method="GetSecondModuleCombo" data-select-relation-id="SecondField" name="secmodule" class="slds-select">
                         </select>
                         </div>
                 </div>
@@ -125,15 +127,48 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        <select id="secmodule" data-select-autolod="true" data-select-method="GetSecondModuleCombo" name="secmodule" class="slds-select">
+                        <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModul,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                         </select>
                         </div>
                 </div>
             </div>
           </div>
-    <br><br>
+       <br><br>
+    <div id="contenitoreJoin">
+
+        <div id="sectionField">
+
+            <div>
+                <div class="testoDiv">
+                    <center><b>{$MOD.SelectField}</b></center>
+                </div>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
+
+                        </div>
+                    </div>                   
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+                    <input type="hidden" name="querysequence" id="querysequence" value="">
+                    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+                    
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
     <div id="contenitoreJoin" >        
-      
+      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 100%;">                  
+
+                        </div>
     </div>{*End div contenitorejoin*}
 </div>
 
@@ -153,8 +188,10 @@
         .alerts {
             padding: 10px;
             background-color: #808080;
-            margin: 20px;
+            margin: 4px;
             color: white;
+            display: inline-block;
+            
         }
 
         .closebtns {

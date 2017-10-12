@@ -306,6 +306,30 @@ function closeAlertsAndremoveJoin(remuveid) {
 }
 
 
+function closeAlertsAndremoveJoins(remuveid,namediv){
+	  var check = false;
+	    for (var ii =1; ii <= App.JSONForCOndition.length; ii++) {
+	        if (ii == remuveid) {
+	             //JSONForCOndition.remove(remuveid);
+	        	App.JSONForCOndition.splice(remuveid,1);
+	            check = true
+				//console.log(remuveid);
+	           // console.log(ReturnAllDataHistory());
+	         }
+	    }
+	    if (check) {
+	      var remuvediv="#alerts_"+remuveid;
+	      $( remuvediv).remove( );
+	      App.utils.ReturnAllDataHistory(namediv);
+
+	       // $('#selectableFields option:selected').attr("selected", null);
+	    }
+	    else {
+	        alert(mv_arr.ReturnFromPost);
+	    }
+}
+
+
 //function for first combo first module
 function GetFirstModuleCombo(selectObject) {
     alert("Edmondi ");
@@ -1379,13 +1403,13 @@ function getFirstModule(selTab2, Mapid, queryid) {
         async: false,
         success: function (msg) {
             if (msg != '') {
-                jQuery('#mod').html('<option value="None">None</option>' + msg);
-                var SelectPicker = $("#mod").val();
+                jQuery('#FirstModul').html('<option value="None">None</option>' + msg);
+                var SelectPicker = $("#FirstModul").val();
                 if (Mapid != undefined) {
                     getSecModule(SelectPicker, Mapid,queryid);
                      getFirstModuleFields(SelectPicker, Mapid,queryid);
                 }
-                jQuery("#mod").selectmenu("refresh");
+                jQuery("#FirstModul").selectmenu("refresh");
             }
 
         },
