@@ -127,7 +127,7 @@
                         {*{/foreach}*}
                         {*</select>*}
                         {*{else}*}
-                        <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" id="mod" name="mod" class="slds-select">
+                        <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" id="FirstModul" name="mod" class="slds-select">
                         </select>
                         {*{/if}*}
                     </div>

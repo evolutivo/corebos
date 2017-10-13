@@ -1,3 +1,4 @@
+
 <div>
   
   <div id="LoadingImage" style="display: none">
@@ -13,8 +14,15 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
-        
-        <li><button class="slds-button slds-button--brand"  data-send="true" data-send-type="Mapping,MapName" data-send-url="MapGenerator,SaveTypeMaps,post" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        {*//data-send-type= 
+           //Mapping is a type is string 
+           //MapName is the ID of textbox label 
+           //data-send-url="MapGenerator,SaveTypeMaps,post"
+           //MapGenerator modul 
+           //SaveTypePOstMaps is filename 
+           
+        *}
+        <li><button class="slds-button slds-button--brand"  data-send="true" data-send-type="Mapping,MapName" data-send-url="MapGenerator,SaveTypeMaps" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -98,7 +106,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                       <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" data-select-relation-id="Firstfield" id="FirstModul" name="mod" class="slds-select">
+                       <select data-select-load="true" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         </select>
                        </div>
                 </div>
@@ -108,6 +116,7 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select  id="Firstfield" name="mod" class="slds-select">
+                       
                         </select>
                        </div>
                 </div>
@@ -118,21 +127,29 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        <select id="secmodule" data-select-autolod="true"  data-select-method="GetSecondModuleCombo" data-select-relation-id="SecondField" name="secmodule" class="slds-select">
+                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" name="secmodule" class="slds-select">
                         </select>
-                        </div>
-                </div>
+                     </div>
+                </div>                
             </div>
             <br>
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                    <div class="slds-select_container">
+                    <div class="" id="SecondDiv" style="float: left;width: 85%;">
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModul,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
-                        </select>
+                          </select>
+                         <input type="text" style="width: 100%;height: 30px;margin-top: 0px;" id="SecondField" class="slds-input" placeholder="Placeholder Text" />
+                        </div>
+                        <div style="float:right;">
+                          <a href="#" data-load="true" data-tools-id="SecondField" type="button" style="margin-top: 6px;" ><i class="fa fa-pencil fa-2x" aria-hidden="true"></i></a>  
                         </div>
                 </div>
+                
+                
             </div>
+            
           </div>
+            
        <br><br>
     <div id="contenitoreJoin">
 

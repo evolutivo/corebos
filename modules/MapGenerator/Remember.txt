@@ -1,0 +1,5 @@
+<select>
+data-select-load="true" ----- load aoutomatik 
+data-second-module-id="secmodule" ------   is the id of second select you  want to fill when you select a value 
+data-module="MapGenerator"----- MapGenerator is module when you want to make a call but filename is the same 
+data-select-relation-field-id="Firstfield"    this attribute is the id where you want to show all field of selected 

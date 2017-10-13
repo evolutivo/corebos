@@ -308,7 +308,7 @@ function closeAlertsAndremoveJoin(remuveid) {
 
 function closeAlertsAndremoveJoins(remuveid,namediv){
 	  var check = false;
-	    for (var ii =1; ii <= App.JSONForCOndition.length; ii++) {
+	    for (var ii = 0; ii <= App.JSONForCOndition.length; ii++) {
 	        if (ii == remuveid) {
 	             //JSONForCOndition.remove(remuveid);
 	        	App.JSONForCOndition.splice(remuveid,1);

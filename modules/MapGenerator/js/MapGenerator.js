@@ -25,6 +25,7 @@
 			App.TypeOfMaps.init();
 			App.SelectModule.init();
 			App.FunctionSend.init();
+			App.GetModuleForMapGenerator.init();
 			$.each(App.initMethods, function(i, initializer) {
 				initializer();
 			});
@@ -86,7 +87,16 @@
 					alert(mv_arr.ChoseMap);
 				}
 			}
-			getFirstModule();
+			if (select == "Mapping") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ "MapGenerator", "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			} else if (select == "SQL") {
+				getFirstModule();
+			}
+
 		},
 
 		LoadShowPopup : function(event) {
@@ -105,24 +115,32 @@
 				return;
 			}
 			$('#' + divshowmodal + ' div').remove();
-			var FirstModuleval = $("#" + idrelation[0] + " option:selected").val();// $('#mod').value;
-	        var FirstModuletxt = $("#" + idrelation[0] + " option:selected").text();	
-	        
-			var FirstFieldval = $("#" + idrelation[1] + " option:selected").val();// $('#mod').value;
-			var FirstFieldtxt = $("#" + idrelation[1] + " option:selected").text();
-			
-			var SecondModuleval = $("#" + idrelation[2] + " option:selected").val();// $('#mod').value;
-	        var SecondModuletxt = $("#" + idrelation[2] + " option:selected").text();
-			
+			var FirstModuleval = $("#" + idrelation[0] + " option:selected")
+					.val();// $('#mod').value;
+			var FirstModuletxt = $("#" + idrelation[0] + " option:selected")
+					.text();
+
+			var FirstFieldval = $("#" + idrelation[1] + " option:selected")
+					.val();// $('#mod').value;
+			var FirstFieldtxt = $("#" + idrelation[1] + " option:selected")
+					.text();
+
+			var SecondModuleval = $("#" + idrelation[2] + " option:selected")
+					.val();// $('#mod').value;
+			var SecondModuletxt = $("#" + idrelation[2] + " option:selected")
+					.text();
+
 			var SecondFieldval = $(this).find('option:selected').val();
 			var SecondFieldtext = $(this).find('option:selected').text();
-			App.utils.addINJSON(FirstModuleval,FirstModuletxt,FirstFieldval,FirstFieldtxt,SecondModuleval,SecondModuletxt,SecondFieldval,SecondFieldtext);
+			App.utils.addINJSON(FirstModuleval, FirstModuletxt, FirstFieldval,
+					FirstFieldtxt, SecondModuleval, SecondModuletxt,
+					SecondFieldval, SecondFieldtext);
 
 			var check = false;
 			var length_history = App.JSONForCOndition.length;
 			// alert(length_history-1);
 			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
-				var idd = ii + 1;// JSONForCOndition[ii].idJSON;
+				var idd = ii;// JSONForCOndition[ii].idJSON;
 				var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
 				var secmod = App.JSONForCOndition[ii].SecondFieldtext;
 				// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
@@ -139,6 +157,97 @@
 				$('#' + divshowmodal).append(alerstdiv);
 
 			}
+		},
+
+	};
+
+	App.GetModuleForMapGenerator = {
+
+		init : function() {
+			// data-select-autolod="true"
+			$(document).on('change', 'select[data-select-load="true"]',
+					App.GetModuleForMapGenerator.GetSecondModuleField);
+			$(document).on('change', 'select[data-second-select-load="true"]',
+					App.GetModuleForMapGenerator.GetSecondField);
+			$(document).on('click', 'a[data-load="true"]',
+					App.GetModuleForMapGenerator.ChangeTextDropDown);
+		},
+
+		GetFirstModule : function(idfieldfill, urlsend, dat) {
+			element = $(this);
+			var data = "Data=" + dat;
+			var returndata = null;
+			var returndata = App.utils.PostDataGeneric(urlsend, data);
+			$("#" + idfieldfill).empty();
+			$("#" + idfieldfill).append(VauefromPost);
+			VauefromPost = null;
+		},
+		GetSecondModuleField : function(event) {
+			if (event)
+				event.preventDefault();
+			var elem = $(this);
+			// data-second-module-id
+			var secondmodule = elem.attr("data-second-module-id");
+			var field = elem.attr("data-select-relation-field-id");
+			var urlsend = elem.attr("data-module");
+			var valueselected = elem.find(":selected").val();
+			if (secondmodule != "undefined") {
+				var urlsendmodule = [ urlsend, "fillModuleRel" ];
+				var dat = "mod=" + valueselected;
+				App.utils.PostDataGeneric(urlsendmodule, dat, "");
+				$("#" + secondmodule).empty();
+				$("#" + secondmodule).append('<option value="" selected="selected">Select a value</option>');
+				$("#" + secondmodule).append(VauefromPost);
+				VauefromPost = null;
+			}
+			if (field != "undefined") {
+				var urlsendfield = [ urlsend, "moduleFields" ];
+				var datfields = "mod=" + valueselected;
+				App.utils.PostDataGeneric(urlsendfield, datfields, "");
+				var s = VauefromPost.split(";");
+				var str1 = s[0];
+				var str2 = s[1];
+				var str3 = s[2];
+				$("#" + field).empty();
+				//$("#" + field).append('<option value="" selected="selected">Select a value</option>');
+				$("#" + field).append(str1);
+				VauefromPost = null;
+			}
+		},
+		GetSecondField:function(event){
+			if (event)
+				event.preventDefault();
+			  var elem = $(this);
+			  var relationid=elem.attr("data-second-select-relation-id");
+			  var modulesecondfield=elem.attr("data-module");
+			  var selectsecondfields=elem.find(":selected").val();
+			  if(relationid != "undefined"){
+				  var sp = selectsecondfields.split(";");
+				    var mod = sp[0].split("(many)");
+				    mod0 = mod[0].split(" ");
+				    secModule = mod0[0];
+				  var urlsendfield = [ modulesecondfield, "moduleFields" ];
+					var datfields = "mod=" + secModule;
+					App.utils.PostDataGeneric(urlsendfield, datfields, ""); 
+					$("#" + relationid).empty();
+					$("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
+					$("#" + relationid).append(VauefromPost);
+					VauefromPost = null;
+			  }
+			
+		},
+		
+		ChangeTextDropDown:function(event){
+			if (event)
+				event.preventDefault();
+			  var elem = $(this);
+			  var IdChange=elem.attr("data-tools-id");
+			  if(IdChange != "undefined"){
+				  $(this).click(function() {
+					   $( "#"+IdChange ).toggle();
+					});
+			  }
+			
 		},
 
 	};
@@ -196,24 +305,18 @@
 			var elem = $(this);
 			var urlcheck = elem.attr('data-send-url').split(",");
 			var typeSend = elem.attr('data-send-type').split(",");
-			var mapname=$("#MapName").val();
+			var mapname = $("#MapName").val();
 			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
 				alert(mv_arr.Buttonsendajax);
 			}
-			if (typeSend == "undefined" && typeSend.length <=0) {
+			if (typeSend == "undefined" && typeSend.length <= 0) {
 				alert(mv_arr.Buttonsendajax);
 			}
-			if(App.JSONForCOndition.length>0){
-				var data={
-						"Data":App.JSONForCOndition,
-				      	"MapName":typeSend[0],
-				      	"MapType":typeSend[1]
-				      	
-				};
-				App.utils.PostDataGeneric(urlcheck,data,typeSend);	
+			if (App.JSONForCOndition.length > 0) {
+				var data = "Data=" + JSON.stringify(App.JSONForCOndition)
+						+ "&MapName=" + typeSend[0] + "&MapType=" + typeSend[1];
+				App.utils.PostDataGeneric(urlcheck, data, typeSend);
 			}
-						
-			
 
 		},
 	};
@@ -257,19 +360,34 @@
 				}
 			});
 		},
-		PostDataGeneric : function(Urlsend, dat,Typesend) {
-			if(Urlsend[2] == "undefined" || Urlsend[2].toUpperCase() != "POST" || Urlsend[2].toUpperCase() != "GET"){
-				Urlsend[2]="POST";
-			}
+		PostDataGeneric : function(Urlsend, dat, Typesend) {
+
 			jQuery.ajax({
-				type : Urlsend[2].toUpperCase(),
-				url : "index.php?module="+Urlsend[0]+"&action="+Urlsend[0]+"Ajax&file="+Urlsend[1],				
+				type : "POST",
+				url : "index.php?module=" + Urlsend[0] + "&action="
+						+ Urlsend[0] + "Ajax&file=" + Urlsend[1] + "",
 				dataType : "html",
-				contentType: "application/json; charset=utf-8",
 				async : false,
 				data : dat,
 				success : function(msg) {
-					return msg;
+					VauefromPost = msg;
+				},
+				error : function() {
+					alert(mv_arr.ReturnFromPost);
+				}
+			});
+		},
+		GetDataGeneric : function(Urlsend, dat) {
+
+			jQuery.ajax({
+				type : "GET",
+				url : "index.php?module=" + Urlsend[0] + "&action="
+						+ Urlsend[0] + "Ajax&file=" + Urlsend[1] + "",
+				dataType : "html",
+				async : false,
+				data : dat,
+				success : function(msg) {
+					VauefromPost = msg;
 				},
 				error : function() {
 					alert(mv_arr.ReturnFromPost);
@@ -292,19 +410,21 @@
 
 		},
 
-		addINJSON : function(FirstModuleval,FirstModuletxt,FirstFieldval,FirstFieldtxt,SecondModuleval,SecondModuletxt,SecondFieldval,SecondFieldtext) {
+		addINJSON : function(FirstModuleval, FirstModuletxt, FirstFieldval,
+				FirstFieldtxt, SecondModuleval, SecondModuletxt,
+				SecondFieldval, SecondFieldtext) {
 			App.JSONForCOndition.push({
 				idJSON : App.JSONForCOndition.length + 1,
-				
+
 				FirstModuleval : FirstModuleval,
 				FirstModuletxt : FirstModuletxt,
-				
+
 				FirstFieldval : FirstFieldval,
 				FirstFieldtxt : FirstFieldtxt,
-				
+
 				SecondModuleval : SecondModuleval,
 				SecondModuletxt : SecondModuletxt,
-				
+
 				SecondFieldval : SecondFieldval,
 				SecondFieldtext : SecondFieldtext,
 			// selectedfields: JSONARRAY,
@@ -350,10 +470,10 @@
 			var length_history = App.JSONForCOndition.length;
 			// alert(length_history-1);
 			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
-				var idd = ii + 1// JSONForCOndition[ii].idJSON;
+				var idd = ii// JSONForCOndition[ii].idJSON;
 				var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
 				var secmod = App.JSONForCOndition[ii].SecondFieldtext;
-//				valuehistoryquery = App.JSONForCOndition[ii].ValuesParagraf;
+				// valuehistoryquery = App.JSONForCOndition[ii].ValuesParagraf;
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
 				if (ii == (length_history - 1)) {

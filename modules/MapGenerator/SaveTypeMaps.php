@@ -8,18 +8,18 @@
 
 // global $root_directory, $log;
 $Data = array();
-// var_dump($_REQUEST);
-// exit();
-$MapName = $_GET['MapName'];//stringa con tutti i campi scelti in selField1
-echo "Edmondi MapName===".$MapName;
+var_dump($_REQUEST);
 exit();
+$MapName = $_POST['MapName'];//stringa con tutti i campi scelti in selField1
 $MapType = $_POST['MapType'];//stringa con tutti i campi scelti in selField1
-//$Data = $_POST['Data'];//nome della vista
+$Data = $_POST['Data'];//nome della vista
 
-// print_r($Data);
-// echo "<br/>";
-// echo "<br/>";
-// echo "<br/>";
+
+$json_string = json_encode($Data, JSON_PRETTY_PRINT);
+print_r($json_string);
+echo "<br/>";
+echo "<br/>";
+echo "<br/>";
 echo $MapName;
 echo "<br/>";
 echo "<br/>";

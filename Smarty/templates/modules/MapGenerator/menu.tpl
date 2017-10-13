@@ -8,6 +8,7 @@
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/MapGenerator.js"></script>
+<script src="https://use.fontawesome.com/c74e66ed00.js"></script>
 
 {literal}
     <style>
