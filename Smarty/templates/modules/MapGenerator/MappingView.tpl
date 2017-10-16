@@ -135,13 +135,26 @@
             <br>
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                    <div class="" id="SecondDiv" style="float: left;width: 85%;">
-                        <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModul,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
+                
+                    <div class="" id="SecondDiv" style="float: left;width: 92%;">
+                        <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           </select>
-                         <input type="text" style="width: 100%;height: 30px;margin-top: 0px;" id="SecondField" class="slds-input" placeholder="Placeholder Text" />
+                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
+	                           <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+			                        <div class="slds-combobox__form-element">
+			                            <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+			                        </div>
+	                            </div>
+			                    <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
+			                        <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+			                            <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+			                        </button>
+			                    </div>
+			               </div>
+                         
                         </div>
                         <div style="float:right;">
-                          <a href="#" data-load="true" data-tools-id="SecondField" type="button" style="margin-top: 6px;" ><i class="fa fa-pencil fa-2x" aria-hidden="true"></i></a>  
+                          <a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
                         </div>
                 </div>
                 

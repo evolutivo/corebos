@@ -31,6 +31,7 @@ if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "SQL") {
     $smarty->assign("MapID", $MapId);
     $smarty->assign("queryid", $queryid);
     $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
     $output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');
     echo $output;
 }

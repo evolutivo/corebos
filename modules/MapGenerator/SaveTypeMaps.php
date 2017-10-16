@@ -1,141 +1,142 @@
 <?php
+include_once ("modules/cbMap/cbMap.php");
+require_once ('data/CRMEntity.php');
+require_once ('include/utils/utils.php');
 
-
-
-// include_once("modules/cbMap/cbMap.php");
-// require_once('data/CRMEntity.php');
-// require_once('include/utils/utils.php');
-
-// global $root_directory, $log;
+global $root_directory, $log;
 $Data = array();
-var_dump($_REQUEST);
-exit();
-$MapName = $_POST['MapName'];//stringa con tutti i campi scelti in selField1
-$MapType = $_POST['MapType'];//stringa con tutti i campi scelti in selField1
-$Data = $_POST['Data'];//nome della vista
 
+$MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
+$MapType = $_POST['MapType']; // stringa con tutti i campi scelti in selField1
+$Data = $_POST['Data']; // nome della vista
 
-$json_string = json_encode($Data, JSON_PRETTY_PRINT);
-print_r($json_string);
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo $MapName;
-echo "<br/>";
-echo "<br/>";
-echo "<br/>";
-echo $MapType;
-echo "<br/>";
-echo "<br/>";
- 
-exit();
+if (empty($MapName)) {
+    echo "Missing the name of map Can't save";
+    return;
+}
+if (empty($MapType)) {
+    $MapType = "Mapping";
+}
 
-
-// if($querysequence!=''){
-//     $adb->query("update mvqueryhistory set active=0 where id='$queryid'");
-//     $adb->query("update mvqueryhistory set active=1 where id='$queryid' and sequence='$querysequence'");}
-//     $dd=str_replace("SELECT","",$QueryGenerate);
-//     $withoutselect="\"".$dd."\"";
-//     $onlyselect=explode("FROM",$withoutselect);
-//     $campiSelezionati =explode(",",$onlyselect[0]);
-//     $nrmaps = count($campiSelezionati);
-//     $optionValue = array();
-//     $optgroup = array();
-   
-//     global $adb;
-//     $delimArr = explode("@", $defaultDelimiter);
-//     $xml = new DOMDocument("1.0");
-//     $root = $xml->createElement("map");
-//     $xml->appendChild($root);
-//     //$name = $xml->createElement("name");
-//     $target = $xml->createElement("Fmodule");
-//     $targetid = $xml->createElement("FmoduleID");
-//     $targetidText = $xml->createTextNode(array_values($firstmodule)[0]);
-//     $targetid->appendChild($targetidText);
-//     $targetname = $xml->createElement("FmoduleName");
-//     $targetnameText = $xml->createTextNode(array_values($selTab1)[0]);
-//     $targetname->appendChild($targetnameText);
-//     $target->appendChild($targetid);
-//     $target->appendChild($targetname);
+ if (! empty($Data)) {
+     $DataDecode = json_decode($Data, true);
+//      foreach ($DataDecode as $dddddd)
+//          print_r($dddddd);
+//      exit();
     
-//     $origin = $xml->createElement("Secmodule");
-//     $originid = $xml->createElement("SecmoduleID");
-//     $originText = $xml->createTextNode(array_values($secmodule)[0]);
-//     $originid->appendChild($originText);
-//     $originname = $xml->createElement("SecmoduleName");
-//     $originnameText = $xml->createTextNode(array_values($selTab2)[0]);
-//     $originname->appendChild($originnameText);
-//     $origin->appendChild($originid);
-//     $origin->appendChild($originname);
-//     $fields = $xml->createElement("fields");
-    
-//     for ($i = 1; $i < $nrmaps; $i++) {
-//         //get target field name
-//         $orgFields = explode(".", $campiSelezionati[$i]);//explode(":", $orgArr[$i]);
-//         $field = $xml->createElement("field");
-//         $fieldname = $xml->createElement("fieldname");
-//         $fieldnameText = $xml->createTextNode($orgFields[1]);
-//         $fieldname->appendChild($fieldnameText);
-//         $field->appendChild($fieldname);
-//         $fieldID = $xml->createElement("fieldID");
-//         $fieldideText = $xml->createTextNode($orgFields[1]);
-//         $fieldID->appendChild($fieldideText);
-//         $field->appendChild($fieldID);
-//         //target module fields
-//         // $Orgfields = $xml->createElement("Orgfields");
-//         // $field->appendChild($Orgfields);
-//         // $targetArr[$i] mban fushat perkatese
-//         $trFields = explode(",", $targetArr[$i]);
-//         //    if(count($trFields) > 1) {
-//         $fldnamearr = array();
-//         $fldidarr = array();
-//         for ($j = 0; $j < count($trFields); $j++) {
-//             $fld = explode(":", $trFields[$j]);
-//             $fldnamearr[] = $fld[1];
-//             $modid = $fld[2];
-//             $fldidarr = $fld[4];
-//             $type = $fld[5];
-//             if ($type == "related") {
-//                 $OrgRelfield = $xml->createElement("Relfield");
-//                 $OrgRelfieldName = $xml->createElement("RelfieldName");
-//                 $OrgRelfieldNameText = $xml->createTextNode($fld[1]);
-//                 $OrgRelModule = $xml->createElement("RelModule");
-//                 $OrgRelModuleText = $xml->createTextNode($fld[2]);
-//                 $OrgRelfieldName->appendChild($OrgRelfieldNameText);
-//                 $OrgRelModule->appendChild($OrgRelModuleText);
-//                 $OrgRelfield->appendChild($OrgRelfieldName);
-//                 $OrgRelfield->appendChild($OrgRelModule);
-                
-//                 $linkfield = $xml->createElement("linkfield");
-//                 $linkfieldText = $xml->createTextNode($fld[6]);
-//                 $linkfield->appendChild($linkfieldText);
-//                 $OrgRelfield->appendChild($linkfield);
-//                 $Orgfields->appendChild($OrgRelfield);
-//             } else {
-//                 $Orgfield = $xml->createElement("Orgfield");
-//                 $OrgfieldName = $xml->createElement("OrgfieldName");
-//                 $OrgfieldNameText = $xml->createTextNode($fld[1]);
-//                 $OrgfieldName->appendChild($OrgfieldNameText);
-//                 $Orgfield->appendChild($OrgfieldName);
-                
-//                 $OrgfieldID = $xml->createElement("OrgfieldID");
-//                 $OrgfieldIDText = $xml->createTextNode($fld[4]);
-//                 $OrgfieldID->appendChild($OrgfieldIDText);
-//                 $Orgfield->appendChild($OrgfieldID);
-//             }
-//         }
+        $xml = new DOMDocument("1.0");
+        $root = $xml->createElement("map");
+        $xml->appendChild($root);
+        
+        // $name = $xml->createElement("name");
+        $target = $xml->createElement("originmodule");
+        $targetID = $xml->createElement("originid");
+        $targetidText = $xml->createTextNode($DataDecode[0]['FirstModuleval']);
+        $targetID->appendChild($targetidText);
+        
+        $targetname = $xml->createElement("originname");
+        $targetnameText = $xml->createTextNode($DataDecode[0]['FirstModuletxt']);
+        $targetname->appendChild($targetnameText);
+       // $target->appendChild($targetid);
+        $target->appendChild($targetname);
+        
+        $origin = $xml->createElement("targetmodule");
+        $originid = $xml->createElement("targetid");
+        $originText = $xml->createTextNode($DataDecode[0]['SecondModuleval']);
+        $originid->appendChild($originText);
+        
+        $originname = $xml->createElement("targetname");
+        $originnameText = $xml->createTextNode($DataDecode[0]['SecondModuletxt']);
+        $originname->appendChild($originnameText);
+       //$target->appendChild($originid);
+        $origin->appendChild($originname);
+        $fields = $xml->createElement("fields");        
+        foreach($DataDecode as $datadecode ) {
+           
+               if ($datadecode["FirstModuletxt"]=="Default-Value")
+               { 
+                   
+                        //get target field name
+                    $field = $xml->createElement("field");
+                    $fieldname = $xml->createElement("fieldname");
+                    $fieldnameText = $xml->createTextNode($datadecode["FirstModuletxt"]);
+                    $fieldname->appendChild($fieldnameText);
+                    $field->appendChild($fieldname);
+                    
+                    $valueID = $xml->createElement("value");
+                    $valueText = $xml->createTextNode($datadecode["SecondFieldval"]);
+                    $valueID->appendChild($valueText);
+                    $field->appendChild($valueID);
+                    
+                    $fieldID = $xml->createElement("fieldID");
+                    $fieldideText = $xml->createTextNode($datadecode["FirstModuleval"]);
+                    $fieldID->appendChild($fieldideText);
+                    $field->appendChild($fieldID);
+                    $Orgfields = $xml->createElement("Orgfields");
+                     $fieldname = $xml->createElement("Orgfield");
+                     $OrgfieldName = $xml->createElement("OrgfieldName");
+                     $OrgfielText = $xml->createTextNode("");
+                     $OrgfieldName->appendChild($OrgfielText);
+                     $fieldname->appendChild($OrgfieldName);
+                     $Orgfields->appendChild($fieldname);
+                     $field->appendChild($Orgfields);
+                    
+               }else{
+                  
+                   $field = $xml->createElement("field");
+                   $fieldname = $xml->createElement("fieldname");
+                   $fieldnameText = $xml->createTextNode($datadecode["FirstModuletxt"]);
+                   $fieldname->appendChild($fieldnameText);
+                   $field->appendChild($fieldname);
+                   
+//                    $valueID = $xml->createElement("value");
+//                    $valueText = $xml->createTextNode($datadecode["SecondFieldval"]);
+//                    $valueID->appendChild($valueText);
+//                    $field->appendChild($valueID);
+                   
+                   $fieldID = $xml->createElement("fieldID");
+                   $fieldideText = $xml->createTextNode($datadecode["FirstModuleval"]);
+                   $fieldID->appendChild($fieldideText);
+                   $field->appendChild($fieldID);
+                   
+                   $Orgfields = $xml->createElement("Orgfields");
+                   $fieldname = $xml->createElement("Orgfield");
+                   
+                   $OrgfieldName = $xml->createElement("OrgfieldName");
+                   $OrgfielText = $xml->createTextNode($datadecode["SecondFieldtext"]);
+                   $OrgfieldName->appendChild($OrgfielText);
+                   $fieldname->appendChild($OrgfieldName);
+                   
+                   $OrgfieldName = $xml->createElement("OrgfieldID");
+                   $OrgfielText = $xml->createTextNode($datadecode["SecondFieldval"]);
+                   $OrgfieldName->appendChild($OrgfielText);
+                   $fieldname->appendChild($OrgfieldName);
+                   
+                   $Orgfields->appendChild($fieldname);
+                   $field->appendChild($Orgfields);
+                   
+               }       
 //         $del = $xml->createElement("delimiter");
 //         $delText = $xml->createTextNode($delimArr[$i]);
 //         $del->appendChild($delText);
-//         $fields->appendChild($field);
+       
 //         $strTarField = implode($delimArr[$i], $fldnamearr);
 //         $strTarFldId = implode(",", $fldidarr);
-//     }
+    }
+    $fields->appendChild($field);
 //     $root->appendChild($target);
 //     $root->appendChild($origin);
-//     $root->appendChild($fields);
-//     $xml->formatOutput = true;
-    
+    $root->appendChild($fields);
+    $xml->formatOutput = true;
+     
+    $ddd=$xml->saveXML();
+    $fp = fopen('C:\Users\Edmondi\Desktop\lidn.xml', 'w');
+    fwrite($fp, $ddd);
+    fwrite($fp, 'mice');
+    fclose($fp);
+    print($xml->saveXML());  
+    exit();
+ }//end of if (! empty($Data)) 
 //     $SaveasMapTextImput=$_POST['SaveasMapTextImput'];
 //     if($SaveasMapTextImput=='')
 //         $SaveasMapTextImput=$nameview;
