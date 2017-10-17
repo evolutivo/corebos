@@ -23,7 +23,7 @@ mostraSel($dbList);
     <select id="dbList" name="dbList" onchange="selDB()" >
         <option SELECTED VALUE="Selezionare il database:">Selezionare il database:</option>
         <?php for($j=0; $j<9; $j++) {  ?>
-        <option id="<?php echo $dbList[$j]; ?>" name="<?php echo echo $dbList[$j]; ?>"><?php echo echo $dbList[$j]; ?></option>
+        <option id="<?php echo $dbList[$j]; ?>" name="<?php  echo $dbList[$j]; ?>"><?php  echo $dbList[$j]; ?></option>
         <?php  } ?>
     </select>
 </div>

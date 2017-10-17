@@ -332,6 +332,10 @@
 				var data = "Data=" + JSON.stringify(App.JSONForCOndition)
 						+ "&MapName=" + mapname + "&MapType=" + typeSend[0];
 				App.utils.PostDataGeneric(urlcheck, data, typeSend);
+				if(!VauefromPost){
+					alert(VauefromPost);
+					VauefromPost=null;
+				}
 			}
 
 		},
