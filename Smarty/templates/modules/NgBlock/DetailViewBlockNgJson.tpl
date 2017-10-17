@@ -44,9 +44,13 @@
 </table>
 
 <div style="width:auto;display:none;" id="tbl{$NG_BLOCK_NAME|replace:' ':''}" >
-     <table ng-controller="block_{$NG_BLOCK_ID}" ng-table-dynamic="tableParams with cols" class="table table-condensed table-bordered table-striped">
+     <table ng-controller="block_{$NG_BLOCK_ID}" ng-table-dynamic="tableParams with cols" show-filter="true" class="table table-condensed table-bordered table-striped">
             <tr ng-repeat="row in $data">
-              <td ng-repeat="col in $columns">{literal}{{row[col.field]}}{/literal}</td>
+              <td ng-repeat="col in $columns "><div ng-if="(uitypes[col.field] =='19' || uitypes[col.field] =='21') && !isExpanded[col.field]"> {literal}{{ row[col.field] | limitTo: 160 }}{{row[col.field].length > 160 ? '...' : ''}}{/literal}</div>
+                <div ng-if="(uitypes[col.field]!='19' && uitypes[col.field]!='21') || isExpanded[col.field]">{literal}{{row[col.field]}}{/literal}</div>
+                <input ng-show="row[col.field].length > 160 && (uitypes[col.field]=='19' || uitypes[col.field]=='21') && !isExpanded[col.field]" type="button" ng-click="expandField(col.field)" value="Leggi tutto" />
+                <input ng-show="row[col.field].length > 160 && (uitypes[col.field]=='19' || uitypes[col.field]=='21') && isExpanded[col.field]" type="button" ng-click="shrinkField(col.field)" value="Chiudi" />
+               </td>
             </tr>
       </table>
 </div>
@@ -65,41 +69,68 @@
 angular.module('demoApp')
 .controller('block_{/literal}{$NG_BLOCK_ID}{literal}',function($scope, $http, $modal,ngTableParams) {
 
-    $scope.generateColumns = function(sampleData) {
-        var colNames = Object.getOwnPropertyNames(sampleData);
+    $scope.hasReadMore = {};
+    $scope.isExpanded = {};
+    $scope.generateColumns = function(sampleData,sampleTranslations) {
+        var colNames =sampleData;// Object.getOwnPropertyNames(sampleData);
         var fields=[];
+        var i=0;
         angular.forEach(colNames, function(value, key) {
             var filter = {};
-            filter[name] = 'text';
+            filter[value] = 'text';
             var fld= {
-                title: value,
+                title: sampleTranslations[i],
                 //sortable: value,
-                //filter: filter,
+                filter: filter,
                 show: true,
                 field: value
               };
-              
+            i=i+1;
             fields.push(fld); 
         });
         return fields;
     };
     
-    $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=retrieve_json').
-        success(function(data, status) {
-          var orderedData = data;
-          $scope.vals=orderedData;
-          if($scope.vals.length>0){
-              $scope.cols = $scope.generateColumns(orderedData[0]);
-          }
+    $scope.expandField = function (fld) {
+       $scope.isExpanded[fld] = true;
+    };
     
-        $scope.tableParams = new ngTableParams({
-            page: 1,            // show first page
-            count: 5  // count per page
-
-        }, {
-           counts: [5,15], 
-           data: $scope.vals
-        });
+    $scope.shrinkField = function (fld) {
+       $scope.isExpanded[fld] = false;
+    };
+    
+    var pageItems=5;
+    $scope.tableParams = new ngTableParams({
+        page: 1,            // show first page
+        count: 5  // count per page
+    }, {
+       filterDelay: 0,counts: [], 
+        getData: function($defer, params) {
+            var jsonFilter={};
+            //jsonFilter['contactid']=$scope.pickpay.split("x")[1];
+            //if($scope.type_draft!=='')
+            //    jsonFilter['draft']=$scope.type_draft;
+            var filterByFields=jsonFilter;
+            var currentPage=params.page()-1;
+            var where = JSON.stringify(params.filter());//JSON.stringify(filterByFields);
+            var fromwhere = currentPage*pageItems;
+            $http.get('index.php?{/literal}{$blockURL}{literal}&kaction=retrieve_json&from='+fromwhere+'&size='+pageItems+'&where='+where).
+                success(function(data, status) {
+                    $scope.cols = $scope.generateColumns(data.columns,data.translations);
+                    $scope.pageRec      = data.lines.records;
+                    $scope.uitypes = data.uitypes;
+                    var orderedData = $scope.pageRec;
+                    params.total(data.lines.total);
+                    if (currentPage == 0) {
+                        params.settings().startItemNumber = 1;
+                    }
+                    else {
+                        params.settings().startItemNumber = currentPage * params.settings().countSelected + 1;
+                    }
+                    params.settings().endItemNumber = params.settings().startItemNumber +$scope.myItemsTotalCount - 1;
+                    $defer.resolve(orderedData);
+                });
+        }
     });
         
 });

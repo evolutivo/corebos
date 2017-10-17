@@ -234,8 +234,22 @@
                 elseif($kaction=='retrieve_json'){
 
                     $ngBlockInst=new NgBlock();
-                    $lines=$ngBlockInst->createElastic($elastic_id,$elastic_type);
-                    echo json_encode($lines);
+                    $fromwhere=$_REQUEST['from'];
+                    $size=$_REQUEST['size'];
+                    $where=$_REQUEST['where'];
+                    $recid=$_REQUEST['id'];
+                    $models=$where;
+                    $where=json_decode($models,true);$records=$ngBlockInst->createElastic($elastic_id,$elastic_type,$fromwhere,$size,$where,$pointing_field_name,$recid);
+                    $trans=explode(',',$columns);
+                    include_once("modules/$pointing_module/language/$current_language.lang.php");
+                    global $mod_strings;
+                    for ($i=0;$i<count($trans);$i++){
+                    if($mod_strings["$trans[$i]"]!='')
+                    $tr[]=$mod_strings["$trans[$i]"];
+                    else $tr[]=$trans[$i];
+                    }
+                    echo json_encode(array('columns'=>explode(',',$columns),'translations'=>$tr,'lines'=>$records, 'uitypes' => $uitype_col));
+
             }
                 elseif($kaction=='create'){
                     require_once('modules/'.$pointing_module.'/'.$pointing_module.'.php');
