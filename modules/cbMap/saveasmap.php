@@ -137,6 +137,13 @@ $root->appendChild($origin);
 $root->appendChild($fields);
 $xml->formatOutput = true;
 
+$addsqltag="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+$addsqltag.="<map>\n<maptype>SQL</maptype>\n";
+$addsqltag.="<sql>\n";
+$addsqltag.=$QueryGenerate;
+$addsqltag.="<sql>\n</map>";
+
+
 $SaveasMapTextImput=$_POST['SaveasMapTextImput'];
 if($SaveasMapTextImput=='')
 $SaveasMapTextImput=$nameview;
@@ -144,7 +151,7 @@ if (empty($_POST["MapId"])){
     $focust = new cbMap();
     $focust->column_fields['assigned_user_id'] = 1;
     $focust->column_fields['mapname'] = $SaveasMapTextImput;
-    $focust->column_fields['content']=$QueryGenerate;
+    $focust->column_fields['content']=$addsqltag;
     $focust->column_fields['mvqueryid']=$queryid;
     $focust->column_fields['description'] = $xml->saveXML();
     $focust->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
@@ -163,7 +170,7 @@ else{
     $map_focus = new cbMap();
     $map_focus->id = $MapID;
     $map_focus->retrieve_entity_info($MapID,"cbMap");
-    $map_focus->column_fields['content']= $QueryGenerate;
+    $map_focus->column_fields['content']= $addsqltag;
     $map_focus->column_fields['mapname'] = $nameview;
     $map_focus->column_fields['description'] = $xml->saveXML();
     $map_focus->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
