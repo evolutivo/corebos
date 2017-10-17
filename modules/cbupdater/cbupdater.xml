@@ -1626,6 +1626,13 @@
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>
+	<author>edmondkacaj</author>
+	<description>Modul to save different Type of Map</description>
+	<filename>build/changeSets/evolutivo/MapGenerator.php</filename>
+	<classname>MapGenerator</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
 	<author>albana</author>
 	<description>Add macrotype field to pivot</description>
 	<filename>build/changeSets/2017/addFieldPivotMacroType.php</filename>

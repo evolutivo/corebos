@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<module>
+<exporttime>2017-04-21 12:05:17</exporttime>
+<name>MVCreator</name>
+<label>MVCreator</label>
+<parent>Tools</parent>
+<type>extension</type>
+<version>1.0</version>
+<dependencies>
+<vtiger_version>5.4.0</vtiger_version>
+</dependencies>
+<tables>
+</tables>
+<crons>
+</crons>
+</module>
