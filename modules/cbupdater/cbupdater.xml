@@ -1627,9 +1627,9 @@
 </changeSet>
 <changeSet>
 	<author>edmondkacaj</author>
-	<description>Add Map Generator</description>
-	<filename>build/changeSets/evolutivo/addmapgenerator.php</filename>
-	<classname>addmapgenerator</classname>
+	<description>Modul to save different Type of Map</description>
+	<filename>build/changeSets/evolutivo/MapGenerator.php</filename>
+	<classname>MapGenerator</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
 <changeSet>

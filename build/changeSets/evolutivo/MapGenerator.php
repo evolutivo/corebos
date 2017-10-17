@@ -5,7 +5,7 @@
  * Date: 17/Oct/2017
  * Time: 12:45 PM
  */
-class addmapgenerator extends cbupdaterWorker {
+class MapGenerator extends cbupdaterWorker {
     
     function applyChange() {
         if ($this->hasError()) $this->sendError();
@@ -31,7 +31,7 @@ class addmapgenerator extends cbupdaterWorker {
         if ($this->hasError()) $this->sendError();
         if ($this->isApplied()) {
             vtlib_toggleModuleAccess('MapGenerator',false);
-            $this->sendMsg('addmapgenerator deactivated!');
+            $this->sendMsg('MapGenerator deactivated!');
             $this->markUndone(false);
             $this->sendMsg('Changeset '.get_class($this).' undone!');
         } else {
