@@ -17,7 +17,7 @@
         {*//data-send-type= 
            //Mapping is a type is string 
            //MapName is the ID of textbox label 
-           //data-send-url="MapGenerator,SaveTypeMaps,post"
+           //data-send-url="MapGenerator,SaveTypeMaps"
            //MapGenerator modul 
            //SaveTypePOstMaps is filename 
            
