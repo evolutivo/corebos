@@ -417,7 +417,7 @@ function DeleteTag(id,recordid)
 																								|| ($CUSTOM_LINK_DETAILVIEWWIDGET->sequence == $smarty.foreach.BLOCKS.iteration + 1)
 																								|| ($smarty.foreach.BLOCKS.last && $CUSTOM_LINK_DETAILVIEWWIDGET->sequence >= $smarty.foreach.BLOCKS.iteration + 1)}
 																								<tr class="blockStyleCss">
-																									<td class="detailViewContainer">{process_widget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
+																									<td class="detailViewContainer">{dvwidget widgetLinkInfo=$CUSTOM_LINK_DETAILVIEWWIDGET}</td>
 																								</tr>
 																							{/if}
 																						{/if}

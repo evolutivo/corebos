@@ -10,7 +10,7 @@ if($kaction=='retrieve'){
       $query=$adb->query(" 
           SELECT DISTINCT *
               from  vtiger_ng_block
-              left join vtiger_businessactions on vtiger_businessactions.reference = vtiger_ng_block.id
+              left join vtiger_businessactions on vtiger_businessactions.reference = vtiger_ng_block.id and moduleactions=module_name
               left join vtiger_ng_block_tab_rl on related_tab = vtiger_ng_block_tab_rl.tab_rl_id
           ");
       $count=$adb->num_rows($query);
