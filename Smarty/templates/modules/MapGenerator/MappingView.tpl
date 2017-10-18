@@ -22,7 +22,7 @@
            //SaveTypePOstMaps is filename 
            
         *}
-        <li><button class="slds-button slds-button--brand"  data-send="true" data-send-type="Mapping,MapName" data-send-url="MapGenerator,SaveTypeMaps" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -53,7 +53,7 @@
    </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
    <br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();"></center></div>
 
-	<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+  <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
@@ -140,17 +140,17 @@
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
-	                           <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-			                        <div class="slds-combobox__form-element">
-			                            <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
-			                        </div>
-	                            </div>
-			                    <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-			                        <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-			                            <img src="themes/images/btnL3Add.gif" style="width: 100%;">
-			                        </button>
-			                    </div>
-			               </div>
+                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                              <div class="slds-combobox__form-element">
+                                  <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                              </div>
+                              </div>
+                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
+                              <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                              </button>
+                          </div>
+                     </div>
                          
                         </div>
                         <div style="float:right;">
