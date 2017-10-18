@@ -137,37 +137,45 @@
 				var SecondFieldval = $(this).find('option:selected').val();
 				var SecondFieldtext = $(this).find('option:selected').text();				
 			}else if(elem[0].nodeName === "BUTTON"){
-				var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
-		        var SecondFieldtext = "Default-Value";
-			}
-
-			
-			
-			App.utils.addINJSON(FirstModuleval, FirstModuletxt, FirstFieldval,
-					FirstFieldtxt, SecondModuleval, SecondModuletxt,
-					SecondFieldval, SecondFieldtext);
-
-			var check = false;
-			var length_history = App.JSONForCOndition.length;
-			// alert(length_history-1);
-			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
-				var idd = ii;// JSONForCOndition[ii].idJSON;
-				var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
-				var secmod = App.JSONForCOndition[ii].SecondFieldtext;
-				// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
-				// console.log(idd+firmod+secmod);
-				// console.log(selectedfields);
-				if (ii == (length_history - 1)) {
-					check = true;
-
-				} else {
-					check = false;
+				if (FirstFieldval) {
+				   var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
+		           var SecondFieldtext = "Default-Value";
+		            $("#" + idrelation[3]).val("");	
 				}
-				var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod, check,
-						divshowmodal);
-				$('#' + divshowmodal).append(alerstdiv);
-
+				
 			}
+
+			if (FirstModuleval && FirstFieldval && SecondModuleval && SecondFieldval)
+			{
+				App.utils.addINJSON(FirstModuleval, FirstModuletxt, FirstFieldval,
+						FirstFieldtxt, SecondModuleval, SecondModuletxt,
+						SecondFieldval, SecondFieldtext);
+
+				var check = false;
+				var length_history = App.JSONForCOndition.length;
+				// alert(length_history-1);
+				for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
+					var idd = ii;// JSONForCOndition[ii].idJSON;
+					var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
+					var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+					// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
+					// console.log(idd+firmod+secmod);
+					// console.log(selectedfields);
+					if (ii == (length_history - 1)) {
+						check = true;
+
+					} else {
+						check = false;
+					}
+					var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod, check,
+							divshowmodal);
+					$('#' + divshowmodal).append(alerstdiv);
+
+				}
+            }else{
+            	alert(mv_arr.addJoinValidation);
+            }
+
 		},
 
 	};

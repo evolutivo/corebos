@@ -17,4 +17,5 @@ var mv_arr = {
 'attributeselect':'This drop down not have relation with another else',
 'divshowmodal':'Missing attribute data-div-show="Name of div to show" ',
 'Buttonsendajax':'Missing Module and filename  ',
+'addJoinValidation':'You can not add whith emtpy fields',
 }

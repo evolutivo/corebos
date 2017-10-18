@@ -37,7 +37,7 @@ if (empty($MapType)) {
      $targetidText = $xml->createTextNode("");
      $targetid->appendChild($targetidText);
      $targetname = $xml->createElement("originname");
-     $targetnameText = $xml->createTextNode(preg_replace('/\s+/', '',$DataDecode[0]['FirstModuleval']));
+     $targetnameText = $xml->createTextNode( trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",  $DataDecode[0]['SecondModuleval'])[0])))));
      $targetname->appendChild($targetnameText);
      $target->appendChild($targetid);
      $target->appendChild($targetname);
@@ -47,7 +47,7 @@ if (empty($MapType)) {
      $originText = $xml->createTextNode("");
      $originid->appendChild($originText);
      $originname = $xml->createElement("targetname");
-     $originnameText = $xml->createTextNode(preg_replace('/\s+/', '', explode(";",  $DataDecode[0]['SecondModuleval'])[1]));
+     $originnameText = $xml->createTextNode(preg_replace('/\s+/', '',$DataDecode[0]['FirstModuleval']));
      $originname->appendChild($originnameText);
      $origin->appendChild($originid);
      $origin->appendChild($originname);
@@ -58,7 +58,7 @@ if (empty($MapType)) {
        
                  $field = $xml->createElement("field");
                  $fieldname = $xml->createElement("fieldname");
-                 $fieldnameText = $xml->createTextNode( preg_replace('/\s+/', '',explode(":",$DataDecode[0]['FirstFieldval'])[1]));
+                 $fieldnameText = $xml->createTextNode( preg_replace('/\s+/', '',explode(":",$DataDecode[0]['FirstFieldval'])[3]));
                  $fieldname->appendChild($fieldnameText);
                  $field->appendChild($fieldname);
                  
@@ -99,7 +99,7 @@ if (empty($MapType)) {
                      $OrgRelfield= $xml->createElement("Orgfield");
                      
                      $OrgRelfieldName = $xml->createElement("OrgfieldName");
-                     $OrgRelfieldNameText= $xml->createTextNode(preg_replace('/\s+/','', explode(":",$DataDecode[$i]['SecondFieldval'])[1]));
+                     $OrgRelfieldNameText= $xml->createTextNode(preg_replace('/\s+/','', explode(":",$DataDecode[$i]['SecondFieldval'])[2]));
                      $OrgRelfieldName->appendChild($OrgRelfieldNameText);
                      $OrgRelfield->appendChild($OrgRelfieldName);
                      
