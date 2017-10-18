@@ -120,9 +120,10 @@ elseif($kaction=='delete'){
      global $log;
      $models=$_REQUEST['models'];
      $mv=json_decode($models);
-     $query="Delete from vtiger_ng_block where id=?";
-             
-     $result=$adb->pquery($query,array($mv->id)); 
+     $query="Delete from vtiger_ng_block where id=?";          
+     $result=$adb->pquery($query,array($mv->id));
+     $queryac="update vtiger_crmentity join vtiger_businessactions on crmid=businessactionsid set deleted=1 where reference = ? and moduleactions=?";           
+     $resultac=$adb->pquery($queryac,array($mv->id,$mv->module_name));
      NgBlock::removeWidgetFrom(array($mv->module_name),'DETAILVIEWWIDGET',$mv->id);
     }
 elseif($kaction=='addtab'){
