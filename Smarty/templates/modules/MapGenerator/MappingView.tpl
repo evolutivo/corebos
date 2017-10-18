@@ -22,7 +22,7 @@
            //SaveTypePOstMaps is filename 
            
         *}
-        <li><button class="slds-button slds-button--brand"  data-send="true" data-send-type="Mapping,MapName" data-send-url="MapGenerator,SaveTypeMaps" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"

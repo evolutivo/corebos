@@ -7,11 +7,12 @@ require_once ('include/utils/utils.php');
 global $root_directory, $log;
 $Data = array();
 
-
+//  var_dump($_REQUEST, true);
+// exit();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
-$MapType = $_POST['MapType']; // stringa con tutti i campi scelti in selField1
-$Data = $_POST['Data']; // nome della vista
+$MapType = "Mapping"; // stringa con tutti i campi scelti in selField1
+$Data = $_POST['ListData']; // nome della vista
 
 if (empty($MapName)) {
     echo "Missing the name of map Can't save";
@@ -21,9 +22,11 @@ if (empty($MapType)) {
     $MapType = "Mapping";
 }
 
- if (! empty($Data)) {
+ if (!empty($Data)) {
      
      $DataDecode = json_decode($Data, true);
+//      print_r($DataDecode);
+//      exit();
      $countarray=(count($DataDecode)-1);
      $xml = new DOMDocument("1.0");
      $root = $xml->createElement("map");
