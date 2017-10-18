@@ -7,11 +7,12 @@ require_once ('include/utils/utils.php');
 global $root_directory, $log;
 $Data = array();
 
-
+//  var_dump($_REQUEST, true);
+// exit();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
-$MapType = $_POST['MapType']; // stringa con tutti i campi scelti in selField1
-$Data = $_POST['Data']; // nome della vista
+$MapType = "Mapping"; // stringa con tutti i campi scelti in selField1
+$Data = $_POST['ListData']; // nome della vista
 
 if (empty($MapName)) {
     echo "Missing the name of map Can't save";
@@ -21,9 +22,11 @@ if (empty($MapType)) {
     $MapType = "Mapping";
 }
 
- if (! empty($Data)) {
+ if (!empty($Data)) {
      
      $DataDecode = json_decode($Data, true);
+//      print_r($DataDecode);
+//      exit();
      $countarray=(count($DataDecode)-1);
      $xml = new DOMDocument("1.0");
      $root = $xml->createElement("map");
@@ -31,20 +34,20 @@ if (empty($MapType)) {
      //$name = $xml->createElement("name");
      $target = $xml->createElement("originmodule");
      $targetid = $xml->createElement("originid");
-     $targetidText = $xml->createTextNode($DataDecode[0]['FirstModuleval']);
+     $targetidText = $xml->createTextNode("");
      $targetid->appendChild($targetidText);
      $targetname = $xml->createElement("originname");
-     $targetnameText = $xml->createTextNode($DataDecode[0]['FirstModuletxt']);
+     $targetnameText = $xml->createTextNode(preg_replace('/\s+/', '',$DataDecode[0]['FirstModuleval']));
      $targetname->appendChild($targetnameText);
      $target->appendChild($targetid);
      $target->appendChild($targetname);
      
      $origin = $xml->createElement("targetmodule");
      $originid = $xml->createElement("targetid");
-     $originText = $xml->createTextNode($DataDecode[0]['SecondModuleval']);
+     $originText = $xml->createTextNode("");
      $originid->appendChild($originText);
      $originname = $xml->createElement("targetname");
-     $originnameText = $xml->createTextNode($DataDecode[0]['SecondModuletxt']);
+     $originnameText = $xml->createTextNode(preg_replace('/\s+/', '', explode(";",  $DataDecode[0]['SecondModuleval'])[1]));
      $originname->appendChild($originnameText);
      $origin->appendChild($originid);
      $origin->appendChild($originname);
@@ -55,12 +58,12 @@ if (empty($MapType)) {
        
                  $field = $xml->createElement("field");
                  $fieldname = $xml->createElement("fieldname");
-                 $fieldnameText = $xml->createTextNode($DataDecode[$i]['FirstFieldtxt']);
+                 $fieldnameText = $xml->createTextNode( preg_replace('/\s+/', '',explode(":",$DataDecode[0]['FirstFieldval'])[1]));
                  $fieldname->appendChild($fieldnameText);
                  $field->appendChild($fieldname);
                  
                  $fieldID = $xml->createElement("fieldID");
-                 $fieldideText = $xml->createTextNode($DataDecode[$i]['FirstFieldval']);
+                 $fieldideText = $xml->createTextNode("");
                  $fieldID->appendChild($fieldideText);         
                  $field->appendChild($fieldID);
                 // echo $i;
@@ -96,12 +99,12 @@ if (empty($MapType)) {
                      $OrgRelfield= $xml->createElement("Orgfield");
                      
                      $OrgRelfieldName = $xml->createElement("OrgfieldName");
-                     $OrgRelfieldNameText= $xml->createTextNode($DataDecode[$i]['SecondFieldtext']);
+                     $OrgRelfieldNameText= $xml->createTextNode(preg_replace('/\s+/','', explode(":",$DataDecode[$i]['SecondFieldval'])[1]));
                      $OrgRelfieldName->appendChild($OrgRelfieldNameText);
                      $OrgRelfield->appendChild($OrgRelfieldName);
                      
                      $OrgfieldID = $xml->createElement("OrgfieldID");
-                     $OrgfieldIDText= $xml->createTextNode($DataDecode[$i]['SecondFieldval']);
+                     $OrgfieldIDText= $xml->createTextNode("");
                      $OrgfieldID->appendChild($OrgfieldIDText);
                      $OrgRelfield->appendChild($OrgfieldID);
                      
