@@ -34,20 +34,20 @@ if (empty($MapType)) {
      //$name = $xml->createElement("name");
      $target = $xml->createElement("originmodule");
      $targetid = $xml->createElement("originid");
-     $targetidText = $xml->createTextNode($DataDecode[0]['FirstModuleval']);
+     $targetidText = $xml->createTextNode("");//$DataDecode[0]['FirstModuleval']
      $targetid->appendChild($targetidText);
      $targetname = $xml->createElement("originname");
-     $targetnameText = $xml->createTextNode($DataDecode[0]['FirstModuletxt']);
+     $targetnameText = $xml->createTextNode($DataDecode[0]['FirstModuleval']);
      $targetname->appendChild($targetnameText);
      $target->appendChild($targetid);
      $target->appendChild($targetname);
      
      $origin = $xml->createElement("targetmodule");
      $originid = $xml->createElement("targetid");
-     $originText = $xml->createTextNode($DataDecode[0]['SecondModuleval']);
+     $originText = $xml->createTextNode("");//$DataDecode[0]['SecondModuleval']
      $originid->appendChild($originText);
      $originname = $xml->createElement("targetname");
-     $originnameText = $xml->createTextNode($DataDecode[0]['SecondModuletxt']);
+     $originnameText = $xml->createTextNode(preg_replace('/\s+/', '',explode(";",$DataDecode[0]['SecondModuleval'])[1]));
      $originname->appendChild($originnameText);
      $origin->appendChild($originid);
      $origin->appendChild($originname);
@@ -58,12 +58,12 @@ if (empty($MapType)) {
        
                  $field = $xml->createElement("field");
                  $fieldname = $xml->createElement("fieldname");
-                 $fieldnameText = $xml->createTextNode($DataDecode[$i]['FirstFieldtxt']);
+                 $fieldnameText = $xml->createTextNode(explode(':',$DataDecode[$i]['FirstFieldval'])[1] );
                  $fieldname->appendChild($fieldnameText);
                  $field->appendChild($fieldname);
                  
                  $fieldID = $xml->createElement("fieldID");
-                 $fieldideText = $xml->createTextNode($DataDecode[$i]['FirstFieldval']);
+                 $fieldideText = $xml->createTextNode("");//$DataDecode[$i]['FirstFieldval']
                  $fieldID->appendChild($fieldideText);         
                  $field->appendChild($fieldID);
                 // echo $i;
@@ -99,12 +99,12 @@ if (empty($MapType)) {
                      $OrgRelfield= $xml->createElement("Orgfield");
                      
                      $OrgRelfieldName = $xml->createElement("OrgfieldName");
-                     $OrgRelfieldNameText= $xml->createTextNode($DataDecode[$i]['SecondFieldtext']);
+                     $OrgRelfieldNameText= $xml->createTextNode(explode(":",$DataDecode[$i]['SecondFieldval'])[1]);
                      $OrgRelfieldName->appendChild($OrgRelfieldNameText);
                      $OrgRelfield->appendChild($OrgRelfieldName);
                      
                      $OrgfieldID = $xml->createElement("OrgfieldID");
-                     $OrgfieldIDText= $xml->createTextNode($DataDecode[$i]['SecondFieldval']);
+                     $OrgfieldIDText= $xml->createTextNode("");
                      $OrgfieldID->appendChild($OrgfieldIDText);
                      $OrgRelfield->appendChild($OrgfieldID);
                      
