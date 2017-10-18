@@ -58,7 +58,12 @@ if (empty($MapType)) {
        
                  $field = $xml->createElement("field");
                  $fieldname = $xml->createElement("fieldname");
-                 $fieldnameText = $xml->createTextNode( preg_replace('/\s+/', '',explode(":",$DataDecode[0]['FirstFieldval'])[3]));
+                 if (preg_replace('/\s+/', '',explode(":",$DataDecode[$i]['FirstFieldval'])[1])==="smownerid") {
+                   $fieldnameText = $xml->createTextNode( preg_replace('/\s+/', '',explode(":",$DataDecode[$i]['FirstFieldval'])[2]));    
+                 }else{
+                  $fieldnameText = $xml->createTextNode( preg_replace('/\s+/', '',explode(":",$DataDecode[$i]['FirstFieldval'])[1]));   
+                 }
+                 
                  $fieldname->appendChild($fieldnameText);
                  $field->appendChild($fieldname);
                  
@@ -83,8 +88,8 @@ if (empty($MapType)) {
                      $OrgRelfield= $xml->createElement("Orgfield");
                      
                      $OrgRelfieldName = $xml->createElement("OrgfieldName");
-                     $OrgRelfieldNameText= $xml->createTextNode("");
-                     $OrgRelfieldName->appendChild($OrgRelfieldNameText);
+                     $OrgRelfieldNameText= $xml->createTextNode("")
+;                     $OrgRelfieldName->appendChild($OrgRelfieldNameText);
                      $OrgRelfield->appendChild($OrgRelfieldName); 
                     
                      $OrgfieldID = $xml->createElement("OrgfieldID");
