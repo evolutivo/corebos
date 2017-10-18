@@ -16,6 +16,5 @@ var mv_arr = {
 'NameQuery':'The name for Map must be minimum 5 chars ',
 'attributeselect':'This drop down not have relation with another else',
 'divshowmodal':'Missing attribute data-div-show="Name of div to show" ',
-'Buttonsendajax':'Missing Module and filename',
-'MappingFiledValid':'Cannot Generate a map with  empty field',
+'Buttonsendajax':'Missing Module and filename  ',
 }

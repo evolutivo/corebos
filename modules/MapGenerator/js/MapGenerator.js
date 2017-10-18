@@ -319,40 +319,24 @@
 			if (event)
 				event.preventDefault();
 			var elem = $(this);
-			var datatusend="";
-			var inputsplit=[];
 			var urlcheck = elem.attr('data-send-url').split(",");
-			var dataid=elem.attr("data-send-data-id");
-			if(dataid != "undefined"){
-				inputsplit=dataid.split(",");
-			}
-			
+			var typeSend = elem.attr('data-send-type').split(",");
+			var mapname = $("#"+typeSend[1]).val();
 			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
 				alert(mv_arr.Buttonsendajax);
 			}
-			
-			if(inputsplit.length>0){
-				for(index=0; index <= inputsplit.length-1; index++){
-					if(inputsplit[index].toUpperCase()=="LISTDATA"){
-						if(App.JSONForCOndition.length > 0){
-							datatusend +=`ListData=${JSON.stringify(App.JSONForCOndition)}`;;
-						}else{
-							alert(mv_arr.MappingFiledValid);
-						}
-					}else{
-						datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
-					}
-						
+			if (typeSend == "undefined" && typeSend.length <= 0) {
+				alert(mv_arr.Buttonsendajax);
+			}
+			if (App.JSONForCOndition.length > 0) {
+				var data = "Data=" + JSON.stringify(App.JSONForCOndition)
+						+ "&MapName=" + mapname + "&MapType=" + typeSend[0];
+				App.utils.PostDataGeneric(urlcheck, data, typeSend);
+				if(VauefromPost){
+					alert(VauefromPost);
+					VauefromPost=null;
 				}
-				
 			}
-			
-			App.utils.PostDataGeneric(urlcheck,datatusend);
-			if(VauefromPost){
-			alert(VauefromPost);
-			VauefromPost=null;
-			}
-			
 
 		},
 	};
@@ -396,7 +380,8 @@
 				}
 			});
 		},
-		PostDataGeneric : function(Urlsend, dat) {
+		PostDataGeneric : function(Urlsend, dat, Typesend) {
+
 			jQuery.ajax({
 				type : "POST",
 				url : "index.php?module=" + Urlsend[0] + "&action="
@@ -549,30 +534,6 @@
 		// call as executeFunctionByName("FormBuilder.PlainText", window,
 		// "testing")
 		// ;
-		
-		IsSelectORDropDown:function(IdType){
-			    
-			    var element = document.getElementById(IdType);
-			    
-			    if(element.tagName === 'SELECT')
-			    {
-			    	return $("#" +IdType+ " option:selected").val();
-			    	
-			    }else if(element.tagName === 'INPUT' && element.type === 'text')
-			    {
-			    	return $("#" +IdType).val();
-			    	
-			    }else if(element.tagName === 'INPUT' && element.type === 'hidden')
-			    {
-			    	return $("#" +IdType).val();
-			    	
-			    }else if($('#'+IdType).is('textarea')){
-			    	
-			    	return $('#'+IdType).val();
-			    }			    
-			    return "";			
-		},
-		
 		executeFunctionByName : function(functionName, context /* , args */) {
 			var args = [].slice.call(arguments).splice(2);
 			var namespaces = functionName.split(".");
