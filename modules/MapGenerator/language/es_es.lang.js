@@ -10,4 +10,6 @@ var mv_arr = {
 'atleasttwo':'You have to select at least two tables!',
 'addviewname':'Insert view name',
 'namealreadyused':'View name has already been used!'
+'Buttonsendajax':'Missing Module and filename',
+'MappingFiledValid':'Cannot Generate a map with  empty field'
 }

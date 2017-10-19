@@ -10,6 +10,7 @@
 		VauefromPost : null,
 		JSONForCOndition : [],
 		pageInitMethods : [],
+		savehistoryar:null,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -331,6 +332,7 @@
 			var inputsplit=[];
 			var urlcheck = elem.attr('data-send-url').split(",");
 			var dataid=elem.attr("data-send-data-id");
+			var savehistory=elem.attr("data-send-savehistory");
 			if(dataid != "undefined"){
 				inputsplit=dataid.split(",");
 			}
@@ -355,10 +357,25 @@
 				
 			}
 			
-			App.utils.PostDataGeneric(urlcheck,datatusend);
+			
+            
+             if (savehistory!="undefined" && savehistory=="true")
+             {
+             	if (App.savehistoryar)
+             	{
+             	 	datatusend+="&savehistory="+App.savehistoryar;
+             	}else
+             	{
+             		datatusend+="&savehistory=''";
+             	}
+             }
+
+             App.utils.PostDataGeneric(urlcheck,datatusend);
+
 			if(VauefromPost){
-			alert(VauefromPost);
-			VauefromPost=null;
+ 				App.savehistoryar=VauefromPost;
+			    alert(VauefromPost);
+			    VauefromPost=null;
 			}
 			
 
