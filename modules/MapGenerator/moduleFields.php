@@ -39,10 +39,7 @@ if (isset($_REQUEST['MapId'])) {
         $tabid = getTabid($module, $dbname);
         if ($tabid == 9)
             $tabid = "9,16";
-//7 leads 
-//13 helpdesk
-//22 salesorder
-//2 potencials
+
 
         $sql = "select * from  vtiger_field ";
         $sql .= " where vtiger_field.tabid in(?) and";
@@ -314,4 +311,5 @@ $a =getModFields($module, $acno.$dbname,$FieldsArray);
 //}
 $a.=";".$num_rows.";".$link.";";
 echo $a;
+
 ?>

@@ -207,9 +207,11 @@
 				event.preventDefault();
 			var elem = $(this);
 			// data-second-module-id
+			var urlsendfield;
 			var secondmodule = elem.attr("data-second-module-id");
 			var field = elem.attr("data-select-relation-field-id");
 			var urlsend = elem.attr("data-module");
+			var relationmodule=elem.attr("data-second-select-file");
 			var valueselected = elem.find(":selected").val();
 			if (secondmodule != "undefined") {
 				var urlsendmodule = [ urlsend, "fillModuleRel" ];
@@ -223,7 +225,20 @@
 				VauefromPost = null;
 			}
 			if (field != "undefined") {
-				var urlsendfield = [ urlsend, "moduleFields" ];
+				if (relationmodule)
+				 {
+				 	if (relationmodule.length > 0)
+				 	 {
+				 	 	urlsendfield = [ urlsend, relationmodule ];
+					 }else
+					 {
+					 	urlsendfield = [ urlsend, "moduleFields"];
+					 }
+				 }else
+				 {
+				 	urlsendfield = [ urlsend, "moduleFields"];
+				 }
+				
 				var datfields = "mod=" + valueselected;
 				App.utils.PostDataGeneric(urlsendfield, datfields, "");
 				var s = VauefromPost.split(";");
@@ -243,6 +258,7 @@
 			var elem = $(this);
 			var relationid = elem.attr("data-second-select-relation-id");
 			var modulesecondfield = elem.attr("data-module");
+			var relationmodule=elem.attr("data-second-select-file");
 			var selectsecondfields = elem.find(":selected").val();
 			if (relationid != "undefined") {
 				var sp = selectsecondfields.split(";");
@@ -251,6 +267,20 @@
 				secModule = mod0[0];
 				var urlsendfield = [ modulesecondfield, "moduleFields" ];
 				var datfields = "mod=" + secModule;
+				if (relationmodule)
+				 {
+				 	if (relationmodule.length > 0)
+				 	 {
+				 	 	urlsendfield = [ modulesecondfield, relationmodule ];
+					 }else
+					 {
+					 	urlsendfield = [ modulesecondfield, "moduleFields"];
+					 }
+				 }else
+				 {
+				 	urlsendfield = [ modulesecondfield, "moduleFields"];
+				 }
+
 				App.utils.PostDataGeneric(urlsendfield, datfields, "");
 				$("#" + relationid).empty();
 				$("#" + relationid)
