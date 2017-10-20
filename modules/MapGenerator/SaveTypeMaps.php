@@ -13,7 +13,10 @@ $Data = array();
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
 $MapType = "Mapping"; // stringa con tutti i campi scelti in selField1
 $Data = $_POST['ListData'];
-$MapID=$_POST['savehistory']; 
+$MapID=explode(',', $_REQUEST['savehistory']); 
+// echo "Edmondi".strlen ($MapIDp[0]);
+ //  print_r($MapID);
+ // exit();
 if (empty($MapName)) {
     echo "Missing the name of map Can't save";
     return;
@@ -27,9 +30,7 @@ if (!empty($Data))
   {
      $decodedata = json_decode($Data, true);    
      
-   
-
-     include_once('modules/cbMap/cbMap.php');
+    include_once('modules/cbMap/cbMap.php');
      $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
      $focust->column_fields['mapname'] = $MapName;
@@ -40,29 +41,21 @@ if (!empty($Data))
      if (!$focust->saveentity("cbMap"))//
       {
 
-         if (empty(rtrim(explode(',',$MapID)[0]))) {
-             echo save_history(add_aray_for_history($decodedata),md5(date("Y-m-d H:i:s").uniqid(rand(), true)),add_content($decodedata)).",".$focust->id;
-            // echo "eshte empty";
-         }else{
-             echo save_history(add_aray_for_history($decodedata),explode(',',$MapID)[0],add_content($decodedata)).",".$focust->id;
-             //echo "nuk eshte empty";
-         }
-         //.",".$focust->id;
-        // echo "succes!! the map is created ";
-         $log->debug("succes!! the map is created ");
+          if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+                 echo save_history(add_aray_for_history($decodedata),$MapID[0],add_content($decodedata)).",".$focust->id;
+             } 
+             else{
+                echo "0,0";
+                 $log->debug("Error!! MIssing the history Table");
+             }  
+                    
       } else 
       {
          //echo focus->id;
          echo "Error!! something went wrong";
          $log->debug("Error!! something went wrong");
       }
-     
-    //     $ddd=$xml->saveXML();
-    //     $fp = fopen('C:\Users\Edmondi\Desktop\prova.xml', 'w');
-    //     fwrite($fp, $ddd);   
-    //     fwrite($fp, "I=".$hw); 
-    //     fclose($fp);
-   
+    
    
 }//end of if (! empty($Data)) 
 
@@ -281,20 +274,24 @@ function add_description($DataDecode){
 function save_history($datas,$queryid,$xmldata){
         global $adb;
         $idquery=$queryid;
-       if($idquery!="")
+
+        if(strlen($idquery)>0)
         {
-              $q=$adb->query("select sequence from mvqueryhistory where id='$idquery' order by sequence DESC");
-              //$nr=$adb->num_rows($q);
+              
+               $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery' order by sequence DESC");
+             //$nr=$adb->num_rows($q);
+             // echo "q=".$q;
               $seq=$adb->query_result($q,0,0)+1;
-              $adb->query("update mvqueryhistory set active=0 where id='$idquery'");
+             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery'");                            
               //$seqmap=count($data);
-              $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuleval"],$datas["SecondModuletxt"],$xmldata,$seq,1,"","",$datas["Labels"]));
+             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,"","",$datas["Labels"]));            
+              //return $idquery;
         }else 
-        {          
-          $adb->pquery("insert into mvqueryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,"","",$datas["Labels"]));
+        {
+            $idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,"","",$datas["Labels"]));
         }
-     // /echo "eeee".$idquery;
-    return $idquery;
+       echo $idquery;    
 }
 
 
@@ -318,3 +315,66 @@ function add_aray_for_history($decodedata)
 function emptyStr($str) {
     return is_string($str) && strlen($str) === 0;
 }
+
+
+function Check_table_if_exist($tableName,$primaryIds="")
+{
+     global $adb;
+    $exist=$adb->query_result($adb->query("SHOW TABLES LIKE '$tableName'"),0,0);
+    if (strlen($exist)==0)
+     {
+         $createTable="
+                CREATE TABLE `$tableName` (
+                  `id` varchar(250) NOT NULL,
+                  `firstmodule` varchar(250) NOT NULL,
+                  `firstmoduletext` varchar(250) NOT NULL,
+                  `secondmodule` varchar(250) NOT NULL,
+                  `secondmoduletext` varchar(250) NOT NULL,
+                  `query` text NOT NULL,
+                  `sequence` int(11) NOT NULL,
+                  `active` varchar(2) NOT NULL,
+                  `firstmodulelabel` varchar(250) DEFAULT NULL,
+                  `secondmodulelabel` varchar(250) DEFAULT NULL,
+                  `labels` text NOT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+            ";
+            if (strlen($primaryIds)>0) {
+                $createTable.="
+                    ALTER TABLE `$tableName`
+                      ADD PRIMARY KEY ($primaryIds);
+                    COMMIT;
+
+                ";
+            }
+         //return $createTable;
+         $adb->query("DROP TABLE IF EXISTS `$tableName`");
+         $adb->query($createTable);
+        
+
+     }else
+     {
+        return strlen($exist);
+     }
+
+ 
+     if (strlen($adb->query_result($adb->query("SHOW TABLES LIKE '$tableName'"),0,0))>0) 
+     {
+        return 1;    
+     }else
+     {
+        return 0;
+     }
+
+}
+
+
+
+
+
+
+
+
+/**
+* 721221a5267955137d8de87aeeb5ed2c,1279
+* 721221a5267955137d8de87aeeb5ed2c,1280
+*/

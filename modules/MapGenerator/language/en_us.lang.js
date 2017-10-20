@@ -18,4 +18,7 @@ var mv_arr = {
 'divshowmodal':'Missing attribute data-div-show="Name of div to show" ',
 'Buttonsendajax':'Missing Module and filename  ',
 'addJoinValidation':'You can not add whith emtpy fields',
+'MappingFiledValid':'Cannot Generate a map with  empty field',
+'ReturnErrorFromMap':'Somethig Was wrong try again .....',
+'ReturnSucessFromMap':'succes!! the map is created'
 }

@@ -11,5 +11,8 @@ var mv_arr = {
 'addviewname':'Insert view name',
 'namealreadyused':'View name has already been used!'
 'Buttonsendajax':'Missing Module and filename',
-'MappingFiledValid':'Cannot Generate a map with  empty field'
+'MappingFiledValid':'Cannot Generate a map with  empty field',
+'ReturnErrorFromMap':'Somethig Was wrong try again .....',
+'ReturnSucessFromMap':'succes!! the map is created'
+
 }

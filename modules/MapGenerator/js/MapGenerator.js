@@ -366,16 +366,22 @@
              	 	datatusend+="&savehistory="+App.savehistoryar;
              	}else
              	{
-             		datatusend+="&savehistory=''";
+             		datatusend+="&savehistory";
              	}
              }
 
              App.utils.PostDataGeneric(urlcheck,datatusend);
-
 			if(VauefromPost){
- 				App.savehistoryar=VauefromPost;
-			    alert(VauefromPost);
-			    VauefromPost=null;
+				 var returndt=VauefromPost.split(",");
+				 if(returndt[1]>0)
+				 {
+	 				App.savehistoryar=VauefromPost;
+				    alert(mv_arr.ReturnSucessFromMap);
+				    VauefromPost=null;
+				 }else
+				 {
+				 	alert(mv_arr.ReturnErrorFromMap);
+				 } 				
 			}
 			
 
