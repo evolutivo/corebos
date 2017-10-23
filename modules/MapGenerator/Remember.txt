@@ -1,5 +1,32 @@
 <select>
 data-select-load="true" ----- load aoutomatik 
+
 data-second-module-id="secmodule" ------   is the id of second select you  want to fill when you select a value 
+
 data-module="MapGenerator"----- MapGenerator is module when you want to make a call but filename is the same 
+
 data-select-relation-field-id="Firstfield"    this attribute is the id where you want to show all field of selected 
+
+data-select-fieldid="FirstfieldID"          ---this attribut is for a button o textfield if you want to add the priamry key of modul  FirstfieldID (is the id of text or ,button ,orr hidden )
+
+data-second-select-file="AllRelation"  ---if you want to get the field for another filoe you only need to write the name of file in this attribute and you can customize the second module fields  AllRelation(is the name of file )
+
+
+--- click a or button or another 
+this is to show and hide a 2 elements 
+
+data-showhide-load="true"  attribut tu understand the javascript i want to run this whaen i click
+
+data-tools-id="SecondField,SecondInput"  put inside 2 id of element and you can hide and show (toggle) 
+
+
+
+button or linnk
+
+<button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+
+data-load-show="true"   understand the server when you click to run this code
+
+ data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue"  are the id you want to execute the and to take the val
+
+data-div-show="LoadShowPopup"    to show the popup if you want 

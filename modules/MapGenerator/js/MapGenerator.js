@@ -99,6 +99,12 @@
 						urlsend, dat);
 			} else if (select == "SQL") {
 				getFirstModule();
+			}else if (select == "MasterDetail") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ "MapGenerator", "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
 
 		},
@@ -212,6 +218,7 @@
 			var field = elem.attr("data-select-relation-field-id");
 			var urlsend = elem.attr("data-module");
 			var relationmodule=elem.attr("data-second-select-file");
+			var firstfieldid=elem.attr("data-select-fieldid");
 			var valueselected = elem.find(":selected").val();
 			if (secondmodule != "undefined") {
 				var urlsendmodule = [ urlsend, "fillModuleRel" ];
@@ -246,6 +253,10 @@
 				var str2 = s[1];
 				var str3 = s[2];
 				$("#" + field).empty();
+				if (firstfieldid)
+				{
+					$("#" + firstfieldid).val(str3);
+				}
 				// $("#" + field).append('<option value=""
 				// selected="selected">Select a value</option>');
 				$("#" + field).append(str1);
@@ -259,6 +270,7 @@
 			var relationid = elem.attr("data-second-select-relation-id");
 			var modulesecondfield = elem.attr("data-module");
 			var relationmodule=elem.attr("data-second-select-file");
+			var firstfieldid=elem.attr("data-select-fieldid");
 			var selectsecondfields = elem.find(":selected").val();
 			if (relationid != "undefined") {
 				var sp = selectsecondfields.split(";");
@@ -282,11 +294,19 @@
 				 }
 
 				App.utils.PostDataGeneric(urlsendfield, datfields, "");
+				var s = VauefromPost.split(";");
+				var str1 = s[0];
+				var str2 = s[1];
+				var str3 = s[2];
+				if (firstfieldid)
+				{
+					$("#" + firstfieldid).val(str3);
+				}
 				$("#" + relationid).empty();
 				$("#" + relationid)
 						.append(
 								'<option value="" selected="selected">Select a value</option>');
-				$("#" + relationid).append(VauefromPost);
+				$("#" + relationid).append(str1);
 				VauefromPost = null;
 			}
 

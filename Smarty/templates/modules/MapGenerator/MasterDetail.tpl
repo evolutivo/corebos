@@ -102,15 +102,22 @@
     </div>
 
 
-    <div id="selJoin" style="float:left; overflow: hidden;width:80%">
+    <div id="selJoin" style="float:left; overflow: hidden;width:80%;height: 116px;
+">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                       <select data-select-load="true" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                       <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         </select>
                        </div>
                 </div>
+
+                 <div>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                   <input type="button" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID"
+                   style="padding: 0px;margin-top: 10px;width: 90%;">
+                 </div>
             </div>
             <br>
             <div class="slds-form-element">
@@ -128,11 +135,16 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="AllRelation" name="secmodule" class="slds-select">
+                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID"  name="secmodule" class="slds-select">
                         </select>
                      </div>
-                </div>                
-            </div>
+                </div> 
+                <div>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                   <input type="button" class="slds-button slds-button--neutral sel" id="SecondfieldID" name="SecondfieldID"
+                   style="padding: 0px;margin-top: 10px;width: 90%;">
+                 </div>
+               </div>
             <br>
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -142,15 +154,15 @@
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                              <div class="slds-combobox__form-element">
+                              <!-- <div class="slds-combobox__form-element">
                                   <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                              </div> -->
                               </div>
-                              </div>
-                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
+                         <!--  <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
                               <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
-                          </div>
+                          </div> -->
                      </div>
                          
                         </div>

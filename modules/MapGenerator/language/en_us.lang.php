@@ -86,5 +86,9 @@ $mod_strings = Array(
     'TypeMapIOMap'=>'IOMap',
     'TypeMapFieldDependency'=>'FieldDependency',
     'TypeMapWS'=>'WS',
+    'MasterDetail'=>'Master Detail',
+    'OriginModule'=>'Origin Module',
+    'TargetModule'=>'Target Module',
+
 );
 ?>
