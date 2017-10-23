@@ -149,7 +149,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
-                    <div class="" id="SecondDiv" style="float: left;width: 92%;">
+                    <div class="" id="SecondDiv" style="float: left;width: 100%;">
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
@@ -166,9 +166,9 @@
                      </div>
                          
                         </div>
-                        <div style="float:right;">
+                       <!--  <div style="float:right;">
                           <a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
-                        </div>
+                        </div> -->
                 </div>
                 
                 
