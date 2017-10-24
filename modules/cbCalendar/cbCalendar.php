@@ -140,9 +140,11 @@ class cbCalendar extends CRMEntity {
 		$this->column_fields['time_start'] = $_REQUEST['time_start'] = $ts;
 		$this->column_fields['due_date'] = $_REQUEST['due_date'] = $de;
 		$this->column_fields['time_end'] = $_REQUEST['time_end'] = $te;
-		list($ds,$ts) = explode(' ',getValidDBInsertDateTimeValue($this->column_fields['dtstart']));
-		list($de,$te) = explode(' ',getValidDBInsertDateTimeValue($this->column_fields['dtend']));
-		$adb->pquery('update vtiger_activity set date_start=?, time_start=?, due_date=?, time_end=? where activityid=?',array($ds,$ts,$de,$te,$this->id));
+		$duration = strtotime($this->column_fields['dtend'])-strtotime($this->column_fields['dtstart']);
+		$this->column_fields['duration_hours'] = round($duration/3600,0);
+		$this->column_fields['duration_minutes'] = round($duration % 3600 / 60,0);
+		$adb->pquery('update vtiger_activity set date_start=?, time_start=?, due_date=?, time_end=?, duration_hours=?, duration_minutes=? where activityid=?',
+			array($ds,$ts,$de,$te,$this->column_fields['duration_hours'],$this->column_fields['duration_minutes'],$this->id));
 		// code added to send mail to the invitees
 		if (!empty($_REQUEST['inviteesid'])) {
 			$mail_contents = $this->getRequestData($this->id);
@@ -299,7 +301,7 @@ class cbCalendar extends CRMEntity {
 		$cbrecord = $this->id;
 		coreBOS_Session::delete('next_reminder_time');
 		if(isset($cbmodule) && isset($cbrecord)) {
-			list($cbdate,$cbtime) = explode(' ',getValidDBInsertDateTimeValue($this->column_fields['dtstart']));
+			list($cbdate,$cbtime) = explode(' ',$this->column_fields['dtstart']);
 
 			$reminder_query = "SELECT reminderid FROM vtiger_activity_reminder_popup WHERE recordid = ?";
 			$reminder_params = array($cbrecord);
@@ -474,11 +476,11 @@ class cbCalendar extends CRMEntity {
 			}
 		}
 		$cont_name = '';
-		foreach($cont_id as $key=>$id) {
+		foreach($cont_id as $id) {
 			if($id != '') {
 				$displayValueArray = getEntityName('Contacts', $id);
 				if (!empty($displayValueArray)) {
-					foreach ($displayValueArray as $key => $field_value) {
+					foreach ($displayValueArray as $field_value) {
 						$contact_name = $field_value;
 					}
 				}
@@ -664,6 +666,7 @@ class cbCalendar extends CRMEntity {
 			// TODO Handle post installation actions
 			//$this->setModuleSeqNumber('configure', $modulename, 'cbcal-', '0000001');
 			global $adb;
+			set_time_limit(0);
 			$rs = $adb->query('select *
 					from vtiger_seactivityrel
 					inner join vtiger_crmentity on vtiger_crmentity.crmid = vtiger_seactivityrel.crmid
@@ -901,8 +904,7 @@ class cbCalendar extends CRMEntity {
 	 */
 	function save_related_module($module, $crmid, $with_module, $with_crmid) {
 		global $adb;
-		if (!is_array($with_crmid))
-			$with_crmid = Array($with_crmid);
+		$with_crmid = (array)$with_crmid;
 		foreach ($with_crmid as $relcrmid) {
 			$checkpresence = $adb->pquery('SELECT contactid FROM vtiger_cntactivityrel WHERE activityid = ? AND contactid = ?', Array($crmid, $relcrmid));
 			// Relation already exists? No need to add again
@@ -920,8 +922,7 @@ class cbCalendar extends CRMEntity {
 	 */
 	function delete_related_module($module, $crmid, $with_module, $with_crmid) {
 		global $adb;
-		if (!is_array($with_crmid))
-			$with_crmid = Array($with_crmid);
+		$with_crmid = (array)$with_crmid;
 		$data = array();
 		$data['sourceModule'] = $module;
 		$data['sourceRecordId'] = $crmid;
@@ -982,5 +983,10 @@ class cbCalendar extends CRMEntity {
 		$adb->pquery($sql, array($this->id));
 		return true;
 	}
+
+	function clearSingletonSaveFields() {
+		unset($_REQUEST['timefmt_dtstart'],$_REQUEST['timefmt_dtend']);
+	}
+
 }
 ?>

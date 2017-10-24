@@ -37,7 +37,7 @@ $mod_strings = Array(
 	'Send Reminder' => 'Enviar Recordatorio',
 	'LBL_SENDREMINDER' => 'Enviar Recordatorio',
 	'Recurrence' => 'Recurrencia',
-	'No Time' => 'Sin Tiempo',
+	'No Time' => 'Todo el día',
 	'LBL_RELATEDTO' => 'Relacionado con',
 	'LBL_INVITE'=>'Invitar',
 	'LBL_REPEAT'=>'Repetir',
@@ -91,6 +91,8 @@ $mod_strings = Array(
 	'Weekly'=>'Semanas',
 	'Monthly'=>'Meses',
 	'Yearly'=>'Año',
+	'DATE_SHOULDNOT_PAST' => 'Fecha y Hora para Actividades con estado Planeada',
+	'TIME_SHOULDNOT_PAST' => 'Hora para Actividades con estado Planeada',
 );
 
 ?>

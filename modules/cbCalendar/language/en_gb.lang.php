@@ -37,7 +37,7 @@ $mod_strings = Array(
 	'Send Reminder' => 'Send Reminder',
 	'LBL_SENDREMINDER' => 'Send Reminder',
 	'Recurrence' => 'Recurrence',
-	'No Time' => 'No Time',
+	'No Time' => 'All Day',
 	'LBL_RELATEDTO' => 'Related To',
 	'LBL_INVITE'=>'Invite',
 	'LBL_REPEAT'=>'Repeat',
@@ -91,6 +91,8 @@ $mod_strings = Array(
 	'Weekly'=>'Week(s)',
 	'Monthly'=>'Month(s)',
 	'Yearly'=>'Year',
+	'DATE_SHOULDNOT_PAST' => 'Current date & time for Activities with status as Planned',
+	'TIME_SHOULDNOT_PAST' => 'Current Time for Activities with status as Planned',
 );
 
 ?>

@@ -108,7 +108,7 @@ $mod_strings = Array(
 'Lead Reports'=>'Lead Reports',
 'Potential Reports'=>'Opportunity Reports',
 'Activity Reports'=>'Activity Reports',
-'HelpDesk Reports'=>'Trouble Tickets Reports',
+'HelpDesk Reports'=>'Support Tickets Reports',
 'Product Reports'=>'Product Reports',
 'Quote Reports'=>'Quote Reports',
 'PurchaseOrder Reports'=>'PurchaseOrder Reports',
@@ -171,6 +171,7 @@ $mod_strings = Array(
 'Next Month'=>'Next Month',
 'Last 7 Days'=>'Last 7 Days',
 'Last 30 Days'=>'Last 30 Days',
+'Last 14 Days' => 'Last 14 Days',
 'Last 60 Days'=>'Last 60 Days',
 'Last 90 Days'=>'Last 90 Days',
 'Last 120 Days'=>'Last 120 Days',
@@ -296,4 +297,5 @@ $mod_strings = Array(
 'LBL_ERROR_WHILE_DELETING_FOLDER' => 'Error while deleting the folder.',
 'LBL_ERROR_WHILE_DELETING_REPORTS_IN_FOLDER' => 'Error while deleting the reports of the folder',
 );
+
 ?>

@@ -77,6 +77,13 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'If set to 1 the SQL query being launched to retrieve records in a Popup View will be shown on screen.',
 ),
+'Debug_Email_Sending' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Debug',
+	'values' => '0 | 1',
+	'definition' => 'If set to 1 the full email conversation will be output to the log file so you can debug email settings issues. The log file debugging must be activated.',
+),
 'Accounts_BlockDuplicateName' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
@@ -427,6 +434,27 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'URL of the application that will be used on screen as a link in the name.',
 ),
+'Application_UI_CompanyName' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'String',
+	'category' => 'Application',
+	'values' => '',
+	'definition' => 'Name of the company creating the application. Appears in the lower right-hand link of the footer. Defaults to the same as Application_UI_Name.',
+),
+'Application_UI_ShowGITVersion' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'Show approximate last git commit version after the application version number.',
+),
+'Application_UI_ShowGITDate' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'Show approximate last git commit date after the application version number.',
+),
 'Document_Folder_View' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'Boolean',
@@ -440,6 +468,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => 'individual | group',
 	'definition' => 'Establish the tax mode on inventory modules to Individual line or Group tax',
+),
+'Application_Global_Search_Active' => array(
+	'status' => 'Implementada',
+	'valuetype' => 'Booleano',
+	'category' => 'Aplicación',
+	'values' => '0 | 1',
+	'definition' => 'Displays (1) or hides (0) the global search functionality. It can be combined with the global search autocomplete map to offer a reduced search option.',
 ),
 'Application_Global_Search_SelectedModules' => array(
 	'status' => 'Implemented',
@@ -503,6 +538,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'The maximum number of rows permitted for a full length HTML report. The default value is 5000.',
+),
+'Report_MaxRelated_Modules' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Application',
+	'values' => '',
+	'definition' => 'The maximum number of related modules permitted for a report. The default value is 2.',
 ),
 'Workflow_Maximum_Scheduled' => array(
 	'status' => 'Implemented',
@@ -728,12 +770,26 @@ $GlobalVariableDefinitons = array(
 	'values' => 'No | Distance | Set',
 	'definition' => 'On DetailView Edit of start date we can push forward the end date. If this variable is set to "No", the end date will not be modified. This is the default value. If it is set to "Set" the end date will be set to the same value as the start date plus the minutes in Calendar_call_default_duration. If it is set to "Distance" the same time difference that exists prior to the change will be applied.',
 ),
+'Calendar_PopupReminder_DaysPast' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Application',
+	'values' => '',
+	'definition' => 'Maximum number of days in the past to search for events that will appear in the reminder pop-up. The default is 7 days.',
+),
 'CronTasks_cronWatcher_mailto' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'CSV emails',
 	'category' => 'Debug',
 	'values' => '',
 	'definition' => 'The Cron Watcher service will send an email to the first administrator user it finds AND any email contained in this variable. By default it is empty.',
+),
+'CronTasks_cronWatcher_TimeThreshold' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Debug',
+	'values' => 'minutes',
+	'definition' => 'The time threshold in minutes that a scheduled task must be running for Cron Watcher service to send the warning email. The default value is 30 minutes.',
 ),
 'BusinessMapping_SalesOrder2Invoice' => array(
 	'status' => 'Implemented',
@@ -825,6 +881,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => '',
 	'definition' => 'The maximum number of attachments that can be uploaded to an email. The default is 6.',
+),
+'EMail_CustomCurrentDate_Format' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'String',
+	'category' => 'Aplicación',
+	'values' => 'valid PHP date format string',
+	'definition' => 'Format to apply to $custom-currentdate$ variable in email templates. Accepts any valid date format string from PHP. By default leave it empty to get the month in text, day and year.',
 ),
 'Workflow_Send_Email_ToCCBCC' => array(
 	'status' => 'Implemented',

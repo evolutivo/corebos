@@ -2019,8 +2019,7 @@ function getBlocksPortal1($module, $disp_view, $mode, $col_fields = '', $info_ty
 public function __call($name, $arguments) {
 		require_once 'modules/cbMap/processmap/'.$name.'.php';
 		$processmap = new $name($this);
-		$ret = $processmap->processMap($arguments);
-		return $ret;
+		return $processmap->processMap($arguments);
 	}
 
 public static function getMapByID($cbmapid) {
@@ -2064,8 +2063,7 @@ public static function getMapByID($cbmapid) {
 			inner join vtiger_crmentity on crmid=cbmapid
 			where deleted=0 and mapname=?', array($name));
 		if ($mrs and $adb->num_rows($mrs)>0) {
-			$cbmapid = $adb->query_result($mrs, 0, 0);
-			return $cbmapid;
+			return $adb->query_result($mrs, 0, 0);
 		} else {
 			return 0;
 		}

@@ -86,8 +86,15 @@ $smarty->assign("CREATE_PERMISSION",($Calendar4You->CheckPermissions("CREATE") ?
 //
 //	$add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".(isset($subtab) ? $subtab : '')."\",\"".$eventlist."\");'";
 //	$smarty->assign('ADD_ONMOUSEOVER', $add_javascript);
-
-
+        $timeModules = getAllModulesWithDateTimeFields();
+	foreach ($timeModules as $tmid => $tmmod) {
+		$tmline = getTranslatedString($tmmod,$tmmod);
+		$tmlineid = str_replace(' ', '', $tmmod);
+		$abelist .= '<tr><td><a href="" id="add' . strtolower($tmlineid) . '" class="drop_down">' . $tmline . '</a></td></tr>';
+	}
+	$smarty->assign('ADD_BUTTONEVENTLIST', $abelist);
+        $add_javascript = "onMouseOver='fnAddITSEvent(this,\"addButtonDropDown\",\"".$temp_date."\",\"".$temp_date."\",\"".$time_arr['starthour']."\",\"".$time_arr['startmin']."\",\"".$time_arr['startfmt']."\",\"".$time_arr['endhour']."\",\"".$time_arr['endmin']."\",\"".$time_arr['endfmt']."\",\"".$viewBox."\",\"".(isset($subtab) ? $subtab : '')."\",\"".$eventlist."\");'";
+	$smarty->assign('ADD_ONMOUSEOVER', $add_javascript);
 	$smarty->assign('EVENTLIST', trim($eventlists_array,","));
 	$timeModules = getAllModulesWithDateTimeFields();
 	$timeModluleDetails = array();
@@ -164,11 +171,12 @@ foreach ($ActTypes AS $act_id => $act_name) {
 			"title_color"=>$Modules_Colors['text'],
 			"color"=>$Modules_Colors['bg'],
 			"textColor"=>$Modules_Colors["text"],
-			"checked"=>$invite_checked
+			"checked"=>(empty($Ch_Views['4'][$mname]) ? 'F' : 'T'),
 		);
 	}
-	unset($Colors);
-	unset($Colors_Palete);
+
+	unset($Colors,$Colors_Palete);
+
 
 
 
@@ -305,7 +313,7 @@ $smarty->assign('TASK_STATUS', $Task_Status);
 if(getFieldVisibilityPermission('Task',$current_user->id,'taskpriority', 'readwrite') == '0') {
 	$Task_Status = $Calendar4You->getActStatusFieldValues('taskpriority','vtiger_taskpriority');
 }
-$smarty->assign('TASK_PRIORITY', $Task_Status);
+$smarty->assign('TASK_PRIORITY', $Task_Priority);
 
 $dat_fmt = $current_user->date_format;
 if ($dat_fmt == '') {
@@ -319,4 +327,3 @@ $smarty->assign('Calendar_Slot_Event_Overlap', (GlobalVariable::getVariable('Cal
 $smarty->assign('Calendar_Modules_Panel_Visible', GlobalVariable::getVariable('Calendar_Modules_Panel_Visible', 1));
 
 $smarty->display('modules/Calendar4You/CalendarView.tpl');
-include_once 'modules/Calendar4You/addEventUI.php';
