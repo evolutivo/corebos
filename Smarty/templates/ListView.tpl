@@ -14,24 +14,24 @@
 <script type="text/javascript" src="include/js/Merge.js"></script>
 <script type="text/javascript" src="include/js/dtlviewajax.js"></script>
 <script type="text/javascript" src="include/js/FieldDependencies.js"></script>
-{if !isset($Document_Folder_View)} {assign var=Document_Folder_View value=0} {/if}
-<script>
-var Document_Folder_View = {$Document_Folder_View};
-</script>
-{include file='Buttons_List.tpl'}
-<div id="searchingUI" style="display:none;">
-	<table border=0 cellspacing=0 cellpadding=0 width=100%>
-		<tr>
-			<td align=center>
-				<img src="{'searching.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SEARCHING}" title="{$APP.LBL_SEARCHING}">
-			</td>
-		</tr>
-	</table>
-</div>
-</td>
-</tr>
-</table>
-</td>
+{if !isset($Document_Folder_View)}
+	{assign var=Document_Folder_View value=0}
+{/if}
+<script>var Document_Folder_View={$Document_Folder_View};</script>
+		{include file='Buttons_List.tpl'}
+								<div id="searchingUI" style="display:none;">
+										<table border=0 cellspacing=0 cellpadding=0 width=100%>
+										<tr>
+												<td align=center>
+												<img src="{'searching.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SEARCHING}" title="{$APP.LBL_SEARCHING}">
+												</td>
+										</tr>
+										</table>
+								</div>
+						</td>
+				</tr>
+				</table>
+		</td>
 </tr>
 </table>
 {*

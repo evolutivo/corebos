@@ -14,6 +14,7 @@
 		{assign var="_FIELD_TYPE" value=$_FIELD_INFO->getFieldDataType()}
 		{if $_FIELD_TYPE eq 'picklist' || $_FIELD_TYPE eq 'multipicklist'}
 			<select id="{$_FIELD_NAME}_defaultvalue" name="{$_FIELD_NAME}_defaultvalue" class="slds-select" style="width: 30%;">
+
 			{foreach item=_PICKLIST_DETAILS from=$_FIELD_INFO->getPicklistDetails()}
 				<option value="{$_PICKLIST_DETAILS.value}">{$_PICKLIST_DETAILS.label|@getTranslatedString:$FOR_MODULE}</option>
 			{/foreach}

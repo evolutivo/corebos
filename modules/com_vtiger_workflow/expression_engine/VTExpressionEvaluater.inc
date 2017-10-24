@@ -43,6 +43,9 @@ class VTFieldExpressionEvaluater{
 				'add_time' => '__vt_add_time',
 				'sub_time' => '__vt_sub_time',
 				'substring' => '__vt_substring',
+				'stringposition' => '__cb_stringposition',
+				'stringlength' => '__cb_stringlength',
+				'stringreplace' => '__cb_stringreplace',
 				'uppercase' => '__vt_uppercase',
 				'lowercase' => '__vt_lowercase',
 				'uppercasefirst' => '__vt_uppercasefirst',
@@ -51,6 +54,7 @@ class VTFieldExpressionEvaluater{
 				'ceil' => '__vt_ceil',
 				'floor' => '__vt_floor',
 				'modulo' => '__cb_modulo',
+				'aggregation' => '__cb_aggregation',
 				'getCurrentUserID' => '__getCurrentUserID',
 				'getCurrentUserName' => '__getCurrentUserName',
 				'getCurrentUserField' => '__getCurrentUserField',
@@ -110,12 +114,16 @@ class VTFieldExpressionEvaluater{
 					$relto = $expr->getParams();
 					$params = array();
 					foreach ($relto as $key => $value) {
-						if(is_object($value)){
-							array_push($params,$this->env($value,true));
-						}else{
-							array_push($params,$value);
+						if (is_object($value)) {
+							$params[] = $this->env($value,true);
+						} else {
+							$params[] = $value;
 						}
 					}
+				} elseif ($func == '__cb_aggregation') {
+					$params = array_map(array($this, 'exec'), $expr->getParams());
+					if (count($params)==3) $params[] = ''; // no conditions
+					$params[] = $this->env;
 				} else {
 					$params = array_map(array($this, 'exec'), $expr->getParams());
 				}

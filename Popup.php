@@ -35,6 +35,15 @@ $smarty->assign('THEME_PATH', "themes/$theme/");
 $smarty->assign('IMAGE_PATH', "themes/$theme/images/");
 $smarty->assign("MODULE",$currentModule);
 $smarty->assign('coreBOS_uiapp_name', GlobalVariable::getVariable('Application_UI_Name',$coreBOS_app_name));
+$sql = 'SELECT dayoftheweek FROM its4you_calendar4you_settings WHERE userid=?';
+$result = $adb->pquery($sql, array($current_user->id));
+if ($result and $adb->num_rows($result)>0) {
+	$fDOW = $adb->query_result($result, 0,0);
+	$userFirstDOW = ($fDOW=='Monday' ? 1 : 0);
+} else {
+	$userFirstDOW = 0;
+}
+$smarty->assign('USER_FIRST_DOW',$userFirstDOW);
 // Gather the custom link information to display
 include_once('vtlib/Vtiger/Link.php');
 $hdrcustomlink_params = Array('MODULE'=>$currentModule);
@@ -53,7 +62,7 @@ $smarty->assign("POPUP", str_replace('&','-a;',$suri).'-a;popqc=true');
 if (!empty($_REQUEST['popqc']) and $_REQUEST['popqc'] = 'true' and empty($_REQUEST['advft_criteria']) and !empty($_REQUEST['record'])) {
 	$fldrs = $adb->pquery('SELECT vtiger_field.fieldlabel,vtiger_field.tablename,vtiger_field.columnname,vtiger_field.fieldname,vtiger_entityname.entityidfield
 			FROM vtiger_field
-			INNER JOIN vtiger_entityname on vtiger_field.tabid=vtiger_entityname.tabid and modulename=? WHERE uitype=4',array($currentModule));
+			INNER JOIN vtiger_entityname on vtiger_field.tabid=vtiger_entityname.tabid and modulename=? WHERE vtiger_field.fieldname=vtiger_entityname.fieldname',array($currentModule));
 	$row = $adb->fetch_array($fldrs);
 	$fieldLabelEscaped = str_replace(" ","_",$row['fieldlabel']);
 	$optionvalue = $row['tablename'].":".$row['columnname'].":".$row['fieldname'].":".$currentModule."_".$fieldLabelEscaped.":V";
@@ -409,16 +418,13 @@ if(method_exists($focus, 'getQueryByModuleField')) {
 		$query = $override_query;
 	}
 }
-
-$count_result = $adb->pquery(mkCountQuery($query), array());
-$noofrows = $adb->query_result($count_result,0,'count');
 $list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize',20,$currentModule);
 //Retreiving the start value from request
 if(isset($_REQUEST['start']) && $_REQUEST['start'] != '') {
 	$start = vtlib_purify($_REQUEST['start']);
 	if($start == 'last'){
-		//$count_result = $adb->pquery( mkCountQuery($query), array());
-		//$noofrows = $adb->query_result($count_result,0,'count');
+		$count_result = $adb->pquery(mkCountQuery($query), array());
+		$noofrows = $adb->query_result($count_result, 0, 'count');
 		if($noofrows > 0){
 			$start = ceil($noofrows/$list_max_entries_per_page);
 		}
@@ -434,7 +440,10 @@ if(isset($_REQUEST['start']) && $_REQUEST['start'] != '') {
 }
 $limstart=($start-1)*$list_max_entries_per_page;
 $query.=" LIMIT $limstart,$list_max_entries_per_page";
+$query = 'SELECT SQL_CALC_FOUND_ROWS'.substr($query, 6);
 $list_result = $adb->pquery($query, array());
+$count_result = $adb->query('SELECT FOUND_ROWS();');
+$noofrows = $adb->query_result($count_result,0,0);
 if (GlobalVariable::getVariable('Debug_Popup_Query', '0')=='1') {
 	echo '<br>'.$query.'<br>';
 }

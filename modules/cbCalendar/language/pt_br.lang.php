@@ -38,7 +38,7 @@ $mod_strings = Array(
 	'Send Reminder' => 'Enviar lembrete',
 	'LBL_SENDREMINDER' => 'Enviar Lembrente',
 	'Recurrence' => 'Recorrente',
-	'No Time' => 'Sem hora',
+	'No Time' => 'Dia todo',
 	'LBL_RELATEDTO' => 'Relacionado à',
 	'LBL_INVITE'=>'Convite',
 	'LBL_REPEAT'=>'Repete',
@@ -98,6 +98,8 @@ $mod_strings = Array(
 	'Low' => 'Baixa',
 	'Private' => 'Privado',
 	'Public' => 'Público',
-	);
+	'DATE_SHOULDNOT_PAST' => 'Data e hora atuais para Atividades com status Planejado',
+	'TIME_SHOULDNOT_PAST' => 'Data atual para Atividades com status Planejado',
+);
 
 ?>

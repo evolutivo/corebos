@@ -111,6 +111,20 @@ $companyDetails['website'] = $adb->query_result($result,0,'website');
 //$companyDetails['logo'] = $organization_logo;
 
 $smarty->assign("COMPANY_DETAILS",$companyDetails);
+
+//Global Search Autocomplete Mapping
+$bmapname = 'GlobalSearchAutocomplete';
+$cbMapGS = array();
+$cbMapid = GlobalVariable::getVariable('BusinessMapping_'.$bmapname, cbMap::getMapIdByName($bmapname));
+if ($cbMapid) {
+	$cbMap = cbMap::getMapByID($cbMapid);
+	$cbMapGS = $cbMap->GlobalSearchAutocomplete();
+	$cbMapGS['entityfield']='query_string';
+}
+$smarty->assign("GS_AUTOCOMP",$cbMapGS);
+$Application_Global_Search_Active = GlobalVariable::getVariable('Application_Global_Search_Active', 1);
+$smarty->assign('Application_Global_Search_Active',$Application_Global_Search_Active);
+
 $smarty->assign('HELP_URL',GlobalVariable::getVariable('Application_Help_URL','http://corebos.org/documentation'));
 ob_start();
 cbEventHandler::do_action('corebos.header.premenu');

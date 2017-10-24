@@ -578,10 +578,10 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 					<input name="time_start" tabindex="{$vt_tab}"  size="5" maxlength="5" type="text" value="{$time_val}">
 				{/if}
 
-				{if $uitype eq 6 && $QCMODULE eq 'Event'}
+				{if $uitype eq 6 && isset($QCMODULE) && $QCMODULE eq 'Event'}
 					<input name="dateFormat" type="hidden" value="{$dateFormat}">
 				{/if}
-				{if $uitype eq 23 && $QCMODULE eq 'Event'}
+				{if $uitype eq 23  && isset($QCMODULE) && $QCMODULE eq 'Event'}
 					<input name="time_end"  size="5" maxlength="5" type="text" value="{$time_val}">
 				{/if}
 
@@ -607,8 +607,9 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				<font color="red">{$mandatory_field}</font>{$usefldlabel} {if $MASS_EDIT eq '1'}<input type="checkbox" name="{$fldname}_mass_edit_check" id="{$fldname}_mass_edit_check" class="small" >{/if}
 			</td>
 			<td width="30%" align=left class="dvtCellInfo">
-				{foreach key=date_value item=time_value from=$fldvalue}
+				{foreach key=date_value item=date12_value from=$fldvalue}
 					{assign var=date_val value="$date_value"}
+					{assign var=date12_val value="$date12_value"}
 				{/foreach}
 				<input name="{$fldname}" tabindex="{$vt_tab}" class="slds-input" id="jscal_field_{$fldname}" type="text"  size="16" maxlength="16" value="{$date_val}">
 				<img src="{'btnL3Calendar.gif'|@vtiger_imageurl:$THEME}" id="jscal_trigger_{$fldname}" style="width:18px;vertical-align: inherit;">
@@ -618,12 +619,15 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 					{assign var=dateStr value="$date_str"}
 				{/foreach}
 
-				<br>&nbsp;&nbsp;&nbsp;<font size=1><em old="(yyyy-mm-dd)">({$dateStr})</em></font>
+				<br><font size=1><em old="(yyyy-mm-dd)">({$dateStr})&nbsp;<span id="timefmt_{$fldname}">{if $userFormat neq "24"}{$fieldFormat}{/if}</span></em></font>
 
 				<script type="text/javascript" id='massedit_calendar_{$fldname}'>
 					Calendar.setup ({ldelim}
-						inputField : "jscal_field_{$fldname}", ifFormat : "{$dateFormat}", showsTime : true, button : "jscal_trigger_{$fldname}", singleClick : true, step : 1
-					{rdelim})
+						inputField : "jscal_field_{$fldname}", ifFormat : "{$dateFormat}", inputTimeFormat : "{$fieldFormat}",
+						{if $userFormat neq "24"}displayArea : "timefmt_{$fldname}", daFormat : "%p",{/if}
+						showsTime : true, timeFormat : "{$userFormat}",
+						button : "jscal_trigger_{$fldname}", singleClick : true, step : 1
+					{rdelim});
 				</script>
 			</td>
 
@@ -786,13 +790,13 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				<div style="display: flex;flex-direction: row; width:100%">
 				<div width="80%">
 				<span id="limitmsg" style= "color:red;"> {'LBL_MAX_SIZE'|@getTranslatedString:$MODULE} {$UPLOADSIZE}{'LBL_FILESIZEIN_MB'|@getTranslatedString:$MODULE}<br /></span>
-				{if isset($maindata[3].0.name) && $maindata[3].0.name != "" && $DUPLICATE neq 'true'}
+				{if isset($maindata[3].0.name) && $maindata[3].0.name != ''}
 					{assign var=imagevalueexists value=true}
 				{else}
 					{assign var=imagevalueexists value=false}
 				{/if}
-				<input name="{$fldname}" type="file" value="{if $imagevalueexists}{$maindata[3].0.name}{/if}" tabindex="{$vt_tab}" onchange="validateFilename(this);" />
-				<input name="{$fldname}_hidden" type="hidden" value="{if $imagevalueexists}{$maindata[3].0.name}{/if}" />
+				<input name="{$fldname}" id="{$fldname}" type="file" value="{if $imagevalueexists}{$maindata[3].0.name}{/if}" tabindex="{$vt_tab}" onchange="validateFilename(this);" />
+				<input name="{$fldname}_hidden" id="{$fldname}_hidden" type="hidden" value="{if $imagevalueexists}{$maindata[3].0.name}{/if}" />
 				{if $imagevalueexists}
 					<div id="{$fldname}_replaceimage">[{$maindata[3].0.orgname}] <input id="{$fldname}_attach" value="{'LBL_DELETE_BUTTON'|@getTranslatedString}" type="button" class="slds-button slds-button--small slds-button--destructive" onclick='delimage({$ID},"{$fldname}","{$maindata[3].0.orgname}");'></div>
 				{/if}

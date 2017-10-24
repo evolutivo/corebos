@@ -253,7 +253,7 @@
 				</tr>
 			</table>
 		</td>
-	</tr>
+		</tr>
 	<tr><td style="height: 2px;"></td></tr>
 </thead>
 </table>

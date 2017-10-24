@@ -96,7 +96,7 @@ class Emails extends CRMEntity {
 					$realid = explode("@", $myids[$i]);
 					$mycrmid = $realid[0];
 					//added to handle the relationship of emails with vtiger_users
-					if (getmoduleforfield($realid[1]) == 'Users') {
+					if (getModuleForField($realid[1]) == 'Users') {
 						$del_q = 'delete from vtiger_salesmanactivityrel where smid=? and activityid=?';
 						$adb->pquery($del_q, array($mycrmid, $actid));
 						$mysql = 'insert into vtiger_salesmanactivityrel values(?,?)';
@@ -132,6 +132,27 @@ class Emails extends CRMEntity {
 
 		//Inserting into attachment
 		$this->insertIntoAttachment($this->id, $module);
+	}
+
+	/**
+	 * Function to get the array of record ids from a string pattern like "2@71|17@-1|120@15"
+	 * This will filter user record ids
+	 * @param type $recordIdsStr
+	 * @return type
+	 */
+	function getCRMIdsFromStringPattern($recordIdsStr) {
+		$recordIds = array();
+		if (strpos($recordIdsStr, '@') !== false && strpos($recordIdsStr, '|') !== false) {
+			$recordIdsParts = explode('|', $recordIdsStr);
+			for ($i = 0; $i < (count($recordIdsParts) - 1); $i++) {
+				$recordIdParts = explode('@', $recordIdsParts[$i]);
+				//filter user records
+				if ($recordIdParts[1] !== -1) {
+					$recordIds[] = $recordIdParts[0];
+				}
+			}
+		}
+		return $recordIds;
 	}
 
 	function insertIntoAttachment($id, $module, $direct_import=false) {
@@ -300,17 +321,43 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 	}
 
 	/*
-	 * Function to get the secondary query part of a report
+	* Function to get the secondary query part of a report
 	* @param - $module primary module name
 	* @param - $secmodule secondary module name
 	* returns the query string formed on fetching the related data for report for secondary module
 	*/
-	function generateReportsSecQuery($module, $secmodule){
+	function generateReportsSecQuery($module, $secmodule, $queryPlanner,$type = '',$where_condition = '') {
+		$focus = CRMEntity::getInstance($module);
+		$matrix = $queryPlanner->newDependencyMatrix();
+
+		$matrix->setDependency("vtiger_crmentityEmails",array("vtiger_groupsEmails","vtiger_usersEmails","vtiger_lastModifiedByEmails"));
+
+		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
+			return '';
+		}
+
+		$matrix->setDependency("vtiger_activity",array("vtiger_crmentityEmails","vtiger_email_track"));
+
+		$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity","activityid", $queryPlanner);
 		$query = " LEFT JOIN vtiger_seactivityrel ON vtiger_crmentity.crmid=vtiger_seactivityrel.crmid";
 		$query .= " LEFT JOIN vtiger_activity ON vtiger_seactivityrel.activityid=vtiger_activity.activityid and vtiger_activity.activitytype = 'Emails'";
 		$query .= " LEFT JOIN vtiger_crmentity as vtiger_crmentityEmails ON vtiger_crmentityEmails.crmid=vtiger_activity.activityid and vtiger_crmentityEmails.deleted = 0";
 		$query .= " LEFT JOIN vtiger_emaildetails ON vtiger_emaildetails.emailid=vtiger_crmentityEmails.crmid";
-		$query .= " LEFT JOIN vtiger_email_track ON vtiger_email_track.mailid = vtiger_emaildetails.emailid and vtiger_email_track.crmid = vtiger_crmentity.crmid";
+		if ($queryPlanner->requireTable("vtiger_groupsEmails")) {
+			$query .= " LEFT JOIN vtiger_groups AS vtiger_groupsEmails ON vtiger_groupsEmails.groupid = vtiger_crmentityEmails.smownerid";
+		}
+		if ($queryPlanner->requireTable("vtiger_usersEmails")){
+			$query .= " LEFT JOIN vtiger_users AS vtiger_usersEmails ON vtiger_usersEmails.id = vtiger_crmentityEmails.smownerid";
+		}
+		if ($queryPlanner->requireTable("vtiger_lastModifiedByEmails")) {
+			$query .= " LEFT JOIN vtiger_users AS vtiger_lastModifiedByEmails ON vtiger_lastModifiedByEmails.id = vtiger_crmentityEmails.modifiedby and vtiger_seactivityreltmpEmails.activityid = vtiger_activityEmails.activityid";
+		}
+		if ($queryPlanner->requireTable("vtiger_CreatedByEmails")) {
+			$query .= " left join vtiger_users as vtiger_CreatedByEmails on vtiger_CreatedByEmails.id = vtiger_crmentityEmails.smcreatorid and vtiger_seactivityreltmpEmails.activityid = vtiger_activityEmails.activityid";
+		}
+		if ($queryPlanner->requireTable("vtiger_email_track")) {
+			$query .= " LEFT JOIN vtiger_email_track ON vtiger_email_track.mailid = vtiger_emaildetails.emailid and vtiger_email_track.crmid = vtiger_crmentity.crmid";
+		}
 		return $query;
 	}
 
@@ -338,7 +385,6 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		$related_module = vtlib_getModuleNameById($rel_tab_id);
 		require_once("modules/$related_module/$related_module.php");
 		$other = new $related_module();
-		$singular_modname = vtlib_toSingular($related_module);
 
 		$parenttab = getParentTab();
 
@@ -715,9 +761,7 @@ function get_to_emailids($module) {
 			}
 		}
 	}
-
-	$return_data = array('idlists' => $idlists, 'mailds' => $mailids);
-	return $return_data;
+	return array('idlists' => $idlists, 'mailds' => $mailids);
 }
 
 // attach the generated pdf with the email

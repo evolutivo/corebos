@@ -205,6 +205,7 @@ $app_strings = array (
 'Photo2Document' => 'Photo to Document',
 'Snap Photo' => 'Snap Photo',
 'Clear Photo' => 'Clear Photo',
+'DocumentCreatedRelated' => 'Document added and related',
 'Export' => 'Exportar',
 'Import' => 'Importar',
 'Merge' => 'Mesclar',
@@ -507,6 +508,7 @@ $app_strings = array (
 'LBL_SALES_ORDER_ID' => 'No. Pedido Vendas',
 'LBL_PURCHASE_ORDER_ID' => 'No. Pedido Compra',
 'LBL_EXPORT_TO_PDF' => 'Exportar para PDF',
+'DeletedProducts' => 'This record has deleted product/service lines. Please edit and fix accordingly.',
 'LBL_HOME_KEY_METRICS' => 'Métricas Chave',
 'LBL_HOME_METRICS' => 'Métricas',
 'LBL_HOME_COUNT' => 'Total',
@@ -1162,7 +1164,7 @@ $app_strings = array (
 'LBL_FIELDLISTS'=> 'Lista de Campos',
 'LBL_RECORD'=>'No. Registro',
 'LBL_DUP_PERMISSION' => 'Você não tem permissão para apagar',
-'recordid' => 'Id Registro',
+'recordid' => 'Registro',
 'Entity Type' => 'Tipo Entidade',
 
 // gmailbookmarklet customization
