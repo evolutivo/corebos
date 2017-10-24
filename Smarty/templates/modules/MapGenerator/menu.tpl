@@ -90,11 +90,11 @@
 	            <div  class="slds-form-element__control">
 	                <div class="slds-select_container">
 	                    <select  data-load-Map="true" data-type-select="TypeObject" class="slds-select">
-	                    <option value="">{$MOD.ChooseTypeOfMap}</option>
-	                    <option value="MaterializedView">{$MOD.MaterializedView}</option>
-	                    <option value="Script">{$MOD.Script}</option>
-	                    <option value="Map">{$MOD.Map}</option>
-	                    </select>
+    	                    <option value="">{$MOD.ChooseTypeOfMap}</option>
+    	                    <option value="MaterializedView">{$MOD.MaterializedView}</option>
+    	                    <option value="Script">{$MOD.Script}</option>
+    	                    <option value="Map">{$MOD.Map}</option>
+                        </select>
 	                </div>
 	            </div>
 	        </div>
@@ -118,12 +118,13 @@
 	            <div  class="slds-form-element__control">
 	                <div class="slds-select_container">
 	                    <select data-load-Map="true" data-type-select="TypeMap"  class="slds-select">
-	                    <option value="">{$MOD.TypeMapNone}</option>
-	                    <option value="SQL">{$MOD.TypeMapSQL}</option>
-	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>
-	                    <option value="IOMap">{$MOD.TypeMapIOMap}</option>
-	                    <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
-	                    <option value="WS">{$MOD.TypeMapWS}</option>
+    	                    <option value="">{$MOD.TypeMapNone}</option>
+    	                    <option value="SQL">{$MOD.TypeMapSQL}</option>
+    	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>
+    	                    <option value="IOMap">{$MOD.TypeMapIOMap}</option>
+    	                    <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
+    	                    <option value="WS">{$MOD.TypeMapWS}</option>
+                            <option value="MasterDetail">{$MOD.MasterDetail}</option>
 	                    </select>
 	                </div>	            
 	            </div>

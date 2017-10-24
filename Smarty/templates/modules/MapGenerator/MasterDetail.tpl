@@ -8,7 +8,7 @@
 
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
-    <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
+    <right style="margin-left: 10%"><b> {$MOD.OriginModule}</b></right>
 </div>
 <div id="contentJoinButtons">
     <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
@@ -102,15 +102,22 @@
     </div>
 
 
-    <div id="selJoin" style="float:left; overflow: hidden;width:80%">
+    <div id="selJoin" style="float:left; overflow: hidden;width:80%;height: 180px;
+">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                       <select data-select-load="true" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                       <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         </select>
                        </div>
                 </div>
+
+                 <div>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                   <input type="button" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID"
+                   style="padding: 0px;margin-top: 10px;width: 90%;">
+                 </div>
             </div>
             <br>
             <div class="slds-form-element">
@@ -128,35 +135,86 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="AllRelation" name="secmodule" class="slds-select">
+                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID"  name="secmodule" class="slds-select">
                         </select>
                      </div>
-                </div>                
-            </div>
+                </div> 
+                <div>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                   <input type="button" class="slds-button slds-button--neutral sel" id="SecondfieldID" name="SecondfieldID"
+                   style="padding: 0px;margin-top: 10px;width: 90%;">
+                 </div>
+               </div>
             <br>
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
-                    <div class="" id="SecondDiv" style="float: left;width: 92%;">
-                        <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
-                          </select>
-                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
-                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                              <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
-                              </div>
-                              </div>
-                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
+                    <div class="" id="SecondDiv" style="float: left;width: 105%;">
+                      <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input id="sortt6ablechk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Sort</span>
+                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                          </span>
+                        </label>
+                      </div>
+                     <!--SLDS Checkbox Toggle Element Start-->
+                      <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input id="editablechk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
+                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Editable</span>
+                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                          </span>
+                        </label>
+                      </div>
+                        <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
+                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Mandatory</span>
+                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                          </span>
+                        </label>
+                      </div>
+                        <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hidden</span>
+                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                          </span>
+                        </label>
+                      </div>
+                      <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;vertical-align: bottom;">
                               <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
                           </div>
+                        <!-- <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
+                          </select> -->
+                          <!-- <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;"> -->
+                             <!-- <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox"> -->
+                              <!-- <div class="slds-combobox__form-element">
+                                  <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                              </div> -->
+                              <!-- </div> -->
+                         <!--  <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
+                              <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                              </button>
+                          </div> -->
                      </div>
                          
                         </div>
-                        <div style="float:right;">
+                       <!--  <div style="float:right;">
                           <a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
-                        </div>
+                        </div> -->
                 </div>
                 
                 
