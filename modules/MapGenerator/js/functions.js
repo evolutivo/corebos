@@ -278,29 +278,28 @@ function show_query_History(id_history){
     }
 
 }
-function closeAlertsAndremoveJoin(remuveid) {
+function closeAlertsAndremoveJoin(remuveid,namediv) {
 
     var check = false;
+      for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+          if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+            App.popupJson.splice(remuveid,1);
+              check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+      }
+      if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        $( remuvediv).remove( );
+        App.utils.ReturnAllDataHistory2(namediv);
 
-    for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
-        if (ii == remuveid) {
-             //JSONForCOndition.remove(remuveid);
-             JSONForCOndition.splice(remuveid,1);
-            check = true
-			//console.log(remuveid);
-           // console.log(ReturnAllDataHistory());
-         }
-    }
-    if (check) {
-      var remuvediv="#alerts_"+remuveid;
-      $( "div" ).remove( remuvediv);
-      ReturnAllDataHistory();
-
-       // $('#selectableFields option:selected').attr("selected", null);
-    }
-    else {
-        alert("{/literal}{$MOD.conditionwrong}{literal}");
-    }
+         // $('#selectableFields option:selected').attr("selected", null);
+      }
+      else {
+          alert(mv_arr.ReturnFromPost);
+      }
 
 
 }
@@ -1777,5 +1776,57 @@ function NextAndLoadFromMap() {
 
     getFirstModule("", mapid[0],mapid[1]);
 
+
+}
+
+
+function GenerateMasterData()
+{
+  var datatusend="";
+  var dataselected=App.popupJson;
+  if (!dataselected)
+  {
+    alert(mv_arr.ReturnErrorFromMap);
+    return 0;
+  }
+  var nameMap =$("#MapName").val();
+  if (nameMap.length=0)
+  {
+     alert(mv_arr.MissingtheNameofMap);
+    return 0; 
+  }
+  if (App.savehistoryar)
+  {
+    datatusend+="&savehistory="+App.savehistoryar;
+  }else
+  {
+    datatusend+="&savehistory";
+  }
+
+   jQuery.ajax({
+        type: "POST",
+        url: "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveMasterDetail",
+        data: "MapName=" + nameMap+"&alldata="+ JSON.stringify(dataselected)+datatusend,
+        dataType: "html",
+        async: false,
+        success: function (msg) {
+          if(msg){
+             var returndt=msg.split(",");
+             if(returndt[1]>0)
+             {
+              App.savehistoryar=msg;
+                alert(mv_arr.ReturnSucessFromMap);
+             }else
+             {
+              alert(mv_arr.ReturnErrorFromMap);
+             }        
+          }
+          document.getElementById('results').innerHTML="";
+          jQuery("#results").html(msg);
+        },
+        error: function () {
+            alert(mv_arr.failedcall);
+        }
+    });
 
 }

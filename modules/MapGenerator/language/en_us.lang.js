@@ -20,5 +20,6 @@ var mv_arr = {
 'addJoinValidation':'You can not add whith emtpy fields',
 'MappingFiledValid':'Cannot Generate a map with  empty field',
 'ReturnErrorFromMap':'Somethig Was wrong try again .....',
-'ReturnSucessFromMap':'succes!! the map is created'
+'ReturnSucessFromMap':'succes!! the map is created',
+'MissingtheNameofMap':'Missing the Name of Map'
 }

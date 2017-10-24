@@ -11,6 +11,7 @@
 		JSONForCOndition : [],
 		pageInitMethods : [],
 		savehistoryar:null,
+		popupJson : [],
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -27,6 +28,7 @@
 			App.SelectModule.init();
 			App.FunctionSend.init();
 			App.GetModuleForMapGenerator.init();
+			App.UniversalPopup.init();
 			$.each(App.initMethods, function(i, initializer) {
 				initializer();
 			});
@@ -327,6 +329,80 @@
 
 	};
 
+
+	App.UniversalPopup={
+
+		init:function(){
+			$(document).on('click', 'button[data-add-button-popup="true"]',
+					App.UniversalPopup.Add_show_Popup);
+			$(document).on('click', 'button[data-click-closemodal="true"]',
+								App.UniversalPopup.Add_show_Popup);
+		},
+
+		Add_show_Popup:function(event){
+			//$('#contenitoreJoin').empty();
+			$('#contenitoreJoin div').remove();
+			 if (event) {event.preventDefault();}
+			 var elem=$(this);
+			 var allids=elem.attr("data-add-relation-id");
+
+			 if (allids)
+			 {
+			 	var allidarray=allids.split(",");
+			 	 App.utils.Add_to_universal_popup(allidarray);
+			 	 if (App.popupJson.length>0)
+			 	 	{
+			 	 		for (var i = 0; i < App.popupJson.length; i++) {
+			 	 				var module=App.popupJson[0].temparray.Firstfield.split(":");
+			 	 				var divinsert= App.utils.DivPopup(i,module[2],"contenitoreJoin");
+			 	 				$('#contenitoreJoin').append(divinsert);
+			 	 			}	
+
+			 	 	}else{
+			 	 		alert(mv_arr.ReturnErrorFromMap);
+			 	 	}
+			 }
+
+
+		},
+
+		closemodal:function(){
+
+			if (event)
+			{
+				event.preventDefault();
+			}
+
+			var idtoclose=$(this).attr("data-closemodal-id");
+			if (idtoclose.split(",")[0])
+			{
+				var check = false;
+	   			 for (var ii = 0; ii <= App.popupJson.length; ii++) {
+		        		if (ii == parseInt(idtoclose)) {
+				             //JSONForCOndition.remove(remuveid);
+				        	App.popupJson.splice(parseInt(idtoclose.split(",")[0]),1);
+				            check = true
+							//console.log(remuveid);
+				           // console.log(ReturnAllDataHistory());
+			          	}
+	    			 }
+			    if (check) {
+			      var remuvediv="#alerts_"+parseInt(idtoclose.split(",")[0]);
+			      $( remuvediv).remove( );
+			      App.utils.ReturnAllDataHistory(idtoclose.split(",")[1]);
+
+			       // $('#selectableFields option:selected').attr("selected", null);
+			    }
+			    else {
+			        alert(mv_arr.ReturnFromPost);
+			    }
+			}
+		},
+
+
+
+	};
+
 	App.SelectModule = {
 		init : function() {
 			$(document).on('change', 'select[data-select-autolod="true"]',
@@ -548,6 +624,33 @@
 			});
 		},
 
+		Add_to_universal_popup:function(params,divid){
+			var temparray={};
+			var check =false;
+			for (var i =0; i <= params.length - 1; i++) {
+				if (App.utils.IsSelectORDropDown(params[i]).length>0)
+				{
+					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);	
+					check=true;
+				}else
+				{
+					//alert(mv_arr.MappingFiledValid);
+					check=false;
+					break;
+
+				}
+				
+			}
+			if (check)
+			{
+				App.popupJson.push({temparray});	
+			}
+			
+			
+			
+
+		},
+
 		alertsdiv : function(Idd, Firstmodulee, secondmodule, last_check,
 				namediv) {
 			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
@@ -604,6 +707,41 @@
 
 			}
 		},
+		ReturnAllDataHistory2 : function(namediv) {
+			$('#' + namediv + ' div').remove();
+			var check = false;
+			var valuehistoryquery;
+			var length_history = App.popupJson.length;
+			// alert(length_history-1);
+			for (var ii = 0; ii < App.popupJson.length; ii++) {
+				var idd = ii// JSONForCOndition[ii].idJSON;
+				var firmod = App.popupJson[ii].temparray.Firstfield.split(":");
+				
+				// console.log(idd+firmod+secmod);
+				// console.log(selectedfields);
+				if (ii == (length_history - 1)) {
+					check = true;
+
+				} else {
+					check = false;
+				}
+				var alerstdiv = App.utils.DivPopup(idd, firmod[2]);
+				$('#' + namediv).append(alerstdiv);
+
+			}
+		},
+
+
+		DivPopup : function(Idd,firstmodule,divid) {
+			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+					+ '">';
+			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
+					+ Idd + ',\'' + divid + '\');">&times;</span>';
+			INSertAlerstJOIN += '<strong># Add !  '+(Idd+1)+'</strong> '+firstmodule;
+			
+			INSertAlerstJOIN += '</div';
+			return INSertAlerstJOIN;
+		},
 
 		// closeAlertsAndremoveJoins:function(remuveid,namediv){
 		// var check = false;
@@ -637,20 +775,43 @@
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	return $("#" +IdType+ " option:selected").val();
+			    	if ($("#" +IdType+ " option:selected").val().length>0)
+			    	{
+			    		return $("#" +IdType+ " option:selected").val();//+"##"+$("#" +IdType+ " option:selected").text();
+			    	}else
+			    	{
+			    		return "";	
+			    	}
+			    	
 			    	
 			    }else if(element.tagName === 'INPUT' && element.type === 'text')
 			    {
-			    	return $("#" +IdType).val();
+			    	return $("#" +IdType).val();//+"##"+$("#" +IdType).text();
 			    	
 			    }else if(element.tagName === 'INPUT' && element.type === 'hidden')
 			    {
-			    	return $("#" +IdType).val();
+			    	return $("#" +IdType).val();//+"##"+$("#" +IdType).text();
 			    	
 			    }else if($('#'+IdType).is('textarea')){
 			    	
 			    	return $('#'+IdType).val();
-			    }			    
+
+			    }else if(element.type && element.type === 'checkbox')
+			    {
+			    	if (document.getElementById(IdType).checked==false)
+			    	{
+			    		return '0';
+			    	}else
+			    	{
+			    		return '1';
+			    	}
+			    	
+			    }else if(element.type && element.type === 'button')
+			    {
+			    	return document.getElementById(IdType).value;
+			    	
+			    }
+
 			    return "";			
 		},
 		

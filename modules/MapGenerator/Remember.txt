@@ -30,3 +30,7 @@ data-load-show="true"   understand the server when you click to run this code
  data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue"  are the id you want to execute the and to take the val
 
 data-div-show="LoadShowPopup"    to show the popup if you want 
+
+
+
+data-add-button-popup="true"   is for show the modal of selected fields used in <button> <a> or another element of html 
