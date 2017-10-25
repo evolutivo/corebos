@@ -11,6 +11,8 @@ data-select-fieldid="FirstfieldID"          ---this attribut is for a button o t
 
 data-second-select-file="AllRelation"  ---if you want to get the field for another filoe you only need to write the name of file in this attribute and you can customize the second module fields  AllRelation(is the name of file )
 
+data-second-module-file="nameof file" --if you want to get the data from another php file
+
 
 --- click a or button or another 
 this is to show and hide a 2 elements 

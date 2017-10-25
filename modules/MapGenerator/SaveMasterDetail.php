@@ -92,6 +92,17 @@ function add_content($DataDecode)
 
      $root->appendChild($linkfields);
 
+     foreach ($DataDecode as $value) {
+     	if ($value->temparray->sortt6ablechk==="1") {
+
+     		 $sortfield = $xml->createElement("sortfield");
+		     $sortfieldtxt = $xml->createTextNode(explode(":",$value->temparray->Firstfield)[2]);
+		     $sortfield->appendChild($sortfieldtxt);
+		     $root->appendChild($sortfield);
+     		
+     	}     	
+     }
+
      $detailview=$xml->createElement("detailview");
 
       $fields=$xml->createElement("fields");

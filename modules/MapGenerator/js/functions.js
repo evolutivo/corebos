@@ -1821,8 +1821,8 @@ function GenerateMasterData()
               alert(mv_arr.ReturnErrorFromMap);
              }        
           }
-          document.getElementById('results').innerHTML="";
-          jQuery("#results").html(msg);
+          //document.getElementById('results').innerHTML="";
+          //jQuery("#results").html(msg);
         },
         error: function () {
             alert(mv_arr.failedcall);

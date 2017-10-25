@@ -220,10 +220,19 @@
 			var field = elem.attr("data-select-relation-field-id");
 			var urlsend = elem.attr("data-module");
 			var relationmodule=elem.attr("data-second-select-file");
+			var secondmodulefile=elem.attr("data-second-module-file");
 			var firstfieldid=elem.attr("data-select-fieldid");
+			var urlsendmodule;
 			var valueselected = elem.find(":selected").val();
 			if (secondmodule != "undefined") {
-				var urlsendmodule = [ urlsend, "fillModuleRel" ];
+				if (secondmodulefile)
+				{
+					urlsendmodule = [ urlsend, secondmodulefile ];
+				}else
+				{
+					urlsendmodule = [ urlsend, "fillModuleRel" ];
+				}
+				
 				var dat = "mod=" + valueselected;
 				App.utils.PostDataGeneric(urlsendmodule, dat, "");
 				$("#" + secondmodule).empty();
@@ -352,8 +361,8 @@
 			 	 App.utils.Add_to_universal_popup(allidarray);
 			 	 if (App.popupJson.length>0)
 			 	 	{
-			 	 		for (var i = 0; i < App.popupJson.length; i++) {
-			 	 				var module=App.popupJson[0].temparray.Firstfield.split(":");
+			 	 		for (var i = 0; i <= App.popupJson.length-1; i++) {
+			 	 				var module=App.popupJson[i].temparray.Firstfield.split(":");
 			 	 				var divinsert= App.utils.DivPopup(i,module[2],"contenitoreJoin");
 			 	 				$('#contenitoreJoin').append(divinsert);
 			 	 			}	
