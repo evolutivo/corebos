@@ -89,6 +89,10 @@ $mod_strings = Array(
     'MasterDetail'=>'Master Detail',
     'OriginModule'=>'Origin Module',
     'TargetModule'=>'Target Module',
+    'ListColumns'=>'List Columns',    
+    'ChangeLabel'=>'Change Label name',
+    'SelectedField'=>'Selected Fields',
+
 
 );
 ?>

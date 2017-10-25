@@ -36,3 +36,15 @@ data-div-show="LoadShowPopup"    to show the popup if you want
 
 
 data-add-button-popup="true"   is for show the modal of selected fields used in <button> <a> or another element of html 
+
+
+
+
+data-label-change-load="true"  understand the server you want to use that function when change the value (only for dropdown)
+data-select-filename=""        the file name where you want to get data 
+data-set-value-to=""           the id of html component to save the value
+data-module="MapGenerator"    the name of modul you are working
+
+
+
+

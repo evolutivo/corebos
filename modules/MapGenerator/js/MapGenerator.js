@@ -51,6 +51,8 @@
 					App.TypeOfMaps.LoadShowPopup);
 			$(document).on('change', 'select[data-load-Map="true"]',
 					App.TypeOfMaps.TypeOfMap);
+			$(document).on('change', 'select[data-label-change-load="true"]',
+					App.TypeOfMaps.LoadLabel);
 			
 		},
 		TypeOfMap : function() {
@@ -107,8 +109,54 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "ListColumns") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ "MapGenerator", "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
 
+		},
+
+		LoadLabel:function(event){
+			if (event) {event.preventDefault();}
+			var eleme=$(this);
+			var filename=eleme.attr("data-select-filename");
+			var setvalue=eleme.attr("data-set-value-to");
+			var valuselectedet=eleme.attr("id");
+			var moduleget=eleme.attr("data-module");
+			var urlsend;
+			if (filename)
+			{
+				if (filename.length!=0)
+				{
+					
+					if (moduleget && moduleget.length>0)
+					{
+						urlsendfield = [ moduleget,filename];
+					 	var datfields = `${setvalue}=${App.utils.IsSelectORDropDown(valuselectedet)}`;
+						App.utils.PostDataGeneric(urlsendfield, datfields, "");
+						if (VauefromPost)
+						{
+							App.utils.SetValueTohtmlComponents(setvalue,VauefromPost);		
+						}else
+						{
+
+						}
+
+					} else
+					{
+						alert(mv_arr.MissingModuleName);
+					}
+					
+
+
+				}else
+				{
+					alert(mv_arr.MissingAtrribute);
+				}
+			}
 		},
 
 		LoadShowPopup : function(event) {
@@ -350,20 +398,20 @@
 
 		Add_show_Popup:function(event){
 			//$('#contenitoreJoin').empty();
-			$('#contenitoreJoin div').remove();
+			 $('#contenitoreJoin div').remove();
 			 if (event) {event.preventDefault();}
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
-
+			 var showtext=elem.attr(" data-show-id");
 			 if (allids)
 			 {
 			 	var allidarray=allids.split(",");
 			 	 App.utils.Add_to_universal_popup(allidarray);
 			 	 if (App.popupJson.length>0)
-			 	 	{
+			 	 	{	
 			 	 		for (var i = 0; i <= App.popupJson.length-1; i++) {
-			 	 				var module=App.popupJson[i].temparray.Firstfield.split(":");
-			 	 				var divinsert= App.utils.DivPopup(i,module[2],"contenitoreJoin");
+			 	 				var module=App.popupJson[i].temparray[`DefaultText`];
+			 	 				var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin");
 			 	 				$('#contenitoreJoin').append(divinsert);
 			 	 			}	
 
@@ -639,7 +687,8 @@
 			for (var i =0; i <= params.length - 1; i++) {
 				if (App.utils.IsSelectORDropDown(params[i]).length>0)
 				{
-					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);	
+					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
+					temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);		
 					check=true;
 				}else
 				{
@@ -724,7 +773,7 @@
 			// alert(length_history-1);
 			for (var ii = 0; ii < App.popupJson.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
-				var firmod = App.popupJson[ii].temparray.Firstfield.split(":");
+				var firmod = App.popupJson[ii].temparray["DefaultText"];
 				
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
@@ -823,6 +872,90 @@
 
 			    return "";			
 		},
+
+		IsSelectORDropDownGetText:function(IdType){
+			    
+			    var element = document.getElementById(IdType);
+			    
+			    if(element.tagName === 'SELECT')
+			    {
+			    	if ($("#" +IdType+ " option:selected").val().length>0)
+			    	{
+			    		return $("#" +IdType+ " option:selected").text();
+			    	}else
+			    	{
+			    		return "";	
+			    	}
+			    	
+			    	
+			    }else if(element.tagName === 'INPUT' && element.type === 'text')
+			    {
+			    	return $("#" +IdType).val();//+"##"+$("#" +IdType).text();
+			    	
+			    }else if(element.tagName === 'INPUT' && element.type === 'hidden')
+			    {
+			    	return $("#" +IdType).text();
+			    	
+			    }else if($('#'+IdType).is('textarea')){
+			    	
+			    	return $('#'+IdType).val();
+
+			    }else if(element.type && element.type === 'checkbox')
+			    {
+			    	if (document.getElementById(IdType).checked==false)
+			    	{
+			    		return '0';
+			    	}else
+			    	{
+			    		return '1';
+			    	}
+			    	
+			    }else if(element.type && element.type === 'button')
+			    {
+			    	return document.getElementById(IdType).value;
+			    	
+			    }
+
+			    return "";			
+		},
+
+		SetValueTohtmlComponents:function(IdType,valuee){
+			    
+			    var element = document.getElementById(IdType);
+			    
+			    if(element.tagName === 'SELECT')
+			    {
+			    	$("#" + IdType).empty();
+			    	$("#" + IdType).append(valuee);			    	
+			    	
+			    }else if(element.tagName === 'INPUT' && element.type === 'text')
+			    {
+			    	return $("#" +IdType).val(valuee);//+"##"+$("#" +IdType).text();
+			    	
+			    }else if(element.tagName === 'INPUT' && element.type === 'hidden')
+			    {
+			    	return $("#" +IdType).val(valuee);//+"##"+$("#" +IdType).text();
+			    	
+			    }else if($('#'+IdType).is('textarea')){
+			    	
+			    	return $('#'+IdType).val(valuee);
+
+			    }else if(element.type && element.type === 'checkbox')
+			    {
+			    	if (valuee==="false")
+			    	{
+			    		  $("#"+IdType).hide();
+			    	}else
+			    	{
+			    		$("#"+IdType).show();
+			    	}
+			    	
+			    }else if(element.type && element.type === 'button')
+			    {
+			    	 $('#'+IdType).val(valuee);			    	
+			    }			    			
+		},
+		
 		
 		executeFunctionByName : function(functionName, context /* , args */) {
 			var args = [].slice.call(arguments).splice(2);

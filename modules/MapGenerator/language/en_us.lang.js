@@ -21,5 +21,7 @@ var mv_arr = {
 'MappingFiledValid':'Cannot Generate a map with  empty field',
 'ReturnErrorFromMap':'Somethig Was wrong try again .....',
 'ReturnSucessFromMap':'succes!! the map is created',
-'MissingtheNameofMap':'Missing the Name of Map'
+'MissingtheNameofMap':'Missing the Name of Map',
+'MissingAtrribute':'Missing the value of attribute',
+'MissingModuleName':'Missing the module name'
 }

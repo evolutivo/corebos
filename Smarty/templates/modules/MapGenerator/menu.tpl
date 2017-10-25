@@ -125,6 +125,7 @@
     	                    <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
     	                    <option value="WS">{$MOD.TypeMapWS}</option>
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
+                            <option value="ListColumns">{$MOD.ListColumns}</option>
 	                    </select>
 	                </div>	            
 	            </div>
