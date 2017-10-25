@@ -118,7 +118,7 @@
 
 				<!-- =====================LIGHITNG DESGIN LIST VIEW =========== -->
 				<div>
-					<table id="resizableTable" class="slds-table slds-table--bordered slds-table_resizable-cols slds-table--fixed-layout ld-font" style="font-size: 9px; letter-spacing: normal;">
+					<table id="resizableTable" class="slds-table slds-table--bordered slds-table_resizable-cols slds-table--fixed-layout ld-font" style="letter-spacing: normal;">
 						<thead>
 							<!-- Table Headers -->
 							<tr>
