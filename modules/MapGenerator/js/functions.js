@@ -1830,3 +1830,55 @@ function GenerateMasterData()
     });
 
 }
+
+
+function GenerateListColumns()
+{
+  var datatusend="";
+  var dataselected=App.popupJson;
+  if (!dataselected)
+  {
+    alert(mv_arr.ReturnErrorFromMap);
+    return 0;
+  }
+  var nameMap =$("#MapName").val();
+  if (nameMap.length=0)
+  {
+     alert(mv_arr.MissingtheNameofMap);
+    return 0; 
+  }
+  if (App.savehistoryar)
+  {
+    datatusend+="&savehistory="+App.savehistoryar;
+  }else
+  {
+    datatusend+="&savehistory";
+  }
+
+   jQuery.ajax({
+        type: "POST",
+        url: "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveListColumns",
+        data: "MapName=" + nameMap+"&alldata="+ JSON.stringify(dataselected)+datatusend,
+        dataType: "html",
+        async: false,
+        success: function (msg) {
+          if(msg){
+             var returndt=msg.split(",");
+             if(returndt[1]>0)
+             {
+                App.savehistoryar=msg;
+                alert(mv_arr.ReturnSucessFromMap);
+             }else
+             {
+              alert(mv_arr.ReturnErrorFromMap);
+             }        
+          }
+          //document.getElementById('results').innerHTML="";
+          //jQuery("#results").html(msg);
+        },
+        error: function () {
+            alert(mv_arr.failedcall);
+        }
+    });
+
+}

@@ -16,7 +16,7 @@
          style="float:left; overflow: hidden;width:15%" id="buttons">
 
         <ul style="border: 1px solid black;margin-right: 28px;margin-top: 0px;width: 97%;height: 62%;">
-        <li style="margin: 3px;"><button class="slds-button slds-button--brand" onclick="GenerateMasterData();" style="width:100%;">{$MOD.SaveAsMap}</button></li>
+        <li style="margin: 3px;"><button class="slds-button slds-button--brand" onclick="GenerateListColumns();" style="width:100%;">{$MOD.SaveAsMap}</button></li>
          
         </ul>
 
@@ -74,8 +74,7 @@
     </div>
 
 
-    <div id="selJoin" style="float:left; overflow: hidden;width:85%;height: 180px;
-">
+    <div id="selJoin" style="float:left; overflow: hidden;width:85%;height: 180px;">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -151,7 +150,7 @@
           </div>
             
        <br><br>
-    <div id="contenitoreJoins">
+       <div id="contenitoreJoins">
 
         <div id="sectionField">
 
@@ -180,8 +179,8 @@
 
         </div>
 
+         </div>
     </div>
-</div>
     <div id="contenitoreJoin" >        
       <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 100%;">                  
 
@@ -190,7 +189,114 @@
 </div>
 
 <div id="generatedquery">
-    <div id="results" style="margin-top: 1%;"></div>
+
+    <div id="results" style="margin-top: 1%;"> <div id="selJoin" style="float:left; overflow: hidden;width:85%;height: 180px;">
+        <div style="float:left; overflow: hidden;width:45%" id="sel1">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                       <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
+                        </select>
+                       </div>
+                </div>
+
+                 <div>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                   <input type="button" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID"
+                   style="padding: 0px;margin-top: 10px;width: 90%;">
+                 </div>
+            </div>
+            <br>
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                	<label style="font-size: initial;color: grey;">{$MOD.SelectField}</label>
+                    <div class="slds-select_container">
+                       <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
+                       
+                        </select>
+                       </div>
+                </div>
+            </div>
+           </div>
+       <div style="float:left; overflow: hidden;width:3%; margin-left: 2%; margin-right: 2%;" id="centerJoin"> =</div>
+        <div style="float:left; overflow: hidden;width:45%" id="sel2">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID"  name="secmodule" class="slds-select">
+                        </select>
+                     </div>
+                </div> 
+                <div>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                   <input type="button" class="slds-button slds-button--neutral sel" id="SecondfieldID" name="SecondfieldID"
+                   style="padding: 0px;margin-top: 10px;width: 90%;">
+                 </div>
+               </div>
+            <br>
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                
+                    	<div class="" id="SecondDiv" style="float: left;width: 100%;">
+                       <label style="font-size: initial;color: grey;">{$MOD.ChangeLabel}</label>
+                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
+                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                              <div class="slds-combobox__form-element">
+                                  <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                              </div>
+                              </div>
+                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
+                              <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,SecondField,secmodule,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                              </button>
+                          </div>
+                     </div>
+                         
+                        </div>
+                         
+                        
+                       <!--  <div style="float:right;">
+                          <a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
+                        </div> -->
+                </div>
+                
+                
+            </div>
+            
+          </div>
+            
+       <br><br>
+       <div id="contenitoreJoins">
+
+        <div id="sectionField">
+
+            <div>
+                <div class="testoDiv">
+                    <center><b>{$MOD.SelectedField}</b></center>
+                </div>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
+
+                        </div>
+                    </div>                   
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+                    <input type="hidden" name="querysequence" id="querysequence" value="">
+                    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+                    
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+         </div>
+    </div></div>
 </div>
 <div id="null"></div>
 <div>
