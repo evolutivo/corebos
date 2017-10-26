@@ -125,15 +125,42 @@ function add_content($DataDecode)
        }
 
       	 $popup = $xml->createElement("popup");
+      	 $linkfield2 = $xml->createElement("linkfield");
+	     $linkfieldtext2 = $xml->createTextNode($DataDecode[0]->temparray->FirstfieldID);
+	     $linkfield2->appendChild($linkfieldtext2);
+	     $popup->appendChild($linkfield2);
+	     $columns2 = $xml->createElement("columns");
 		 for($i=0;$i<=$countarray;$i++)
 		 {
-		 	      $linkfield2 = $xml->createElement("linkfield");
-				     $linkfieldtext2 = $xml->createTextNode($DataDecode[$i]->temparray->FirstfieldID);
-				     $linkfield2->appendChild($linkfieldtext2);
-				     $popup->appendChild($linkfield2);
-				     $columns2 = $xml->createElement("columns");
-				      
-					      	$field2 = $xml->createElement("field");
+		 	      if ($i!=0) {
+				          	
+				          		if (explode(":",$DataDecode[$i]->temparray->Firstfield)[1]!=explode(":",$DataDecode[$i-1]->temparray->Firstfield)[1] )
+				          		{
+				          			$field2 = $xml->createElement("field");
+
+							      	$label2 = $xml->createElement("label");
+							      	$labelText2=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValueFirstModuleField);
+							      	$label2->appendChild($labelText2);
+							      	$field2->appendChild($label2);
+
+							      	$name2 = $xml->createElement("name");
+							      	$nameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[1]);
+							      	$name2->appendChild($nameText2);
+							      	$field2->appendChild($name2);
+
+							      	$table2 = $xml->createElement("table");
+							      	$tableText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[0]);
+							      	$table2->appendChild($tableText2);
+							      	$field2->appendChild($table2);
+
+							      	$columnname2 = $xml->createElement("columnname");
+							      	$columnnameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[2]);
+							      	$columnname2->appendChild($columnnameText2);
+							      	$field2->appendChild($columnname2);
+				          		}
+				          }else
+				          {
+				          	$field2 = $xml->createElement("field");
 
 					      	$label2 = $xml->createElement("label");
 					      	$labelText2=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValueFirstModuleField);
@@ -154,6 +181,8 @@ function add_content($DataDecode)
 					      	$columnnameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[2]);
 					      	$columnname2->appendChild($columnnameText2);
 					      	$field2->appendChild($columnname2);
+				          }
+					      	
 					$columns2->appendChild($field2);
 				   $popup->appendChild($columns2); 
 		 }
