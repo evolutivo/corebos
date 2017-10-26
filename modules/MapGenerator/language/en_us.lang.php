@@ -92,6 +92,7 @@ $mod_strings = Array(
     'ListColumns'=>'List Columns',    
     'ChangeLabel'=>'Change Label name',
     'SelectedField'=>'Selected Fields',
+    'popupPlace'=>'Popup Screen',
 
 
 );

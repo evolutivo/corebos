@@ -3,10 +3,13 @@
 
 
 $getValue=$_POST["DefaultValue"];
+$DefaultValueFirstModuleField=$_POST["DefaultValueFirstModuleField"];
 if (!empty($getValue)) {
 	// print_r(explode(":",$getValue));
 	echo GetLabelName(explode(":",$getValue)[0],explode(":",$getValue)[1]);
-} else {
+} else if (!empty($DefaultValueFirstModuleField)) {
+	// print_r(explode(":",$getValue));
+	echo GetLabelName(explode(":",$DefaultValueFirstModuleField)[0],explode(":",$DefaultValueFirstModuleField)[1]);
 }
 
 

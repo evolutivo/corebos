@@ -255,6 +255,7 @@
 			var returndata = null;
 			var returndata = App.utils.PostDataGeneric(urlsend, data);
 			$("#" + idfieldfill).empty();
+			$("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
 			$("#" + idfieldfill).append(VauefromPost);
 			VauefromPost = null;
 		},
@@ -316,8 +317,7 @@
 				{
 					$("#" + firstfieldid).val(str3);
 				}
-				// $("#" + field).append('<option value=""
-				// selected="selected">Select a value</option>');
+				$("#" + field).append('<option value="">Select a value</option>');
 				$("#" + field).append(str1);
 				VauefromPost = null;
 			}
@@ -416,7 +416,7 @@
 			 	 			}	
 
 			 	 	}else{
-			 	 		alert(mv_arr.ReturnErrorFromMap);
+			 	 		alert(mv_arr.MappingFiledValid);
 			 	 	}
 			 }
 
@@ -783,7 +783,7 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.DivPopup(idd, firmod[2]);
+				var alerstdiv = App.utils.DivPopup(idd, firmod);
 				$('#' + namediv).append(alerstdiv);
 
 			}
@@ -833,7 +833,7 @@
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	if ($("#" +IdType+ " option:selected").val().length>0)
+			    	if ($("#" +IdType+ " option:selected").val())
 			    	{
 			    		return $("#" +IdType+ " option:selected").val();//+"##"+$("#" +IdType+ " option:selected").text();
 			    	}else
@@ -879,7 +879,7 @@
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	if ($("#" +IdType+ " option:selected").val().length>0)
+			    	if ($("#" +IdType+ " option:selected").val())
 			    	{
 			    		return $("#" +IdType+ " option:selected").text();
 			    	}else
