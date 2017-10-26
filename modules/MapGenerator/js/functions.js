@@ -1836,9 +1836,9 @@ function GenerateListColumns()
 {
   var datatusend="";
   var dataselected=App.popupJson;
-  if (!dataselected)
+  if (dataselected.length==0)
   {
-    alert(mv_arr.ReturnErrorFromMap);
+    alert(mv_arr.MappingFiledValid);
     return 0;
   }
   var nameMap =$("#MapName").val();
