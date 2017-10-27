@@ -20,8 +20,6 @@
       </div>
     </div>{*End div contenitorejoin*}
 
-        <!--  <ul style="border: 1px solid black;margin-right: 28px;margin-top: 0px;width: 97%;height: 62%;">
-         <li style="margin: 3px;"><button class="slds-button slds-button--brand" onclick="GenerateListColumns();" style="width:100%;">{$MOD.SaveAsMap}</button></li> -->
          
         </ul>
 
@@ -136,18 +134,12 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                             <!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,SecondField,secmodule,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
-                              </button> -->
+                             
                           </div>
                      </div>
                          
                         </div>
                          
-                        
-                       <!--  <div style="float:right;">
-                          <a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
-                        </div> -->
                 </div>
                 
                 
@@ -223,11 +215,7 @@
                      </div>
                          
                         </div>
-                         
                         
-                       <!--  <div style="float:right;">
-                          <a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
-                        </div> -->
                 </div>
                 
                 

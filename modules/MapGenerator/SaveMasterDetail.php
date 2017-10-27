@@ -32,8 +32,9 @@ if (!empty($Data)) {
      $focust->column_fields['assigned_user_id'] = 1;
      $focust->column_fields['mapname'] = $MapName;
      $focust->column_fields['content']=add_content($jsondecodedata);
-     $focust->column_fields['maptype'] ="Master Detail";
-     //$focust->column_fields['description']= add_description($decodedata);
+     $focust->column_fields['maptype'] ="MasterDetailLayout";
+     $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+     $focust->column_fields['description']= add_description($jsondecodedata);
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
       {
@@ -111,32 +112,32 @@ function add_content($DataDecode)
 
       	 $field = $xml->createElement("field");
       	 $fieldtype = $xml->createElement("fieldtype");
-	     $fieldtypeText= $xml->createTextNode("corebos");
-	     $fieldtype->appendChild($fieldtypeText);
-	     $field->appendChild($fieldtype);
+  	     $fieldtypeText= $xml->createTextNode("corebos");
+  	     $fieldtype->appendChild($fieldtypeText);
+  	     $field->appendChild($fieldtype);
 
-	     $fieldname = $xml->createElement("fieldname");
-	     $fieldnameText= $xml->createTextNode( explode(":",$value->temparray->Firstfield)[2]);
-	     $fieldname->appendChild($fieldnameText);
-	     $field->appendChild($fieldname);
+  	     $fieldname = $xml->createElement("fieldname");
+  	     $fieldnameText= $xml->createTextNode( explode(":",$value->temparray->Firstfield)[2]);
+  	     $fieldname->appendChild($fieldnameText);
+  	     $field->appendChild($fieldname);
 
-	     $editable = $xml->createElement("editable");
-	     $editableText= $xml->createTextNode( $value->temparray->editablechk);
-	     $editable->appendChild($editableText);
-	     $field->appendChild($editable);
+  	     $editable = $xml->createElement("editable");
+  	     $editableText= $xml->createTextNode( $value->temparray->editablechk);
+  	     $editable->appendChild($editableText);
+  	     $field->appendChild($editable);
 
 
-	     $mandatory = $xml->createElement("mandatory");
-	     $mandatoryText= $xml->createTextNode( $value->temparray->mandatorychk);
-	     $mandatory->appendChild($mandatoryText);
-	     $field->appendChild($mandatory);
+  	     $mandatory = $xml->createElement("mandatory");
+  	     $mandatoryText= $xml->createTextNode( $value->temparray->mandatorychk);
+  	     $mandatory->appendChild($mandatoryText);
+  	     $field->appendChild($mandatory);
 
-	     $hidden = $xml->createElement("hidden");
-	     $hiddenText= $xml->createTextNode( $value->temparray->mandatorychk);
-	     $hidden->appendChild($hiddenText);
-	     $field->appendChild($hidden);
+  	     $hidden = $xml->createElement("hidden");
+  	     $hiddenText= $xml->createTextNode( $value->temparray->mandatorychk);
+  	     $hidden->appendChild($hiddenText);
+  	     $field->appendChild($hidden);
 
-	     $fields->appendChild($field);
+  	     $fields->appendChild($field);
 
       }
      $detailview->appendChild($fields);
@@ -145,6 +146,74 @@ function add_content($DataDecode)
     return $xml->saveXML();
 
 }
+
+
+function add_description($DataDecode){
+    
+    //$DataDecode = json_decode($datades, true);
+    $countarray=(count($DataDecode)-1);
+     
+    $xml=new DOMDocument("1.0");
+    $root=$xml->createElement("map");
+    $xml->appendChild($root);
+    //strt create the first module
+    $Fmodule = $xml->createElement("Fmodule");
+
+    $Fmoduleid = $xml->createElement("FmoduleID");
+    $FmoduleText = $xml->createTextNode("");
+    $Fmoduleid->appendChild($FmoduleText);
+    
+    $Fmodulename=$xml->createElement("Fmodulename");
+    $FmodulenameText=$xml->createTextNode(preg_replace('/\s+/', '',$DataDecode[0]->temparray->FirstModule));
+    $Fmodulename->appendChild($FmodulenameText);
+
+    $Fmodule->appendChild($Fmoduleid);
+    $Fmodule->appendChild($Fmodulename);
+
+    //second module
+    $Secmodule = $xml->createElement("Secmodule");
+
+    $Secmoduleid = $xml->createElement("SecmoduleID");
+    $SecmoduleText = $xml->createTextNode(preg_replace('/\s+/','',explode(";",$DataDecode[0]->temparray->Secmodule)[1]));
+    $Secmoduleid->appendChild($SecmoduleText);     
+    $Secmodulename=$xml->createElement("Secmodulename");     
+    $SecmodulenameText=$xml->createTextNode( trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",$DataDecode[0]->temparray->secmodule)[0])))));     
+    $Secmodulename->appendChild($SecmodulenameText);    
+    $Secmodule->appendChild($Secmoduleid);
+    $Secmodule->appendChild($Secmodulename);     
+    $fields = $xml->createElement("fields");
+
+    for($i=0;$i<=$countarray;$i++)
+       {          
+        //     //get target field name
+                 $field = $xml->createElement("field");
+
+                $label = $xml->createElement("fieldID");
+                $labelText=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[1]);
+                $label->appendChild($labelText);
+                $field->appendChild($label);
+
+                $name = $xml->createElement("fieldname");
+                $nameText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultText);
+                $name->appendChild($nameText);
+                $field->appendChild($name);
+              $fields->appendChild($field);                                      
+       }
+    
+    
+
+    //$root->appendChild($name);
+     $root->appendChild($Fmodule);
+     $root->appendChild($Secmodule);
+     $root->appendChild($fields);
+     $xml->formatOutput = true;
+     return $xml->saveXML();   
+}
+
+
+
+
+
 
 function add_aray_for_history($decodedata)
  {

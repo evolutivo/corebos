@@ -32,8 +32,9 @@ if (!empty($Data)) {
      $focust->column_fields['assigned_user_id'] = 1;
      $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
      $focust->column_fields['content']=add_content($jsondecodedata);
-     $focust->column_fields['maptype'] ="Master Detail";
-     //$focust->column_fields['description']= add_description($decodedata);
+     $focust->column_fields['maptype'] ="ListColumns";
+     $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+     $focust->column_fields['description']= add_description($jsondecodedata);
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
       {
@@ -59,7 +60,9 @@ if (!empty($Data)) {
 
 
 
-
+/**
+ * @param DataDecode {Array} {This para is a array }
+ */
 function add_content($DataDecode)
 {
      //$DataDecode = json_decode($dat, true);
@@ -83,7 +86,7 @@ function add_content($DataDecode)
      // $hw=0;
      for($i=0;$i<=$countarray;$i++)
        {       		
-     //     //get target field name
+     		//     //get target field name
                $relatedlist = $xml->createElement("relatedlist");
                  $module = $xml->createElement("module");
 			     $moduletext = $xml->createTextNode($DataDecode[$i]->temparray->FirstModule);
@@ -197,7 +200,134 @@ function add_content($DataDecode)
      return $xml->saveXML();
 }
 
+function add_description($DataDecode){
+    
+    //$DataDecode = json_decode($datades, true);
+    $countarray=(count($DataDecode)-1);
+     
+    $xml=new DOMDocument("1.0");
+    $root=$xml->createElement("map");
+    $xml->appendChild($root);
+    //strt create the first module
+    $Fmodule = $xml->createElement("Fmodule");
 
+    $Fmoduleid = $xml->createElement("FmoduleID");
+    $FmoduleText = $xml->createTextNode("");
+    $Fmoduleid->appendChild($FmoduleText);
+    
+    $Fmodulename=$xml->createElement("Fmodulename");
+    $FmodulenameText=$xml->createTextNode(preg_replace('/\s+/', '',$DataDecode[0]->temparray->FirstModule));
+    $Fmodulename->appendChild($FmodulenameText);
+
+    $Fmodule->appendChild($Fmoduleid);
+    $Fmodule->appendChild($Fmodulename);
+
+    //second module
+    $Secmodule = $xml->createElement("Secmodule");
+
+    $Secmoduleid = $xml->createElement("SecmoduleID");
+    $SecmoduleText = $xml->createTextNode(preg_replace('/\s+/','',explode(";",$DataDecode[0]->temparray->Secmodule)[1]));
+    $Secmoduleid->appendChild($SecmoduleText);     
+    $Secmodulename=$xml->createElement("Secmodulename");     
+    $SecmodulenameText=$xml->createTextNode( trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",$DataDecode[0]->temparray->secmodule)[0])))));     
+    $Secmodulename->appendChild($SecmodulenameText);    
+    $Secmodule->appendChild($Secmoduleid);
+    $Secmodule->appendChild($Secmodulename);     
+    $fields = $xml->createElement("fields");
+
+    for($i=0;$i<=$countarray;$i++)
+       {       		
+     		//     //get target field name
+	               $field = $xml->createElement("field");
+
+				      	$label = $xml->createElement("label");
+				      	$labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValue);
+				      	$label->appendChild($labelText);
+				      	$field->appendChild($label);
+
+				      	$name = $xml->createElement("name");
+				      	$nameText=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->SecondField)[1]);
+				      	$name->appendChild($nameText);
+				      	$field->appendChild($name);
+
+				      	$table = $xml->createElement("table");
+				      	$tableText=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->SecondField)[0]);
+				      	$table->appendChild($tableText);
+				      	$field->appendChild($table);
+
+				      	$columnname = $xml->createElement("columnname");
+				      	$columnnameText=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->SecondField)[2]);
+				      	$columnname->appendChild($columnnameText);
+				      	$field->appendChild($columnname);			      				      	
+			       
+			        $fields->appendChild($field);			       			                     
+       }
+    
+    for ($i=0; $i <=$countarray ; $i++) { 
+
+
+        
+         if ($i!=0) {
+				          	
+	      		if (explode(":",$DataDecode[$i]->temparray->Firstfield)[1]!=explode(":",$DataDecode[$i-1]->temparray->Firstfield)[1] )
+	      		{
+	      			$field2 = $xml->createElement("field");
+
+			      	$label2 = $xml->createElement("label");
+			      	$labelText2=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValueFirstModuleField);
+			      	$label2->appendChild($labelText2);
+			      	$field2->appendChild($label2);
+
+			      	$name2 = $xml->createElement("name");
+			      	$nameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[1]);
+			      	$name2->appendChild($nameText2);
+			      	$field2->appendChild($name2);
+
+			      	$table2 = $xml->createElement("table");
+			      	$tableText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[0]);
+			      	$table2->appendChild($tableText2);
+			      	$field2->appendChild($table2);
+
+			      	$columnname2 = $xml->createElement("columnname");
+			      	$columnnameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[2]);
+			      	$columnname2->appendChild($columnnameText2);
+			      	$field2->appendChild($columnname2);
+	      		}
+	      }else
+          {
+          	$field2 = $xml->createElement("field");
+
+	      	$label2 = $xml->createElement("label");
+	      	$labelText2=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValueFirstModuleField);
+	      	$label2->appendChild($labelText2);
+	      	$field2->appendChild($label2);
+
+	      	$name2 = $xml->createElement("name");
+	      	$nameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[1]);
+	      	$name2->appendChild($nameText2);
+	      	$field2->appendChild($name2);
+
+	      	$table2 = $xml->createElement("table");
+	      	$tableText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[0]);
+	      	$table2->appendChild($tableText2);
+	      	$field2->appendChild($table2);
+
+	      	$columnname2 = $xml->createElement("columnname");
+	      	$columnnameText2=$xml->createTextNode(explode(":",$DataDecode[$i]->temparray->Firstfield)[2]);
+	      	$columnname2->appendChild($columnnameText2);
+	      	$field2->appendChild($columnname2);
+          }
+          
+          $fields->appendChild($field2);
+    }//end for
+
+    //$root->appendChild($name);
+     $root->appendChild($Fmodule);
+     $root->appendChild($Secmodule);
+     $root->appendChild($fields);
+     $xml->formatOutput = true;
+     return $xml->saveXML();   
+}
 
 function add_aray_for_history($decodedata)
  {

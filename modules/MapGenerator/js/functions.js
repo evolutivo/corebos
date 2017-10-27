@@ -1784,7 +1784,7 @@ function GenerateMasterData()
 {
   var datatusend="";
   var dataselected=App.popupJson;
-  if (!dataselected)
+  if (dataselected.length==0)
   {
     alert(mv_arr.ReturnErrorFromMap);
     return 0;
