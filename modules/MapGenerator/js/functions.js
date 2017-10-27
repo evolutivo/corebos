@@ -1882,3 +1882,9 @@ function GenerateListColumns()
     });
 
 }
+
+
+/**
+ * SELECT * from vtiger_tab;
+ *SELECT * from vtiger_field;
+ */

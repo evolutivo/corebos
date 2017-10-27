@@ -1,4 +1,11 @@
 <?php
+
+
+// SELECT * from vtiger_tab join vtiger_field  ON vtiger_tab.tabid=vtiger_field.tabid where name='Adocdetail' and uitype='10';
+
+// SELECT * from  vtiger_fieldmodulerel;
+
+// Select * from vtiger_entityname where modulename='Adocdetail'
  
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -30,6 +37,10 @@ if (!empty($Data))
   {
      $decodedata = json_decode($Data, true);    
      
+     foreach ($decodedata as $key) {
+         echo findIdrelationAndName(explode(":",$key['SecondFieldOptionGrup'])[0])."<br>";
+     }
+     exit();
     include_once('modules/cbMap/cbMap.php');
      $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
@@ -367,8 +378,24 @@ function Check_table_if_exist($tableName,$primaryIds="")
 
 }
 
+/**
+ * @param  [String ] the name of modul
+ * @return [String] rerurn related field 
+ */
+function findIdrelationAndName($NameofModul)
+{
+     global $adb;
+     if (!empty($NameofModul))
+     {  
+            $q=$adb->query("SELECT vtn.modulename,vtn.entityidfield from vtiger_entityname AS vtn JOIN vtiger_field AS vtf ON vtn.tabid=vtf.tabid and vtf.uitype=10 WHERE vtn.tablename='{$NameofModul}' LIMIT 1");
+             return $adb->query_result($q,0,'modulename').":".$adb->query_result($q,0,'entityidfield');
+         
+     } else {
+         return "";
+     }
+     
 
-
+}
 
 
 

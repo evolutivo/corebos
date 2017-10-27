@@ -190,14 +190,19 @@
 			var SecondModuletxt = $("#" + idrelation[2] + " option:selected")
 					.text();
 
+			var SecondModuleval = $("#" + idrelation[2] + " option:selected")
+					.val();// $('#mod').value;
+			
 			if(elem[0].nodeName === "SELECT"){
 				var SecondFieldval = $(this).find('option:selected').val();
-				var SecondFieldtext = $(this).find('option:selected').text();				
+				var SecondFieldtext = $(this).find('option:selected').text();
+				 var SecondFieldOptionGrup = App.utils.GetSelectParent(elem[0].id);				
 			}else if(elem[0].nodeName === "BUTTON"){
 				if (FirstFieldval) {
 				   var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
 		           var SecondFieldtext = "Default-Value";
 		            $("#" + idrelation[3]).val("");	
+		           
 				}
 				
 			}
@@ -206,7 +211,7 @@
 			{
 				App.utils.addINJSON(FirstModuleval, FirstModuletxt, FirstFieldval,
 						FirstFieldtxt, SecondModuleval, SecondModuletxt,
-						SecondFieldval, SecondFieldtext);
+						SecondFieldval, SecondFieldtext,SecondFieldOptionGrup);
 
 				var check = false;
 				var length_history = App.JSONForCOndition.length;
@@ -661,7 +666,7 @@
 
 		addINJSON : function(FirstModuleval, FirstModuletxt, FirstFieldval,
 				FirstFieldtxt, SecondModuleval, SecondModuletxt,
-				SecondFieldval, SecondFieldtext) {
+				SecondFieldval, SecondFieldtext,SecondFieldOptionGrup) {
 			App.JSONForCOndition.push({
 				idJSON : App.JSONForCOndition.length + 1,
 
@@ -676,6 +681,7 @@
 
 				SecondFieldval : SecondFieldval,
 				SecondFieldtext : SecondFieldtext,
+				SecondFieldOptionGrup : SecondFieldOptionGrup,
 			// selectedfields: JSONARRAY,
 			// selectedfields: {JSONARRAY}
 			});
@@ -688,7 +694,8 @@
 				if (App.utils.IsSelectORDropDown(params[i]).length>0)
 				{
 					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
-					temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);		
+					temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
+					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);		
 					check=true;
 				}else
 				{
@@ -916,6 +923,25 @@
 			    	
 			    }
 
+			    return "";			
+		},
+
+		GetSelectParent:function(IdType){
+			    
+			    var element = document.getElementById(IdType);
+			    
+			    if(element.tagName === 'SELECT')
+			    {
+			    	if ($("#" +IdType+ " option:selected").val())
+			    	{
+			    		return $("#" +IdType+ " option:selected").closest('optgroup').attr('label');
+			    	}else
+			    	{
+			    		return "";	
+			    	}
+			    	
+			    	
+			    }
 			    return "";			
 		},
 

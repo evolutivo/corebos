@@ -49,7 +49,7 @@ if (!empty($Data)) {
                     
       } else 
       {
-      	 echo "Edmondi save in map,hghghghghgh";
+      	 // echo "Edmondi save in map,hghghghghgh";
           exit();
          //echo focus->id;
          echo "Error!! something went wrong";
@@ -69,12 +69,12 @@ function add_content($DataDecode)
      $xml->appendChild($root);
 
      $originmodule = $xml->createElement("originmodule");
-     $originmoduletxt = $xml->createTextNode($DataDecode[0]->temparray->FirstModule);
+     $originmoduletxt = $xml->createTextNode(explode(";",$DataDecode[0]->temparray->secmodule)[0]);
      $originmodule->appendChild($originmoduletxt);
      $root->appendChild($originmodule);
 
      $target = $xml->createElement("targetmodule");
-     $targettxt = $xml->createTextNode(explode(";",$DataDecode[0]->temparray->secmodule)[0]);
+     $targettxt = $xml->createTextNode($DataDecode[0]->temparray->FirstModule);
      $target->appendChild($targettxt);
      $root->appendChild($target);
 
