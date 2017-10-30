@@ -18,6 +18,7 @@ if (!empty($modules)) {
 	 		// echo "value=".$key."<br>";
 	 		$datareturn.=getModFields(explode(";", $key)[0], $acno.$dbname);
 	 	}
+	 	$datareturn.=getModFields($modules);
 	}else
 	{
 		echo getModFields($modules);

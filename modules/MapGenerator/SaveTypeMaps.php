@@ -37,10 +37,10 @@ if (!empty($Data))
   {
      $decodedata = json_decode($Data, true);    
      
-     foreach ($decodedata as $key) {
-         echo findIdrelationAndName(explode(":",$key['SecondFieldOptionGrup'])[0])."<br>";
-     }
-     exit();
+     // foreach ($decodedata as $key) {
+     //     echo findIdrelationAndName(trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",  $key['SecondModuleval'])[0])))),explode(":",$key['SecondFieldOptionGrup'])[0])."<br>";
+     // }
+     // exit();
     include_once('modules/cbMap/cbMap.php');
      $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
@@ -48,6 +48,7 @@ if (!empty($Data))
      $focust->column_fields['content']=add_content($decodedata);
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['description']= add_description($decodedata);
+     $focust->column_fields['targetname'] =preg_replace('/\s+/', '',$DataDecode[0]['FirstModuleval']);
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
       {
@@ -117,50 +118,81 @@ function add_content($DataDecode)
                  $fieldideText = $xml->createTextNode("");
                  $fieldID->appendChild($fieldideText);         
                  $field->appendChild($fieldID);
-                // echo $i;
+                $secondmoduless=trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",  $DataDecode[0]['SecondModuleval'])[0]))));
+                $relationModule=explode(":",$DataDecode[$i]['SecondFieldOptionGrup'])[0];
                  if ($DataDecode[$i]['SecondFieldtext']=="Default-Value")
-                 {
-                     $value = $xml->createElement("value");
-                     $valueText = $xml->createTextNode($DataDecode[$i]['SecondFieldval']);
-                     $value->appendChild($valueText);
-                     $field->appendChild($value);
-                 }         
-                 //target module fields
-                 $Orgfields = $xml->createElement("Orgfields");
-                 $field->appendChild($Orgfields);
-                
-                 if ($DataDecode[$i]['SecondFieldtext']=="Default-Value")
-                 {
-                     $OrgRelfield= $xml->createElement("Orgfield");
+                     {
+                         $value = $xml->createElement("value");
+                         $valueText = $xml->createTextNode($DataDecode[$i]['SecondFieldval']);
+                         $value->appendChild($valueText);
+                         $field->appendChild($value);
+                     }         
+                     //target module fields
+                     $Orgfields = $xml->createElement("Orgfields");
+                     $field->appendChild($Orgfields);                                    
+                 if ((!empty($secondmoduless) && !empty($relationModule))&& $secondmoduless !=$relationModule ) {
+
+                     // $Orgfields = $xml->createElement("Orgfields");
+                     // $field->appendChild($Orgfields);
+
+                     $Relfield= $xml->createElement("Relfield");
+                         
+                     $RelfieldName = $xml->createElement("RelfieldName");
+                     $RelfieldNameText= $xml->createTextNode(preg_replace('/\s+/','', explode(":",$DataDecode[$i]['SecondFieldval'])[2]));
+                     $RelfieldName->appendChild($RelfieldNameText);
+                     $Relfield->appendChild($RelfieldName);
                      
-                     $OrgRelfieldName = $xml->createElement("OrgfieldName");
-                     $OrgRelfieldNameText= $xml->createTextNode("");
-                     $OrgRelfieldName->appendChild($OrgRelfieldNameText);
-                     $OrgRelfield->appendChild($OrgRelfieldName); 
+                     $RelModule = $xml->createElement("RelModule");
+                     $RelModuleText= $xml->createTextNode($relationModule);
+                     $RelModule->appendChild($RelModuleText);
+                     $Relfield->appendChild($RelModule);
+
+                     $linkfield = $xml->createElement("linkfield");
+                     $linkfieldText= $xml->createTextNode(findIdrelationAndName($secondmoduless,$relationModule));
+                     $linkfield->appendChild($linkfieldText);
+                     $Relfield->appendChild($linkfield);
+                     
+                     $Orgfields->appendChild($Relfield);
+
+                     
+                 } else {
                     
-                     $OrgfieldID = $xml->createElement("OrgfieldID");
-                     $OrgfieldIDText= $xml->createTextNode("");
-                     $OrgfieldID->appendChild($OrgfieldIDText);
-                     $OrgRelfield->appendChild($OrgfieldID); 
-                     
-                     $Orgfields->appendChild($OrgRelfield);
-                    
-                 }else
-                 {
-                     $OrgRelfield= $xml->createElement("Orgfield");
-                     
-                     $OrgRelfieldName = $xml->createElement("OrgfieldName");
-                     $OrgRelfieldNameText= $xml->createTextNode(preg_replace('/\s+/','', explode(":",$DataDecode[$i]['SecondFieldval'])[2]));
-                     $OrgRelfieldName->appendChild($OrgRelfieldNameText);
-                     $OrgRelfield->appendChild($OrgRelfieldName);
-                     
-                     $OrgfieldID = $xml->createElement("OrgfieldID");
-                     $OrgfieldIDText= $xml->createTextNode("");
-                     $OrgfieldID->appendChild($OrgfieldIDText);
-                     $OrgRelfield->appendChild($OrgfieldID);
-                     
-                     $Orgfields->appendChild($OrgRelfield);
+                     if ($DataDecode[$i]['SecondFieldtext']=="Default-Value")
+                     {
+                         $OrgRelfield= $xml->createElement("Orgfield");
+                         
+                         $OrgRelfieldName = $xml->createElement("OrgfieldName");
+                         $OrgRelfieldNameText= $xml->createTextNode("");
+                         $OrgRelfieldName->appendChild($OrgRelfieldNameText);
+                         $OrgRelfield->appendChild($OrgRelfieldName); 
+                        
+                         $OrgfieldID = $xml->createElement("OrgfieldID");
+                         $OrgfieldIDText= $xml->createTextNode("");
+                         $OrgfieldID->appendChild($OrgfieldIDText);
+                         $OrgRelfield->appendChild($OrgfieldID); 
+                         
+                         $Orgfields->appendChild($OrgRelfield);
+                        
+                     }else
+                     {
+                         $OrgRelfield= $xml->createElement("Orgfield");
+                         
+                         $OrgRelfieldName = $xml->createElement("OrgfieldName");
+                         $OrgRelfieldNameText= $xml->createTextNode(preg_replace('/\s+/','', explode(":",$DataDecode[$i]['SecondFieldval'])[2]));
+                         $OrgRelfieldName->appendChild($OrgRelfieldNameText);
+                         $OrgRelfield->appendChild($OrgRelfieldName);
+                         
+                         $OrgfieldID = $xml->createElement("OrgfieldID");
+                         $OrgfieldIDText= $xml->createTextNode("");
+                         $OrgfieldID->appendChild($OrgfieldIDText);
+                         $OrgRelfield->appendChild($OrgfieldID);
+                         
+                         $Orgfields->appendChild($OrgRelfield);
+                     }
                  }
+                 
+
+                    
                  
                  
                  $del = $xml->createElement("delimiter");
@@ -379,17 +411,18 @@ function Check_table_if_exist($tableName,$primaryIds="")
 }
 
 /**
- * @param  [String ] the name of modul
- * @return [String] rerurn related field 
+ * [this function is to get from db the field id for 2 modul ]
+ * @param  [String] $NameofModul [First modul name]
+ * @param  [String] $RelModul    [second modul to fin the relation]
+ * @return [String]              [return the field id for those two relation ]
  */
-function findIdrelationAndName($NameofModul)
+function findIdrelationAndName($NameofModul,$RelModul)
 {
      global $adb;
-     if (!empty($NameofModul))
+     if (!empty($NameofModul) && !empty($RelModul))
      {  
-            $q=$adb->query("select fm.fieldid,fi.* from vtiger_fieldmodulerel as fm JOIN vtiger_field as fi ON fm.fieldid=fi.fieldid 
-                WHERE module='InventoryDetails' and relmodule='Services'");
-             return $adb->query_result($q,0,'modulename').":".$adb->query_result($q,0,'entityidfield');
+            $q=$adb->query("select fm.fieldid,fi.* from vtiger_fieldmodulerel as fm JOIN vtiger_field as fi ON fm.fieldid=fi.fieldid WHERE module='$NameofModul' and relmodule='$RelModul'");
+             return $adb->query_result($q,0,'fieldname');//$adb->query_result($q,0,'fieldid').":".
          
      } else {
          return "";
@@ -397,5 +430,4 @@ function findIdrelationAndName($NameofModul)
      
 
 }
-
 
