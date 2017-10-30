@@ -408,15 +408,24 @@
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
 			 var showtext=elem.attr(" data-show-id");
+			 var Typeofpopup=elem.attr('data-add-type');
 			 if (allids)
 			 {
 			 	var allidarray=allids.split(",");
-			 	 App.utils.Add_to_universal_popup(allidarray);
+			 	if (Typeofpopup)
+			 	{
+			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup);
+			 	} else
+			 	{
+			 		App.utils.Add_to_universal_popup(allidarray,"Default");
+			 	}
+			 	 
 			 	 if (App.popupJson.length>0)
 			 	 	{	
 			 	 		for (var i = 0; i <= App.popupJson.length-1; i++) {
 			 	 				var module=App.popupJson[i].temparray[`DefaultText`];
-			 	 				var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin");
+			 	 				var typeofppopup=App.popupJson[i].temparray['JsonType'];
+			 	 				var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin",typeofppopup);
 			 	 				$('#contenitoreJoin').append(divinsert);
 			 	 			}	
 
@@ -687,12 +696,13 @@
 			});
 		},
 
-		Add_to_universal_popup:function(params,divid){
+		Add_to_universal_popup:function(params,jsonType){
 			var temparray={};
 			var check =false;
 			for (var i =0; i <= params.length - 1; i++) {
 				if (App.utils.IsSelectORDropDown(params[i]).length>0)
 				{
+					temparray['JsonType']=jsonType;
 					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
 					temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
 					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);		
@@ -781,7 +791,7 @@
 			for (var ii = 0; ii < App.popupJson.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
 				var firmod = App.popupJson[ii].temparray["DefaultText"];
-				
+				var JsonType = App.popupJson[ii].temparray["JsonType"];
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
 				if (ii == (length_history - 1)) {
@@ -790,19 +800,19 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.DivPopup(idd, firmod);
+				var alerstdiv = App.utils.DivPopup(idd, firmod,'',JsonType);
 				$('#' + namediv).append(alerstdiv);
 
 			}
 		},
 
 
-		DivPopup : function(Idd,firstmodule,divid) {
+		DivPopup : function(Idd,firstmodule,divid,typepopup) {
 			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
 					+ '">';
 			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
-			INSertAlerstJOIN += '<strong># Add !  '+(Idd+1)+'</strong> '+firstmodule;
+			INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+firstmodule;
 			
 			INSertAlerstJOIN += '</div';
 			return INSertAlerstJOIN;

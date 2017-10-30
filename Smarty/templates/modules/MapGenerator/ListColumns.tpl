@@ -122,24 +122,26 @@
                  </div>
                </div>
             <br>
-            <div class="slds-form-element">
+              <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
-                    	<div class="" id="SecondDiv" style="float: left;width: 100%;">
-                       <label style="font-size: initial;color: grey;">{$MOD.ChangeLabel}</label>
+                      <div class="" id="SecondDiv" style="float: left;width: 100%;">
+                       
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValue" placeholder="Change the label if you want" id="defaultvalue" style="width:268px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                             
+                              <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,FirstfieldID,SecondfieldID,SecondField,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                              </button>
                           </div>
                      </div>
                          
                         </div>
-                         
+                        
                 </div>
                 
                 
@@ -208,9 +210,10 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,SecondField,secmodule,SecondfieldID,DefaultValue,Firstfield,DefaultValueFirstModuleField" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Popup" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
+                            
                           </div>
                      </div>
                          
