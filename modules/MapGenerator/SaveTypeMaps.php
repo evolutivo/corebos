@@ -387,7 +387,8 @@ function findIdrelationAndName($NameofModul)
      global $adb;
      if (!empty($NameofModul))
      {  
-            $q=$adb->query("SELECT vtn.modulename,vtn.entityidfield from vtiger_entityname AS vtn JOIN vtiger_field AS vtf ON vtn.tabid=vtf.tabid and vtf.uitype=10 WHERE vtn.tablename='{$NameofModul}' LIMIT 1");
+            $q=$adb->query("select fm.fieldid,fi.* from vtiger_fieldmodulerel as fm JOIN vtiger_field as fi ON fm.fieldid=fi.fieldid 
+                WHERE module='InventoryDetails' and relmodule='Services'");
              return $adb->query_result($q,0,'modulename').":".$adb->query_result($q,0,'entityidfield');
          
      } else {
@@ -398,10 +399,3 @@ function findIdrelationAndName($NameofModul)
 }
 
 
-
-
-
-/**
-* 721221a5267955137d8de87aeeb5ed2c,1279
-* 721221a5267955137d8de87aeeb5ed2c,1280
-*/
