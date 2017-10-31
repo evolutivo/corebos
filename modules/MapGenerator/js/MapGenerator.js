@@ -252,6 +252,8 @@
 					App.GetModuleForMapGenerator.GetSecondField);
 			$(document).on('click', 'a[data-showhide-load="true"]',
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
+			$(document).on('blur', 'input[data-controll="true"]',
+					App.GetModuleForMapGenerator.checkInput);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -326,8 +328,8 @@
 				$("#" + field).append(str1);
 				VauefromPost = null;
 			}
-		},
-		GetSecondField : function(event) {
+		 },
+		 GetSecondField : function(event) {
 			if (event)
 				event.preventDefault();
 			var elem = $(this);
@@ -377,17 +379,64 @@
 		},
 
 		ChangeTextDropDown : function() {
-//			if (event)
-//				event.preventDefault();
+		//			if (event)
+		//				event.preventDefault();
 			var elem = $(this);
 			var IdChange = elem.attr("data-tools-id").split(",");
-//			if (IdChange.length<1) {
+		//			if (IdChange.length<1) {
 				//elem.click(function() {
 					$("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
 				//});
-//			}
+     //			}
 
 		},
+	 checkInput:function(event)
+	 {
+		if (event) {event.preventDefault();}
+
+		var elem=$(this);
+		var filecheck=elem.attr('data-controll-file');
+		var valuetxt=elem.val();
+		var idtxt=elem.attr('id');;
+		var  idhshow=elem.attr('data-controll-idlabel');
+		if (filecheck)
+		{
+			if (valuetxt.length<5)
+			{
+				$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
+				$('#'+idhshow).html(mv_arr.NameQuery);
+				//elem.focus();
+			}else
+			{
+				var dat=`${idtxt}=${valuetxt}`;
+				App.utils.PostDataGeneric(filecheck.split(','),dat);
+				if (VauefromPost)
+				{
+					if (VauefromPost==="0")
+					{
+						$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
+						$('#'+idhshow).html(mv_arr.MapNameNotExist);
+						//elem.focus();
+					}else
+					{
+						$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
+						$('#'+idhshow).html(mv_arr.MapNameExist).fadeOut('slow',4000);
+						//elem.focus();
+					}
+
+				}else
+				{
+					
+				}
+			}
+
+
+		}else
+		{
+			alert(mv_arr.NameOFMapMissingFile);
+		}
+
+	 },
 
 	};
 
@@ -433,8 +482,6 @@
 			 	 		alert(mv_arr.MappingFiledValid);
 			 	 	}
 			 }
-
-
 		},
 
 		closemodal:function(){
@@ -469,9 +516,6 @@
 			    }
 			}
 		},
-
-
-
 	};
 
 	App.SelectModule = {
@@ -604,7 +648,6 @@
 			$("#" + datarelationid).append(str1);
 			VauefromPost = null;
 		},
-
 	};
 
 	App.utils = {

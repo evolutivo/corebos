@@ -23,5 +23,8 @@ var mv_arr = {
 'ReturnSucessFromMap':'succes!! the map is created',
 'MissingtheNameofMap':'Missing the Name of Map',
 'MissingAtrribute':'Missing the value of attribute',
-'MissingModuleName':'Missing the module name'
+'MissingModuleName':'Missing the module name',
+'NameOFMapMissingFile':'Missing the url to check the Map name',
+'MapNameExist':'Map Name must be unic -- This name exist',
+'MapNameNotExist':'You can continue '
 }
