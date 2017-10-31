@@ -56,4 +56,4 @@ if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "SQL") {
     $smarty->assign("MapName", $mapName);
     $output = $smarty->fetch('modules/MapGenerator/ListColumns.tpl');
     echo $output;
-}
+} 

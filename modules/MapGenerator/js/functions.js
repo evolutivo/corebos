@@ -753,7 +753,7 @@ function empty_element(elementByID){
       $(elementByID).html(valueinsert);
   }
 function generateScript() {
-    var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
+
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
     var sel = jQuery('#selectableFields');
@@ -764,8 +764,8 @@ function generateScript() {
             campiSelezionati.push(opt.value);
 
     }
-
     if (campiSelezionati.length != 0) {
+    var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
         var primoCampo = document.getElementById('selField1').value;
         var secondoCampo = document.getElementById('selField2').value;
         selField1.push(primoCampo);
@@ -788,6 +788,7 @@ function generateScript() {
             },
             error: function () {
                 alert(mv_arr.failedcall);
+                if (box) box.remove();
             }
         });
     }
