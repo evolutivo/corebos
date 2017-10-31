@@ -95,6 +95,8 @@ if(is_admin($current_user)) {
 	$smarty->assign('CHECK_INTEGRITY_PERMISSION','yes');
 	$smarty->assign('ADMIN','yes');
 }
+
+$smarty->assign('MODULEICON', $currentModule.".png");
 $smarty->assign('APP', $app_strings);
 $smarty->assign('MOD', $mod_strings);
 $smarty->assign('MODULE', $currentModule);

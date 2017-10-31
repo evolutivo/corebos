@@ -685,3 +685,9 @@ function hndMouseClick(fieldLabel)
 	handleEdit();
 	jQuery("#"+globaltxtboxid).select();
 }
+
+
+function getPathImage(){
+		var sImagePath = '{|@vtiger_imageurl:$THEME}';
+		console.log(sImagePath);
+}

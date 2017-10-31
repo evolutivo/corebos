@@ -42,6 +42,7 @@ $smarty = new vtigerCRM_Smarty();
 // Identify this module as custom module.
 $smarty->assign('CUSTOM_MODULE', $focus->IsCustomModule);
 
+$smarty->assign('MODULEICON', $currentModule.".png");
 $smarty->assign('MAX_RECORDS', $list_max_entries_per_page);
 $smarty->assign('MOD', $mod_strings);
 $smarty->assign('APP', $app_strings);

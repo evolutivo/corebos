@@ -41,6 +41,8 @@ if($singlepane_view == 'true' && $action == 'CallRelatedList') {
 	// Identify this module as custom module.
 	$smarty->assign('CUSTOM_MODULE', $focus->IsCustomModule);
 
+	$smarty->assign('MODULEICON', $currentModule.".png");
+
 	$smarty->assign('APP', $app_strings);
 	$smarty->assign('MOD', $mod_strings);
 	$smarty->assign('MODULE', $currentModule);

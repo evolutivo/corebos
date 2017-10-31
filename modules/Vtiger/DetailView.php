@@ -92,6 +92,9 @@ if($currentModule=='Entitylog'){
    $focus->column_fields['user']=  getUserName($focus->column_fields['user']);
    $focus->column_fields['tabid']=  getTabName($focus->column_fields['tabid']);
 }
+
+
+$smarty->assign('MODULEICON', $currentModule.".png");
 // Identify this module as custom module.
 $smarty->assign('CUSTOM_MODULE', $focus->IsCustomModule);
 $smarty->assign('APP', $app_strings);

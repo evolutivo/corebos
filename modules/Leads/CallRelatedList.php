@@ -38,6 +38,8 @@ if($singlepane_view == 'true' && $action == 'CallRelatedList') {
 	if(empty($_SESSION['rlvs'][$currentModule])) coreBOS_Session::delete('rlvs');
 
 	// Identify this module as custom module.
+	$smarty->assign('MODULEICON', $currentModule.".png");
+
 	$smarty->assign('CUSTOM_MODULE', false);
 
 	$smarty->assign('APP', $app_strings);
