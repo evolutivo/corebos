@@ -46,5 +46,12 @@ data-set-value-to=""           the id of html component to save the value
 data-module="MapGenerator"    the name of modul you are working
 
 
+input thoose are for show the message when yu write in input 
+
+id="nameView"    --------------Id of input you want to write
+data-controll="true"    ------------ to understand the javascript you want to use this function
+data-controll-idlabel="ShowErorrNameMap"   ------------- the id when you want to show the message 
+data-controll-file="MapGenerator,CheckNameOfMap"  ---------------- Moduls and file when you want to call for check something
+
 
 

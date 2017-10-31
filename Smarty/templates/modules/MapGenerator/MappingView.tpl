@@ -15,15 +15,9 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
-        {*//data-send-type= 
-           //Mapping is a type is string 
-           //MapName is the ID of textbox label 
-           //data-send-url="MapGenerator,SaveTypeMaps"
-           //MapGenerator modul 
-           //SaveTypePOstMaps is filename 
-           
-        *}
-        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        
+        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
+         <li><button class="slds-button slds-button--brand" data-bustton-save-new="true" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -59,45 +53,12 @@
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
     <div>
-        <div class="slds">
-
-            <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
-                <div class="slds-modal__container">
-                    <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
-                            <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-                            </svg>
-                            <span class="slds-assistive-text">{$MOD.close}</span>
-                        </button>
-                        <h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
-                    </div>
-                    <div class="slds-modal__content slds-p-around--medium">
-                        <div>
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-unique-id">
-                                    <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
-                                <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
-                                       class="slds-input" placeholder="{$MOD.mapname}">
-                                <div class="slds-form-element__control">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slds-modal__footer">
-                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
-                        </button>
-                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
-                            {$MOD.save}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="slds-backdrop" id="backdrop"></div>
-
+      {php}
+         // including a php script directly from the template.
+          <!-- global $foo="Mapping"; -->
            
-        </div>
+         {include_php file='/modules/MapGenerator/SavenewMap.php' title="your title" mode="Edmondi"}
+      {/php}
 
     </div>
 
