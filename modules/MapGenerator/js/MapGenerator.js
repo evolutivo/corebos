@@ -55,8 +55,7 @@
 					App.TypeOfMaps.TypeOfMap);
 			$(document).on('change', 'select[data-label-change-load="true"]',
 					App.TypeOfMaps.LoadLabel);
-			$(document).ready('button[data-bustton-save-new="true"]',App.TypeOfMaps.FillModalForSaveMap);
-			
+						
 		},
 		TypeOfMap : function() {
 			var types = $('select[data-load-Map="true"]').attr(
@@ -241,12 +240,7 @@
             	alert(mv_arr.addJoinValidation);
             }
 
-		},
-
-		FillModalForSaveMap:function(){
-
-			alert("Po funksionon");
-		},
+		},		
 
 	};
 
@@ -260,7 +254,7 @@
 					App.GetModuleForMapGenerator.GetSecondField);
 			$(document).on('click', 'a[data-showhide-load="true"]',
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
-			$(document).on('blur', 'input[data-controll="true"]',
+			$(document).on('keyup', 'input[data-controll="true"]',
 					App.GetModuleForMapGenerator.checkInput);
 		},
 
@@ -407,11 +401,14 @@
 		var valuetxt=elem.val();
 		var idtxt=elem.attr('id');;
 		var  idhshow=elem.attr('data-controll-idlabel');
-		if (filecheck)
+		var idrelation=elem.attr('data-controll-id-relation');
+		if (this.value.length>5)
 		{
+			if (filecheck)
+		  {
 			if (valuetxt.length<5)
 			{
-				$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
+				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
 				$('#'+idhshow).html(mv_arr.NameQuery);
 				//elem.focus();
 			}else
@@ -422,13 +419,21 @@
 				{
 					if (VauefromPost==="0")
 					{
-						$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
+						$('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
 						$('#'+idhshow).html(mv_arr.MapNameNotExist);
+						if(idrelation)
+						{
+							$('#'+idrelation).removeAttr('disabled');
+						}
 						//elem.focus();
 					}else
 					{
-						$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
-						$('#'+idhshow).html(mv_arr.MapNameExist).fadeOut('slow',4000);
+						$('#'+idhshow).fadeIn('fast');
+						$('#'+idhshow).html(mv_arr.MapNameExist);
+						if(idrelation)
+						{
+							$('#'+idrelation).attr('disabled', 'true');
+						}
 						//elem.focus();
 					}
 
@@ -439,9 +444,14 @@
 			}
 
 
+			}else
+			{
+				alert(mv_arr.NameOFMapMissingFile);
+			}
 		}else
 		{
-			alert(mv_arr.NameOFMapMissingFile);
+			$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+				$('#'+idhshow).html(mv_arr.NameQuery);
 		}
 
 	 },
@@ -616,8 +626,9 @@
 			if(inputsplit.length>0){
 				for(index=0; index <= inputsplit.length-1; index++){
 					if(inputsplit[index].toUpperCase()=="LISTDATA"){
-						if(App.JSONForCOndition.length > 0){
-							datatusend +=`ListData=${JSON.stringify(App.JSONForCOndition)}`;;
+						if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
+							var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
+							datatusend +=`ListData=${JSON.stringify(datasend)}`;
 						}else{
 							alert(mv_arr.MappingFiledValid);
 						}

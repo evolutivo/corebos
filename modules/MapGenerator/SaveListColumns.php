@@ -14,7 +14,7 @@ $Data = array();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
 $MapType = "Master Detail"; // stringa con tutti i campi scelti in selField1
-$Data = $_POST['alldata'];
+$Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
 
 

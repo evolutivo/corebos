@@ -108,7 +108,7 @@
 	<div class="slds-form-element__control allinea" id='nameViewDiv'>
 	  <div class="slds-form-element"  style="margin:0; width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">	                
-	                     <input type="text" minlength="5" id="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
+	                     <input type="text" minlength="5" id="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
 	            </div>	            
 	        </div>	       
 	  </div>
@@ -118,7 +118,7 @@
 	  <div class="slds-form-element"  style="width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">
 	                <div class="slds-select_container">
-	                    <select data-load-Map="true" data-type-select="TypeMap"  class="slds-select">
+	                    <select data-load-Map="true" data-type-select="TypeMap"  id="TypeMaps" class="slds-select" disabled>
     	                    <option value="">{$MOD.TypeMapNone}</option>
     	                    <option value="SQL">{$MOD.TypeMapSQL}</option>
     	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>

@@ -79,7 +79,7 @@ if (!empty($Data))
         $map_focus->id = $MapID[1];
         $map_focus->retrieve_entity_info($MapID[1],"cbMap");
         $map_focus->column_fields['content']= add_content($decodedata);
-        $map_focus->column_fields['mapname'] = $mapname;
+        // $map_focus->column_fields['mapname'] = $mapname;
         $map_focus->column_fields['description'] = add_description($decodedata);
         // $map_focus->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
         $map_focus->mode = "edit";
