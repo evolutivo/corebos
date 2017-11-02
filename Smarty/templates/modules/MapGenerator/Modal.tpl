@@ -15,8 +15,8 @@
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-unique-id">
                                     <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
-                                <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
-                                       class="slds-input"  placeholder="dfdfd">
+                                <input style="width: 400px; " type="text" id="SaveasMapText" required=""
+                                       class="slds-input" placeholder="{$MOD.mapname}">
                                 <div class="slds-form-element__control">
 
                                 </div>
@@ -24,11 +24,11 @@
                         </div>
                     </div>
                     <div class="slds-modal__footer">
-                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
+                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" >{$MOD.cancel}
                         </button>
-                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
+                        <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.save}
-                        </button>
+                        </button>  <!-- data-send-savehistory="{$savehistory}" -->
                     </div>
                 </div>
             </div>

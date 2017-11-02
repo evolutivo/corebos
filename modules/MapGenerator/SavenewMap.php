@@ -9,12 +9,17 @@ require_once ('include/database/PearDatabase.php');
 // require_once('database/DatabaseConnection.php');
 require_once ('include/CustomFieldUtil.php');
 require_once ('data/Tracker.php');
-     $smarty = new vtigerCRM_Smarty();
+
+$dataa=$_POST["data"];
+$dataid=$_POST["dataid"];
+$savehistory=$_POST["savehistory"];
+
+
+    $smarty = new vtigerCRM_Smarty();
     $smarty->assign("MOD", $mod_strings);
     $smarty->assign("APP", $app_strings);
-    $smarty->assign("MapID", $MapId);
-    $smarty->assign("queryid", $queryid);
-    $smarty->assign("MapName", $mapName);
-    $smarty->assign("NameView", $foo);
+	$smarty->assign("Datas", $dataa);
+    $smarty->assign("dataid", $dataid);
+    $smarty->assign("savehistory", $savehistory);   
     $output = $smarty->fetch('modules/MapGenerator/Modal.tpl');
     echo $output;

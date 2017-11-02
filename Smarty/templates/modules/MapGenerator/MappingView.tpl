@@ -16,8 +16,8 @@
 
         <ul id="LDSstyle">
         
-        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
-         <li><button class="slds-button slds-button--brand" data-bustton-save-new="true" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
+         <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled data-bustton-save-new="true" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -52,14 +52,8 @@
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-    <div>
-      {php}
-         // including a php script directly from the template.
-          <!-- global $foo="Mapping"; -->
-           
-         {include_php file='/modules/MapGenerator/SavenewMap.php' title="your title" mode="Edmondi"}
-      {/php}
-
+    <div data-div-load-automatic="true" id="ModalShow">
+      
     </div>
 
 

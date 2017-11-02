@@ -41,6 +41,8 @@
 
 	};
 
+
+
 	App.TypeOfMaps = {
 
 		init : function() {
@@ -454,6 +456,11 @@
 					App.UniversalPopup.Add_show_Popup);
 			$(document).on('click', 'button[data-click-closemodal="true"]',
 								App.UniversalPopup.Add_show_Popup);
+			$(document).on('click', 'button[ data-modal-saveas-close="true"]',
+								App.UniversalPopup.CloseModalWithoutCheck);
+			$(document).on('click', 'button[data-modal-saveas-open="true"]',
+								App.UniversalPopup.OpeModalsaveAsMap);
+
 		},
 
 		Add_show_Popup:function(event){
@@ -522,6 +529,21 @@
 			    }
 			}
 		},
+
+	   CloseModalWithoutCheck:function(event){
+	   	 if (event) {event.preventDefault();}
+	   	 $('#ErrorVAlues').text('');
+	     $('#modal').removeClass('slds-fade-in-open');
+	     $('#backdrop').removeClass('slds-backdrop--open');
+
+	   },
+
+	   OpeModalsaveAsMap:function(event){
+	   	 if (event) {event.preventDefault();}
+	   	 $('#backdrop').addClass('slds-backdrop--open');
+    	 $('#modal').addClass('slds-fade-in-open');
+
+	   },
 	};
 
 	App.SelectModule = {
@@ -580,12 +602,15 @@
 			var urlcheck = elem.attr('data-send-url').split(",");
 			var dataid=elem.attr("data-send-data-id");
 			var savehistory=elem.attr("data-send-savehistory");
+			var sendSaveAs=elem.attr('data-send-saveas');
+			var idbutton=elem.attr('data-send-saveas-id-butoni');
 			if(dataid != "undefined"){
 				inputsplit=dataid.split(",");
 			}
 			
 			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
 				alert(mv_arr.Buttonsendajax);
+				return false;
 			}
 			
 			if(inputsplit.length>0){
@@ -630,6 +655,23 @@
 				 	alert(mv_arr.ReturnErrorFromMap);
 				 } 				
 			}
+			if (sendSaveAs && sendSaveAs==="true")
+			{
+				var ulrsaveas=[urlcheck[0],"SavenewMap"];
+				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}`
+				App.utils.PostDataGeneric(ulrsaveas,dat);
+				if (VauefromPost)
+				{
+					 document.body.innerHTML +=VauefromPost;
+					 VauefromPost=null;
+					 $('#'+idbutton).removeAttr('disabled')
+				} else
+				{
+
+				}
+              
+			}
+			App.UniversalPopup.CloseModalWithoutCheck();
 			
 
 		},

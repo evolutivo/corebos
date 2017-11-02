@@ -26,5 +26,5 @@ var mv_arr = {
 'MissingModuleName':'Missing the module name',
 'NameOFMapMissingFile':'Missing the url to check the Map name',
 'MapNameExist':'Map Name must be unic -- This name exist',
-'MapNameNotExist':'You can continue '
+'MapNameNotExist':'this name is unic you can continue'
 }

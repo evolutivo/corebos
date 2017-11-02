@@ -17,16 +17,20 @@ $Data = array();
 //  var_dump($_REQUEST, true);
 // exit();
 
-$MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
+$MapName = $_POST['MapName'];
+$SaveasMapText=$_POST['SaveasMapText']; // stringa con tutti i campi scelti in selField1
 $MapType = "Mapping"; // stringa con tutti i campi scelti in selField1
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
+$mapname=(!empty($SaveasMapText) ? $SaveasMapText : $MapName);
 // echo "Edmondi".strlen ($MapIDp[0]);
  //  print_r($MapID);
  // exit();
-if (empty($MapName)) {
-    echo "Missing the name of map Can't save";
-    return;
+if (empty($SaveasMapText)) {
+     if (empty($MapName)) {
+            echo "Missing the name of map Can't save";
+            return;
+       }
 }
 if (empty($MapType))
  {
@@ -42,33 +46,55 @@ if (!empty($Data))
      // }
      // exit();
     include_once('modules/cbMap/cbMap.php');
-     $focust = new cbMap();
-     $focust->column_fields['assigned_user_id'] = 1;
-     $focust->column_fields['mapname'] = $MapName;
-     $focust->column_fields['content']=add_content($decodedata);
-     $focust->column_fields['maptype'] =$MapType;
-     $focust->column_fields['description']= add_description($decodedata);
-     $focust->column_fields['targetname'] =preg_replace('/\s+/', '',$DataDecode[0]['FirstModuleval']);
-     $log->debug(" we inicialize value for insert in database ");
-     if (!$focust->saveentity("cbMap"))//
-      {
+    if (strlen($MapID[1])==0) {
+         $focust = new cbMap();
+         $focust->column_fields['assigned_user_id'] = 1;
+         $focust->column_fields['mapname'] = $mapname;
+         $focust->column_fields['content']=add_content($decodedata);
+         $focust->column_fields['maptype'] =$MapType;
+         $focust->column_fields['description']= add_description($decodedata);
+         $focust->column_fields['targetname'] =preg_replace('/\s+/', '',$decodedata[0]['FirstModuleval']);
+         $log->debug(" we inicialize value for insert in database ");
+         if (!$focust->saveentity("cbMap"))//
+          {
 
-          if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
-                 echo save_history(add_aray_for_history($decodedata),$MapID[0],add_content($decodedata)).",".$focust->id;
-             } 
-             else{
-                echo "0,0";
-                 $log->debug("Error!! MIssing the history Table");
-             }  
-                    
-      } else 
-      {
-         //echo focus->id;
-         echo "Error!! something went wrong";
-         $log->debug("Error!! something went wrong");
-      }
-    
-   
+              if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+                     echo save_history(add_aray_for_history($decodedata),$MapID[0],add_content($decodedata)).",".$focust->id;
+                 } 
+                 else{
+                    echo "0,0";
+                     $log->debug("Error!! MIssing the history Table");
+                 }  
+                        
+          } else 
+          {
+             //echo focus->id;
+             echo "Error!! something went wrong";
+             $log->debug("Error!! something went wrong");
+          }       
+    }else
+    {
+        include_once('modules/cbMap/cbMap.php');
+        $map_focus = new cbMap();
+        $map_focus->id = $MapID[1];
+        $map_focus->retrieve_entity_info($MapID[1],"cbMap");
+        $map_focus->column_fields['content']= add_content($decodedata);
+        $map_focus->column_fields['mapname'] = $mapname;
+        $map_focus->column_fields['description'] = add_description($decodedata);
+        // $map_focus->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
+        $map_focus->mode = "edit";
+        $map_focus->save("cbMap");
+        
+              if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+                     echo save_history(add_aray_for_history($decodedata),$MapID[0],add_content($decodedata)).",".$MapID[1];
+                 } 
+                 else{
+                    echo "0,0";
+                     $log->debug("Error!! MIssing the history Table");
+    }  
+                        
+    }       
+       
 }//end of if (! empty($Data)) 
 
 function add_content($DataDecode)
