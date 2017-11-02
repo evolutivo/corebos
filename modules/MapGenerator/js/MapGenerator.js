@@ -256,6 +256,8 @@
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
 			$(document).on('keyup', 'input[data-controll="true"]',
 					App.GetModuleForMapGenerator.checkInput);
+			$(document).on('click', 'a[data-autoload-maps="true"]',
+					App.GetModuleForMapGenerator.AllMapsLoad);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -381,80 +383,122 @@
 		},
 
 		ChangeTextDropDown : function() {
-		//			if (event)
-		//				event.preventDefault();
-			var elem = $(this);
-			var IdChange = elem.attr("data-tools-id").split(",");
-		//			if (IdChange.length<1) {
-				//elem.click(function() {
-					$("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
-				//});
-     //			}
+			//			if (event)
+			//				event.preventDefault();
+				var elem = $(this);
+				var IdChange = elem.attr("data-tools-id").split(",");
+			//			if (IdChange.length<1) {
+					//elem.click(function() {
+						$("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
+					//});
+	      //			}
 
 		},
 	 checkInput:function(event)
 	 {
-		if (event) {event.preventDefault();}
+			if (event) {event.preventDefault();}
 
-		var elem=$(this);
-		var filecheck=elem.attr('data-controll-file');
-		var valuetxt=elem.val();
-		var idtxt=elem.attr('id');;
-		var  idhshow=elem.attr('data-controll-idlabel');
-		var idrelation=elem.attr('data-controll-id-relation');
-		if (this.value.length>5)
-		{
-			if (filecheck)
-		  {
-			if (valuetxt.length<5)
+			var elem=$(this);
+			var filecheck=elem.attr('data-controll-file');
+			var valuetxt=elem.val();
+			var idtxt=elem.attr('id');;
+			var  idhshow=elem.attr('data-controll-idlabel');
+			var idrelation=elem.attr('data-controll-id-relation');
+			if (this.value.length>5)
 			{
-				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-				$('#'+idhshow).html(mv_arr.NameQuery);
-				//elem.focus();
-			}else
-			{
-				var dat=`${idtxt}=${valuetxt}`;
-				App.utils.PostDataGeneric(filecheck.split(','),dat);
-				if (VauefromPost)
+				if (filecheck)
+			  {
+				if (valuetxt.length<5)
 				{
-					if (VauefromPost==="0")
+					$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+					$('#'+idhshow).html(mv_arr.NameQuery);
+					//elem.focus();
+				}else
+				{
+					var dat=`${idtxt}=${valuetxt}`;
+					App.utils.PostDataGeneric(filecheck.split(','),dat);
+					if (VauefromPost)
 					{
-						$('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
-						$('#'+idhshow).html(mv_arr.MapNameNotExist);
-						if(idrelation)
+						if (VauefromPost==="0")
 						{
-							$('#'+idrelation).removeAttr('disabled');
+							$('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
+							$('#'+idhshow).html(mv_arr.MapNameNotExist);
+							if(idrelation)
+							{
+								$('#'+idrelation).removeAttr('disabled');
+							}
+							//elem.focus();
+						}else
+						{
+							$('#'+idhshow).fadeIn('fast');
+							$('#'+idhshow).html(mv_arr.MapNameExist);
+							if(idrelation)
+							{
+								$('#'+idrelation).attr('disabled', 'true');
+							}
+							//elem.focus();
 						}
-						//elem.focus();
+
 					}else
 					{
-						$('#'+idhshow).fadeIn('fast');
-						$('#'+idhshow).html(mv_arr.MapNameExist);
-						if(idrelation)
-						{
-							$('#'+idrelation).attr('disabled', 'true');
-						}
-						//elem.focus();
+						
 					}
+				}
+
 
 				}else
 				{
-					
+					alert(mv_arr.NameOFMapMissingFile);
 				}
-			}
-
-
 			}else
 			{
-				alert(mv_arr.NameOFMapMissingFile);
+				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+					$('#'+idhshow).html(mv_arr.NameQuery);
 			}
-		}else
-		{
-			$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-				$('#'+idhshow).html(mv_arr.NameQuery);
-		}
 
 	 },
+
+	 AllMapsLoad:function(event)
+	 {
+	 	if (event) {event.preventDefault();}
+	 	 var elem=$(this);
+	 	 var getfile=elem.attr('data-autoload-Filename');
+	 	 var getType=elem.attr('data-autoload-Type-Map');
+	 	 var idtofill=elem.attr('data-autoload-id-relation');
+	 	 // var thisid=elem.attr('id');
+	 	 var datsend="";
+	 	 if (getfile)
+	 	 {
+	 	 	getfile=getfile.split(",");
+	 	 }else
+	 	 {
+	 	 	getfile=["MapGenerator","GetAllMaps"];
+	 	 }
+
+	 	 if (getType)
+	 	 {
+	 	 	datasend=`${getType}=${getType}`;
+	 	 }
+
+	 	 App.utils.PostDataGeneric(getfile,datasend);
+	 	 if (VauefromPost)
+	 	 {
+	 	 	if (idtofill)
+	 	 	{
+	 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
+	 	 		$('#'+idtofill).append(VauefromPost);
+	 	 		VauefromPost=null;
+	 	 	}else
+	 	 	{
+	 	 		alert(mv_arr.MissingIDtoShow);
+	 	 	}
+
+	 	 }
+	 	 else
+	 	 {
+
+	 	 }
+	 }
 
 	};
 

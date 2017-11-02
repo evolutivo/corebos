@@ -63,9 +63,9 @@
 
     <li class="slds-tabs--default__item slds-text-heading--label" title="Load  Map"
         role="presentation">
-        <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false"
+        <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false" data-autoload-maps="true" data-autoload-Filename="MapGenerator,GetAllMaps" data-autoload-Type-Map="ALL" data-autoload-id-relation="GetALLMaps"
            aria-controls="tab-default-2" id="tab-default-2__item"
-           onclick="selectTab(this);LoadPickerMap();">{$MOD.LoadMap}</a>
+           onclick="selectTab(this);">{$MOD.LoadMap}</a>
     </li>
     <li class="slds-tabs--default__item slds-text-heading--label" style="margin-left:30%;" title="{$MOD.exit}"
         role="presentation">
@@ -145,7 +145,7 @@
 
             <div class="slds-form-element__control">
                 <div class="slds-select_container">
-                    <select id="GetALLMaps" class="slds-select">
+                    <select id="GetALLMaps"  class="slds-select">
                     </select>
                 </div>
             </div>

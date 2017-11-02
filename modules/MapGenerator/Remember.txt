@@ -48,6 +48,28 @@ id="SaveAsButton"  -- the id of button
 
 
 ------------------------------------------------------
+------------------------------- load maps ---------------------
+----- insert into button or link 
+
+data-autoload-maps="true" --key to aktivate the ufnction
+
+ data-autoload-Filename="MapGenerator,GetAllMaps"   ------- Modul name and the file name to make a ajax call
+
+ data-autoload-Type-Map="ALL"  ---- to filter the Map SQL IO MAPPING etc
+
+ data-autoload-id-relation="GetALLMaps"  -- id to put the values 
+
+---- insert into dropdown
+
+-----------------------------------------------------------
+
+
+
+
+
+
+
+
 
 
 button or linnk
