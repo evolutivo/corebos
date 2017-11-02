@@ -82,6 +82,7 @@ if (!empty($Data))
         // $map_focus->column_fields['mapname'] = $mapname;
         $map_focus->column_fields['description'] = add_description($decodedata);
         // $map_focus->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
+        $map_focus->column_fields['mvqueryid']=$MapID[0];
         $map_focus->mode = "edit";
         $map_focus->save("cbMap");
         

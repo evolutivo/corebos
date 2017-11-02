@@ -43,9 +43,10 @@ if (!empty($Data)) {
 
    // include_once('modules/cbMap/cbMap.php');
       if (strlen($MapID[1]==0)) {
-         $focust = new cbMap();
+                include_once ("modules/cbMap/cbMap.php");
+                 $focust = new cbMap();
                  $focust->column_fields['assigned_user_id'] = 1;
-                 $focust->column_fields['mapname'] = $MapName;
+                 $focust->column_fields['mapname'] = $mapname;
                  $focust->column_fields['content']=add_content($jsondecodedata);
                  $focust->column_fields['maptype'] ="MasterDetailLayout";
                  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
@@ -73,14 +74,18 @@ if (!empty($Data)) {
 
       }else{
 
-        $focust = new cbMap();
+                 include_once ("modules/cbMap/cbMap.php");
+                 $focust = new cbMap();
                  $focust->id = $MapID[1];
+                 $focust->retrieve_entity_info($MapID[1],"cbMap");
                  $focust->column_fields['assigned_user_id'] = 1;
-                 $focust->column_fields['mapname'] = $MapName;
+                 // $focust->column_fields['mapname'] = $MapName;
                  $focust->column_fields['content']=add_content($jsondecodedata);
                  $focust->column_fields['maptype'] ="MasterDetailLayout";
+                 $focust->column_fields['mvqueryid']=$MapID[0];
                  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
                  $focust->column_fields['description']= add_description($jsondecodedata);
+                 $focust->mode = "edit";
                  $focust->save("cbMap");
                  
                       if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
