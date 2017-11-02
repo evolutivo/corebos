@@ -23,7 +23,20 @@
            //SaveTypePOstMaps is filename 
            
         *}
-        <li><button class="slds-button slds-button--brand" onclick="GenerateMasterData();" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+
+        <li>
+          <button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button>
+        </li>
+         <li>
+          <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button>
+        </li>
+<!-- 
+        <li>
+          <button class="slds-button slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail"   data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" class="slds-button slds-button--brand" style="width:98%;margin:5px;">{$MOD.SaveAsMap}
+          </button>
+        </li>
+ -->
+
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -88,7 +101,7 @@
                     <div class="slds-modal__footer">
                         <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
                         </button>
-                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
+                        <button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName,SaveasMapText"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true">
                             {$MOD.save}
                         </button>
                     </div>
