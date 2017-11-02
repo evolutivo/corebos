@@ -28,7 +28,7 @@ if (!empty($Data)) {
     //print_r(save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)));
 
 
-	 $focust = new cbMap();
+	   $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
      $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
      $focust->column_fields['content']=add_content($jsondecodedata);
