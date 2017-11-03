@@ -13,13 +13,22 @@ $Data = array();
 // exit();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
-$MapType = "Master Detail"; // stringa con tutti i campi scelti in selField1
+$MapType = "List Columns"; // stringa con tutti i campi scelti in selField1
+$SaveasMapText = $_POST['SaveasMapText'];
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
+$mapname=(!empty($SaveasMapText)?$SaveasMapText:$MapName);
 
 
-if (empty($MapName)) {
-	echo "Missing the Name of Map";
+if (empty($SaveasMapText)) {
+     if (empty($MapName)) {
+            echo "Missing the name of map Can't save";
+            return;
+       }
+}
+if (empty($MapType))
+ {
+    $MapType = "List Columns";
 }
 
 if (!empty($Data)) {
@@ -28,9 +37,13 @@ if (!empty($Data)) {
     //print_r(save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)));
 
 
+
+  if(strlen($MapID[1]==0)){
+
 	   $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
-     $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
+     // $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
+     $focust->column_fields['mapname']=$mapname;
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] ="ListColumns";
      $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
@@ -55,6 +68,41 @@ if (!empty($Data)) {
          echo "Error!! something went wrong";
          $log->debug("Error!! something went wrong");
       }
+
+  }else{
+
+     $focust = new cbMap();
+     $focust->id = $MapID[1];
+     $focust->retrive_entity_info($MapID[1],"cbMap");
+     $focust->column_fields['assigned_user_id'] = 1;
+     // $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
+     $focust->column_fields['content']=add_content($jsondecodedata);
+     $focust->column_fields['maptype'] ="ListColumns";
+     $focust->column_fields[' mvqueryid']=$MapID[0];
+     $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+     $focust->column_fields['description']= add_description($jsondecodedata);
+     $log->debug(" we inicialize value for insert in database ");
+     if (!$focust->saveentity("cbMap"))//
+      {
+          
+          if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+                 echo save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)).",".$focust->id;
+             } 
+             else{
+                echo "0,0";
+                 $log->debug("Error!! MIssing the history Table");
+             }  
+                    
+      } else 
+      {
+         // echo "Edmondi save in map,hghghghghgh";
+        //   exit();
+         //echo focus->id;
+         echo "Error!! something went wrong";
+         $log->debug("Error!! something went wrong");
+      }
+      
+  }
 
 }
 

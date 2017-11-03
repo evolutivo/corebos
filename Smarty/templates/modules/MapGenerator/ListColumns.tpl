@@ -55,7 +55,7 @@
                 	<label style="font-size: initial;color: grey;">{$MOD.SelectField}</label>
                     <div class="slds-select_container">
                        <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
-                       <option value="">Choose from origin </option>
+                       <option value="">Choose from origin</option>
                         </select>
                        </div>
                 </div>
