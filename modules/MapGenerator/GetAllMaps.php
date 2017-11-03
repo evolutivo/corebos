@@ -30,9 +30,9 @@ function GetMaps($value="")
 	{
 		$log->debug("Info!! Value is not ampty");
 		if ($value=="ALL") {
-			$sql="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 ";
+			$sql="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0  ORDER BY cb.maptype";
 		} else {
-			$sql="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 AND  maptype='$value'";
+			$sql="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 AND  maptype='$value' ORDER BY cb.maptype ";
 		}
 		$result = $adb->query($sql);
 	    $num_rows=$adb->num_rows($result);

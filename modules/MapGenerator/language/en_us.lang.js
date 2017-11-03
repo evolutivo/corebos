@@ -27,5 +27,7 @@ var mv_arr = {
 'NameOFMapMissingFile':'Missing the url to check the Map name',
 'MapNameExist':'Map Name must be unic -- This name exist',
 'MapNameNotExist':'this name is unic you can continue',
-'MissingIDtoShow':'Missing the id to show the result'
+'MissingIDtoShow':'Missing the id to show the result',
+'MissingIdValue':'Missing the Id of field to get the values',
+'MissingDivID':'Missing the Id of the div when you want to show',
 }

@@ -150,11 +150,11 @@
                 </div>
             </div>
         </div>
-        <button id="set" style="margin-left:80%;margin-top: 30px;" onclick="NextAndLoadFromMap();"
+        <a id="set" style="margin-left:80%;margin-top: 30px;" data-select-map-load="true"  data-select-map-load-id-relation="GetALLMaps" data-select-map-load-id-to-show="LoadfromMapSecondStep" data-select-map-load-url="MapGenerator,GetMapGeneration" data-showhide-load="true" data-tools-id="LoadfromMapFirstStep,LoadfromMapSecondStep"
                 class="slds-button slds-button--neutral">Next
-        </button>
+        </a>
     </div>
-    <div id="LoadfromMapSecondStep">
+    <div id="LoadfromMapSecondStep" style="display: none;">
     </div>
 </div>
 </div>
