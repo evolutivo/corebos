@@ -327,7 +327,11 @@ function GetModulRel($m)
     return $a;
 }
 
- // this function is for find the relatio0n without tag option 
+ // 
+ /**
+  * [GetAllRelationMOdul this function is for find the relatio0n without tag option 
+  * @param [type] $m  Modul name
+  */
   function GetAllRelationMOdul($m){
     global $log, $mod_strings,$adb;
     $j = 0;
@@ -680,7 +684,7 @@ function GetModulRel($m)
 
 
 // function get all relation module only relation one to multi
-function GetModulRelOneTomulti($m)
+function GetModulRelOneTomulti($m,$valuefromLoad="")
    {
     global $log, $mod_strings,$adb;
     $j = 0;
@@ -700,7 +704,7 @@ function GetModulRelOneTomulti($m)
             $log->debug("Fillim$i" . $modul1);
             $column = $adb->query_result($result, $i - 1, 'columnname');
             $fl = $adb->query_result($result, $i - 1, 'fieldlabel');
-            if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+            if (strlen($valuefromLoad) != 0 && $valuefromLoad == $modul1) {
                 $a .= '<option selected value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
             } else {
                 $a .= '<option value="' . $modul1 . ';' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
@@ -776,14 +780,14 @@ function GetModulRelOneTomulti($m)
                 $mo2 = $adb->query("select * from  vtiger_tab where name='$modul2' and presence=0");
             }
             if ($adb->num_rows($mo) != 0) {
-                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul1) {
+                if (strlen($valuefromLoad) != 0 && $valuefromLoad == $modul1) {
                     $a .= '<option selected value="' . $modul1 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
                 } else {
                     $a .= '<option value="' . $modul1 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul1)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul1)) . '</option>';
                 }
             }
             if ($modul2 != '' && $adb->num_rows($mo2) != 0)
-                if (strlen($FirstmoduleXML) != 0 && $FirstmoduleXML == $modul2) {
+                if (strlen($valuefromLoad) != 0 && $valuefromLoad == $modul2) {
                     $a .= '<option selected value="' . $modul2 . '; ' . $column . '">' . str_replace("'", "", getTranslatedString($modul2)) . ' ' . str_replace("'", "", getTranslatedString($fl, $modul2)) . '</option>';
                 }
                 else {

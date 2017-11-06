@@ -68,6 +68,7 @@ data-select-map-load-url="MapGenerator,GetMapGeneration" -----------------------
 
 
 
+-----------------------for hide 
 
   data-showhide-load="true"      -------- key to understand 
 

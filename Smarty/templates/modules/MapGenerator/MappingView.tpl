@@ -4,7 +4,11 @@
   <div id="LoadingImage" style="display: none">
     <img src=""/>
 </div>
-
+{if $HistoryMap neq ''}
+  <script type="text/javascript">
+    App.savehistoryar='{$HistoryMap}';
+  </script>
+{/if}
 
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
@@ -17,7 +21,13 @@
         <ul id="LDSstyle">
         
         <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
-         <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+
+        {if $HistoryMap neq ''}
+           <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        {else}
+            <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        {/if}
+        
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -56,13 +66,18 @@
       
     </div>
 
-
+    {if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+    {/if}
     <div id="selJoin" style="float:left; overflow: hidden;width:80%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select data-select-load="true" data-second-module-file="SecondModuleMasterDetail" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                        {$FirstModuleSelected}
                         </select>
                        </div>
                 </div>
@@ -72,7 +87,7 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select  id="Firstfield" name="mod" class="slds-select">
-                       
+                        {$FirstModuleFields}
                         </select>
                        </div>
                 </div>
@@ -84,6 +99,7 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                         <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="AllRelation" name="secmodule" class="slds-select">
+                          {$SecondModulerelation}
                         </select>
                      </div>
                 </div>                
@@ -94,6 +110,7 @@
                 
                     <div class="" id="SecondDiv" style="float: left;width: 92%;">
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
+                          {$SecondModuleFields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
