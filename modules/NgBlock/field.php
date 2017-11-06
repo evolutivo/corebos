@@ -35,7 +35,7 @@ if($kaction=='retrieve'){
     echo json_encode($content);
 }
 else if($kaction=='retrieve_br'){
-    $qry="Select businessrules_name,businessrulesid from vtiger_businessrules ";
+    $qry="Select businessrules_name,businessrulesid from vtiger_businessrules join vtiger_crmentity on businessrulesid=crmid and deleted=0 ";
     if($pointing_module!='') //only the fields of the pointing module
     {
         $qry.="   where module_rules='$pointing_module' ";
@@ -53,7 +53,7 @@ else if($kaction=='retrieve_br'){
     echo json_encode($content);
 }
 else if($kaction=='retrieve_br_profile'){
-    $qry="Select businessrules_name,businessrulesid from vtiger_businessrules ";
+    $qry="Select businessrules_name,businessrulesid from vtiger_businessrules join vtiger_crmentity on businessrulesid=crmid and deleted=0";
     if($pointing_module!='') //only the fields of the pointing module
     {
         $qry.="   where module_rules='$pointing_module' ";
