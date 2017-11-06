@@ -22,10 +22,10 @@ $SaveasMapText=$_POST['SaveasMapText']; // stringa con tutti i campi scelti in s
 $MapType = "Mapping"; // stringa con tutti i campi scelti in selField1
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
-
 $mapname=(!empty($SaveasMapText) ? $SaveasMapText : $MapName);
-$idquery=!empty($MapID[0])?$MapID[0]:md5(date("Y-m-d H:i:s").uniqid(rand(), true));
-
+// echo "Edmondi".strlen ($MapIDp[0]);
+ //  print_r($MapID);
+ // exit();
 if (empty($SaveasMapText)) {
      if (empty($MapName)) {
             echo "Missing the name of map Can't save";
@@ -38,27 +38,28 @@ if (empty($MapType))
 }
  
 if (!empty($Data))
-{
-     $decodedata = json_decode($Data, true);
+  {
+     $decodedata = json_decode($Data, true);    
      
-
+     // foreach ($decodedata as $key) {
+     //     echo findIdrelationAndName(trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",  $key['SecondModuleval'])[0])))),explode(":",$key['SecondFieldOptionGrup'])[0])."<br>";
+     // }
+     // exit();
+    include_once('modules/cbMap/cbMap.php');
     if (strlen($MapID[1])==0) {
-         include_once('modules/cbMap/cbMap.php');
          $focust = new cbMap();
          $focust->column_fields['assigned_user_id'] = 1;
          $focust->column_fields['mapname'] = $mapname;
          $focust->column_fields['content']=add_content($decodedata);
          $focust->column_fields['maptype'] =$MapType;
          $focust->column_fields['description']= add_description($decodedata);
-         $focust->column_fields['mvqueryid']=$idquery;
          $focust->column_fields['targetname'] =preg_replace('/\s+/', '',$decodedata[0]['FirstModuleval']);
          $log->debug(" we inicialize value for insert in database ");
-
          if (!$focust->saveentity("cbMap"))//
           {
 
               if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
-                     echo save_history(add_aray_for_history($decodedata),$idquery,add_content($decodedata)).",".$focust->id;
+                     echo save_history(add_aray_for_history($decodedata),$MapID[0],add_content($decodedata)).",".$focust->id;
                  } 
                  else{
                     echo "0,0";
@@ -73,27 +74,25 @@ if (!empty($Data))
           }       
     }else
     {
-         include_once('modules/cbMap/cbMap.php');
-         $focust = new cbMap();
-         $focust->id = $MapID[1];
-         $focust->retrieve_entity_info($MapID[1],"cbMap");
-         $focust->column_fields['assigned_user_id'] = 1;
-         // $focust->column_fields['mapname'] = $MapName;
-         $focust->column_fields['content']=add_content($decodedata);
-         // $focust->column_fields['maptype'] ="MasterDetailLayout";
-         $focust->column_fields['mvqueryid']=$idquery;
-         $focust->column_fields['description']= add_description($decodedata);
-         $focust->mode = "edit";
-         $focust->save("cbMap");
-
-        if (Check_table_if_exist("mapgeneration_queryhistory")>0){
-                 echo save_history(add_aray_for_history($decodedata),$idquery,add_content($decodedata)).",".$MapID[1];
-
-        } 
-        else{
-                echo "0,0";
-                 $log->debug("Error!! MIssing the history Table");
-        }  
+        include_once('modules/cbMap/cbMap.php');
+        $map_focus = new cbMap();
+        $map_focus->id = $MapID[1];
+        $map_focus->retrieve_entity_info($MapID[1],"cbMap");
+        $map_focus->column_fields['content']= add_content($decodedata);
+        // $map_focus->column_fields['mapname'] = $mapname;
+        $map_focus->column_fields['description'] = add_description($decodedata);
+        // $map_focus->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
+        $map_focus->column_fields['mvqueryid']=$MapID[0];
+        $map_focus->mode = "edit";
+        $map_focus->save("cbMap");
+        
+              if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+                     echo save_history(add_aray_for_history($decodedata),$MapID[0],add_content($decodedata)).",".$MapID[1];
+                 } 
+                 else{
+                    echo "0,0";
+                     $log->debug("Error!! MIssing the history Table");
+    }  
                         
     }       
        
@@ -344,24 +343,25 @@ function add_description($DataDecode){
 
 function save_history($datas,$queryid,$xmldata){
         global $adb;
-        $idquery2=$queryid;
-        $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery2' order by sequence DESC");
+        $idquery=$queryid;
+
+        if(strlen($idquery)>0)
+        {
+              
+               $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery' order by sequence DESC");
              //$nr=$adb->num_rows($q);
              // echo "q=".$q;
-        $seq=$adb->query_result($q,0,0);
-        if(!empty($seq))
-        {
-             $seq=$seq+1;
-             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery2'");                            
+              $seq=$adb->query_result($q,0,0)+1;
+             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery'");                            
               //$seqmap=count($data);
-             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,"","",$datas["Labels"]));
+             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,"","",$datas["Labels"]));            
               //return $idquery;
         }else 
         {
-
-            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,"","",$datas["Labels"]));
+            $idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,"","",$datas["Labels"]));
         }
-        echo $idquery2;
+       echo $idquery;    
 }
 
 
