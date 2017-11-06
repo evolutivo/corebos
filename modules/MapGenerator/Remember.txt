@@ -51,7 +51,7 @@ id="SaveAsButton"  -- the id of button
 ------------------------------- load maps ---------------------
 ----- insert into button or link 
 
-data-autoload-maps="true" --key to aktivate the ufnction
+data-autoload-maps="true" --key to aktivate the function
 
  data-autoload-Filename="MapGenerator,GetAllMaps"   ------- Modul name and the file name to make a ajax call
 
@@ -60,6 +60,18 @@ data-autoload-maps="true" --key to aktivate the ufnction
  data-autoload-id-relation="GetALLMaps"  -- id to put the values 
 
 ---- insert into dropdown
+
+data-select-map-load="true" -------- key to understand you want to execute the function
+data-select-map-load-id-relation="GetALLMaps"  ------------- the id of dropdown or input or else where you want to get the values 
+data-select-map-load-id-to-show="LoadfromMapSecondStep"   ----------------------- which id you want to put the result 
+data-select-map-load-url="MapGenerator,GetMapGeneration" ------------------------ the url when you want to send data
+
+
+
+
+  data-showhide-load="true"      -------- key to understand 
+
+  data-tools-id="LoadfromMapFirstStep,LoadfromMapSecondStep"   ----------------the id to show and hide 
 
 -----------------------------------------------------------
 
@@ -72,7 +84,7 @@ data-autoload-maps="true" --key to aktivate the ufnction
 
 
 
-button or linnk
+button 
 
 <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
 

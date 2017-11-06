@@ -55,6 +55,7 @@
 					App.TypeOfMaps.TypeOfMap);
 			$(document).on('change', 'select[data-label-change-load="true"]',
 					App.TypeOfMaps.LoadLabel);
+
 						
 		},
 		TypeOfMap : function() {
@@ -254,10 +255,12 @@
 					App.GetModuleForMapGenerator.GetSecondField);
 			$(document).on('click', 'a[data-showhide-load="true"]',
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
-			$(document).on('keyup', 'input[data-controll="true"]',
+			$(document).on('blur', 'input[data-controll="true"]',
 					App.GetModuleForMapGenerator.checkInput);
 			$(document).on('click', 'a[data-autoload-maps="true"]',
 					App.GetModuleForMapGenerator.AllMapsLoad);
+			$(document).on('click', 'a[data-select-map-load="true"]',
+								App.GetModuleForMapGenerator.LadAllMaps);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -460,45 +463,103 @@
 
 	 AllMapsLoad:function(event)
 	 {
-	 	if (event) {event.preventDefault();}
-	 	 var elem=$(this);
-	 	 var getfile=elem.attr('data-autoload-Filename');
-	 	 var getType=elem.attr('data-autoload-Type-Map');
-	 	 var idtofill=elem.attr('data-autoload-id-relation');
-	 	 // var thisid=elem.attr('id');
-	 	 var datsend="";
-	 	 if (getfile)
-	 	 {
-	 	 	getfile=getfile.split(",");
-	 	 }else
-	 	 {
-	 	 	getfile=["MapGenerator","GetAllMaps"];
-	 	 }
+		 	if (event) {event.preventDefault();}
+		 	 var elem=$(this);
+		 	 var getfile=elem.attr('data-autoload-Filename');
+		 	 var getType=elem.attr('data-autoload-Type-Map');
+		 	 var idtofill=elem.attr('data-autoload-id-relation');
+		 	 // var thisid=elem.attr('id');
+		 	 var datsend="";
+		 	 if (getfile)
+		 	 {
+		 	 	getfile=getfile.split(",");
+		 	 }else
+		 	 {
+		 	 	getfile=["MapGenerator","GetAllMaps"];
+		 	 }
 
-	 	 if (getType)
-	 	 {
-	 	 	datasend=`${getType}=${getType}`;
-	 	 }
+		 	 if (getType)
+		 	 {
+		 	 	datasend=`${getType}=${getType}`;
+		 	 }
 
-	 	 App.utils.PostDataGeneric(getfile,datasend);
-	 	 if (VauefromPost)
-	 	 {
-	 	 	if (idtofill)
-	 	 	{
-	 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
-	 	 		$('#'+idtofill).append(VauefromPost);
-	 	 		VauefromPost=null;
-	 	 	}else
-	 	 	{
-	 	 		alert(mv_arr.MissingIDtoShow);
-	 	 	}
+		 	 App.utils.PostDataGeneric(getfile,datasend);
+		 	 if (VauefromPost)
+		 	 {
+		 	 	if (idtofill)
+		 	 	{
+		 	 		$('#'+idtofill).html('');
+		 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
+		 	 		$('#'+idtofill).append(VauefromPost);
+		 	 		VauefromPost=null;
+		 	 	}else
+		 	 	{
+		 	 		alert(mv_arr.MissingIDtoShow);
+		 	 	}
 
-	 	 }
-	 	 else
-	 	 {
+		 	 }
+		 	 else
+		 	 {
 
-	 	 }
-	 }
+		 	 }
+	 },
+
+	 /**
+	  * Function to select a map from a dropdown and after to show the rezult in a specific place 
+	  */
+	 LadAllMaps:function(event)
+	 {
+		 	if (event) {event.preventDefault();}
+		 	var elem=$(this);
+		 	var iddropdown=elem.attr('data-select-map-load-id-relation');
+		 	var urltosend=elem.attr('data-select-map-load-url');
+		 	var idtoshow=elem.attr('data-select-map-load-id-to-show');
+
+		 	if (!urltosend)
+		 	{
+		 		alert(mv_arr.NameOFMapMissingFile);
+		 		return false;
+		 	}
+
+	        if (iddropdown)
+	        {
+	        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
+	        	if (valuesfromdropdown && valuesfromdropdown.length>0)
+	        	{
+	        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
+	        		App.utils.PostDataGeneric(urltosend.split(","),datasendto);
+
+	        		if (!VauefromPost)
+	        		{
+	        			alert(mv_arr.ReturnErrorFromMap);
+	        			return false;
+	        		}
+	        		if (idtoshow)
+	        		{
+	        			$('#'+idtoshow).html("");
+	        			$('#'+idtoshow).html(VauefromPost);
+	        			VauefromPost=null;
+	        		}else
+	        		{
+	        			alert(mv_arr.MissingDivID);
+	        		}
+
+
+	        	}else
+	        	{
+	        		alert(mv_arr.ChoseMap);
+	        	}
+
+
+	        }else
+	        {
+	        	alert(mv_arr.MissingIdValue);
+	        	return false;
+	        }
+
+
+
+	 },
 
 	};
 
@@ -770,6 +831,12 @@
 				}
 			});
 		},
+
+		/**
+		 * PostDataGeneric is a function to post data from ajax 
+		 * @param {[type]} Urlsend the URL
+		 * @param {[type]} dat     data to send 
+		 */
 		PostDataGeneric : function(Urlsend, dat) {
 			jQuery.ajax({
 				type : "POST",
@@ -786,6 +853,12 @@
 				}
 			});
 		},
+
+		/**
+		 * [GetDataGeneric is a function to get data from Ajax
+		 * @param {[type]} Urlsend url 
+		 * @param {[type]} dat     params you pas to get 
+		 */
 		GetDataGeneric : function(Urlsend, dat) {
 
 			jQuery.ajax({
@@ -803,6 +876,11 @@
 				}
 			});
 		},
+
+		/**
+		 * PostDataHTMLUrlPramas  function to post data
+		 * @param {[type]} response the url with data 
+		 */
 		PostDataHTMLUrlPramas : function(response) {
 			jQuery.ajax({
 				type : "POST",
@@ -819,29 +897,47 @@
 
 		},
 
+        /**
+         * [addINJSON  to insert into a Array 
+         * @param {[type]} FirstModuleval        [description]
+         * @param {[type]} FirstModuletxt        [description]
+         * @param {[type]} FirstFieldval         [description]
+         * @param {[type]} FirstFieldtxt         [description]
+         * @param {[type]} SecondModuleval       [description]
+         * @param {[type]} SecondModuletxt       [description]
+         * @param {[type]} SecondFieldval        [description]
+         * @param {[type]} SecondFieldtext       [description]
+         * @param {[type]} SecondFieldOptionGrup [description]
+         */
 		addINJSON : function(FirstModuleval, FirstModuletxt, FirstFieldval,
 				FirstFieldtxt, SecondModuleval, SecondModuletxt,
-				SecondFieldval, SecondFieldtext,SecondFieldOptionGrup) {
-			App.JSONForCOndition.push({
-				idJSON : App.JSONForCOndition.length + 1,
+				SecondFieldval, SecondFieldtext,SecondFieldOptionGrup)
+		    {
+				App.JSONForCOndition.push({
+					idJSON : App.JSONForCOndition.length + 1,
 
-				FirstModuleval : FirstModuleval,
-				FirstModuletxt : FirstModuletxt,
+					FirstModuleval : FirstModuleval,
+					FirstModuletxt : FirstModuletxt,
 
-				FirstFieldval : FirstFieldval,
-				FirstFieldtxt : FirstFieldtxt,
+					FirstFieldval : FirstFieldval,
+					FirstFieldtxt : FirstFieldtxt,
 
-				SecondModuleval : SecondModuleval,
-				SecondModuletxt : SecondModuletxt,
+					SecondModuleval : SecondModuleval,
+					SecondModuletxt : SecondModuletxt,
 
-				SecondFieldval : SecondFieldval,
-				SecondFieldtext : SecondFieldtext,
-				SecondFieldOptionGrup : SecondFieldOptionGrup,
-			// selectedfields: JSONARRAY,
-			// selectedfields: {JSONARRAY}
-			});
+					SecondFieldval : SecondFieldval,
+					SecondFieldtext : SecondFieldtext,
+					SecondFieldOptionGrup : SecondFieldOptionGrup,
+				// selectedfields: JSONARRAY,
+				// selectedfields: {JSONARRAY}
+				});
 		},
 
+		/**
+		 * function to add in array 
+		 * @param {Array} params   All of html element id to get the values 
+		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
+		 */
 		Add_to_universal_popup:function(params,jsonType){
 			var temparray={};
 			var check =false;
@@ -867,42 +963,52 @@
 				App.popupJson.push({temparray});	
 			}
 			
-			
-			
-
 		},
 
+		/**
+		 * function to create a popup html 
+		 * @param  {Int} Idd          the id of array (need for delete )
+		 * @param  {String} Firstmodulee shof the first module 
+		 * @param  {string} secondmodule second module or secont value you want to show 
+		 * @param  {string} last_check   
+		 * @param  {string} namediv      dhe id of div you want to insert the popup
+		 * @return {string}              [description]
+		 */
 		alertsdiv : function(Idd, Firstmodulee, secondmodule, last_check,
 				namediv) {
-			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-					+ '">';
-			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoins('
-					+ Idd + ',\'' + namediv + '\');">&times;</span>';
-			// INSertAlerstJOIN += '<span class="closebtns"
-			// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
-			// class="icono-eye"></</span>';
-			INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> '
-					+ Firstmodulee + '=>' + secondmodule;
-			// if (last_check==true) {//icono-plusCircle
-			// INSertAlerstJOIN +='<span title="You are here "
-			// style="float:right;margin-top:-10px;margin-right:-46px;"><i
-			// class="icono-checkCircle"></i></span>';
-			// INSertAlerstJOIN +='<span title="run the query to show the
-			// result"
-			// style="float:right;margin-top:-10px;margin-right:-86px;"><i
-			// class="icono-display"
-			// onclick="openmodalrezultquery('+Idd+');"></i></span>';
-			// }
-			// else{
-			// INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');"
-			// title="click here to show the Query"
-			// style="float:right;margin-top:-10px;margin-right:-46px;"><i
-			// class="icono-plusCircle"></i></span>';
-			// }
-			INSertAlerstJOIN += '</div';
-			return INSertAlerstJOIN;
+				var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+						+ '">';
+				INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoins('
+						+ Idd + ',\'' + namediv + '\');">&times;</span>';
+				// INSertAlerstJOIN += '<span class="closebtns"
+				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
+				// class="icono-eye"></</span>';
+				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> '
+						+ Firstmodulee + '=>' + secondmodule;
+				// if (last_check==true) {//icono-plusCircle
+				// INSertAlerstJOIN +='<span title="You are here "
+				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
+				// class="icono-checkCircle"></i></span>';
+				// INSertAlerstJOIN +='<span title="run the query to show the
+				// result"
+				// style="float:right;margin-top:-10px;margin-right:-86px;"><i
+				// class="icono-display"
+				// onclick="openmodalrezultquery('+Idd+');"></i></span>';
+				// }
+				// else{
+				// INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');"
+				// title="click here to show the Query"
+				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
+				// class="icono-plusCircle"></i></span>';
+				// }
+				INSertAlerstJOIN += '</div';
+				return INSertAlerstJOIN;
 		},
 
+		/**
+		 * function to show all the popup are in array to html popup
+		 * @param {string} namediv  id of div you want to put
+		 */
 		ReturnAllDataHistory : function(namediv) {
 			$('#' + namediv + ' div').remove();
 			var check = false;
@@ -928,6 +1034,11 @@
 
 			}
 		},
+
+		/**
+		 * function to show all the popup are in array to html popup
+		 * @param {string} namediv  id of div you want to put
+		 */
 		ReturnAllDataHistory2 : function(namediv) {
 			$('#' + namediv + ' div').remove();
 			var check = false;
@@ -964,32 +1075,10 @@
 			return INSertAlerstJOIN;
 		},
 
-		// closeAlertsAndremoveJoins:function(remuveid,namediv){
-		// var check = false;
-		// for (var ii = 0; ii <= App.JSONForCOndition.length; ii++) {
-		// if (ii == remuveid) {
-		// //JSONForCOndition.remove(remuveid);
-		// App.JSONForCOndition.splice(remuveid,1);
-		// check = true
-		// //console.log(remuveid);
-		// // console.log(ReturnAllDataHistory());
-		// }
-		// }
-		// if (check) {
-		// var remuvediv="#alerts_"+remuveid;
-		// $( "div" ).remove( remuvediv);
-		// App.utils.ReturnAllDataHistory(namediv);
-		//
-		// // $('#selectableFields option:selected').attr("selected", null);
-		// }
-		// else {
-		// alert(mv_arr.ReturnFromPost);
-		// }
-		// },
-		// call as executeFunctionByName("FormBuilder.PlainText", window,
-		// "testing")
-		// ;
-		
+		/**
+		 * IsSelectedDropdown is a function which take the id and check what type of element is and get the values 
+		 * @param {String} IdType Id of html element
+		 */
 		IsSelectORDropDown:function(IdType){
 			    
 			    var element = document.getElementById(IdType);
@@ -1036,6 +1125,10 @@
 			    return "";			
 		},
 
+		/**
+		 * IsSelectedDropdown is a function which take the id and check what type of element is and get the text 
+		 * @param {String} IdType Id of html element
+		 */
 		IsSelectORDropDownGetText:function(IdType){
 			    
 			    var element = document.getElementById(IdType);
@@ -1082,6 +1175,10 @@
 			    return "";			
 		},
 
+		/**
+		 * GetParent is a function which take the id get the optgroup from a dropdown 
+		 * @param {String} IdType Id of html element
+		 */
 		GetSelectParent:function(IdType){
 			    
 			    var element = document.getElementById(IdType);
@@ -1101,6 +1198,11 @@
 			    return "";			
 		},
 
+		/**
+		 * A function to save the values to each element of html like select input button etc
+		 * @param {String} IdType  the ID of element 
+		 * @param {String} valuee  the value you want  to put 
+		 */
 		SetValueTohtmlComponents:function(IdType,valuee){
 			    
 			    var element = document.getElementById(IdType);
@@ -1139,7 +1241,11 @@
 		},
 
 
-
+		/**
+		 * funstion to generate a modal 
+		 * @param {string}     flag to show or hide the modal
+		 * @param {String} poenclosebackdrop flag to show and open the backdrop
+		 */
 		ModalParseinJavascript:function(openclosemodal,poenclosebackdrop){
 			var htmls = [];
 			htmls.push("<div>",
