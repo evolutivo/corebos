@@ -524,11 +524,11 @@ function getProfileDescription($profileid)
 
 function isPermittedBusinessRule($module,$actionname)
 {
-    global $current_user,$adb;
+    global $current_user,$adb,$currentModule;
     $userProfileArr = getUserProfile($current_user->id);
     $roleid=$current_user->roleid;
     //check Button Control for current module
-    if(vtlib_isModuleActive('BusinessRules')){
+    if(vtlib_isModuleActive('BusinessRules') && $actionname=='EditView' && $module==$currentModule){
     $q_business_rule="Select businessrule,linktomap"
                     ." from vtiger_businessrules
                        join vtiger_crmentity cb on cb.crmid=businessrulesid and cb.deleted=0"
