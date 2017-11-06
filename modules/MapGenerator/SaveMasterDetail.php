@@ -38,8 +38,8 @@ if (!empty($Data)) {
 	$jsondecodedata=json_decode($Data);	
 
     
-    print_r(save_history(add_aray_for_history($jsondecodedata),$idquery,""));
-    exit();
+    // print_r(save_history(add_aray_for_history($jsondecodedata),$idquery,""));
+    // exit();
 	   // include_once('modules/cbMap/cbMap.php');
       if (strlen($MapID[1]==0)) {
                 include_once ("modules/cbMap/cbMap.php");
@@ -279,6 +279,29 @@ function add_aray_for_history($decodedata)
      );
  }
 
+function save_history($datas,$queryid,$xmldata){
+        global $adb;
+        $idquery2=$queryid;
+        $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery2' order by sequence DESC");
+             //$nr=$adb->num_rows($q);
+             // echo "q=".$q;
+             
+        $seq=$adb->query_result($q,0,0);
+      
+        if(!empty($seq))
+        {
+            $seq=$seq+1;
+             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery2'");                            
+              //$seqmap=count($data);
+             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
+              //return $idquery;
+        }else 
+        {
+
+            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
+        }
+        echo $idquery2;
+}
 // function emptyStr($str) {
 //     return is_string($str) && strlen($str) === 0;
 // }
@@ -335,26 +358,3 @@ function Check_table_if_exist($tableName,$primaryIds="")
 }
 
 
-function save_history($datas,$queryid,$xmldata){
-        global $adb;
-        $idquery2=$queryid;
-        $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery2' order by sequence DESC");
-             //$nr=$adb->num_rows($q);
-             // echo "q=".$q;
-             
-        $seq=$adb->query_result($q,0,0);
-      
-        if(!empty($seq))
-        {
-            $seq=$seq+1;
-             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery2'");                            
-              //$seqmap=count($data);
-             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
-              //return $idquery;
-        }else 
-        {
-
-            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
-        }
-        echo $idquery2;
-}
