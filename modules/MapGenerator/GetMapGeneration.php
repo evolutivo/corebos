@@ -27,35 +27,6 @@ if ($MypType=="Mapping") {
 	{
 		if (!empty($QueryHistory) || !empty($MapID)) {
 
-			// $MyArray=array();
-			// $xml=new SimpleXMLElement(get_form_Map($MapID)); 
-			// $nrindex=0;
-			// foreach($xml->fields->field as $field)
-			// {
-			// 	$araymy=[
-			// 		 'FirstFieldtxt' =>explode(",",  Get_Modul_fields_check_from_load($xml->targetmodule[0]->targetname,$field->fieldname))[1],
-			// 		'FirstFieldval' => explode(",",Get_Modul_fields_check_from_load($xml->targetmodule[0]->targetname,$field->fieldname))[0],
-
-			// 		'FirstModuleval' =>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0],
-
-			// 		'FirstModuletxt' =>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[1],
-
-			// 		'SecondModuletxt' =>explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule[0]->targetname,$xml->originmodule[0]->originname))[1],
-
-			// 		'SecondModuleval' =>explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule[0]->targetname,$xml->originmodule[0]->originname))[1],
-
-			// 		'SecondFieldval' =>explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule[0]->targetname,$xml->originmodule[0]->originname))[0],
-			// 		'idJSON'=>$nrindex++,
-			// 		 'SecondFieldtext' => explode(",",Get_Modul_fields_check_from_load($field->Orgfields->Relfield->RelModule,$field->Orgfields->Relfield->RelfieldName))[1],
-
-			// 		'SecondFieldval' => explode(",",Get_Modul_fields_check_from_load($field->Orgfields->Relfield->RelModule,$field->Orgfields->Relfield->RelfieldName))[0],
-			// 		'SecondFieldOptionGrup'=>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0]
-
-			// 	];
-
-			// 	array_push($MyArray,$araymy);
-			// }
-			// print_r($MyArray);
 			Mapping_View($QueryHistory,$MapID);
 		} else {
 			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
@@ -70,6 +41,24 @@ if ($MypType=="Mapping") {
 	
 	
 
+}elseif ($MypType=="MasterDetail") {
+
+		try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+
+			Mapping_View($QueryHistory,$MapID);
+		} else {
+			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+		}
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		echo "Something was wrong check the log file for more inforamtion  ";
+	}
+	
 }else
 {
 	echo "Missing ";;

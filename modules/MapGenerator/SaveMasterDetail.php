@@ -47,7 +47,7 @@ if (!empty($Data)) {
                  $focust->column_fields['assigned_user_id'] = 1;
                  $focust->column_fields['mapname'] = $mapname;
                  $focust->column_fields['content']=add_content($jsondecodedata);
-                 $focust->column_fields['maptype'] ="MasterDetailLayout";
+                 $focust->column_fields['maptype'] ="MasterDetail";
                  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
                  $focust->column_fields['description']= add_description($jsondecodedata);
                  $focust->column_fields['mvqueryid']=$idquery;
