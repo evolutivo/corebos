@@ -10,6 +10,17 @@
   </script>
 {/if}
 
+{if $PopupJson neq ''} 
+ <script type="text/javascript"> 
+      {foreach key=profile_name item=$popjs  from=$PopupJson }
+       App.utils.addINJSON('{$popjs.FirstModuleval}','{$popjs.FirstModuletxt}','{$popjs.FirstFieldval}','{$popjs.FirstFieldtxt}','{$popjs.SecondModuleval}','{$popjs.SecondModuletxt}','{$popjs.SecondFieldval}','{$popjs.SecondFieldtext}','{$popjs.SecondFieldOptionGrup}');
+          
+      {/foreach}
+      App.utils.ReturnAllDataHistory('LoadShowPopup');
+
+    </script>
+   
+{/if}
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
