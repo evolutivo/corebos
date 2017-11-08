@@ -404,7 +404,7 @@
 			var elem=$(this);
 			var filecheck=elem.attr('data-controll-file');
 			var valuetxt=elem.val();
-			var idtxt=elem.attr('id');;
+			var idtxt=elem.attr('name');;
 			var  idhshow=elem.attr('data-controll-idlabel');
 			var idrelation=elem.attr('data-controll-id-relation');
 			if (this.value.length>5)

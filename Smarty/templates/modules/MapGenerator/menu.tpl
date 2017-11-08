@@ -108,7 +108,7 @@
 	<div class="slds-form-element__control allinea" id='nameViewDiv'>
 	  <div class="slds-form-element"  style="margin:0; width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">	                
-	                     <input type="text" minlength="5" id="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
+	                     <input type="text" minlength="5" id="nameView" name="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
 	            </div>	            
 	        </div>	       
 	  </div>

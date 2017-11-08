@@ -15,8 +15,8 @@
                             <div class="slds-form-element">
                                 <label class="slds-form-element__label" for="input-unique-id">
                                     <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
-                                <input style="width: 400px; " type="text" id="SaveasMapText" required=""
-                                       class="slds-input" placeholder="{$MOD.mapname}">
+                                <input style="width: 400px; " type="text" id="SaveasMapText" name="nameView" required=""
+                                       class="slds-input" placeholder="{$MOD.mapname}" data-controll="true" data-controll-idlabel="ErrorLabelModal" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="SendDataButton" >
                                 <div class="slds-form-element__control">
 
                                 </div>
@@ -24,9 +24,10 @@
                         </div>
                     </div>
                     <div class="slds-modal__footer">
+                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" >{$MOD.cancel}
                         </button>
-                        <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText"  class="slds-button slds-button--neutral slds-button--brand">
+                        <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" disabled class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.save}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
                     </div>

@@ -55,12 +55,31 @@ if ($MypType=="Mapping") {
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo "Something was wrong check the log file for more inforamtion  ";
+		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 	
-}else
+}if ($MypType==="ListColumns") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+		}
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+	}
+	
+}
+
+else
 {
-	echo "Missing ";;
+	echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";;
 }
 
 
@@ -71,6 +90,11 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+
+
+
 
 
 /**
@@ -275,9 +299,6 @@ function Master_detail($QueryHistory,$MapID)
 		$log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
 		echo $ex;
 	}
-
-
-
 }
 
 

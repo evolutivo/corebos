@@ -13,7 +13,7 @@ $Data = array();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
 $SaveasMapText = $_POST['SaveasMapText'];
-$MapType = "MasterDetail"; // stringa con tutti i campi scelti in selField1
+$MapType = "MasterDetailLayout"; // stringa con tutti i campi scelti in selField1
 // $Data = $_POST['alldata'];
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
@@ -28,7 +28,7 @@ if (empty($SaveasMapText)) {
 }
 if (empty($MapType))
  {
-    $MapType = "MasterDetail";
+    $MapType = "MasterDetailLayout";
 }
 
 
@@ -47,7 +47,7 @@ if (!empty($Data)) {
                  $focust->column_fields['assigned_user_id'] = 1;
                  $focust->column_fields['mapname'] = $mapname;
                  $focust->column_fields['content']=add_content($jsondecodedata);
-                 $focust->column_fields['maptype'] ="MasterDetail";
+                 $focust->column_fields['maptype'] =$MapType;
                  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
                  $focust->column_fields['description']= add_description($jsondecodedata);
                  $focust->column_fields['mvqueryid']=$idquery;
@@ -81,7 +81,7 @@ if (!empty($Data)) {
                  $focust->column_fields['assigned_user_id'] = 1;
                  // $focust->column_fields['mapname'] = $MapName;
                  $focust->column_fields['content']=add_content($jsondecodedata);
-                 $focust->column_fields['maptype'] ="MasterDetailLayout";
+                 $focust->column_fields['maptype'] =$MapType;
                  $focust->column_fields['mvqueryid']=$idquery;
                  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
                  $focust->column_fields['description']= add_description($jsondecodedata);
