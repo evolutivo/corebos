@@ -38,7 +38,7 @@ if ($MypType=="Mapping") {
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo "Something was wrong check the log file for more inforamtion  ";
+		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 
 }elseif ($MypType=="MasterDetail") {
@@ -64,6 +64,39 @@ if ($MypType=="Mapping") {
 	{
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			
+			// echo GetModuleMultiToOneForLOadListColumns("Documents","DocSettings");
+			$MyArray=array();
+			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+
+			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
+			$FmoduleID=(string)  $xml->popup->linkfield;
+
+			foreach($xml->relatedlists->relatedlist as $field)
+			{
+				$araymy=[
+					 
+					 'DefaultText'=>(string) explode("#", Get_First_Moduls_TextVal($field->columns->field->name))[1],
+					 'DefaultValue' =>(string)$field->columns->field->label,
+					 'DefaultValueoptionGroup'=>"",
+					'FirstModule' =>(string) $Filed->module,
+					 'FirstModuleoptionGroup' =>"undefined",
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'JsonType'=>"Related",
+					'SecondField'=>(string)Get_Modul_fields_check_from_load($xml->originname[0],$field->columns->field->name),
+					'SecondFieldoptionGroup'=>(string)$xml->originname[0],
+					'SecondfieldID'=>(string)$field->linkfield,
+					'SecondfieldIDoptionGroup'=>"",
+					'secmodule'=>explode(",", GetModuleMultiToOneForLOadListColumns(get_The_history($QueryHistory,"firstmodule"),$xml->originname)),
+					'secmoduleoptionGroup'=>"undefined",
+				];
+
+				array_push($MyArray,$araymy);
+			}
+			print_r($MyArray);
+			exit();
+			// List_Clomns($QueryHistory,$MapID);
+
 		} else {
 			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
 		}
@@ -94,8 +127,78 @@ else
 
 
 
+/**
+ * List_Coluns function is to load the map type list coluns
+ * @param [type] $QueryHistory  The id of History of Map 
+ * @param [type] $MapID        The id of Map 
+ */
+function List_Clomns($QueryHistory,$MapID)
+{
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+
+	try {
+
+		if (!empty($QueryHistory)) 
+		{
+			//TODO: if have query history
+			
+			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+
+			$SecondModulerelation=GetModulRelOneTomulti(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+
+			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
+
+			$SecondModuleFields=getModFields(get_The_history($QueryHistory,"secondmodule"));
+
+			$MapName=get_form_Map($MapID,"mapname");
+
+			$HistoryMap=$QueryHistory.",".$MapID;
+
+			// $MyArray=array();
+			// $xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+
+			// $SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
+			// $FmoduleID=(string)  $xml->popup->linkfield;
+
+			// foreach($xml->relatedlists->relatedlist as $field)
+			// {
+			// 	$araymy=[
+					 
+			// 		 'DefaultText'=>(string) explode("#", Get_First_Moduls_TextVal($field->columns->field->name))[1],
+			// 		 'DefaultValue' =>(string)$field->columns->field->label,
+			// 		 'DefaultValueoptionGroup'=>"",
+			// 		'FirstModule' =>(string) $Filed->module,
+			// 		 'FirstModuleoptionGroup' =>"undefined",
+			// 		'FirstfieldID'=>$xml->popup->linkfield,
+			// 		'FirstfieldIDoptionGroup'=>"",
+			// 		'JsonType'=>"Related",
+			// 		'SecondField'=>(string)Get_Modul_fields_check_from_load($xml->originname[0],$field->columns->field->name),
+			// 		'SecondFieldoptionGroup'=>$xml->originname[0],
+			// 		'SecondfieldID'=>(string)$field->linkfield,
+			// 		'SecondfieldIDoptionGroup'=>"",
+			// 		'secmodule'=>explode(",", GetModuleMultiToOneForLOadListColumns(get_The_history($QueryHistory,"firstmodule"),$xml->originname)),
+			// 		'secmoduleoptionGroup'=>"undefined",
+			// 	];
+
+			// 	array_push($MyArray,$araymy);
+			// }
 
 
+			
+		} elseif (!empty($MapID)) {
+			# code...
+		}else{
+			throw new Exception("Missing the MApID also The QueryHIstory", 1);
+		}
+		
+		
+	} catch (Exception $ex) {
+		$log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+	}
+}
 
 /**
  * function to continue with master detail map 
@@ -787,6 +890,230 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
 
     return "";
 }
+
+// 
+/**
+ * function get all relation module only multi to one
+ * @param [type] $m         Moduli
+ * @param [type] $CheckNAme  The name of modul you want to check
+ */
+function GetModuleMultiToOneForLOadListColumns($m,$CheckNAme)
+   {
+    global $log, $mod_strings,$adb;
+    $j = 0;
+   $query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 
+             join  vtiger_field on  vtiger_field.fieldid= vtiger_fieldmodulerel.fieldid
+             where relmodule='$m' and module<>'Faq' and module<>'Emails' and module<>'Events' and module<>'Webmails' and module<>'SMSNotifier'
+             and module<>'PBXManager' and module<>'Modcomments' and module<>'Calendar' 
+             and relmodule in (select name from  vtiger_tab where presence=0) 
+             and module in (select name from  vtiger_tab where presence=0)";
+
+
+    $result1 = $adb->query($query1);
+    $num_rows1 = $adb->num_rows($result1);
+    if ($num_rows1 != 0) {
+        for ($i = 1; $i <= $num_rows1; $i++) {
+            $modul1 = $adb->query_result($result1, $i - 1, 'module');
+            $column = $adb->query_result($result1, $i - 1, 'columnname');
+            $fl = $adb->query_result($result1, $i - 1, 'fieldlabel');
+            if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                $a= $modul1 . '(many);' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1));
+            }
+        }
+    }
+    if ($m == "Accounts") {
+        $query2 = "SELECT name, columnname, fieldlabel from  vtiger_field
+                join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where (uitype=73 or uitype=50
+                or uitype=51 or uitype=68) and name<>'$m' and name<>'Faq' and name<>'Emails' and name<>'Events'
+                and name<>'Webmails' and name<>'SMSNotifier' and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' 
+                and  vtiger_tab.presence=0";
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+                if ($adb->num_rows($mo) != 0)
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                        $a=$modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1));
+                    }                    
+                }
+        }
+    }
+    if ($m == "Contacts") {
+        $query2 = "SELECT name, columnname, fieldlabel from  vtiger_field 
+                  join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid 
+                  where (uitype=57 or uitype=68) and name<>'$m' and name<>'Faq' and name<>'Emails' and name<>'Events' 
+                  and name<>'Webmails' and name<>'SMSNotifier'and name<>'PBXManager' and name<>'Modcomments' 
+                  and name<>'Calendar' and  vtiger_tab.presence=0";
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+                if ($adb->num_rows($mo) != 0)
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                       $a =$modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1));
+                    }
+                }
+        }
+    }
+    if ($m == "Produts") {
+        $query2 = "SELECT columnname,name, fieldlabel from  vtiger_field join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where  uitype=59 and name<>'$m'
+        and name<>'Faq' and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and  vtiger_tab.presence=0
+
+    ";
+
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select *  from vtiger_tab where name='$modul1' and presence=0");
+
+                if ($adb->num_rows($mo) != 0)
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                        $a=  $modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ')' . str_replace("'", "", getTranslatedString($fl, $modul1))."#";
+                    }
+            }
+        }
+    }
+    if ($m == "Campaigns") {
+        $query2 = "SELECT columnname, name, fieldlabel from  vtiger_field join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where  uitype=58 and name<>'$m'
+        and name<>'Faq' and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and  vtiger_tab.presence=0
+    ";
+
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+
+                if ($adb->num_rows($mo) != 0)
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                        $a = $modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1));
+                    }
+            }
+        }
+    }
+    if ($m == "Potentials") {
+        $query2 = "SELECT columnname, name ,fieldlabel from  vtiger_field join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where uitype=76 and name<>'$m'
+        and name<>'Faq' and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and   vtiger_tab.presence=0
+
+    ";
+
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+
+                if ($adb->num_rows($mo) != 0)
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                        $a= $modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1));
+                    }
+            }
+        }
+    }
+    if ($m == "Quotes") {
+        $query2 = "SELECT columnname, name, fieldlabel from  vtiger_field join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where uitype=78
+        and name<>'$m' and name<>'Faq' and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and  vtiger_tab.presence=0
+
+    ";
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+
+                if ($adb->num_rows($mo) != 0)
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                        $a = $modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1));
+                    }
+
+            }
+        }
+    }
+    if ($m == "SalesOrder") {
+        $query2 = "SELECT columnname, name, fieldlabel from  vtiger_field join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where uitype=81 and uitype=75 and name<>'$m'
+        and name<>'Faq' and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and  vtiger_tab.presence=0
+
+    ";
+
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $$fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+
+                if ($adb->num_rows($mo) != 0 && $CheckNAme==$modul1)
+                    $a =  $modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . ') ' . str_replace("'", "", getTranslatedString($fl, $modul1)) ."#" ;
+
+
+            }
+        }
+    }
+    if ($m == "Vendors") {
+        $query2 = "SELECT columnname, name, fieldlabel from  vtiger_field join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid where uitype=80 and name<>'$m'
+        and name<>'Faq' and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and  vtiger_tab.presence=0
+
+    ";
+
+
+        $result2 = $adb->query($query2);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $modul1 = $adb->query_result($result2, $i - 1, 'name');
+                $column = $adb->query_result($result2, $i - 1, 'columnname');
+                $fl = $adb->query_result($result2, $i - 1, 'fieldlabel');
+                $mo = $adb->query("select * from  vtiger_tab where name='$modul1' and presence=0");
+
+                if ($adb->num_rows($mo) != 0) {
+                    if (strlen($CheckNAme) != 0 && $CheckNAme == $modul1) {
+                        $a =  $modul1 . '(many); ' . $column . ',' . str_replace("'", "", getTranslatedString($modul1)) . '(' . $mod_strings['many'] . '); ' . str_replace("'", "", getTranslatedString($fl, $modul1));
+                    }
+                }
+            }
+        }
+    }
+    return $a;
+}
+
+
+
 
 /**
  * function to find in string if exist a substring

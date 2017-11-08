@@ -37,7 +37,8 @@ if (!empty($Data)) {
 	$jsondecodedata=json_decode($Data);	
     //print_r(save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)));
 
-
+// echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata));
+// exit();
 
   if(strlen($MapID[1]==0)){
 
@@ -49,6 +50,7 @@ if (!empty($Data)) {
      $focust->column_fields['maptype'] ="ListColumns";
      $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['description']= add_description($jsondecodedata);
+     $focust->column_fields['mvqueryid']=$idquery2;
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
       {
@@ -80,7 +82,7 @@ if (!empty($Data)) {
      // $focust->column_fields['mapname'] = $MapName;
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] ="MasterDetailLayout";
-     $focust->column_fields['mvqueryid']=$idquery;
+     $focust->column_fields['mvqueryid']=$idquery2;
      $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['description']= add_description($jsondecodedata);
      $focust->mode = "edit";
@@ -424,9 +426,7 @@ function save_history($datas,$queryid,$xmldata){
         $idquery=$queryid;
 
           $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery' order by sequence DESC");
-             //$nr=$adb->num_rows($q);
-             // echo "q=".$q;
-              $seq=$adb->query_result($q,0,0);
+          $seq=$adb->query_result($q,0,0);
         if(!empty($seq))
         {
              $seq=$seq+1;
@@ -440,5 +440,5 @@ function save_history($datas,$queryid,$xmldata){
             $idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
         }
-       echo $idquery;    
+       echo $idquery;
 }
