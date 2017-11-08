@@ -1909,7 +1909,7 @@ function GenearteMasterDetail() {
     temparray['secmoduleoptionGroup'] =undefined;
 
     temparray['SecondfieldID'] = AppUtils.IsSelectORDropDown("SecondfieldID");
-    temparray['SecondfieldID'] = "";
+    //temparray['SecondfieldID'] = "";
 
     temparray['sortt6ablechk'] = AppUtils.IsSelectORDropDown("sortt6ablechk");
     temparray['sortt6ablechkoptionGroup'] = "";
