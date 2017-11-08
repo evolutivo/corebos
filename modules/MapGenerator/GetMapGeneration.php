@@ -180,7 +180,88 @@ function Master_detail($QueryHistory,$MapID)
 		}elseif (!empty($MapID)) {
 			//TODO: if exist MAp id 
 			
+			$xml=new SimpleXMLElement(get_form_Map($MapID)); 
+			$FirstModuleSelected=Get_First_Moduls((string) $xml->targetmodule[0]);
+			 $SecondModulerelation=GetModulRelOneTomulti((string)$xml->targetmodule[0] ,(string)$xml->targetmodule[0]);
+			$FirstModuleFields=getModFields((string)$xml->targetmodule[0]);
+			$SecondModuleFields=getModFields((string)$xml->originmodule[0]);
+			$MapName=get_form_Map($MapID,"mapname");
+			$HistoryMap=get_form_Map($MapID,"mvqueryid").",".$MapID;
+
+			// value for Save As 
+			$data="MapGenerator,SaveMasterDetail";
+			$dataid="ListData,MapName";
+			$savehistory="true";
 			
+			$MyArray=array();
+			// $xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+
+			$FmoduleID=(string) $xml->linkfields->targetfield;
+			$SmoduleID=(string) $xml->linkfields->originfield;
+
+			$nrindex=0;
+			foreach($xml->detailview->fields->field as $field)
+			{
+				$araymy=[
+					 
+					 'DefaultText'=>"Edmondi Default",
+					 'FirstModule' =>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]))[0],
+					 'FirstModuleoptionGroup'=>"udentifined",
+					'Firstfield' =>(string) explode(",",Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[0],
+					 'FirstfieldID' =>(string) $xml->linkfields[0]->targetfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'Firstfield_Text'=>(string) explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]))[1],
+					'FirstfieldoptionGroup'=>(string)$xml->targetmodule,
+					'JsonType'=>"Default",
+					'SecondfieldID'=>(string)$xml->linkfields->originfield,
+
+					'editablechk'=>(string) $field->editable,
+					'editablechkoptionGroup'=>"",
+
+					'hiddenchk'=>(string) $field->editable,
+					'hiddenchkoptionGroup'=>"",
+
+					'mandatorychk'=>(string)$field->mandatory,
+
+					'secmodule' =>(string)explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule,$xml->originmodule))[0],
+					'secmoduleoptionGroup'=>"udentifined",
+
+					'sortt6ablechk'=>((string)$xml->sortfield===(string)$field->fieldname)?1:0,
+					'sortt6ablechkoptionGroup'=>"",
+					
+
+				];
+
+				array_push($MyArray,$araymy);
+			}
+
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FmoduleID",$FmoduleID);
+			$smarty->assign("SmoduleID",$SmoduleID);
+
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+
+			$smarty->assign("PopupJS",$MyArray);
+
+			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+
+			$output = $smarty->fetch('modules/MapGenerator/MasterDetail.tpl');
+			echo $output;
+
 
 
 			
