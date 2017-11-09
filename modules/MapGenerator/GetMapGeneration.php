@@ -41,7 +41,7 @@ if ($MypType=="Mapping") {
 		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 
-}elseif ($MypType=="MasterDetail") {
+}elseif ($MypType=="MasterDetailLayout") {
 
 	try
 	{
