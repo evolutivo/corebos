@@ -64,38 +64,10 @@ if ($MypType=="Mapping") {
 	{
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			
-			// echo GetModuleMultiToOneForLOadListColumns("Documents","DocSettings");
-			$MyArray=array();
-			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
-
-			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
-			$FmoduleID=(string)  $xml->popup->linkfield;
-
-			foreach($xml->relatedlists->relatedlist as $field)
-			{
-				$araymy=[
-					 
-					 'DefaultText'=>(string) explode("#", Get_First_Moduls_TextVal($field->columns->field->name))[1],
-					 'DefaultValue' =>(string)$field->columns->field->label,
-					 'DefaultValueoptionGroup'=>"",
-					'FirstModule' =>(string) $Filed->module,
-					 'FirstModuleoptionGroup' =>"undefined",
-					'FirstfieldID'=>(string)$xml->popup->linkfield,
-					'FirstfieldIDoptionGroup'=>"",
-					'JsonType'=>"Related",
-					'SecondField'=>(string)Get_Modul_fields_check_from_load($xml->originname[0],$field->columns->field->name),
-					'SecondFieldoptionGroup'=>(string)$xml->originname[0],
-					'SecondfieldID'=>(string)$field->linkfield,
-					'SecondfieldIDoptionGroup'=>"",
-					'secmodule'=>explode(",", GetModuleMultiToOneForLOadListColumns(get_The_history($QueryHistory,"firstmodule"),$xml->originname)),
-					'secmoduleoptionGroup'=>"undefined",
-				];
-
-				array_push($MyArray,$araymy);
-			}
-			print_r($MyArray);
-			exit();
-			// List_Clomns($QueryHistory,$MapID);
+			// echo GetModuleMultiToOneForLOadListColumns("Potentials","Entitylog");
+			// echo  Get_First_Moduls_TextVal("Entitylog");
+			
+			List_Clomns($QueryHistory,$MapID);
 
 		} else {
 			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
@@ -156,39 +128,88 @@ function List_Clomns($QueryHistory,$MapID)
 
 			$HistoryMap=$QueryHistory.",".$MapID;
 
-			// $MyArray=array();
-			// $xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+			$MyArray=array();
+			$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
 
-			// $SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
-			// $FmoduleID=(string)  $xml->popup->linkfield;
+			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
+			$FmoduleID=(string)  $xml->popup->linkfield;
 
-			// foreach($xml->relatedlists->relatedlist as $field)
-			// {
-			// 	$araymy=[
+			foreach($xml->relatedlists->relatedlist as $field)
+			{
+				$ArrayRelated=[
 					 
-			// 		 'DefaultText'=>(string) explode("#", Get_First_Moduls_TextVal($field->columns->field->name))[1],
-			// 		 'DefaultValue' =>(string)$field->columns->field->label,
-			// 		 'DefaultValueoptionGroup'=>"",
-			// 		'FirstModule' =>(string) $Filed->module,
-			// 		 'FirstModuleoptionGroup' =>"undefined",
-			// 		'FirstfieldID'=>$xml->popup->linkfield,
-			// 		'FirstfieldIDoptionGroup'=>"",
-			// 		'JsonType'=>"Related",
-			// 		'SecondField'=>(string)Get_Modul_fields_check_from_load($xml->originname[0],$field->columns->field->name),
-			// 		'SecondFieldoptionGroup'=>$xml->originname[0],
-			// 		'SecondfieldID'=>(string)$field->linkfield,
-			// 		'SecondfieldIDoptionGroup'=>"",
-			// 		'secmodule'=>explode(",", GetModuleMultiToOneForLOadListColumns(get_The_history($QueryHistory,"firstmodule"),$xml->originname)),
-			// 		'secmoduleoptionGroup'=>"undefined",
-			// 	];
+					 'DefaultText'=>(string)$field->columns->field->label,
+					 'DefaultValue' =>(string)$field->columns->field->label,
+					 'DefaultValueoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					 'FirstModuleoptionGroup' =>"undefined",
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'JsonType'=>"Related",
+					'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
+					'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
+					'SecondfieldID'=>(string)$field->linkfield,
+					'SecondfieldIDoptionGroup'=>"",
+					'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
+					'secmoduleoptionGroup'=>"undefined",
+				];
+				array_push($MyArray,$ArrayRelated);
+			}
 
-			// 	array_push($MyArray,$araymy);
-			// }
+			foreach ($xml->popup->columns->field as $popupi) {
 
+				$Arraypopup=[
+					
+					'DefaultText'=>(string)$popupi->label,
+					'DefaultValueFirstModuleField' =>(string)$popupi->label,
+					'DefaultValueFirstModuleFieldoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					'FirstModuleoptionGroup' =>"undefined",
+					'Firstfield'=>(string)explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),$popupi->name))[0],
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
+					'JsonType'=>"Popup",
+					
+				];
+				array_push($MyArray,$Arraypopup);
+			}
+
+			$data="MapGenerator,SaveListColumns";
+			$dataid="ListData,MapName";
+			$savehistory="true";
+			
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FmoduleID",$FmoduleID);
+			$smarty->assign("SmoduleID",$SmoduleID);
+
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+
+			$smarty->assign("PopupJS",$MyArray);
+
+			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+
+			$output = $smarty->fetch('modules/MapGenerator/ListColumns.tpl');
+			echo $output;
 
 			
 		} elseif (!empty($MapID)) {
 			# code...
+			
 		}else{
 			throw new Exception("Missing the MApID also The QueryHIstory", 1);
 		}
