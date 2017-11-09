@@ -93,6 +93,7 @@ $mod_strings = Array(
     'ChangeLabel'=>'Change Label name',
     'SelectedField'=>'Selected Fields',
     'popupPlace'=>'Popup Screen',
+    'ConditionQuery'=>'Condition Query',
 
 
 );

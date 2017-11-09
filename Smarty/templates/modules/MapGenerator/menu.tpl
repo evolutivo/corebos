@@ -127,6 +127,7 @@
     	                    <option value="WS">{$MOD.TypeMapWS}</option>
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
                             <option value="ListColumns">{$MOD.ListColumns}</option>
+                            <option value="ConditionQuery">{$MOD.ConditionQuery}</option>
 	                    </select>
 	                </div>	            
 	            </div>

@@ -176,7 +176,7 @@ function add_content($DataDecode)
   	     $field->appendChild($mandatory);
 
   	     $hidden = $xml->createElement("hidden");
-  	     $hiddenText= $xml->createTextNode( $value->temparray->mandatorychk);
+  	     $hiddenText= $xml->createTextNode( $value->temparray->hiddenchk);
   	     $hidden->appendChild($hiddenText);
   	     $field->appendChild($hidden);
 

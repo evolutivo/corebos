@@ -118,8 +118,13 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "ConditionQuery") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ "MapGenerator", "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
-
 		},
 
 		LoadLabel:function(event){
