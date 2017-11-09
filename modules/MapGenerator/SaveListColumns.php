@@ -154,7 +154,7 @@ function add_content($DataDecode)
                       $field = $xml->createElement("field");
 
                       $label = $xml->createElement("label");
-                      $labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValue);
+                      $labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultText);
                       $label->appendChild($labelText);
                       $field->appendChild($label);
 
@@ -437,7 +437,7 @@ function save_history($datas,$queryid,$xmldata){
         }else 
         {
 
-            $idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+            //$idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
         }
        echo $idquery;

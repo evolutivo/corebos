@@ -112,7 +112,7 @@ function List_Clomns($QueryHistory,$MapID)
 
 	try {
 
-		if (!empty($QueryHistory)) 
+		if (empty($QueryHistory)) 
 		{
 			//TODO: if have query history
 			
@@ -208,7 +208,97 @@ function List_Clomns($QueryHistory,$MapID)
 
 			
 		} elseif (!empty($MapID)) {
-			# code...
+			//TODO:: execute when not find the QueryID
+			
+			$xml= new SimpleXMLElement(get_form_Map($MapID)); 
+			$FirstModuleSelected=Get_First_Moduls(get_form_Map($MapID,"targetname"));
+			$QueryHistory=get_form_Map($MapID,"mvqueryid");
+			$SecondModulerelation=GetModulRelOneTomulti(get_form_Map($MapID,"targetname"),$xml->originmodule->originname);
+
+			$FirstModuleFields=getModFields(get_form_Map($MapID,"targetname"));
+
+			$SecondModuleFields=getModFields($xml->originmodule->originname);
+
+			$MapName=get_form_Map($MapID,"mapname");
+
+			$HistoryMap=$QueryHistory.",".$MapID;
+
+			$MyArray=array();
+
+			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
+			$FmoduleID=(string)  $xml->popup->linkfield;
+
+			foreach($xml->relatedlists->relatedlist as $field)
+			{
+				$ArrayRelated=[
+					 
+					 'DefaultText'=>(string)$field->columns->field->label,
+					 'DefaultValue' =>(string)$field->columns->field->label,
+					 'DefaultValueoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					 'FirstModuleoptionGroup' =>"undefined",
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'JsonType'=>"Related",
+					'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
+					'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
+					'SecondfieldID'=>(string)$field->linkfield,
+					'SecondfieldIDoptionGroup'=>"",
+					'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
+					'secmoduleoptionGroup'=>"undefined",
+				];
+				array_push($MyArray,$ArrayRelated);
+			}
+
+			foreach ($xml->popup->columns->field as $popupi) {
+
+				$Arraypopup=[
+					
+					'DefaultText'=>(string)$popupi->label,
+					'DefaultValueFirstModuleField' =>(string)$popupi->label,
+					'DefaultValueFirstModuleFieldoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					'FirstModuleoptionGroup' =>"undefined",
+					'Firstfield'=>(string)explode(",",Get_Modul_fields_check_from_load(get_form_Map($MapID,"targetname"),$popupi->name))[0],
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
+					'JsonType'=>"Popup",
+					
+				];
+				array_push($MyArray,$Arraypopup);
+			}
+
+			$data="MapGenerator,SaveListColumns";
+			$dataid="ListData,MapName";
+			$savehistory="true";
+			
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FmoduleID",$FmoduleID);
+			$smarty->assign("SmoduleID",$SmoduleID);
+
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+
+			$smarty->assign("PopupJS",$MyArray);
+
+			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+
+			$output = $smarty->fetch('modules/MapGenerator/ListColumns.tpl');
+			echo $output;
 			
 		}else{
 			throw new Exception("Missing the MApID also The QueryHIstory", 1);
