@@ -58,7 +58,7 @@
                     if($cond!='')
                      {
                         $businessrulesid = $cond;
-                        $res_buss = $adb->pquery("select * from vtiger_businessrules where businessrulesid=?", array($businessrulesid));
+                        $res_buss = $adb->pquery("select * from vtiger_businessrules  join vtiger_crmentity on businessrulesid=crmid where businessrulesid=? and deleted=0", array($businessrulesid));
                         $isRecordDeleted = $adb->query_result($res_buss, 0, "deleted");
                         if ($isRecordDeleted == 0 || $isRecordDeleted == '0') {
                             $br_focus = CRMEntity::getInstance("BusinessRules");

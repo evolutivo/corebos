@@ -33,51 +33,7 @@
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-    <div>
-        <div class="slds">
-
-            <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
-                <div class="slds-modal__container">
-                    <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
-                            <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-                            </svg>
-                            <span class="slds-assistive-text">{$MOD.close}</span>
-                        </button>
-                        <h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
-                    </div>
-                    <div class="slds-modal__content slds-p-around--medium">
-                        <div>
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-unique-id">
-                                    <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
-                                <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
-                                       class="slds-input" placeholder="{$MOD.mapname}">
-                                <div class="slds-form-element__control">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slds-modal__footer">
-                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
-                        </button>
-                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
-                            {$MOD.save}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="slds-backdrop" id="backdrop"></div>
-
-           
-        </div>
-
-    </div>
-
-
-    <div id="selJoin" style="float:left; overflow: hidden;width:75%;height: 180px;">
+   <div id="selJoin" style="float:left; overflow: hidden;width:75%;height: 180px;">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -99,7 +55,7 @@
                 	<label style="font-size: initial;color: grey;">{$MOD.SelectField}</label>
                     <div class="slds-select_container">
                        <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
-                       <option value="">Choose from origin </option>
+                       <option value="">Choose from origin</option>
                         </select>
                        </div>
                 </div>
@@ -134,7 +90,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,FirstfieldID,SecondfieldID,SecondField,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
                           </div>
@@ -227,9 +183,10 @@
           </div>
             
        <br><br>
-       <button id="set" style="margin-left:80%;margin-top: 30px;" onclick="GenerateListColumns()" class="slds-button slds-button--brand">
-        {$MOD.SaveAsMap}
+       <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" class="slds-button slds-button--brand">
+        {$MOD.CreateMap}
         </button>
+        <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
      
     </div>   
 </div>

@@ -1885,6 +1885,74 @@ function GenerateListColumns()
 }
 
 
+function GenearteMasterDetail() {
+    var temparray = {};
+
+    var AppUtils=App.utils;
+    temparray['DefaultText'] = "Created By";
+    temparray['JsonType'] = "Default";
+
+    temparray['FirstfieldoptionGroup'] = AppUtils.IsSelectORDropDown("FirstModule");
+
+
+    temparray['FirstModule'] = AppUtils.IsSelectORDropDown("FirstModule");
+    temparray['FirstModuleoptionGroup'] = undefined;
+
+    temparray['FirstfieldID'] = AppUtils.IsSelectORDropDown("FirstfieldID");
+    temparray['FirstfieldIDoptionGroup'] = "";
+
+    temparray['Firstfield'] = AppUtils.IsSelectORDropDown("Firstfield");
+    temparray['Firstfield'] = AppUtils.IsSelectORDropDown("Firstfield");
+    temparray['Firstfield_Text'] = AppUtils.IsSelectORDropDownGetText("Firstfield");
+
+    temparray['secmodule'] = AppUtils.IsSelectORDropDown("secmodule");
+    temparray['secmoduleoptionGroup'] =undefined;
+
+    temparray['SecondfieldID'] = AppUtils.IsSelectORDropDown("SecondfieldID");
+    //temparray['SecondfieldID'] = "";
+
+    temparray['sortt6ablechk'] = AppUtils.IsSelectORDropDown("sortt6ablechk");
+    temparray['sortt6ablechkoptionGroup'] = "";
+
+    temparray['editablechk'] = AppUtils.IsSelectORDropDown("editablechk");
+    temparray['editablechkoptionGroup'] = "";
+
+    temparray['mandatorychk'] = AppUtils.IsSelectORDropDown("mandatorychk");
+    temparray['hiddenchkoptionGroup'] = "";
+
+    temparray['hiddenchk'] = AppUtils.IsSelectORDropDown("hiddenchk");
+    temparray['hiddenchkoptionGroup'] = "";
+
+    App.popupJson.push({temparray});
+  $('#contenitoreJoin').html('');
+    if(App.popupJson.length>0){
+      for (var i=0; i<= App.popupJson.length - 1; i++) {
+        $('#contenitoreJoin').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
+       App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
+       App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
+      
+      }
+    }
+}
+
+
+function FillDivAlert( Idd, divid, firstfield, sortt6ablechk, editablechk, mandatorychk, hiddenchk){
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+          + '">';
+      INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
+          + Idd + ',\'' + divid + '\');">&times;</span>';
+      
+      INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+firstfield;
+      INSertAlerstJOIN += '<br><strong>#Sort!  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
+      INSertAlerstJOIN += '<br><strong>#Editable!  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
+      INSertAlerstJOIN += '<br><strong>#Mandotary!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
+      INSertAlerstJOIN += '<br><strong>#Hidden!  '+(Idd+1)+'</strong> '+(hiddenchk==1?"True":"False");
+     
+      INSertAlerstJOIN += '</div';
+
+      return INSertAlerstJOIN;
+}
+
 /**
  * SELECT * from vtiger_tab;
  *SELECT * from vtiger_field;

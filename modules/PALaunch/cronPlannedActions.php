@@ -47,13 +47,11 @@ processQueue('Cron');
 
 $date = new DateTimeField(NULL);
 $now = $date->getDisplayTime();
-if ((!isset($SMS_sendtime_start) && !isset($SMS_sendtime_end)) || ($now >= $SMS_sendtime_start && $now <= $SMS_sendtime_end)) {
-	processQueue('SMS', 0, 0, 0, true);
-}
+//if ((!isset($SMS_sendtime_start) && !isset($SMS_sendtime_end)) || ($now >= $SMS_sendtime_start && $now <= $SMS_sendtime_end)) {
+//	processQueue('SMS', 0, 0, 0, true);
+//}
 
-processQueue('Task');
-
-
+//processQueue('Task');
 
 function processQueue($actionTypes, $batchSize = 0, $batchPeriod = 0, $throttle = 0, $emailoptout = false) {
 	global $adb;
@@ -61,62 +59,18 @@ function processQueue($actionTypes, $batchSize = 0, $batchPeriod = 0, $throttle 
 		$actionTypes = array($actionTypes);
 	}
 	$actionTypesAsString = "'" . implode("','", $actionTypes) . "'";
-    
-	// If batch mode then count mails sent in the last period to adjust current batch size
-//	if ($batchSize > 0) {
-//		$query = "select count(*)
-//			from vtiger_palaunch pal
-//			join vtiger_plannedactions pa on pa.plannedbusinessactionsid=pal.plannedaction_id
-//			join vtiger_businessactions act on act.businessactionsid=pa.action_id
-//			join vtiger_crmentity as crm_pal on crm_pal.crmid=pal.palaunchid and crm_pal.deleted=0
-//			join vtiger_crmentity as crm1 on crm1.crmid=pal.recipient_id and crm1.deleted=0
-//			join vtiger_crmentity as crm2 on crm2.crmid=pal.plannedaction_id and crm2.deleted=0
-//			join vtiger_crmentity as crm3 on crm3.crmid=pal.sequencer_id and crm3.deleted=0
-//			where act.actions_type in ($actionTypesAsString) and pal.palaunch_status='Done' and pal.processed_date>date_sub(now(), interval {$batchPeriod} second)";
-//		$res = $adb->query($query);
-//		$processed = $adb->query_result($res, 0, 0);
-//		$batchSize -= $processed;
-//		if ($batchSize < 0) {
-//			return;
-//		}
-//	}
-
-	//
-	// vtiger_plannedactions_contacts.status:
-	//  0 - Pending
-	//  1 - Processed
-	//  2 - Error
-	//  3 - Email Optout
-	//
-           
-//        if($actionTypes[0]!="Cron" && $actionTypes[0]!="WS"){
-//	$query = "select pal.*, pa.plannedactions_status, s.sequencersid, s.sequencers_status, act.actions_type, coalesce(c.emailoptout, ac.emailoptout, 0) as emailoptout, crm1.deleted || crm2.deleted || crm3.deleted as invalid
-//		from vtiger_palaunch pal
-//		join vtiger_crmentity as crm_pal on crm_pal.crmid=pal.palaunchid and crm_pal.deleted=0
-//		left join vtiger_contactdetails c on c.contactid=pal.recipient_id
-//		left join vtiger_account ac on ac.accountid=pal.recipient_id
-//		join vtiger_plannedactions pa on pa.plannedbusinessactionsid=pal.plannedaction_id
-//		join vtiger_businessactions act on act.businessactionsid=pa.action_id
-//		left join vtiger_sequencers s on s.sequencersid=pal.sequencer_id
-//		left join vtiger_crmentity as crm1 on crm1.crmid=pal.recipient_id
-//		left join vtiger_crmentity as crm2 on crm2.crmid=pal.plannedaction_id
-//		left join vtiger_crmentity as crm3 on crm3.crmid=pal.sequencer_id
-//		where act.actions_type in ($actionTypesAsString) and pal.scheduled_date<now() and pal.palaunch_status='Pending'
-//		order by pal.scheduled_date";
-//	}
-//        else {
-                 $query = "select palaunchid,sequencersid,businessactionsid, parameters,actions_type as ac,if(s.sequencersid<>'',s.crontab, act.crontab) as crontab, 
+                $query = "select palaunchid,sequencersid,businessactionsid, parameters,actions_type as ac,if(s.sequencersid<>'',s.crontab, act.crontab) as crontab, 
                 if(s.sequencersid<>'',s.elementtype, act.elementtype_action) as actions_type
                 from vtiger_palaunch pal
 		join vtiger_crmentity as crm_pal on crm_pal.crmid=pal.palaunchid and crm_pal.deleted=0
-		left join vtiger_contactdetails c on c.contactid=pal.recipient_id
-		left join vtiger_account ac on ac.accountid=pal.recipient_id
 		left join vtiger_businessactions act on (act.businessactionsid=pal.sequencer_id )
 		left join vtiger_sequencers s on (s.sequencersid=pal.sequencer_id )
-		left join vtiger_crmentity as crm1 on crm1.crmid=pal.recipient_id
-		left join vtiger_crmentity as crm3 on crm3.crmid=pal.sequencer_id
-		where (DATE_FORMAT(ADDTIME(CONCAT(pal.scheduled_date,' ',pal.time_start),'00:05:00'),'%Y-%m-%d %H:%i')>=DATE_FORMAT(now(),'%Y-%m-%d %H:%i') and DATE_FORMAT(CONCAT(pal.scheduled_date,' ',pal.time_start),'%Y-%m-%d %H:%i')<=DATE_FORMAT(ADDTIME(now(),'00:05:00'),'%Y-%m-%d %H:%i') or (DATE_FORMAT(ADDTIME(CONCAT(pal.scheduled_date,' ',pal.time_start),'00:05:00'),'%Y-%m-%d %H:%i')<DATE_FORMAT(now(),'%Y-%m-%d %H:%i') and elementtype_action=$actionTypesAsString)) 
-                and pal.palaunch_status='Pending' and ((elementtype=$actionTypesAsString and s.sequencersid<>'') or (elementtype_action=$actionTypesAsString and act.businessactionsid<>''))
+		where (DATE_FORMAT(ADDTIME(CONCAT(pal.scheduled_date,' ',pal.time_start),'00:05:00'),'%Y-%m-%d %H:%i')>=DATE_FORMAT(now(),'%Y-%m-%d %H:%i') 
+                and DATE_FORMAT(CONCAT(pal.scheduled_date,' ',pal.time_start),'%Y-%m-%d %H:%i')<=DATE_FORMAT(ADDTIME(now(),'00:05:00'),'%Y-%m-%d %H:%i') 
+                or (DATE_FORMAT(ADDTIME(CONCAT(pal.scheduled_date,' ',pal.time_start),'00:05:00'),'%Y-%m-%d %H:%i')<DATE_FORMAT(now(),'%Y-%m-%d %H:%i') 
+                and elementtype_action=$actionTypesAsString)) 
+                and pal.palaunch_status='Pending' and ((elementtype=$actionTypesAsString and s.sequencersid<>'')"
+                . "or (elementtype_action=$actionTypesAsString and act.businessactionsid<>''))
 		order by pal.scheduled_date";  
         //}
         if ($batchSize > 0) {
@@ -177,7 +131,7 @@ function processQueue($actionTypes, $batchSize = 0, $batchPeriod = 0, $throttle 
 		}
 	}
 }
-
+/*
 function sendEmailTemplate($crmId, $plannedActionId, $relatedId) {
   global $adb, $current_user;
   $setype = getSalesEntityType($crmId);
@@ -641,6 +595,8 @@ function createTask($crmId, $plannedActionId) {
   $task->save('Task');
   return !empty($task->id);
 }
+ * 
+ */
 function execCronWS($actid, $typ, $eltyp, $param, $palid, $crontab) {
     //launch action
     global $adb, $log;

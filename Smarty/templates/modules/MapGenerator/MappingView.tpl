@@ -4,8 +4,23 @@
   <div id="LoadingImage" style="display: none">
     <img src=""/>
 </div>
+{if $HistoryMap neq ''}
+  <script type="text/javascript">
+    App.savehistoryar='{$HistoryMap}';
+  </script>
+{/if}
 
+{if $PopupJson neq ''} 
+ <script type="text/javascript"> 
+      {foreach key=profile_name item=$popjs  from=$PopupJson }
+       App.utils.addINJSON('{$popjs.FirstModuleval}','{$popjs.FirstModuletxt}','{$popjs.FirstFieldval}','{$popjs.FirstFieldtxt}','{$popjs.SecondModuleval}','{$popjs.SecondModuletxt}','{$popjs.SecondFieldval}','{$popjs.SecondFieldtext}','{$popjs.SecondFieldOptionGrup}');
+          
+      {/foreach}
+      App.utils.ReturnAllDataHistory('LoadShowPopup');
 
+    </script>
+   
+{/if}
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
@@ -15,15 +30,15 @@
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
-        {*//data-send-type= 
-           //Mapping is a type is string 
-           //MapName is the ID of textbox label 
-           //data-send-url="MapGenerator,SaveTypeMaps"
-           //MapGenerator modul 
-           //SaveTypePOstMaps is filename 
-           
-        *}
-        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        
+        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
+
+        {if $HistoryMap neq ''}
+           <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        {else}
+            <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
+        {/if}
+        
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
@@ -58,56 +73,22 @@
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-    <div>
-        <div class="slds">
-
-            <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
-                <div class="slds-modal__container">
-                    <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
-                            <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-                            </svg>
-                            <span class="slds-assistive-text">{$MOD.close}</span>
-                        </button>
-                        <h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
-                    </div>
-                    <div class="slds-modal__content slds-p-around--medium">
-                        <div>
-                            <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-unique-id">
-                                    <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
-                                <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
-                                       class="slds-input" placeholder="{$MOD.mapname}">
-                                <div class="slds-form-element__control">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slds-modal__footer">
-                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
-                        </button>
-                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
-                            {$MOD.save}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="slds-backdrop" id="backdrop"></div>
-
-           
-        </div>
-
+    <div data-div-load-automatic="true" id="ModalShow">
+      
     </div>
 
-
+    {if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+    {/if}
     <div id="selJoin" style="float:left; overflow: hidden;width:80%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select data-select-load="true" data-second-module-file="SecondModuleMasterDetail" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                        {$FirstModuleSelected}
                         </select>
                        </div>
                 </div>
@@ -117,7 +98,7 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select  id="Firstfield" name="mod" class="slds-select">
-                       
+                        {$FirstModuleFields}
                         </select>
                        </div>
                 </div>
@@ -129,6 +110,7 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                         <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="AllRelation" name="secmodule" class="slds-select">
+                          {$SecondModulerelation}
                         </select>
                      </div>
                 </div>                
@@ -139,6 +121,7 @@
                 
                     <div class="" id="SecondDiv" style="float: left;width: 92%;">
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
+                          {$SecondModuleFields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">

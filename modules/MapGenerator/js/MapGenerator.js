@@ -41,6 +41,8 @@
 
 	};
 
+
+
 	App.TypeOfMaps = {
 
 		init : function() {
@@ -53,7 +55,8 @@
 					App.TypeOfMaps.TypeOfMap);
 			$(document).on('change', 'select[data-label-change-load="true"]',
 					App.TypeOfMaps.LoadLabel);
-			
+
+						
 		},
 		TypeOfMap : function() {
 			var types = $('select[data-load-Map="true"]').attr(
@@ -238,7 +241,7 @@
             	alert(mv_arr.addJoinValidation);
             }
 
-		},
+		},		
 
 	};
 
@@ -254,6 +257,10 @@
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
 			$(document).on('blur', 'input[data-controll="true"]',
 					App.GetModuleForMapGenerator.checkInput);
+			$(document).on('click', 'a[data-autoload-maps="true"]',
+					App.GetModuleForMapGenerator.AllMapsLoad);
+			$(document).on('click', 'a[data-select-map-load="true"]',
+								App.GetModuleForMapGenerator.LadAllMaps);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -379,62 +386,178 @@
 		},
 
 		ChangeTextDropDown : function() {
-		//			if (event)
-		//				event.preventDefault();
-			var elem = $(this);
-			var IdChange = elem.attr("data-tools-id").split(",");
-		//			if (IdChange.length<1) {
-				//elem.click(function() {
-					$("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
-				//});
-     //			}
+			//			if (event)
+			//				event.preventDefault();
+				var elem = $(this);
+				var IdChange = elem.attr("data-tools-id").split(",");
+			//			if (IdChange.length<1) {
+					//elem.click(function() {
+						$("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
+					//});
+	      //			}
 
 		},
 	 checkInput:function(event)
 	 {
-		if (event) {event.preventDefault();}
+			if (event) {event.preventDefault();}
 
-		var elem=$(this);
-		var filecheck=elem.attr('data-controll-file');
-		var valuetxt=elem.val();
-		var idtxt=elem.attr('id');;
-		var  idhshow=elem.attr('data-controll-idlabel');
-		if (filecheck)
-		{
-			if (valuetxt.length<5)
+			var elem=$(this);
+			var filecheck=elem.attr('data-controll-file');
+			var valuetxt=elem.val();
+			var idtxt=elem.attr('name');;
+			var  idhshow=elem.attr('data-controll-idlabel');
+			var idrelation=elem.attr('data-controll-id-relation');
+			if (this.value.length>5)
 			{
-				$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
-				$('#'+idhshow).html(mv_arr.NameQuery);
-				//elem.focus();
-			}else
-			{
-				var dat=`${idtxt}=${valuetxt}`;
-				App.utils.PostDataGeneric(filecheck.split(','),dat);
-				if (VauefromPost)
+				if (filecheck)
+			  {
+				if (valuetxt.length<5)
 				{
-					if (VauefromPost==="0")
+					$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+					$('#'+idhshow).html(mv_arr.NameQuery);
+					//elem.focus();
+				}else
+				{
+					var dat=`${idtxt}=${valuetxt}`;
+					App.utils.PostDataGeneric(filecheck.split(','),dat);
+					if (VauefromPost)
 					{
-						$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
-						$('#'+idhshow).html(mv_arr.MapNameNotExist);
-						//elem.focus();
+						if (VauefromPost==="0")
+						{
+							$('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
+							$('#'+idhshow).html(mv_arr.MapNameNotExist);
+							if(idrelation)
+							{
+								$('#'+idrelation).removeAttr('disabled');
+							}
+							//elem.focus();
+						}else
+						{
+							$('#'+idhshow).fadeIn('fast');
+							$('#'+idhshow).html(mv_arr.MapNameExist);
+							if(idrelation)
+							{
+								$('#'+idrelation).attr('disabled', 'true');
+							}
+							//elem.focus();
+						}
+
 					}else
 					{
-						$('#'+idhshow).fadeIn('fast').delay(6000).fadeOut('slow');
-						$('#'+idhshow).html(mv_arr.MapNameExist).fadeOut('slow',4000);
-						//elem.focus();
+						
 					}
+				}
+
 
 				}else
 				{
-					
+					alert(mv_arr.NameOFMapMissingFile);
 				}
+			}else
+			{
+				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+					$('#'+idhshow).html(mv_arr.NameQuery);
 			}
 
+	 },
 
-		}else
-		{
-			alert(mv_arr.NameOFMapMissingFile);
-		}
+	 AllMapsLoad:function(event)
+	 {
+		 	if (event) {event.preventDefault();}
+		 	 var elem=$(this);
+		 	 var getfile=elem.attr('data-autoload-Filename');
+		 	 var getType=elem.attr('data-autoload-Type-Map');
+		 	 var idtofill=elem.attr('data-autoload-id-relation');
+		 	 // var thisid=elem.attr('id');
+		 	 var datsend="";
+		 	 if (getfile)
+		 	 {
+		 	 	getfile=getfile.split(",");
+		 	 }else
+		 	 {
+		 	 	getfile=["MapGenerator","GetAllMaps"];
+		 	 }
+
+		 	 if (getType)
+		 	 {
+		 	 	datasend=`${getType}=${getType}`;
+		 	 }
+
+		 	 App.utils.PostDataGeneric(getfile,datasend);
+		 	 if (VauefromPost)
+		 	 {
+		 	 	if (idtofill)
+		 	 	{
+		 	 		$('#'+idtofill).html('');
+		 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
+		 	 		$('#'+idtofill).append(VauefromPost);
+		 	 		VauefromPost=null;
+		 	 	}else
+		 	 	{
+		 	 		alert(mv_arr.MissingIDtoShow);
+		 	 	}
+
+		 	 }
+		 	 else
+		 	 {
+
+		 	 }
+	 },
+
+	 /**
+	  * Function to select a map from a dropdown and after to show the rezult in a specific place 
+	  */
+	 LadAllMaps:function(event)
+	 {
+		 	if (event) {event.preventDefault();}
+		 	var elem=$(this);
+		 	var iddropdown=elem.attr('data-select-map-load-id-relation');
+		 	var urltosend=elem.attr('data-select-map-load-url');
+		 	var idtoshow=elem.attr('data-select-map-load-id-to-show');
+
+		 	if (!urltosend)
+		 	{
+		 		alert(mv_arr.NameOFMapMissingFile);
+		 		return false;
+		 	}
+
+	        if (iddropdown)
+	        {
+	        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
+	        	if (valuesfromdropdown && valuesfromdropdown.length>0)
+	        	{
+	        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
+	        		App.utils.PostDataGeneric(urltosend.split(","),datasendto);
+
+	        		if (!VauefromPost)
+	        		{
+	        			alert(mv_arr.ReturnErrorFromMap);
+	        			return false;
+	        		}
+	        		if (idtoshow)
+	        		{
+	        			$('#'+idtoshow).html("");
+	        			$('#'+idtoshow).html(VauefromPost);
+	        			VauefromPost=null;
+	        		}else
+	        		{
+	        			alert(mv_arr.MissingDivID);
+	        		}
+
+
+	        	}else
+	        	{
+	        		alert(mv_arr.ChoseMap);
+	        	}
+
+
+	        }else
+	        {
+	        	alert(mv_arr.MissingIdValue);
+	        	return false;
+	        }
+
+
 
 	 },
 
@@ -448,6 +571,11 @@
 					App.UniversalPopup.Add_show_Popup);
 			$(document).on('click', 'button[data-click-closemodal="true"]',
 								App.UniversalPopup.Add_show_Popup);
+			$(document).on('click', 'button[ data-modal-saveas-close="true"]',
+								App.UniversalPopup.CloseModalWithoutCheck);
+			$(document).on('click', 'button[data-modal-saveas-open="true"]',
+								App.UniversalPopup.OpeModalsaveAsMap);
+
 		},
 
 		Add_show_Popup:function(event){
@@ -516,6 +644,21 @@
 			    }
 			}
 		},
+
+	   CloseModalWithoutCheck:function(event){
+	   	 if (event) {event.preventDefault();}
+	   	 $('#ErrorVAlues').text('');
+	     $('#modal').removeClass('slds-fade-in-open');
+	     $('#backdrop').removeClass('slds-backdrop--open');
+
+	   },
+
+	   OpeModalsaveAsMap:function(event){
+	   	 if (event) {event.preventDefault();}
+	   	 $('#backdrop').addClass('slds-backdrop--open');
+    	 $('#modal').addClass('slds-fade-in-open');
+
+	   },
 	};
 
 	App.SelectModule = {
@@ -574,19 +717,23 @@
 			var urlcheck = elem.attr('data-send-url').split(",");
 			var dataid=elem.attr("data-send-data-id");
 			var savehistory=elem.attr("data-send-savehistory");
+			var sendSaveAs=elem.attr('data-send-saveas');
+			var idbutton=elem.attr('data-send-saveas-id-butoni');
 			if(dataid != "undefined"){
 				inputsplit=dataid.split(",");
 			}
 			
 			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
 				alert(mv_arr.Buttonsendajax);
+				return false;
 			}
 			
 			if(inputsplit.length>0){
 				for(index=0; index <= inputsplit.length-1; index++){
 					if(inputsplit[index].toUpperCase()=="LISTDATA"){
-						if(App.JSONForCOndition.length > 0){
-							datatusend +=`ListData=${JSON.stringify(App.JSONForCOndition)}`;;
+						if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
+							var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
+							datatusend +=`ListData=${JSON.stringify(datasend)}`;
 						}else{
 							alert(mv_arr.MappingFiledValid);
 						}
@@ -624,6 +771,23 @@
 				 	alert(mv_arr.ReturnErrorFromMap);
 				 } 				
 			}
+			if (sendSaveAs && sendSaveAs==="true")
+			{
+				var ulrsaveas=[urlcheck[0],"SavenewMap"];
+				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}`;
+				App.utils.PostDataGeneric(ulrsaveas,dat);
+				if (VauefromPost)
+				{
+					 document.body.innerHTML +=VauefromPost;
+					 VauefromPost=null;
+					 $('#'+idbutton).removeAttr('disabled')
+				} else
+				{
+
+				}
+              
+			}
+			App.UniversalPopup.CloseModalWithoutCheck();
 			
 
 		},
@@ -667,6 +831,12 @@
 				}
 			});
 		},
+
+		/**
+		 * PostDataGeneric is a function to post data from ajax 
+		 * @param {[type]} Urlsend the URL
+		 * @param {[type]} dat     data to send 
+		 */
 		PostDataGeneric : function(Urlsend, dat) {
 			jQuery.ajax({
 				type : "POST",
@@ -683,6 +853,12 @@
 				}
 			});
 		},
+
+		/**
+		 * [GetDataGeneric is a function to get data from Ajax
+		 * @param {[type]} Urlsend url 
+		 * @param {[type]} dat     params you pas to get 
+		 */
 		GetDataGeneric : function(Urlsend, dat) {
 
 			jQuery.ajax({
@@ -700,6 +876,11 @@
 				}
 			});
 		},
+
+		/**
+		 * PostDataHTMLUrlPramas  function to post data
+		 * @param {[type]} response the url with data 
+		 */
 		PostDataHTMLUrlPramas : function(response) {
 			jQuery.ajax({
 				type : "POST",
@@ -716,29 +897,47 @@
 
 		},
 
+        /**
+         * [addINJSON  to insert into a Array 
+         * @param {[type]} FirstModuleval        [description]
+         * @param {[type]} FirstModuletxt        [description]
+         * @param {[type]} FirstFieldval         [description]
+         * @param {[type]} FirstFieldtxt         [description]
+         * @param {[type]} SecondModuleval       [description]
+         * @param {[type]} SecondModuletxt       [description]
+         * @param {[type]} SecondFieldval        [description]
+         * @param {[type]} SecondFieldtext       [description]
+         * @param {[type]} SecondFieldOptionGrup [description]
+         */
 		addINJSON : function(FirstModuleval, FirstModuletxt, FirstFieldval,
 				FirstFieldtxt, SecondModuleval, SecondModuletxt,
-				SecondFieldval, SecondFieldtext,SecondFieldOptionGrup) {
-			App.JSONForCOndition.push({
-				idJSON : App.JSONForCOndition.length + 1,
+				SecondFieldval, SecondFieldtext,SecondFieldOptionGrup)
+		    {
+				App.JSONForCOndition.push({
+					idJSON : App.JSONForCOndition.length + 1,
 
-				FirstModuleval : FirstModuleval,
-				FirstModuletxt : FirstModuletxt,
+					FirstModuleval : FirstModuleval,
+					FirstModuletxt : FirstModuletxt,
 
-				FirstFieldval : FirstFieldval,
-				FirstFieldtxt : FirstFieldtxt,
+					FirstFieldval : FirstFieldval,
+					FirstFieldtxt : FirstFieldtxt,
 
-				SecondModuleval : SecondModuleval,
-				SecondModuletxt : SecondModuletxt,
+					SecondModuleval : SecondModuleval,
+					SecondModuletxt : SecondModuletxt,
 
-				SecondFieldval : SecondFieldval,
-				SecondFieldtext : SecondFieldtext,
-				SecondFieldOptionGrup : SecondFieldOptionGrup,
-			// selectedfields: JSONARRAY,
-			// selectedfields: {JSONARRAY}
-			});
+					SecondFieldval : SecondFieldval,
+					SecondFieldtext : SecondFieldtext,
+					SecondFieldOptionGrup : SecondFieldOptionGrup,
+				// selectedfields: JSONARRAY,
+				// selectedfields: {JSONARRAY}
+				});
 		},
 
+		/**
+		 * function to add in array 
+		 * @param {Array} params   All of html element id to get the values 
+		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
+		 */
 		Add_to_universal_popup:function(params,jsonType){
 			var temparray={};
 			var check =false;
@@ -764,42 +963,52 @@
 				App.popupJson.push({temparray});	
 			}
 			
-			
-			
-
 		},
 
+		/**
+		 * function to create a popup html 
+		 * @param  {Int} Idd          the id of array (need for delete )
+		 * @param  {String} Firstmodulee shof the first module 
+		 * @param  {string} secondmodule second module or secont value you want to show 
+		 * @param  {string} last_check   
+		 * @param  {string} namediv      dhe id of div you want to insert the popup
+		 * @return {string}              [description]
+		 */
 		alertsdiv : function(Idd, Firstmodulee, secondmodule, last_check,
 				namediv) {
-			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-					+ '">';
-			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoins('
-					+ Idd + ',\'' + namediv + '\');">&times;</span>';
-			// INSertAlerstJOIN += '<span class="closebtns"
-			// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
-			// class="icono-eye"></</span>';
-			INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> '
-					+ Firstmodulee + '=>' + secondmodule;
-			// if (last_check==true) {//icono-plusCircle
-			// INSertAlerstJOIN +='<span title="You are here "
-			// style="float:right;margin-top:-10px;margin-right:-46px;"><i
-			// class="icono-checkCircle"></i></span>';
-			// INSertAlerstJOIN +='<span title="run the query to show the
-			// result"
-			// style="float:right;margin-top:-10px;margin-right:-86px;"><i
-			// class="icono-display"
-			// onclick="openmodalrezultquery('+Idd+');"></i></span>';
-			// }
-			// else{
-			// INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');"
-			// title="click here to show the Query"
-			// style="float:right;margin-top:-10px;margin-right:-46px;"><i
-			// class="icono-plusCircle"></i></span>';
-			// }
-			INSertAlerstJOIN += '</div';
-			return INSertAlerstJOIN;
+				var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+						+ '">';
+				INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoins('
+						+ Idd + ',\'' + namediv + '\');">&times;</span>';
+				// INSertAlerstJOIN += '<span class="closebtns"
+				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
+				// class="icono-eye"></</span>';
+				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> '
+						+ Firstmodulee + '=>' + secondmodule;
+				// if (last_check==true) {//icono-plusCircle
+				// INSertAlerstJOIN +='<span title="You are here "
+				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
+				// class="icono-checkCircle"></i></span>';
+				// INSertAlerstJOIN +='<span title="run the query to show the
+				// result"
+				// style="float:right;margin-top:-10px;margin-right:-86px;"><i
+				// class="icono-display"
+				// onclick="openmodalrezultquery('+Idd+');"></i></span>';
+				// }
+				// else{
+				// INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');"
+				// title="click here to show the Query"
+				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
+				// class="icono-plusCircle"></i></span>';
+				// }
+				INSertAlerstJOIN += '</div';
+				return INSertAlerstJOIN;
 		},
 
+		/**
+		 * function to show all the popup are in array to html popup
+		 * @param {string} namediv  id of div you want to put
+		 */
 		ReturnAllDataHistory : function(namediv) {
 			$('#' + namediv + ' div').remove();
 			var check = false;
@@ -825,6 +1034,11 @@
 
 			}
 		},
+
+		/**
+		 * function to show all the popup are in array to html popup
+		 * @param {string} namediv  id of div you want to put
+		 */
 		ReturnAllDataHistory2 : function(namediv) {
 			$('#' + namediv + ' div').remove();
 			var check = false;
@@ -861,32 +1075,10 @@
 			return INSertAlerstJOIN;
 		},
 
-		// closeAlertsAndremoveJoins:function(remuveid,namediv){
-		// var check = false;
-		// for (var ii = 0; ii <= App.JSONForCOndition.length; ii++) {
-		// if (ii == remuveid) {
-		// //JSONForCOndition.remove(remuveid);
-		// App.JSONForCOndition.splice(remuveid,1);
-		// check = true
-		// //console.log(remuveid);
-		// // console.log(ReturnAllDataHistory());
-		// }
-		// }
-		// if (check) {
-		// var remuvediv="#alerts_"+remuveid;
-		// $( "div" ).remove( remuvediv);
-		// App.utils.ReturnAllDataHistory(namediv);
-		//
-		// // $('#selectableFields option:selected').attr("selected", null);
-		// }
-		// else {
-		// alert(mv_arr.ReturnFromPost);
-		// }
-		// },
-		// call as executeFunctionByName("FormBuilder.PlainText", window,
-		// "testing")
-		// ;
-		
+		/**
+		 * IsSelectedDropdown is a function which take the id and check what type of element is and get the values 
+		 * @param {String} IdType Id of html element
+		 */
 		IsSelectORDropDown:function(IdType){
 			    
 			    var element = document.getElementById(IdType);
@@ -933,6 +1125,10 @@
 			    return "";			
 		},
 
+		/**
+		 * IsSelectedDropdown is a function which take the id and check what type of element is and get the text 
+		 * @param {String} IdType Id of html element
+		 */
 		IsSelectORDropDownGetText:function(IdType){
 			    
 			    var element = document.getElementById(IdType);
@@ -979,6 +1175,10 @@
 			    return "";			
 		},
 
+		/**
+		 * GetParent is a function which take the id get the optgroup from a dropdown 
+		 * @param {String} IdType Id of html element
+		 */
 		GetSelectParent:function(IdType){
 			    
 			    var element = document.getElementById(IdType);
@@ -998,6 +1198,11 @@
 			    return "";			
 		},
 
+		/**
+		 * A function to save the values to each element of html like select input button etc
+		 * @param {String} IdType  the ID of element 
+		 * @param {String} valuee  the value you want  to put 
+		 */
 		SetValueTohtmlComponents:function(IdType,valuee){
 			    
 			    var element = document.getElementById(IdType);
@@ -1034,6 +1239,60 @@
 			    	 $('#'+IdType).val(valuee);			    	
 			    }			    			
 		},
+
+
+		/**
+		 * funstion to generate a modal 
+		 * @param {string}     flag to show or hide the modal
+		 * @param {String} poenclosebackdrop flag to show and open the backdrop
+		 */
+		ModalParseinJavascript:function(openclosemodal,poenclosebackdrop){
+			var htmls = [];
+			htmls.push("<div>",
+			   "        <div class=\"slds\">",
+			   "",
+			 "            <div class=\"slds-modal\" "+openclosemodal+" aria-hidden=\"false\" role=\"dialog\" id=\"modal\">",
+			 "                <div class=\"slds-modal__container\">",
+			 "                    <div class=\"slds-modal__header\">",
+			 "                        <button class=\"slds-button slds-button--icon-inverse slds-modal__close\" onclick=\"closeModal()\">",
+			 "                            <svg aria-hidden=\"true\" class=\"slds-button__icon slds-button__icon--large\">",
+			 "                                <use xlink:href=\"/assets/icons/action-sprite/svg/symbols.svg#close\"></use>",
+			 "                            </svg>",
+			 "                            <span class=\"slds-assistive-text\">{$MOD.close}</span>",
+			 "                        </button>",
+			 "                        <h2 class=\"slds-text-heading--medium\">{$MOD.mapname}</h2>",
+			 "                    </div>",
+			 "                    <div class=\"slds-modal__content slds-p-around--medium\">",
+			 "                        <div>",
+			 "                            <div class=\"slds-form-element\">",
+			 "                                <label class=\"slds-form-element__label\" for=\"input-unique-id\">",
+			 "                                    <abbr id=\"ErrorVAlues\" class=\"slds-required\" title=\"{$MOD.requiredstring}\">*</abbr>{$MOD.required}</label>",
+			 "                                <input style=\"width: 400px; \" type=\"text\" id=\"SaveasMapTextImput\" required=\"\"",
+			 "                                       class=\"slds-input\" placeholder=\"{$MOD.mapname}\">",
+			 "                                <div class=\"slds-form-element__control\">",
+			 "",
+			 "                                </div>",
+			 "                            </div>",
+			 "                        </div>",
+			 "                    </div>",
+			 "                    <div class=\"slds-modal__footer\">",
+			 "                        <button class=\"slds-button slds-button--neutral\" onclick=\"closeModalwithoutcheck();\">{$MOD.cancel}",
+			 "                        </button>",
+			 "                        <button onclick=\"closeModal();\" class=\"slds-button slds-button--neutral slds-button--brand\">",
+			 "                            {$MOD.save}",
+			 "                        </button>",
+			 "                    </div>",
+			 "                </div>",
+			 "            </div>",
+			 "            <div class=\"slds-backdrop\" "+poenclosebackdrop+" id=\"backdrop\"></div>",
+			 "",
+			 "            <!-- Button To Open Modal -->",
+			 "            {*<button class=\"slds-button slds-button--brand\" id=\"toggleBtn\">Open Modal</button>*}",
+			 "        </div>",
+			 "",
+			 "    </div>");
+			return htmls.join("");
+		},
 		
 		
 		executeFunctionByName : function(functionName, context /* , args */) {
@@ -1047,6 +1306,8 @@
 		}
 
 	};
+
+
 
 	$(App.init);
 	window.App = App;
