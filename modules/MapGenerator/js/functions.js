@@ -423,6 +423,14 @@ $('#saveasmap').click(function () {
     $('#modal').addClass('slds-fade-in-open');
 });
 
+//function when you doubleclick to choose a value
+function doubleclickvalue(sel)
+{
+   $('#ReturnValuesTxt').attr('name',sel.value);
+  $('#ReturnValuesTxt').val(sel.options[sel.selectedIndex].text);
+}
+
+
 //Modal Close
 function closeModal() {
     var myLength = $("#SaveasMapTextImput").val();
@@ -433,7 +441,7 @@ function closeModal() {
         SaveasMap();
     }
     else {
-        $('#ErrorVAlues').text('{/literal}{$MOD.morefivechars}{literal}');
+        $('#ErrorVAlues').text('{literal}{$MOD.morefivechars}{/literal}');
     }
 }
 function closeModalwithoutcheck() {
@@ -575,8 +583,8 @@ function addJoin(action) {
                     }
                     if (jQuery("#condition").val() != 'undefined')
                         var whereCondition = jQuery("#condition").val();
-                    nameView = (document.getElementById('MapName').value);
-                    nameDb = (document.getElementById('nameDb').value);
+                        nameView = (document.getElementById('MapName').value);
+                        nameDb = (document.getElementById('nameDb').value);
                     if (action == "join") url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=compositoreQuery&mod=" + firstModule;
                     else if (action == "script") url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=creaScript&whereCondition=" + whereCondition + "&mod=" + firstModule;
 
@@ -1585,6 +1593,7 @@ function SaveMap() {
     var MapID = $('#MapID').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
+    var returnvalue=$('#ReturnValuesTxt').attr('name');
 //    var optionsCombo = sel[0].innerHTML;
 //    for (var i = 0, len = sel[0].options.length; i < len; i++) {
 //        opt = sel[0].options[i];
@@ -1601,7 +1610,7 @@ function SaveMap() {
         selTab2.push(secModule);
         nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
-        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveAsMap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
 
         jQuery.ajax({
@@ -1618,6 +1627,7 @@ function SaveMap() {
                 installationID: installationID,
                 queryid:document.getElementById('queryid').value,
                 querysequence:document.getElementById('querysequence').value,
+                returnvalue:returnvalue,
             //    html: optionsCombo,
              //   campiSelezionati: campiSelezionati,
                 nameView: nameView,
@@ -1643,6 +1653,8 @@ function SaveMap() {
                 alert(mv_arr.failedcall);
             }
         });
+        $('#ReturnValuesTxt').attr('name','');
+        $('#ReturnValuesTxt').val('');
         // getFirstModule(selTab2);
     //}
 
@@ -1658,6 +1670,7 @@ function SaveasMap() {
     var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
+    var returnvalue=$('#ReturnValuesTxt').attr('name');
 //    var optionsCombo = sel[0].innerHTML;
 //    for (var i = 0, len = sel[0].options.length; i < len; i++) {
 //        opt = sel[0].options[i];
@@ -1673,7 +1686,7 @@ function SaveasMap() {
         selTab2.push(secModule);
         nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
-        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveAsMap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
         jQuery.ajax({
             type: "POST",
@@ -1688,6 +1701,7 @@ function SaveasMap() {
                 selField2: selField2,
                 SaveasMapTextImput: SaveasMapTextImput,
                 installationID: installationID,
+                returnvalue:returnvalue,
                // html: optionsCombo,
       //          campiSelezionati: campiSelezionati,
                 nameView: nameView,
@@ -1712,6 +1726,8 @@ function SaveasMap() {
                 alert(mv_arr.failedcall);
             }
         });
+        $('#ReturnValuesTxt').attr('name','');
+        $('#ReturnValuesTxt').val('');
         getFirstModule(selTab2, MapID);
     //}
 }

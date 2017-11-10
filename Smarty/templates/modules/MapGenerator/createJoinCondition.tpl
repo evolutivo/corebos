@@ -30,16 +30,16 @@
         <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
-            <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
+            <!-- <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
-            <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
+                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li> -->
+            <!-- <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li>
+                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li> -->
             <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
-            <li><a href="javascript:void(0);" id="saveasmap" name="radio"
+            <li><a href="javascript:void(0);" onclick="App.UniversalPopup.OpeModalsaveAsMap()" id="saveasmap" name="radio"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.SaveAsMap}</a></li>
 
@@ -56,7 +56,7 @@
    <input class="crmbutton small cancel" type="button" name="cancelbutton" id="cancelbutton" value="Cancel" onclick="hidediv('userorgroup');">
 </center></div>
    {*
-    <div style="float:left; overflow: hidden;width:20%" id="buttons" >
+   <!--  <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">
         <input type="radio" id="addJoin" name="radio"  onclick="generateJoin();"/>
         <label for="addJoin">{$MOD.AddJoin}</label>
@@ -71,7 +71,7 @@
         <input type="radio" id="createmap" name="radio" onclick="generateMap();"/>
         <label for="createmap">{$MOD.CreateMap}</label>
         </div>
-    </div>
+    </div> -->
     *}
 
     <div>
@@ -94,7 +94,7 @@
                                 <label class="slds-form-element__label" for="input-unique-id">
                                     <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
                                 <input style="width: 400px; " type="text" id="SaveasMapTextImput" required=""
-                                       class="slds-input" placeholder="{$MOD.mapname}">
+                                       class="slds-input" placeholder="{$MOD.mapname}" data-controll="true" data-controll-idlabel="ErrorLabelModal" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="SendDataButton" name="nameView" >
                                 <div class="slds-form-element__control">
 
                                 </div>
@@ -102,9 +102,10 @@
                         </div>
                     </div>
                     <div class="slds-modal__footer">
-                        <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
+                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
+                        <button  class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
                         </button>
-                        <button onclick="closeModal();" class="slds-button slds-button--neutral slds-button--brand">
+                        <button onclick="closeModal();" id="SendDataButton" disabled class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.save}
                         </button>
                     </div>
@@ -197,7 +198,10 @@
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>
                 <div class="slds-form-element">
-                    <label class="slds-form-element__label" for="select-01">{$MOD.selectlabel}</label>
+                    <label class="slds-form-element__label" for="select-01">
+                        <b>{$MOD.selectlabel}</b>
+                        <b>{$MOD.selectdoubleclick}</b>
+                    </label>
                     <div class="slds-form-element__control">
                         {*{if !empty($Fields)}*}
                         {*<select id="selectableFields" multiple="multiple" name="selectableFields[]">*}
@@ -208,7 +212,8 @@
                         {*</optgroup>*}
                         {*</select>*}
                         {*{else}*}
-                        <select id="selectableFields" style="margin-left: 20px;width: 200px;height: 230px;"
+                        <input type="text" minlength="5" id="ReturnValuesTxt"  class="slds-input" style="width: 300px;height: 14px;font-family: verdana;font-size: 12px;color: #333333;text-align: center;margin-left: 20px;" placeholder="Double click to chosse a value">
+                        <select id="selectableFields" ondblclick="doubleclickvalue(this)" style="margin-left: 20px;width: 200px;height: 230px;float: left;"
                                 multiple="multiple" name="selectableFields[]">
                             {*<option selected>select the module to fill this </option>*}
                         </select>
@@ -243,7 +248,7 @@
 
                 </div>
 
-                {*<select id="selectableFields" multiple="multiple" name="selectableFields[]"></select>
+                {*<select id="selectableFields" multiple="multiple"  name="selectableFields[]"></select>
                 <ol id="leftValues">
                 </ol>*}
 

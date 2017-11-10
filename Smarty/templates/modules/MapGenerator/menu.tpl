@@ -120,14 +120,14 @@
 	                <div class="slds-select_container">
 	                    <select data-load-Map="true" data-type-select="TypeMap"  id="TypeMaps" class="slds-select" disabled>
     	                    <option value="">{$MOD.TypeMapNone}</option>
-    	                    <option value="SQL">{$MOD.TypeMapSQL}</option>
+    	                    <option value="SQL">{$MOD.ConditionQuery}</option>
     	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>
     	                    <option value="IOMap">{$MOD.TypeMapIOMap}</option>
     	                    <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
     	                    <option value="WS">{$MOD.TypeMapWS}</option>
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
                             <option value="ListColumns">{$MOD.ListColumns}</option>
-                            <option value="ConditionQuery">{$MOD.ConditionQuery}</option>
+                            <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> -->
 	                    </select>
 	                </div>	            
 	            </div>

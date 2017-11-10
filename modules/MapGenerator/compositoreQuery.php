@@ -522,5 +522,5 @@ $smarty->assign("valueli", $sendarray);
 //$smarty->assign("FOPTION", '');
 $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
 $smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
-$smarty->display("modules/MVCreator/WhereCondition.tpl");
+$smarty->display("modules/MapGenerator/WhereCondition.tpl");
 ?>

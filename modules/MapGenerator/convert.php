@@ -14,7 +14,7 @@
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
 @include('modules/MapGenerator/flexviews/php-sql-parser.php');
-include "modules/MVCreator/dbclass.php";
+include "modules/MapGenerator/dbclass.php";
 $db=$_POST['nameDb'];
 // istanza della classe
 $data = new MysqlClass();

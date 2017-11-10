@@ -46,12 +46,12 @@
         <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
-            <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
+           <!--  <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
-            <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
+                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li> -->
+            <!-- <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li>
+                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li> -->
             <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMap}</a></li>

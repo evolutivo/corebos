@@ -93,5 +93,5 @@ if($SecondModule=='None')
 else
     $smarty->assign("valueli", $labels);
 
-$smarty->display("modules/MVCreator/WhereCondition.tpl");
+$smarty->display("modules/MapGenerator/WhereCondition.tpl");
 ?>

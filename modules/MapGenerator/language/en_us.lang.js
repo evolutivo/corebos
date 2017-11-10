@@ -30,4 +30,5 @@ var mv_arr = {
 'MissingIDtoShow':'Missing the id to show the result',
 'MissingIdValue':'Missing the Id of field to get the values',
 'MissingDivID':'Missing the Id of the div when you want to show',
+'morefivechars':'You need a more than 5 characters name',
 }
