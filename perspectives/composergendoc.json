@@ -1,0 +1,26 @@
+{ "name": "evolutivo/evolutivocore",
+"description":"try to install query buider",
+"license": "MIT",
+ "repositories": [
+    {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/composerinstall/"
+  },
+   {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/cbgendoc"
+  },
+  {
+            "packagist": false
+  }
+  ],
+
+  "require": {
+    "evolutivo/composerinstall": "dev-master",
+    "evolutivo/cbgendoc": "dev-master"
+  },
+    "scripts": {
+    "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
+    "post-update-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageUpdate"
+  }
+}
