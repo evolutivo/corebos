@@ -1594,6 +1594,11 @@ function SaveMap() {
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();
     var returnvalue=$('#ReturnValuesTxt').attr('name');
+    if (!returnvalue && returnvalue.length==0)
+    {
+      alert(mv_arr.ReturnValueCheck);
+      return false;
+    }
 //    var optionsCombo = sel[0].innerHTML;
 //    for (var i = 0, len = sel[0].options.length; i < len; i++) {
 //        opt = sel[0].options[i];

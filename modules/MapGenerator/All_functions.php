@@ -332,7 +332,7 @@ function GetModulRel($m)
   * [GetAllRelationMOdul this function is for find the relatio0n without tag option 
   * @param [type] $m  Modul name
   */
-  function GetAllRelationMOdul($m){
+function GetAllRelationMOdul($m){
     global $log, $mod_strings,$adb;
     $j = 0;
     $returnarray=array();
