@@ -52,7 +52,7 @@
     <b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
    </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
    <br><br><br>
-   <input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();">
+   <input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="addjouin();">
    <input class="crmbutton small cancel" type="button" name="cancelbutton" id="cancelbutton" value="Cancel" onclick="hidediv('userorgroup');">
 </center></div>
    {*
@@ -132,7 +132,7 @@
                         {*{/foreach}*}
                         {*</select>*}
                         {*{else}*}
-                        <select data-select-autolod="true" data-select-method="GetFirstModuleCombo" id="FirstModul" name="mod" class="slds-select">
+                        <select data-select-autolod="true" data-select-method="GetFirstModuleCombo"  id="FirstModul" name="mod" class="slds-select">
                         </select>
                         {*{/if}*}
                     </div>
@@ -212,7 +212,7 @@
                         {*</optgroup>*}
                         {*</select>*}
                         {*{else}*}
-                        <input type="text" minlength="5" id="ReturnValuesTxt"  class="slds-input" style="width: 300px;height: 14px;font-family: verdana;font-size: 12px;color: #333333;text-align: center;margin-left: 20px;" placeholder="Double click to chosse a value">
+                        <input type="text" minlength="5" id="ReturnValuesTxt" name="" class="slds-input" style="width: 300px;height: 14px;font-family: verdana;font-size: 12px;color: #333333;text-align: center;margin-left: 20px;" placeholder="Double click to chosse a value">
                         <select id="selectableFields" ondblclick="doubleclickvalue(this)" style="margin-left: 20px;width: 200px;height: 230px;float: left;"
                                 multiple="multiple" name="selectableFields[]">
                             {*<option selected>select the module to fill this </option>*}
@@ -243,6 +243,7 @@
                     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
                     <input type="hidden" name="querysequence" id="querysequence" value="">
                     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+                    <input type="hidden" name="KeppID" id="KippID" value="{$MapName}">
                     {*{/if}*}
 
 

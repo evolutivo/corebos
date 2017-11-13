@@ -10,6 +10,7 @@
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
 require_once ('include/utils/utils.php');
+require_once('All_functions.php');
 
 global $root_directory, $log; 
 $Data = array();
@@ -387,55 +388,7 @@ function emptyStr($str) {
 }
 
 
-function Check_table_if_exist($tableName,$primaryIds="")
-{
-     global $adb;
-    $exist=$adb->query_result($adb->query("SHOW TABLES LIKE '$tableName'"),0,0);
-    if (strlen($exist)==0)
-     {
-         $createTable="
-                CREATE TABLE `$tableName` (
-                  `id` varchar(250) NOT NULL,
-                  `firstmodule` varchar(250) NOT NULL,
-                  `firstmoduletext` varchar(250) NOT NULL,
-                  `secondmodule` varchar(250) NOT NULL,
-                  `secondmoduletext` varchar(250) NOT NULL,
-                  `query` text NOT NULL,
-                  `sequence` int(11) NOT NULL,
-                  `active` varchar(2) NOT NULL,
-                  `firstmodulelabel` varchar(250) DEFAULT NULL,
-                  `secondmodulelabel` varchar(250) DEFAULT NULL,
-                  `labels` text NOT NULL
-                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-            ";
-            if (strlen($primaryIds)>0) {
-                $createTable.="
-                    ALTER TABLE `$tableName`
-                      ADD PRIMARY KEY ($primaryIds);
-                    COMMIT;
 
-                ";
-            }
-         //return $createTable;
-         $adb->query("DROP TABLE IF EXISTS `$tableName`");
-         $adb->query($createTable);
-        
-
-     }else
-     {
-        return strlen($exist);
-     }
-
- 
-     if (strlen($adb->query_result($adb->query("SHOW TABLES LIKE '$tableName'"),0,0))>0) 
-     {
-        return 1;    
-     }else
-     {
-        return 0;
-     }
-
-}
 
 /**
  * [this function is to get from db the field id for 2 modul ]
