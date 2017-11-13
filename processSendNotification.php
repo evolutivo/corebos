@@ -62,10 +62,8 @@ foreach ($sendgridevents as $request) {
 	$event=$request->event;
 	$combid=explode('-',$request->category);
 	$category=$combid[0];
-	$crmid1=$request->crmid;
+	$crmid=$request->crmid;
         global $adb;
-        $crmiddhejeta=$adb->query("select crmid from vtiger_crmentity where setype='Messages' || setype='Emails' order by crmid desc limit 1");
-        $crmid=$adb->query_result($crmiddhejeta,0,0);
 
 	$crmtype=getSalesEntityType($crmid);
 	if ($crmtype!='Messages' and $crmtype!='Emails') {
