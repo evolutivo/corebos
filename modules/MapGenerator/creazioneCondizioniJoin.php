@@ -38,6 +38,6 @@ $smarty->assign("APP", $app_strings);
 $smarty->assign("MapID", $MapId);
 $smarty->assign("queryid", $queryid);
 $smarty->assign("NameView", $NameView);
-$output = $smarty->fetch('modules/MVCreator/createJoinCondition.tpl');
+$output = $smarty->fetch('modules/MapGenerator/createJoinCondition.tpl');
 echo $output;
 ?>
