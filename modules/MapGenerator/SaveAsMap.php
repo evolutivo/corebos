@@ -20,6 +20,7 @@
 include_once("modules/cbMap/cbMap.php");
 require_once('data/CRMEntity.php');
 require_once('include/utils/utils.php');
+require_once('All_functions.php');
 
 global $root_directory, $log;
 
@@ -28,76 +29,204 @@ $secmodule=$_POST['secmodule'];
 $FirstModuleID=$_POST['selField1'];
 $SecondModuleID=$_POST['selField2'];
 $allvalues=$_POST['allvalues'];
-$MapNAme=$_POST['nameView'];
+$MapName=$_POST['nameView'];
+$SaveasMapTextImput=$_POST['SaveasMapTextImput'];
 $QueryGenerate=$_POST['QueryGenerate'];
+$MapID=explode(',',$_POST['MapId']);
 
-if (!empty($FirstModule) && !empty($secmodule)) {
-    echo $FirstModule;
-    echo $secmodule;
-    echo $FirstModuleID;
-    echo $SecondModuleID;
-    echo $allvalues;
-    echo $MapNAme;
-    echo $QueryGenerate;
+$mapname=(!empty($SaveasMapTextImput)?$SaveasMapTextImput:$MapName);
+$idquery=!empty($MapID[0])?$MapID[0]:md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+if (!empty($allvalues)) {
+    // echo $FirstModule;
+    // echo $secmodule;
+    // echo $FirstModuleID;
+    // echo $SecondModuleID;
+     $alldata=json_decode($allvalues);
+   
+    try
+    {
+        if (strlen($MapID[1])==0) {
+            include_once('modules/cbMap/cbMap.php');
+            $focust = new cbMap();
+            $focust->column_fields['assigned_user_id'] = 1;
+            $focust->column_fields['mapname'] = $mapname;
+            $focust->column_fields['content']=addsqlTag($QueryGenerate,explode(':',$alldata->returnvaluesval)[1]);
+            $focust->column_fields['mvqueryid']=$queryid;
+            $focust->column_fields['targetname'] =$alldata->FirstModuleJSONvalue;
+            $focust->column_fields['description'] = add_description($alldata);
+            $focust->column_fields['selected_fields'] =$alldata->Labels;
+            $focust->column_fields['maptype'] = "Condition Query";
+            $focust->column_fields['mvqueryid'] = $idquery;
+            $log->debug(" we inicialize value for insert in database ");
+            if (!$focust->saveentity("cbMap")) {
+                     if (Check_table_if_exist("mapgeneration_queryhistory")>0)
+                     {
+                        echo save_history($alldata,$idquery,addsqlTag($QueryGenerate,explode(':',$alldata->returnvaluesval)[1])).",".$focust->id;
+                     }else
+                     {
+                         throw new Exception(" Missing the History Table Check The name of table History", 1);
+                     }
+            } else {
+               throw new Exception(" Something was wrong on save Map check the saveentity", 1);
+            }
+
+        }else
+        {
+            include_once('modules/cbMap/cbMap.php');
+            $focust = new cbMap();
+             $focust->id = $MapID[1];
+            $focust->retrieve_entity_info($MapID[1],"cbMap");
+            // $focust->column_fields['assigned_user_id'] = 1;
+            // $focust->column_fields['mapname'] = ;
+            $focust->column_fields['content']=addsqlTag($QueryGenerate,explode(':',$alldata->returnvaluesval)[1]);
+            $focust->column_fields['mvqueryid']=$queryid;
+            $focust->column_fields['targetname'] =$alldata->FirstModuleJSONvalue;
+            $focust->column_fields['description'] = add_description($alldata);
+            $focust->column_fields['selected_fields'] =$alldata->Labels;
+            // $focust->column_fields['maptype'] = "Condition Query";
+            $focust->column_fields['mvqueryid'] = $idquery;
+            $log->debug(" we inicialize value for insert in database ");
+            $focust->mode = "edit";
+            $focust->save("cbMap");
+               if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+                    echo save_history($alldata,$idquery,addsqlTag($QueryGenerate,explode(':',$alldata->returnvaluesval)[1])).",".$focust->id;
+                 } 
+                 else
+                 {
+                     throw new Exception(" Missing the History Table Check The name of table History", 1);
+                 }
+        }
+
+        
+    }catch (Exception $ex) {
+        $log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+        echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+    }
+
 }else
 {
-    
+
 }
 
+/**
+ * function to save the history 
+ * @param  [type] $datas   [description]
+ * @param  [type] $queryid [description]
+ * @param  [type] $xmldata [description]
+ * @return [type]          [description]
+ */
+function save_history($datas,$queryid,$xmldata){
+        global $adb;
+        $idquery2=$queryid;
+        $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery2' order by sequence DESC");
+             //$nr=$adb->num_rows($q);
+             // echo "q=".$q;
+             
+        $seq=$adb->query_result($q,0,0);
+      
+        if(!empty($seq))
+        {
+            $seq=$seq+1;
+             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery2'");                            
+              //$seqmap=count($data);
+             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas->FirstModuleJSONvalue,$datas->FirstModuleJSONtext,$datas->SecondModuleJSONvalue,$datas->SecondModuleJSONtext,$xmldata,$seq,1,$datas->FirstModuleJSONfield,$datas->SecondModuleJSONfield,$datas->Labels));
+              //return $idquery;
+        }else 
+        {
 
+            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas->FirstModuleJSONvalue,$datas->FirstModuleJSONtext,$datas->SecondModuleJSONvalue,$datas->SecondModuleJSONtext,$xmldata,1,1,$datas->FirstModuleJSONfield,$datas->SecondModuleJSONfield,$datas->Labels));
+        }
+        echo $idquery2;
+}
 
+/**
+ * this function is to generate the description for map 
+ * @param object $datas the  object for genarete the map description
+ */
+function add_description($datas)
+{
+    if (!empty($datas)) {
 
+            $datatuconvert=explode(',',$datas->Labels);
 
+            $xml=new DOMDocument("1.0");
+            $root=$xml->createElement("map");
+            $xml->appendChild($root);
+            //strt create the first module
+            $Fmodule = $xml->createElement("Fmodule");
 
+            $Fmoduleid = $xml->createElement("FmoduleID");
+            $FmoduleText = $xml->createTextNode($datas->FirstModuleJSONfield);
+            $Fmoduleid->appendChild($FmoduleText);
+            
+            $Fmodulename=$xml->createElement("Fmodulename");
+            $FmodulenameText=$xml->createTextNode(preg_replace('/\s+/', '',$datas->FirstModuleJSONvalue));
+            $Fmodulename->appendChild($FmodulenameText);
 
-$addsqltag="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-$addsqltag.="<map>\n<maptype>SQL</maptype>\n";
-$addsqltag.="<sql>";
-$addsqltag.=$QueryGenerate;
-$addsqltag.="<sql>\n<return>";
-$addsqltag.=explode(":",$_REQUEST['returnvalue'])[1];
-$addsqltag.="\n</return> \n</map>";
+            $Fmodule->appendChild($Fmoduleid);
+            $Fmodule->appendChild($Fmodulename);
 
+            //second module
+            $Secmodule = $xml->createElement("Secmodule");
 
-$SaveasMapTextImput=$_POST['SaveasMapTextImput'];
-if($SaveasMapTextImput=='') {$SaveasMapTextImput=$nameview;}
+            $Secmoduleid = $xml->createElement("SecmoduleID");
+            $SecmoduleText = $xml->createTextNode(preg_replace('/\s+/','',$datas->SecondModuleJSONfield));
+            $Secmoduleid->appendChild($SecmoduleText);
+            $Secmodulename=$xml->createElement("Secmodulename");
+            $SecmodulenameText=$xml->createTextNode( trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",$datas->SecondModuleJSONvalue)[0])))));
+            $Secmodulename->appendChild($SecmodulenameText);    
+            $Secmodule->appendChild($Secmoduleid);
+            $Secmodule->appendChild($Secmodulename);     
+            $fields = $xml->createElement("fields");
+            $countarray=(count($datatuconvert)-1);
+            for($i=0;$i<=$countarray;$i++)
+               {          
+                //     //get target field name
+                         $field = $xml->createElement("field");
 
-if (empty($_POST["MapId"])){
-    $focust = new cbMap();
-    $focust->column_fields['assigned_user_id'] = 1;
-    $focust->column_fields['mapname'] = $SaveasMapTextImput;
-    $focust->column_fields['content']=$addsqltag;
-    $focust->column_fields['mvqueryid']=$queryid;
-    $focust->column_fields['description'] = $xml->saveXML();
-    $focust->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
-    $focust->column_fields['maptype'] = "Condition Query";
-    $log->debug(" we inicialize value for insert in database ");
-    if (!$focust->saveentity("cbMap")) {
-         echo $focust->id;
-        $log->debug("succes!! the map is created ");
-    } else {
-        //echo focus->id;
-        $log->debug("Error!! something went wrong");
+                        $label = $xml->createElement("fieldID");
+                        $labelText=$xml->createTextNode(explode(":",$datatuconvert[$i])[1]);
+                        $label->appendChild($labelText);
+                        $field->appendChild($label);
+
+                        $name = $xml->createElement("fieldname");
+                        $nameText=$xml->createTextNode(explode(":",$datatuconvert[$i])[1]);
+                        $name->appendChild($nameText);
+                        $field->appendChild($name);
+                      $fields->appendChild($field);
+               }
+            //$root->appendChild($name);
+             $root->appendChild($Fmodule);
+             $root->appendChild($Secmodule);
+             $root->appendChild($fields);
+             $xml->formatOutput = true;
+             return $xml->saveXML();
+
+    }else
+    {
+        throw new Exception("The object is empty Check the POST allvalues", 1);
+        
     }
 }
-else{
-    include_once('modules/cbMap/cbMap.php');
-    $map_focus = new cbMap();
-    $map_focus->id = $MapID;
-    $map_focus->retrieve_entity_info($MapID,"cbMap");
-    $map_focus->column_fields['content']= $addsqltag;
-    // $map_focus->column_fields['mapname'] = $nameview;
-    $map_focus->column_fields['description'] = $xml->saveXML();
-    $map_focus->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
-    $map_focus->mode = "edit";
-    $map_focus->save("cbMap");
-    echo $MapID;
-//    $focust->id = $MapID;
-//    $focust->retrieve_entity_info($MapID, "cbMap");
-//    $map_focus->mode = "edit";
-//    $focust->column_fields['content']=$QueryGenerate;
-//    $focust->save("cbMap");
-//    echo $MapID;
+
+
+
+function addsqlTag($QueryGenerate='',$returni)
+{
+    if (!empty($QueryGenerate)) {
+
+        // $dd=str_replace("SELECT","",$QueryGenerate);
+        // $withoutselect="\"".$dd."\"";
+        // $onlyselect=explode("FROM",$withoutselect);
+        $addsqltag="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        $addsqltag.="<map>\n<maptype>SQL</maptype>\n";
+        $addsqltag.="<sql>";
+        $addsqltag.=$QueryGenerate;
+        $addsqltag.="<sql>\n<return>";
+        $addsqltag.=$returni;
+        $addsqltag.="\n</return> \n</map>";
+        return $addsqltag;
+    }
 }
 
 ?>

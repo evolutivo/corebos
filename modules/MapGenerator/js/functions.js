@@ -1637,7 +1637,7 @@ function SaveMap() {
     var querygenerate = $('#generatedjoin').text();
     var querygeneratecondition = $('#generatedConditions').text();    
     var indexi = parseInt(document.getElementById('KippID').value);
-
+    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var valuehistoryquery = JSONForCOndition[indexi];
     var FirstModul=$('#FirstModul option:selected').val();
     var secmodule=$('#secmodule option:selected').val();
@@ -1661,6 +1661,7 @@ function SaveMap() {
                 selField2:selField2,
                 allvalues:JSON.stringify(valuehistoryquery),
                 nameView: nameView,
+                SaveasMapTextImput: SaveasMapTextImput,
                 QueryGenerate: querygenerate + querygeneratecondition,
                 MapId: MapID
             },
@@ -1694,32 +1695,19 @@ function SaveMap() {
 function SaveasMap() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-   // var sel = jQuery('#selectableFields');
+    //var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
-    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var querygenerate = $('#generatedjoin').text();
-    var querygeneratecondition = $('#generatedConditions').text();
-    var returnvalue=$('#ReturnValuesTxt').attr('name');
-//    var optionsCombo = sel[0].innerHTML;
-//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-//        opt = sel[0].options[i];
-//        if (opt.selected)
-//            campiSelezionati.push(opt.value);
-//    }
-//    if (campiSelezionati.length != 0) {
-        var returnvalue=$('#ReturnValuesTxt').attr('name');
-        if (!returnvalue && returnvalue.length==0)
-        {
-          alert(mv_arr.ReturnValueCheck);
-          return false;
-        }
-        var primoCampo = document.getElementById('selField1').value;
-        var secondoCampo = document.getElementById('selField2').value;
-        selField1.push(primoCampo);
-        selField2.push(secondoCampo);
-        selTab1.push(firstModule);
-        selTab2.push(secModule);
-        nameView = (document.getElementById('MapName').value);
+    var querygeneratecondition = $('#generatedConditions').text();    
+    var indexi = parseInt(document.getElementById('KippID').value);
+    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
+    var valuehistoryquery = JSONForCOndition[indexi];
+    var FirstModul=$('#FirstModul option:selected').val();
+    var secmodule=$('#secmodule option:selected').val();
+    var selField1=$('#selField1').val();
+    var selField2=$('#selField2').val();
+    
+    var nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
         var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveAsMap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
@@ -1728,23 +1716,23 @@ function SaveasMap() {
             url: url,
             async: false,
             data: {
-                selTab1: selTab1,
-                fmodule: firstModule,
-                smodule: secModule,
-                selField1: selField1,
-                selTab2: selTab2,
-                selField2: selField2,
+                FirstModul: FirstModul,
+                secmodule: secmodule,
+                selField1:selField1,
+                selTab2:selTab2,
+                selField2:selField2,
+                allvalues:JSON.stringify(valuehistoryquery),
+                // nameView: nameView,
                 SaveasMapTextImput: SaveasMapTextImput,
-                installationID: installationID,
-                // returnvalue:returnvalue,
-               // html: optionsCombo,
-      //          campiSelezionati: campiSelezionati,
-                nameView: nameView,
-                QueryGenerate: querygenerate + querygeneratecondition
+                QueryGenerate: querygenerate + querygeneratecondition,
+                // MapId: MapID
 
             },
             dataType: "html",
             success: function (msg) {
+              var splitval=msg.split(',');
+              if (splitval[1])
+              {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
                     alert(mv_arr.mapgensucc);
@@ -1754,6 +1742,11 @@ function SaveasMap() {
                     alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
+              }else
+              {
+                alert(mv_arr.ReturnErrorFromMap);
+              }
+                
                 //jQuery("#MapID").val(msg); if (box) box.remove();
 
             },
