@@ -115,23 +115,23 @@ if ($MypType=="Mapping") {
 
 
 
-public function ConditionQuery($QueryHistory,$MapID)
+ function ConditionQuery($QueryHistory,$MapID)
 {
-	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
-	$theme_path = "themes/" . $theme . "/";
-	$image_path = $theme_path . "images/";
-	if (!empty($QueryHistory)) {
+	// global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	// $theme_path = "themes/" . $theme . "/";
+	// $image_path = $theme_path . "images/";
+	// if (!empty($QueryHistory)) {
 		
 		
 		
 		
-		}else if(!empty($MapID)) {
+	// 	}else if(!empty($MapID)) {
 
-			# code...
-			# 
-		}else{
-			throw new Exception("Missing the MApID also The QueryHIstory", 1);
-		}
+	// 		# code...
+	// 		# 
+	// 	}else{
+	// 		throw new Exception("Missing the MApID also The QueryHIstory", 1);
+	// 	}
 	
 }
 
