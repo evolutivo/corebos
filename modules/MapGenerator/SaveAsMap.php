@@ -215,17 +215,28 @@ function addsqlTag($QueryGenerate='',$returni)
 {
     if (!empty($QueryGenerate)) {
 
-        // $dd=str_replace("SELECT","",$QueryGenerate);
-        // $withoutselect="\"".$dd."\"";
-        // $onlyselect=explode("FROM",$withoutselect);
-        $addsqltag="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        $addsqltag.="<map>\n<maptype>SQL</maptype>\n";
-        $addsqltag.="<sql>";
-        $addsqltag.=$QueryGenerate;
-        $addsqltag.="<sql>\n<return>";
-        $addsqltag.=$returni;
-        $addsqltag.="\n</return> \n</map>";
-        return $addsqltag;
+        $xml=new DOMDocument("1.0");
+        $root=$xml->createElement("map");
+        $xml->appendChild($root);
+
+        $maptype = $xml->createElement("maptype");
+        $maptypeText=$xml->createTextNode("SQL");
+        $maptype->appendChild($maptypeText);
+
+        $sql = $xml->createElement("sql");
+        $sqlText=$xml->createTextNode($QueryGenerate);
+        $sql->appendChild($sqlText);
+        
+        $return = $xml->createElement("return");
+        $returnText=$xml->createTextNode($returni);
+        $return->appendChild($returnText);
+
+        $root->appendChild($maptype);
+        $root->appendChild($sql);
+        $root->appendChild($return);
+        $xml->formatOutput = true;
+        return $xml->saveXML();
+        
     }
 }
 

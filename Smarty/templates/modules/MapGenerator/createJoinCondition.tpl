@@ -133,6 +133,7 @@
                         {*</select>*}
                         {*{else}*}
                         <select data-select-autolod="true" data-select-method="GetFirstModuleCombo"  id="FirstModul" name="mod" class="slds-select">
+                             {$FirstModuleSelected}
                         </select>
                         {*{/if}*}
                     </div>
@@ -148,7 +149,7 @@
             {*id="selField1" name="selField1" style="padding:0px;">*}
             {*{/foreach}*}
             {*{else}*}
-            <input type="button" class="slds-button slds-button--neutral sel" id="selField1" name="selField1"
+            <input type="button" class="slds-button slds-button--neutral sel" id="selField1" value="{$FmoduleID}" name="selField1"
                    style="padding:0px;">
             {*{/if}*}
         </div>
@@ -167,7 +168,7 @@
                         {*</select>*}
                         {*{else}*}
                         <select id="secmodule" data-select-autolod="true" data-select-method="GetSecondModuleCombo" name="secmodule" class="slds-select">
-
+                            {$SecondModulerelation}
                         </select>
                         {*{/if}*}
                     </div>
@@ -183,7 +184,7 @@
             {*id="selField2" name="selField2" style="padding:0px;">*}
             {*{/foreach}*}
             {*{else}*}
-            <input type="button" class="slds-button slds-button--neutral sel" id="selField2" name="selField2"
+            <input type="button" class="slds-button slds-button--neutral sel" id="selField2" value="{$SmoduleID}" name="selField2"
                    style="padding:0px;">
             {*{/if}*}
         </div>
@@ -212,10 +213,10 @@
                         {*</optgroup>*}
                         {*</select>*}
                         {*{else}*}
-                        <input type="text" minlength="5" id="ReturnValuesTxt" name="" class="slds-input" style="width: 300px;height: 14px;font-family: verdana;font-size: 12px;color: #333333;text-align: center;margin-left: 20px;" placeholder="Double click to chosse a value">
+                        <input type="text" minlength="5" id="ReturnValuesTxt" value="{$ReturnFieldsText}" name="{$ReturnFieldsValue}" class="slds-input" style="width: 300px;height: 14px;font-family: verdana;font-size: 12px;color: #333333;text-align: center;margin-left: 20px;" placeholder="Double click to chosse a value">
                         <select id="selectableFields" ondblclick="doubleclickvalue(this)" style="margin-left: 20px;width: 200px;height: 230px;float: left;"
                                 multiple="multiple" name="selectableFields[]">
-                            {*<option selected>select the module to fill this </option>*}
+                            {$FieldsArrayall}
                         </select>
                         {*<button style="margin-top:-250px;" class="slds-button slds-button--icon-border-filled" title="Select ">*}
                         {*<svg class="slds-button__icon" aria-hidden="true">*}
@@ -270,7 +271,11 @@
 </div>
 
 <div id="generatedquery">
-    <div id="results" style="margin-top: 1%;"></div>
+    <div id="results" style="margin-top: 1%;">
+        <div>
+            {$ValueForCOndition}
+        </div>
+    </div>
 </div>
 <div id="null"></div>
 <div>
@@ -299,9 +304,9 @@
                      <div class="slds-modal__footer">
                          <button class="slds-button slds-button--neutral" onclick="closeModalwithoutcheckrezultquery();">{$MOD.cancel}
                          </button>
-                         <!-- <button onclick="closemodalrezultquery();" class="slds-button slds-button--neutral slds-button--brand">
+                         <button onclick="closemodalrezultquery();" class="slds-button slds-button--neutral slds-button--brand">
                              {$MOD.save}
-                         </button> -->
+                         </button>
                      </div>
                  </div>
              </div>
