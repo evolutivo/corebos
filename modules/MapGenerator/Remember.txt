@@ -39,6 +39,15 @@ data-send-savehistory="true"    -- key you want to use the history
 
 
 
+
+// data-history-autorun="true" 
+
+// data-history-autorun-id="LoadHistoryPopup" 
+
+// data-history-autorun-div-relation="LoadShowPopup"
+
+
+
 ----- for save as 
 
 data-modal-saveas-open="true" -- key to understand if you want to use the modal
