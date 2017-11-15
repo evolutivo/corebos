@@ -160,7 +160,20 @@ function ConditionQuery($QueryHistory,$MapID)
 
 		$smarty->assign("FmoduleID",$FirstModuleID);
 		$smarty->assign("SmoduleID",$SecondModuleID);
-		// $smarty->assign("ValueForCOndition","<div>".putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels)."</div>");
+
+		// for where condition 
+		$smarty->assign("MODULE", $currentModule);
+		$smarty->assign("IMAGE_PATH", $image_path);
+		// $smarty->assign("DATEFORMAT", $current_user->date_format);
+		$smarty->assign("QUERY", (string)$xml->sql);
+
+		$smarty->assign("valueli",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
+		// $smarty->assign("texticombo", $texticombo);
+		$smarty->assign("FOPTION", '');
+		// $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
+		$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT'])); 
+		
+		// $smarty->assign("ValueForCondition",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
 
 		$smarty->assign("ReturnFieldsValue",$ReturnFieldsValue);
 		$smarty->assign("ReturnFieldsText",$ReturnFieldsText);
@@ -774,11 +787,11 @@ function Mapping_View($QueryHistory,$MapID)
 function putThecondition($QueryHistory,$generatetQuery,$sendarrays=[])
 {
 	///
-		require_once('Smarty_setup.php');
-		global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
-		$theme_path = "themes/" . $theme . "/";
-		$image_path = $theme_path . "images/";
-		$smarty = new vtigerCRM_Smarty();
+		// require_once('Smarty_setup.php');
+		// global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
+		// $theme_path = "themes/" . $theme . "/";
+		// $image_path = $theme_path . "images/";
+		// $smarty = new vtigerCRM_Smarty();
 
 		$sendarray = array();
 		for ($j = 0; $j < count($sendarrays); $j++)
@@ -789,21 +802,7 @@ function putThecondition($QueryHistory,$generatetQuery,$sendarrays=[])
 				'Texti' => explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),(string)$expdies[2]))[1],
 			);
 		}
-		
-		
-		$smarty->assign("MOD", $mod_strings);
-		$smarty->assign("APP", $app_strings);
-		$smarty->assign("MODULE", $currentModule);
-		$smarty->assign("IMAGE_PATH", $image_path);
-		$smarty->assign("DATEFORMAT", $current_user->date_format);
-		$smarty->assign("QUERY", $generatetQuery);
-
-		$smarty->assign("valueli", $sendarray);
-		// $smarty->assign("texticombo", $texticombo);
-		$smarty->assign("FOPTION", '');
-		$smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
-		$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT']));
-		return $smarty->display("modules/MapGenerator/WhereCondition.tpl");
+		return $sendarray;
 }
 
 

@@ -129,7 +129,7 @@
                             <option value="ListColumns">{$MOD.ListColumns}</option>
                             <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> -->
 	                    </select>
-	                </div>	            
+	                </div>
 	            </div>
 	            
 	        </div>
