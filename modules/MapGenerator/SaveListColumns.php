@@ -4,6 +4,7 @@
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
 require_once ('include/utils/utils.php');
+require_once('All_functions.php');
 
 
 global $root_directory, $log; 
@@ -13,7 +14,7 @@ $Data = array();
 // exit();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
-$MapType = "List Columns"; // stringa con tutti i campi scelti in selField1
+$MapType = "ListColumns"; // stringa con tutti i campi scelti in selField1
 $SaveasMapText = $_POST['SaveasMapText'];
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
@@ -29,7 +30,7 @@ if (empty($SaveasMapText)) {
 }
 if (empty($MapType))
  {
-    $MapType = "List Columns";
+    $MapType = "ListColumns";
 }
 
 if (!empty($Data)) {
@@ -47,7 +48,7 @@ if (!empty($Data)) {
      // $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
      $focust->column_fields['mapname']=$mapname;
      $focust->column_fields['content']=add_content($jsondecodedata);
-     $focust->column_fields['maptype'] ="ListColumns";
+     $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['description']= add_description($jsondecodedata);
      $focust->column_fields['mvqueryid']=$idquery2;
@@ -81,7 +82,7 @@ if (!empty($Data)) {
      $focust->column_fields['assigned_user_id'] = 1;
      // $focust->column_fields['mapname'] = $MapName;
      $focust->column_fields['content']=add_content($jsondecodedata);
-     $focust->column_fields['maptype'] ="MasterDetailLayout";
+     $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
      $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['description']= add_description($jsondecodedata);
@@ -154,7 +155,7 @@ function add_content($DataDecode)
                       $field = $xml->createElement("field");
 
                       $label = $xml->createElement("label");
-                      $labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValue);
+                      $labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultText);
                       $label->appendChild($labelText);
                       $field->appendChild($label);
 
@@ -370,57 +371,6 @@ function add_aray_for_history($decodedata)
 // }
 
 
-function Check_table_if_exist($tableName,$primaryIds="")
-{
-     global $adb;
-    $exist=$adb->query_result($adb->query("SHOW TABLES LIKE '$tableName'"),0,0);
-    if (strlen($exist)==0)
-     {
-         $createTable="
-                CREATE TABLE `$tableName` (
-                  `id` varchar(250) NOT NULL,
-                  `firstmodule` varchar(250) NOT NULL,
-                  `firstmoduletext` varchar(250) NOT NULL,
-                  `secondmodule` varchar(250) NOT NULL,
-                  `secondmoduletext` varchar(250) NOT NULL,
-                  `query` text NOT NULL,
-                  `sequence` int(11) NOT NULL,
-                  `active` varchar(2) NOT NULL,
-                  `firstmodulelabel` varchar(250) DEFAULT NULL,
-                  `secondmodulelabel` varchar(250) DEFAULT NULL,
-                  `labels` text NOT NULL
-                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-            ";
-            if (strlen($primaryIds)>0) {
-                $createTable.="
-                    ALTER TABLE `$tableName`
-                      ADD PRIMARY KEY ($primaryIds);
-                    COMMIT;
-
-                ";
-            }
-         //return $createTable;
-         $adb->query("DROP TABLE IF EXISTS `$tableName`");
-         $adb->query($createTable);
-        
-
-     }else
-     {
-        return strlen($exist);
-     }
-
- 
-     if (strlen($adb->query_result($adb->query("SHOW TABLES LIKE '$tableName'"),0,0))>0) 
-     {
-        return 1;    
-     }else
-     {
-        return 0;
-     }
-
-}
-
-
 function save_history($datas,$queryid,$xmldata){
         global $adb;
         $idquery=$queryid;
@@ -437,7 +387,7 @@ function save_history($datas,$queryid,$xmldata){
         }else 
         {
 
-            $idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+            //$idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
         }
        echo $idquery;

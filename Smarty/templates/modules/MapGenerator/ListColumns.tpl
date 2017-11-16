@@ -5,7 +5,38 @@
   <div id="LoadingImage" style="display: none">
     <img src=""/>
 </div>
+{if $HistoryMap neq ''}
+  <script type="text/javascript">
+    App.savehistoryar='{$HistoryMap}';
+  </script>
+{/if}
 
+{if $PopupJS neq ''}
+  <script type="text/javascript">
+    {foreach name=outer item=popi from=$PopupJS}  
+      var temparray = {};
+      {foreach key=key item=item from=$popi}
+          temparray['{$key}']='{$item}';
+      {/foreach}
+      App.popupJson.push({'{'}temparray{'}'});
+      console.log(temparray);
+    {/foreach}
+    
+     if (App.popupJson.length>0)
+    { 
+       for (var i = 0; i <= App.popupJson.length-1; i++) {
+         var module=App.popupJson[i].temparray[`DefaultText`];
+         var typeofppopup=App.popupJson[i].temparray['JsonType'];
+         var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin",typeofppopup);
+         $('#contenitoreJoin').append(divinsert);
+       } 
+    }else{
+      alert(mv_arr.MappingFiledValid);
+     }
+  </script>
+
+
+{/if}
 
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
@@ -39,13 +70,14 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select data-select-load="true" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
+                        {$FirstModuleSelected}
                         </select>
                        </div>
                 </div>
 
                  <div>
                   <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
-                   <input type="button" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID"
+                   <input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID"
                    style="padding: 0px;margin-top: 10px;width: 90%;">
                  </div>
             </div>
@@ -55,7 +87,11 @@
                 	<label style="font-size: initial;color: grey;">{$MOD.SelectField}</label>
                     <div class="slds-select_container">
                        <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
-                       <option value="">Choose from origin</option>
+                        {if $SecondModuleFields neq ''}
+                            {$SecondModuleFields}
+                        {else}
+                            <option value="">Choose from origin</option>
+                        {/if}
                         </select>
                        </div>
                 </div>
@@ -67,13 +103,18 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                         <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID"  name="secmodule" class="slds-select">
-                        <option value="">Choose form Target</option>
+                          {if $SecondModulerelation neq ''}
+                            {$SecondModulerelation}
+                        {else}
+                            <option value="">Choose form Target</option>
+                        {/if}
+                        
                         </select>
                      </div>
                 </div> 
                 <div>
                   <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
-                   <input type="button" class="slds-button slds-button--neutral sel" id="SecondfieldID" name="SecondfieldID"
+                   <input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID"
                    style="padding: 0px;margin-top: 10px;width: 90%;">
                  </div>
                </div>
@@ -143,7 +184,11 @@
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select style="height: 35px;"  id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
-                        <option value="">Choose from Target</option>
+                        {if $FirstModuleFields neq ''}
+                           {$FirstModuleFields}
+                        {else}
+                            <option value="">Choose from Target</option>
+                        {/if}
                         </select>
                        </div>
                 </div>
@@ -186,7 +231,11 @@
        <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" class="slds-button slds-button--brand">
         {$MOD.CreateMap}
         </button>
-        <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
+        {if $HistoryMap neq ''}
+          <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
+        {else}
+           <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
+        {/if}
      
     </div>   
 </div>

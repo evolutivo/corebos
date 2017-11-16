@@ -23,7 +23,7 @@ while ($row = mysql_fetch_assoc($res)){
         </li>
         <li><select id="selViews" name="selViews" size="10" ></select></li>
         <li> <button id="updateView" value="Aggiorna vista" onclick="updateView()">Aggiorna vista</button></li>   
-        <li><div id="immagine" style="display:none"><img src="modules/MVCreator/image/ajax-loader.gif" /></div></li>
+        <li><div id="immagine" style="display:none"><img src="modules/MapGenerator/image/ajax-loader.gif" /></div></li>
         <li><div id="resultView"></div></li>
     </ul>
 </div>

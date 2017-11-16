@@ -62,11 +62,11 @@ global $adb;
 $smarty->assign("INSTALLATIONS", $installations);
 if(isset($_REQUEST['todo'])){
 if($_REQUEST['todo'] == "querygenerator")
-$smarty->display('modules/MVCreator/createView.tpl');
+$smarty->display('modules/MapGenerator/createView.tpl');
 else if($_REQUEST['todo'] == "FSscript")
-$smarty->display('modules/MVCreator/FSscript.tpl');
+$smarty->display('modules/MapGenerator/FSscript.tpl');
 else if($_REQUEST['todo'] == "createReportTable")
-$smarty->display('modules/MVCreator/ReportTable.tpl');
+$smarty->display('modules/MapGenerator/ReportTable.tpl');
 else if($_REQUEST['todo'] == "createReportTable2")
-$smarty->display('modules/MVCreator/ReportNameTable.tpl');
+$smarty->display('modules/MapGenerator/ReportNameTable.tpl');
 }

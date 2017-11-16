@@ -10,7 +10,6 @@ require_once ('include/database/PearDatabase.php');
 // require_once('database/DatabaseConnection.php');
 require_once ('include/CustomFieldUtil.php');
 require_once ('data/Tracker.php');
-include('modfields.php');
 include_once 'All_functions.php';
 include_once 'Staticc.php';
 
@@ -41,7 +40,7 @@ if ($MypType=="Mapping") {
 		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 
-}elseif ($MypType=="MasterDetail") {
+}elseif ($MypType=="MasterDetailLayout") {
 
 	try
 	{
@@ -58,44 +57,16 @@ if ($MypType=="Mapping") {
 		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 	
-}if ($MypType==="ListColumns") {
+}else if ($MypType==="ListColumns") {
 	
 	try
 	{
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			
-			// echo GetModuleMultiToOneForLOadListColumns("Documents","DocSettings");
-			$MyArray=array();
-			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
-
-			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
-			$FmoduleID=(string)  $xml->popup->linkfield;
-
-			foreach($xml->relatedlists->relatedlist as $field)
-			{
-				$araymy=[
-					 
-					 'DefaultText'=>(string) explode("#", Get_First_Moduls_TextVal($field->columns->field->name))[1],
-					 'DefaultValue' =>(string)$field->columns->field->label,
-					 'DefaultValueoptionGroup'=>"",
-					'FirstModule' =>(string) $Filed->module,
-					 'FirstModuleoptionGroup' =>"undefined",
-					'FirstfieldID'=>(string)$xml->popup->linkfield,
-					'FirstfieldIDoptionGroup'=>"",
-					'JsonType'=>"Related",
-					'SecondField'=>(string)Get_Modul_fields_check_from_load($xml->originname[0],$field->columns->field->name),
-					'SecondFieldoptionGroup'=>(string)$xml->originname[0],
-					'SecondfieldID'=>(string)$field->linkfield,
-					'SecondfieldIDoptionGroup'=>"",
-					'secmodule'=>explode(",", GetModuleMultiToOneForLOadListColumns(get_The_history($QueryHistory,"firstmodule"),$xml->originname)),
-					'secmoduleoptionGroup'=>"undefined",
-				];
-
-				array_push($MyArray,$araymy);
-			}
-			print_r($MyArray);
-			exit();
-			// List_Clomns($QueryHistory,$MapID);
+			// echo GetModuleMultiToOneForLOadListColumns("Potentials","Entitylog");
+			// echo  Get_First_Moduls_TextVal("Entitylog");
+			
+			List_Clomns($QueryHistory,$MapID);
 
 		} else {
 			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
@@ -108,9 +79,26 @@ if ($MypType=="Mapping") {
 		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 	
-}
+}else if ($MypType==="Condition Query") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			ConditionQuery($QueryHistory,$MapID);
 
-else
+		} else {
+			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+		}
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+	}
+	
+}else
 {
 	echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";;
 }
@@ -126,6 +114,94 @@ else
 
 
 
+function ConditionQuery($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	if (!empty($QueryHistory)) {
+		
+		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+		
+		$SecondModulerelation=GetModulToAll(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+
+		$FirstModuleID=get_The_history($QueryHistory,"firstmodulelabel");
+		$SecondModuleID=get_The_history($QueryHistory,"secondmodulelabel");
+
+		$ArrayLabels=explode(',',get_The_history($QueryHistory,"labels"));
+		$Arrayfields= array();
+		foreach ($ArrayLabels as $value) {
+			$Arrayfields[]= explode(':',$value)[2];
+		}
+
+		$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query"));
+		
+		$FieldsArrayall=getModFields(get_The_history($QueryHistory,"firstmodule"),$dbname,$Arrayfields).getModFields(get_The_history($QueryHistory,"secondmodule"),$dbname,$Arrayfields);
+
+		$ReturnFieldsValue=explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),(string)$xml->return))[0];
+		$ReturnFieldsText=explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),(string)$xml->return))[1];
+
+
+		$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		///for condition query
+		
+
+
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+		$smarty->assign("MapID",$HistoryMap);
+
+		$smarty->assign("FieldsArrayall",$FieldsArrayall);
+
+		$smarty->assign("FmoduleID",$FirstModuleID);
+		$smarty->assign("SmoduleID",$SecondModuleID);
+
+		// for where condition 
+		$smarty->assign("MODULE", $currentModule);
+		$smarty->assign("IMAGE_PATH", $image_path);
+		// $smarty->assign("DATEFORMAT", $current_user->date_format);
+		$smarty->assign("QUERY", (string)$xml->sql);
+
+		$smarty->assign("valueli",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
+		// $smarty->assign("texticombo", $texticombo);
+		$smarty->assign("FOPTION", '');
+		// $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
+		$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT'])); 
+		
+		// $smarty->assign("ValueForCondition",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
+
+		$smarty->assign("ReturnFieldsValue",$ReturnFieldsValue);
+		$smarty->assign("ReturnFieldsText",$ReturnFieldsText);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		$smarty->assign("SecondModulerelation",$SecondModulerelation);
+
+		//put the smarty modal
+		// $smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+		// $smarty->assign("FirstModuleFields",$FirstModuleFields);
+		// $smarty->assign("PopupJS",$MyArray);
+
+		// $smarty->assign("SecondModuleFields",$SecondModuleFields);
+
+		$output = $smarty->fetch('modules/MapGenerator/createJoinCondition.tpl');
+		echo $output;
+		
+		
+		}else if(!empty($MapID)) {
+
+			# code...
+			# 
+		}else{
+			throw new Exception("Missing the MApID also The QueryHIstory", 1);
+		}
+	
+}
+
 
 /**
  * List_Coluns function is to load the map type list coluns
@@ -134,13 +210,14 @@ else
  */
 function List_Clomns($QueryHistory,$MapID)
 {
+	include_once('modfields.php');
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 
 	try {
 
-		if (!empty($QueryHistory)) 
+		if (empty($QueryHistory)) 
 		{
 			//TODO: if have query history
 			
@@ -156,39 +233,178 @@ function List_Clomns($QueryHistory,$MapID)
 
 			$HistoryMap=$QueryHistory.",".$MapID;
 
-			// $MyArray=array();
-			// $xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+			$MyArray=array();
+			$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
 
-			// $SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
-			// $FmoduleID=(string)  $xml->popup->linkfield;
+			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
+			$FmoduleID=(string)  $xml->popup->linkfield;
 
-			// foreach($xml->relatedlists->relatedlist as $field)
-			// {
-			// 	$araymy=[
+			foreach($xml->relatedlists->relatedlist as $field)
+			{
+				$ArrayRelated=[
 					 
-			// 		 'DefaultText'=>(string) explode("#", Get_First_Moduls_TextVal($field->columns->field->name))[1],
-			// 		 'DefaultValue' =>(string)$field->columns->field->label,
-			// 		 'DefaultValueoptionGroup'=>"",
-			// 		'FirstModule' =>(string) $Filed->module,
-			// 		 'FirstModuleoptionGroup' =>"undefined",
-			// 		'FirstfieldID'=>$xml->popup->linkfield,
-			// 		'FirstfieldIDoptionGroup'=>"",
-			// 		'JsonType'=>"Related",
-			// 		'SecondField'=>(string)Get_Modul_fields_check_from_load($xml->originname[0],$field->columns->field->name),
-			// 		'SecondFieldoptionGroup'=>$xml->originname[0],
-			// 		'SecondfieldID'=>(string)$field->linkfield,
-			// 		'SecondfieldIDoptionGroup'=>"",
-			// 		'secmodule'=>explode(",", GetModuleMultiToOneForLOadListColumns(get_The_history($QueryHistory,"firstmodule"),$xml->originname)),
-			// 		'secmoduleoptionGroup'=>"undefined",
-			// 	];
+					 'DefaultText'=>(string)$field->columns->field->label,
+					 'DefaultValue' =>(string)$field->columns->field->label,
+					 'DefaultValueoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					 'FirstModuleoptionGroup' =>"undefined",
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'JsonType'=>"Related",
+					'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
+					'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
+					'SecondfieldID'=>(string)$field->linkfield,
+					'SecondfieldIDoptionGroup'=>"",
+					'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
+					'secmoduleoptionGroup'=>"undefined",
+				];
+				array_push($MyArray,$ArrayRelated);
+			}
 
-			// 	array_push($MyArray,$araymy);
-			// }
+			foreach ($xml->popup->columns->field as $popupi) {
 
+				$Arraypopup=[
+					
+					'DefaultText'=>(string)$popupi->label,
+					'DefaultValueFirstModuleField' =>(string)$popupi->label,
+					'DefaultValueFirstModuleFieldoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					'FirstModuleoptionGroup' =>"undefined",
+					'Firstfield'=>(string)explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),$popupi->name))[0],
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
+					'JsonType'=>"Popup",
+					
+				];
+				array_push($MyArray,$Arraypopup);
+			}
+
+			$data="MapGenerator,SaveListColumns";
+			$dataid="ListData,MapName";
+			$savehistory="true";
+			
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FmoduleID",$FmoduleID);
+			$smarty->assign("SmoduleID",$SmoduleID);
+
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+
+			$smarty->assign("PopupJS",$MyArray);
+
+			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+
+			$output = $smarty->fetch('modules/MapGenerator/ListColumns.tpl');
+			echo $output;
 
 			
 		} elseif (!empty($MapID)) {
-			# code...
+			//TODO:: execute when not find the QueryID
+			
+			$xml= new SimpleXMLElement(get_form_Map($MapID)); 
+			$FirstModuleSelected=Get_First_Moduls(get_form_Map($MapID,"targetname"));
+			$QueryHistory=get_form_Map($MapID,"mvqueryid");
+			$SecondModulerelation=GetModulRelOneTomulti(get_form_Map($MapID,"targetname"),$xml->originmodule->originname);
+
+			$FirstModuleFields=getModFields(get_form_Map($MapID,"targetname"));
+
+			$SecondModuleFields=getModFields($xml->originmodule->originname);
+
+			$MapName=get_form_Map($MapID,"mapname");
+
+			$HistoryMap=$QueryHistory.",".$MapID;
+
+			$MyArray=array();
+
+			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
+			$FmoduleID=(string)  $xml->popup->linkfield;
+
+			foreach($xml->relatedlists->relatedlist as $field)
+			{
+				$ArrayRelated=[
+					 
+					 'DefaultText'=>(string)$field->columns->field->label,
+					 'DefaultValue' =>(string)$field->columns->field->label,
+					 'DefaultValueoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					 'FirstModuleoptionGroup' =>"undefined",
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'JsonType'=>"Related",
+					'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
+					'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
+					'SecondfieldID'=>(string)$field->linkfield,
+					'SecondfieldIDoptionGroup'=>"",
+					'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
+					'secmoduleoptionGroup'=>"undefined",
+				];
+				array_push($MyArray,$ArrayRelated);
+			}
+
+			foreach ($xml->popup->columns->field as $popupi) {
+
+				$Arraypopup=[
+					
+					'DefaultText'=>(string)$popupi->label,
+					'DefaultValueFirstModuleField' =>(string)$popupi->label,
+					'DefaultValueFirstModuleFieldoptionGroup'=>"",
+					'FirstModule' =>(string) $field->module,
+					'FirstModuleoptionGroup' =>"undefined",
+					'Firstfield'=>(string)explode(",",Get_Modul_fields_check_from_load(get_form_Map($MapID,"targetname"),$popupi->name))[0],
+					'FirstfieldID'=>(string)$xml->popup->linkfield,
+					'FirstfieldIDoptionGroup'=>"",
+					'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
+					'JsonType'=>"Popup",
+					
+				];
+				array_push($MyArray,$Arraypopup);
+			}
+
+			$data="MapGenerator,SaveListColumns";
+			$dataid="ListData,MapName";
+			$savehistory="true";
+			
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FmoduleID",$FmoduleID);
+			$smarty->assign("SmoduleID",$SmoduleID);
+
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+
+			$smarty->assign("PopupJS",$MyArray);
+
+			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+
+			$output = $smarty->fetch('modules/MapGenerator/ListColumns.tpl');
+			echo $output;
+			
 		}else{
 			throw new Exception("Missing the MApID also The QueryHIstory", 1);
 		}
@@ -207,6 +423,7 @@ function List_Clomns($QueryHistory,$MapID)
  */
 function Master_detail($QueryHistory,$MapID)
 {
+	include_once('modfields.php');
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
@@ -414,6 +631,7 @@ function Master_detail($QueryHistory,$MapID)
  */
 function Mapping_View($QueryHistory,$MapID)
 {
+	include_once('modfields.php');
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
@@ -561,6 +779,30 @@ function Mapping_View($QueryHistory,$MapID)
 		$log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
 		echo "Missing the Id of the Map and also the Id of query history ";
 	}
+}
+
+
+
+
+function putThecondition($QueryHistory,$generatetQuery,$sendarrays=[])
+{
+	///
+		// require_once('Smarty_setup.php');
+		// global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
+		// $theme_path = "themes/" . $theme . "/";
+		// $image_path = $theme_path . "images/";
+		// $smarty = new vtigerCRM_Smarty();
+
+		$sendarray = array();
+		for ($j = 0; $j < count($sendarrays); $j++)
+		{
+			$expdies = explode(":", $sendarrays[$j]);
+			$sendarray[] = array(
+				'Values' =>explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),(string)$expdies[2]))[0] ,
+				'Texti' => explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),(string)$expdies[2]))[1],
+			);
+		}
+		return $sendarray;
 }
 
 
@@ -725,6 +967,52 @@ function get_form_Map($MapID,$field_take='content')
 		 return "";
 	}
 }
+
+
+
+/**
+ * get the value from cbmap 
+ * @param  string  $QueryID      The id of  mvquery from map
+ * @param  string $field_take  what field you want to take from cbmap 
+ * @return string  return the values of the fields from cbmap
+ */
+function get_form_MapQueryID($Queryid,$field_take='content')
+{
+	global $adb,$root_directory, $log;
+
+	if(empty($Queryid))
+	{
+		throw new Exception(TypeOFErrors::INFOLG." The ID for Map is Emtpy", 1);
+	}
+
+	try {
+
+		$q="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 and cb.mvqueryid='$Queryid'";
+
+		$result = $adb->query($q);
+		$num_rows = $adb->num_rows($result);
+		if (empty($field_take)) {
+			throw new Exception(TypeOFErrors::ErrorLG." Missing the Filed you wnat to take", 1);
+		}
+
+		if ($num_rows>0) {
+			$Resulti = $adb->query_result($result,0, $field_take);
+
+			if (!empty($Resulti)) {
+				return $Resulti;
+			} else {
+				throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+			}
+		} else {
+			throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+		}
+	} catch (Exception $ex) {
+		 $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+		 return "";
+	}
+}
+
+
 
 /**
  * Function to take the fields from modul 

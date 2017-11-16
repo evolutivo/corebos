@@ -115,10 +115,10 @@ jQuery("#scriptsel").kendoDropDownList({
         <div id="pulsantiMenù">
                 <button style="width:19%;" class="pulsante" onclick="openMenuCreaView();">Creazione nuova vista</button>
                 <button style="width:19%;" class="pulsante" onclick="openMenuManage();">Gestione viste</button>
-                <button style="width:19%;" class="pulsante" onclick="window.open('index.php?module=MVCreator&action=MapGeneratorAjax&file=tabellascript&nr=0','CREA SCRIPT','width=640,height=602,resizable=0,scrollbars=1');">Creazione script report</button>
+                <button style="width:19%;" class="pulsante" onclick="window.open('index.php?module=MapGenerator&action=MapGeneratorAjax&file=tabellascript&nr=0','CREA SCRIPT','width=640,height=602,resizable=0,scrollbars=1');">Creazione script report</button>
 <!--                <button style="width:19%;" class="pulsante" onclick="createReportScript(0);">Creazione script report</button>
                 <button style="width:19%;" class="pulsante" onclick="createReportScript(1);">Creazione script Name report</button>-->
-                <button style="width:19%;" class="pulsante" onclick="window.open('index.php?module=MVCreator&action=MapGeneratorAjax&file=tabellascript&nr=1','CREA SCRIPT','width=640,height=602,resizable=0,scrollbars=1');">Creazione script Name report</button>
+                <button style="width:19%;" class="pulsante" onclick="window.open('index.php?module=MapGenerator&action=MapGeneratorAjax&file=tabellascript&nr=1','CREA SCRIPT','width=640,height=602,resizable=0,scrollbars=1');">Creazione script Name report</button>
                 <button style="width:19%;" class="pulsante" onclick="createFSScript();">Creazione script FS</button>
         </div>
         </div>

@@ -14,6 +14,8 @@ var counter = 0;
 var firstModule;
 var secModule;
 var sFieldRel;
+var returnfromgeanratejoin=false;
+
 
 
 
@@ -25,8 +27,21 @@ $( function() {
   } );
 
 
+
+   function addjouin() {
+          generateJoin();
+         if ( returnfromgeanratejoin===true)
+            {
+               openalertsJoin();
+               hidediv('userorgroup');
+            }else{
+              hidediv('userorgroup');
+            }
+        }
+
+
 var JSONForCOndition = [];
-function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval,FirstModuleJSONField, SecondModuleJSONtxt, SecondModuleJSONval,SecondModuleJSONField,labels,Valueparagrafi, JSONARRAY) {
+function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval,FirstModuleJSONField, SecondModuleJSONtxt, SecondModuleJSONval,SecondModuleJSONField,labels,Valueparagrafi, JSONARRAY,returnvaluesval,returnvaluestetx) {
     JSONForCOndition.push({
         idJSON: JSONForCOndition.length + 1,
         FirstModuleJSONtext: FirstModuleJSONtxt,
@@ -37,6 +52,8 @@ function addINJSON(FirstModuleJSONtxt, FirstModuleJSONval,FirstModuleJSONField, 
         SecondModuleJSONfield: SecondModuleJSONField,
         Labels:labels,
         ValuesParagraf:Valueparagrafi,
+        returnvaluesval:returnvaluesval,
+        returnvaluestetx:returnvaluestetx,
 
         // selectedfields: JSONARRAY,
         //selectedfields: {JSONARRAY}
@@ -146,14 +163,23 @@ function openalertsJoin() {
         }
     }
 
-    var FrirstMOduleval = $('#mod option:selected').val();// $('#mod').value;
-    var FrirstMOduletxt = $('#mod option:selected').text();// $('#mod').value;generatedConditions
+    var FrirstMOduleval = $('select[name="mod"] option:selected').val();// $('#mod').value;
+    var FrirstMOduletxt = $('select[name="mod"] option:selected').text();// $('#mod').value;generatedConditions
     var SecondMOduleval = secModule;
     var SecondMOduletxt = $('#secmodule option:selected').text();
     var generatedjoin=$( "#generatedjoin" ).html();
     var generatedConditions=$( "#generatedConditions" ).html();
     var selField1 = document.getElementById('selField1').value;
     var selField2 = document.getElementById('selField2').value;
+    var returnvaluevalue=$('#ReturnValuesTxt').attr('name');
+    var returnvaluestetx=$('#ReturnValuesTxt').val();
+
+    // if (!returnvalues && returnvalues.length==0)
+    // {
+    //   alert(mv_arr.ReturnValueCheck);
+    //   return false;
+    // }
+
     if(SecondMOduleval==undefined){
       SecondMOduleval='';
     }
@@ -164,7 +190,7 @@ function openalertsJoin() {
     //console.log(selField2);
     //console.log(SecondMOduleval);
 
-    addINJSON(FrirstMOduletxt, FrirstMOduleval,selField1, SecondMOduletxt, SecondMOduleval, selField2, labels, generatedjoin, selectHtml());
+    addINJSON(FrirstMOduletxt, FrirstMOduleval,selField1, SecondMOduletxt, SecondMOduleval, selField2, labels, generatedjoin, selectHtml(),returnvaluevalue,returnvaluestetx);
 
 	// console.log(FrirstMOduletxt);
 	//console.log(FrirstMOduleval);
@@ -175,15 +201,17 @@ function openalertsJoin() {
     var length_history=JSONForCOndition.length;
     //alert(length_history-1);
     for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
-        var idd =ii// JSONForCOndition[ii].idJSON;
+        var idd =ii;// JSONForCOndition[ii].idJSON;
         var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
         var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
         var selectedfields = JSONForCOndition[ii].ValuesParagraf;
+        
         // console.log(idd+firmod+secmod);
         // console.log(selectedfields);
         if (ii==(length_history-1))
         {
             check=true;
+            $('#KippID').val(ii);
 
         }
         else{
@@ -191,6 +219,7 @@ function openalertsJoin() {
         }
         var alerstdiv = alertsdiv(idd, firmod, secmod,check);
         $('#AlertsAddDiv').append(alerstdiv);
+
         // generateJoin();
         // emptycombo();
     }
@@ -216,6 +245,7 @@ function ReturnAllDataHistory(){
         if (ii==(length_history-1))
         {
             check=true;
+            $('#KippID').val(ii);
 
         }
         else{
@@ -253,18 +283,24 @@ function show_query_History(id_history){
  $('#AlertsAddDiv div').remove();
  document.getElementById('querysequence').value=id_history+1;
  for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
-        var idd =ii// JSONForCOndition[ii].idJSON;
+        var idd =ii;// JSONForCOndition[ii].idJSON;
         //valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
-         var idd =ii// JSONForCOndition[ii].idJSON;
+         var idd =ii;// JSONForCOndition[ii].idJSON;
         var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
         var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+
          //console.log(idd+firmod+secmod);
         //console.log(selectedfields);
         if (ii==id_history)
         {
             check=true;
              valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
+             var returnvaluesval=JSONForCOndition[ii].returnvaluesval;
+              var returnvaluestetx=JSONForCOndition[ii].returnvaluestetx;
               $( "#generatedjoin" ).html(valuehistoryquery);
+              $('#ReturnValuesTxt').attr('name',returnvaluesval);
+              $('#ReturnValuesTxt').val(returnvaluestetx);
+              $('#KippID').val(id_history);
 
         }
         else{
@@ -423,6 +459,14 @@ $('#saveasmap').click(function () {
     $('#modal').addClass('slds-fade-in-open');
 });
 
+//function when you doubleclick to choose a value
+function doubleclickvalue(sel)
+{
+   $('#ReturnValuesTxt').attr('name',sel.value);
+  $('#ReturnValuesTxt').val(sel.options[sel.selectedIndex].text);
+}
+
+
 //Modal Close
 function closeModal() {
     var myLength = $("#SaveasMapTextImput").val();
@@ -433,7 +477,7 @@ function closeModal() {
         SaveasMap();
     }
     else {
-        $('#ErrorVAlues').text('{/literal}{$MOD.morefivechars}{literal}');
+        $('#ErrorVAlues').text('{literal}{$MOD.morefivechars}{/literal}');
     }
 }
 function closeModalwithoutcheck() {
@@ -575,8 +619,8 @@ function addJoin(action) {
                     }
                     if (jQuery("#condition").val() != 'undefined')
                         var whereCondition = jQuery("#condition").val();
-                    nameView = (document.getElementById('MapName').value);
-                    nameDb = (document.getElementById('nameDb').value);
+                        nameView = (document.getElementById('MapName').value);
+                        nameDb = (document.getElementById('nameDb').value);
                     if (action == "join") url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=compositoreQuery&mod=" + firstModule;
                     else if (action == "script") url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=creaScript&whereCondition=" + whereCondition + "&mod=" + firstModule;
 
@@ -686,7 +730,13 @@ function generateJoin(SelectedValue="",History=0) {
         selField2.push(secondoCampo);
         selTab1.push(firstModule);
         selTab2.push(secModule);
-
+        var returnvalues=$('#ReturnValuesTxt').attr('name');
+        if (!returnvalues && returnvalues.length==0)
+        {
+          alert(mv_arr.ReturnValueCheck);
+          returnfromgeanratejoin= false;
+          return false;
+        }
         var queryid=document.getElementById('queryid').value;
         var MapID=$('#MapID').val();
 
@@ -727,10 +777,11 @@ function generateJoin(SelectedValue="",History=0) {
                  }
                 jQuery("#results").html(msg);
                 if (box) box.remove();
-
+                returnfromgeanratejoin= true;
             },
             error: function () {
                 alert(mv_arr.failedcall);
+                returnfromgeanratejoin= false;
             }
         });
 
@@ -1584,24 +1635,18 @@ function SaveMap() {
     //var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
     var querygenerate = $('#generatedjoin').text();
-    var querygeneratecondition = $('#generatedConditions').text();
-//    var optionsCombo = sel[0].innerHTML;
-//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-//        opt = sel[0].options[i];
-//        if (opt.selected)
-//            campiSelezionati.push(opt.value);
-//    }
-//    if (campiSelezionati.length != 0) {
-        var querysequence=document.getElementById('querysequence').value;
-        var primoCampo = document.getElementById('selField1').value;
-        var secondoCampo = document.getElementById('selField2').value;
-        selField1.push(primoCampo);
-        selField2.push(secondoCampo);
-        selTab1.push(firstModule);
-        selTab2.push(secModule);
-        nameView = (document.getElementById('MapName').value);
+    var querygeneratecondition = $('#generatedConditions').text();    
+    var indexi = parseInt(document.getElementById('KippID').value);
+    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
+    var valuehistoryquery = JSONForCOndition[indexi];
+    var FirstModul=$('#FirstModul option:selected').val();
+    var secmodule=$('#secmodule option:selected').val();
+    var selField1=$('#selField1').val();
+    var selField2=$('#selField2').val();
+    
+    var nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
-        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveAsMap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
 
         jQuery.ajax({
@@ -1609,18 +1654,14 @@ function SaveMap() {
             url: url,
             async: false,
             data: {
-                selTab1: selTab1,
-                fmodule: firstModule,
-                smodule: secModule,
-                selField1: selField1,
-                selTab2: selTab2,
-                selField2: selField2,
-                installationID: installationID,
-                queryid:document.getElementById('queryid').value,
-                querysequence:document.getElementById('querysequence').value,
-            //    html: optionsCombo,
-             //   campiSelezionati: campiSelezionati,
+                FirstModul: FirstModul,
+                secmodule: secmodule,
+                selField1:selField1,
+                selTab2:selTab2,
+                selField2:selField2,
+                allvalues:JSON.stringify(valuehistoryquery),
                 nameView: nameView,
+                SaveasMapTextImput: SaveasMapTextImput,
                 QueryGenerate: querygenerate + querygeneratecondition,
                 MapId: MapID
             },
@@ -1643,6 +1684,7 @@ function SaveMap() {
                 alert(mv_arr.failedcall);
             }
         });
+        
         // getFirstModule(selTab2);
     //}
 
@@ -1653,49 +1695,44 @@ function SaveMap() {
 function SaveasMap() {
     var campiSelezionati = [];
     var campiSelezionatiLabels = [];
-   // var sel = jQuery('#selectableFields');
+    //var sel = jQuery('#selectableFields');
     var MapID = $('#MapID').val();
-    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
     var querygenerate = $('#generatedjoin').text();
-    var querygeneratecondition = $('#generatedConditions').text();
-//    var optionsCombo = sel[0].innerHTML;
-//    for (var i = 0, len = sel[0].options.length; i < len; i++) {
-//        opt = sel[0].options[i];
-//        if (opt.selected)
-//            campiSelezionati.push(opt.value);
-//    }
-//    if (campiSelezionati.length != 0) {
-        var primoCampo = document.getElementById('selField1').value;
-        var secondoCampo = document.getElementById('selField2').value;
-        selField1.push(primoCampo);
-        selField2.push(secondoCampo);
-        selTab1.push(firstModule);
-        selTab2.push(secModule);
-        nameView = (document.getElementById('MapName').value);
+    var querygeneratecondition = $('#generatedConditions').text();    
+    var indexi = parseInt(document.getElementById('KippID').value);
+    var SaveasMapTextImput = $('#SaveasMapTextImput').val();
+    var valuehistoryquery = JSONForCOndition[indexi];
+    var FirstModul=$('#FirstModul option:selected').val();
+    var secmodule=$('#secmodule option:selected').val();
+    var selField1=$('#selField1').val();
+    var selField2=$('#selField2').val();
+    
+    var nameView = (document.getElementById('MapName').value);
         // url = "index.php?module=MVCreator&action=MapGeneratorAjax&file=compositoreQuery";
-        var url = "index.php?module=cbMap&action=cbMapAjax&file=saveasmap";
+        var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=SaveAsMap";
         var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
         jQuery.ajax({
             type: "POST",
             url: url,
             async: false,
             data: {
-                selTab1: selTab1,
-                fmodule: firstModule,
-                smodule: secModule,
-                selField1: selField1,
-                selTab2: selTab2,
-                selField2: selField2,
+                FirstModul: FirstModul,
+                secmodule: secmodule,
+                selField1:selField1,
+                selTab2:selTab2,
+                selField2:selField2,
+                allvalues:JSON.stringify(valuehistoryquery),
+                // nameView: nameView,
                 SaveasMapTextImput: SaveasMapTextImput,
-                installationID: installationID,
-               // html: optionsCombo,
-      //          campiSelezionati: campiSelezionati,
-                nameView: nameView,
-                QueryGenerate: querygenerate + querygeneratecondition
+                QueryGenerate: querygenerate + querygeneratecondition,
+                // MapId: MapID
 
             },
             dataType: "html",
             success: function (msg) {
+              var splitval=msg.split(',');
+              if (splitval[1])
+              {
                 jQuery("#MapID").val(msg);
                 if (!$.trim(msg)) {
                     alert(mv_arr.mapgensucc);
@@ -1705,6 +1742,11 @@ function SaveasMap() {
                     alert(mv_arr.mapgensucc);
                     if (box) box.remove();
                 }
+              }else
+              {
+                alert(mv_arr.ReturnErrorFromMap);
+              }
+                
                 //jQuery("#MapID").val(msg); if (box) box.remove();
 
             },
@@ -1712,6 +1754,8 @@ function SaveasMap() {
                 alert(mv_arr.failedcall);
             }
         });
+        // $('#ReturnValuesTxt').attr('name','');
+        // $('#ReturnValuesTxt').val('');
         getFirstModule(selTab2, MapID);
     //}
 }

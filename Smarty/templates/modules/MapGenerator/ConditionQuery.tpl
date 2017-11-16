@@ -31,7 +31,7 @@
 
         <ul id="LDSstyle">
         
-        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
+        <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
 
         {if $HistoryMap neq ''}
            <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
@@ -46,12 +46,12 @@
         <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
-            <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
+           <!--  <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
-            <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
+                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li> -->
+            <!-- <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li>
+                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li> -->
             <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
@@ -180,10 +180,9 @@
     </div>
 </div>
     <div id="contenitoreJoin" >        
-      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 70%;float: left;"></div>
-      <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; width: 30%;float: right;">
-        
-      </div>
+      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 100%;">                  
+
+                        </div>
     </div>{*End div contenitorejoin*}
 </div>
 

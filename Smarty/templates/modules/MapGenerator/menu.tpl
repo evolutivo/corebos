@@ -4,6 +4,7 @@
 <link type="text/css" href="modules/MapGenerator/css/style.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css" rel="stylesheet">
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
@@ -120,15 +121,16 @@
 	                <div class="slds-select_container">
 	                    <select data-load-Map="true" data-type-select="TypeMap"  id="TypeMaps" class="slds-select" disabled>
     	                    <option value="">{$MOD.TypeMapNone}</option>
-    	                    <option value="SQL">{$MOD.TypeMapSQL}</option>
+    	                    <option value="SQL">{$MOD.ConditionQuery}</option>
     	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>
     	                    <option value="IOMap">{$MOD.TypeMapIOMap}</option>
     	                    <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
     	                    <option value="WS">{$MOD.TypeMapWS}</option>
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
                             <option value="ListColumns">{$MOD.ListColumns}</option>
+                            <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> -->
 	                    </select>
-	                </div>	            
+	                </div>
 	            </div>
 	            
 	        </div>

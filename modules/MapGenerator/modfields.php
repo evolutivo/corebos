@@ -13,12 +13,13 @@
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
-function getModFields($module, $dbname)
+function getModFields($module, $dbname,$FieldsArrays=[])
 {
     global $log;
     $log->debug("Entering getAdvSearchfields(".$module.") method ...");
     global $adb;
     global $current_user;
+    $checkexist=false;
     global $mod_strings,$app_strings;
     $OPTION_SET.= '<optgroup label="'.$module.'">';
     $tabid = getTabid($module,$dbname);
@@ -114,30 +115,105 @@ function getModFields($module, $dbname)
             if($mod_fieldlabel =="") $mod_fieldlabel = $fieldlabel;
 
             if($fieldlabel == "Product Code") {
-
-                $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
-
+                 foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldcolname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                        // $checkexist=false;
+                     }
+                 }
+                 if ($checkexist===true) {
+                    $OPTION_SET .= "<option selected value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                     $checkexist=false;
+                 } else {
+                     $OPTION_SET .= "<option value='" . $fieldtablename . ":" . $fieldcolname . ":" . $fieldname . "::" . $fieldtypeofdata . "'" . $select_flag . ">" . $mod_fieldlabel . "</option>";
+                 }
 
             }
             if($fieldlabel == "Reports To"){
 
-                $OPTION_SET .= "<option value='".$fieldtablename.":".$fieldcolname.":".$fieldname."::".$fieldtypeofdata."'".$select_flag.">".$mod_fieldlabel." - ".$mod_strings['LBL_LIST_LAST_NAME']."</option>";
+                foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldcolname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                        // $checkexist=false;
+                     }
+                 }
+                 if ($checkexist===true) {
+                    $OPTION_SET .= "<option selected value='".$fieldtablename.":".$fieldcolname.":".$fieldname."::".$fieldtypeofdata."'".$select_flag.">".$mod_fieldlabel." - ".$mod_strings['LBL_LIST_LAST_NAME']."</option>";
+                     $checkexist=false;
+                 } else {
+                     $OPTION_SET .= "<option value='".$fieldtablename.":".$fieldcolname.":".$fieldname."::".$fieldtypeofdata."'".$select_flag.">".$mod_fieldlabel." - ".$mod_strings['LBL_LIST_LAST_NAME']."</option>";
+                 }
+
+                
 
             }
 
             elseif($fieldcolname == "contactid" || $fieldcolname == "contact_id")
             {
-
-                $OPTION_SET .= "<option value='vtiger_contactdetails:lastname:".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".$app_strings['LBL_CONTACT_LAST_NAME']."</option>";
-                $OPTION_SET .= "<option value='vtiger_contactdetails:firstname:".$fieldname."::".$fieldtypeofdata."'>".$app_strings['LBL_CONTACT_FIRST_NAME']."</option>";
-
-
+                 foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldcolname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                       
+                     }
+                 }
+                 if ($checkexist===true) {
+                     $OPTION_SET .= "<option selected value='vtiger_contactdetails:lastname:".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".$app_strings['LBL_CONTACT_LAST_NAME']."</option>";
+                     $OPTION_SET .= "<option selected value='vtiger_contactdetails:firstname:".$fieldname."::".$fieldtypeofdata."'>".$app_strings['LBL_CONTACT_FIRST_NAME']."</option>";
+                      $checkexist=false;
+                 } else {
+                     $OPTION_SET .= "<option value='vtiger_contactdetails:lastname:".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".$app_strings['LBL_CONTACT_LAST_NAME']."</option>";
+                     $OPTION_SET .= "<option value='vtiger_contactdetails:firstname:".$fieldname."::".$fieldtypeofdata."'>".$app_strings['LBL_CONTACT_FIRST_NAME']."</option>";
+                 }
 
             }
             elseif($fieldcolname == "campaignid")
-                $OPTION_SET .= "<option value='vtiger_campaign:campaignname:".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".$mod_fieldlabel."</option>";
+            {
+                 foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldcolname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                        // $checkexist=false;
+                     }
+                 }
+                 if ($checkexist===true) {
+                    $OPTION_SET .= "<option selected value='vtiger_campaign:campaignname:".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".$mod_fieldlabel."</option>";
+                     $checkexist=false;
+                 } else {
+                     $OPTION_SET .= "<option value='vtiger_campaign:campaignname:".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".$mod_fieldlabel."</option>";
+                 }
+                
+            }
             else
-                $OPTION_SET .= "<option value='".$fieldtablename.":".$fieldcolname.":".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".str_replace("'","`",$fieldlabel)."</option>";
+            {
+                foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldcolname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                        // $checkexist=false;
+                     }
+                 }
+                 if ($checkexist===true) {
+                    $OPTION_SET .= "<option selected value='".$fieldtablename.":".$fieldcolname.":".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".str_replace("'","`",$fieldlabel)."</option>";
+                     $checkexist=false;
+                 } else {
+                     $OPTION_SET .= "<option value='".$fieldtablename.":".$fieldcolname.":".$fieldname."::".$fieldtypeofdata."' ".$select_flag.">".str_replace("'","`",$fieldlabel)."</option>";
+                 }
+                
+                
+            }
         }
     }
     //Added to include Ticket ID in HelpDesk advance search
@@ -146,7 +222,22 @@ function getModFields($module, $dbname)
         $mod_fieldlabel = $mod_strings['Ticket ID'];
         if($mod_fieldlabel =="") $mod_fieldlabel = 'Ticket ID';
 
-        $OPTION_SET .= "<option value=\'vtiger_crmentity:crmid:".$fieldname."::".$fieldtypeofdata."\'>".$mod_fieldlabel."</option>";
+         foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                        // $checkexist=false;
+                     }
+                 }
+                 if ($checkexist===true) {
+                    $OPTION_SET .= "<option selected value=\'vtiger_crmentity:crmid:".$fieldname."::".$fieldtypeofdata."\'>".$mod_fieldlabel."</option>";
+                     $checkexist=false;
+                 } else {
+                     $OPTION_SET .= "<option value=\'vtiger_crmentity:crmid:".$fieldname."::".$fieldtypeofdata."\'>".$mod_fieldlabel."</option>";
+                 }
+        
     }
     //Added to include activity type in activity advance search
     if($module == 'Activities')
@@ -154,7 +245,22 @@ function getModFields($module, $dbname)
         $mod_fieldlabel = $mod_strings['Activity Type'];
         if($mod_fieldlabel =="") $mod_fieldlabel = 'Activity Type';
 
-        $OPTION_SET .= "<option value=\'vtiger_activity.activitytype:".$fieldname."::".$fieldtypeofdata."\'>".$mod_fieldlabel."</option>";
+         foreach ($FieldsArrays as $item) {
+                     if (strlen($item) != 0 && strpos($item, $fieldname) !== false)
+                     {
+                        $checkexist=true;
+                     }else
+                     {
+                        // $checkexist=false;
+                     }
+                 }
+                 if ($checkexist===true) {
+                   $OPTION_SET .= "<option selected value=\'vtiger_activity.activitytype:".$fieldname."::".$fieldtypeofdata."\'>".$mod_fieldlabel."</option>";
+                    $checkexist=false;
+                 } else {
+                    $OPTION_SET .= "<option value=\'vtiger_activity.activitytype:".$fieldname."::".$fieldtypeofdata."\'>".$mod_fieldlabel."</option>";
+                 }
+        
     }
     $log->debug("Exiting getAdvSearchfields method ...");
     $OPTION_SET.="</optgroup>";

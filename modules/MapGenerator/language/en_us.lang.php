@@ -68,7 +68,8 @@ $mod_strings = Array(
     'cancel'=>'Cancel',
     'save'=>'Save',
     'morefivechars'=>'You need a more than 5 characters name',
-    'selectlabel'=>'Select Label (use ctrl + left click ) multiple select',
+    'selectlabel'=>'( use ctrl + left click  multiple select )',
+    'selectdoubleclick'=>'( doubleclick to choose the return value )',
     'generate'=>'Generate',
     'conditions'=>'Conditions',
     'exit'=>'Exit',
@@ -93,6 +94,7 @@ $mod_strings = Array(
     'ChangeLabel'=>'Change Label name',
     'SelectedField'=>'Selected Fields',
     'popupPlace'=>'Popup Screen',
+    'ConditionQuery'=>'Condition Query',
 
 
 );
