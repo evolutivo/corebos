@@ -101,14 +101,14 @@
 						</td>
 						<!-- Page Navigation -->
 						<td nowrap align="right" width="25%">
-							<table border=0 cellspacing=0 cellpadding=0 class="small">
+							<table border=0 cellspacing=0 cellpadding=0 class="small navigation-arrows">
 								<tr>{$NAVIGATION}</tr>
 							</table>
 						</td>
 					</tr>
 				</table>
 
-				<table border=0 cellspacing=0 cellpadding=2 width=100% class="small">
+				<table border=0 cellspacing=0 cellpadding=2 width=100% class="small navigation-arrows">
 					<tr>
 						<!-- Buttons -->
 						<td style="padding-right:20px" nowrap>{include file='ListViewButtons.tpl'}</td>

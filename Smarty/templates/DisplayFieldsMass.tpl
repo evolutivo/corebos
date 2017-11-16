@@ -11,18 +11,20 @@
  ********************************************************************************/
 
 -->*}
-
 {assign var="fromlink" value=""}
-
-<!-- Added this file to display the fields in Create Entity page based on ui types  -->
-{foreach key=label item=subdata from=$data}
-	{if $header eq 'Product Details'}
-		<tr>
-	{else}
-		<tr style="height:25px">
-	{/if}
-	{foreach key=mainlabel item=maindata from=$subdata}
-		{include file='EditViewUIMass.tpl'}
-	{/foreach}
-   </tr>
-{/foreach}
+<div class="createview_field_row">
+	<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+		<!-- Added this file to display the fields in Create Entity page based on ui types  -->
+		{foreach key=label item=subdata from=$data}
+			{if $header eq 'Product Details'}
+				<tr name="tbl{$header|replace:' ':''}Content" class="slds-line-height--reset">
+			{else}
+				<tr name="tbl{$header|replace:' ':''}Content" class="slds-line-height--reset">
+			{/if}
+				{foreach key=mainlabel item=maindata from=$subdata}
+					{include file='EditViewUIMass.tpl'}
+				{/foreach}
+			</tr>
+		{/foreach}
+	</table>
+</div>

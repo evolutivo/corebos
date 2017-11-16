@@ -208,7 +208,7 @@
 															<span class="photoContainer forceSocialPhoto">
 																<div class="small roundedSquare forceEntityIcon img-background">
 																	<span class="uiImage">
-																			<img src="{$MODULEICON|@vtiger_imageurl:$THEME}" class="icon " alt="{$MODULE}" title="{$MODULE}">
+																		<img src="{$MODULEICON|@vtiger_imageurl:$THEME}" class="icon " alt="{$MODULE}" title="{$MODULE}">
 																	</span>
 																</div>
 															</span>
@@ -263,8 +263,8 @@
 																	<img align="absmiddle" accessKey="{$APP.LNK_LIST_PREVIOUS}" name="privrecord" value="{$APP.LNK_LIST_PREVIOUS}" src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}"/>
 																</span>&nbsp;
 															{else}
-																<span class="detailview_utils_prev" title="{$APP.LNK_LIST_PREVIOUS}">
-																	<img align="absmiddle" width="23" src="{'rec_prev_disabled.gif'|@vtiger_imageurl:$THEME}">
+																<span class="detailview_utils_prev disabled" title="{$APP.LNK_LIST_PREVIOUS}">
+																	<img align="absmiddle" width="23" src="{'rec_prev.gif'|@vtiger_imageurl:$THEME}">
 																</span>&nbsp;
 															{/if} 
 															{if $privrecord neq '' || $nextrecord neq ''}
@@ -282,9 +282,9 @@
 																<img align="absmiddle" accessKey="{$APP.LNK_LIST_NEXT}" name="nextrecord" src="{'rec_next.gif'|@vtiger_imageurl:$THEME}">
 															</span>&nbsp;
 															{else}
-															<span class="detailview_utils_next" title="{$APP.LNK_LIST_NEXT}">
+															<span class="detailview_utils_next disabled" title="{$APP.LNK_LIST_NEXT}">
 																<img align="absmiddle" title="{$APP.LNK_LIST_NEXT}"
-																width="23" src="{'rec_next_disabled.gif'|@vtiger_imageurl:$THEME}"/>
+																width="23" src="{'rec_next.gif'|@vtiger_imageurl:$THEME}"/>
 															</span>&nbsp;
 															{/if}
 														</p>
@@ -774,7 +774,7 @@
 																			<header class="slds-media slds-media--center slds-has-flexi-truncate">
 																				<div class="slds-media__body">
 																					<h4 class="header-title-container">
-																						<span class="slds-text-heading--small slds-truncate actionLabel"><b>{$WORDTEMPLATEOPTIONS}</b></span>
+																						<span class="mailMergeFont slds-truncate actionLabel"><b>{$WORDTEMPLATEOPTIONS}</b></span>
 																					</h4>
 																				</div>
 																			</header>

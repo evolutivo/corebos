@@ -206,7 +206,7 @@ function addConditionGroup(parentNodeId) {ldelim}
   	newNode.setAttribute('id',newNodeId);
   	newNode.setAttribute('name','conditionGroup');
 
-  	newNode.innerHTML = "<table class='small crmTable' border='0' cellpadding='5' cellspacing='1' width='100%' valign='top' id='conditiongrouptable_"+groupIndex+"'>"+
+  	newNode.innerHTML = "<table class='small crmTable advancedfilter-table' border='0' cellpadding='5' cellspacing='1' width='100%' valign='top' id='conditiongrouptable_"+groupIndex+"'>"+
 			"<tr id='groupheader_"+groupIndex+"'>"+
 				"<td colspan='5' align='right'>"+
 					"<a href='javascript:void(0);' onclick='deleteGroup(\""+groupIndex+"\");'><img border=0 src={'close.gif'|@vtiger_imageurl:$THEME} alt='{$APP.LBL_DELETE_GROUP}' title='{$APP.LBL_DELETE_GROUP}'/></a>"+
