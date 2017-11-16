@@ -49,21 +49,19 @@ span:focus {
 	color: #33338c;
 	font-weight:bold;
 	border-left:2px dotted #fff;
-	padding:10px;
+	/*padding:10px;*/
 }
 
 .genHeaderBig{
 	font-family: 'Salesforce Sans', Arial, Helvetica, sans-serif;
-	font-size: 16px;
-	line-height: 19px;
+	font-size: 20px;
+	line-height: 20px;
 	color: #000000;
 	font-weight:bold;
 }
 
 .genHeaderSmall{
 	font-family: 'Salesforce Sans', Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	line-height: 16px;
 	color: #000000;
 	font-weight:bold;
 }
@@ -76,7 +74,7 @@ span:focus {
 }
 
 .hdrNameBg {
-	background:#ffffff url(images/header-bg.png) repeat-x;
+	/*background:#ffffff url(images/header-bg.png) repeat-x;*/
 }
 
 .hdrTabBg {
@@ -414,7 +412,7 @@ a:hover {
 	color: #000000;
 }
 
-/*td span:not(.search-dropdown) {
+/*td span:not(.search-dropdown){
     word-wrap: break-word;
     white-space: normal;
 }*/
@@ -619,9 +617,9 @@ a:hover {
 /* Dashboard CSS */
 a.dash_href{
 	display:block;
-	width:24px;height:24px;
+	/*width:24px;height:24px;*/
 	vertical-align:middle;
-	margin-top:10px;
+	/*margin-top:10px;*/
 }
 
 .dashHeading {
@@ -632,8 +630,8 @@ a.dash_href{
 }
 
 .dashSelectBg{
-	background-image:url(images/dashSelectBg.gif);
-	background-repeat:repeat-x;
+	/*background-image:url(images/dashSelectBg.gif);*/
+	/*background-repeat:repeat-x;*/
 }
 
 .dash_top{
@@ -654,7 +652,7 @@ a.dash_href{
 }
 
 .dash_bdr_btm{
-	border-bottom:2px dotted #939271;
+	/*border-bottom:2px dotted #939271;*/
 }
 
 .dash_count{
@@ -672,7 +670,7 @@ a.dash_href{
 }
 
 .dash_row_sel{
-	background-image:url(../images/dash_sel_chart.jpg);
+	/*background-image:url(../images/dash_sel_chart.jpg);*/
 	background-repeat:no-repeat;
 	background-position:center;
 	width:26px;height:26px;
@@ -684,7 +682,7 @@ a.dash_href{
 }
 
 .dash_row_unsel{
-	background-image:url(../images/dash_unsel_chart.jpg);
+	/*background-image:url(../images/dash_unsel_chart.jpg);*/
 	background-repeat:no-repeat;
 	background-position:center;
 	width:26px;height:26px;
@@ -778,6 +776,7 @@ a.submenu:Hover{
 	top:0px;
 	left:0px;
 	text-align:left;
+
 }
 
 #theClockLayer{
@@ -916,10 +915,10 @@ a.submenu:Hover{
 	top:100px;
 	background-color:#FFFFFF;
 	width:185px;
-	border-bottom:2px solid #000000;
+	/*border-bottom:2px solid #000000;
 	border-right:2px solid #666666;
 	border-left:2px solid #CCCCCC;
-	border-top:2px solid #CCCCCC;
+	border-top:2px solid #CCCCCC;*/
 }
 
 /* RSS STYLES */
@@ -1089,15 +1088,11 @@ a.submenu:Hover{
 
 #orgLay{
 	font-family: 'Salesforce Sans', Arial, Helvetica, sans-serif;
-	font-size:11px;
-	text-align:left;
 	width:500px;
 	border:3px solid #CCCCCC;
 	background-color:#FFFFFF;
 	display:block;
 	position:absolute;
-	left:0px;
-	top:0px;
 }
 
 /*  Role */
@@ -1148,8 +1143,8 @@ a.submenu:Hover{
 
 .genHeaderGray{
 	font-family: 'Salesforce Sans', Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	line-height: 16px;
+	font-size: 12px;
+	line-height: 12px;
 	color: #888888;
 	font-weight:bold;
 }
@@ -1196,7 +1191,7 @@ ul li{
 
 #reportLay{
 	width:175px;
-	background-color:#CCCCCC;
+	background-color:#fff;
 	border:1px solid #ddd;
 	padding-top:5px;
 	position:absolute;
@@ -1219,11 +1214,8 @@ a.reportMnu{
 	color:#0070BA;
 	text-decoration:none;
 	display:block;
-	width:155px;
-	height:20px;
 	border-bottom:1px solid #E1E1E1;
-	padding-left:20px;
-	padding-top:3px;
+	
 }
 
 a.reportMnu:Hover{
@@ -1231,11 +1223,7 @@ a.reportMnu:Hover{
 	color:#0070BA;
 	text-decoration:underline;
 	display:block;
-	width:155px;
-	height:20px;
 	border-bottom:1px solid #E1E1E1;
-	padding-left:20px;
-	padding-top:3px;
 }
 
 #Generate{
@@ -1583,24 +1571,18 @@ level2Sel{
 
 /* For Report HTML Generation*/
 .rptCellLabel {
-	background-color:#f6f6f6;
+	background-color:#f4f6f9;
 	padding-right:10px;
-	border-right: 1px solid #DDDDDD;
-	border-bottom:1px solid #fff;
 	color:#737373;
 	font-weight: bold;
 	white-space:nowrap;
+	letter-spacing: 0!important;
 }
 
 .rptTable {
-	border-left: 1px solid #DDDDDD;
-	border-bottom: 1px solid #DDDDDD;
-	border-top: 1px solid #DDDDDD;
-	border-spacing: 0;
 	border-collapse: collapse;
 	width: 98%;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-	font-size: 0.8rem;
+	/*font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
 	font-weight: normal;
 	line-height: 1.5;
 }
@@ -1715,9 +1697,9 @@ datatable stats {
 }
 
 #folderLay{
-	width:175px;
-	background-color:#CCCCCC;
-	border:1px solid #DDDDDD;
+	width:200px;
+	background-color:#fff;
+	/*border:1px solid #DDDDDD;*/
 	padding-top:5px;
 	position:absolute;
 	display:none;
@@ -1858,7 +1840,7 @@ ul {
 	font-weight:normal;
 	color:#000000;
 	background-color:#fff;
-	padding-left:30px;
+	padding-left:10px;
 	border-top:1px solid #fff;
 	border-bottom:1px solid #ddd;
 	border-right:1px solid #ddd;
@@ -1873,7 +1855,7 @@ ul {
 	font-weight:bold;
 	color:#000000;
 	background-color:#ffffff;
-	padding-left:30px;
+	padding-left:10px;
 	border-left:3px solid #ddd;
 	border-bottom:3px solid #ddd;
 	border-top:2px solid #ddd;
@@ -1902,18 +1884,18 @@ ul {
 }
 
 .tableHeading{
-	background:#FFFFFF url(images/level2Bg.gif) repeat-x scroll center bottom;
-	border:1px solid #DEDEDE;
+	/*background:#FFFFFF url(images/level2Bg.gif) repeat-x scroll center bottom;*/
+	/*border:1px solid #DEDEDE;*/
 }
 
 .colHeader{
-	background-color:#fff;
-	background-repeat:repeat;
-	background-image:url(images/mailSubHeaderBg-grey.gif);
-	border-left:1px solid #fff;
-	border-top:1px solid #ddd;
-	border-right:1px solid #ddd;
-	border-bottom:1px solid #ddd;
+	/*background-color:#fff;*/
+	/*background-repeat:repeat;*/
+	/*background-image:url(images/mailSubHeaderBg-grey.gif);*/
+	/*border-left:1px solid #fff;*/
+	/*border-top:1px solid #ddd;*/
+	/*border-right:1px solid #ddd;*/
+	/*border-bottom:1px solid #ddd;*/
 	font-weight:bold;
 }
 
@@ -1936,16 +1918,10 @@ ul {
 }
 
 .listTable{
-	border-left:1px solid #cccccc;
-	border-right:1px solid #cccccc;
-	border-bottom:1px solid #cccccc;
 }
 
 .listTableRow{
-	border-bottom:1px solid #eaeaea;
-	border-right	:1px solid #eaeaea;
-	border-bottom:1px solid #eaeaea;
-	border-bottom:1px solid #eaeaea;
+	/*border-bottom:1px solid #eaeaea;*/
 }
 
 .listRow{
@@ -1953,8 +1929,8 @@ ul {
 }
 
 .listTableTopButtons{
-	background-color:#efefff;
-	background-image:url(images/layerPopupBg.gif);
+	/*background-color:#efefff;*/
+	/*background-image:url(images/layerPopupBg.gif);*/
 }
 
 /*  Buttons */
@@ -2085,6 +2061,8 @@ textarea {
 	border:3px solid #CCCCCC;
 	padding:5px;
 	position:absolute;
+	top: 0;
+	right: 300px;
 	background-color:#FFFFFF;
 	display:none;
 }
@@ -2126,7 +2104,7 @@ textarea {
 }
 
 .mailSubHeader {
-	background-color:#e2e5ff;
+	/*background-color:#e2e5ff;*/
 }
 
 .mailSubHeader b {
@@ -2138,33 +2116,35 @@ textarea {
 }
 
 .mailClientWriteEmailHeader {
-	font-family:arial, helvetica, sans-serif;
 	font-size:20px;
 	line-height:24px;
 	font-weight:bold;
-	background:#ddd url(images/mailSubHeaderBg.gif) repeat-x;
 	padding:10px;
-	border-left:1px solid #eaeaea;
+	/*background:#ddd url(images/mailSubHeaderBg.gif) repeat-x;*/
+	/*border-left:1px solid #eaeaea;
 	border-top:1px solid #eaeaea;
 	border-right:1px solid #939271;
-	border-left:1px solid #939271;
+	border-left:1px solid #939271;*/
 }
 
 .mailClientCSSButton {
-	border-left:1px solid #fff;
-	border-top:1px solid #fff;
-	border-right:1px solid #333;
-	border-bottom:1px solid #333;
 	padding:2px;
-	background-color:#c3c2b1;
+	/*border-left:1px solid #fff;*/
+	/*border-top:1px solid #fff;*/
+	/*border-right:1px solid #333;*/
+	/*border-bottom:1px solid #333;*/
+	/*background-color:#c3c2b1;*/
 }
 
+.mailClientCSSButton img {
+	width: 18px;
+}
 /* Email Client Classes ends ------------------------------------ */
 
 /* Layer Popup */
 .layerPopup {
 	border:2px solid #ddd;
-	background:#fffff5;
+	background-color: #fff;
 	position:absolute;
 }
 
@@ -2196,7 +2176,7 @@ textarea {
 
 .reportsListTable {
 	background-color:white;
-	border:2px solid #c4a6d1;
+	border:2px solid #00a1df;
 }
 
 .reportGenerateTable{
@@ -2207,7 +2187,7 @@ textarea {
 }
 
 .reportCreateBottom{
-	background-color:#ddf;
+	background-color:#f4f6f9;
 	/*border-bottom:2px solid #737251;*/
 }
 
@@ -2285,7 +2265,7 @@ a.drop_downnew_parent{
 }
 
 .searchUIBasic {
-	background-image:url(images/layerPopupBg.gif);
+	/*background-image:url(images/layerPopupBg.gif);*/
 	border:2px solid #a5b5ee;
 }
 
@@ -2473,8 +2453,8 @@ a.drop_downnew_parent{
 }
 .tooltipClass{
 	padding: 5px;
-	border: 2px solid #b69559;
-	background-color: #e8e4ee;
+	/*border: 2px solid #b69559;
+	background-color: #e8e4ee;*/
 }
 
 .thickborder{
@@ -2683,7 +2663,7 @@ a .links{
 }
 /* Mail Manager starts*/
 .mm_blur {
-	color: #D3D3D3;
+	color: #b5b5b5;
 }
 .mm_bold {
 	padding: .3em;
@@ -2695,7 +2675,7 @@ a .links{
 }
 .mm_normal td {
 	padding: .3em;
-	border-bottom: 1px solid #aaa;
+	/*border-bottom: 1px solid #aaa;*/
 }
 .mm_bold td {
 	padding: .3em;
@@ -2749,7 +2729,8 @@ input {
 	border-collapse:collapse;
 }
 .mm_folder_selected_background {
-	background-color: #C9E0F0
+	background-color: #C9E0F0;
+	color: 000;
 }
 .mm_folder_unselected_background {
 	background-color: white

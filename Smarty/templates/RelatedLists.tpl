@@ -141,6 +141,7 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 															{/if}
 														</li>
 													{/if}
+													{include file='RelatedListNg.tpl' SOURCE='RL'}
 												</ul>
 											<!-- content cache -->
 												<div id="tab--scoped-1" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate" style="padding-top: 0;">
@@ -178,10 +179,11 @@ function showHideStatus(sId,anchorImgId,sImagePath)
 										{/if}
 									</tr>
 								</table>
-							</td>
-						</tr>
-					</table>
-				</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
 			<!-- PUBLIC CONTENTS STOPS-->
 		</td>
 	</tr>

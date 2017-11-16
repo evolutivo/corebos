@@ -158,7 +158,7 @@
 {if empty($Module_Popup_Edit)}
 <TABLE border=0 cellspacing=0 cellpadding=0 width=100% class="small">
 	<tr>
-		<td valign=top align=left><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
+		<td valign=top align=left style="padding: .5rem;"><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
 		<td align="center" valign=bottom>
 			<div align ="center" style="width: 50%;margin: .5rem 0;" id="search" class="slds-combobox_container slds-has-object-switcher">
 				{if $QCreateAction.QuickCreate eq 'yes'}
