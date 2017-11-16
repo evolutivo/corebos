@@ -12,6 +12,7 @@
 		pageInitMethods : [],
 		savehistoryar:null,
 		popupJson : [],
+		SaveHistoryPop:[],
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -711,11 +712,18 @@
 			// data-send="true"
 			$(document).on('click', 'button[data-send="true"]',
 					App.FunctionSend.SendAjax);
+			$(document).on('click', 'button[data-history-close-modal="true"]',
+					App.FunctionSend.RemoveModalHistory);
+			$(document).on('click', 'button[ data-history-show-modal="true"]',
+					App.FunctionSend.ShowModalHistory);
 		},
 
+		/**
+		 * function to send data for generate map
+		 * @param {[type]} event [description]
+		 */
 		SendAjax : function(event) {
-			if (event)
-				event.preventDefault();
+			event.preventDefault();
 			var elem = $(this);
 			var datatusend="";
 			var inputsplit=[];
@@ -724,6 +732,9 @@
 			var savehistory=elem.attr("data-send-savehistory");
 			var sendSaveAs=elem.attr('data-send-saveas');
 			var idbutton=elem.attr('data-send-saveas-id-butoni');
+			var keephitory=elem.attr('data-save-history');
+			var keephitoryidtoshow=elem.attr('data-save-history-show-id');
+			var keephitoryidtoshowidrelation=elem.attr('data-save-history-show-id-relation');
 			if(dataid != "undefined"){
 				inputsplit=dataid.split(",");
 			}
@@ -768,13 +779,50 @@
 				 var returndt=VauefromPost.split(",");
 				 if(returndt[1]>0)
 				 {
-	 				App.savehistoryar=VauefromPost;
-				    alert(mv_arr.ReturnSucessFromMap);
-				    VauefromPost=null;
+				 	if ((keephitory && keephitory==="true") && App.savehistoryar!==null)
+				 	{
+
+				 		if (App.savehistoryar.split(',')[1]===returndt[1])
+				 		{
+				 			var dataforsave={
+				 					"JSONForCOndition":App.JSONForCOndition,
+				 					 "popupJson":App.popupJson,
+				 			};
+
+				 			App.SaveHistoryPop.push(dataforsave);
+				 			App.savehistoryar=VauefromPost;
+							alert(mv_arr.ReturnSucessFromMap);
+							VauefromPost=null;
+				 		}else
+				 		{
+				 			App.SaveHistoryPop.length=0;
+				 			var dataforsave={
+				 					"JSONForCOndition":App.JSONForCOndition,
+				 					 "popupJson":App.popupJson,
+				 			};
+
+				 			App.SaveHistoryPop.push(dataforsave);
+				 			App.savehistoryar=VauefromPost;
+							alert(mv_arr.ReturnSucessFromMap);
+							VauefromPost=null;
+				 		}
+				 	}else
+				 	{
+				 		var dataforsave={
+				 					"JSONForCOndition":App.JSONForCOndition,
+				 					 "popupJson":App.popupJson,
+				 			};
+
+				 		App.SaveHistoryPop.push(dataforsave);
+				 		App.savehistoryar=VauefromPost;
+						alert(mv_arr.ReturnSucessFromMap);
+						VauefromPost=null;
+				 	}
+	 				
 				 }else
 				 {
 				 	alert(mv_arr.ReturnErrorFromMap);
-				 } 				
+				 }
 			}
 			if (sendSaveAs && sendSaveAs==="true")
 			{
@@ -792,10 +840,68 @@
 				}
               
 			}
-			App.UniversalPopup.CloseModalWithoutCheck();
-			
+			if (keephitoryidtoshow)
+			{
+				App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
+			}else
+			{
 
+			}
+			App.UniversalPopup.CloseModalWithoutCheck();
+			},
+		
+		/**
+		 * function to remove the history popup 
+		 * @param {[type]} event [description]
+		 */
+		RemoveModalHistory:function(event) {
+			event.preventDefault();
+			 var elem=$(this);
+			 var idtoremove=elem.attr('data-history-close-modal-id');
+			 var keephitoryidtoshow=elem.attr('data-history-close-modal-divname');
+			 if (idtoremove)
+			 {
+			 	App.SaveHistoryPop.splice(parseInt(idtoremove),1);
+			 }else
+			 {
+			 	alert(mv_arr.RemovedivHistory);
+			 }
+			 if (keephitoryidtoshow)
+			 {
+			 	App.utils.AddtoHistory(keephitoryidtoshow);
+			 }
 		},
+	
+		ShowModalHistory:function(event) {
+			event.preventDefault();
+			var elem=$(this);
+			var idtoshow=elem.attr('data-history-show-modal-id');
+			var diwtoshow=elem.attr('data-history-show-modal-divname');
+			var iddivrelation=elem.attr('data-history-show-modal-divname-relation');
+			if (!diwtoshow)
+			{
+				alert(mv_arr.MissingDivID);
+			}
+
+			if (!iddivrelation) {alert(mv_arr.MissingIDtoShow);}
+			else
+			{
+				var historydata=App.SaveHistoryPop[parseInt(idtoshow)];
+				if (App.SaveHistoryPop[parseInt(idtoshow)].JSONForCOndition.length>0)
+				{
+					for (var i = historydata.length - 1; i >= 0; i--) {
+						
+					}
+				}else
+				{
+
+				}
+
+
+
+			}
+		},
+
 	};
 
 	App.AllFunctions = {
@@ -1009,6 +1115,68 @@
 				INSertAlerstJOIN += '</div';
 				return INSertAlerstJOIN;
 		},
+
+
+		AddtoHistory:function(divName,dividrelation='') {
+			if (App.SaveHistoryPop.length>0)
+			{	
+				$('#'+divName+' div').remove();
+				for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
+					if(App.SaveHistoryPop[i].JSONForCOndition.length>0){
+						if (i==(App.SaveHistoryPop.length-1))
+						{
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].SecondModuletxt,true,divName,dividrelation));
+						} else
+						{
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].SecondModuletxt,false,divName,dividrelation));
+						}
+        				
+        			}else{
+        				if (i==(App.SaveHistoryPop.length-1))
+						{
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.FirstModule,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.secmodule,true,divName,dividrelation));
+						} else
+						{
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.FirstModule,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.secmodule,false,divName,dividrelation));
+						}
+        				
+        			}
+
+
+				}
+			}else
+			{
+
+			}
+		},
+
+		/**
+		 * this function is to shof the modal of history
+		 * @param {[Int]} IdLoad           the id of array
+		 * @param {[String]} FirstModuleLoad  the name of first module
+		 * @param {[String]} SecondModuleLoad  the name of second module 
+		 */
+		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation=''){
+			var htmldat='<div class="Message Message"  >';
+				htmldat+='<div class="Message-icon">';
+				if (avtive===false)
+				{
+					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-exclamation"></i></button>';
+				} else
+				{
+					htmldat+='<i class="fa fa-check"></i>';
+				}
+				
+				htmldat+='</div>';
+				htmldat+='<div class="Message-body">';
+				htmldat+='<p>@HISTORY : '+(IdLoad+1)+'<br/></p>';
+				htmldat+='<p><bold>'+FirstModuleLoad+'</bold>--<bold>'+SecondModuleLoad+'</bold></p>';
+				htmldat+='</div>';
+				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'" ><i class="fa fa-times"></i></button>';
+				htmldat+='</div>';
+				return htmldat;
+		},
+
 
 		/**
 		 * function to show all the popup are in array to html popup
