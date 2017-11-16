@@ -901,13 +901,29 @@
 					for (var i=0;i<=historydata.JSONCondition.length-1;i++){
 						App.JSONForCOndition.push(historydata.JSONCondition[i]);
 					}
+					if (iddivrelation)
+					{
+						App.utils.ReturnAllDataHistory(iddivrelation);
+					}else
+					{
+						alert(mv_arr.MissingDivID);
+					}
 
 				}else
 				{
 					App.popupJson.length=0;
-					for (var i=0;i<=historydata.popupJson.length-1;i++){
-						App.JSONForCOndition.push(historydata.popupJson[i]);
+					for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+						App.popupJson.push(historydata.PopupJSON[i]);
 					}
+
+					if (iddivrelation)
+					{
+						App.utils.ReturnAllDataHistory2(iddivrelation);
+					}else
+					{
+						alert(mv_arr.MissingDivID);
+					}
+
 				}
 			}
 			if (iddivrelation)
@@ -1519,7 +1535,17 @@
 			});
 
 			var dataobject={};
+			if (datatype==='PopupJSON')
+			{
+				dataobject[datatype]=myarray;
+				dataobject['JSONCondition']=[];
+			} else
+			{
+				dataobject[datatype]=myarray;
+				dataobject['PopupJSON']=[];
+			}
 			dataobject[datatype]=myarray;
+
 			App.SaveHistoryPop.push(dataobject);;
 			
 		},

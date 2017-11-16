@@ -1968,10 +1968,10 @@ function GenearteMasterDetail() {
     temparray['hiddenchkoptionGroup'] = "";
 
     App.popupJson.push({temparray});
-  $('#contenitoreJoin').html('');
+  $('#LoadShowPopup').html('');
     if(App.popupJson.length>0){
       for (var i=0; i<= App.popupJson.length - 1; i++) {
-        $('#contenitoreJoin').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
+        $('#LoadShowPopup').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
        App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
        App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
       
