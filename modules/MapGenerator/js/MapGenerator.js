@@ -3,7 +3,7 @@
  */
 
 (function(global, $) {
-
+	global.historySave=[];
 	var App = {
 		baseUrl : null,
 		initMethods : [],
@@ -145,7 +145,7 @@
 					{
 						urlsendfield = [ moduleget,filename];
 					 	var datfields = `${setvalue}=${App.utils.IsSelectORDropDown(valuselectedet)}`;
-						App.utils.PostDataGeneric(urlsendfield, datfields, "");
+						App.utils.PostDataGeneric(event,urlsendfield, datfields, "");
 						if (VauefromPost)
 						{
 							App.utils.SetValueTohtmlComponents(setvalue,VauefromPost);		
@@ -273,7 +273,7 @@
 			element = $(this);
 			var data = "Data=" + dat;
 			var returndata = null;
-			var returndata = App.utils.PostDataGeneric(urlsend, data);
+			var returndata = App.utils.PostDataGeneric(null,urlsend, data);
 			$("#" + idfieldfill).empty();
 			$("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
 			$("#" + idfieldfill).append(VauefromPost);
@@ -303,7 +303,7 @@
 				}
 				
 				var dat = "mod=" + valueselected;
-				App.utils.PostDataGeneric(urlsendmodule, dat, "");
+				App.utils.PostDataGeneric(event,urlsendmodule, dat, "");
 				$("#" + secondmodule).empty();
 				$("#" + secondmodule)
 						.append(
@@ -327,7 +327,7 @@
 				 }
 				
 				var datfields = "mod=" + valueselected;
-				App.utils.PostDataGeneric(urlsendfield, datfields, "");
+				App.utils.PostDataGeneric(event,urlsendfield, datfields, "");
 				var s = VauefromPost.split(";");
 				var str1 = s[0];
 				var str2 = s[1];
@@ -372,7 +372,7 @@
 				 	urlsendfield = [ modulesecondfield, "moduleFields"];
 				 }
 
-				App.utils.PostDataGeneric(urlsendfield, datfields, "");
+				App.utils.PostDataGeneric(event,urlsendfield, datfields, "");
 				var s = VauefromPost.split(";");
 				var str1 = s[0];
 				var str2 = s[1];
@@ -425,7 +425,7 @@
 				}else
 				{
 					var dat=`${idtxt}=${valuetxt}`;
-					App.utils.PostDataGeneric(filecheck.split(','),dat);
+					App.utils.PostDataGeneric(event,filecheck.split(','),dat);
 					if (VauefromPost)
 					{
 						if (VauefromPost==="0")
@@ -489,7 +489,7 @@
 		 	 	datasend=`${getType}=${getType}`;
 		 	 }
 
-		 	 App.utils.PostDataGeneric(getfile,datasend);
+		 	 App.utils.PostDataGeneric(event,getfile,datasend);
 		 	 if (VauefromPost)
 		 	 {
 		 	 	if (idtofill)
@@ -533,7 +533,7 @@
 	        	if (valuesfromdropdown && valuesfromdropdown.length>0)
 	        	{
 	        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
-	        		App.utils.PostDataGeneric(urltosend.split(","),datasendto);
+	        		App.utils.PostDataGeneric(event,urltosend.split(","),datasendto);
 
 	        		if (!VauefromPost)
 	        		{
@@ -774,7 +774,7 @@
              	}
              }
 
-             App.utils.PostDataGeneric(urlcheck,datatusend);
+             App.utils.PostDataGeneric(event,urlcheck,datatusend);
 			if(VauefromPost){
 				 var returndt=VauefromPost.split(",");
 				 if(returndt[1]>0)
@@ -784,36 +784,39 @@
 
 				 		if (App.savehistoryar.split(',')[1]===returndt[1])
 				 		{
-				 			var dataforsave={
-				 					"JSONForCOndition":App.JSONForCOndition,
-				 					 "popupJson":App.popupJson,
-				 			};
-
-				 			App.SaveHistoryPop.push(dataforsave);
+				 			if (App.JSONForCOndition.length>0)
+				 			{
+				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+				 			}else
+				 			{
+				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+				 			}
+				 			
 				 			App.savehistoryar=VauefromPost;
 							alert(mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
 				 		}else
 				 		{
-				 			App.SaveHistoryPop.length=0;
-				 			var dataforsave={
-				 					"JSONForCOndition":App.JSONForCOndition,
-				 					 "popupJson":App.popupJson,
-				 			};
-
-				 			App.SaveHistoryPop.push(dataforsave);
+				 			if (App.JSONForCOndition.length>0)
+				 			{
+				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+				 			}else
+				 			{
+				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+				 			}
 				 			App.savehistoryar=VauefromPost;
 							alert(mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
 				 		}
 				 	}else
 				 	{
-				 		var dataforsave={
-				 					"JSONForCOndition":App.JSONForCOndition,
-				 					 "popupJson":App.popupJson,
-				 			};
-
-				 		App.SaveHistoryPop.push(dataforsave);
+				 		if (App.JSONForCOndition.length>0)
+			 			{
+			 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+			 			}else
+			 			{
+			 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+			 			}
 				 		App.savehistoryar=VauefromPost;
 						alert(mv_arr.ReturnSucessFromMap);
 						VauefromPost=null;
@@ -828,10 +831,11 @@
 			{
 				var ulrsaveas=[urlcheck[0],"SavenewMap"];
 				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}`;
-				App.utils.PostDataGeneric(ulrsaveas,dat);
+				App.utils.PostDataGeneric(event,ulrsaveas,dat);
 				if (VauefromPost)
 				{
-					 document.body.innerHTML +=VauefromPost;
+					 //document.body.innerHTML +=VauefromPost;
+					 $('body').append(VauefromPost);
 					 VauefromPost=null;
 					 $('#'+idbutton).removeAttr('disabled')
 				} else
@@ -871,7 +875,11 @@
 			 	App.utils.AddtoHistory(keephitoryidtoshow);
 			 }
 		},
-	
+		
+		/**
+		 * function to show the modal history
+			 * @param {[type]} event 
+		 */
 		ShowModalHistory:function(event) {
 			event.preventDefault();
 			var elem=$(this);
@@ -887,19 +895,57 @@
 			else
 			{
 				var historydata=App.SaveHistoryPop[parseInt(idtoshow)];
-				if (App.SaveHistoryPop[parseInt(idtoshow)].JSONForCOndition.length>0)
-				{
-					for (var i = historydata.length - 1; i >= 0; i--) {
-						
+				if (App.SaveHistoryPop[parseInt(idtoshow)].JSONCondition.length>0)
+				{	
+					App.JSONForCOndition.length=0;
+					for (var i=0;i<=historydata.JSONCondition.length-1;i++){
+						App.JSONForCOndition.push(historydata.JSONCondition[i]);
 					}
+					if (iddivrelation)
+					{
+						App.utils.ReturnAllDataHistory(iddivrelation);
+					}else
+					{
+						alert(mv_arr.MissingDivID);
+					}
+
 				}else
 				{
+					App.popupJson.length=0;
+					for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+						App.popupJson.push(historydata.PopupJSON[i]);
+					}
+
+					if (iddivrelation)
+					{
+						App.utils.ReturnAllDataHistory2(iddivrelation);
+					}else
+					{
+						alert(mv_arr.MissingDivID);
+					}
 
 				}
-
-
-
 			}
+			if (iddivrelation)
+			{
+				App.utils.ReturnAllDataHistory(iddivrelation);
+			}else
+			{
+				alert(mv_arr.MissingDivID);
+			}
+
+			for (var i = App.SaveHistoryPop.length - 1; i >= 0; i--) {
+				if (i===parseInt(idtoshow))
+				{
+					$('#Spanid_',i).removeClass('fa fa-exclamation');
+					$('#Spanid_',i).addClass('fa fa-check');
+				} else
+				{
+					$('#Spanid_',i).removeClass('fa fa-check');
+					$('#Spanid_',i).addClass('fa fa-exclamation');
+				}
+			}
+
 		},
 
 	};
@@ -948,7 +994,8 @@
 		 * @param {[type]} Urlsend the URL
 		 * @param {[type]} dat     data to send 
 		 */
-		PostDataGeneric : function(Urlsend, dat) {
+		PostDataGeneric : function(event=null,Urlsend, dat) {
+			if (event) {event.preventDefault();}
 			jQuery.ajax({
 				type : "POST",
 				url : "index.php?module=" + Urlsend[0] + "&action="
@@ -1122,22 +1169,22 @@
 			{	
 				$('#'+divName+' div').remove();
 				for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
-					if(App.SaveHistoryPop[i].JSONForCOndition.length>0){
+					if(App.SaveHistoryPop[i].JSONCondition.length>0){
 						if (i==(App.SaveHistoryPop.length-1))
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].SecondModuletxt,true,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,true,divName,dividrelation));
 						} else
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].JSONForCOndition.length-1].SecondModuletxt,false,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,false,divName,dividrelation));
 						}
         				
         			}else{
         				if (i==(App.SaveHistoryPop.length-1))
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.FirstModule,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.secmodule,true,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,true,divName,dividrelation));
 						} else
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.FirstModule,App.SaveHistoryPop[i].JSONForCOndition[App.SaveHistoryPop[i].popupJson.length-1].temparray.secmodule,false,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,false,divName,dividrelation));
 						}
         				
         			}
@@ -1159,14 +1206,10 @@
 		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation=''){
 			var htmldat='<div class="Message Message"  >';
 				htmldat+='<div class="Message-icon">';
-				if (avtive===false)
-				{
-					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-exclamation"></i></button>';
-				} else
-				{
-					htmldat+='<i class="fa fa-check"></i>';
-				}
-				
+				// if (avtive===false)
+				// {
+					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
+				// }
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';
 				htmldat+='<p>@HISTORY : '+(IdLoad+1)+'<br/></p>';
@@ -1481,6 +1524,36 @@
 	};
 
 
+	HistoryPopup={
+
+		saveHistory:[],
+
+		addtoarray:function(passadata=[],datatype='') {
+			var myarray=[];
+			passadata.forEach(function (element) {
+				myarray.push(element);
+			});
+
+			var dataobject={};
+			if (datatype==='PopupJSON')
+			{
+				dataobject[datatype]=myarray;
+				dataobject['JSONCondition']=[];
+			} else
+			{
+				dataobject[datatype]=myarray;
+				dataobject['PopupJSON']=[];
+			}
+			dataobject[datatype]=myarray;
+
+			App.SaveHistoryPop.push(dataobject);;
+			
+		},
+
+		getArray:function(indexi) {
+			return App.SaveHistoryPop[indexi];
+		},
+	};
 
 	$(App.init);
 	window.App = App;

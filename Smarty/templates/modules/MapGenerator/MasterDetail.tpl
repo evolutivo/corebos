@@ -61,7 +61,7 @@
 
         <ul id="LDSstyle">
         <li>
-          <button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button>
+          <button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" style="width:98%;margin:5px;">{$MOD.CreateMap}</button>
         </li>
          <li>
            {if $HistoryMap neq ''}
@@ -271,7 +271,8 @@
     </div>
 </div>
     <div id="contenitoreJoin" >        
-      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 100%;">                  
+      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 70%;float: left;"></div>
+      <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; width: 30%;float: right;">
 
                         </div>
     </div>{*End div contenitorejoin*}
