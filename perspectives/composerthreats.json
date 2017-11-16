@@ -2,6 +2,10 @@
 "description":"try to install query buider",
 "license": "MIT",
  "repositories": [
+   {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/composerinstall/"
+  },
     {
     "type": "vcs",
     "url": "https://bitbucket.org/evolutivo/threatsmeasures"
