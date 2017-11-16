@@ -64,7 +64,7 @@
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-   <div id="selJoin" style="float:left; overflow: hidden;width:75%;height: 180px;">
+   <div id="selJoin" style="float:left; overflow: hidden;width:75%;height: 100%;">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -178,7 +178,7 @@
 
          </div>
     </div> 
-    <div id="selJoin" style="float:left;overflow: hidden;width: 75%;height: 180px;">
+    <div id="selJoin" style="float:left;overflow: hidden;width: 75%;height: 100%;">
         <div style="float:left;/* overflow: hidden; */width: 39%;margin-top: 20px;margin-right: 20px;/* height: 391px; */" id="sel1">
            <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -228,7 +228,7 @@
           </div>
             
        <br><br>
-       <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" class="slds-button slds-button--brand">
+       <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="generatedquery" data-save-history-show-id-relation="contenitoreJoin" class="slds-button slds-button--brand">
         {$MOD.CreateMap}
         </button>
         {if $HistoryMap neq ''}
@@ -236,15 +236,12 @@
         {else}
            <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
         {/if}
-     
+     <div id="generatedquery">
+     </div>
     </div>   
 </div>
 
-<div id="generatedquery">
 
-    <div id="results" style="margin-top: 1%;">
-     
-  </div>
 </div>
 <div id="null"></div>
 <div>

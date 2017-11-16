@@ -863,6 +863,7 @@
 			 var elem=$(this);
 			 var idtoremove=elem.attr('data-history-close-modal-id');
 			 var keephitoryidtoshow=elem.attr('data-history-close-modal-divname');
+			 var idrelationdiv=elem.attr(' data-history-show-modal-divname-relation');
 			 if (idtoremove)
 			 {
 			 	App.SaveHistoryPop.splice(parseInt(idtoremove),1);
@@ -872,7 +873,7 @@
 			 }
 			 if (keephitoryidtoshow)
 			 {
-			 	App.utils.AddtoHistory(keephitoryidtoshow);
+			 	App.utils.AddtoHistory(keephitoryidtoshow,idrelationdiv);
 			 }
 		},
 		
@@ -926,14 +927,6 @@
 
 				}
 			}
-			if (iddivrelation)
-			{
-				App.utils.ReturnAllDataHistory(iddivrelation);
-			}else
-			{
-				alert(mv_arr.MissingDivID);
-			}
-
 			for (var i = App.SaveHistoryPop.length - 1; i >= 0; i--) {
 				if (i===parseInt(idtoshow))
 				{
@@ -1215,7 +1208,7 @@
 				htmldat+='<p>@HISTORY : '+(IdLoad+1)+'<br/></p>';
 				htmldat+='<p><bold>'+FirstModuleLoad+'</bold>--<bold>'+SecondModuleLoad+'</bold></p>';
 				htmldat+='</div>';
-				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'" ><i class="fa fa-times"></i></button>';
+				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
 				htmldat+='</div>';
 				return htmldat;
 		},
