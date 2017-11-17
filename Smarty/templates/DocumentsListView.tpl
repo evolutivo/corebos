@@ -131,68 +131,8 @@
 			<div id="ListViewContents" class="small" style="width:100%;">
 				{include file="DocumentsListViewEntries.tpl"}
 			</div>
-                        <input type="hidden" name="searchtype" value="BasicSearch">
-                        <input type="hidden" name="module" value="{$MODULE}" id="curmodule">
-						<input name="maxrecords" type="hidden" value="{$MAX_RECORDS}" id='maxrecords'>
-                        <input type="hidden" name="parenttab" value="{$CATEGORY}">
-						<input type="hidden" name="action" value="index">
-                        <input type="hidden" name="query" value="true">
-						<input type="hidden" name="search_cnt">
-		</td>
-		<td class="small" nowrap width=40% >
-			  <input name="submit" type="button" class="crmbutton small create" onClick="callSearch('Basic');document.basicSearch.searchtype.searchlaunched='basic';" value=" {$APP.LBL_SEARCH_NOW_BUTTON} ">&nbsp;
-		</td>
-		<td class="small closeX" valign="top" onMouseOver="this.style.cursor='pointer';" onclick="searchshowhide('searchAcc','advSearch');document.basicSearch.searchtype.searchlaunched='';">[x]</td>
-	</tr>
-	<tr>
-		<td colspan="7" align="center" class="small">
-			<table border=0 cellspacing=0 cellpadding=0 width=100%>
-				<tr>
-                                                {$ALPHABETICAL}
-                                </tr>
-                        </table>
 		</td>
 	</tr>
-</table>
-</form><br class="searchbreak">
-</div>
-<!-- ADVANCED SEARCH -->
-<div id="advSearch" style="display:none;">
-<form name="advSearch" method="post" action="index.php" onSubmit="document.basicSearch.searchtype.searchlaunched='advance';return callSearch('Advanced');">
-	<table  cellspacing=0 cellpadding=5 width=100% class="searchUIAdv1 small" align="center" border=0>
-		<tr>
-			<td class="searchUIName small" nowrap align="left"><span class="moduleName">{$APP.LBL_SEARCH}</span><br><span class="small"><a href="#" onClick="show('searchAcc');fnhide('advSearch');document.basicSearch.searchtype.searchlaunched='';">{$APP.LBL_GO_TO} {$APP.LNK_BASIC_SEARCH}</a></span></td>
-			<td class="small closeX" align="right" valign="top" onMouseOver="this.style.cursor='pointer';" onclick="searchshowhide('searchAcc','advSearch');document.basicSearch.searchtype.searchlaunched='';">[x]</td>
-		</tr>
-	</table>
-	<table cellpadding="2" cellspacing="0" width="100%" align="center" class="searchUIAdv2 small" border=0>
-		<tr>
-			<td align="center" class="small" width=90%>
-				{include file='AdvanceFilter.tpl' SOURCE='customview' COLUMNS_BLOCK=$FIELDNAMES}
-			</td>
-		</tr>
-	</table>
-
-	<table border=0 cellspacing=0 cellpadding=5 width=100% class="searchUIAdv3 small" align="center">
-		<tr>
-			<td align="center" class="small"><input type="button" class="crmbutton small create" value=" {$APP.LBL_SEARCH_NOW_BUTTON} " onClick="callSearch('Advanced');document.basicSearch.searchtype.searchlaunched='advance';">
-			</td>
-		</tr>
-	</table>
-</form><br>
-</div>
-{*<!-- Searching UI -->*}
-
-<div id="mergeDup" style="z-index:1;display:none;position:relative;">
-	{include file="MergeColumns.tpl"}
-</div>
-	   <!-- PUBLIC CONTENTS STARTS-->
-	  <div id="ListViewContents" class="small" style="width:100%;">
-	 		{include file="DocumentsListViewEntries.tpl"}
-	</div>
-
-     </td>
-   </tr>
 </table>
 
 <script type="text/javascript" src="modules/Documents/Documents.js"></script>
