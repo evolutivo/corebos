@@ -10,6 +10,10 @@
     "type": "vcs",
     "url": "https://bitbucket.org/evolutivo/cbgendoc"
   },
+   {
+    "type": "vcs",
+    "url": "https://bitbucket.org/evolutivo/etiquetasoo"
+  },
   {
             "packagist": false
   }
@@ -17,7 +21,8 @@
 
   "require": {
     "evolutivo/composerinstall": "dev-master",
-    "evolutivo/cbgendoc": "dev-master"
+    "evolutivo/cbgendoc": "dev-master",
+    "evolutivo/etiquetasoo": "dev-master"
   },
     "scripts": {
     "post-install-cmd": "evolutivo\\composerinstall\\ComposerInstall::postPackageInstall",
