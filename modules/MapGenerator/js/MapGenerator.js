@@ -64,6 +64,8 @@
 					'data-type-select');
 			var select = $('select[data-load-Map="true"]').find(":selected")
 					.val();
+			var urlpost= $('select[data-load-Map="true"]').attr('data-type-select-module');
+
 			if (types == "TypeObject") {
 				var divmap = $('select[data-load-Map="true"]').attr(
 						'data-type-select');
@@ -79,12 +81,14 @@
 					alert(mv_arr.Choseobject);
 				}
 			} else if (types == "TypeMap") {
+				if (!urlpost && urlpost===""){alert(mv_arr.Buttonsendajax); return false;}
+			else{urlpost=urlpost.split(','); }
 				if (select.length > 0) {
 					var nameview = $('#nameView').val();
 					if (nameview.length >= 5) {
 						App.utils
 								.PostDataHTML(
-										"index.php?module=MapGenerator&action=MapGeneratorAjax&file=ChoseeObject",
+										`index.php?module=${urlpost[0]}&action=${urlpost[0]}Ajax&file=${urlpost[1]}`,
 										"ObjectType=" + select + "&NameView="
 												+ nameview);
 						document.getElementById('MapDivID').innerHTML = VauefromPost;
@@ -101,7 +105,7 @@
 			}
 			if (select == "Mapping") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
@@ -109,23 +113,30 @@
 				getFirstModule();
 			}else if (select == "MasterDetail") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ListColumns") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ConditionQuery") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "Module_Set") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("ModulsID",
+						urlsend, dat);
 			}
+
 		},
 
 		LoadLabel:function(event){
@@ -586,7 +597,7 @@
 
 		Add_show_Popup:function(event){
 			//$('#contenitoreJoin').empty();
-			 $('#contenitoreJoin div').remove();
+			 $('#LoadShowPopup div').remove();
 			 if (event) {event.preventDefault();}
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
@@ -597,10 +608,10 @@
 			 	var allidarray=allids.split(",");
 			 	if (Typeofpopup)
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup);
+			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext);
 			 	} else
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,"Default");
+			 		App.utils.Add_to_universal_popup(allidarray,"Default",showtext);
 			 	}
 			 	 
 			 	 if (App.popupJson.length>0)
@@ -608,8 +619,8 @@
 			 	 		for (var i = 0; i <= App.popupJson.length-1; i++) {
 			 	 				var module=App.popupJson[i].temparray[`DefaultText`];
 			 	 				var typeofppopup=App.popupJson[i].temparray['JsonType'];
-			 	 				var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin",typeofppopup);
-			 	 				$('#contenitoreJoin').append(divinsert);
+			 	 				var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+			 	 				$('#LoadShowPopup').append(divinsert);
 			 	 			}	
 
 			 	 	}else{
@@ -779,10 +790,10 @@
 				 var returndt=VauefromPost.split(",");
 				 if(returndt[1]>0)
 				 {
-				 	if ((keephitory && keephitory==="true") && App.savehistoryar!==null)
+				 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
 				 	{
 
-				 		if (App.savehistoryar.split(',')[1]===returndt[1])
+				 		if (App.savehistoryar===VauefromPost)
 				 		{
 				 			if (App.JSONForCOndition.length>0)
 				 			{
@@ -797,6 +808,7 @@
 							VauefromPost=null;
 				 		}else
 				 		{
+				 			App.SaveHistoryPop.length=0;
 				 			if (App.JSONForCOndition.length>0)
 				 			{
 				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
@@ -810,13 +822,6 @@
 				 		}
 				 	}else
 				 	{
-				 		if (App.JSONForCOndition.length>0)
-			 			{
-			 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-			 			}else
-			 			{
-			 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-			 			}
 				 		App.savehistoryar=VauefromPost;
 						alert(mv_arr.ReturnSucessFromMap);
 						VauefromPost=null;
@@ -1089,7 +1094,7 @@
 		 * @param {Array} params   All of html element id to get the values 
 		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
 		 */
-		Add_to_universal_popup:function(params,jsonType){
+		Add_to_universal_popup:function(params,jsonType,selectvalues){
 			var temparray={};
 			var check =false;
 			for (var i =0; i <= params.length - 1; i++) {
@@ -1097,7 +1102,14 @@
 				{
 					temparray['JsonType']=jsonType;
 					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
-					temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
+					if (selectvalues && selectvalues!=="")
+					{
+						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(selectvalues);
+					}else
+					{
+						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
+					}
+					
 					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);		
 					check=true;
 				}else
@@ -1206,7 +1218,15 @@
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';
 				htmldat+='<p>@HISTORY : '+(IdLoad+1)+'<br/></p>';
-				htmldat+='<p><bold>'+FirstModuleLoad+'</bold>--<bold>'+SecondModuleLoad+'</bold></p>';
+				if (FirstModuleLoad && FirstModuleLoad!=="")
+				{
+					htmldat+='<p><bold>'+FirstModuleLoad+'</bold>';
+				}
+				
+				if (SecondModuleLoad && SecondModuleLoad!=="")
+				{
+					htmldat+='--<bold>'+SecondModuleLoad+'</bold></p>';
+				}
 				htmldat+='</div>';
 				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
 				htmldat+='</div>';
@@ -1289,7 +1309,7 @@
 		 * @param {String} IdType Id of html element
 		 */
 		IsSelectORDropDown:function(IdType){
-			    
+			    if (!IdType || IdType==="") {return "";}
 			    var element = document.getElementById(IdType);
 			    
 			    if(element.tagName === 'SELECT')
@@ -1339,6 +1359,8 @@
 		 * @param {String} IdType Id of html element
 		 */
 		IsSelectORDropDownGetText:function(IdType){
+
+			if (!IdType || IdType==="") {return "";}
 			    
 			    var element = document.getElementById(IdType);
 			    
@@ -1389,7 +1411,7 @@
 		 * @param {String} IdType Id of html element
 		 */
 		GetSelectParent:function(IdType){
-			    
+			    if (!IdType || IdType==="") {return "";}
 			    var element = document.getElementById(IdType);
 			    
 			    if(element.tagName === 'SELECT')

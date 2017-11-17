@@ -95,7 +95,7 @@ $mod_strings = Array(
     'SelectedField'=>'Selected Fields',
     'popupPlace'=>'Popup Screen',
     'ConditionQuery'=>'Condition Query',
-
+    'module_set'=>'Module Set',
 
 );
 ?>

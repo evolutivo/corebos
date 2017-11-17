@@ -119,7 +119,7 @@
 	  <div class="slds-form-element"  style="width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">
 	                <div class="slds-select_container">
-	                    <select data-load-Map="true" data-type-select="TypeMap"  id="TypeMaps" class="slds-select" disabled>
+	                    <select data-load-Map="true" data-type-select="TypeMap"  data-type-select-module="MapGenerator,ChoseeObject"  id="TypeMaps" class="slds-select" disabled>
     	                    <option value="">{$MOD.TypeMapNone}</option>
     	                    <option value="SQL">{$MOD.ConditionQuery}</option>
     	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>
@@ -128,6 +128,7 @@
     	                    <option value="WS">{$MOD.TypeMapWS}</option>
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
                             <option value="ListColumns">{$MOD.ListColumns}</option>
+                            <option value="Module_Set">{$MOD.module_set}</option>
                             <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> -->
 	                    </select>
 	                </div>

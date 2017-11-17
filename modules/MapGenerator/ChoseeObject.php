@@ -67,4 +67,16 @@ if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "SQL") {
     $smarty->assign("NameView", $NameView);
     $output = $smarty->fetch('modules/MapGenerator/createJoinCondition.tpl');
     echo $output;
-} 
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "Module_Set") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/Module_Set.tpl');
+    echo $output;
+}  

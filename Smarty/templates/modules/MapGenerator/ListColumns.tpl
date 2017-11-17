@@ -27,8 +27,8 @@
        for (var i = 0; i <= App.popupJson.length-1; i++) {
          var module=App.popupJson[i].temparray[`DefaultText`];
          var typeofppopup=App.popupJson[i].temparray['JsonType'];
-         var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin",typeofppopup);
-         $('#contenitoreJoin').append(divinsert);
+         var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+         $('#LoadShowPopup').append(divinsert);
        } 
     }else{
       alert(mv_arr.MappingFiledValid);
@@ -46,10 +46,10 @@
   <label style="margin-top: initial;font-size: 14px;font-family: unset;font-style: oblique;color: indigo;font-style: oblique;">{$MOD.SelectedField}<label>
       <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
          style="float:left;overflow: hidden;width: 25%;height: 400px;" id="buttons">
-         <div id="contenitoreJoin" style="width: 95%;height: 100%;overflow: auto;background-color: moccasin;" >        
+         <div id="LoadShowPopup" style="width: 95%;height: 100%;overflow: auto;background-color: moccasin;" >        
       <div id="LoadShowPopup" style="margin:auto;display: block; width: 20%;">
       </div>
-    </div>{*End div contenitorejoin*}
+    </div>{*End div LoadShowPopup*}
 
          
         </ul>
@@ -228,7 +228,7 @@
           </div>
             
        <br><br>
-       <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="generatedquery" data-save-history-show-id-relation="contenitoreJoin" class="slds-button slds-button--brand">
+       <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup"  class="slds-button slds-button--brand">
         {$MOD.CreateMap}
         </button>
         {if $HistoryMap neq ''}
@@ -236,7 +236,7 @@
         {else}
            <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
         {/if}
-     <div id="generatedquery">
+     <div id="LoadHistoryPopup">
      </div>
     </div>   
 </div>
