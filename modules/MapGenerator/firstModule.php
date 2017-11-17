@@ -15,6 +15,7 @@
 *************************************************************************************************/
 //echo "fillim fare ";
 include 'XmlContent.php';
+global $adb;
 
 $FirstmoduleXML = "";//"edmondi" . $_POST['MapID'];
 if (isset($_REQUEST['MapID'])) {

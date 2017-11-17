@@ -19,7 +19,7 @@
           temparray['{$key}']='{$item}';
       {/foreach}
       App.popupJson.push({'{'}temparray{'}'});
-      console.log(temparray);
+      // console.log(temparray);
     {/foreach}
     
      if (App.popupJson.length>0)

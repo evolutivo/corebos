@@ -10,13 +10,30 @@
   </script>
 {/if}
 
-{if $PopupJson neq ''} 
+{if $PopupJS neq ''} 
  <script type="text/javascript"> 
-      {foreach key=profile_name item=$popjs  from=$PopupJson }
-       //add the history
-          
-      {/foreach}
-      
+      var temparray = {};
+    {foreach key=profile_name item=$popjs  from=$PopupJS }
+           var temparray = {};
+          temparray['DefaultText'] ='{$popjs.DefaultText}' ;
+          temparray['HistoryValueToShow'] = '{$popjs.HistoryValueToShow}';
+          temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
+          temparray['JsonType'] ='{$popjs.JsonType}';
+          temparray['ModulsID'] = '{$popjs.ModulsID}';
+          temparray['ModulsIDoptionGroup'] = '{$popjs.ModulsIDoptionGroup}';
+          App.popupJson.push({'{'}temparray{'}'});
+    {/foreach}
+    if (App.popupJson.length>0)
+    { 
+       for (var i = 0; i <= App.popupJson.length-1; i++) {
+         var module=App.popupJson[i].temparray[`DefaultText`];
+         var typeofppopup=App.popupJson[i].temparray['JsonType'];
+         var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+         $('#LoadShowPopup').append(divinsert);
+       } 
+    }else{
+      alert(mv_arr.MappingFiledValid);
+     }
     </script>
    
 {/if}

@@ -13,8 +13,9 @@
 
 {if $PopupJS neq ''} 
  <script type="text/javascript"> 
-    var temparray = {};
+    
     {foreach key=profile_name item=$popjs  from=$PopupJS }
+          var temparray = {};
           temparray['DefaultText'] = '';
           temparray['JsonType'] = '{$popjs.JsonType}';
           temparray['FirstfieldoptionGroup'] = '{$popjs.FirstfieldoptionGroup}';
