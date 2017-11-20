@@ -33,4 +33,5 @@ var mv_arr = {
 'morefivechars':'You need a more than 5 characters name',
 'ReturnValueCheck':'Cannot Generate a map With empty return Value',
 'RemovedivHistory':'Something was wrong you cannot remove this history',
+'NotAllowedDopcicate':'This Exist you cannot dupliacte',
 }

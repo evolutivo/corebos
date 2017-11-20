@@ -78,10 +78,11 @@
 					}
 
 				} else {
-					alert(mv_arr.Choseobject);
+					// alert(mv_arr.Choseobject);
+					App.utils.ShowNotification("snackbar",4000,mv_arr.Choseobject);
 				}
 			} else if (types == "TypeMap") {
-				if (!urlpost && urlpost===""){alert(mv_arr.Buttonsendajax); return false;}
+				if (!urlpost && urlpost===""){/*alert(mv_arr.Buttonsendajax);*/ App.utils.ShowNotification("snackbar",4000,mv_arr.Buttonsendajax); return false;}
 			else{urlpost=urlpost.split(','); }
 				if (select.length > 0) {
 					var nameview = $('#nameView').val();
@@ -133,7 +134,7 @@
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
-				App.GetModuleForMapGenerator.GetFirstModule("ModulsID",
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}
 
@@ -255,7 +256,8 @@
 
 				}
             }else{
-            	alert(mv_arr.addJoinValidation);
+            	// alert(mv_arr.addJoinValidation);
+            	App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
             }
 
 		},		
@@ -511,7 +513,8 @@
 		 	 		VauefromPost=null;
 		 	 	}else
 		 	 	{
-		 	 		alert(mv_arr.MissingIDtoShow);
+		 	 		// alert(mv_arr.MissingIDtoShow);
+		 	 		App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIDtoShow);
 		 	 	}
 
 		 	 }
@@ -534,7 +537,8 @@
 
 		 	if (!urltosend)
 		 	{
-		 		alert(mv_arr.NameOFMapMissingFile);
+		 		// alert(mv_arr.NameOFMapMissingFile);
+		 		App.utils.ShowNotification("snackbar",4000,mv_arr.NameOFMapMissingFile);
 		 		return false;
 		 	}
 
@@ -548,7 +552,8 @@
 
 	        		if (!VauefromPost)
 	        		{
-	        			alert(mv_arr.ReturnErrorFromMap);
+	        			// alert(mv_arr.ReturnErrorFromMap);
+	        			App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
 	        			return false;
 	        		}
 	        		if (idtoshow)
@@ -558,19 +563,22 @@
 	        			VauefromPost=null;
 	        		}else
 	        		{
-	        			alert(mv_arr.MissingDivID);
+	        			// alert(mv_arr.MissingDivID);
+	        			App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
 	        		}
 
 
 	        	}else
 	        	{
-	        		alert(mv_arr.ChoseMap);
+	        		// alert(mv_arr.ChoseMap);
+	        		App.utils.ShowNotification("snackbar",4000,mv_arr.ChoseMap);
 	        	}
 
 
 	        }else
 	        {
-	        	alert(mv_arr.MissingIdValue);
+	        	// alert(mv_arr.MissingIdValue);
+	        	App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIdValue);
 	        	return false;
 	        }
 
@@ -624,7 +632,8 @@
 			 	 			}	
 
 			 	 	}else{
-			 	 		alert(mv_arr.MappingFiledValid);
+			 	 		// alert(mv_arr.MappingFiledValid);
+			 	 		App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
 			 	 	}
 			 }
 		},
@@ -657,7 +666,8 @@
 			       // $('#selectableFields option:selected').attr("selected", null);
 			    }
 			    else {
-			        alert(mv_arr.ReturnFromPost);
+			        // alert(mv_arr.ReturnFromPost);
+			        App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
 			    }
 			}
 		},
@@ -751,7 +761,8 @@
 			}
 			
 			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
-				alert(mv_arr.Buttonsendajax);
+				// alert(mv_arr.Buttonsendajax);
+				App.utils.ShowNotification("snackbar",4000,mv_arr.Buttonsendajax);
 				return false;
 			}
 			
@@ -762,7 +773,8 @@
 							var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
 							datatusend +=`ListData=${JSON.stringify(datasend)}`;
 						}else{
-							alert(mv_arr.MappingFiledValid);
+							// alert(mv_arr.MappingFiledValid);
+							App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
 						}
 					}else{
 						datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
@@ -804,7 +816,8 @@
 				 			}
 				 			
 				 			App.savehistoryar=VauefromPost;
-							alert(mv_arr.ReturnSucessFromMap);
+							// alert(mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
 				 		}else
 				 		{
@@ -817,19 +830,22 @@
 				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 				 			}
 				 			App.savehistoryar=VauefromPost;
-							alert(mv_arr.ReturnSucessFromMap);
+							// alert(mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
 				 		}
 				 	}else
 				 	{
 				 		App.savehistoryar=VauefromPost;
-						alert(mv_arr.ReturnSucessFromMap);
+						// alert(mv_arr.ReturnSucessFromMap);
+						App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
 						VauefromPost=null;
 				 	}
 	 				
 				 }else
 				 {
-				 	alert(mv_arr.ReturnErrorFromMap);
+				 	// alert(mv_arr.ReturnErrorFromMap);
+				 	App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
 				 }
 			}
 			if (sendSaveAs && sendSaveAs==="true")
@@ -874,7 +890,8 @@
 			 	App.SaveHistoryPop.splice(parseInt(idtoremove),1);
 			 }else
 			 {
-			 	alert(mv_arr.RemovedivHistory);
+			 	// alert(mv_arr.RemovedivHistory);
+			 	App.utils.ShowNotification("snackbar",4000,mv_arr.RemovedivHistory);
 			 }
 			 if (keephitoryidtoshow)
 			 {
@@ -894,10 +911,11 @@
 			var iddivrelation=elem.attr('data-history-show-modal-divname-relation');
 			if (!diwtoshow)
 			{
-				alert(mv_arr.MissingDivID);
+				// alert(mv_arr.MissingDivID);
+				App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
 			}
 
-			if (!iddivrelation) {alert(mv_arr.MissingIDtoShow);}
+			if (!iddivrelation) {/*alert(mv_arr.MissingIDtoShow);*/App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIDtoShow);}
 			else
 			{
 				var historydata=App.SaveHistoryPop[parseInt(idtoshow)];
@@ -912,7 +930,8 @@
 						App.utils.ReturnAllDataHistory(iddivrelation);
 					}else
 					{
-						alert(mv_arr.MissingDivID);
+						// alert(mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
 					}
 
 				}else
@@ -927,7 +946,8 @@
 						App.utils.ReturnAllDataHistory2(iddivrelation);
 					}else
 					{
-						alert(mv_arr.MissingDivID);
+						// alert(mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
 					}
 
 				}
@@ -1110,7 +1130,7 @@
 						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
 					}
 					
-					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);		
+					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);
 					check=true;
 				}else
 				{
@@ -1123,7 +1143,15 @@
 			}
 			if (check)
 			{
-				App.popupJson.push({temparray});	
+				var checkvalue={temparray};
+				if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+				{
+					App.popupJson.push({temparray});
+				}else
+				{
+					App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+				}
+				
 			}
 			
 		},
@@ -1534,6 +1562,41 @@
 				context = context[namespaces[i]];
 			}
 			return context[func].apply(context, args);
+		},
+
+
+		/**
+		 * function to see if exist a data in array
+		 * @param  {Array}  array  the array you want to check 
+		 * @param  {Object} object the object you want to check 
+		 * @return {[type]}        return boolean if find return true if not find return false
+		 */
+		checkinArray:function(array=[],object={}) {
+			returnvalues=false;
+			array.forEach(function (temparray,index) {
+				//console.log('Propertis='+temparray);
+				if (JSON.stringify(temparray)===JSON.stringify(object))
+				{
+					returnvalues=true;
+				}
+				
+			});
+			return returnvalues;
+		},
+
+
+
+		/**
+		 * function to show the notification 
+		 * @param {String} idnotification the id of notification 
+		 * @param {Number} timetohide     the time to stay the notification after show
+		 * @param {String} message        the meessage of notification
+		 */
+		ShowNotification:function(idnotification="snackbar",timetohide=4000,message="Put a messsage to show") {
+			var x = document.getElementById(idnotification);
+			x.innerHTML=message;
+			x.className = "show";
+			setTimeout(function(){ x.className = x.className.replace("show", ""); }, timetohide);
 		}
 
 	};
