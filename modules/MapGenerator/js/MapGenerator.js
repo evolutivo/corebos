@@ -443,22 +443,24 @@
 					{
 						if (VauefromPost==="0")
 						{
-							$('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
-							$('#'+idhshow).html(mv_arr.MapNameNotExist);
-							if(idrelation)
-							{
-								$('#'+idrelation).removeAttr('disabled');
-							}
+							// $('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
+							// $('#'+idhshow).html(mv_arr.MapNameNotExist);
+							// if(idrelation)
+							// {
+							 	$('#'+idrelation).removeAttr('disabled');
+							// }
 							//elem.focus();
+							App.utils.ShowNotification("snackbar",5000,mv_arr.MapNameNotExist);
 						}else
 						{
-							$('#'+idhshow).fadeIn('fast');
-							$('#'+idhshow).html(mv_arr.MapNameExist);
-							if(idrelation)
-							{
-								$('#'+idrelation).attr('disabled', 'true');
-							}
+							// $('#'+idhshow).fadeIn('fast');
+							// $('#'+idhshow).html(mv_arr.MapNameExist);
+							// if(idrelation)
+							// {
+							// 	$('#'+idrelation).attr('disabled', 'true');
+							// }
 							//elem.focus();
+							App.utils.ShowNotification("snackbar",4000,mv_arr.MapNameExist);
 						}
 
 					}else
@@ -474,8 +476,9 @@
 				}
 			}else
 			{
-				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-					$('#'+idhshow).html(mv_arr.NameQuery);
+				// $('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+				// 	$('#'+idhshow).html(mv_arr.NameQuery);
+				App.utils.ShowNotification("snackbar",4000,mv_arr.NameQuery);
 			}
 
 	 },
