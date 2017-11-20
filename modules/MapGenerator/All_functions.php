@@ -1830,4 +1830,16 @@ function Check_table_if_exist($tableName,$primaryIds="")
 
 
 
+
+/**
+ * function to call a php file and return the values
+ * @param [type] $file filename (include the path )
+ */
+function GetTheresultByFile($file){
+    ob_start();
+    require($file);
+    return ob_get_clean();
+}
+
+
 ?>

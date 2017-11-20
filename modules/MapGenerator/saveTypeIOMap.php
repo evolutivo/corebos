@@ -35,7 +35,7 @@ if (empty($MapType))
 if (!empty($Data)) {
 	
 	$jsondecodedata=json_decode($Data);
-
+	echo add_content($jsondecodedata);
 	// print_r($jsondecodedata);
 	// echo add_content($jsondecodedata);
     //print_r(save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)));
@@ -109,16 +109,31 @@ function add_content($DataDecode)
 		$xml = new DOMDocument("1.0");
 		$root = $xml->createElement("map");
 		$xml->appendChild($root);
-		$modules = $xml->createElement("modules");
+		$input = $xml->createElement("input");
+		$fields=$xml->createElement("fields");
 		for($i=0;$i<=$countarray;$i++)
 		{
-			$module = $xml->createElement("module");
-			$moduleText = $xml->createTextNode($DataDecode[$i]->temparray->firstModule);
-			$module->appendChild($moduleText);
+			if ($DataDecode[$i]->temparray->JsonType==="Input") {
+				$field = $xml->createElement("field");
+				$fieldname=$xml->createElement("fieldname");
+				if (strlen($DataDecode[$i]->temparray->AllFieldsInput)>0) {
+					$fieldnameText = $xml->createTextNode(explode(":",$DataDecode[$i]->temparray->AllFieldsInput)[2]);
+				}else
+				{
+					$fieldnameText = $xml->createTextNode($DataDecode[$i]->temparray->AllFieldsInputByhand);
+				}
+				
+				$fieldname->appendChild($fieldnameText);
+				
+				$field->appendChild($fieldname);
+				$fields->appendChild($field); 
+			}
 			
-			$modules->appendChild($module); 
 		}
-		$root->appendChild($modules); 
+
+
+		$input->appendChild($fields); 
+		$root->appendChild($input);
 		$xml->formatOutput = true;
 		return $xml->saveXML();
 }

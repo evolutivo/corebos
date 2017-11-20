@@ -136,8 +136,13 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "IOMap") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "AllFields_File" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("AllFieldsInput",
+						urlsend, dat);
 			}
-
 		},
 
 		LoadLabel:function(event){
@@ -603,6 +608,8 @@
 								App.UniversalPopup.CloseModalWithoutCheck);
 			$(document).on('click', 'button[data-modal-saveas-open="true"]',
 								App.UniversalPopup.OpeModalsaveAsMap);
+			$(document).on('change', 'select[data-add-button-popup="true"]',
+								App.UniversalPopup.Add_show_Popup);
 
 		},
 

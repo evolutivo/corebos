@@ -19,8 +19,8 @@
           temparray['HistoryValueToShow'] = '{$popjs.HistoryValueToShow}';
           temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
           temparray['JsonType'] ='{$popjs.JsonType}';
-          temparray['ModulsID'] = '{$popjs.ModulsID}';
-          temparray['ModulsIDoptionGroup'] = '{$popjs.ModulsIDoptionGroup}';
+          temparray['firstModule'] = '{$popjs.FirstModule}';
+          temparray['firstModuleoptionGroup'] = '{$popjs.firstModuleoptionGroup}';
           App.popupJson.push({'{'}temparray{'}'});
     {/foreach}
     if (App.popupJson.length>0)

@@ -166,8 +166,8 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 				"HistoryValueToShow"=>" ",
 				"HistoryValueToShowoptionGroup"=>" ",
 				"JsonType"=>"Modul",
-				"ModulsID"=>(string)$value,
-				"ModulsIDoptionGroup"=>"undefined",
+				"firstModule"=>(string)$value,
+				"firstModuleoptionGroup"=>"undefined",
 			];
 			array_push($MyArray,$arrayy);
 			// print_r($arrayy);
@@ -1498,15 +1498,6 @@ function GetModuleMultiToOneForLOadListColumns($m,$CheckNAme)
     return $a;
 }
 
-/**
- * function to call a php file and return the values
- * @param [type] $file filename (include the path )
- */
-function GetTheresultByFile($file){
-    ob_start();
-    require($file);
-    return ob_get_clean();
-}
 
 /**
  * function to find in string if exist a substring

@@ -96,6 +96,8 @@ $mod_strings = Array(
     'popupPlace'=>'Popup Screen',
     'ConditionQuery'=>'Condition Query',
     'module_set'=>'Module Set',
+    'inputFileds'=>'Input ',
+    'outputFields'=>'Output',
 
 );
 ?>
