@@ -45,6 +45,7 @@ if (!empty($Data)) {
      $focust->column_fields['mapname']=$mapname;
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] =$MapType;
+     $focust->column_fields['selected_fields']=add_aray_for_history($jsondecodedata);
      // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['description']= add_description($jsondecodedata);
      $focust->column_fields['mvqueryid']=$idquery2;
@@ -77,6 +78,7 @@ if (!empty($Data)) {
      $focust->retrieve_entity_info($MapID[1],"cbMap");
      $focust->column_fields['assigned_user_id'] = 1;
      // $focust->column_fields['mapname'] = $MapName;
+     $focust->column_fields['selected_fields']=add_aray_for_history($jsondecodedata)['Labels'];
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
@@ -96,6 +98,13 @@ if (!empty($Data)) {
 
 }
 
+/**
+ * Adds a content.
+ *
+ * @param      <type>  $DataDecode  The data decode
+ *
+ * @return     <type>  ( return the xml )
+ */
 function add_content($DataDecode)
 {
 		//$DataDecode = json_decode($dat, true);
@@ -160,6 +169,13 @@ function add_content($DataDecode)
 }
 
 
+/**
+* Adds a description.
+ *
+ * @param      <type>  $DataDecode  The data decode
+ *
+ * @return     <type>  ( description_of_the_return_value )
+ */
 function add_description($DataDecode){
 
 		//$DataDecode = json_decode($datades, true);
@@ -214,13 +230,37 @@ function add_description($DataDecode){
 
 
 
+/**
+ * Adds an aray for history.
+ *
+ * @param      <type>  $decodedata  The decodedata is the array come from post 
+ *
+ * @return     <type>  ( description_of_the_return_value )
+ */
 function add_aray_for_history($decodedata)
  {
     //$countarray=(count($decodedata)-1);
-   // $labels="";
+    $labels="";
      foreach ($decodedata as  $value)
      {
-        $labels.= $value->temparray->firstModule.",";
+     	if ($value->temparray->JsonType==="Input")
+     	{
+		       if (!empty($value->temparray->AllFieldsInput)) {
+		        	$labels.=explode(":",$value->temparray->AllFieldsInput)[2].",";
+		        } else {
+		        	$labels.=$value->temparray->AllFieldsInputByhand.",";
+		        }
+		}else
+		{
+	        if (!empty($value->temparray->AllFieldsOutputselect)) {
+	        	$labels.=explode(":",$value->temparray->AllFieldsOutputselect)[2].",";
+	        }else
+	        {
+	        	$labels.=$value->temparray->AllFieldsOutputbyHand.",";
+	        }
+    	}
+        
+
      }
      // return $labels;
     return array
@@ -236,6 +276,13 @@ function add_aray_for_history($decodedata)
  }
 
 
+/**
+ * Saves a history.
+ *
+ * @param      string  $datas    The datas
+ * @param      <type>  $queryid  The queryid
+ * @param      <type>  $xmldata  The xmldata
+ */
 function save_history($datas,$queryid,$xmldata){
         global $adb;
         $idquery=$queryid;
