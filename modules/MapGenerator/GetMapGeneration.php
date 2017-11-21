@@ -126,11 +126,6 @@ if ($MypType=="Mapping") {
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			
 			 Module_IOMap($QueryHistory,$MapID);
-		
-		
-		
-		
-
 		} else {
 			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
 		}
@@ -180,42 +175,40 @@ function Module_IOMap($QueryHistory,$MapID)
 				}	
 
 
+			//all history 
+			$Allhistory=get_All_History($QueryHistory);
 
+			$Alldatas=array();
+			foreach ($Allhistory as $key => $value) {
+				
+				$xml= new SimpleXMLElement($value);				
+				///for condition query
+				$MyArray=array();
+				foreach ($xml->input->fields->field as $value) {
+					$arrayy=[
+						"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] :  (string)$value->fieldname,
+						"AllFieldsInput"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string) $value->fieldname,
+						"AllFieldsInputoptionGroup"=>" ",
+						"JsonType"=>"Input",
+					];
+					array_push($MyArray,$arrayy);
+					// print_r($arrayy);
+				}
 
-			$ArrayLabels=explode(',',get_The_history($QueryHistory,"labels"));
-			$Arrayfields= array();
-			foreach ($ArrayLabels as $value) {
-				$Arrayfields[]= $value;
+				foreach ($xml->output->fields->field as $value) {
+					$arrayy=[
+						"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] : (string)$value->fieldname,
+						"AllFieldsOutputselect"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string)$value->fieldname,
+						"AllFieldsInputoptionGroup"=>"",
+						"JsonType"=>"Output",
+					];
+					array_push($MyArray,$arrayy);
+					// print_r($arrayy);
+				}	
+				array_push($Alldatas,$MyArray);
 			}
-
-			$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query"));
-			
 			$MapName=get_form_MapQueryID($QueryHistory,"mapname");
 			$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
-			///for condition query
-			$MyArray=array();
-			foreach ($xml->input->fields->field as $value) {
-				$arrayy=[
-					"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] : $value->fieldname,
-					"AllFieldsInput"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : $value->fieldname,
-					"AllFieldsInputoptionGroup"=>" ",
-					"JsonType"=>"Input",
-				];
-				array_push($MyArray,$arrayy);
-				// print_r($arrayy);
-			}
-
-			foreach ($xml->output->fields->field as $value) {
-			$arrayy=[
-				"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] : (string)$value->fieldname,
-				"AllFieldsOutputselect"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string)$value->fieldname,
-				"AllFieldsInputoptionGroup"=>"",
-				"JsonType"=>"Output",
-			];
-			array_push($MyArray,$arrayy);
-			// print_r($arrayy);
-		}
-
 			$smarty=new vtigerCRM_Smarty();
 			$data="MapGenerator,saveTypeIOMap";
 			$dataid="ListData,MapName";
@@ -234,7 +227,7 @@ function Module_IOMap($QueryHistory,$MapID)
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
-			$smarty->assign("PopupJS",$MyArray);
+			$smarty->assign("PopupJS",$Alldatas);
 			$output = $smarty->fetch('modules/MapGenerator/IOMap.tpl');
 			echo $output;
 		
@@ -1147,6 +1140,59 @@ function get_The_history($Id_Encrypt="",$field_take="query")
 		 return "";
 	}
 }
+
+
+/**
+ * Gets all history.function to get all data from mapgeneration_queryhistory
+ * table
+ *
+ * @param      integer|string  $Id_Encrypt  The Id of mapgeneration_queryhistory
+ * @param      string          $field_take  The field you want to take (Default
+ *                                          is query)
+ *
+ * @throws     Exception       (description)
+ *
+ * @return     array          All history.
+ */
+function get_All_History($Id_Encrypt="",$field_take="query")
+{
+	global $adb,$root_directory, $log;
+	$datas=array();
+	if(empty($Id_Encrypt))
+	{
+		throw new Exception(TypeOFErrors::INFOLG." The ID for history is Emtpy", 1);
+	}
+
+	try {
+
+		$q=" SELECT * FROM `mapgeneration_queryhistory` WHERE id='$Id_Encrypt' ORDER BY `mapgeneration_queryhistory`.`sequence` ASC ";
+
+		$result = $adb->query($q);
+		$num_rows = $adb->num_rows($result);
+		if (empty($field_take)) {
+			throw new Exception(TypeOFErrors::ErrorLG." Missing the Filed you wnat to take", 1);
+		}
+
+		if ($num_rows>0) {
+			for($i=1 ; $i <= $num_rows; $i++)
+			{
+				array_push($datas,$adb->query_result($result,$i-1, $field_take));
+			}
+
+			if (!empty($datas)) {
+				return $datas;
+			} else {
+				throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+			}
+		} else {
+			throw new Exception(TypeOFErrors::ErrorLG."Not exist daata with this ID="+$Id_Encrypt,1);
+		}
+	} catch (Exception $ex) {
+		 $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+		 return $ex;
+	}
+}
+
 
 /**
  * get the value from cbmap 

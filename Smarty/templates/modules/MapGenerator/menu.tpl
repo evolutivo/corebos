@@ -79,10 +79,10 @@
     {*<li><a href="index.php?module=MapGenerator&action=MapGeneratorAjax&file=createView&todo=createReportTable2">{$MOD.CreateScriptNameReport}</a></li>*}
     {*<li><a href="index.php?module=MapGenerator&action=MapGeneratorAjax&file=createView&todo=FSscript">{$MOD.CreazioneScriptFS}</a></li>*}
 </ul>
-
+<div id="snackbar" ></div>
 <div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
      aria-labelledby="tab-default-1__item">
-     <div id="snackbar" ></div>
+     
 <div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
      aria-labelledby="tab-default-1__item">
      <span id="ShowErorrNameMap" class="error" style="margin-left: 227px;padding: 5px;background-color: red;width: 50%;font;font-size: 12px;border-radius: 9px;color: white;float: none;display: none;"> </span>
@@ -142,7 +142,7 @@
 </div>
 <div id="tab-default-2" class="slds-tabs--default__content slds-hide" role="tabpanel"
      aria-labelledby="tab-default-2__item">
-    <div id="snackbar" ></div>
+   <!--  <div id="snackbar" ></div> -->
     <div id="LoadfromMapFirstStep">
         <div class="slds-form-element"  style="margin-left:20%;margin-right: 20%; ">
 

@@ -12,26 +12,30 @@
 
 {if $PopupJS neq ''} 
  <script type="text/javascript"> 
-       {foreach name=outer item=popi from=$PopupJS}  
-         var temparray = {};
-         {foreach key=key item=item from=$popi}
-           temparray['{$key}']='{$item}';
-         {/foreach}
-         App.popupJson.push({'{'}temparray{'}'});
+       {foreach name=outer item=popi from=$PopupJS}
+          {foreach item=hist from=$popi}
+             var temparray = {};
+             {foreach key=key item=item from=$hist}
+               temparray['{$key}']='{$item}';
+             {/foreach}
+             App.popupJson.push({'{'}temparray{'}'});
+          {/foreach}
+          HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
       {/foreach}
 
-    if (App.popupJson.length>0)
-    { 
-       for (var i = 0; i <= App.popupJson.length-1; i++) {
-         var module=App.popupJson[i].temparray[`DefaultText`];
-         var typeofppopup=App.popupJson[i].temparray['JsonType'];
-         var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
-         $('#LoadShowPopup').append(divinsert);
-       } 
-    }else{
-      alert(mv_arr.MappingFiledValid);
-     }
-
+    // if (App.popupJson.length>0)
+    // { 
+    //    for (var i = 0; i <= App.popupJson.length-1; i++) {
+    //      var module=App.popupJson[i].temparray[`DefaultText`];
+    //      var typeofppopup=App.popupJson[i].temparray['JsonType'];
+    //      var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+    //      $('#LoadShowPopup').append(divinsert);
+    //    } 
+    // }else{
+    //   alert(mv_arr.MappingFiledValid);
+    //  }
+      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
     </script>
 
    
