@@ -45,7 +45,7 @@ if (!empty($Data)) {
      $focust->column_fields['mapname']=$mapname;
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] =$MapType;
-     $focust->column_fields['selected_fields']=add_aray_for_history($jsondecodedata);
+     // $focust->column_fields['selected_fields']=add_aray_for_history($jsondecodedata);
      // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['description']= add_description($jsondecodedata);
      $focust->column_fields['mvqueryid']=$idquery2;

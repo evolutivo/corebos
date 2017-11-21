@@ -10,15 +10,30 @@
   </script>
 {/if}
 
-{if $PopupJson neq ''} 
+{if $PopupJS neq ''} 
  <script type="text/javascript"> 
-      {foreach key=profile_name item=$popjs  from=$PopupJson }
-       App.utils.addINJSON('{$popjs.FirstModuleval}','{$popjs.FirstModuletxt}','{$popjs.FirstFieldval}','{$popjs.FirstFieldtxt}','{$popjs.SecondModuleval}','{$popjs.SecondModuletxt}','{$popjs.SecondFieldval}','{$popjs.SecondFieldtext}','{$popjs.SecondFieldOptionGrup}');
-          
+       {foreach name=outer item=popi from=$PopupJS}  
+         var temparray = {};
+         {foreach key=key item=item from=$popi}
+           temparray['{$key}']='{$item}';
+         {/foreach}
+         App.popupJson.push({'{'}temparray{'}'});
       {/foreach}
-      App.utils.ReturnAllDataHistory('LoadShowPopup');
+
+    if (App.popupJson.length>0)
+    { 
+       for (var i = 0; i <= App.popupJson.length-1; i++) {
+         var module=App.popupJson[i].temparray[`DefaultText`];
+         var typeofppopup=App.popupJson[i].temparray['JsonType'];
+         var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+         $('#LoadShowPopup').append(divinsert);
+       } 
+    }else{
+      alert(mv_arr.MappingFiledValid);
+     }
 
     </script>
+
    
 {/if}
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
@@ -77,7 +92,7 @@
                 
                     <div class="" id="SecondDiv" style="float: left;width: 92%;">
                         <select id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-div-show="LoadShowPopup">
-                          {$AllFieldsInput}
+                          {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="firstInp" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
@@ -109,7 +124,7 @@
                 
                     <div class="" id="SecondDiv" style="float: left;width: 92%;">
                         <select id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-div-show="LoadShowPopup" class="slds-select">
-                          {$AllFieldsOutput}
+                          {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="secondOutput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">

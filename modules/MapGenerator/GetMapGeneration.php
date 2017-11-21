@@ -119,6 +119,29 @@ if ($MypType=="Mapping") {
 		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 	
+}else if ($MypType==="IOMap") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 Module_IOMap($QueryHistory,$MapID);
+		
+		
+		
+		
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+		}
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+	}
+	
 }else
 {
 	echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";;
@@ -134,10 +157,107 @@ if ($MypType=="Mapping") {
  */
 
 
+/**
+ * function to make the load map type IOMap
+ *
+ * @param      string     $QueryHistory  The query history
+ * @param      <type>     $MapID         The map id
+ *
+ * @throws     Exception  if something goes wrong pas as exception
+ */
+function Module_IOMap($QueryHistory,$MapID)
+ {
+ 	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	if (!empty($QueryHistory)) {
+		
+			$FirstModuleSelected=explode("#",GetAllModules());
+			$allfields='';
+			foreach ($FirstModuleSelected as $value) {
+					$allfields.=getModFields($value, $acno.$dbname);
+				}	
 
 
 
 
+			$ArrayLabels=explode(',',get_The_history($QueryHistory,"labels"));
+			$Arrayfields= array();
+			foreach ($ArrayLabels as $value) {
+				$Arrayfields[]= $value;
+			}
+
+			$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query"));
+			
+			$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+			///for condition query
+			$MyArray=array();
+			foreach ($xml->input->fields->field as $value) {
+				$arrayy=[
+					"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] : $value->fieldname,
+					"AllFieldsInput"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : $value->fieldname,
+					"AllFieldsInputoptionGroup"=>" ",
+					"JsonType"=>"Input",
+				];
+				array_push($MyArray,$arrayy);
+				// print_r($arrayy);
+			}
+
+			foreach ($xml->output->fields->field as $value) {
+			$arrayy=[
+				"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] : (string)$value->fieldname,
+				"AllFieldsOutputselect"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string)$value->fieldname,
+				"AllFieldsInputoptionGroup"=>"",
+				"JsonType"=>"Output",
+			];
+			array_push($MyArray,$arrayy);
+			// print_r($arrayy);
+		}
+
+			$smarty=new vtigerCRM_Smarty();
+			$data="MapGenerator,saveTypeIOMap";
+			$dataid="ListData,MapName";
+			$savehistory="true";
+			
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+			// $smarty->assign("Allfilds", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("allfields",$allfields);
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("PopupJS",$MyArray);
+			$output = $smarty->fetch('modules/MapGenerator/IOMap.tpl');
+			echo $output;
+		
+		
+		}else if(!empty($MapID)) {
+
+			# code...
+			# 
+		}else{
+			throw new Exception("Missing the MApID also The QueryHIstory", 1);
+		}
+ } 
+
+
+
+/**
+ * this is to load the moduloe set 
+ *
+ * @param      string     $QueryHistory  The query history
+ * @param      <type>     $MapID         The map id
+ *
+ * @throws     Exception  (description)
+ */
 function Module_Set_Mapping($QueryHistory,$MapID)
 {
 	include_once('modfields.php');
@@ -174,7 +294,7 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 		}
 
 			$smarty=new vtigerCRM_Smarty();
-			$data="MapGenerator,SaveListColumns";
+			$data="MapGenerator,saveModuleSet";
 			$dataid="ListData,MapName";
 			$savehistory="true";
 			
@@ -515,9 +635,12 @@ function List_Clomns($QueryHistory,$MapID)
 }
 
 /**
- * function to continue with master detail map 
- * @param [type] $QueryHistory the ID of Query History
- * @param [type] $MapID        The Id of MAp
+ * function to continue with master detail map
+ *
+ * @param      [type]     $QueryHistory  the ID of Query History
+ * @param      [type]     $MapID         The Id of MAp
+ *
+ * @throws     Exception  (description)
  */
 function Master_detail($QueryHistory,$MapID)
 {
@@ -722,10 +845,11 @@ function Master_detail($QueryHistory,$MapID)
 
 
 /**
- * function to load the map type Mapping 
- * @param [type] $QueryHistory Type string is the id of query 
- * @param [type] $MapID        string is the MapId if missing the QueryId
- * @return The template loaded 
+ * function to load the map type Mapping
+ *
+ * @param      [type]  $QueryHistory  Type string is the id of query
+ * @param      [type]  $MapID         string is the MapId if missing the QueryId
+ * @return     The   template loaded
  */
 function Mapping_View($QueryHistory,$MapID)
 {
@@ -1518,4 +1642,77 @@ function contains($haystack, $needle, $caseSensitive = false) {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		return FALSE;
 	}
+}
+
+
+/**
+ * Gets all modules.
+ *
+ * @return     string  All modules.
+ */
+function GetAllModules()
+{
+	global $adb;
+	$a='';
+	$FirstmoduleXML = "";//"edmondi" . $_POST['MapID'];
+	if (isset($_REQUEST['MapID'])) {
+	    $mapid = $_REQUEST['MapID'];
+	    $qid = $_REQUEST['queryid'];
+	    $sql="SELECT * from mvqueryhistory where id=? AND active=?";
+	    $result=$adb->pquery($sql, array($qid, 1));
+	    $FirstmoduleXML=$adb->query_result($result,0,'firstmodule');
+	    //$FirstmoduleXML = takeFirstMOduleFromXMLMap($mapid);
+	  // echo "brenda kushtit mapID ".$mapid;
+	}
+
+	if (isset($_REQUEST['secModule']) && isset($_REQUEST['firstModule'])) {
+	    $secModule = implode(',', array_keys(array_flip(explode(',', $_REQUEST['secModule']))));
+	    $modulesAllowed = '"' . $_REQUEST['firstModule'] . '","' . str_replace(',', '","', $secModule) . '"';
+	    $query = "SELECT * from vtiger_tab where isentitytype=1 and name<>'Faq' 
+	        and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+	        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and presence=0
+	        and name in ($modulesAllowed)";
+	   // echo "brenda ifit seltab etj ";
+	} else {
+	    $query = "SELECT * from vtiger_tab where isentitytype=1 and name<>'Faq' 
+	        and name<>'Emails' and name<>'Events' and name<>'Webmails' and name<>'SMSNotifier'
+	        and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and presence=0";
+	    //echo "brenda elsit nese nuk plotesohet if ";
+	}
+	$result = $adb->query($query);
+	$num_rows = $adb->num_rows($result);
+	//echo "para ciklit fore  ";
+	if ($num_rows != 0) {
+	    //echo "if num rows eshte e madhe se 0 ";
+	    for ($i = 1; $i <= $num_rows; $i++) {
+	        //echo "brenda ciklit for ".$i;
+	        $modul1 = $adb->query_result($result, $i - 1, 'name');
+
+	       $a .= $modul1 .'#';
+	            ///echo "nese nuk  plotesohet kushti firstmodulexml";
+	       
+	    }
+	}
+	return $a;
+}
+
+
+/**
+ * functio to check every module and also for every modul check the fileds
+ *
+ * @param      <type>  $checkname  The checkname
+ *
+ * @return     <type>  ( description_of_the_return_value )
+ */
+function CheckAllFirstForAllModules($checkname)
+{
+	$FirstModuleSelected=explode("#",GetAllModules());
+	$allfields='';
+	foreach ($FirstModuleSelected as $value) {
+			$field.=Get_Modul_fields_check_from_load($value,$checkname);
+			if (!empty($field)) {
+				return $field;
+			}
+		}
+		return $field;
 }
