@@ -261,31 +261,37 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 		
 		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
 		
-		$ArrayLabels=explode(',',get_The_history($QueryHistory,"labels"));
-		$Arrayfields= array();
-		foreach ($ArrayLabels as $value) {
-			$Arrayfields[]= $value;
-		}
+		//all history 
+			$Allhistory=get_All_History($QueryHistory);
 
-		$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query"));
-		
-		$MapName=get_form_MapQueryID($QueryHistory,"mapname");
-		$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
-		///for condition query
-		$MyArray=array();
-		foreach ($xml->modules->module as $value) {
-			$arrayy=[
-				"DefaultText"=>explode("#", Get_First_Moduls_TextVal($value))[0],
-				"HistoryValueToShow"=>" ",
-				"HistoryValueToShowoptionGroup"=>" ",
-				"JsonType"=>"Modul",
-				"firstModule"=>(string)$value,
-				"firstModuleoptionGroup"=>"undefined",
-			];
-			array_push($MyArray,$arrayy);
-			// print_r($arrayy);
-		}
+			$Alldatas=array();
 
+			foreach ( $Allhistory as $key => $value) {
+				
+				$xml= new SimpleXMLElement($value);		
+				///for condition query
+				$MyArray=array();
+				foreach ($xml->modules->module as $value) {
+					$arrayy=[
+						"DefaultText"=>explode("#", Get_First_Moduls_TextVal($value))[0],
+						"HistoryValueToShow"=>" ",
+						"HistoryValueToShowoptionGroup"=>" ",
+						"JsonType"=>"Modul",
+						"firstModule"=>(string)$value,
+						"firstModuleoptionGroup"=>"undefined",
+					];
+					array_push($MyArray,$arrayy);
+					// print_r($arrayy);
+				}
+				array_push($Alldatas,$MyArray);
+
+			}
+			print_r($Allhistory);
+			exit();
+			
+
+			$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 			$smarty=new vtigerCRM_Smarty();
 			$data="MapGenerator,saveModuleSet";
 			$dataid="ListData,MapName";
@@ -303,7 +309,7 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
-			$smarty->assign("PopupJS",$MyArray);
+			$smarty->assign("PopupJS",$Alldatas);
 			$output = $smarty->fetch('modules/MapGenerator/Module_Set.tpl');
 			echo $output;
 		

@@ -12,28 +12,24 @@
 
 {if $PopupJS neq ''} 
  <script type="text/javascript"> 
-      var temparray = {};
-    {foreach key=profile_name item=$popjs  from=$PopupJS }
-           var temparray = {};
-          temparray['DefaultText'] ='{$popjs.DefaultText}' ;
-          temparray['HistoryValueToShow'] = '{$popjs.HistoryValueToShow}';
-          temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
-          temparray['JsonType'] ='{$popjs.JsonType}';
-          temparray['firstModule'] = '{$popjs.FirstModule}';
-          temparray['firstModuleoptionGroup'] = '{$popjs.firstModuleoptionGroup}';
-          App.popupJson.push({'{'}temparray{'}'});
-    {/foreach}
-    if (App.popupJson.length>0)
-    { 
-       for (var i = 0; i <= App.popupJson.length-1; i++) {
-         var module=App.popupJson[i].temparray[`DefaultText`];
-         var typeofppopup=App.popupJson[i].temparray['JsonType'];
-         var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
-         $('#LoadShowPopup').append(divinsert);
-       } 
-    }else{
-      alert(mv_arr.MappingFiledValid);
-     }
+     
+      {foreach item=historys from=$PopupJS }
+         var temparray = {};
+        {foreach key=profile_name item=popjs  from=$historys }
+               var temparray = {};
+              temparray['DefaultText'] ='{$popjs.DefaultText}' ;
+              temparray['HistoryValueToShow'] = '{$popjs.HistoryValueToShow}';
+              temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
+              temparray['JsonType'] ='{$popjs.JsonType}';
+              temparray['firstModule'] = '{$popjs.FirstModule}';
+              temparray['firstModuleoptionGroup'] = '{$popjs.firstModuleoptionGroup}';
+              App.popupJson.push({'{'}temparray{'}'});
+        {/foreach}
+        HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
+      {/foreach}
+      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+
     </script>
    
 {/if}
