@@ -13,7 +13,7 @@ $Data = array();
 
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
-$MapType = "Module Set Mapping"; // stringa con tutti i campi scelti in selField1
+$MapType = "IOMap"; // stringa con tutti i campi scelti in selField1
 $SaveasMapText = $_POST['SaveasMapText'];
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
@@ -35,13 +35,7 @@ if (empty($MapType))
 if (!empty($Data)) {
 	
 	$jsondecodedata=json_decode($Data);
-	echo add_content($jsondecodedata);
-	// print_r($jsondecodedata);
-	// echo add_content($jsondecodedata);
-    //print_r(save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)));
-
-// echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata));
-// exit();
+	
 
   if(strlen($MapID[1])==0){
 
@@ -52,7 +46,7 @@ if (!empty($Data)) {
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] =$MapType;
      // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
-     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['description']= add_description($jsondecodedata);
      $focust->column_fields['mvqueryid']=$idquery2;
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
@@ -87,7 +81,7 @@ if (!empty($Data)) {
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
      // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
-     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['description']= add_description($jsondecodedata);
      $focust->mode = "edit";
      $focust->save("cbMap");
 
@@ -130,13 +124,95 @@ function add_content($DataDecode)
 			}
 			
 		}
+		$input->appendChild($fields);
+		//for output 
+		//
+		$output = $xml->createElement("output");
+		$outputfields=$xml->createElement("fields");
+		for($i=0;$i<=$countarray;$i++)
+		{
+			if ($DataDecode[$i]->temparray->JsonType==="Output") {
+				$field = $xml->createElement("field");
+				$fieldname=$xml->createElement("fieldname");
+				if (strlen($DataDecode[$i]->temparray->AllFieldsOutputselect)>0) {
+					$fieldnameText = $xml->createTextNode(explode(":",$DataDecode[$i]->temparray->AllFieldsOutputselect)[2]);
+				}else
+				{
+					$fieldnameText = $xml->createTextNode($DataDecode[$i]->temparray->AllFieldsOutputbyHand);
+				}
+				
+				$fieldname->appendChild($fieldnameText);
+				
+				$field->appendChild($fieldname);
+				$outputfields->appendChild($field); 
+			}
+			
+		}
 
 
-		$input->appendChild($fields); 
+		
+		$output->appendChild($outputfields);
+
 		$root->appendChild($input);
+		$root->appendChild($output);
 		$xml->formatOutput = true;
 		return $xml->saveXML();
 }
+
+
+function add_description($DataDecode){
+
+		//$DataDecode = json_decode($datades, true);
+		$countarray=(count($DataDecode)-1);
+
+		$xml=new DOMDocument("1.0");
+		$root=$xml->createElement("map");
+		$xml->appendChild($root);
+		$fields=$xml->createElement("fields");
+		for($i=0;$i<=$countarray;$i++)
+		{
+			if ($DataDecode[$i]->temparray->JsonType==="Input") {
+				$field = $xml->createElement("field");
+				$fieldname=$xml->createElement("fieldname");
+				if (strlen($DataDecode[$i]->temparray->AllFieldsInput)>0) {
+					$fieldnameText = $xml->createTextNode(explode(":",$DataDecode[$i]->temparray->AllFieldsInput)[2]);
+				}else
+				{
+					$fieldnameText = $xml->createTextNode($DataDecode[$i]->temparray->AllFieldsInputByhand);
+				}
+				
+				$fieldname->appendChild($fieldnameText);
+				
+				$field->appendChild($fieldname);
+				$fields->appendChild($field); 
+			}
+			
+		}
+		for($i=0;$i<=$countarray;$i++)
+		{
+			if ($DataDecode[$i]->temparray->JsonType==="Output") {
+				$field = $xml->createElement("field");
+				$fieldname=$xml->createElement("fieldname");
+				if (strlen($DataDecode[$i]->temparray->AllFieldsOutputselect)>0) {
+					$fieldnameText = $xml->createTextNode(explode(":",$DataDecode[$i]->temparray->AllFieldsOutputselect)[2]);
+				}else
+				{
+					$fieldnameText = $xml->createTextNode($DataDecode[$i]->temparray->AllFieldsOutputbyHand);
+				}
+				
+				$fieldname->appendChild($fieldnameText);
+				
+				$field->appendChild($fieldname);
+				$fields->appendChild($field); 
+			}
+			
+		}
+		$root->appendChild($fields);
+		$xml->formatOutput = true;
+		return $xml->saveXML();
+}
+
+
 
 function add_aray_for_history($decodedata)
  {
