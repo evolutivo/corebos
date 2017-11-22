@@ -13,25 +13,25 @@
 
 {if $PopupJS neq ''}
   <script type="text/javascript">
-    {foreach name=outer item=popi from=$PopupJS}  
-      var temparray = {};
-      {foreach key=key item=item from=$popi}
-          temparray['{$key}']='{$item}';
+      {foreach from=$PopupJS item=allitems key=key name=name}
+           {foreach name=outer item=popi from=$allitems}  
+            var temparray = {};
+            {foreach key=key item=item from=$popi}
+                temparray['{$key}']='{$item}';
+            {/foreach}
+            App.popupJson.push({'{'}temparray{'}'});
+            // console.log(temparray);
+          {/foreach}
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
       {/foreach}
-      App.popupJson.push({'{'}temparray{'}'});
-      // console.log(temparray);
-    {/foreach}
     
-     if (App.popupJson.length>0)
+     if (App.SaveHistoryPop.length>0)
     { 
-       for (var i = 0; i <= App.popupJson.length-1; i++) {
-         var module=App.popupJson[i].temparray[`DefaultText`];
-         var typeofppopup=App.popupJson[i].temparray['JsonType'];
-         var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
-         $('#LoadShowPopup').append(divinsert);
-       } 
+        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
     }else{
-      alert(mv_arr.MappingFiledValid);
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
      }
   </script>
 

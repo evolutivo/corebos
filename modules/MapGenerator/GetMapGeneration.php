@@ -434,7 +434,7 @@ function List_Clomns($QueryHistory,$MapID)
 
 	try {
 
-		if (empty($QueryHistory)) 
+		if (!empty($QueryHistory)) 
 		{
 			//TODO: if have query history
 			
@@ -450,53 +450,62 @@ function List_Clomns($QueryHistory,$MapID)
 
 			$HistoryMap=$QueryHistory.",".$MapID;
 
-			$MyArray=array();
-			$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+			
 
 			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
 			$FmoduleID=(string)  $xml->popup->linkfield;
 
-			foreach($xml->relatedlists->relatedlist as $field)
-			{
-				$ArrayRelated=[
-					 
-					 'DefaultText'=>(string)$field->columns->field->label,
-					 'DefaultValue' =>(string)$field->columns->field->label,
-					 'DefaultValueoptionGroup'=>"",
-					'FirstModule' =>(string) $field->module,
-					 'FirstModuleoptionGroup' =>"undefined",
-					'FirstfieldID'=>(string)$xml->popup->linkfield,
-					'FirstfieldIDoptionGroup'=>"",
-					'JsonType'=>"Related",
-					'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
-					'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
-					'SecondfieldID'=>(string)$field->linkfield,
-					'SecondfieldIDoptionGroup'=>"",
-					'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
-					'secmoduleoptionGroup'=>"undefined",
-				];
-				array_push($MyArray,$ArrayRelated);
+			//all history 
+			$Allhistory=get_All_History($QueryHistory);
+			$Allhistoryload = array();
+			foreach ($Allhistory as $key => $value) {
+				$MyArray=array();
+				$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+				foreach($xml->relatedlists->relatedlist as $field)
+				{
+					$ArrayRelated=[
+						 
+						 'DefaultText'=>(string)$field->columns->field->label,
+						 'DefaultValue' =>(string)$field->columns->field->label,
+						 'DefaultValueoptionGroup'=>"",
+						'FirstModule' =>(string) $field->module,
+						 'FirstModuleoptionGroup' =>"undefined",
+						'FirstfieldID'=>(string)$xml->popup->linkfield,
+						'FirstfieldIDoptionGroup'=>"",
+						'JsonType'=>"Related",
+						'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
+						'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
+						'SecondfieldID'=>(string)$field->linkfield,
+						'SecondfieldIDoptionGroup'=>"",
+						'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
+						'secmoduleoptionGroup'=>"undefined",
+					];
+					array_push($MyArray,$ArrayRelated);
+				}
+
+				foreach ($xml->popup->columns->field as $popupi) {
+
+					$Arraypopup=[
+						
+						'DefaultText'=>(string)$popupi->label,
+						'DefaultValueFirstModuleField' =>(string)$popupi->label,
+						'DefaultValueFirstModuleFieldoptionGroup'=>"",
+						'FirstModule' =>(string) $field->module,
+						'FirstModuleoptionGroup' =>"undefined",
+						'Firstfield'=>(string)explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),$popupi->name))[0],
+						'FirstfieldID'=>(string)$xml->popup->linkfield,
+						'FirstfieldIDoptionGroup'=>"",
+						'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
+						'JsonType'=>"Popup",
+						
+					];
+					array_push($MyArray,$Arraypopup);
+				}
+				array_push($Allhistoryload,$MyArray);
 			}
 
-			foreach ($xml->popup->columns->field as $popupi) {
-
-				$Arraypopup=[
-					
-					'DefaultText'=>(string)$popupi->label,
-					'DefaultValueFirstModuleField' =>(string)$popupi->label,
-					'DefaultValueFirstModuleFieldoptionGroup'=>"",
-					'FirstModule' =>(string) $field->module,
-					'FirstModuleoptionGroup' =>"undefined",
-					'Firstfield'=>(string)explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"firstmodule"),$popupi->name))[0],
-					'FirstfieldID'=>(string)$xml->popup->linkfield,
-					'FirstfieldIDoptionGroup'=>"",
-					'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
-					'JsonType'=>"Popup",
-					
-				];
-				array_push($MyArray,$Arraypopup);
-			}
-
+			// print_r($Allhistoryload);
+			// exit();
 			$data="MapGenerator,SaveListColumns";
 			$dataid="ListData,MapName";
 			$savehistory="true";
@@ -521,7 +530,7 @@ function List_Clomns($QueryHistory,$MapID)
 
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 
-			$smarty->assign("PopupJS",$MyArray);
+			$smarty->assign("PopupJS",$Allhistoryload);
 
 			$smarty->assign("SecondModuleFields",$SecondModuleFields);
 

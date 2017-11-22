@@ -34,4 +34,6 @@ var mv_arr = {
 'ReturnValueCheck':'Cannot Generate a map With empty return Value',
 'RemovedivHistory':'Something was wrong you cannot remove this history',
 'NotAllowedDopcicate':'This Exist you cannot dupliacte',
+'LoadHIstoryError':'You list is empty or something was wrong',
+'LoadHIstoryCorrect':'Click to the eyes to show the history',
 }
