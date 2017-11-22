@@ -85,7 +85,7 @@ if ($MypType=="Mapping") {
 	{
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			
-			ConditionQuery($QueryHistory,$MapID);
+			ConditionQuery($QueryHistory,$MapID);			
 
 		} else {
 			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
@@ -179,9 +179,9 @@ function Module_IOMap($QueryHistory,$MapID)
 			$Allhistory=get_All_History($QueryHistory);
 
 			$Alldatas=array();
-			foreach ($Allhistory as $key => $value) {
+			foreach ($Allhistory as $value) {
 				
-				$xml= new SimpleXMLElement($value);				
+				$xml= new SimpleXMLElement($value['query']);				
 				///for condition query
 				$MyArray=array();
 				foreach ($xml->input->fields->field as $value) {
@@ -266,9 +266,9 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 
 			$Alldatas=array();
 
-			foreach ( $Allhistory as $key => $value) {
+			foreach ( $Allhistory as $value) {
 				
-				$xml= new SimpleXMLElement($value);		
+				$xml= new SimpleXMLElement($value['query']);		
 				///for condition query
 				$MyArray=array();
 				foreach ($xml->modules->module as $value) {
@@ -362,8 +362,34 @@ function ConditionQuery($QueryHistory,$MapID)
 
 		$MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
-		///for condition query
 		
+
+
+		$Allhistory=get_All_History($QueryHistory);
+
+		$Alldatas=array();
+
+		foreach ($Allhistory as $value) {
+			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query",$value['sequence']));
+			$Allhistorys = [
+				'FirstModuleJSONfield'=>get_The_history($QueryHistory,"firstmodulelabel",$value['sequence']),
+				'FirstModuleJSONtext'=>get_The_history($QueryHistory,"firstmoduletext",$value['sequence']),
+				'FirstModuleJSONvalue'=>get_The_history($QueryHistory,"firstmodule",$value['sequence']),
+				'Labels'=>get_The_history($QueryHistory,"labels",$value['sequence']),
+				'returnvaluestetx'=>(string) explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"secondmodule",$value['sequence']),$xml->return))[1],
+				'SecondModuleJSONfield'=>get_The_history($QueryHistory,"secondmodulelabel",$value['sequence']),
+				'SecondModuleJSONtext'=>get_The_history($QueryHistory,"secondmoduletext",$value['sequence']),
+				'SecondModuleJSONvalue'=>get_The_history($QueryHistory,"secondmodule",$value['sequence']),
+				'ValuesParagraf'=>$xml->sql,
+				'idJSON'=>$value['sequence'],				
+				'returnvaluesval'=>(string) explode(",",Get_Modul_fields_check_from_load(get_The_history($QueryHistory,"secondmodule",$value['sequence']),$xml->return))[0]
+			];
+			array_push($Alldatas,$Allhistorys);
+		}
+
+
+
+
 
 
 		$smarty = new vtigerCRM_Smarty();
@@ -391,7 +417,7 @@ function ConditionQuery($QueryHistory,$MapID)
 		$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT'])); 
 		
 		// $smarty->assign("ValueForCondition",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
-
+		$smarty->assign("PopupJS",$Alldatas);
 		$smarty->assign("ReturnFieldsValue",$ReturnFieldsValue);
 		$smarty->assign("ReturnFieldsText",$ReturnFieldsText);
 
@@ -458,9 +484,9 @@ function List_Clomns($QueryHistory,$MapID)
 			//all history 
 			$Allhistory=get_All_History($QueryHistory);
 			$Allhistoryload = array();
-			foreach ($Allhistory as $key => $value) {
+			foreach ($Allhistory as $value) {
 				$MyArray=array();
-				$xml= new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
+				$xml= new SimpleXMLElement($value['query']); 
 				foreach($xml->relatedlists->relatedlist as $field)
 				{
 					$ArrayRelated=[
@@ -682,10 +708,10 @@ function Master_detail($QueryHistory,$MapID)
 
 			$Alldatas=array();
 
-           	foreach ($Allhistory as $key => $value) {
+           	foreach ($Allhistory as $value) {
            		
 					$MyArray=array();
-					$xml=new SimpleXMLElement($value); 
+					$xml=new SimpleXMLElement($value['query']); 
 					$nrindex=0;
 					foreach($xml->detailview->fields->field as $field)
 					{
@@ -1130,7 +1156,7 @@ function Get_First_Moduls_TextVal($value="")
  * @param  string $Id_Encrypt  the id to  filter by this id 
  * @return the query of mapgenertion_mvhistory
  */
-function get_The_history($Id_Encrypt="",$field_take="query")
+function get_The_history($Id_Encrypt="",$field_take="query",$sequence='')
 {
 	global $adb,$root_directory, $log;
 
@@ -1141,7 +1167,13 @@ function get_The_history($Id_Encrypt="",$field_take="query")
 
 	try {
 
-		$q="SELECT * FROM mapgeneration_queryhistory Where id='$Id_Encrypt' AND active=1 ";
+		$q="SELECT * FROM mapgeneration_queryhistory Where id='$Id_Encrypt'";
+		if (!empty($sequence)) {
+			$q.="  AND sequence='$sequence' ";
+		}else
+		{
+			$q.=" AND active=1 ";
+		}
 
 		$result = $adb->query($q);
 		$num_rows = $adb->num_rows($result);
@@ -1201,7 +1233,7 @@ function get_All_History($Id_Encrypt="",$field_take="query")
 		if ($num_rows>0) {
 			for($i=1 ; $i <= $num_rows; $i++)
 			{
-				array_push($datas,$adb->query_result($result,$i-1, $field_take));
+				array_push($datas,["$field_take"=>$adb->query_result($result,$i-1, $field_take),"sequence"=>$adb->query_result($result,$i-1,"sequence")]);
 			}
 
 			if (!empty($datas)) {
@@ -1786,4 +1818,39 @@ function CheckAllFirstForAllModules($checkname)
 			}
 		}
 		return $field;
+}
+
+
+
+/**
+ * Gets the identifier for entity name.
+ *
+ * @param      string     $moduleName  The module name
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     string     The identifier for entity name.
+ */
+function getIdForEntityName($module,$moduleName="entityidfield")
+{
+	global $adb,$root_directory, $log;
+	try {
+
+		$result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
+		$num_rows = $adb->num_rows($result);
+		if ($num_rows>0) {
+			$Resulti = $adb->query_result($result,0,$moduleName);
+
+			if (!empty($Resulti)) {
+				return $Resulti;
+			} else {
+				throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+			}
+		} else {
+			throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+		}
+	} catch (Exception $ex) {
+		 $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+		 return "";
+	}
 }

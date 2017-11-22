@@ -15,6 +15,59 @@
     <img src=""/>
 </div>
 
+{if $PopupJS neq ''}
+    <script type="text/javascript">
+        
+        {foreach from=$PopupJS item=item key=key name=name}
+            
+            addINJSON(
+                '{$item.FirstModuleJSONtext}',
+                '{$item.FirstModuleJSONvalue}',
+                '{$item.FirstModuleJSONfield}',
+                '{$item.SecondModuleJSONtext}',
+                '{$item.SecondModuleJSONvalue}',
+                '{$item.SecondModuleJSONfield}',
+                '{$item.Labels}',
+                '{$item.ValuesParagraf}',
+                '{$item.returnvaluesval}',
+                '',
+                '{$item.returnvaluestetx}'
+            );
+
+        {/foreach}
+
+          var check=false;
+            var length_history=JSONForCOndition.length;
+            //alert(length_history-1);
+            for (var ii = 0; ii <= JSONForCOndition.length-1; ii++) {
+                var idd =ii;// JSONForCOndition[ii].idJSON;
+                var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+                var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+                var selectedfields = JSONForCOndition[ii].ValuesParagraf;
+                
+                // console.log(idd+firmod+secmod);
+                // console.log(selectedfields);
+                if (ii==(length_history-1))
+                {
+                    check=true;
+                    $('#KippID').val(ii);
+
+                }
+                else{
+                   check=false;
+                }
+                var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+                $('#AlertsAddDiv').append(alerstdiv);
+
+                // generateJoin();
+                // emptycombo();
+            }
+    </script>
+
+
+{/if}
+
+
 
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <center><b>{$MOD.CreateJoinCondition}</b></center>

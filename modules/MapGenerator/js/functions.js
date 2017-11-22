@@ -29,7 +29,7 @@ $( function() {
 
 
    function addjouin() {
-          generateJoin();
+          generateJoin();           
          if ( returnfromgeanratejoin===true)
             {
                openalertsJoin();
@@ -98,37 +98,38 @@ function emptycombo(){
     }
 }
 
-function openmodalrezultquery(idforquery){
-          var selectedfieldsfromhistory=[];
-          var queryfromselected;
-          for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
-             if (ii==idforquery)
-             {
-                 check=true;
-               //   selectedfieldsfromhistory = JSONForCOndition[ii].selectedfields;
-                   queryfromselected = $('#generatedjoin').text();
-
-             }
+function openmodalrezultquery(idforquery)
+{
+      var selectedfieldsfromhistory=[];
+      var queryfromselected;
+      for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+         if (ii==idforquery)
+         {
+             check=true;
+           //   selectedfieldsfromhistory = JSONForCOndition[ii].selectedfields;
+               queryfromselected = $('#generatedjoin').text();
 
          }
 
+      }
+
       var url = "index.php?module=MapGenerator&action=MapGeneratorAjax&file=PreviewRezult";
-         jQuery.ajax({
-              type: "POST",
-              url: url,
-              async: false,
-              data: "queryhistory=" + queryfromselected,
-             success: function (msg) {
-                 // alert(msg);
-                  $('#backdropquery').addClass('slds-backdrop--open');
-                  $('#modalrezultquerymodal').addClass('slds-fade-in-open');
-                  jQuery("#insertintobodyrezult").html(msg);
-                 //alert();
-             },
-             error: function () {
-                 alert(mv_arr.failedcall);
-             }
-         });
+       jQuery.ajax({
+            type: "POST",
+            url: url,
+            async: false,
+            data: "queryhistory=" + queryfromselected,
+           success: function (msg) {
+               // alert(msg);
+                $('#backdropquery').addClass('slds-backdrop--open');
+                $('#modalrezultquerymodal').addClass('slds-fade-in-open');
+                jQuery("#insertintobodyrezult").html(msg);
+               //alert();
+           },
+           error: function () {
+               alert(mv_arr.failedcall);
+           }
+       });
 }
 $('#Previewbtn').click(function(){
 		  PreviewQuery();
@@ -200,7 +201,7 @@ function openalertsJoin() {
     var check=false;
     var length_history=JSONForCOndition.length;
     //alert(length_history-1);
-    for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+    for (var ii = 0; ii <= JSONForCOndition.length-1; ii++) {
         var idd =ii;// JSONForCOndition[ii].idJSON;
         var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
         var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
@@ -282,7 +283,7 @@ function alertsdiv(Idd, Firstmodulee, secondmodule,last_check) {
 function show_query_History(id_history){
  $('#AlertsAddDiv div').remove();
  document.getElementById('querysequence').value=id_history+1;
- for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+ for (var ii = 0; ii <= JSONForCOndition.length-1; ii++) {
         var idd =ii;// JSONForCOndition[ii].idJSON;
         //valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
          var idd =ii;// JSONForCOndition[ii].idJSON;
@@ -296,11 +297,11 @@ function show_query_History(id_history){
             check=true;
              valuehistoryquery = JSONForCOndition[ii].ValuesParagraf;
              var returnvaluesval=JSONForCOndition[ii].returnvaluesval;
-              var returnvaluestetx=JSONForCOndition[ii].returnvaluestetx;
-              $( "#generatedjoin" ).html(valuehistoryquery);
-              $('#ReturnValuesTxt').attr('name',returnvaluesval);
-              $('#ReturnValuesTxt').val(returnvaluestetx);
-              $('#KippID').val(id_history);
+             var returnvaluestetx=JSONForCOndition[ii].returnvaluestetx;
+             $( "#generatedjoin" ).html(valuehistoryquery);
+             $('#ReturnValuesTxt').attr('name',returnvaluesval);
+             $('#ReturnValuesTxt').val(returnvaluestetx);
+             $('#KippID').val(id_history);
 
         }
         else{
