@@ -59,6 +59,16 @@
 
 						
 		},
+
+
+
+
+		/**
+		 * function to choose the type of map 
+		 *
+		 * @class      TypeOfMaps (name)
+		 * @return     {boolean}  { description_of_the_return_value }
+		 */
 		TypeOfMap : function() {
 			var types = $('select[data-load-Map="true"]').attr(
 					'data-type-select');
@@ -142,7 +152,14 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("AllFieldsInput",
 						urlsend, dat);
+			}else if (select == "FieldDependency") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "FirstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
+
 		},
 
 		LoadLabel:function(event){
