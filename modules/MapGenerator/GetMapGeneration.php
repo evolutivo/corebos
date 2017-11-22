@@ -673,47 +673,57 @@ function Master_detail($QueryHistory,$MapID)
 
 			$HistoryMap=$QueryHistory.",".$MapID;
 
-			$MyArray=array();
-			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
-
 			$FmoduleID=(string) $xml->linkfields->targetfield;
 			$SmoduleID=(string) $xml->linkfields->originfield;
 
-			$nrindex=0;
-			foreach($xml->detailview->fields->field as $field)
-			{
-				$araymy=[
-					 
-					 'DefaultText'=>"Edmondi Default",
-					 'FirstModule' =>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]))[0],
-					 'FirstModuleoptionGroup'=>"udentifined",
-					'Firstfield' =>(string) explode(",",Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[0],
-					 'FirstfieldID' =>(string) $xml->linkfields[0]->targetfield,
-					'FirstfieldIDoptionGroup'=>"",
-					'Firstfield_Text'=>(string)explode(",",  Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[1],
-					'FirstfieldoptionGroup'=>(string)$xml->targetmodule,
-					'JsonType'=>"Default",
-					'SecondfieldID'=>(string)$xml->linkfields->originfield,
 
-					'editablechk'=>(string) $field->editable,
-					'editablechkoptionGroup'=>"",
+			//all history 
+			$Allhistory=get_All_History($QueryHistory);
 
-					'hiddenchk'=>(string) $field->editable,
-					'hiddenchkoptionGroup'=>"",
+			$Alldatas=array();
 
-					'mandatorychk'=>(string)$field->mandatory,
+           	foreach ($Allhistory as $key => $value) {
+           		
+					$MyArray=array();
+					$xml=new SimpleXMLElement($value); 
+					$nrindex=0;
+					foreach($xml->detailview->fields->field as $field)
+					{
+						$araymy=[
+							 
+							 'DefaultText'=>"Edmondi Default",
+							 'FirstModule' =>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]))[0],
+							 'FirstModuleoptionGroup'=>"udentifined",
+							'Firstfield' =>(string) explode(",",Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[0],
+							 'FirstfieldID' =>(string) $xml->linkfields[0]->targetfield,
+							'FirstfieldIDoptionGroup'=>"",
+							'Firstfield_Text'=>(string)explode(",",  Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[1],
+							'FirstfieldoptionGroup'=>(string)$xml->targetmodule,
+							'JsonType'=>"Default",
+							'SecondfieldID'=>(string)$xml->linkfields->originfield,
 
-					'secmodule' =>(string)explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule,$xml->originmodule))[0],
-					'secmoduleoptionGroup'=>"udentifined",
+							'editablechk'=>(string) $field->editable,
+							'editablechkoptionGroup'=>"",
 
-					'sortt6ablechk'=>((string)$xml->sortfield===(string)$field->fieldname)?1:0,
-					'sortt6ablechkoptionGroup'=>"",
-					
+							'hiddenchk'=>(string) $field->editable,
+							'hiddenchkoptionGroup'=>"",
 
-				];
+							'mandatorychk'=>(string)$field->mandatory,
 
-				array_push($MyArray,$araymy);
-			}
+							'secmodule' =>(string)explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule,$xml->originmodule))[0],
+							'secmoduleoptionGroup'=>"udentifined",
+
+							'sortt6ablechk'=>((string)$xml->sortfield===(string)$field->fieldname)?1:0,
+							'sortt6ablechkoptionGroup'=>"",
+							
+
+						];
+
+						array_push($MyArray,$araymy);
+					}
+					array_push($Alldatas,$MyArray);
+				}
+
 
 
 			// value for Save As 
@@ -741,7 +751,7 @@ function Master_detail($QueryHistory,$MapID)
 
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 
-			$smarty->assign("PopupJS",$MyArray);
+			$smarty->assign("PopupJS",$Alldatas);
 
 			$smarty->assign("SecondModuleFields",$SecondModuleFields);
 

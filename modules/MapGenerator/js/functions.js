@@ -1997,6 +1997,24 @@ function FillDivAlert( Idd, divid, firstfield, sortt6ablechk, editablechk, manda
       return INSertAlerstJOIN;
 }
 
+
+/**
+ * function to show the popup in master detail
+ *
+ * 
+ */
+function showmodalformasterdetail() {
+   $('#LoadShowPopup').html('');
+    if(App.popupJson.length>0){
+      for (var i=0; i<= App.popupJson.length - 1; i++) {
+        $('#LoadShowPopup').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
+       App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
+       App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
+      
+      }
+    }
+}
+
 /**
  * SELECT * from vtiger_tab;
  *SELECT * from vtiger_field;

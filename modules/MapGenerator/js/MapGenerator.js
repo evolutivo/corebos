@@ -919,6 +919,7 @@
 			var idtoshow=elem.attr('data-history-show-modal-id');
 			var diwtoshow=elem.attr('data-history-show-modal-divname');
 			var iddivrelation=elem.attr('data-history-show-modal-divname-relation');
+			var functionToCall=elem.attr('data-history-show-modal-function');
 			if (!diwtoshow)
 			{
 				// alert(mv_arr.MissingDivID);
@@ -935,7 +936,11 @@
 					for (var i=0;i<=historydata.JSONCondition.length-1;i++){
 						App.JSONForCOndition.push(historydata.JSONCondition[i]);
 					}
-					if (iddivrelation)
+					if (functionToCall && functionToCall!=="none")
+					{
+						var funcCall =functionToCall + "();";
+						eval(funcCall);
+					}else if (iddivrelation)
 					{
 						App.utils.ReturnAllDataHistory(iddivrelation);
 					}else
@@ -951,7 +956,11 @@
 						App.popupJson.push(historydata.PopupJSON[i]);
 					}
 
-					if (iddivrelation)
+					if (functionToCall && functionToCall!=="none")
+					{
+						var funcCall =functionToCall + "();";
+						eval(funcCall);
+					}else if (iddivrelation)
 					{
 						App.utils.ReturnAllDataHistory2(iddivrelation);
 					}else
@@ -1207,7 +1216,7 @@
 		},
 
 
-		AddtoHistory:function(divName,dividrelation='') {
+		AddtoHistory:function(divName,dividrelation='',callfunction='') {
 			if (App.SaveHistoryPop.length>0)
 			{	
 				$('#'+divName+' div').remove();
@@ -1215,19 +1224,19 @@
 					if(App.SaveHistoryPop[i].JSONCondition.length>0){
 						if (i==(App.SaveHistoryPop.length-1))
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,true,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,true,divName,dividrelation,callfunction));
 						} else
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,false,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,false,divName,dividrelation,callfunction));
 						}
         				
         			}else{
         				if (i==(App.SaveHistoryPop.length-1))
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,true,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,true,divName,dividrelation,callfunction));
 						} else
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,false,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,false,divName,dividrelation,callfunction));
 						}
         				
         			}
@@ -1246,12 +1255,12 @@
 		 * @param {[String]} FirstModuleLoad  the name of first module
 		 * @param {[String]} SecondModuleLoad  the name of second module 
 		 */
-		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation=''){
+		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation='',callfunction='none'){
 			var htmldat='<div class="Message Message"  >';
 				htmldat+='<div class="Message-icon">';
 				// if (avtive===false)
 				// {
-					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
+					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" data-history-show-modal-function="'+callfunction+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
 				// }
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';

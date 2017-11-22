@@ -13,41 +13,43 @@
 
 {if $PopupJS neq ''} 
  <script type="text/javascript"> 
+
+      {foreach from=$PopupJS item=allitem key=key name=name}
+          {foreach key=profile_name item=$popjs  from=$allitem }
+                var temparray = {};
+                temparray['DefaultText'] = '';
+                temparray['JsonType'] = '{$popjs.JsonType}';
+                temparray['FirstfieldoptionGroup'] = '{$popjs.FirstfieldoptionGroup}';
+                temparray['FirstModule'] ='{$popjs.FirstModule}';
+                temparray['FirstModuleoptionGroup'] = '{$popjs.FirstModuleoptionGroup}';
+                temparray['FirstfieldID'] = '{$popjs.FirstfieldID}';
+                temparray['FirstfieldIDoptionGroup'] ='{$popjs.FirstfieldIDoptionGroup}';
+                temparray['Firstfield'] = '{$popjs.Firstfield}';
+                temparray['Firstfield_Text'] ='{$popjs.Firstfield_Text}';
+                temparray['secmodule'] = '{$popjs.secmodule}';
+                temparray['secmoduleoptionGroup'] ='{$popjs.secmoduleoptionGroup}';
+                temparray['SecondfieldID'] ='{$popjs.SecondfieldID}';
+                temparray['sortt6ablechk'] = '{$popjs.sortt6ablechk}';
+                temparray['sortt6ablechkoptionGroup'] = '{$popjs.sortt6ablechkoptionGroup}';
+                temparray['editablechk'] = '{$popjs.editablechk}';
+                temparray['editablechkoptionGroup'] = '{$popjs.editablechkoptionGroup}';
+                temparray['mandatorychk'] = '{$popjs.mandatorychk}';
+                temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
+                temparray['hiddenchk'] = '{$popjs.hiddenchk}';
+                temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
+              App.popupJson.push({'{'}temparray{'}'});
+          {/foreach}
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+           App.popupJson.length=0;
+      {/foreach}
     
-    {foreach key=profile_name item=$popjs  from=$PopupJS }
-          var temparray = {};
-          temparray['DefaultText'] = '';
-          temparray['JsonType'] = '{$popjs.JsonType}';
-          temparray['FirstfieldoptionGroup'] = '{$popjs.FirstfieldoptionGroup}';
-          temparray['FirstModule'] ='{$popjs.FirstModule}';
-          temparray['FirstModuleoptionGroup'] = '{$popjs.FirstModuleoptionGroup}';
-          temparray['FirstfieldID'] = '{$popjs.FirstfieldID}';
-          temparray['FirstfieldIDoptionGroup'] ='{$popjs.FirstfieldIDoptionGroup}';
-          temparray['Firstfield'] = '{$popjs.Firstfield}';
-          temparray['Firstfield_Text'] ='{$popjs.Firstfield_Text}';
-          temparray['secmodule'] = '{$popjs.secmodule}';
-          temparray['secmoduleoptionGroup'] ='{$popjs.secmoduleoptionGroup}';
-          temparray['SecondfieldID'] ='{$popjs.SecondfieldID}';
-          temparray['sortt6ablechk'] = '{$popjs.sortt6ablechk}';
-          temparray['sortt6ablechkoptionGroup'] = '{$popjs.sortt6ablechkoptionGroup}';
-          temparray['editablechk'] = '{$popjs.editablechk}';
-          temparray['editablechkoptionGroup'] = '{$popjs.editablechkoptionGroup}';
-          temparray['mandatorychk'] = '{$popjs.mandatorychk}';
-          temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
-          temparray['hiddenchk'] = '{$popjs.hiddenchk}';
-          temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
-        App.popupJson.push({'{'}temparray{'}'});
-    {/foreach}
-      
-    $('#contenitoreJoin').html('');
-    if(App.popupJson.length>0){
-      for (var i=0; i<= App.popupJson.length - 1; i++) {
-        $('#contenitoreJoin').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
-       App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
-       App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
-      
-      }
-    }
+        if (App.SaveHistoryPop.length>0)
+        { 
+            App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup','showmodalformasterdetail');
+           App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+        }else{
+           App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+         }
     </script>
    
 {/if}
