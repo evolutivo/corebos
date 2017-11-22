@@ -21,7 +21,7 @@
               temparray['HistoryValueToShow'] = '{$popjs.HistoryValueToShow}';
               temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
               temparray['JsonType'] ='{$popjs.JsonType}';
-              temparray['firstModule'] = '{$popjs.FirstModule}';
+              temparray['firstModule'] = '{$popjs.firstModule}';
               temparray['firstModuleoptionGroup'] = '{$popjs.firstModuleoptionGroup}';
               App.popupJson.push({'{'}temparray{'}'});
         {/foreach}
@@ -69,7 +69,7 @@
         {$Modali}
       </div>
     {/if}
-    <div id="selJoin" style="float:left; overflow: hidden;width:40%;height: 100%">
+    <div id="selJoin" style="float:left; overflow: hidden;width:43%;height: 100%">
         <div style="float:left; overflow: hidden;width:80%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">

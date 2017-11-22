@@ -36,23 +36,19 @@ if (!empty($Data)) {
 	
 	$jsondecodedata=json_decode($Data);
 
-	// print_r($jsondecodedata);
-	// echo add_content($jsondecodedata);
-    //print_r(save_history(add_aray_for_history($jsondecodedata),$MapID[0],add_content($jsondecodedata)));
-
-// echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata));
-// exit();
+  // print_r(add_content($jsondecodedata));
+  // exit();
 
   if(strlen($MapID[1])==0){
 
-	 $focust = new cbMap();
+	   $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
      // $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
      $focust->column_fields['mapname']=$mapname;
      $focust->column_fields['content']=add_content($jsondecodedata);
      $focust->column_fields['maptype'] =$MapType;
      // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
-     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['description']=add_content($jsondecodedata);
      $focust->column_fields['mvqueryid']=$idquery2;
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
@@ -87,7 +83,7 @@ if (!empty($Data)) {
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
      // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
-     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['description']=add_content($jsondecodedata);
      $focust->mode = "edit";
      $focust->save("cbMap");
 
@@ -113,7 +109,7 @@ function add_content($DataDecode)
 		for($i=0;$i<=$countarray;$i++)
 		{
 			$module = $xml->createElement("module");
-			$moduleText = $xml->createTextNode($DataDecode[$i]->temparray->firstModule);
+			$moduleText = $xml->createTextNode($DataDecode[$i]->temparray->FirstModule);
 			$module->appendChild($moduleText);
 			
 			$modules->appendChild($module); 
@@ -129,7 +125,7 @@ function add_aray_for_history($decodedata)
    // $labels="";
      foreach ($decodedata as  $value)
      {
-        $labels.= $value->temparray->firstModule.",";
+        $labels.= $value->temparray->FirstModule.",";
      }
      // return $labels;
     return array

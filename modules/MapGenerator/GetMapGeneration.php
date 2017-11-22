@@ -273,11 +273,11 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 				$MyArray=array();
 				foreach ($xml->modules->module as $value) {
 					$arrayy=[
-						"DefaultText"=>explode("#", Get_First_Moduls_TextVal($value))[0],
+						"DefaultText"=>explode("#", Get_First_Moduls_TextVal($value))[1],
+						"firstModule"=>explode("#", Get_First_Moduls_TextVal($value))[0],
 						"HistoryValueToShow"=>" ",
 						"HistoryValueToShowoptionGroup"=>" ",
 						"JsonType"=>"Modul",
-						"firstModule"=>(string)$value,
 						"firstModuleoptionGroup"=>"undefined",
 					];
 					array_push($MyArray,$arrayy);
@@ -286,8 +286,8 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 				array_push($Alldatas,$MyArray);
 
 			}
-			print_r($Allhistory);
-			exit();
+			// print_r($Allhistory);
+			// exit();
 			
 
 			$MapName=get_form_MapQueryID($QueryHistory,"mapname");
