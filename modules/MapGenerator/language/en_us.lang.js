@@ -36,4 +36,5 @@ var mv_arr = {
 'NotAllowedDopcicate':'This Exist you cannot dupliacte',
 'LoadHIstoryError':'You list is empty or something was wrong',
 'LoadHIstoryCorrect':'Click to the eyes to show the history',
+'Fieldsaremepty':'Something is empty please fill all fields',
 }

@@ -13,6 +13,7 @@
 		savehistoryar:null,
 		popupJson : [],
 		SaveHistoryPop:[],
+		MultiList:[],
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -372,8 +373,14 @@
 				{
 					$("#" + firstfieldid).val(str3);
 				}
-				$("#" + field).append('<option value="">Select a value</option>');
-				$("#" + field).append(str1);
+
+				field=field.split(',');
+
+				for (var i = field.length - 1; i >= 0; i--) {
+					$("#" + field[i]).append('<option value="">Select a value</option>');
+					$("#" + field[i]).append(str1);
+				}
+				
 				VauefromPost = null;
 			}
 		 },
@@ -636,7 +643,7 @@
 			 if (event) {event.preventDefault();}
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
-			 var showtext=elem.attr(" data-show-id");
+			 var showtext=elem.attr("data-show-id");
 			 var Typeofpopup=elem.attr('data-add-type');
 			 if (allids)
 			 {
@@ -701,16 +708,53 @@
 
 	   CloseModalWithoutCheck:function(event){
 	   	 if (event) {event.preventDefault();}
+	   	 var elem=$(this);
+	   	 var closemodal=elem.attr('data-modal-close-id');
+
+	   	 if (!closemodal) {closemodal="modal";}
+
 	   	 $('#ErrorVAlues').text('');
-	     $('#modal').removeClass('slds-fade-in-open');
+	     $('#'+closemodal).removeClass('slds-fade-in-open');
 	     $('#backdrop').removeClass('slds-backdrop--open');
 
 	   },
 
 	   OpeModalsaveAsMap:function(event){
 	   	 if (event) {event.preventDefault();}
-	   	 $('#backdrop').addClass('slds-backdrop--open');
-    	 $('#modal').addClass('slds-fade-in-open');
+	   	 var elem=$(this);
+	   	 var dataToCheck=elem.attr('data-modal-check-id');
+	   	 var idModals=elem.attr('data-modal-id');
+	   	 var truorfalse=false;
+
+	   	 if (!idModals){idModals="modal";}
+
+	   	 if (dataToCheck)
+	   	 {
+	   	 	dataToCheck=dataToCheck.split(',');
+	   	 	for (var i=0;i <= dataToCheck.length - 1; i++) {
+	   	 		if (App.utils.IsSelectORDropDown(dataToCheck[i]).length>0)
+	   	 		 {
+	   	 		 	truorfalse=true;
+	   	 		 }else
+	   	 		 {
+	   	 		 	truorfalse=false;
+	   	 		 }
+	   	 	}
+
+	   	 	if (truorfalse===true)
+	   	 	{
+	   	 		$('#backdrop').addClass('slds-backdrop--open');
+    	 		$('#'+idModals).addClass('slds-fade-in-open');
+	   	 	} else
+	   	 	{
+	   	 		App.utils.ShowNotification("snackbar",4000,mv_arr.Fieldsaremepty);
+	   	 	}
+
+	   	 } else
+	   	 {
+	   	 	$('#backdrop').addClass('slds-backdrop--open');
+    	 	$('#'+idModals).addClass('slds-fade-in-open');
+	   	 }	   	 
 
 	   },
 	};

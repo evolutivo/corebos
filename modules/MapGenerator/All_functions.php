@@ -738,8 +738,7 @@ function GetModulRelOneTomulti($m,$valuefromLoad="")
     }
     $query2 = "SELECT uitype, columnname, fieldlabel from  vtiger_field 
              join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid 
-             where (uitype=76 or uitype=50 or uitype=51 or uitype=57 or uitype=58 or uitype=59 or uitype=73 or uitype=75 or  uitype=78
-             or  uitype=80 or uitype=81 or uitype=68) and name='$m' and  vtiger_tab.presence=0";
+             where (uitype=15) and name='$m' and  vtiger_tab.presence=0";
 
     $result2 = $adb->query($query2);
     $num_rows2 = $adb->num_rows($result2);

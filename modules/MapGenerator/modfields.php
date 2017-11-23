@@ -13,7 +13,7 @@
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
-function getModFields($module, $dbname,$FieldsArrays=[])
+function getModFields($module, $dbname,$FieldsArrays=[],$uitype='')
 {
     global $log;
     $log->debug("Entering getAdvSearchfields(".$module.") method ...");
@@ -29,7 +29,10 @@ function getModFields($module, $dbname,$FieldsArrays=[])
 
     $sql = "select * from  vtiger_field ";
     $sql.= " where vtiger_field.tabid in(?) and";
-    $sql.= " vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2)";
+    $sql.= " vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2) ";
+    if (!empty($uitype)) {
+        $sql.=" and uitype IN ($uitype)";
+    }
     if($tabid == 13 || $tabid == 15)
     {
         $sql.= " and vtiger_field.fieldlabel != 'Add Comment'";

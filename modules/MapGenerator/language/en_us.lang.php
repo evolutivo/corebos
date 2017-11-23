@@ -98,6 +98,13 @@ $mod_strings = Array(
     'module_set'=>'Module Set',
     'inputFileds'=>'Input ',
     'outputFields'=>'Output',
+    'SectionOriginFileds'=>'Choose the fields (If you want you can leave empty this section)',
+    'ChoseResponsabile'=>'Chosse the responsabile fields ',
+    'AddFields'=>'Add Fields',
+    'AddPickList'=>'Add PickList',
+    'Add'=>'Add',
+
+
 
 );
 ?>

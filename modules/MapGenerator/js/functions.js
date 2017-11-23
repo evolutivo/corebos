@@ -2020,3 +2020,47 @@ function showmodalformasterdetail() {
  * SELECT * from vtiger_tab;
  *SELECT * from vtiger_field;
  */
+
+
+function Addmorevalues(elem){
+    var ss=elem;
+    var divtoinsert=$('#ShowmoreInput');
+    var i=$('#ShowmoreInput input').size()+1;
+     $(Addinput(i)).appendTo(divtoinsert);
+    var allids= $('#AddToArray').attr('data-add-relation-id');
+    allids=allids+',DefaultValueFirstModuleField_'+i;
+    $('#AddToArray').attr('data-add-relation-id',allids);
+
+}
+
+function RemoveThis(argument,idinput) {
+    var idtoremove='DefaultValueFirstModuleField_'+idinput;
+    var allids= $('#AddToArray').attr('data-add-relation-id').split(',');
+    // var idafterremove="";
+   allids.forEach(function (value,index) {
+        if (value===idtoremove)
+          {
+           allids.splice(index,1);
+          }
+          // else{
+          //   idafterremove+=","+index;
+          // }
+      });
+    $(argument).parent().parent().remove();
+    $('#AddToArray').attr('data-add-relation-id',allids.toString());
+}
+
+function Addinput(idinput) {
+    return '<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">'
+             +'<div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">'
+              +'<div class="slds-combobox__form-element">'
+              +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Change label if you want and after click button" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">'
+              +'</div>'
+              +'</div>'
+             +'<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">'
+              +'<button class="slds-button slds-button_icon" onclick="RemoveThis(this,'+idinput+')" aria-haspopup="true" title="Add more Values" style="width:2.1rem;">'
+              +'<img src="themes/images/clear_field.gif" style="width: 100%;">'
+              +'</button>'
+          +'</div>'
+    +'</div>';
+}
