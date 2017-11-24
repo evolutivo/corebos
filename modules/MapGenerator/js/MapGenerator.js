@@ -710,12 +710,14 @@
 	   	 if (event) {event.preventDefault();}
 	   	 var elem=$(this);
 	   	 var closemodal=elem.attr('data-modal-close-id');
+	   	 var closebackdrop=elem.attr('data-modal-close-backdrop-id');
 
 	   	 if (!closemodal) {closemodal="modal";}
+	   	 if (!closebackdrop) {closebackdrop="backdrop";}
 
 	   	 $('#ErrorVAlues').text('');
 	     $('#'+closemodal).removeClass('slds-fade-in-open');
-	     $('#backdrop').removeClass('slds-backdrop--open');
+	     $('#'+closebackdrop).removeClass('slds-backdrop--open');
 
 	   },
 
@@ -724,9 +726,11 @@
 	   	 var elem=$(this);
 	   	 var dataToCheck=elem.attr('data-modal-check-id');
 	   	 var idModals=elem.attr('data-modal-id');
+	   	 var idbackdrop=elem.attr('data-modal-backdrop-id');
 	   	 var truorfalse=false;
 
 	   	 if (!idModals){idModals="modal";}
+		 if (!idbackdrop){idbackdrop="backdrop";}
 
 	   	 if (dataToCheck)
 	   	 {
@@ -743,7 +747,7 @@
 
 	   	 	if (truorfalse===true)
 	   	 	{
-	   	 		$('#backdrop').addClass('slds-backdrop--open');
+	   	 		$('#'+idbackdrop).addClass('slds-backdrop--open');
     	 		$('#'+idModals).addClass('slds-fade-in-open');
 	   	 	} else
 	   	 	{
@@ -752,7 +756,7 @@
 
 	   	 } else
 	   	 {
-	   	 	$('#backdrop').addClass('slds-backdrop--open');
+	   	 	$('#'+idbackdrop).addClass('slds-backdrop--open');
     	 	$('#'+idModals).addClass('slds-fade-in-open');
 	   	 }	   	 
 

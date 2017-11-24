@@ -38,7 +38,7 @@
 
 {/if}
 <div class="slds">
-            <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
+            <div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
                 <div class="slds-modal__container">
                     <div class="slds-modal__header">
                         <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
@@ -77,7 +77,7 @@
 						                         <input id="ShowHidecheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
 						                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
 						                            <span class="slds-checkbox--faux"></span>
-						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Show/Hide</span>
+						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hide/Show</span>
 						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
 						                          </span>
 						                        </label>
@@ -129,7 +129,7 @@
                     </div>
                     <div class="slds-modal__footer">
                         <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="modal" >{$MOD.cancel}
+                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
                         </button>
                         <button  data-add-button-popup="true" data-add-type="Fileds" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
@@ -137,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <div class="slds-backdrop" id="backdrop"></div>
+            <div class="slds-backdrop" id="fieldsbackdrop"></div>
 
             <!-- Button To Open Modal -->
             {*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
@@ -200,15 +200,15 @@
                     </div>
                     <div class="slds-modal__footer">
                         <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="Picklist" >{$MOD.cancel}
+                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}
                         </button>
-                        <button id="AddToArray" data-add-button-popup="true" data-add-type="Fileds" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
+                        <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
                     </div>
                 </div>
             </div>
-            <div class="slds-backdrop" id="backdrop"></div>
+            <div class="slds-backdrop" id="Picklistbackdrop"></div>
 
             <!-- Button To Open Modal -->
             {*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
@@ -223,8 +223,8 @@
 
 <div style="width: 70%;height: 100%;float: left;">
 	 <div class="slds-section-title--divider">
-   	 	<button class="slds-button slds-button--neutral" style="float: left;">{$MOD.SaveAsMap}</button>
-   		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.CreateMap}</button>
+   	 	<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+   		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveFieldDependency" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
     	<h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3>
 	 </div>
 	 <div>
@@ -276,14 +276,16 @@
 	 	
 	 </div>
 	 <div style="margin:15% 0% 0% 0% ">
-   	 	<button class="slds-button slds-button--neutral slds-button--brand" data-modal-saveas-open="true" data-modal-id="modal" data-modal-check-id="FirstModule"  style="float: left;">{$MOD.AddFields}</button>
-   		<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.AddPickList}</button>
+   	 	<button class="slds-button slds-button--neutral slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop" style="float: left;">{$MOD.AddFields}</button>
+   		<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.AddPickList}</button>
     	{* <h3 style="margin-left: 40%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
 	 </div>
         
 </div>
 <div style="float: right;width: 25%;margin-left: 20px;">
 	<div id="LoadShowPopup"></div>
+</div>
+<div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 71%;">
 </div>
 </div>
 

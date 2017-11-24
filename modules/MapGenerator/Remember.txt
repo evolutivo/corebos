@@ -56,7 +56,9 @@ data-modal-check-id="id1,id2" -- list of id if you want to check before show a m
 
 data-modal-id="ifofmodal" -- the id of modal you want to show
 
-id="SaveAsButton"  -- the id of button 
+data-modal-close-backdrop-id="backdrop"  -- the id of backdrop default is backdrop  
+
+id="SaveAsButton"  -- the id of button  if you want to remove the disamblet 
 
 
 
