@@ -61,7 +61,7 @@
 							            <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
 							            <div class="slds-form-element__control">
 							              	<select  id="Firstfield2" name="mod" class="slds-select">
-							                        
+							                        {$FirstModuleFields}
 							                 </select>
 
 							            </div>
@@ -167,7 +167,7 @@
 							            <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
 							            <div class="slds-form-element__control">
 							              	<select  id="PickListFields" name="mod" class="slds-select">
-							                        
+							                        {$Picklistdropdown}
 							                </select>
 
 							            </div>
@@ -223,7 +223,12 @@
 
 <div style="width: 70%;height: 100%;float: left;">
 	 <div class="slds-section-title--divider">
-   	 	<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+   	 	{if $HistoryMap neq ''}
+   	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+   	 	{else}
+   	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+   	 	{/if}
+
    		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveFieldDependency" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
     	<h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3>
 	 </div>
@@ -245,7 +250,7 @@
 	            <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
 	            <div class="slds-form-element__control">
 	              	<select  id="Firstfield" name="mod" class="slds-select">
-	                        {$FirstModuleSelected}
+	                        {$FirstModuleFields}
 	                 </select>
 
 	            </div>

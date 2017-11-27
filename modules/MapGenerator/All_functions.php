@@ -685,6 +685,10 @@ function GetAllRelationMOdul($m){
 
 
 
+
+
+
+
 // function get all relation module only relation one to multi
 function GetModulRelOneTomulti($m,$valuefromLoad="")
    {
@@ -1013,6 +1017,10 @@ function GetModulRelOneTomulti($m,$valuefromLoad="")
 
 
 
+
+
+
+ 
 // function get all relation module 
 function GetModulToAll($m,$valuefromLoad="")
    {

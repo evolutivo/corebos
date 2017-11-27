@@ -220,16 +220,18 @@ function add_content($DataDecode,$mapname)
      	 	 $Picklist = $xml->createElement("Picklist");
 
 		     $Picklistname = $xml->createElement("fieldname");
-		     $PicklistnameText = $xml->createTextNode($value->temparray->PickListFields);
+		     $PicklistnameText = $xml->createTextNode(explode(':',$value->temparray->PickListFields)[2]);
 		     $Picklistname->appendChild($PicklistnameText);
 		     $Picklist->appendChild($Picklistname);
 			 $i=1;
 		     foreach ($value->temparray as $key => $valua) {
 			       if (!empty($valua)) {
-		       			 $values = $xml->createElement("values");
-					     $valuesText = $xml->createTextNode($valua);
-					     $values->appendChild($valuesText);
-						 $Picklist->appendChild($values);				
+		       			 if (strpos($key,'DefaultValueFirstModuleField')!== false) {
+		       			 	 $values = $xml->createElement("values");
+						     $valuesText = $xml->createTextNode($valua);
+						     $values->appendChild($valuesText);
+							 $Picklist->appendChild($values);
+		       			  }				
 					}								
 		        }
 
