@@ -40,6 +40,7 @@ class cbMapAddMapTypes extends cbupdaterWorker {
                                 'Divide EditCreate',
 				'FieldInfo',
 				'GlobalSearchAutocomplete',
+				'FieldDependencyPortal',
 			);
 			$moduleInstance = Vtiger_Module::getInstance('cbMap');
 			$field = Vtiger_Field::getInstance('maptype',$moduleInstance);
