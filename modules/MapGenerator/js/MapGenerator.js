@@ -155,7 +155,7 @@
 						urlsend, dat);
 			}else if (select == "FieldDependency") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ urlpost[0], "FirstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
