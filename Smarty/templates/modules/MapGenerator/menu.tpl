@@ -126,11 +126,12 @@
     	                    <option value="Mapping">{$MOD.TypeMapMapping}</option>
     	                    <option value="IOMap">{$MOD.TypeMapIOMap}</option>
     	                    <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
-    	                    <option value="WS">{$MOD.TypeMapWS}</option>
+                            <option value="FieldDependencyPortal">{$MOD.FieldDependencyPortal}</option>
+                            <option value="WS">{$MOD.TypeMapWS}</option>
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
                             <option value="ListColumns">{$MOD.ListColumns}</option>
                             <option value="Module_Set">{$MOD.module_set}</option>
-                            <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> -->
+                            {* <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> --> *}
 	                    </select>
 	                </div>
 	            </div>
