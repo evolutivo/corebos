@@ -105,7 +105,9 @@ $mod_strings = Array(
     'AddPickList'=>'Add PickList',
     'Add'=>'Add',
     'FieldDependencyPortal'=>'Field Dependency Portal',
-
+    'GlobalSearchAutocompleteMapping'=>'Global Search Autocomplete',
+    'SelectShowFields'=>'Select fields you want to show',
+    'SelectsearchFields'=>'Select fields you want to search',
 
 );
 ?>

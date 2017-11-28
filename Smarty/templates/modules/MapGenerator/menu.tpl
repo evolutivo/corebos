@@ -131,6 +131,7 @@
                             <option value="MasterDetail">{$MOD.MasterDetail}</option>
                             <option value="ListColumns">{$MOD.ListColumns}</option>
                             <option value="Module_Set">{$MOD.module_set}</option>
+                            <option value="GlobalSearchAutocomplete">{$MOD.GlobalSearchAutocompleteMapping}</option>
                             {* <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> --> *}
 	                    </select>
 	                </div>

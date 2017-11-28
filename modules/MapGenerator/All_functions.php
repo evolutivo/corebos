@@ -1848,6 +1848,14 @@ function GetTheresultByFile($file){
     return ob_get_clean();
 }
 
+/**
+ * this function generate the template to show the error if something was wrong 
+ *
+ * @param      string            $TitleError  The title error
+ * @param      string            $BoddyError  The boddy error
+ *
+ * @return     vtigerCRM_Smarty  ( description_of_the_return_value )
+ */
 function showError($TitleError='',$BoddyError='')
 {
     global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
@@ -1865,6 +1873,43 @@ function showError($TitleError='',$BoddyError='')
     $output = $smarty->fetch('modules/MapGenerator/Error.tpl');
     return $output; 
 }
+
+
+
+/**
+ * Gets the module id.or anothe record from vtiger_entityname
+ *
+ * @param      <type>     $module      The module
+ * @param      string     $moduleName  The module name
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     string     The module id.
+ */
+function getModuleID($module,$moduleName="entityidfield")
+{
+    global $adb,$root_directory, $log;
+    try {
+
+        $result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
+        $num_rows = $adb->num_rows($result);
+        if ($num_rows>0) {
+            $Resulti = $adb->query_result($result,0,$moduleName);
+
+            if (!empty($Resulti)) {
+                return $Resulti;
+            } else {
+                throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+            }
+        } else {
+            throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+        }
+    } catch (Exception $ex) {
+         $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+         return "";
+    }
+}
+
 
 
 ?>

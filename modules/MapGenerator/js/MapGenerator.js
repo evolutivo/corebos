@@ -165,8 +165,13 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "GlobalSearchAutocomplete") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
-
 
 		},
 
@@ -318,7 +323,7 @@
 			var returndata = null;
 			var returndata = App.utils.PostDataGeneric(null,urlsend, data);
 			$("#" + idfieldfill).empty();
-			$("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
+			// $("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
 			$("#" + idfieldfill).append(VauefromPost);
 			VauefromPost = null;
 		},
@@ -348,9 +353,7 @@
 				var dat = "mod=" + valueselected;
 				App.utils.PostDataGeneric(event,urlsendmodule, dat, "");
 				$("#" + secondmodule).empty();
-				$("#" + secondmodule)
-						.append(
-								'<option value="" selected="selected">Select a value</option>');
+				// $("#" + secondmodule).append('<option value="" selected="selected">Select a value</option>');
 				$("#" + secondmodule).append(VauefromPost);
 				VauefromPost = null;
 			}
@@ -381,11 +384,14 @@
 					$("#" + firstfieldid).val(str3);
 				}
 
-				field=field.split(',');
-
-				for (var i = field.length - 1; i >= 0; i--) {
-					$("#" + field[i]).append('<option value="">Select a value</option>');
-					$("#" + field[i]).append(str1);
+				if (field)
+				{
+					field=field.split(',');
+					for (var i = field.length - 1; i >= 0; i--) {
+						$("#" + field[i]).empty();
+						// $("#" + field[i]).append('<option value="">Select a value</option>');
+						$("#" + field[i]).append(str1);
+					}
 				}
 				
 				VauefromPost = null;
@@ -431,9 +437,7 @@
 					$("#" + firstfieldid).val(str3);
 				}
 				$("#" + relationid).empty();
-				$("#" + relationid)
-						.append(
-								'<option value="" selected="selected">Select a value</option>');
+				// $("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
 				$("#" + relationid).append(str1);
 				VauefromPost = null;
 			}
@@ -1417,7 +1421,7 @@
 					+ '">';
 			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
-			INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+firstmodule;
+			INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong>---- '+firstmodule;
 			
 			INSertAlerstJOIN += '</div';
 			return INSertAlerstJOIN;
@@ -1433,14 +1437,15 @@
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	if ($("#" +IdType+ " option:selected").val())
-			    	{
-			    		return $("#" +IdType+ " option:selected").val();//+"##"+$("#" +IdType+ " option:selected").text();
-			    	}else
-			    	{
-			    		return "";	
-			    	}
-			    	
+			    	var alldata=[];
+		    		if($("#" +IdType+ "[multiple] option:selected").length){
+					    $("#" +IdType+ " option:selected").each(function() {
+					    	alldata.push($(this).val());
+					    });
+					    return alldata;
+					}else{
+					 return $("#" +IdType+ " option:selected").val();//+"##"+$("#" +IdType+ " option:selected").text();
+					}
 			    	
 			    }else if(element.tagName === 'INPUT' && element.type === 'text')
 			    {
@@ -1485,15 +1490,12 @@
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	if ($("#" +IdType+ " option:selected").val())
-			    	{
-			    		return $("#" +IdType+ " option:selected").text();
-			    	}else
-			    	{
-			    		return "";	
-			    	}
-			    	
-			    	
+			    	var alldata=[];
+					if($("#" +IdType+ "[multiple] option:selected").length){
+					   return "<b>"+$("#" +IdType+ "[multiple] option:selected").size()+"  items Selected</b>";
+					}else{
+					 return $("#" +IdType+ " option:selected").text();
+					}
 			    }else if(element.tagName === 'INPUT' && element.type === 'text')
 			    {
 			    	return $("#" +IdType).val();//+"##"+$("#" +IdType).text();
