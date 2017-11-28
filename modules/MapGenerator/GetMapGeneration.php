@@ -21,6 +21,11 @@ $MypType=$GetALLMaps[0];
 $MapID=$GetALLMaps[1];
 $QueryHistory=$GetALLMaps[2];
 
+if (empty($GetALLMaps)) {
+	echo showError("Something was wrong","Missing the Type of map");
+}
+
+
 if ($MypType=="Mapping") {
 	
 	try
@@ -37,7 +42,8 @@ if ($MypType=="Mapping") {
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+         echo showError("An error has occurred","Something was wrong check the Exception in log file");
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 
 }elseif ($MypType=="MasterDetailLayout") {
@@ -47,14 +53,15 @@ if ($MypType=="Mapping") {
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			Master_detail($QueryHistory,$MapID);
 		} else {
-			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}
 		
 
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 	
 }else if ($MypType==="ListColumns") {
@@ -69,14 +76,15 @@ if ($MypType=="Mapping") {
 			List_Clomns($QueryHistory,$MapID);
 
 		} else {
-			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}
 		
 
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		 echo showError("Something was wrong",$ex->getMessage());
 	}
 	
 }else if ($MypType==="Condition Query") {
@@ -88,14 +96,15 @@ if ($MypType=="Mapping") {
 			ConditionQuery($QueryHistory,$MapID);			
 
 		} else {
-			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}
 		
 
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
 }else if ($MypType==="Module Set Mapping") {
@@ -109,14 +118,15 @@ if ($MypType=="Mapping") {
 		
 
 		} else {
-			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}
 		
 
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
 }else if ($MypType==="IOMap") {
@@ -127,14 +137,15 @@ if ($MypType=="Mapping") {
 			
 			 Module_IOMap($QueryHistory,$MapID);
 		} else {
-			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}
 		
 
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
 }else if ($MypType==="FieldDependency") {
@@ -147,19 +158,43 @@ if ($MypType=="Mapping") {
 			 
 
 		} else {
-			throw new Exception(" Missing the MapID also the Id of mapgenartor_mvqueryhistory", 1);
+			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}		
 		
 
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
-		echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
+}else if ($MypType==="FieldDependencyPortal") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 FieldDependencyPortal($QueryHistory,$MapID);
+			 
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
 }else
 {
-	echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";;
+	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
+
+	echo showError("Something was wrong","Not Exist This Type of Map? \n Please check the type of mapping and try again.... ");
 }
 
 
@@ -307,12 +342,145 @@ function FieldDependency($QueryHistory,$MapID)
 		
 	
 	}
-	
-
-
-
-
 }
+
+
+/**
+ * function to load all history for map ty Field Dependency Portal
+ *
+ * @param      <type>  $QueryHistory  The Id of History Table
+ * @param      <type>  $MapID         The id Of map 
+ */
+function FieldDependencyPortal($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+
+	if (!empty($QueryHistory)) {
+		 //TODO:: if find the id of of history table 
+		
+		 $FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		 //fields 
+		 $FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
+
+		 //
+		 $arrayName = array();
+		 $Picklistdropdown=getModFields(get_The_history($QueryHistory,"firstmodule"),'',$arrayName,"15,33");
+		
+		 	 //all history 
+		 $Allhistory=get_All_History($QueryHistory);
+
+		 $Alldatas=array();
+
+		 foreach ($Allhistory as $value) {
+		 		
+	 		 $xml= new SimpleXMLElement($value['query']);	
+	 		 // echo $value['query'];	
+			 ///for condition query
+			 $MyArray=array();
+
+			 //this is for responsabile fields 
+			 foreach ($xml->fields->field->Responsiblefield as  $xmlval) {
+			 	
+			 	$ResponsibileArr=[
+			 		'DefaultText'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1] :  (string)$xmlval->fieldname,
+			 		'DefaultValueResponsibel'=>(string)$xmlval->fieldvalue,
+			 		'DefaultValueResponsibeloptionGroup'=>"",
+			 		'FirstModule'=>(string)$xml->targetmodule->targetname,
+			 		'FirstModuleoptionGroup'=>'undefined',
+			 		'Firstfield'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
+			 		'FirstfieldoptionGroup'=>(string)$xml->targetmodule->targetname,
+			 		'JsonType'=>'Responsible'
+
+			 	];
+
+			 	array_push($MyArray,$ResponsibileArr);
+			 }
+
+			 //this is for Fields 
+			  foreach ($xml->fields->field->Orgfield as $xmlval) {
+			  	
+			  	$FieldsArray=[
+			  		'DefaultText'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1] :  (string)$xmlval->fieldname,
+			  		'FirstModule'=>(string)$xml->targetmodule->targetname,
+			  		'FirstModuleoptionGroup'=>'undefined',
+			  		'Firstfield2'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
+			  		'Firstfield2optionGroup'=>(string)$xml->targetmodule->targetname,
+			  		'JsonType'=>'Fileds',
+			  		'ReadonlycheckoptionGroup'=>'',
+			  		'ShowHidecheckoptionGroup'=>'',
+			  		'mandatorychk'=>(string)(!empty($xmlval->mandatory))?1:0,
+			  		'mandatorychkoptionGroup'=>'',
+			  		'ShowHidecheck'=>($xmlval->fieldaction[0]=='show')?1:0,
+			  		'Readonlycheck'=>(!empty($xmlval->fieldaction[1]))?1:0,
+			  	];
+			  	// foreach ($xmlval->fieldaction as  $value) {
+			  		
+			  	// }
+
+			  	array_push($MyArray,$FieldsArray);
+
+			  }
+
+			  // this is for pick list
+			  foreach ($xml->fields->field->Picklist as $picklistval) {
+			  	$PicklistArray=[
+			  		'DefaultText'=>(!empty(explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[1] :(string)$picklistval->fieldname,
+			  		'JsonType'=>'Picklist',
+			  		'PickListFields'=>(!empty(explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[0] :(string)$picklistval->fieldname,
+			  		'PickListFieldsoptionGroup'=>'udentifined',
+			  		// 'length'=>$picklistval->values,
+
+			  	];
+			  	$index=count($picklistval->values);
+			  	for ($i=0; $i <=$index-1 ; $i++) { 
+			  		$PicklistArray['DefaultValueFirstModuleField_'.($i+1)]=(string)$picklistval->values[$i];
+			  		$PicklistArray['DefaultValueFirstModuleField_'.($i+1).'optionGroup']='undefined';
+			  		// array_push($PicklistArray,$values);
+			  	}
+			  	array_push($MyArray,$PicklistArray);
+			  }
+			  array_push($Alldatas,$MyArray);
+		 }
+
+		 //this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		 // $smarty=new vtigerCRM_Smarty();
+		 $data="MapGenerator,saveFieldDependencyPortal";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+
+		 //assign the tpl
+		    $smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+			$smarty->assign("Picklistdropdown",$Picklistdropdown);
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/FieldDependency.tpl');
+			echo $output;
+
+	} else {
+		//TODO:: this is if not find the id in history table 
+		
+	
+	}
+}
+
+
 
 
 /**

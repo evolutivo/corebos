@@ -49,6 +49,7 @@ function GetMaps($value="")
 	            if ($MapType!=$historymap) {
 	            	$historymap=$MapType;
 	            	$a .= '<optgroup label="'.$MapType.'">';
+	            	$a.='<option value="'.$MapType.'#'.$MapID.'#'.$queryid.'">'.$MapName.'</option>';
 	            } else {
 	            	$a.='<option value="'.$MapType.'#'.$MapID.'#'.$queryid.'">'.$MapName.'</option>';
 	            }

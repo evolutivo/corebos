@@ -159,7 +159,14 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "FieldDependencyPortal") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
+
 
 		},
 

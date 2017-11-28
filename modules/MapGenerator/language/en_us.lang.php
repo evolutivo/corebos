@@ -99,11 +99,12 @@ $mod_strings = Array(
     'inputFileds'=>'Input ',
     'outputFields'=>'Output',
     'SectionOriginFileds'=>'Choose the fields (If you want you can leave empty this section)',
-    'ChoseResponsabile'=>'Chosse the responsabile fields ',
+    'ChoseResponsabile'=>'Choose the responsible fields ',
+    'AddAValues'=>'Insert a value ',
     'AddFields'=>'Add Fields',
     'AddPickList'=>'Add PickList',
     'Add'=>'Add',
-
+    'FieldDependencyPortal'=>'Field Dependency Portal',
 
 
 );
