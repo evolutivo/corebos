@@ -108,6 +108,10 @@ $mod_strings = Array(
     'GlobalSearchAutocompleteMapping'=>'Global Search Autocomplete',
     'SelectShowFields'=>'Select fields you want to show',
     'SelectsearchFields'=>'Select fields you want to search',
-
+    'ConditionExpression'=>'Condition Expression',
+    'expression'=>'Expression ',
+    'function'=>'Function ',
+    'writetheexpresion'=>'Write the expression ',
+    'writethefunctionname'=>'Write the function name ',
 );
 ?>
