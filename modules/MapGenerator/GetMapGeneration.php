@@ -190,11 +190,32 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="GlobalSearchAutocomplete") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 GlobalSearchAutocomplete($QueryHistory,$MapID);
+			 
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
 
-	echo showError("Something was wrong","Not Exist This Type of Map? \n Please check the type of mapping and try again.... ");
+	echo showError("Something was wrong","Not Exist This Type of Map in Load Map \n Please check the type of mapping and try again.... ");
 }
 
 
@@ -207,7 +228,95 @@ if ($MypType=="Mapping") {
  */
 
 
+function GlobalSearchAutocomplete($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
 
+	if (!empty($QueryHistory)) {
+		//TODO:: check if exist the history
+		
+		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		 //fields 
+		 $FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+
+		 $arrayName = array();
+		 $Picklistdropdown=getModFields(get_The_history($QueryHistory,"firstmodule"),'',$arrayName,"15,33");
+		
+		 	 //all history 
+		 $Allhistory=get_All_History($QueryHistory);
+
+		 $Alldatas=array();
+
+		foreach ($Allhistory as $value) {
+		 	
+		 	$xml=new SimpleXMLElement($value['query']);
+
+		 	// echo $xml->searchin[0]->module->searchfields;
+		 	$MyArray=array();
+
+		 	foreach ($xml->searchin->module as $value) {
+		 		$PutInArray=[
+		 			'DefaultText'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
+		 			'FirstModule'=>explode("#", Get_First_Moduls_TextVal($value->name))[0],
+		 			'FirstModuleoptionGroup'=>'udentifined',
+		 			'Firstfield'=>array(),
+		 			'Firstfield2'=>array(),
+		 			'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
+		 			'FirstfieldoptionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
+		 			'JsonType'=>"Modul",
+		 			'startwithchck'=>($value->searchcondition=="startswith")?1:0,
+		 			'startwithchckoptionGroup'=>"",
+		 		];
+
+		 		foreach (explode(",",$value->searchfields) as $valueseaerch) {
+		 			$PutInArray["Firstfield"][]=(!empty(explode(",",CheckAllFirstForAllModules($valueseaerch))[0])) ?explode(",",CheckAllFirstForAllModules($valueseaerch))[0] : (string) $valueseaerch;
+		 		}
+		 		foreach (explode(",",$value->showfields) as $valueshow) {
+		 			$PutInArray["Firstfield2"][]=(!empty(explode(",",CheckAllFirstForAllModules($valueshow))[0])) ?explode(",",CheckAllFirstForAllModules($valueshow))[0] : (string) $valueshow;
+		 		}
+		 		array_push($MyArray,$PutInArray);
+		 	}
+		 	array_push($Alldatas,$MyArray);
+		 }
+
+		 // print_r($Alldatas);
+
+		 //this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		//this is for save as map
+		 $data="MapGenerator,saveGlobalSearchAutocomplete";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+
+		 //assign tpl
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+
+		$smarty->assign("HistoryMap",$HistoryMap);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		$smarty->assign("FirstModuleFields",$FirstModuleFields);
+		//put the smarty modal
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+		$smarty->assign("PopupJS",$Alldatas);
+		$output = $smarty->fetch('modules/MapGenerator/GlobalSearchAutocomplete.tpl');
+		echo $output;
+
+
+	}else
+	{
+		//TODO:: if not exist the history check by Map id
+	}
+}
 
 /**
  * function to load all history for map ty Field Dependency

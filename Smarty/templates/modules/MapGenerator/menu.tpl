@@ -22,6 +22,12 @@
             font-size: 34px;
             margin-top: 2%;
         }
+
+        #exitlink img:hover{
+            content: url('modules/MapGenerator/image/closeMouseover.png');
+        }
+
+
     </style>
     <script>
         // jQuery(function() {
@@ -70,9 +76,9 @@
     </li>
     <li class="slds-tabs--default__item slds-text-heading--label" style="margin-left:30%;" title="{$MOD.exit}"
         role="presentation">
-        <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false"
+        <a id="exitlink" class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false"
            aria-controls="tab-default-2" id="tab-default-2__item"
-           onclick="closeView();"><img src="http://img.villaggiomusicale.com/avt_s/223942.jpg" alt="Close view" style="width:50px;height:42px;"></a>
+           onclick="closeView();"><img src="modules/MapGenerator/image/closebtn.png" alt="Close view" style="width: 35px;height: 35px;"></a>
     </li>
     {*<li><a href="#tabs-2">{$MOD.GestioneViste}</a></li>*}
     {*<li><a href="index.php?module=MapGenerator&action=MapGeneratorAjax&file=createView&todo=createReportTable">{$MOD.CreateScriptReport}</a></li>*}

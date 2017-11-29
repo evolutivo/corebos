@@ -17,7 +17,16 @@
            {foreach name=outer item=popi from=$allitems}  
             var temparray = {};
             {foreach key=key item=item from=$popi}
-                temparray['{$key}']='{$item}';
+            	var Fieldsarray=[];
+                {if $key eq 'Firstfield' or $key eq 'Firstfield2' }
+                	{foreach from=$item item=itemi}
+                		Fieldsarray.push('{$itemi}');
+                	{/foreach}
+                	temparray['{$key}']=Fieldsarray;
+
+                {else}
+               	 temparray['{$key}']='{$item}';
+                {/if}
             {/foreach}
             App.popupJson.push({'{'}temparray{'}'});
             // console.log(temparray);
@@ -80,7 +89,7 @@
 	            </div>
 	          </div>
 	 		</div>
-	 		<div style="float: left;/* width: 89px; */font-size: 30px;margin-left: 10;padding: 15px 0px 0px 46px;">
+	 		<div style="float: left;width: 13px;font-size: 30px;margin-left: 10;padding: 15px 0px 0px 32px;">
 	 			<div class="slds-form-element" style="display: inline-block;">
                 <label class="slds-checkbox--toggle slds-grid">
                  <input id="startwithchck" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
