@@ -1252,6 +1252,7 @@ $app_strings = array (
 	'Subscribe' => 'Suscribir',
 	'View History' => 'Ver Histórico',
 	'SYNCH_NOW' => 'Sincroniza Ahora',
+        'LNK_PREVIEW'=>'Preview',
 );
 
 // Translation for currency names
