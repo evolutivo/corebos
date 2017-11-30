@@ -961,6 +961,9 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 					}
 				}
 			}
+                        //Add preview pdf action link 
+                   if($module == 'Documents')
+                   $links_info .= " | <a href='index.php?module=Documents&action=showFilePreview&return_module=Documents&return_action=showFilePreview&return_id=$entity_id'>" . $app_strings["LNK_PREVIEW"] . "</a>";
 			// Record Change Notification
 			if (method_exists($focus, 'isViewed') && GlobalVariable::getVariable('Application_ListView_Record_Change_Indicator', 1, $module)) {
 				if (!$focus->isViewed($entity_id)) {
