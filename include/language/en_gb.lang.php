@@ -1150,6 +1150,7 @@ $app_strings = array(
 	'Subscribe' => 'Subscribe',
 	'View History' => 'View History',
 	'SYNCH_NOW' => 'Sync Now',
+        'LNK_PREVIEW'=>'Preview',
 );
 
 $app_currency_strings = array(
