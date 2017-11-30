@@ -37,4 +37,6 @@ var mv_arr = {
 'LoadHIstoryError':'You list is empty or something was wrong',
 'LoadHIstoryCorrect':'Click to the eyes to show the history',
 'Fieldsaremepty':'Something is empty please fill all fields',
+'missingtheidgetValue':'Missing the id to get the value',
+'missingIdtoSetValue':'Missing the id to put the values',
 }

@@ -169,3 +169,32 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+
+
+
+
+/*this is for popup */
+.alerts {
+  padding: 10px;
+  background-color: #808080;
+  margin: 4px;
+  color: white;
+  display: inline-block;
+            
+}
+
+.closebtns {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    line-height: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtns:hover {
+    color: black;
+}

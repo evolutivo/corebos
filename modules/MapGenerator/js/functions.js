@@ -2059,3 +2059,76 @@ function Addinput(idinput) {
           +'</div>'
     +'</div>';
 }
+
+
+
+function addvaluestosendbutton(elem){
+    var ss=elem;
+    var divtoinsert=$('#ShowmoreInput');
+    var i=$('#ShowmoreInput input').size()+1;
+     $(Addinputsendbutton(i)).appendTo(divtoinsert);
+    var allids= $('#AddToArray').attr('data-send-data-id');
+    allids=allids+',DefaultValueFirstModuleField_'+i;
+    $('#AddToArray').attr('data-send-data-id',allids);
+
+}
+
+function Removesendbutton(argument,idinput) {
+    var idtoremove='DefaultValueFirstModuleField_'+idinput;
+    var allids= $('#AddToArray').attr('data-send-data-id').split(',');
+    // var idafterremove="";
+   allids.forEach(function (value,index) {
+        if (value===idtoremove)
+          {
+           allids.splice(index,1);
+          }
+          // else{
+          //   idafterremove+=","+index;
+          // }
+      });
+    $(argument).parent().parent().remove();
+    $('#AddToArray').attr('data-send-data-id',allids.toString());
+}
+
+function Addinputsendbutton(idinput) {
+    return '<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">'
+             +'<div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">'
+              +'<div class="slds-combobox__form-element">'
+              +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a values " onfocus="removearrayselected()" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">'
+              +'</div>'
+              +'</div>'
+             +'<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">'
+              +'<button class="slds-button slds-button_icon" onclick="Removesendbutton(this,'+idinput+')" aria-haspopup="true" title="Remove" style="width:2.1rem;">'
+              +'<img src="themes/images/clear_field.gif" style="width: 100%;">'
+              +'</button>'
+          +'</div>'
+    +'</div>';
+}
+
+function removeselect(id)
+{
+  $('#'+id+' option:selected').removeAttr('selected');
+  $('#'+id).append('<option value="" selected="selected">Select </option>');
+
+}
+
+
+function removearrayselected()
+{
+  App.popupJson.length=0;
+
+ $('#LoadShowPopup').empty();
+
+}
+
+// function selectOnlyOne(elem) {
+//    f (elem.id==="Expression" && elem.checked) {
+//         for(let i=0;i<=App.popupJson.length;i++){
+//           if(App.popupJson[i].temparray.JsonType==="Expression"){App.popupJson.splice(i,1);}
+//         }
+//       }else{
+//         alert("else and Function");
+//       }
+//       App.showpopupmodal
+// }
+// // onclick="selectOnlyOne(this)

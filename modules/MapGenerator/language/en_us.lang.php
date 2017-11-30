@@ -111,10 +111,11 @@ $mod_strings = Array(
     'ConditionExpression'=>'Condition Expression',
     'expression'=>'Expression ',
     'function'=>'Function ',
-    'writetheexpresion'=>'Write the expression ',
+    'writetheexpresion'=>'Write the expression or select a fields',
     'writethefunctionname'=>'Write the function name ',
     'putParameter'=>'Write a Parameter ',
     'SelectModule'=>'Selected a module',
+    'SelectFieldOrwritetheparameters'=>'Select Fields or write the paramaters',
 
 
 );

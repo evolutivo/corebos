@@ -175,7 +175,7 @@
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
-				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule,Firstmodule2",
 						urlsend, dat);
 			}
 		},
@@ -327,9 +327,13 @@
 			var data = "Data=" + dat;
 			var returndata = null;
 			var returndata = App.utils.PostDataGeneric(null,urlsend, data);
-			$("#" + idfieldfill).empty();
-			// $("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
-			$("#" + idfieldfill).append(VauefromPost);
+			idfieldfill=idfieldfill.split(',');
+
+			for (var i = idfieldfill.length - 1; i >= 0; i--) {
+				$("#" + idfieldfill[i]).empty();
+				// $("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
+				$("#" + idfieldfill[i]).append(VauefromPost);
+			}
 			VauefromPost = null;
 		},
 		GetSecondModuleField : function(event) {
@@ -650,7 +654,8 @@
 								App.UniversalPopup.OpeModalsaveAsMap);
 			$(document).on('change', 'select[data-add-button-popup="true"]',
 								App.UniversalPopup.Add_show_Popup);
-
+			$(document).on('change', 'select[data-load-element="true"]',
+								App.UniversalPopup.addIntoElement);
 		},
 
 		Add_show_Popup:function(event){
@@ -777,6 +782,30 @@
 	   	 }	   	 
 
 	   },
+
+	   addIntoElement:function(event){
+	   	 if (event) {event.preventDefault();}
+	   	 var elem=$(this);
+	   	 var idget=elem.attr('data-load-element-idget');
+	   	 var idset=elem.attr('data-load-element-idset');
+
+	   	 if (!idget ){
+	   	 	App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);
+	   	 }
+		if (!idget )
+		{
+			App.utils.ShowNotification("snackbar",4000,mv_arr.missingIdtoSetValue);
+		}
+
+		idget=idget.split(',');
+		var valuetoshow='';
+		for (var i = 0; i <=idget.length - 1; i++) {
+			valuetoshow+="     "+App.utils.IsSelectORDropDownGetText(idget[i]).length>0?App.utils.IsSelectORDropDownGetText(idget[i]):"";
+		}
+		App.utils.SetValueTohtmlComponents(idset,valuetoshow);
+	   },
+
+
 	};
 
 	App.SelectModule = {
@@ -1252,6 +1281,9 @@
 					App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
 				}
 				
+			}else
+			{
+				App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
 			}
 			
 		},
@@ -1527,9 +1559,13 @@
 			    {
 			    	return document.getElementById(IdType).value;
 			    	
+			    }else if($('#'+IdType).is('textarea')){
+			    	
+			    	return $('#'+IdType).val();
+
 			    }
 
-			    return "";			
+			    return "";
 		},
 
 		/**
