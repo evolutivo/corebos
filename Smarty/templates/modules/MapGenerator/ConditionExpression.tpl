@@ -10,12 +10,10 @@
                        
                        <div style="width: 100%;height: 100%;">
                           <div>
-                            <h3 style="margin-left: 0%;" class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3>
-                            <br/>
                             <div>
                               <div style="float: left;width: 40%;">
                                 <div class="slds-form-element">
-                                      <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
+                                      <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
                                       <div class="slds-form-element__control">
                                           <select  data-select-load="true" id="FirstModule"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
                                                   {$FirstModule}
@@ -24,9 +22,9 @@
                                       </div>
                                     </div>
                               </div>
-                              <div id="ShowmoreInput" style="float: right; width: 40%; padding: 0px;">
+                              <div id="OickList" style="float: right; width: 40%; padding: 0px;">
                                 <div class="slds-form-element">
-                                      <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
+                                      <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
                                       <div class="slds-form-element__control">
                                           <select  id="Firstfield" name="mod" class="slds-select">
                                                   {$Picklistdropdown}
@@ -37,7 +35,8 @@
                               </div>
                             </div>
                            </div>
-                           <div style="float: left;width: 100%;">
+                           <br>
+                           <div style="float: left;width: 100%;margin-top: 10px;">
                                 <div class="slds-form-element">
                                   <label class="slds-form-element__label" for="text-input-id-1">{$MOD.writetheexpresion}</label>
                                   <div class="slds-form-element__control">
@@ -70,15 +69,27 @@
                         <div>
                           <div style="float: left;width: 100%;">
                                 <div class="slds-form-element">
-                                  <label class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
+                                  <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
                                   <div class="slds-form-element__control">
-                                   <input type="text"  id="FunctionName" class="slds-input" placeholder="{$MOD.writethefunctionname}">
+                                   <input style="width:100%;" type="text"  id="FunctionName" class="slds-input" placeholder="{$MOD.writethefunctionname}">
                                   </div>
                                 </div>
                           </div>
-                          <div style="float: left;width: 40%;">
+                          <br>
+                          <div style="float: left;width: 100%;margin-top: 10px;">
+                                <div class="slds-form-element">
+                                  <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
+                                  <div class="slds-form-element__control">
+                                  <select class="slds-select" id="Firstmodule2">
+                                    <option>Select One</option>
+                                  </select>
+                                  </div>
+                                </div>
+                          </div>
+                          <br>>
+                          <div style="float: left;width: 40%;margin-top: 10px;">
                             <div class="slds-form-element">
-                                  <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
+                                  <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
                                   <div class="slds-form-element__control">
                                       <select  id="PickListFields" name="mod" class="slds-select">
                                               {$Picklistdropdown}
@@ -88,6 +99,7 @@
                                 </div>
                           </div>
                           <div id="ShowmoreInput" style="float: right;/* width: 40%; */margin-top:15px;padding: 0px;">
+                            <label class="slds-form-element__label" for="inputSample3">{$MOD.putParameter}</label>
                             <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
                                                <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                 <div class="slds-combobox__form-element">

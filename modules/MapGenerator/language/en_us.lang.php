@@ -113,5 +113,9 @@ $mod_strings = Array(
     'function'=>'Function ',
     'writetheexpresion'=>'Write the expression ',
     'writethefunctionname'=>'Write the function name ',
+    'putParameter'=>'Write a Parameter ',
+    'SelectModule'=>'Selected a module',
+
+
 );
 ?>
