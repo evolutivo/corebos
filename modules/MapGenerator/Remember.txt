@@ -110,12 +110,13 @@ data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue"  are the
 
 data-div-show="LoadShowPopup"    to show the popup if you want 
 
-
-
 data-add-button-popup="true"   is for show the modal of selected fields used in <button> <a> or another element of html 
 
+data-add-replace="true" or false  this attribut is if you want to remove from history and to start from brgin
 
-
+data-add-button-popup="true"
+ data-add-type="Expression"  type of popyp
+data-add-relation-id="FirstModule,Firstfield,expresion"  the id to get value 
 
 data-label-change-load="true"  understand the server you want to use that function when change the value (only for dropdown)
 data-select-filename=""        the file name where you want to get data 

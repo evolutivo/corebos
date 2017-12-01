@@ -666,6 +666,11 @@
 			 var allids=elem.attr("data-add-relation-id");
 			 var showtext=elem.attr("data-show-id");
 			 var Typeofpopup=elem.attr('data-add-type');
+			 var replace=elem.attr('data-add-replace');
+			 if (replace && replace==="true")
+			 {
+			 	App.popupJson.length=0;
+			 }
 			 if (allids)
 			 {
 			 	var allidarray=allids.split(",");

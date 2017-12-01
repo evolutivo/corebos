@@ -15,7 +15,7 @@ $Data = array();
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
 $MapType = "Condition Expression"; // stringa con tutti i campi scelti in selField1
 $SaveasMapText = $_POST['SaveasMapText'];
-// $Data = $_POST['ListData'];
+$Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
 $mapname=(!empty($SaveasMapText)? $SaveasMapText:$MapName);
 $idquery2=!empty($MapID[0])?$MapID[0]:md5(date("Y-m-d H:i:s").uniqid(rand(), true));
@@ -32,14 +32,10 @@ if (empty($MapType))
     $MapType = "Condition Expression";
 }
 
-if (!empty($typecondition)) {
+if (!empty($Data)) {
 	
 
-   $myobject=new stdClass();
-    foreach($_POST as $key => $value)
-    {
-        $myobject->{$key}=$value;       
-    }
+    $myobject=json_decode($Data);
    
   if(strlen($MapID[1]==0)){
 
@@ -49,7 +45,7 @@ if (!empty($typecondition)) {
      $focust->column_fields['mapname']=$mapname;
      $focust->column_fields['content']=add_content($myobject);
      $focust->column_fields['maptype'] =$MapType;
-     $focust->column_fields['targetname'] =(!empty($myobject->FirstModule))?$myobject->FirstModule:$myobject->FirstModule2;
+     $focust->column_fields['targetname'] =(!empty($myobject[0]->temparray->FirstModule))?$myobject[0]->temparray->FirstModule:$myobject[0]->temparray->FirstModule2;
      $focust->column_fields['description']= add_content($myobject);
      $focust->column_fields['mvqueryid']=$idquery2;
      $log->debug(" we inicialize value for insert in database ");
@@ -84,7 +80,7 @@ if (!empty($typecondition)) {
      $focust->column_fields['content']=add_content($myobject);
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
-     $focust->column_fields['targetname'] =(!empty($myobject->FirstModule))?$myobject->FirstModule:$myobject->FirstModule2;
+     $focust->column_fields['targetname'] =(!empty($myobject[0]->temparray->FirstModule))?$myobject[0]->temparray->FirstModule:$myobject[0]->temparray->FirstModule2;
      $focust->column_fields['description']= add_content($myobject);
      $focust->mode = "edit";
      $focust->save("cbMap");
@@ -110,49 +106,41 @@ function add_content($DataDecode)
      $root = $xml->createElement("map");
      $xml->appendChild($root);
     
-     if (!empty($DataDecode->TypeFunction)) {
+     if ($DataDecode[0]->temparray->JsonType=="Function" || $DataDecode[0]->temparray->JsonType=="Parameter" ) 
+     {
         
         $function = $xml->createElement("function");
         $name = $xml->createElement("name");
-        $nameText = $xml->createTextNode($DataDecode->FunctionName);
+        $nameText = $xml->createTextNode($DataDecode[0]->temparray->FunctionName);
         $name->appendChild($nameText);
         $function->appendChild($name);
         $parameters=$xml->createElement("parameters");
-        
-        if (!empty($DataDecode->ListData)) {
-            $data=json_decode($DataDecode->ListData);
-            foreach ($data as$value) {
-                $parameter = $xml->createElement("parameter");
-                $parameterText = $xml->createTextNode(explode(":", $value->temparray->Firstfield2)[2]);
-                $parameter->appendChild($parameterText);
-                $parameters->appendChild($parameter);
-            }
-        }else
-        {
-            foreach ($DataDecode as $key => $value) {
-                if(strpos($key, 'DefaultValueFirstModuleField') === 0)
+        foreach ($DataDecode as $value) {
+                if ($value->temparray->JsonType=="Function") {
+                    $parameter = $xml->createElement("parameter");
+                    $parameterText = $xml->createTextNode(explode(":", $value->temparray->Firstfield2)[2]);
+                    $parameter->appendChild($parameterText);
+                    $parameters->appendChild($parameter);
+                }else
                 {
-                    if($value !== '')
-                    {
-                        $parameter = $xml->createElement("parameter");
-                        $parameterText = $xml->createTextNode($value);
-                        $parameter->appendChild($parameterText);
-                        $parameters->appendChild($parameter);
-                    }
+                    $parameter = $xml->createElement("parameter");
+                    $parameterText = $xml->createTextNode($value->temparray->DefaultValueFirstModuleField_1);
+                    $parameter->appendChild($parameterText);
+                    $parameters->appendChild($parameter);
                 }
             }
-        }
+        
        
         $function->appendChild($parameters);
         $root->appendChild($function);
      }else
      {
-       $expresion=$xml->createElement("expression");
-       if (!empty($DataDecode->Firstfield)) {
-           $expresionText = $xml->createTextNode(explode(":",$DataDecode->Firstfield)[2]);
+        $expresion=$xml->createElement("expression");
+       if ($DataDecode[0]->temparray->Firstfield!="0") {
+           $expresionText = $xml->createTextNode(explode(":",$DataDecode[0]->temparray->Firstfield)[2]);
        }else
        {
-        $expresionText= $xml->createTextNode($DataDecode->expresion);
+        $expresionText= $xml->createTextNode($DataDecode[0]->temparray->expresion);
        }
        $expresion->appendChild($expresionText);
        $root->appendChild($expresion);
@@ -192,30 +180,23 @@ function add_content($DataDecode)
 
 function add_aray_for_history($DataDecode)
 {
-   if (!empty($DataDecode->TypeFunction)) {
-       $label="";
-        if (!empty($DataDecode->ListData)) {
-            $data=json_decode($DataDecode->ListData);
-            foreach ($data as $key => $value) {
-               $label.=",".explode(":", $value->temparray->Firstfield2)[2];
+   if ($DataDecode[0]->temparray->JsonType=="Function" || $DataDecode[0]->temparray->JsonType=="Parameter") {
+       $labels="";
+       foreach ($DataDecode as $value)
+       {
+            if ($value->temparray->JsonType=="Function") {                
+                $labels.=",".explode(":", $value->temparray->Firstfield2)[2];                
+            }else
+            {
+                
+                $labels .=",".$value->temparray->DefaultValueFirstModuleField_1;
             }
-        }else{
-             foreach ($DataDecode as $key => $value) {
-                if(strpos($key, 'DefaultValueFirstModuleField') === 0)
-                {
-                    if($value !== '')
-                    {
-                        $label.=",".$value;
-                    }
-                }
-            }
-            
         }
         return array
          (
-            'Labels'=>substr($label,1),
-            'FirstModuleval'=>$DataDecode->Firstmodule2,
-            'FirstModuletxt'=>$DataDecode->Firstmodule2,
+            'Labels'=>substr($labels,1),
+            'FirstModuleval'=>$DataDecode[0]->temparray->Firstmodule2,
+            'FirstModuletxt'=>$DataDecode[0]->temparray->Firstfield2optionGroup,
             'SecondModuleval'=>"",
             'SecondModuletxt'=>"",
             'firstmodulelabel'=>"",
@@ -224,18 +205,18 @@ function add_aray_for_history($DataDecode)
         
     } else
     {
-            $labels="";              
-            if (!empty($DataDecode->Firstfield)) {
-                $labels.=explode(":", $DataDecode->Firstfield)[2];
-            }else
-            {
-                $labels.=$DataDecode->expresion;
-            }
+        $Labels="";
+          if ($DataDecode[0]->temparray->Firstfield!="0") {
+               $Labels .=explode(":",$DataDecode[0]->temparray->Firstfield)[2];
+           }else
+           {
+            $Labels.=$DataDecode[0]->temparray->expresion;
+           }
             return array
              (
-                'Labels'=>$labels,
-                'FirstModuleval'=>$DataDecode->FirstModule,
-                'FirstModuletxt'=>$DataDecode->FirstModule,
+                'Labels'=>$Labels,
+                'FirstModuleval'=>$DataDecode[0]->temparray->Firstmodule,
+            'FirstModuletxt'=>$DataDecode[0]->temparray->Firstmodule,
                 'SecondModuleval'=>"",
                 'SecondModuletxt'=>"",
                 'firstmodulelabel'=>"",

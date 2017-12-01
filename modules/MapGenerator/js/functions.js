@@ -2108,18 +2108,56 @@ function Addinputsendbutton(idinput) {
 function removeselect(id)
 {
   $('#'+id+' option:selected').removeAttr('selected');
-  $('#'+id).append('<option value="" selected="selected">Select </option>');
+  $('#'+id).append('<option value="0" selected="selected">Select </option>');
 
 }
 
 
-function removearrayselected()
+function removearrayselected(typeremove,type2="")
 {
-  App.popupJson.length=0;
+ 
+  for (var i = App.popupJson.length - 1; i >= 0; i--) {
+       if (App.popupJson[i].temparray['JsonType']===typeremove || App.popupJson[i].temparray['JsonType']===type2)
+       {
+          App.popupJson.splice(i,1);
+       }
+      
+  }
 
- $('#LoadShowPopup').empty();
+    $('#LoadShowPopup').empty();
+   if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var module=App.popupJson[i].temparray[`DefaultText`];
+          var typeofppopup=App.popupJson[i].temparray['JsonType'];
+          var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+          $('#LoadShowPopup').append(divinsert);
+        } 
+
+    }
+
+ 
 
 }
+
+
+
+//check if function name is empty or not 
+
+function checkfunctionname(elem)
+{
+    if( !elem.value) {
+         $('#Firstmodule2').attr('disabled', 'disabled');
+         $('#Firstfield2').attr('disabled', 'disabled');
+         $('#DefaultValueFirstModuleField_1').attr('disabled', 'disabled');
+    }else{
+     $('#Firstmodule2').removeAttr('disabled');
+     $('#Firstfield2').removeAttr('disabled');
+     $('#DefaultValueFirstModuleField_1').removeAttr('disabled');
+    }
+}
+
+
 
 // function selectOnlyOne(elem) {
 //    f (elem.id==="Expression" && elem.checked) {
