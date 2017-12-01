@@ -279,8 +279,10 @@
 				// alert(length_history-1);
 				for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 					var idd = ii;// JSONForCOndition[ii].idJSON;
-					var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
-					var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+					var firmod = App.JSONForCOndition[ii].FirstModuletxt;
+					var secmod = App.JSONForCOndition[ii].SecondModuletxt;
+					var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
+					var secfields = App.JSONForCOndition[ii].SecondFieldtext;
 					// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
 					// console.log(idd+firmod+secmod);
 					// console.log(selectedfields);
@@ -290,7 +292,7 @@
 					} else {
 						check = false;
 					}
-					var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod, check,
+					var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod,firfields,secfields,check,
 							divshowmodal);
 					$('#' + divshowmodal).append(alerstdiv);
 
@@ -1302,7 +1304,7 @@
 		 * @param  {string} namediv      dhe id of div you want to insert the popup
 		 * @return {string}              [description]
 		 */
-		alertsdiv : function(Idd, Firstmodulee, secondmodule, last_check,
+		alertsdiv : function(Idd, Firstmodulee, secondmodule,FirstField,SecondField,last_check,
 				namediv) {
 				var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
 						+ '">';
@@ -1311,8 +1313,9 @@
 				// INSertAlerstJOIN += '<span class="closebtns"
 				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
 				// class="icono-eye"></</span>';
-				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> '
-						+ Firstmodulee + '=>' + secondmodule;
+				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> ';
+				INSertAlerstJOIN += '<br/> '+Firstmodulee + '=>' + FirstField;
+				INSertAlerstJOIN += '<br/> '+secondmodule + '=>' + SecondField;
 				// if (last_check==true) {//icono-plusCircle
 				// INSertAlerstJOIN +='<span title="You are here "
 				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
@@ -1411,8 +1414,11 @@
 			// alert(length_history-1);
 			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
-				var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
-				var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+				var firmod = App.JSONForCOndition[ii].FirstModuletxt;
+				var secmod = App.JSONForCOndition[ii].SecondModuletxt;
+				// var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+				var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
+				var secfields = App.JSONForCOndition[ii].SecondFieldtext;
 				// valuehistoryquery = App.JSONForCOndition[ii].ValuesParagraf;
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
@@ -1422,7 +1428,7 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod, check,
+				var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod,firfields,secfields, check,
 						namediv);
 				$('#' + namediv).append(alerstdiv);
 

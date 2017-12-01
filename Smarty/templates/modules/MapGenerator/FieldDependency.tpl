@@ -72,16 +72,6 @@
 						                <div class="slds-form-element__control">
 						                
 						                    <div class="" id="SecondDiv" style="float: left;width: 105%;">
-						                      <div class="slds-form-element" style="display: inline-block;">
-						                        <label class="slds-checkbox--toggle slds-grid">
-						                         <input id="ShowHidecheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
-						                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
-						                            <span class="slds-checkbox--faux"></span>
-						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hide/Show</span>
-						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
-						                          </span>
-						                        </label>
-						                      </div>
 						                     <!--SLDS Checkbox Toggle Element Start-->
 						                      <div class="slds-form-element" style="display: inline-block;">
 						                        <label class="slds-checkbox--toggle slds-grid">
@@ -99,6 +89,16 @@
 						                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
 						                            <span class="slds-checkbox--faux"></span>
 						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Mandatory</span>
+						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+						                          </span>
+						                        </label>
+						                      </div>
+						                      <div class="slds-form-element" style="display: inline-block;">
+						                        <label class="slds-checkbox--toggle slds-grid">
+						                         <input id="ShowHidecheck" checked="checked" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+						                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
+						                            <span class="slds-checkbox--faux"></span>
+						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hide/Show</span>
 						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
 						                          </span>
 						                        </label>
@@ -128,12 +128,12 @@
 
                     </div>
                     <div class="slds-modal__footer">
-                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
-                        </button>
+                        {* <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
                         <button  data-add-button-popup="true" data-add-type="Fileds" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
+                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -199,12 +199,12 @@
 
                     </div>
                     <div class="slds-modal__footer">
-                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}
-                        </button>
+                        {* <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
                         <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
+                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -467,5 +467,4 @@
         }
 
     </style>
- 
-{/literal}
+ {/literal}
