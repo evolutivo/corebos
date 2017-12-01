@@ -1,3 +1,36 @@
+{if $HistoryMap neq ''}
+  <script type="text/javascript">
+    App.savehistoryar='{$HistoryMap}';
+  </script>
+{/if}
+
+{if $PopupJS neq ''}
+  <script type="text/javascript">
+      {foreach from=$PopupJS item=allitems key=key name=name}
+           {foreach name=outer item=popi from=$allitems}  
+            var temparray = {};
+            {foreach key=key item=item from=$popi}
+                temparray['{$key}']='{$item}';
+            {/foreach}
+            App.popupJson.push({'{'}temparray{'}'});
+            // console.log(temparray);
+          {/foreach}
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
+      {/foreach}
+    
+     if (App.SaveHistoryPop.length>0)
+    { 
+        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+    }else{
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+     }
+  </script>
+
+
+{/if}
+
 <div>
     <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
@@ -33,7 +66,7 @@
                                       <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
                                       <div class="slds-form-element__control">
                                           <select  data-select-load="true" id="FirstModule"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
-                                                  {$FirstModule}
+                                                  {$FirstModuleSelected}
                                           </select>
 
                                       </div>
@@ -44,7 +77,7 @@
                                       <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
                                       <div class="slds-form-element__control">
                                           <select  id="Firstfield" name="mod" class="slds-select" data-load-element="true" data-load-element-idget="Firstfield" data-load-element-idset="expresion">
-                                                  {$Firstfield}
+                                                  {$FirstModuleFields}
                                           </select>
 
                                       </div>
@@ -102,7 +135,9 @@
                                   <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
                                   <div class="slds-form-element__control">
                                   <select class="slds-select" id="Firstmodule2" disabled="disabled" data-select-load="true" data-select-relation-field-id="Firstfield2" data-module="MapGenerator" >
+                                    {$FirstModuleSelected}
                                     <option>Select One</option>
+
                                   </select>
                                   </div>
                                 </div>
@@ -113,7 +148,7 @@
                                   <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectFieldOrwritetheparameters}</label>
                                   <div class="slds-form-element__control">
                                       <select  id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="true" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('Parameter','Expression')">
-                                              {$Firstfield}
+                                              {$FirstModuleFields}
                                       </select>
 
                                   </div>

@@ -211,6 +211,26 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="Condition Expression") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 ConditionExpression($QueryHistory,$MapID);
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -226,6 +246,119 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+/**
+ * function to generate map type Condition Expression
+ *
+ * @param      <type>  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
+
+function ConditionExpression($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+
+	if (!empty($QueryHistory)) {
+		//TODO:: if exist the id of history goes here 
+		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		 //fields 
+		$FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+
+		// this is for get the history filter by id 
+		$Allhistory=get_All_History($QueryHistory);
+		   $Alldatas=array();
+		  
+		  foreach ($Allhistory as $key => $value) {
+			$xml=new SimpleXMLElement($value['query']);
+			$ConditionArray = array();
+			if (isset($xml->expression)) {
+				$temparray=[
+					'DefaultText'=>(string)$xml->expression,
+					'FirstModule'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+					'FirstModuleoptionGroup'=>"undefined",
+					'Firstfield'=>(!empty(explode(",",CheckAllFirstForAllModules((string)$xml->expression))[0]))?explode(",",CheckAllFirstForAllModules((string)$xml->expression))[0]:"0",
+					'FirstfieldoptionGroup'=>"udentifined",
+					'JsonType'=>"Expression",
+					'expresion'=>(string)$xml->expression,
+					'expresionoptionGroup'=>"udentifined",
+				];
+				array_push($ConditionArray,$temparray);
+				array_push($Alldatas,$ConditionArray);
+			}
+			 else {
+
+				foreach ($xml->function->parameters->parameter as $valuee) {
+					
+					if (!empty(explode(",",CheckAllFirstForAllModules($valuee))[0])) {
+						$temparray=[
+							'DefaultText'=>explode(",",CheckAllFirstForAllModules((string)$valuee))[1],
+							'Firstfield2'=>explode(",",CheckAllFirstForAllModules((string)$valuee))[0],
+							'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+							'Firstmodule2'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+							'Firstmodule2optionGroup'=>"undefined",
+							'FunctionName'=>(string)$xml->function->name,
+							'FunctionNameoptionGroup'=>"",
+							'JsonType'=>"Function"
+						];
+						array_push($ConditionArray,$temparray);
+					} else {
+						$temparray=[
+							'DefaultText'=>(string)$valuee,
+							'DefaultValueFirstModuleField_1'=>(string)$valuee,
+							'DefaultValueFirstModuleField_1optionGroup'=>"",
+							'Firstmodule2'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+							'Firstmodule2optionGroup'=>"undefined",
+							'FunctionName'=>(string)$xml->function->name,
+							'FunctionNameoptionGroup'=>"",
+							'JsonType'=>"Parameter"
+						];
+						array_push($ConditionArray,$temparray);
+					}
+					
+				}
+				array_push($Alldatas,$ConditionArray);
+			}
+			
+			
+		}
+
+		// print_r($Alldatas);
+		// exit();
+		//this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		//this is for save as map
+		 $data="MapGenerator,saveConditionExpresion";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+
+		 //assign tpl
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+
+		$smarty->assign("HistoryMap",$HistoryMap);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		$smarty->assign("FirstModuleFields",$FirstModuleFields);
+		//put the smarty modal
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+		$smarty->assign("PopupJS",$Alldatas);
+		$output = $smarty->fetch('modules/MapGenerator/ConditionExpression.tpl');
+		echo $output;
+
+	} else {
+		//TODO:: if not exist the id history load by Map id 
+	}	
+}
 
 
 function GlobalSearchAutocomplete($QueryHistory,$MapID)
@@ -1640,18 +1773,18 @@ function get_The_history($Id_Encrypt="",$field_take="query",$sequence='')
 }
 
 
-/**
- * Gets all history.function to get all data from mapgeneration_queryhistory
- * table
- *
- * @param      integer|string  $Id_Encrypt  The Id of mapgeneration_queryhistory
- * @param      string          $field_take  The field you want to take (Default
- *                                          is query)
- *
- * @throws     Exception       (description)
- *
- * @return     array          All history.
- */
+// /**
+//  * Gets all history.function to get all data from mapgeneration_queryhistory
+//  * table
+//  *
+//  * @param      integer|string  $Id_Encrypt  The Id of mapgeneration_queryhistory
+//  * @param      string          $field_take  The field you want to take (Default
+//  *                                          is query)
+//  *
+//  * @throws     Exception       (description)
+//  *
+//  * @return     array          All history.
+//  */
 function get_All_History($Id_Encrypt="",$field_take="query")
 {
 	global $adb,$root_directory, $log;
@@ -1674,7 +1807,12 @@ function get_All_History($Id_Encrypt="",$field_take="query")
 		if ($num_rows>0) {
 			for($i=1 ; $i <= $num_rows; $i++)
 			{
-				array_push($datas,["$field_take"=>$adb->query_result($result,$i-1, $field_take),"sequence"=>$adb->query_result($result,$i-1,"sequence")]);
+				array_push($datas,[
+					"$field_take"=>$adb->query_result($result,$i-1, $field_take),
+					"sequence"=>$adb->query_result($result,$i-1,"sequence"),
+					"FirstModule"=>$adb->query_result($result,$i-1,"firstmodule"),
+					"Secondmodule"=>$adb->query_result($result,$i-1,"secondmodule")
+				]);
 			}
 
 			if (!empty($datas)) {
