@@ -95,7 +95,7 @@
                 <div class="slds-form-element__control">
                 
                     <div class="" id="SecondDiv" style="float: left;width: 92%;">
-                        <select id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-div-show="LoadShowPopup">
+                        <select id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
                           {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
@@ -105,7 +105,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-                              <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="" data-div-show="LoadShowPopup" data-add-button-popup="true" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                              <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="true" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
                           </div>
@@ -127,7 +127,7 @@
                 <div class="slds-form-element__control">
                 
                     <div class="" id="SecondDiv" style="float: left;width: 92%;">
-                        <select id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-div-show="LoadShowPopup" class="slds-select">
+                        <select id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
                           {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">

@@ -39,4 +39,8 @@ var mv_arr = {
 'Fieldsaremepty':'Something is empty please fill all fields',
 'missingtheidgetValue':'Missing the id to get the value',
 'missingIdtoSetValue':'Missing the id to put the values',
+'module':'Module',
+'field':'Field',
+
+
 }

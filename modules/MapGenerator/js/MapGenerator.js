@@ -674,6 +674,7 @@
 			 var showtext=elem.attr("data-show-id");
 			 var Typeofpopup=elem.attr('data-add-type');
 			 var replace=elem.attr('data-add-replace');
+			 var modulShow=elem.attr('data-show-modul-id');
 			 if (replace && replace==="true")
 			 {
 			 	App.popupJson.length=0;
@@ -683,18 +684,19 @@
 			 	var allidarray=allids.split(",");
 			 	if (Typeofpopup)
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext);
+			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext,modulShow);
 			 	} else
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,"Default",showtext);
+			 		App.utils.Add_to_universal_popup(allidarray,"Default",showtext,modulShow);
 			 	}
 			 	 
 			 	 if (App.popupJson.length>0)
 			 	 	{	
 			 	 		for (var i = 0; i <= App.popupJson.length-1; i++) {
-			 	 				var module=App.popupJson[i].temparray[`DefaultText`];
+			 	 				var Field=App.popupJson[i].temparray[`DefaultText`];
+			 	 				var moduli=App.popupJson[i].temparray[`Moduli`];
 			 	 				var typeofppopup=App.popupJson[i].temparray['JsonType'];
-			 	 				var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+			 	 				var divinsert= App.utils.DivPopup(i,moduli,Field,"LoadShowPopup",typeofppopup);
 			 	 				$('#LoadShowPopup').append(divinsert);
 			 	 			}	
 
@@ -1255,7 +1257,7 @@
 		 * @param {Array} params   All of html element id to get the values 
 		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
 		 */
-		Add_to_universal_popup:function(params,jsonType,selectvalues){
+		Add_to_universal_popup:function(params,jsonType,selectvalues,modulShow){
 			var temparray={};
 			var check =false;
 			for (var i =0; i <= params.length - 1; i++) {
@@ -1270,7 +1272,18 @@
 					{
 						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
 					}
-					
+					if (modulShow && modulShow!=="")
+					{
+						var modultoshow=App.utils.GetSelectParent(modulShow);
+						if (modultoshow &&modultoshow!=='')
+						{
+							temparray["Moduli"]=modultoshow;
+						}else{
+							temparray["Moduli"]=App.utils.IsSelectORDropDownGetText(modulShow);
+						}
+					}else{
+						temparray["Moduli"]="";
+					}
 					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);
 					check=true;
 				}else
@@ -1453,6 +1466,7 @@
 			for (var ii = 0; ii < App.popupJson.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
 				var firmod = App.popupJson[ii].temparray["DefaultText"];
+				var moduli = App.popupJson[ii].temparray["Moduli"];
 				var JsonType = App.popupJson[ii].temparray["JsonType"];
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
@@ -1462,19 +1476,26 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.DivPopup(idd, firmod,'',JsonType);
+				var alerstdiv = App.utils.DivPopup(idd,moduli,firmod,'',JsonType);
 				$('#' + namediv).append(alerstdiv);
 
 			}
 		},
 
 
-		DivPopup : function(Idd,firstmodule,divid,typepopup) {
+		DivPopup : function(Idd,moduli,fields,divid,typepopup) {
 			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
 					+ '">';
 			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
-			INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong>---- '+firstmodule;
+			if (moduli && moduli!=='')
+			{
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+moduli;
+				INSertAlerstJOIN += '<br/> '+mv_arr.field+'  ==> '+fields;
+			} else
+			{
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+			}
 			
 			INSertAlerstJOIN += '</div';
 			return INSertAlerstJOIN;

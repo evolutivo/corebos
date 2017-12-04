@@ -116,7 +116,7 @@ $mod_strings = Array(
     'putParameter'=>'Write a Parameter ',
     'SelectModule'=>'Selected a module',
     'SelectFieldOrwritetheparameters'=>'Select Fields or write the paramaters',
-
+    'Module'=>'Module',
 
 );
 ?>
