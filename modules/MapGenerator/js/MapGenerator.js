@@ -494,8 +494,8 @@
 					{
 						if (VauefromPost==="0")
 						{
-							$('#'+idhshow).fadeIn('fast');//.delay(3000).fadeOut('slow')
-							$('#'+idhshow).html(mv_arr.MapNameNotExist);
+							$('#'+idhshow).fadeOut('slow')
+							// $('#'+idhshow).html(mv_arr.MapNameNotExist);
 							// if(idrelation)
 							// {
 							 	$('#'+idrelation).removeAttr('disabled');
@@ -529,6 +529,11 @@
 			{
 				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow');
 				$('#'+idhshow).html(mv_arr.NameQuery);
+				if(idrelation)
+				{
+					$('#'+idrelation).attr('disabled', 'true');
+				}
+				elem.focus();
 				// App.utils.ShowNotification("snackbar",4000,mv_arr.NameQuery);
 			}
 
