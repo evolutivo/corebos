@@ -316,7 +316,7 @@
 					App.GetModuleForMapGenerator.GetSecondField);
 			$(document).on('click', 'a[data-showhide-load="true"]',
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
-			$(document).on('blur', 'input[data-controll="true"]',
+			$(document).on('keyup', 'input[data-controll="true"]',
 					App.GetModuleForMapGenerator.checkInput);
 			$(document).on('click', 'a[data-autoload-maps="true"]',
 					App.GetModuleForMapGenerator.AllMapsLoad);
@@ -483,8 +483,8 @@
 			  {
 				if (valuetxt.length<5)
 				{
-					$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-					$('#'+idhshow).html(mv_arr.NameQuery);
+					/*$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+					$('#'+idhshow).html(mv_arr.NameQuery);*/
 					//elem.focus();
 				}else
 				{
@@ -494,24 +494,24 @@
 					{
 						if (VauefromPost==="0")
 						{
-							// $('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
+							$('#'+idhshow).fadeOut('slow')
 							// $('#'+idhshow).html(mv_arr.MapNameNotExist);
 							// if(idrelation)
 							// {
 							 	$('#'+idrelation).removeAttr('disabled');
 							// }
 							//elem.focus();
-							App.utils.ShowNotification("snackbar",5000,mv_arr.MapNameNotExist);
+							// App.utils.ShowNotification("snackbar",5000,mv_arr.MapNameNotExist);
 						}else
 						{
-							// $('#'+idhshow).fadeIn('fast');
-							// $('#'+idhshow).html(mv_arr.MapNameExist);
-							// if(idrelation)
-							// {
-							// 	$('#'+idrelation).attr('disabled', 'true');
-							// }
-							//elem.focus();
-							App.utils.ShowNotification("snackbar",4000,mv_arr.MapNameExist);
+							$('#'+idhshow).fadeIn('fast');//.delay(2000).fadeOut('slow');
+							$('#'+idhshow).html(mv_arr.MapNameExist);
+							if(idrelation)
+							{
+								$('#'+idrelation).attr('disabled', 'true');
+							}
+							elem.focus();
+							// App.utils.ShowNotification("snackbar",4000,mv_arr.MapNameExist);
 						}
 
 					}else
@@ -527,9 +527,14 @@
 				}
 			}else
 			{
-				// $('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-				// 	$('#'+idhshow).html(mv_arr.NameQuery);
-				App.utils.ShowNotification("snackbar",4000,mv_arr.NameQuery);
+				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow');
+				$('#'+idhshow).html(mv_arr.NameQuery);
+				if(idrelation)
+				{
+					$('#'+idrelation).attr('disabled', 'true');
+				}
+				elem.focus();
+				// App.utils.ShowNotification("snackbar",4000,mv_arr.NameQuery);
 			}
 
 	 },

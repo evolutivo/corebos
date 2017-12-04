@@ -2,9 +2,9 @@
             <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
                 <div class="slds-modal__container">
                     <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true">
                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                                <use xlink:href="include/LD//assets/icons/action-sprite/svg/symbols.svg#close"></use>
                             </svg>
                             <span class="slds-assistive-text">{$MOD.close}</span>
                         </button>
