@@ -103,12 +103,12 @@ ul#selTab{
 
 
 #labelNameView{
-   margin-left:231px;
    border: 1px solid #717171;
    font: bold 12px verdana, Helvetica, sans-serif;
    color: #0B0B3B;
    height:38px;
    margin-top: 10px;  
+   width: 230px;
    
 }
 
@@ -132,6 +132,11 @@ ul#selTab{
    
 #divView{
     height:50px;
+}
+
+
+.map-creator-block{
+  display: inline-block;
 }
 
 
