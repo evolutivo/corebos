@@ -252,29 +252,29 @@ function add_content($DataDecode,$mapname)
 
 
 
-function getModuleID($module,$moduleName="entityidfield")
-{
-	global $adb,$root_directory, $log;
-	try {
+// function getModuleID($module,$moduleName="entityidfield")
+// {
+// 	global $adb,$root_directory, $log;
+// 	try {
 
-		$result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
-		$num_rows = $adb->num_rows($result);
-		if ($num_rows>0) {
-			$Resulti = $adb->query_result($result,0,$moduleName);
+// 		$result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
+// 		$num_rows = $adb->num_rows($result);
+// 		if ($num_rows>0) {
+// 			$Resulti = $adb->query_result($result,0,$moduleName);
 
-			if (!empty($Resulti)) {
-				return $Resulti;
-			} else {
-				throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
-			}
-		} else {
-			throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
-		}
-	} catch (Exception $ex) {
-		 $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
-		 return "";
-	}
-}
+// 			if (!empty($Resulti)) {
+// 				return $Resulti;
+// 			} else {
+// 				throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+// 			}
+// 		} else {
+// 			throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+// 		}
+// 	} catch (Exception $ex) {
+// 		 $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+// 		 return "";
+// 	}
+// }
 
 
 
