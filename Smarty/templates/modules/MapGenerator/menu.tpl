@@ -64,7 +64,7 @@
 {/literal}
 <div id="mvtitle">{$MOD.MVCreator}</div>
 
-    <div /*id="tabs"*/ class="slds-tabs--default" style="width: 50%; margin-left: 25%; margin-top: 2%;margin-bottom: 18%; height:auto">
+    <div /*id="tabs"*/ class="slds-tabs--default" style="width: 70%; margin-left: 25%; margin-top: 2%;margin-bottom: 18%; height:auto">
     <ul class="slds-tabs--default__nav" role="tablist">
         <li class="slds-tabs--default__item slds-text-heading--label slds-active" title="{$MOD.CreateView}"
             role="presentation">
