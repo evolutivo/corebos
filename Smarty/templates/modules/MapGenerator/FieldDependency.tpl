@@ -41,9 +41,9 @@
             <div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
                 <div class="slds-modal__container">
                     <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop" >
                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                                <use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
                             </svg>
                             <span class="slds-assistive-text">{$MOD.close}</span>
                         </button>
@@ -132,7 +132,7 @@
                         <button  data-add-button-popup="true" data-add-type="Fileds" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
+                        {* <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel} *}
                         </button>
                     </div>
                 </div>
@@ -147,9 +147,9 @@
             <div class="slds-modal" aria-hidden="false" role="dialog" id="Picklist">
                 <div class="slds-modal__container">
                     <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist">
                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                                <use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
                             </svg>
                             <span class="slds-assistive-text">{$MOD.close}</span>
                         </button>
@@ -203,7 +203,7 @@
                         <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}
+                        {* <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel} *}
                         </button>
                     </div>
                 </div>

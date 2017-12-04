@@ -116,11 +116,11 @@
 	<div class="slds-form-element__control allinea" id='nameViewDiv'>
 	  <div class="slds-form-element"  style="margin:0; width:100%;height:100%; ">
 	            <div  class="slds-form-element__control">	                
-	                     <input type="text" minlength="5" id="nameView" name="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
+	                     <input type="text" minlength="5" id="nameView" name="nameView" data-controll="true" data-controll-idlabel="Errormapname" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />	            
 	            </div>	            
 	        </div>	       
 	  </div>
-	  	
+	  	<label id="Errormapname" style="width: 49%;margin-left: 25%;border: 1px solid black;background-color: red;color: white;font-size:12px;border-radius: 4px;padding: 5px;display: none;"> </label>
    <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.TypeMapNone}:</h3></div>
 	<div class="slds-form-element__control allinea" id='nameViewDiv'>
 	  <div class="slds-form-element"  style="width:100%;height:100%; ">
