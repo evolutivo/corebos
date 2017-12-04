@@ -117,6 +117,7 @@ data-add-replace="true" or false  this attribut is if you want to remove from hi
 data-add-button-popup="true"
  data-add-type="Expression"  type of popyp
 data-add-relation-id="FirstModule,Firstfield,expresion"  the id to get value 
+data-show-modul-id=""   ------the id for module you want to show
 
 data-label-change-load="true"  understand the server you want to use that function when change the value (only for dropdown)
 data-select-filename=""        the file name where you want to get data 
