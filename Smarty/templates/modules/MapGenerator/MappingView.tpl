@@ -1,5 +1,5 @@
 
-<div>
+<div style="width: 100%;height:100%">
   
   <div id="LoadingImage" style="display: none">
     <img src=""/>
@@ -21,16 +21,32 @@
     </script>
    
 {/if}
-<div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
+<!-- <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
-</div>
-<div id="contentJoinButtons">
+</div> -->
+<div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
+
+
+   <div class="slds-section-title--divider">
+      {if $HistoryMap neq ''}
+        <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+      {else}
+        <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+      {/if}
+
+      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+      <center><h3 class="slds-section-title--divider">{$MOD.TypeMapMapping}</h3>
+        </center>
+   </div>
+<!-- 
     <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
+
+
+
         <ul id="LDSstyle">
-        
         <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
 
         {if $HistoryMap neq ''}
@@ -43,9 +59,9 @@
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
-        <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
+            <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
+                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>
             <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
@@ -63,7 +79,7 @@
 
         </ul>
 
-    </div>
+    </div> -->
    <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
    <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
    </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
@@ -82,7 +98,7 @@
         {$Modali}
       </div>
     {/if}
-    <div id="selJoin" style="float:left; overflow: hidden;width:80%">
+    <div id="selJoin" style="float:left; overflow: hidden;width:100%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -148,7 +164,8 @@
           </div>
             
        <br><br>
-    <div id="contenitoreJoin">
+    <div id="contenitoreJoin" style="width: 100%;
+    display: inline-flex;">
 
         <div id="sectionField">
 
@@ -179,9 +196,10 @@
 
     </div>
 </div>
-    <div id="contenitoreJoin" >        
-      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 70%;float: left;"></div>
-      <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; width: 30%;float: right;">
+    <div id="contenitoreJoin" style="width: 100%;
+    display: inline-flex;">        
+      <div id="LoadShowPopup" style="margin-top: 10px;display: block; float: left;"></div>
+      <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; float: right;">
         
       </div>
     </div>{*End div contenitorejoin*}
