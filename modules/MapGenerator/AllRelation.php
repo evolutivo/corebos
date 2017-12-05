@@ -3,28 +3,33 @@
 include ('All_functions.php');
 include('modfields.php');
 
+ global $adb, $root_directory, $log;
 $modules=$_POST['mod'];
- $datareturn="";
-
-if (!empty($modules)) {
-
-	 $dataarray=GetAllRelationMOdul($modules);
-	// echo getModFields($modules, $acno.$dbname);
-
-	if (!empty($dataarray))
+$datareturn="";
+// $datareturn.=getModFields(explode(";", $key)[0], $acno.$dbname);
+if (!empty($modules)) {	
+	if (!empty($modules))
 	{
-		foreach ( $dataarray as $key) 
-		{
-	 		// echo "value=".$key."<br>";
-	 		$datareturn.=getModFields(explode(";", $key)[0], $acno.$dbname);
-	 	}
-	 	$datareturn.=getModFields($modules);
-	}else
-	{
-		echo getModFields($modules);
+		$log->debug("Info!! Value is not ampty");
+		$sql="SELECT relmodule FROM `vtiger_fieldmodulerel` WHERE module = '$modules' UNION SELECT module FROM `vtiger_fieldmodulerel` WHERE relmodule = '$modules' ";
+		$result = $adb->query($sql);
+	    $num_rows=$adb->num_rows($result);
+	    $historymap="";
+	    $a="";
+	    if($num_rows!=0)
+	    {
+	        for($i=1;$i<=$num_rows;$i++)
+	        {
+	            $Module = $adb->query_result($result,$i-1,'relmodule');
+	           
+	            $a.= getModFields($Module, $acno.$dbname);	           
+	            
+	        }
+	       echo $a;
+	    }else{$log->debug("Info!! The database is empty or something was wrong");}
+    }else {
+		echo "";
 	}
-
-	echo $datareturn;
 }
 
 
