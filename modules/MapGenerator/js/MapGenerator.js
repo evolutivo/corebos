@@ -257,12 +257,15 @@
 			if(elem[0].nodeName === "SELECT"){
 				var SecondFieldval = $(this).find('option:selected').val();
 				var SecondFieldtext = $(this).find('option:selected').text();
+				// var SecondFieldModule = $(this).find('option:selected').closest('optgroup').attr('label');
 				 var SecondFieldOptionGrup = App.utils.GetSelectParent(elem[0].id);				
 			}else if(elem[0].nodeName === "BUTTON"){
 				if (FirstFieldval) {
 				   var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
 		           var SecondFieldtext = "Default-Value";
 		            $("#" + idrelation[3]).val("");	
+		            var SecondFieldOptionGrup = $("#" +  idrelation[2] + " option:selected")
+					.text();
 		           
 				}
 				
@@ -280,7 +283,7 @@
 				for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 					var idd = ii;// JSONForCOndition[ii].idJSON;
 					var firmod = App.JSONForCOndition[ii].FirstModuletxt;
-					var secmod = App.JSONForCOndition[ii].SecondModuletxt;
+					var secmod = App.JSONForCOndition[ii].SecondFieldOptionGrup;
 					var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
 					var secfields = App.JSONForCOndition[ii].SecondFieldtext;
 					// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
@@ -1439,7 +1442,11 @@
 			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
 				var firmod = App.JSONForCOndition[ii].FirstModuletxt;
-				var secmod = App.JSONForCOndition[ii].SecondModuletxt;
+				var secmod = App.JSONForCOndition[ii].SecondFieldOptionGrup;
+				if (!secmod && secmod==='')
+				{
+					secmod = App.JSONForCOndition[ii].SecondModuletxt;
+				}
 				// var secmod = App.JSONForCOndition[ii].SecondFieldtext;
 				var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
 				var secfields = App.JSONForCOndition[ii].SecondFieldtext;
