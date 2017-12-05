@@ -63,7 +63,10 @@
      	 	{/if}
 
      		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveGlobalSearchAutocomplete" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
-      	<h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.GlobalSearchAutocompleteMapping}</h3>
+      	<center>
+          <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.GlobalSearchAutocompleteMapping}</h3>
+          <center>
+            
   	 </div>
 	 <div>
 	 	<div style="width: 100%;">
