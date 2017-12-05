@@ -98,7 +98,7 @@
         {$Modali}
       </div>
     {/if}
-    <div id="selJoin" style="float:left; overflow: hidden;width:100%">
+    <div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -135,7 +135,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
-                    <div class="" id="SecondDiv" style="float: left;width: 90%;">
+                    <div class="" id="SecondDiv" style="float: left;width: 90%; height: 30px;">
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           {$SecondModuleFields}
                           </select>
