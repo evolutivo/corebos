@@ -41,6 +41,7 @@ var mv_arr = {
 'missingIdtoSetValue':'Missing the id to put the values',
 'module':'Module',
 'field':'Field',
+'chooseanotherfieldsforthisrow':'Choose one field or some fields at the same time for a row',
 
 
 }

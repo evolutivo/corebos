@@ -177,6 +177,12 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule,Firstmodule2",
 						urlsend, dat);
+			}		else if (select == "CREATEVIEWPORTAL") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
 		},
 

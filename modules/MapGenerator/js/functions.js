@@ -2170,3 +2170,62 @@ function checkfunctionname(elem)
 //       App.showpopupmodal
 // }
 // // onclick="selectOnlyOne(this)
+// 
+
+
+
+///Create View Portal
+
+
+
+
+function addrovButton(elem){
+    var thiis=elem;
+    var divtoinsert=$('#divForAddRows');
+    var i=$('#divForAddRows select').size()+1;
+     $(addbrow(i)).appendTo(divtoinsert);
+    var allids= $('#AllIDCreateViewPosrtal').attr('data-send-data-id');
+    allids=allids+',Firstfield_'+i;
+    $('#AllIDCreateViewPosrtal').attr('data-send-data-id',allids);
+
+}
+
+function RemoverovButton(argument,idinput) {
+    var idtoremove='Firstfield_'+idinput;
+    var allids= $('#AllIDCreateViewPosrtal').attr('data-add-relation-id').split(',');
+    // var idafterremove="";
+   allids.forEach(function (value,index) {
+        if (value===idtoremove)
+          {
+           allids.splice(index,1);
+          }
+      });
+    $(argument).parent().parent().remove();
+    $('#AllIDCreateViewPosrtal').attr('data-add-relation-id',allids.toString());
+}
+
+
+
+function addbrow(i){
+
+  return `<div class="slds-form-element">
+              <label class="slds-form-element__label" for="inputSample3">${mv_arr.chooseanotherfieldsforthisrow}</label>
+              <div class="slds-form-element__control">
+                  <div class="slds-combobox_container slds-has-object-switcher" style="width: 60%;margin-top:0px;height: 40px">
+                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                              <div class="slds-combobox__form-element">
+                                 <select  id="Firstfield_${i}" name="mod" class="slds-select" multiple="multiple">
+                                 </select>
+                              </div>
+                              </div>
+                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
+                              <button  class="slds-button slds-button_icon" onclick="RemoverovButton(this,${i})" aria-haspopup="true" title="Remove" style="width:2.1rem;">
+                                  <img src="themes/images/clear_field.gif" style="width: 100%;">
+                              </button>
+                          </div>
+                     </div>
+
+              </div>
+            </div>`;
+}
+
