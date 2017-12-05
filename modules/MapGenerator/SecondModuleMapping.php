@@ -37,7 +37,7 @@ function GetMaps($module="")
 		$result = $adb->query($sql);
 	    $num_rows=$adb->num_rows($result);
 	    $historymap="";
-	    $a="";
+	    $a='<option value="" >(Select a module)</option>';
 	    if($num_rows!=0)
 	    {
 	        for($i=1;$i<=$num_rows;$i++)

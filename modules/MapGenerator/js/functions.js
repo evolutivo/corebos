@@ -2130,7 +2130,7 @@ function removearrayselected(typeremove,type2="")
       for (var i = 0; i <= App.popupJson.length-1; i++) {
           var module=App.popupJson[i].temparray[`DefaultText`];
           var typeofppopup=App.popupJson[i].temparray['JsonType'];
-          var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+          var divinsert= App.utils.DivPopup(i,"",module,"LoadShowPopup",typeofppopup);
           $('#LoadShowPopup').append(divinsert);
         } 
 

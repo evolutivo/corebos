@@ -257,12 +257,15 @@
 			if(elem[0].nodeName === "SELECT"){
 				var SecondFieldval = $(this).find('option:selected').val();
 				var SecondFieldtext = $(this).find('option:selected').text();
+				// var SecondFieldModule = $(this).find('option:selected').closest('optgroup').attr('label');
 				 var SecondFieldOptionGrup = App.utils.GetSelectParent(elem[0].id);				
 			}else if(elem[0].nodeName === "BUTTON"){
 				if (FirstFieldval) {
 				   var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
 		           var SecondFieldtext = "Default-Value";
 		            $("#" + idrelation[3]).val("");	
+		            var SecondFieldOptionGrup = $("#" +  idrelation[2] + " option:selected")
+					.text();
 		           
 				}
 				
@@ -280,7 +283,7 @@
 				for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 					var idd = ii;// JSONForCOndition[ii].idJSON;
 					var firmod = App.JSONForCOndition[ii].FirstModuletxt;
-					var secmod = App.JSONForCOndition[ii].SecondModuletxt;
+					var secmod = App.JSONForCOndition[ii].SecondFieldOptionGrup;
 					var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
 					var secfields = App.JSONForCOndition[ii].SecondFieldtext;
 					// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
@@ -667,7 +670,7 @@
 
 		Add_show_Popup:function(event){
 			//$('#contenitoreJoin').empty();
-			 $('#LoadShowPopup div').remove();
+			 
 			 if (event) {event.preventDefault();}
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
@@ -675,6 +678,12 @@
 			 var Typeofpopup=elem.attr('data-add-type');
 			 var replace=elem.attr('data-add-replace');
 			 var modulShow=elem.attr('data-show-modul-id');
+			 var divid=elem.attr('data-div-show');
+			 if (divid && divid==='')
+			 {
+			 	divid='LoadShowPopup';
+			 } 
+			 $('#'+divid+' div').remove();
 			 if (replace && replace==="true")
 			 {
 			 	App.popupJson.length=0;
@@ -696,8 +705,8 @@
 			 	 				var Field=App.popupJson[i].temparray[`DefaultText`];
 			 	 				var moduli=App.popupJson[i].temparray[`Moduli`];
 			 	 				var typeofppopup=App.popupJson[i].temparray['JsonType'];
-			 	 				var divinsert= App.utils.DivPopup(i,moduli,Field,"LoadShowPopup",typeofppopup);
-			 	 				$('#LoadShowPopup').append(divinsert);
+			 	 				var divinsert= App.utils.DivPopup(i,moduli,Field,divid,typeofppopup);
+			 	 				$('#'+divid).append(divinsert);
 			 	 			}	
 
 			 	 	}else{
@@ -1086,7 +1095,7 @@
 						eval(funcCall);
 					}else if (iddivrelation)
 					{
-						App.utils.ReturnAllDataHistory2(iddivrelation);
+						App.utils.ReturnDataSaveHistory(iddivrelation);
 					}else
 					{
 						// alert(mv_arr.MissingDivID);
@@ -1433,7 +1442,11 @@
 			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
 				var firmod = App.JSONForCOndition[ii].FirstModuletxt;
-				var secmod = App.JSONForCOndition[ii].SecondModuletxt;
+				var secmod = App.JSONForCOndition[ii].SecondFieldOptionGrup;
+				if (!secmod && secmod==='')
+				{
+					secmod = App.JSONForCOndition[ii].SecondModuletxt;
+				}
 				// var secmod = App.JSONForCOndition[ii].SecondFieldtext;
 				var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
 				var secfields = App.JSONForCOndition[ii].SecondFieldtext;
@@ -1482,6 +1495,30 @@
 			}
 		},
 
+		ReturnDataSaveHistory : function(namediv) {
+			$('#' + namediv + ' div').remove();
+			var check = false;
+			var valuehistoryquery;
+			var length_history = App.popupJson.length;
+			// alert(length_history-1);
+			for (var ii = 0; ii < App.popupJson.length; ii++) {
+				var idd = ii// JSONForCOndition[ii].idJSON;
+				var firmod = App.popupJson[ii].temparray["DefaultText"];
+				// var moduli = App.popupJson[ii].temparray["Moduli"];
+				var JsonType = App.popupJson[ii].temparray["JsonType"];
+				// console.log(idd+firmod+secmod);
+				// console.log(selectedfields);
+				if (ii == (length_history - 1)) {
+					check = true;
+
+				} else {
+					check = false;
+				}
+				var alerstdiv = App.utils.DivPopup(idd,"",firmod,'',JsonType);
+				$('#' + namediv).append(alerstdiv);
+
+			}
+		},
 
 		DivPopup : function(Idd,moduli,fields,divid,typepopup) {
 			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd

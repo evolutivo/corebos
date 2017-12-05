@@ -278,7 +278,8 @@ $link = $adb->query_result($result,0,"entityidfield");
 //exit();
 
 }
-$a =getModFields($module,$FieldsArray);
+$a='<option value="" >(Select a field)</option>';
+$a .=getModFields($module,$FieldsArray);
 
 //if($m != ""){
 //    if($m == "Potentials") $tbl = "vtiger_potential";
