@@ -105,14 +105,15 @@
              <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
-                    <div class="" id="SecondDiv" style="float: left;width: 92%;">
-                        <select id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopupInput">
+                    <div class="" id="SecondDiv" style="float: left;width: 90%;">
+                        <center><label  style="margin-top: -17px;"  class="slds-form-element__label" for="input-id-01">Choose the input</label></center>
+                        <select  style="margin-top: -2px;" id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopupInput">
                           {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="firstInp" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="AllFieldsInputByhand" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="AllFieldsInputByhand" placeholder="Insert a default value and click add" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
@@ -124,27 +125,28 @@
                          
                         </div>
                         <div style="float:right;">
-                          <a href="#" data-showhide-load="true" data-tools-id="AllFieldsInput,firstInp"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
+                          <a href="#" data-showhide-load="true" data-tools-id="AllFieldsInput,firstInp"  style="margin-top: 6px;" ><i style="margin-top: 10px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
                         </div>
                 </div>
                 
                 
             </div>
            </div>
-       <div style="float:left; overflow: hidden;width:3%; margin-left: 2%; margin-right: 2%;" id="centerJoin"> =</div>
+       <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div>
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <br>
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                
-                    <div class="" id="SecondDiv" style="float: left;width: 92%;">
-                        <select id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
+              
+                    <div class="" id="SecondDiv" style="float: left;width: 90%;">
+                        <center><label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">Choose the output</label></center>
+                        <select style="margin-top: -2px;" id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
                           {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="secondOutput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="AllFieldsOutputbyHand" placeholder="Insert a default value and click add" id="defaultvalue" style="width:268px;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="AllFieldsOutputbyHand" placeholder="Insert a default value and click add" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
@@ -156,7 +158,7 @@
                          
                         </div>
                         <div style="float:right;">
-                          <a href="#" data-showhide-load="true" data-tools-id="AllFieldsOutputselect,secondOutput"  style="margin-top: 6px;" ><i style="margin-top: 5px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
+                          <a href="#" data-showhide-load="true" data-tools-id="AllFieldsOutputselect,secondOutput"  style="margin-top: 6px;" ><i style="margin-top: 10px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>  
                         </div>
                 </div>
                 

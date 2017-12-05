@@ -276,6 +276,11 @@ mvmenuJoin.php
     height:80px;
 }*/
 
+
+.slds-section-title--divider button{
+  width:120px;
+}
+
 #centerJoin{
     color:#717171;
     width: 80px;

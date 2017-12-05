@@ -69,26 +69,41 @@
 
 
 
-<div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
+<!-- <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <center><b>{$MOD.CreateJoinCondition}</b></center>
-</div>
-<div id="contentJoinButtons">
-    <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
+</div> -->
+<div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
+
+     <div class="slds-section-title--divider">
+
+        <button class="slds-button slds-button--neutral" aria-describedby="entity-header" onclick="App.UniversalPopup.OpeModalsaveAsMap()" id="saveasmap" name="radio" style="float: left;">{$MOD.SaveAsMap} </button>
+        <button class="slds-button slds-button--neutral" id="addJoin" aria-describedby="entity-header" id="addJoin" name="radio" onclick="showform(this);" style="float: center; margin-left: 25%;">{$MOD.AddJoin}</button>
+        <button class="slds-button slds-button--neutral slds-button--brand"  aria-describedby="entity-header" style="float: right;" id="createmap" name="radio" onclick="SaveMap();">{$MOD.CreateMap}</button>
+     </div>
+
+
+
+<!--     <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
          style="float:left; overflow: hidden;width:20%" id="buttons">
+
+
+
+
+
 
         <ul id="LDSstyle">
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
-        <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
+            <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
-            <!-- <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
+                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>
+            <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li> -->
-            <!-- <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
+                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
+            <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li> -->
+                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li>
             <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
@@ -99,7 +114,7 @@
 
         </ul>
 
-    </div>
+    </div> -->
    <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
 <center>
     <b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
@@ -173,7 +188,7 @@
     </div>
 
 
-    <div id="selJoin" style="float:left; overflow: hidden;width:80%">
+    <div id="selJoin" style="float:left; overflow: hidden;width:100%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -207,7 +222,7 @@
             {*{/if}*}
         </div>
 
-        <div style="float:left; overflow: hidden;width:3%; margin-left: 2%; margin-right: 2%;" id="centerJoin"> =</div>
+        <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div>
 
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <div class="slds-form-element">
