@@ -74,10 +74,10 @@
 </div> -->
 <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
 
-     <div class="slds-section-title--divider">
+     <div class="slds-section-title--divider" >
 
         <button class="slds-button slds-button--neutral" aria-describedby="entity-header" onclick="App.UniversalPopup.OpeModalsaveAsMap()" id="saveasmap" name="radio" style="float: left;">{$MOD.SaveAsMap} </button>
-        <button class="slds-button slds-button--neutral" id="addJoin" aria-describedby="entity-header" id="addJoin" name="radio" onclick="showform(this);" style="float: center; margin-left: 25%;">{$MOD.AddJoin}</button>
+        <button class="slds-button slds-button--neutral" id="addJoin" aria-describedby="entity-header" id="addJoin" name="radio" onclick="showform(this);" style="float: center; margin-left: 20%;">{$MOD.AddJoin}</button>
         <button class="slds-button slds-button--neutral slds-button--brand"  aria-describedby="entity-header" style="float: right;" id="createmap" name="radio" onclick="SaveMap();">{$MOD.CreateMap}</button>
      </div>
 
@@ -122,7 +122,8 @@
    <br><br><br>
    <input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="addjouin();">
    <input class="crmbutton small cancel" type="button" name="cancelbutton" id="cancelbutton" value="Cancel" onclick="hidediv('userorgroup');">
-</center></div>
+</center>
+</div>
    {*
    <!--  <div style="float:left; overflow: hidden;width:20%" id="buttons" >
         <div id="radio">
@@ -192,6 +193,7 @@
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                    <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
                     <div class="slds-select_container">
                         {*{if !empty($FirstSecModule)}*}
                         {*<select id="mod" name="mod" class="slds-select">*}
@@ -218,15 +220,18 @@
             {*{/foreach}*}
             {*{else}*}
             <input type="button" class="slds-button slds-button--neutral sel" id="selField1" value="{$FmoduleID}" name="selField1"
-                   style="padding:0px;">
+                   style="padding:0px; width: 100%;">
             {*{/if}*}
         </div>
 
-        <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div>
+        <div style="float:left; overflow: hidden;width:10%;" id="centerJoin">
+            <span class="slds-form-element__label" style="margin-top:8px;font-size: 35px;margin-left: 10px;">=</span>
+        </div>
 
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                    <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
                     <div class="slds-select_container">
                         {*{if !empty($FirstSecModule)}*}
                         {*<select id="secmodule" name="secmodule" class="slds-select">*}
@@ -253,14 +258,14 @@
             {*{/foreach}*}
             {*{else}*}
             <input type="button" class="slds-button slds-button--neutral sel" id="selField2" value="{$SmoduleID}" name="selField2"
-                   style="padding:0px;">
+                   style="padding:0px; width: 100%;">
             {*{/if}*}
         </div>
     </div>
     <br><br>
     <div id="contenitoreJoin">
 
-        <div id="sectionField">
+        <div id="sectionField" style="width: 100%;">
 
             <div>
                 <div class="testoDiv">

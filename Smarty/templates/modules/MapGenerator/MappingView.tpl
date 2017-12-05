@@ -142,7 +142,7 @@
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValue" placeholder="Insert a default value and click add" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="DefaultValue" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
@@ -164,10 +164,10 @@
           </div>
             
        <br><br>
-    <div id="contenitoreJoin" style="width: 100%;
+    <div id="contenitoreJoin" style="
     display: inline-flex;">
 
-        <div id="sectionField">
+        <div id="sectionField" style="width:100%;">
 
             <div>
                 <div class="testoDiv">

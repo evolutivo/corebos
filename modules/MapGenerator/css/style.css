@@ -258,7 +258,9 @@ mvmenuJoin.php
 
 #selJoin{
     width: 760px;
-    height:80px;
+    height:100px;  
+    margin-top: 20px;
+
 } 
 
 #sectionField{
@@ -277,8 +279,14 @@ mvmenuJoin.php
 }*/
 
 
-.slds-section-title--divider button{
+.add-fields-picklist-block button, .slds-section-title--divider button{
   width:120px;
+  margin-top: 3px;
+}
+
+input::-webkit-input-placeholder{
+  font-size: 10.5 px;
+  font-family: monospace;
 }
 
 #centerJoin{

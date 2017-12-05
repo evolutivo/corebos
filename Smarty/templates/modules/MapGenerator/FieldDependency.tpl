@@ -280,7 +280,7 @@
 	 	</div>
 	 	
 	 </div>
-	 <div style="margin:15% 0% 0% 0% ">
+	 <div class="add-fields-picklist-block" style="margin:15% 0% 0% 0% ">
    	 	<button class="slds-button slds-button--neutral slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop" style="float: left;">{$MOD.AddFields}</button>
    		<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.AddPickList}</button>
     	{* <h3 style="margin-left: 40%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}

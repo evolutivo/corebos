@@ -53,13 +53,28 @@
     </script>
    
 {/if}
-
+<!-- 
 <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
-    <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
+  <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%"><b> {$MOD.OriginModule}</b></right>
-</div>
-<div id="contentJoinButtons">
-    <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
+</div> -->
+<div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
+
+       <div class="slds-section-title--divider">
+        {if $HistoryMap neq ''}
+          <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+        {else}
+          <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+        {/if}
+
+        <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+        <center>
+          <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.MasterDetail}</h3>
+          <center>
+     </div>
+
+
+    <!-- <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
         <ul id="LDSstyle">
@@ -73,20 +88,20 @@
           <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button>
            {/if}
         </li>
-<!-- 
+
         <li>
           <button class="slds-button slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail"   data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" class="slds-button slds-button--brand" style="width:98%;margin:5px;">{$MOD.SaveAsMap}
           </button>
         </li>
- -->
+
 
          {*
             <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
-        <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
+            <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
+                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>
             <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
                    class="slds-navigation-list--vertical__action slds-text-link--reset"
                    aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li>
@@ -104,7 +119,7 @@
 
         </ul>
 
-    </div>
+    </div> -->
    <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
    <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
    </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
@@ -115,11 +130,11 @@
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
   
-    <div id="selJoin" style="float:left; overflow: hidden;width:80%;height: 180px;
-">
+    <div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
                     <div class="slds-select_container">
                        <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMasterDetail" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
@@ -129,7 +144,7 @@
                 </div>
 
                  <div>
-                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0; padding-left: 7px;">ID:</label>
                    <input type="button" class="slds-button slds-button--neutral sel" id="FirstfieldID" value="{$FmoduleID}" name="FirstfieldID"
                    style="padding: 0px;margin-top: 10px;width: 90%;">
                  </div>
@@ -145,10 +160,12 @@
                 </div>
             </div>
            </div>
-       <div style="float:left; overflow: hidden;width:3%; margin-left: 2%; margin-right: 2%;" id="centerJoin"> =</div>
+       <div style="float:left; overflow: hidden;width:10%;" id="centerJoin">
+        <span class="slds-form-element__label" style="margin-top: 20px;font-size: 35px;margin-left: 10px;">=</span> =</div>
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center><label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label></center>
                     <div class="slds-select_container">
                         <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}
@@ -156,7 +173,7 @@
                      </div>
                 </div> 
                 <div>
-                  <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID:</label>
+                  <label style="font-size: larger;vertical-align:bottom;margin: 0; padding-left: 7px;">ID:</label>
                    <input type="button" class="slds-button slds-button--neutral sel" id="SecondfieldID" value="{$SmoduleID}" name="SecondfieldID"
                    style="padding: 0px;margin-top: 10px;width: 90%;">
                  </div>
@@ -168,7 +185,7 @@
                     <div class="" id="SecondDiv" style="float: left;width: 105%;">
                       <div class="slds-form-element" style="display: inline-block;">
                         <label class="slds-checkbox--toggle slds-grid">
-                         <input id="sortt6ablechk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                         <input id="sortt6ablechk" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
                           <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
                             <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Sort</span>
@@ -244,7 +261,7 @@
        <br><br>
     <div id="contenitoreJoin">
 
-        <div id="sectionField">
+        <div id="sectionField"  style="width: 100%;">
 
             <div>
                 <div class="testoDiv">
