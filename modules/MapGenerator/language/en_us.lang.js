@@ -42,6 +42,8 @@ var mv_arr = {
 'module':'Module',
 'field':'Field',
 'chooseanotherfieldsforthisrow':'Choose one field or some fields at the same time for a row',
+'MissingFields':'Missing fields for row ',
+'AddRowsinMemoery':'You add a row add more or click Add block to continue with another block',
 
 
 }

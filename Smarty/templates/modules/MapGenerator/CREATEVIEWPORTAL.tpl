@@ -102,13 +102,13 @@
               {* <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectShowFields}</label> *}
               <div class="slds-form-element__control">
                   <div class="" style="width: 100%;margin-top:0px;height: 40px">
-                          {* <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="float: left;width: 35px;height: 40px;margin-left: 10%;">
-                              <button onclick="addrovButton(this)" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Rows" style="width:2.1rem;">
+                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="float: left;width: 35px;height: 40px;margin-left: 10%;">
+                              <button data-add-type="Rows" data-add-relation-id="FieldsForRow"  data-div-show="LoadShowPopup"  onclick="addrows(this)" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Rows" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
-                          </div> *}
+                          </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="float: right;">
-                              <button   data-add-type="Block" data-add-relation-id="FirstModule,BlockName,FieldsForRow"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this)" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.Addsection}
+                              <button   data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this)" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.Addsection}
                               </button>
                           </div>
                      </div>

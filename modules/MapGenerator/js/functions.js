@@ -15,7 +15,7 @@ var firstModule;
 var secModule;
 var sFieldRel;
 var returnfromgeanratejoin=false;
-
+var rowsInViewPosrtal=new Array();
 
 $( function() {
     $( document ).tooltip();
@@ -2178,6 +2178,128 @@ function checkfunctionname(elem)
 
 
 
+/**
+ * function to add roows for a block 
+ *
+ * @param      {<type>}  event   The event
+ */
+function addrows(event)
+{
+   var elem=event;
+  var Idtoget=elem.dataset.addRelationId;
+  var typeofpopup=elem.dataset.addType;
+  var dataDivtoShowe=elem.dataset.divShow;
+  if (!Idtoget || Idtoget==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
+  if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
+  if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
+  allfieldsval=[];
+  allfieldstetx=[];
+  
+   if( $("#"+Idtoget+" option:selected").length){
+       $("#"+Idtoget+" option:selected").each(function() {
+          allfieldsval.push($(this).val());
+        });
+       $("#"+Idtoget+" option:selected").each(function() {
+          allfieldstetx.push($(this).text());
+        }); 
+    }else
+    {
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+    }
+    var checkifexist={fields:allfieldsval,texts:allfieldstetx}
+  if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
+  {
+     App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+  }else
+  {
+     rowsInViewPosrtal.push(checkifexist);
+    
+  }
+   if (rowsInViewPosrtal.length>0)
+     {
+      $('#' + dataDivtoShowe + ' div').remove();
+       for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
+          var divinsert= addrowspopup(i,rowsInViewPosrtal[i],dataDivtoShowe);
+          $('#'+dataDivtoShowe).append(divinsert);
+       }
+     }
+}
+
+
+/**
+ * function to show the rows for a block
+ *
+ * @param      {string}  Idd           The idd
+ * @param      {string}  BlockName     The block name
+ * @param      {<type>}  alldat        The alldat
+ * @param      {string}  divid         The divid
+ * @param      {<type>}  typeofppopup  The typeofppopup
+ * @return     {string}  { description_of_the_return_value }
+ */
+function addrowspopup(Idd,alldat,divid)
+{
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+      + '">';
+  INSertAlerstJOIN += '<span class="closebtns" onclick="closeRowpopup('
+      + Idd + ',\'' + divid + '\');">&times;</span>';
+  INSertAlerstJOIN += ' <strong># Row  '+(Idd+1)+'</strong>';
+  if (alldat && alldat['fields'].length>0)
+  {
+    for (var i =0; i <= alldat['fields'].length - 1 ; i++) {      
+      INSertAlerstJOIN += '<br/><strong># Field ==>'+alldat['texts'][i]+'</strong>';
+    }
+  }
+  
+  INSertAlerstJOIN += '</div';
+  return INSertAlerstJOIN;
+}
+
+/**
+ * function to remove the popup for rows
+ *
+ * @param      {(number|string)}  remuveid  The id of popup
+ * @param      {string}           namediv   The the div id to replace the new data in div
+ */
+function closeRowpopup(remuveid,namediv)
+{
+   var check = false;
+      for (var ii = 0; ii <= rowsInViewPosrtal.length-1; ii++) {
+          if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+            rowsInViewPosrtal.splice(remuveid,1);
+              check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+      }
+      if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        $( remuvediv).remove( );
+        $('#' + namediv + ' div').remove();
+        if (rowsInViewPosrtal.length>0)
+        { 
+             for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
+              var divinsert= addrowspopup(i,rowsInViewPosrtal[i],namediv);
+              $('#'+namediv).append(divinsert);
+           } 
+
+        }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
+}
+
+
+
+
+
+
+
 function showpopupCreateViewPortal(event){
   // if (event) {even.preventDefault();}
   var elem=event;
@@ -2195,10 +2317,6 @@ function showpopupCreateViewPortal(event){
           alldata=[];
           temparray['JsonType']=typeofpopup;
           temparray[allid[i]]=App.utils.IsSelectORDropDown(allid[i]);
-           $("#FieldsForRow option:selected").each(function() {
-                alldata.push($(this).text());
-              });
-          temparray[allid[i]+'Text']=alldata;
           temparray[allid[i]+'optionGroup']=App.utils.GetSelectParent(allid[i]);
           check=true;
         }else
@@ -2210,12 +2328,15 @@ function showpopupCreateViewPortal(event){
         }
      
   }
+  temparray["rows"]=rowsInViewPosrtal;
   if (check)
   {
+    
     var checkvalue={temparray};
     if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
     {
       App.popupJson.push({temparray});
+      
     }else
     {
       App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
@@ -2232,17 +2353,16 @@ function showpopupCreateViewPortal(event){
     for (var i = 0; i <= App.popupJson.length-1; i++) {
         alldat=[];
         var BlockName=App.popupJson[i].temparray[`BlockName`];
-        alldat=App.popupJson[i].temparray[`FieldsForRowText`];
+        alldat=App.popupJson[i].temparray[`rows`];
         var typeofppopup=App.popupJson[i].temparray['JsonType'];
         var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
         $('#'+dataDivtoShowe).append(divinsert);
       } 
-
   }else{
     // alert(mv_arr.MappingFiledValid);
     App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
   }
-
+  rowsInViewPosrtal.length=0;
 }
 
 function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
@@ -2251,12 +2371,20 @@ function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
       + '">';
   INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
       + Idd + ',\'' + divid + '\');">&times;</span>';
-  INSertAlerstJOIN += ' <strong>'+BlockName+'</strong>';
+  INSertAlerstJOIN += ' <strong>'+BlockName+'</strong><br/>';
   // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
   if (alldat && alldat.length>0)
   {
-    for (var i = alldat.length - 1; i >= 0; i--) {
-      INSertAlerstJOIN += '<br/><strong># '+alldata[i]+'</strong>';
+    for (var i = 0; i <=alldat.length - 1; i++) {
+        INSertAlerstJOIN += '<strong># Row  '+(i+1)+'</strong>';
+        INSertAlerstJOIN += ' <ul>';
+        if (alldat && alldat[i]['fields'].length>0)
+        {
+          for (var j =0; j <= alldat[i]['fields'].length - 1 ; j++) {      
+            INSertAlerstJOIN += '<li> Field ==>'+alldat[i]['texts'][j]+'</li>';
+          }
+        }
+        INSertAlerstJOIN += '</ul>';
     }
   }
   
@@ -2285,7 +2413,7 @@ function closePopupData(remuveid,namediv) {
           for (var i = 0; i <= App.popupJson.length-1; i++) {
               alldat=[];
               var BlockName=App.popupJson[i].temparray[`BlockName`];
-              alldat=App.popupJson[i].temparray[`FieldsForRowText`];
+              alldat=App.popupJson[i].temparray[`rows`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
               var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
               $('#'+namediv).append(divinsert);
