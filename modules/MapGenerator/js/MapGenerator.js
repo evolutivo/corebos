@@ -905,6 +905,7 @@
 			var keephitory=elem.attr('data-save-history');
 			var keephitoryidtoshow=elem.attr('data-save-history-show-id');
 			var keephitoryidtoshowidrelation=elem.attr('data-save-history-show-id-relation');
+			var executefunction=elem.attr('data-send-savehistory-functionname');
 			if(dataid != "undefined"){
 				inputsplit=dataid.split(",");
 			}
@@ -937,13 +938,14 @@
             
              if (savehistory!="undefined" && savehistory=="true")
              {
-             	if (App.savehistoryar)
-             	{
-             	 	datatusend+="&savehistory="+App.savehistoryar;
-             	}else
-             	{
-             		datatusend+="&savehistory";
-             	}
+             		if (App.savehistoryar)
+	             	{
+	             	 	datatusend+="&savehistory="+App.savehistoryar;
+	             	}else
+	             	{
+	             		datatusend+="&savehistory";
+	             	}
+             	
              }
 
              App.utils.PostDataGeneric(event,urlcheck,datatusend);
@@ -954,7 +956,7 @@
 				 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
 				 	{
 
-				 		if (App.savehistoryar===VauefromPost)
+				 		if (App.savehistoryar===VauefromPost.replace(/\s+/g, ''))
 				 		{
 				 			if (App.JSONForCOndition.length>0)
 				 			{
@@ -964,7 +966,7 @@
 				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 				 			}
 				 			
-				 			App.savehistoryar=VauefromPost;
+				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
 							// alert(mv_arr.ReturnSucessFromMap);
 							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
@@ -978,7 +980,7 @@
 				 			{
 				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 				 			}
-				 			App.savehistoryar=VauefromPost;
+				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
 							// alert(mv_arr.ReturnSucessFromMap);
 							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
@@ -1016,7 +1018,14 @@
 			}
 			if (keephitoryidtoshow)
 			{
-				App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
+				if (executefunction)
+				{
+					var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
+					eval(funcCall);
+				} else
+				{
+					App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
+				}
 			}else
 			{
 

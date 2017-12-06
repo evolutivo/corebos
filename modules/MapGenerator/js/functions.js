@@ -16,6 +16,7 @@ var secModule;
 var sFieldRel;
 var returnfromgeanratejoin=false;
 var rowsInViewPosrtal=new Array();
+var LocalHistoryPopup=new Array();
 
 $( function() {
     $( document ).tooltip();
@@ -2174,9 +2175,9 @@ function checkfunctionname(elem)
 
 
 
-///Create View Portal
+//#################   Create View Portal
 
-
+////  part of rows 
 
 /**
  * function to add roows for a block 
@@ -2186,43 +2187,43 @@ function checkfunctionname(elem)
 function addrows(event)
 {
    var elem=event;
-  var Idtoget=elem.dataset.addRelationId;
-  var typeofpopup=elem.dataset.addType;
-  var dataDivtoShowe=elem.dataset.divShow;
-  if (!Idtoget || Idtoget==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
-  if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
-  if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
-  allfieldsval=[];
-  allfieldstetx=[];
-  
-   if( $("#"+Idtoget+" option:selected").length){
-       $("#"+Idtoget+" option:selected").each(function() {
-          allfieldsval.push($(this).val());
-        });
-       $("#"+Idtoget+" option:selected").each(function() {
-          allfieldstetx.push($(this).text());
-        }); 
+    var Idtoget=elem.dataset.addRelationId;
+    var typeofpopup=elem.dataset.addType;
+    var dataDivtoShowe=elem.dataset.divShow;
+    if (!Idtoget || Idtoget==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
+    if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
+    if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
+    allfieldsval=[];
+    allfieldstetx=[];
+    
+     if( $("#"+Idtoget+" option:selected").length){
+         $("#"+Idtoget+" option:selected").each(function() {
+            allfieldsval.push($(this).val());
+          });
+         $("#"+Idtoget+" option:selected").each(function() {
+            allfieldstetx.push($(this).text());
+          }); 
+      }else
+      {
+        App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+      }
+      var checkifexist={fields:allfieldsval,texts:allfieldstetx}
+    if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
+    {
+       App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
     }else
     {
-      App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+       rowsInViewPosrtal.push(checkifexist);
+      
     }
-    var checkifexist={fields:allfieldsval,texts:allfieldstetx}
-  if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
-  {
-     App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
-  }else
-  {
-     rowsInViewPosrtal.push(checkifexist);
-    
-  }
-   if (rowsInViewPosrtal.length>0)
-     {
-      $('#' + dataDivtoShowe + ' div').remove();
-       for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
-          var divinsert= addrowspopup(i,rowsInViewPosrtal[i],dataDivtoShowe);
-          $('#'+dataDivtoShowe).append(divinsert);
+     if (rowsInViewPosrtal.length>0)
+       {
+        $('#' + dataDivtoShowe + ' div').remove();
+         for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
+            var divinsert= addrowspopup(i,rowsInViewPosrtal[i],dataDivtoShowe);
+            $('#'+dataDivtoShowe).append(divinsert);
+         }
        }
-     }
 }
 
 
@@ -2294,12 +2295,14 @@ function closeRowpopup(remuveid,namediv)
       }
 }
 
+/// Part of Block
 
-
-
-
-
-
+/**
+ * function to create the popup final for generate map 
+ *
+ * @param      {<type>}   event   The event
+ * @return     {boolean}  { description_of_the_return_value }
+ */
 function showpopupCreateViewPortal(event){
   // if (event) {even.preventDefault();}
   var elem=event;
@@ -2379,6 +2382,16 @@ function showpopupCreateViewPortal(event){
   rowsInViewPosrtal.length=0;
 }
 
+/**
+ * function to genearate the html code with dynamic data 
+ *
+ * @param      {string}  Idd           The idd
+ * @param      {string}  BlockName     The block name
+ * @param      {<type>}  alldat        The alldat
+ * @param      {string}  divid         The divid
+ * @param      {<type>}  typeofppopup  The typeofppopup
+ * @return     {string}  { description_of_the_return_value }
+ */
 function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
 {
   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
@@ -2406,6 +2419,12 @@ function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
   return INSertAlerstJOIN;
 }
 
+/**
+  * function to close the popup fuinal if you want ot remove one block 
+ *
+ * @param      {(number|string)}  remuveid  The remuveid
+ * @param      {string}           namediv   The namediv
+ */
 function closePopupData(remuveid,namediv) {
 
     var check = false;
@@ -2442,6 +2461,60 @@ function closePopupData(remuveid,namediv) {
           // alert(mv_arr.ReturnFromPost);
           App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
       }
-
-
 }
+// part of local History
+
+function SavehistoryCreateViewportal(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+   if (App.SaveHistoryPop.length>0)
+      { 
+         $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+              $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        }
+      }
+}
+
+function ShowHistoryData(id,divshow)
+{
+   var historydata=App.SaveHistoryPop[parseInt(id)];
+   App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + dataDivtoShowe + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          alldat=[];
+          var BlockName=App.popupJson[i].temparray[`BlockName`];
+          alldat=App.popupJson[i].temparray[`rows`];
+          var typeofppopup=App.popupJson[i].temparray['JsonType'];
+          var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
+          $('#'+dataDivtoShowe).append(divinsert);
+        } 
+    }
+}
+
+
+
+function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
+      var htmldat='<div class="Message Message"  >';
+        htmldat+='<div class="Message-icon">';
+        // if (avtive===false)
+        // {
+          htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowHistoryData(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+        // }
+        htmldat+='</div>';
+        htmldat+='<div class="Message-body">';
+        htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+        for (var i = dataarr.length - 1; i >= 0; i--) {
+          htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
+          
+        }        
+        htmldat+='</div>';
+        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
+        htmldat+='</div>';
+        return htmldat;
+    }
+
