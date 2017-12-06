@@ -117,6 +117,12 @@ $mod_strings = Array(
     'SelectModule'=>'Selected a module',
     'SelectFieldOrwritetheparameters'=>'Select Fields or write the paramaters',
     'Module'=>'Module',
+    'CREATEVIEWPORTAL'=>'CREATEVIEWPORTAL',
+    'chooseanotherfieldsforthisrow'=>'Choose one field or some fields at the same time for a row',
+    'Addsection'=>'Add Block ',
+    'writeBlockName'=>'write Block Name ',
+
+
 
 );
 ?>

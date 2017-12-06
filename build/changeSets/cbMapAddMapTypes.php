@@ -41,6 +41,7 @@ class cbMapAddMapTypes extends cbupdaterWorker {
 				'FieldInfo',
 				'GlobalSearchAutocomplete',
 				'FieldDependencyPortal',
+                                'MENUSTRUCTURE'
 			);
 			$moduleInstance = Vtiger_Module::getInstance('cbMap');
 			$field = Vtiger_Field::getInstance('maptype',$moduleInstance);

@@ -15,7 +15,7 @@ var firstModule;
 var secModule;
 var sFieldRel;
 var returnfromgeanratejoin=false;
-
+var rowsInViewPosrtal=new Array();
 
 $( function() {
     $( document ).tooltip();
@@ -2170,3 +2170,278 @@ function checkfunctionname(elem)
 //       App.showpopupmodal
 // }
 // // onclick="selectOnlyOne(this)
+// 
+
+
+
+///Create View Portal
+
+
+
+/**
+ * function to add roows for a block 
+ *
+ * @param      {<type>}  event   The event
+ */
+function addrows(event)
+{
+   var elem=event;
+  var Idtoget=elem.dataset.addRelationId;
+  var typeofpopup=elem.dataset.addType;
+  var dataDivtoShowe=elem.dataset.divShow;
+  if (!Idtoget || Idtoget==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
+  if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
+  if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
+  allfieldsval=[];
+  allfieldstetx=[];
+  
+   if( $("#"+Idtoget+" option:selected").length){
+       $("#"+Idtoget+" option:selected").each(function() {
+          allfieldsval.push($(this).val());
+        });
+       $("#"+Idtoget+" option:selected").each(function() {
+          allfieldstetx.push($(this).text());
+        }); 
+    }else
+    {
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+    }
+    var checkifexist={fields:allfieldsval,texts:allfieldstetx}
+  if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
+  {
+     App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+  }else
+  {
+     rowsInViewPosrtal.push(checkifexist);
+    
+  }
+   if (rowsInViewPosrtal.length>0)
+     {
+      $('#' + dataDivtoShowe + ' div').remove();
+       for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
+          var divinsert= addrowspopup(i,rowsInViewPosrtal[i],dataDivtoShowe);
+          $('#'+dataDivtoShowe).append(divinsert);
+       }
+     }
+}
+
+
+/**
+ * function to show the rows for a block
+ *
+ * @param      {string}  Idd           The idd
+ * @param      {string}  BlockName     The block name
+ * @param      {<type>}  alldat        The alldat
+ * @param      {string}  divid         The divid
+ * @param      {<type>}  typeofppopup  The typeofppopup
+ * @return     {string}  { description_of_the_return_value }
+ */
+function addrowspopup(Idd,alldat,divid)
+{
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+      + '">';
+  INSertAlerstJOIN += '<span class="closebtns" onclick="closeRowpopup('
+      + Idd + ',\'' + divid + '\');">&times;</span>';
+  INSertAlerstJOIN += ' <strong># Row  '+(Idd+1)+'</strong>';
+  if (alldat && alldat['fields'].length>0)
+  {
+    for (var i =0; i <= alldat['fields'].length - 1 ; i++) {      
+      INSertAlerstJOIN += '<br/><strong># Field ==>'+alldat['texts'][i]+'</strong>';
+    }
+  }
+  
+  INSertAlerstJOIN += '</div';
+  return INSertAlerstJOIN;
+}
+
+/**
+ * function to remove the popup for rows
+ *
+ * @param      {(number|string)}  remuveid  The id of popup
+ * @param      {string}           namediv   The the div id to replace the new data in div
+ */
+function closeRowpopup(remuveid,namediv)
+{
+   var check = false;
+      for (var ii = 0; ii <= rowsInViewPosrtal.length-1; ii++) {
+          if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+            rowsInViewPosrtal.splice(remuveid,1);
+              check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+      }
+      if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        $( remuvediv).remove( );
+        $('#' + namediv + ' div').remove();
+        if (rowsInViewPosrtal.length>0)
+        { 
+             for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
+              var divinsert= addrowspopup(i,rowsInViewPosrtal[i],namediv);
+              $('#'+namediv).append(divinsert);
+           } 
+
+        }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
+}
+
+
+
+
+
+
+
+function showpopupCreateViewPortal(event){
+  // if (event) {even.preventDefault();}
+  var elem=event;
+  var allid=elem.dataset.addRelationId;
+  var typeofpopup=elem.dataset.addType;
+  var dataDivtoShowe=elem.dataset.divShow;
+  var temparray={};
+  if (!allid || allid==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
+  if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
+  if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
+  allid=allid.split(',');
+  for (var i = allid.length - 1; i >= 0; i--) {
+    if (App.utils.IsSelectORDropDown(allid[i]).length>0)
+        {
+          alldata=[];
+          temparray['JsonType']=typeofpopup;
+          temparray[allid[i]]=App.utils.IsSelectORDropDown(allid[i]);
+          temparray[allid[i]+'Text']=App.utils.IsSelectORDropDownGetText(allid[i]);
+          temparray[allid[i]+'optionGroup']=App.utils.GetSelectParent(allid[i]);
+          check=true;
+        }else
+        {
+          //alert(mv_arr.MappingFiledValid);
+          check=false;
+          break;
+
+        }
+     
+  }
+  
+  allfieldsval=[];
+  allfieldstetx=[];
+  if (rowsInViewPosrtal.length>0)
+  {
+    rowsInViewPosrtal.forEach(function(element) {
+          allfieldsval.push(element.fields);
+          allfieldstetx.push(element.texts);
+    });
+  }else{
+     App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+     return false;
+  }
+  temparray["rows"]={fields:allfieldsval,texts:allfieldstetx};
+  if (check)
+  {
+    
+    var checkvalue={temparray};
+    if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+    {
+      App.popupJson.push({temparray});
+      
+    }else
+    {
+      App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+    }
+    
+  }else
+  {
+    App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
+  }
+
+  if (App.popupJson.length>0)
+  { 
+    $('#' + dataDivtoShowe + ' div').remove();
+    for (var i = 0; i <= App.popupJson.length-1; i++) {
+        alldat=[];
+        var BlockName=App.popupJson[i].temparray[`BlockName`];
+        alldat=App.popupJson[i].temparray[`rows`];
+        var typeofppopup=App.popupJson[i].temparray['JsonType'];
+        var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
+        $('#'+dataDivtoShowe).append(divinsert);
+      } 
+  }else{
+    // alert(mv_arr.MappingFiledValid);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+  }
+  rowsInViewPosrtal.length=0;
+}
+
+function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
+{
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+      + '">';
+  INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
+      + Idd + ',\'' + divid + '\');">&times;</span>';
+  INSertAlerstJOIN += ' <strong>'+BlockName+'</strong><br/>';
+  // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
+  if (alldat && alldat.texts.length>0)
+  {
+    for (var i = 0; i <=alldat.texts.length - 1; i++) {
+        INSertAlerstJOIN += '<strong># Row  '+(i+1)+'</strong>';
+        INSertAlerstJOIN += ' <ul>';
+        if (alldat && alldat.texts[i].length>0)
+        {
+          alldat.texts[i].forEach(function(element) {
+              INSertAlerstJOIN += '<li> Field ==>'+element+'</li>';
+          });
+        }
+        INSertAlerstJOIN += '</ul>';
+    }
+  }
+  
+  INSertAlerstJOIN += '</div';
+  return INSertAlerstJOIN;
+}
+
+function closePopupData(remuveid,namediv) {
+
+    var check = false;
+      for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+          if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+            App.popupJson.splice(remuveid,1);
+              check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+      }
+      if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        $( remuvediv).remove( );
+        $('#' + namediv + ' div').remove();
+        if (App.popupJson.length>0)
+        { 
+          for (var i = 0; i <= App.popupJson.length-1; i++) {
+              alldat=[];
+              var BlockName=App.popupJson[i].temparray[`BlockName`];
+               alldat=App.popupJson[i].temparray[`rows`];
+              var typeofppopup=App.popupJson[i].temparray['JsonType'];
+              var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
+              $('#'+namediv).append(divinsert);
+            } 
+
+        }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
+
+
+}
