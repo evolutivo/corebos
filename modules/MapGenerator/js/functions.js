@@ -2317,6 +2317,7 @@ function showpopupCreateViewPortal(event){
           alldata=[];
           temparray['JsonType']=typeofpopup;
           temparray[allid[i]]=App.utils.IsSelectORDropDown(allid[i]);
+          temparray[allid[i]+'Text']=App.utils.IsSelectORDropDownGetText(allid[i]);
           temparray[allid[i]+'optionGroup']=App.utils.GetSelectParent(allid[i]);
           check=true;
         }else
@@ -2328,7 +2329,20 @@ function showpopupCreateViewPortal(event){
         }
      
   }
-  temparray["rows"]=rowsInViewPosrtal;
+  
+  allfieldsval=[];
+  allfieldstetx=[];
+  if (rowsInViewPosrtal.length>0)
+  {
+    rowsInViewPosrtal.forEach(function(element) {
+          allfieldsval.push(element.fields);
+          allfieldstetx.push(element.texts);
+    });
+  }else{
+     App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+     return false;
+  }
+  temparray["rows"]={fields:allfieldsval,texts:allfieldstetx};
   if (check)
   {
     
@@ -2373,16 +2387,16 @@ function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
       + Idd + ',\'' + divid + '\');">&times;</span>';
   INSertAlerstJOIN += ' <strong>'+BlockName+'</strong><br/>';
   // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
-  if (alldat && alldat.length>0)
+  if (alldat && alldat.texts.length>0)
   {
-    for (var i = 0; i <=alldat.length - 1; i++) {
+    for (var i = 0; i <=alldat.texts.length - 1; i++) {
         INSertAlerstJOIN += '<strong># Row  '+(i+1)+'</strong>';
         INSertAlerstJOIN += ' <ul>';
-        if (alldat && alldat[i]['fields'].length>0)
+        if (alldat && alldat.texts[i].length>0)
         {
-          for (var j =0; j <= alldat[i]['fields'].length - 1 ; j++) {      
-            INSertAlerstJOIN += '<li> Field ==>'+alldat[i]['texts'][j]+'</li>';
-          }
+          alldat.texts[i].forEach(function(element) {
+              INSertAlerstJOIN += '<li> Field ==>'+element+'</li>';
+          });
         }
         INSertAlerstJOIN += '</ul>';
     }
@@ -2413,7 +2427,7 @@ function closePopupData(remuveid,namediv) {
           for (var i = 0; i <= App.popupJson.length-1; i++) {
               alldat=[];
               var BlockName=App.popupJson[i].temparray[`BlockName`];
-              alldat=App.popupJson[i].temparray[`rows`];
+               alldat=App.popupJson[i].temparray[`rows`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
               var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
               $('#'+namediv).append(divinsert);
