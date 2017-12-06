@@ -2178,54 +2178,128 @@ function checkfunctionname(elem)
 
 
 
+function showpopupCreateViewPortal(event){
+  // if (event) {even.preventDefault();}
+  var elem=event;
+  var allid=elem.dataset.addRelationId;
+  var typeofpopup=elem.dataset.addType;
+  var dataDivtoShowe=elem.dataset.divShow;
+  var temparray={};
+  if (!allid || allid==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
+  if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
+  if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
+  allid=allid.split(',');
+  for (var i = allid.length - 1; i >= 0; i--) {
+    if (App.utils.IsSelectORDropDown(allid[i]).length>0)
+        {
+          alldata=[];
+          temparray['JsonType']=typeofpopup;
+          temparray[allid[i]]=App.utils.IsSelectORDropDown(allid[i]);
+           $("#FieldsForRow option:selected").each(function() {
+                alldata.push($(this).text());
+              });
+          temparray[allid[i]+'Text']=alldata;
+          temparray[allid[i]+'optionGroup']=App.utils.GetSelectParent(allid[i]);
+          check=true;
+        }else
+        {
+          //alert(mv_arr.MappingFiledValid);
+          check=false;
+          break;
 
-function addrovButton(elem){
-    var thiis=elem;
-    var divtoinsert=$('#divForAddRows');
-    var i=$('#divForAddRows select').size()+1;
-     $(addbrow(i)).appendTo(divtoinsert);
-    var allids= $('#AllIDCreateViewPosrtal').attr('data-send-data-id');
-    allids=allids+',Firstfield_'+i;
-    $('#AllIDCreateViewPosrtal').attr('data-send-data-id',allids);
+        }
+     
+  }
+  if (check)
+  {
+    var checkvalue={temparray};
+    if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+    {
+      App.popupJson.push({temparray});
+    }else
+    {
+      App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+    }
+    
+  }else
+  {
+    App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
+  }
+
+  if (App.popupJson.length>0)
+  { 
+    $('#' + dataDivtoShowe + ' div').remove();
+    for (var i = 0; i <= App.popupJson.length-1; i++) {
+        alldat=[];
+        var BlockName=App.popupJson[i].temparray[`BlockName`];
+        alldat=App.popupJson[i].temparray[`FieldsForRowText`];
+        var typeofppopup=App.popupJson[i].temparray['JsonType'];
+        var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
+        $('#'+dataDivtoShowe).append(divinsert);
+      } 
+
+  }else{
+    // alert(mv_arr.MappingFiledValid);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+  }
 
 }
 
-function RemoverovButton(argument,idinput) {
-    var idtoremove='Firstfield_'+idinput;
-    var allids= $('#AllIDCreateViewPosrtal').attr('data-add-relation-id').split(',');
-    // var idafterremove="";
-   allids.forEach(function (value,index) {
-        if (value===idtoremove)
-          {
-           allids.splice(index,1);
-          }
-      });
-    $(argument).parent().parent().remove();
-    $('#AllIDCreateViewPosrtal').attr('data-add-relation-id',allids.toString());
+function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
+{
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+      + '">';
+  INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
+      + Idd + ',\'' + divid + '\');">&times;</span>';
+  INSertAlerstJOIN += ' <strong>'+BlockName+'</strong>';
+  // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
+  if (alldat && alldat.length>0)
+  {
+    for (var i = alldat.length - 1; i >= 0; i--) {
+      INSertAlerstJOIN += '<br/><strong># '+alldata[i]+'</strong>';
+    }
+  }
+  
+  INSertAlerstJOIN += '</div';
+  return INSertAlerstJOIN;
 }
 
+function closePopupData(remuveid,namediv) {
+
+    var check = false;
+      for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+          if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+            App.popupJson.splice(remuveid,1);
+              check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+      }
+      if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        $( remuvediv).remove( );
+        $('#' + namediv + ' div').remove();
+        if (App.popupJson.length>0)
+        { 
+          for (var i = 0; i <= App.popupJson.length-1; i++) {
+              alldat=[];
+              var BlockName=App.popupJson[i].temparray[`BlockName`];
+              alldat=App.popupJson[i].temparray[`FieldsForRowText`];
+              var typeofppopup=App.popupJson[i].temparray['JsonType'];
+              var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
+              $('#'+namediv).append(divinsert);
+            } 
+
+        }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
 
 
-function addbrow(i){
-
-  return `<div class="slds-form-element">
-              <label class="slds-form-element__label" for="inputSample3">${mv_arr.chooseanotherfieldsforthisrow}</label>
-              <div class="slds-form-element__control">
-                  <div class="slds-combobox_container slds-has-object-switcher" style="width: 60%;margin-top:0px;height: 40px">
-                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                              <div class="slds-combobox__form-element">
-                                 <select  id="Firstfield_${i}" name="mod" class="slds-select" multiple="multiple">
-                                 </select>
-                              </div>
-                              </div>
-                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button  class="slds-button slds-button_icon" onclick="RemoverovButton(this,${i})" aria-haspopup="true" title="Remove" style="width:2.1rem;">
-                                  <img src="themes/images/clear_field.gif" style="width: 100%;">
-                              </button>
-                          </div>
-                     </div>
-
-              </div>
-            </div>`;
 }
-
