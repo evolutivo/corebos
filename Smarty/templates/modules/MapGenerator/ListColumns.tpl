@@ -38,22 +38,25 @@
 
 {/if}
 
-<div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
+<!-- <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%"><b> {$MOD.OriginModule}</b></right>
-</div>
-<div id="contentJoinButtons">
-  <label style="margin-top: initial;font-size: 14px;font-family: unset;font-style: oblique;color: indigo;font-style: oblique;">{$MOD.SelectedField}<label>
-      <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
-         style="float:left;overflow: hidden;width: 25%;height: 400px;" id="buttons">
-         <div id="LoadShowPopup" style="width: 95%;height: 100%;overflow: auto;background-color: moccasin;" >        
-      <div id="LoadShowPopup" style="margin:auto;display: block; width: 20%;">
-      </div>
-    </div>{*End div LoadShowPopup*}
+</div> -->
+<div id="contentJoinButtons" style="width: 73%">
 
-         
-        </ul>
+   <div class="slds-section-title--divider">
+        {if $HistoryMap neq ''}
+          <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+        {else}
+          <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+        {/if}
 
+        <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+        <center>
+          <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.GlobalSearchAutocompleteMapping}</h3>
+          <center>
+            
+     </div>
     </div>
    <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
    <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
@@ -66,8 +69,11 @@
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
    <div id="selJoin" style="float:left; overflow: hidden;width:75%;height: 100%;">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
-            <div class="slds-form-element">
+              <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center>
+                    <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+                  </center>
                     <div class="slds-select_container">
                        <select data-select-load="true" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
@@ -82,9 +88,8 @@
                  </div>
             </div>
             <br>
-            <div class="slds-form-element">
+              <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                	<label style="font-size: initial;color: grey;">{$MOD.SelectField}</label>
                     <div class="slds-select_container">
                        <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
                         {if $SecondModuleFields neq ''}
@@ -96,11 +101,28 @@
                        </div>
                 </div>
             </div>
+            <br>
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                       <select style="height: 35px;"  id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
+                        {if $FirstModuleFields neq ''}
+                           {$FirstModuleFields}
+                        {else}
+                            <option value="">Choose from Target</option>
+                        {/if}
+                        </select>
+                       </div>
+                </div>
+            </div>
            </div>
        <div style="float:left; overflow: hidden;width:3%; margin-left: 2%; margin-right: 2%;" id="centerJoin"> =</div>
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
-            <div class="slds-form-element">
+              <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                     <center>
+                    <label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label>
+                  </center>
                     <div class="slds-select_container">
                         <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID"  name="secmodule" class="slds-select">
                           {if $SecondModulerelation neq ''}
@@ -140,66 +162,9 @@
                         </div>
                         
                 </div>
-                
-                
-            </div>
-            
-          </div>
-            
-       <br><br>
-       <div id="contenitoreJoins">
-
-        <div id="sectionField">
-
-            <div>
-                <div class="testoDiv">
-                    <center><b>{$MOD.popupPlace}</b></center>
-                </div>
-                <div class="slds-form-element">
-                    <div class="slds-form-element__control">
-                        <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
-
-                        </div>
-                    </div>                   
-                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
-                    <input type="hidden" name="querysequence" id="querysequence" value="">
-                    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-                    
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-         </div>
-    </div> 
-    <div id="selJoin" style="float:left;overflow: hidden;width: 75%;height: 100%;">
-        <div style="float:left;/* overflow: hidden; */width: 39%;margin-top: 20px;margin-right: 20px;/* height: 391px; */" id="sel1">
-           <div class="slds-form-element">
-                <div class="slds-form-element__control">
-                    <div class="slds-select_container">
-                       <select style="height: 35px;"  id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
-                        {if $FirstModuleFields neq ''}
-                           {$FirstModuleFields}
-                        {else}
-                            <option value="">Choose from Target</option>
-                        {/if}
-                        </select>
-                       </div>
-                </div>
             </div>
             <br>
-            
-           </div>
-       
-        <div style="float:left; overflow: hidden;width:45%" id="sel2">            
-            <br>
-            <div class="slds-form-element">
+              <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
                       <div class="" id="SecondDiv" style="float: left;width: 100%;">
@@ -220,26 +185,55 @@
                          
                         </div>
                         
-                </div>
-                
-                
+                </div> 
             </div>
             
           </div>
             
        <br><br>
-       <button id="set" style="margin-left: 59%;margin-top: 64px;position: absolute;"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup"  class="slds-button slds-button--brand">
-        {$MOD.CreateMap}
-        </button>
-        {if $HistoryMap neq ''}
-          <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
-        {else}
-           <button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="margin-left: 60%;margin-top: 28px;position: relative;">{$MOD.SaveAsMap}</button>
-        {/if}
+       <div id="contenitoreJoins">
+
+        <div id="sectionField" style="width:100%; float: left; margin-top: 10px">
+              
+               <div class="testoDiv">
+                    <center><b>{$MOD.popupPlace}</b></center>
+                </div>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
+
+                        </div>
+                    </div>                   
+                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+                    <input type="hidden" name="querysequence" id="querysequence" value="">
+                    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+                </div>
+        </div>
+
+         </div>
+    </div> 
+
+
+      <div id="contenitoreJoin" style="width: 100%;display: inline-flex;">        
+      <div id="LoadShowPopup" style="margin-top: 10px;display: block; float: left;"></div>
+      <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; float: right;">
+        
+      </div>
+    </div>{*End div contenitorejoin*}
+<!--     <div id="selJoin" style="float:left;overflow: hidden;width: 100%;height: 100%;">
+    
+       <label style="margin-top: initial;font-size: 14px;font-family: unset;font-style: oblique;color: indigo;font-style: oblique;">{$MOD.SelectedField}</label>
+      <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
+         style="float:left;overflow: hidden;width: 73%;height: 100px;" id="buttons">
+         <div id="LoadShowPopup" style="width: 100%;height: 100%;overflow: auto;background-color: moccasin;" >        
+      <div id="LoadShowPopup" style="margin:auto;display: block; width: 20%;">
+      </div>
+    </div>{*End div LoadShowPopup*}
      <div id="LoadHistoryPopup">
      </div>
     </div>   
-</div>
+  </div> -->
 
 
 </div>
