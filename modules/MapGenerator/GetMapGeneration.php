@@ -231,6 +231,29 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="CREATEVIEWPORTAL") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 CREATEVIEWPORTAL($QueryHistory,$MapID);
+		
+		print_r($Alldatas);
+		exit();
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -246,6 +269,97 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+
+function CREATEVIEWPORTAL($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	if (!empty($QueryHistory)) {
+		//TODO:: if exist the history check by id of history
+
+		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		 //fields 
+		$FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+
+			// this is for get the history filter by id 
+		$Allhistory=get_All_History($QueryHistory);
+		$Alldatas=array();
+
+		foreach ($Allhistory as $value) {
+			$xml=new SimpleXMLElement($value['query']);
+			$BlockArray=array();
+			foreach ($xml->blocks->block as $valueblock) {
+				$arratoinsert=[
+					'BlockName'=>(string)$valueblock->name,
+					'BlockNameText'=>(string)$valueblock->name,
+					'BlockNameoptionGroup'=>"",
+					'FirstModule'=>explode(',',get_The_history($QueryHistory,"firstmodule"))[0],
+					'FirstModuleText'=>explode(',',get_The_history($QueryHistory,"firstmodule"))[0],
+					'FirstModuleoptionGroup'=>'udentifined',
+					'JsonType'=>"Block",
+					'rows'=>array(),
+				];				
+				foreach ($valueblock->row as $valuecolumns) {
+					$insertcolumn=[
+						'fields'=>array(),
+						'texts'=>array()
+					];
+					foreach ($valuecolumns->column as $valuee) {
+						$insertcolumn['fields'][]=explode(",",CheckAllFirstForAllModules((string)$valuee))[0];
+					  	$insertcolumn['texts'][]=explode(",",CheckAllFirstForAllModules((string)$valuee))[1];
+					}
+				 	// array_push($insertcolumn,$arrrow);
+				 	$arratoinsert['rows'][]=$insertcolumn;
+				}
+				
+				array_push($BlockArray,$arratoinsert);
+			}
+            array_push($Alldatas,$BlockArray);
+		}
+
+
+		// print_r($Alldatas);
+		// exit();
+		//this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		//this is for save as map
+		 $data="MapGenerator,saveConditionExpresion";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+		 $saveasfunction="SavehistoryCreateViewportal";
+
+		 //assign tpl
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+
+		$smarty->assign("HistoryMap",$HistoryMap);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		$smarty->assign("FirstModuleFields",$FirstModuleFields);
+		//put the smarty modal
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+		$smarty->assign("PopupJS",$Alldatas);
+		$output = $smarty->fetch('modules/MapGenerator/CREATEVIEWPORTAL.tpl');
+		echo $output;
+
+
+
+
+	} else {
+		//TODO:: if not exist by history check by id Of Map
+	}
+	
+}
 
 
 /**
@@ -1655,14 +1769,15 @@ function putThecondition($QueryHistory,$generatetQuery,$sendarrays=[])
  * @param  [type] $app_strings  
  * @return [type]                return string which contains the modal 
  */
-function put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings)
+function put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction="")
 {	
 	$smarty = new vtigerCRM_Smarty();
     $smarty->assign("MOD", $mod_strings);
     $smarty->assign("APP", $app_strings);
 	$smarty->assign("Datas", $data);
     $smarty->assign("dataid", $dataid);
-    $smarty->assign("savehistory", $savehistory);   
+    $smarty->assign("savehistory", $savehistory);  
+    $smarty->assign("anotherfunction", $saveasfunction);    
     $output = $smarty->fetch('modules/MapGenerator/Modal.tpl');
     return $output;
 
@@ -1773,18 +1888,18 @@ function get_The_history($Id_Encrypt="",$field_take="query",$sequence='')
 }
 
 
-// /**
-//  * Gets all history.function to get all data from mapgeneration_queryhistory
-//  * table
-//  *
-//  * @param      integer|string  $Id_Encrypt  The Id of mapgeneration_queryhistory
-//  * @param      string          $field_take  The field you want to take (Default
-//  *                                          is query)
-//  *
-//  * @throws     Exception       (description)
-//  *
-//  * @return     array          All history.
-//  */
+/**
+ * Gets all history.function to get all data from mapgeneration_queryhistory
+ * table
+ *
+ * @param      integer|string  $Id_Encrypt  The Id of mapgeneration_queryhistory
+ * @param      string          $field_take  The field you want to take (Default
+ *                                          is query)
+ *
+ * @throws     Exception       (description)
+ *
+ * @return     array          All history.
+ */
 function get_All_History($Id_Encrypt="",$field_take="query")
 {
 	global $adb,$root_directory, $log;
@@ -2083,7 +2198,7 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
     return "";
 }
 
-// 
+
 /**
  * function get all relation module only multi to one
  * @param [type] $m         Moduli

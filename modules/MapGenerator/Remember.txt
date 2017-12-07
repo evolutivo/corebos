@@ -40,6 +40,29 @@ data-send-savehistory="true"    -- key you want to use the history
 
 
 
+
+------------- for local history 
+
+data-save-history="true" -- key for execute the save history
+
+data-save-history-show-id="LoadHistoryPopup" -- the id of div  for history 
+
+data-save-history-show-id-relation="LoadShowPopup"  --- the id of relation when you click to show all popup 
+
+ data-send-savehistory-functionname="SavehistoryCreateViewportal"  --- function name if you want to run another function not stanadrt function if you want to use standart remove this attribute (this function pass 2 params  {LoadHistoryPopup,LoadShowPopup})
+
+
+
+
+
+
+
+
+
+
+
+
+
 // data-history-autorun="true" 
 
 // data-history-autorun-id="LoadHistoryPopup" 

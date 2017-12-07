@@ -27,7 +27,7 @@
                         <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" >{$MOD.cancel}
                         </button>
-                        <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" disabled class="slds-button slds-button--neutral slds-button--brand">
+                        <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="{$anotherfunction}" disabled class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.save}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
                     </div>
