@@ -135,19 +135,19 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
-                    <div class="" id="SecondDiv" style="float: left;width: 90%; height: 30px;">
+                    <div class="" id="SecondDiv" style="float: left;width: 90%; height: 33px;">
                         <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           {$SecondModuleFields}
                           </select>
-                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
+                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;height: 32px ;margin-top:0px;">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValue" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="DefaultValue" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 29px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
                               <button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
                               </button>
                           </div>
                      </div>

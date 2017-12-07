@@ -174,10 +174,10 @@
 							          </div>
 							 		</div>
 							 		<div id="ShowmoreInput" style="float: right;/* width: 40%; */margin-top:15px;padding: 0px;">
-								 		<div class="slds-combobox_container slds-has-object-switcher" style="width: 85%;margin-top:0px;height: 40px">
+								 		<div class="slds-combobox_container slds-has-object-switcher" style="width: 85%;margin-top:0px;height: 34px">
 					                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
 					                              <div class="slds-combobox__form-element" style="margin-right: 10px;">
-					                                  <input type="text" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+					                                  <input type="text" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:250px;height: 32px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
 					                              </div>
 					                              </div>
 					                             <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
