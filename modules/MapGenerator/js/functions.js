@@ -2207,7 +2207,7 @@ function addrows(event)
       {
         App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
       }
-      var checkifexist={fields:allfieldsval,texts:allfieldstetx}
+      var checkifexist={fields:allfieldsval,texts:allfieldstetx};
     if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
     {
        App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);

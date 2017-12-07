@@ -16,14 +16,29 @@
       {foreach from=$PopupJS item=allitems key=key name=name}
            {foreach name=outer item=popi from=$allitems}  
             var temparray = {};
-            {foreach key=key item=item from=$popi}
-            	var Fieldsarray=[];
-                {if $key eq 'Firstfield' or $key eq 'Firstfield2' }
-                	{foreach from=$item item=itemi}
-                		Fieldsarray.push('{$itemi}');
-                	{/foreach}
-                	temparray['{$key}']=Fieldsarray;
-
+            {foreach key=key item=item from=$popi}            
+                {if $key eq 'rows'}
+                  rows=new Array();
+                  allfieldsval=[];
+                  allfieldstetx=[];
+                	{foreach from=$item item=itemi key=keyes}
+                      checkifexist={};                    
+                      fieldsval=[];
+                      fieldstetx=[];
+                  		{foreach from=$itemi.fields item=items key=key name=name}
+                         fieldsval.push('{$items}');
+                      {/foreach}
+                      {foreach from=$itemi.texts item=items key=key name=name}
+                         fieldstetx.push('{$items}');
+                      {/foreach}                    
+                      {literal}
+                        allfieldsval.push(fieldsval);
+                        allfieldstetx.push(fieldstetx);
+                      {/literal}
+                  {/foreach}
+                  {literal}
+                    temparray["rows"]={fields:allfieldsval,texts:allfieldstetx};
+                  {/literal}
                 {else}
                	 temparray['{$key}']='{$item}';
                 {/if}
@@ -37,7 +52,10 @@
     
      if (App.SaveHistoryPop.length>0)
     { 
-        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+       $('#LoadHistoryPopup div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+              $('#LoadHistoryPopup').append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,'LoadHistoryPopup','LoadShowPopup'));
+        }      
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
     }else{
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
@@ -47,6 +65,12 @@
 
 {/if}
 
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+    {/if}
+
   <div>
   	<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
@@ -54,7 +78,7 @@
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
   </div>
 
-<div style="width: 70%;height: 100%;float: left;">
+<div style="width: 55%;height: 100%;float: left;">
   	 <div class="slds-section-title--divider">
      	 	{if $HistoryMap neq ''}
      	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
@@ -120,10 +144,10 @@
 	 	
 	 </div>
 	</div>
-<div style="float: right;width: 25%;margin-left: 20px;">
+<div style="float: right;width: 44%;margin-left: 0px;">
 	<div id="LoadShowPopup"></div>
 </div>
-<div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 71%;">
+<div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 50%;">
 </div>
 </div>
 
