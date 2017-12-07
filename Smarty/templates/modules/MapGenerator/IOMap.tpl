@@ -80,11 +80,9 @@
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
     <input type="hidden" name="querysequence" id="querysequence" value="">
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-
     <div data-div-load-automatic="true" id="ModalShow">
-      
+  
     </div>
-
     {if $Modali neq ''}
       <div>
         {$Modali}
@@ -107,10 +105,10 @@
                 
                     <div class="" id="SecondDiv" style="float: left;width: 90%;">
                         <center><label  style="margin-top: -17px;"  class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label></center>
-                        <select  style="margin-top: -2px;" id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopupInput">
+                        <select  style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopupInput">
                           {$allfields}
                           </select>
-                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
+                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px; height: 35px;">
                              <div  id="firstInp" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
                                   <input type="text" id="AllFieldsInputByhand" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
@@ -118,7 +116,7 @@
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
                               <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="" data-div-show="LoadShowPopupInput" data-show-modul-id="" data-add-button-popup="true" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
                               </button>
                           </div>
                      </div>
@@ -140,10 +138,10 @@
               
                     <div class="" id="SecondDiv" style="float: left;width: 90%;">
                         <center><label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">{$MOD.outputFields}</label></center>
-                        <select style="margin-top: -2px;" id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
+                        <select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
                           {$allfields}
                           </select>
-                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;">
+                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px;height: 35px;">
                              <div  id="secondOutput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
                                   <input type="text" id="AllFieldsOutputbyHand" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
@@ -151,7 +149,7 @@
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
                               <button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="" data-div-show="LoadShowPopup" data-add-button-popup="true" data-add-type="Output" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;height: 29px;">
                               </button>
                           </div>
                      </div>
@@ -168,15 +166,10 @@
           </div>
             
        <br><br>
-    <div id="contenitoreJoin" style="width: 100%;
-    display: inline-flex;"  >
+    <div id="contenitoreJoin" style="width: 100%; display: inline-flex;"  >
 
         <div id="sectionField">
-
             <div>
-                <div class="testoDiv">
-                    <center><b>{$MOD.SelectField}</b></center>
-                </div>
                 <div class="slds-form-element">
                     <div class="slds-form-element__control">
                         <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
@@ -187,24 +180,18 @@
                     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
                     <input type="hidden" name="querysequence" id="querysequence" value="">
                     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-                    
-
-
                 </div>
-
-
             </div>
-
-
         </div>
-
     </div>
 </div>
-    <div id="contenitoreJoin" style="display: inline;">        
+    <div id="contenitoreJoin" style="display: inline;">      
+           <div class="testoDiv">
+                    <center><b>{$MOD.SelectField}</b></center>
+                </div>  
       <div id="LoadShowPopup" style="margin-top: 10px;display: block;float: left; width: 70%;"></div>
       <!-- <div id="LoadShowPopupInput" style="margin-top: 10px;display: block; width: 35%;float: left;"></div> -->
       <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; width: 30%;float: right;">
-        
       </div>
     </div>{*End div contenitorejoin*}
 </div>
@@ -218,7 +205,6 @@
   </div>
 {literal}
     <script>
-       
     </script>
     <style>
 
@@ -306,7 +292,6 @@
             font-size: 1.4em;
             height: 18px;
         }
-
         /*
          * The buttonset container needs a width so we can stack them vertically.
          *
@@ -314,7 +299,6 @@
         #radio {
             width: 85%;
         }
-
         /*
          * Make each label stack on top of one another.
          *
@@ -322,7 +306,6 @@
         .ui-buttonset-vertical label {
             display: block;
         }
-
         /*
          * Handle colliding borders. Here, we"re making the bottom border
          * of every label transparent, except for labels with the
@@ -332,7 +315,6 @@
         .ui-buttonset-vertical label:not(:last-of-type):not(.ui-state-hover):not(.ui-state-active) {
             border-bottom: transparent;
         }
-
         /*
          * For lables in the active state, we need to make the top border of the next
          * label transparent.
@@ -341,7 +323,6 @@
         .ui-buttonset-vertical label.ui-state-active + input + label {
             border-top: transparent;
         }
-
         /*
          * Oddly enough, the above style approach doesn"t work for the
          * hover state. So we define this class that"s used by our JavaScript
@@ -351,22 +332,17 @@
         .ui-buttonset-vertical label.ui-transparent-border-top {
             border-top: transparent;
         }
-
         select {
             width: 300px;
         }
-
         .overflow {
             height: 200px;
         }
-
-
         .tooltip {
             position: relative;
             display: inline-block;
             border-bottom: 1px dotted black;
         }
-
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 120px;
@@ -382,14 +358,9 @@
             top: -5px;
             right: 105%;
         }
-
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
-
     </style>
- 
 {/literal}
-  
-
 </div>

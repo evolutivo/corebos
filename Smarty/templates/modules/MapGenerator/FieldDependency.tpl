@@ -103,12 +103,12 @@
 						                          </span>
 						                        </label>
 						                      </div>
-						                    {*    <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;vertical-align: bottom;">
+						                    {*    <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 31px;height: 40px;vertical-align: bottom;">
 						                             <!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,secmodule,SecondfieldID,sortt6ablechk,editablechk,mandatorychk,hiddenchk" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
 						                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
 						                              </button> -->
 						                               <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-						                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+						                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29">
 						                              </button>
 						                          </div> *}
 						                    
@@ -182,7 +182,7 @@
 					                              </div>
 					                             <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
 					                              <button class="slds-button slds-button_icon" onclick="Addmorevalues(this)" aria-haspopup="true" title="Add more Values" style="width:2.1rem;">
-					                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+					                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
 					                              </button>
 					                            
 					                          </div>
@@ -261,15 +261,15 @@
 		 		<div class="slds-form-element">
 	            <label class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
 	            <div class="slds-form-element__control">
-	              	<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
+	              	<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 34px">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" style="width:250px;height: 32px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
                               <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;" >
                               </button>
                           </div>
                      </div>
