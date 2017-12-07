@@ -417,6 +417,13 @@
 				VauefromPost = null;
 			}
 		 },
+
+		 /**
+		  * function to select the origin module and after put the fields in base of what you select 
+		  *
+		  * @class      GetSecondField (name)
+		  * @param      {<type>}  event   The event
+		  */
 		 GetSecondField : function(event) {
 			if (event)
 				event.preventDefault();
@@ -425,6 +432,7 @@
 			var modulesecondfield = elem.attr("data-module");
 			var relationmodule=elem.attr("data-second-select-file");
 			var firstfieldid=elem.attr("data-select-fieldid");
+			var sendfirstmodule=elem.attr('data-second-firstmodule-id');
 			var selectsecondfields = elem.find(":selected").val();
 			if (relationid != "undefined") {
 				var sp = selectsecondfields.split(";");
@@ -433,6 +441,10 @@
 				secModule = mod0[0];
 				var urlsendfield = [ modulesecondfield, "moduleFields" ];
 				var datfields = "mod=" + secModule;
+				if (sendfirstmodule)
+				{
+					datfields+="&firstmodule="+App.utils.IsSelectORDropDown(sendfirstmodule);
+				}
 				if (relationmodule)
 				 {
 				 	if (relationmodule.length > 0)

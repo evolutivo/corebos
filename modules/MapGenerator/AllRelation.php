@@ -5,6 +5,7 @@ include('modfields.php');
 
  global $adb, $root_directory, $log;
 $modules=$_POST['mod'];
+$firstmodule=$_POST['firstmodule'];
 $datareturn="";
 // $datareturn.=getModFields(explode(";", $key)[0], $acno.$dbname);
 if (!empty($modules)) {	
@@ -22,8 +23,10 @@ if (!empty($modules)) {
 	        for($i=1;$i<=$num_rows;$i++)
 	        {
 	            $Module = $adb->query_result($result,$i-1,'relmodule');
-	           
-	            $a.= getModFields($Module, $acno.$dbname);	           
+	            if ($Module!=$firstmodule)
+	            {
+	            	$a.= getModFields($Module, $acno.$dbname);
+	            }	            	           
 	            
 	        }
 	       echo $a;
