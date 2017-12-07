@@ -1002,7 +1002,7 @@
 			if (sendSaveAs && sendSaveAs==="true")
 			{
 				var ulrsaveas=[urlcheck[0],"SavenewMap"];
-				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}`;
+				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}&anotherfunction=${executefunction}`;
 				App.utils.PostDataGeneric(event,ulrsaveas,dat);
 				if (VauefromPost)
 				{

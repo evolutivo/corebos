@@ -2484,14 +2484,14 @@ function ShowHistoryData(id,divshow)
     }
     if (App.popupJson.length>0)
     { 
-      $('#' + dataDivtoShowe + ' div').remove();
+      $('#' + divshow + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
           alldat=[];
           var BlockName=App.popupJson[i].temparray[`BlockName`];
           alldat=App.popupJson[i].temparray[`rows`];
           var typeofppopup=App.popupJson[i].temparray['JsonType'];
-          var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
-          $('#'+dataDivtoShowe).append(divinsert);
+          var divinsert= addToPopup(i,BlockName,alldat,divshow,typeofppopup);
+          $('#'+divshow).append(divinsert);
         } 
     }
 }
