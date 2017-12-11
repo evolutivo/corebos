@@ -1,14 +1,10 @@
 <?php
-/*********************************************************************************
- * The contents of this file are subject to the SugarCRM Public License Version 1.1.2
- * ("License"); You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at http://www.sugarcrm.com/SPL
- * Software distributed under the License is distributed on an  "AS IS"  basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- * The Original Code is:  SugarCRM Open Source
- * The Initial Developer of the Original Code is SugarCRM, Inc.
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.;
+/*+********************************************************************************
+ * The contents of this file are subject to the vtiger CRM Public License Version 1.0
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ********************************************************************************/
 $app_strings = array(
@@ -24,6 +20,7 @@ $app_strings = array(
 'LBL_SHOW'=>'zeige:',
 'today'=>"heutige",
 'all'=>'Alle',
+'Generate Document'=>'Merge Document',
 'LBL_UPCOMING_EVENTS'=>'aktuelle Aktivitäten',
 'LBL_PENDING_EVENTS'=>'überfällige Aktivitäten',
 'NTC_WELCOME_MESSAGE'=>"Willkommen!",
@@ -207,6 +204,8 @@ $app_strings = array(
 'Import'=>'Import',
 'Merge'=>'Zusammenführen',
 'ConvertLead'=>'Lead umwandeln',
+'Is Converted From Lead' => 'Wird konvertiert, aus Blei',
+'Converted From Lead' => 'Konvertiert aus Blei',
 'LBL_SHOW_RESULTS'=>'zeige Ergebnisse in',
 'LBL_TOTAL_RECORDS_FOUND'=>'Gesamtanzahl gefunden :',
 'LBL_SEARCH_RESULTS_FOR'=>' -- Suchergebnisse für ',
@@ -464,10 +463,10 @@ $app_strings = array(
 'Invoice No'=>'Rechnungsnr.',
 'Sales Order'=>'Kundenbestellung',
 'COMBO_QUOTES'=>'Angebote',
-'End Date'=>'Ende',
-'End Date & Time' => 'Termin endet',
+'End Date'=>'Ende (System Date)',
+'End Date & Time' => 'Termin endet (System Date)',
 'Start Date'=>'Start',
-'Start Date & Time' => 'Termin beginnt',
+'Start Date & Time' => 'Termin beginnt (System Date)',
 'Recurring Type'=> 'Wiederholungsart',
 'SalesOrder'=> 'Verkäufe',
 'LBL_QUOTE_NAME'=>'Angebotsname',
@@ -627,9 +626,9 @@ $app_strings = array(
 'LBL_RENAME_PROFILE'=>'Profil umbenennen',
 'LBL_PROFILE_NAME'=>'Profilname',
 'LBL_START_DATE'=>'Startdatum',
-'LBL_START_DATE_TIME'=>'Termin beginnt',
-'LBL_END_DATE'=>'Endedatum',
-'LBL_END_DATE_TIME'=>'Termin endet',
+'LBL_START_DATE_TIME'=>'Termin beginnt (System Date)',
+'LBL_END_DATE'=>'Endedatum (System Date)',
+'LBL_END_DATE_TIME'=>'Termin endet (System Date)',
 'LBL_CREATE_MERGE_TEMPLATE'=>'Textvorlage erstellen ',
 'LBL_IMG_FORMATS'=>'(Nur jpg, gif, bmp und png Bilder)',
 

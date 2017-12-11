@@ -777,6 +777,13 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'Maximum number of days in the past to search for events that will appear in the reminder pop-up. The default is 7 days.',
 ),
+'Calendar_Show_Only_My_Events' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'Show only the events assign to me, shared with me and in which I am invited.',
+),
 'CronTasks_cronWatcher_mailto' => array(
 	'status' => 'Implemented',
 	'valuetype' => 'CSV emails',
@@ -901,7 +908,7 @@ $GlobalVariableDefinitons = array(
 	'valuetype' => 'String',
 	'category' => 'Application',
 	'values' => 'Country Name',
-	'definition' => 'For GeoDistance calculation workflow functions, this variable sets the default country to use if none is given. Useful when the company has a local area of influence.',
+	'definition' => 'For GeoDistance calculation workflow functions, this variable sets the default country coce to use if none is given. Useful when the company has a local area of influence.Example:gb,us,fr,es',
 ),
 'Workflow_GeoDistance_ServerIP' => array(
 	'status' => 'Implemented',
@@ -1059,7 +1066,7 @@ $GlobalVariableDefinitons = array(
 ),
 );
 
-foreach (glob('modules/GlobalVariable/language/en_us.gvdefs.*.php',GLOB_BRACE) as $tcode) {
+foreach (glob('modules/GlobalVariable/language/en_us.gvdefs.*.php', GLOB_BRACE) as $tcode) {
 	include($tcode);
 }
 
