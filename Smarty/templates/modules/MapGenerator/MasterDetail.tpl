@@ -186,9 +186,9 @@
                       <div class="slds-form-element" style="display: inline-block;">
                         <label class="slds-checkbox--toggle slds-grid">
                          <input id="sortt6ablechk" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
-                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
+                          <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Sort</span>
+                            <span class="slds-checkbox">Sort</span>
                             <!-- <span class="slds-checkbox--of">editable-false</span> -->
                           </span>
                         </label>
@@ -199,17 +199,17 @@
                          <input id="editablechk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Editable</span>
+                            <span class="slds-checkbox">Editable</span>
                             <!-- <span class="slds-checkbox--of">editable-false</span> -->
                           </span>
                         </label>
                       </div>
-                        <div class="slds-form-element" style="display: inline-block;">
+                        <div class="slds-form-element" style="display: inline-block; margin-right: -5px;">
                         <label class="slds-checkbox--toggle slds-grid">
                          <input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Mandatory</span>
+                            <span class="slds-checkbox">Mandatory</span>
                             <!-- <span class="slds-checkbox--of">editable-false</span> -->
                           </span>
                         </label>
@@ -219,19 +219,20 @@
                          <input id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hidden</span>
+                            <span class="slds-checkbox">Hidden</span>
                             <!-- <span class="slds-checkbox--of">editable-false</span> -->
                           </span>
                         </label>
                       </div>
-                      <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;vertical-align: bottom;">
-                             <!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,secmodule,SecondfieldID,sortt6ablechk,editablechk,mandatorychk,hiddenchk" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
-                              </button> -->
-                               <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+
+                      <div class="slds-form-element" style="display: inline-block;float: right;margin-right: 14px;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                        <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
-                          </div>
+                        </label>
+                      </div>
+
                         <!-- <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           </select> -->
                           <!-- <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;"> -->
@@ -475,6 +476,22 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
+
+
+        #toggle-desc .slds-checkbox{
+          font-size: 11px !important; 
+          margin: 0 5px !important; 
+        }
+
+        /*#SecondDiv .slds-form-element{*/
+          
+          /*margin-right: 6px !important; */
+        /*}*/
+
+        #toggle-desc .slds-checkbox--faux{
+                  margin-right: 12px !important;
+                  text-align: center;
+                }
 
     </style>
  

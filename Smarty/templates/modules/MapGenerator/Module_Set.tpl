@@ -68,7 +68,7 @@
       </div>
     {/if}
     <div id="selJoin" style="float:left; overflow: hidden;width:100%;height: 100%">
-        <div style="float:left; overflow: hidden;width:80%" id="sel1">
+        <div style="float:left; overflow: hidden;width:60%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 <center>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin-left: 80px;padding: 0px;width: 47px;height: 39px;">
+        <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin:22px 0px 10px 30px;padding: 0px;width: 47px;height: 39px;">
             <button data-add-button-popup="true" data-add-type="Modul" data-add-relation-id="HistoryValueToShow,FirstModule,FirstModule" data-show-id="" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                 <img src="themes/images/btnL3Add.gif" style="width: 100%;">
             </button>
