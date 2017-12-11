@@ -1,6 +1,10 @@
-/**
- * 
- */
+/*
+* @Author: edmondi kacaj
+* @Date:   2017-11-06 10:16:56
+* @Last Modified by:   edmondi kacaj
+* @Last Modified time: 2017-12-11 18:15:41
+*/
+
 
 (function(global, $) {
 	global.historySave=[];
@@ -14,6 +18,8 @@
 		popupJson : [],
 		SaveHistoryPop:[],
 		MultiList:[],
+		ModulLabel:'',
+		FieldLabel:'',
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -40,6 +46,11 @@
 	 * Called to load the page and every section uploaded via ajax on its
 	 * content
 	 */
+	
+	loadModuleAndFields:function(module,fields){
+		App.ModulLabel=module;
+		App.FieldLabel=fields;
+	},
 
 	};
 
@@ -189,7 +200,14 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "MENUSTRUCTURE") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
+
 		},
 
 		LoadLabel:function(event){
@@ -690,6 +708,10 @@
 								App.UniversalPopup.Add_show_Popup);
 			$(document).on('change', 'select[data-load-element="true"]',
 								App.UniversalPopup.addIntoElement);
+			$(document).on('mouseover', 'button[data-message-show="true"]',
+								App.UniversalPopup.ShowHelpMessage);
+			$(document).on('mouseout', 'button[data-message-show="true"]',
+								App.UniversalPopup.hideHelpMessage);
 		},
 
 		Add_show_Popup:function(event){
@@ -852,7 +874,28 @@
 		App.utils.SetValueTohtmlComponents(idset,valuetoshow);
 	   },
 
+	   ShowHelpMessage:function(event){
 
+	   	var elem=$(this);
+
+	   	var idtoshow=elem.attr('data-message-show-id');
+	   	if (idtoshow)
+	   	{
+	   		$('#'+idtoshow).css('display', 'inline-block');
+	   	}
+
+	   },
+	hideHelpMessage:function(event){
+
+		   	var elem=$(this);
+
+		   	var idtoshow=elem.attr('data-message-show-id');
+		   	if (idtoshow)
+		   	{
+		   		$('#'+idtoshow).css('display', 'none');
+		   	}
+
+		   },
 	};
 
 	App.SelectModule = {
@@ -1560,8 +1603,8 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+moduli;
-				INSertAlerstJOIN += '<br/> '+mv_arr.field+'  ==> '+fields;
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+App.ModulLabel+' ==>'+moduli;
+				INSertAlerstJOIN += '<br/> '+App.FieldLabel+'  ==> '+fields;
 			} else
 			{
 				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
