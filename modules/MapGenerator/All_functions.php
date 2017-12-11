@@ -1459,6 +1459,7 @@ function GetModuleMultiToOne($m)
    {
     global $log, $mod_strings,$adb;
     $j = 0;
+    $a='<option value="" >(Select a module)</option>';
     $result = $adb->pquery("SELECT relmodule,columnname,fieldlabel 
             from vtiger_fieldmodulerel join vtiger_field 
             on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid 

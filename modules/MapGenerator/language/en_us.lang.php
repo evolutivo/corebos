@@ -94,6 +94,7 @@ $mod_strings = Array(
     'ChangeLabel'=>'Change Label name',
     'SelectedField'=>'Selected Fields',
     'popupPlace'=>'Popup Screen',
+    'RelatedList'=>'Related List',
     'ConditionQuery'=>'Condition Query',
     'module_set'=>'Module Set',
     'inputFileds'=>'Input Fields',

@@ -125,7 +125,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField"  data-second-select-file="AllRelation"  name="secmodule" class="slds-select">
+                        <select id="secmodule" data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField"  data-second-select-file="AllRelation"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}
                         </select>
                      </div>

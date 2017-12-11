@@ -90,7 +90,7 @@
                  </div>
             </div>
             <br>
-              <div class="slds-form-element">
+              {* <div class="slds-form-element">
                 <div class="slds-form-element__control">
                     <div class="slds-select_container">
                        <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
@@ -102,7 +102,7 @@
                         </select>
                        </div>
                 </div>
-            </div>
+            </div> *}
             <br>
     <!--           <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -120,6 +120,7 @@
            </div>
        <div style="float:left; overflow: hidden;width:10%; margin-top: 30px;" id="centerJoin"> =</div>
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
+        {* <div class="testoDiv"><center><b>{$MOD.popupPlace}</b></center></div> *}
               <div class="slds-form-element">
                 <div class="slds-form-element__control">
                      <center>
@@ -145,7 +146,7 @@
                  </div>
                </div>
             <br>
-              <div class="slds-form-element">
+              {* <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 
                       <div class="" id="SecondDiv" style="float: left;width: 100%;">
@@ -166,7 +167,7 @@
                         </div>
                         
                 </div>
-            </div>
+            </div> *}
             <br>
          <!--      <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -195,6 +196,58 @@
           </div>
             
        <br><br>
+       <div id="sectionField" style="width:100%; float: left;">
+              
+               <div class="testoDiv">
+                    <center><b>{$MOD.RelatedList}</b></center>
+                </div>
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
+
+                        </div>
+                    </div>                   
+                    
+                </div>
+        </div>
+      <div style="width: 100%;">
+        <div style="width: 45%;float: left;" class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                       <select  id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
+                        {if $SecondModuleFields neq ''}
+                            {$SecondModuleFields}
+                        {else}
+                            <option value="">Choose from origin</option>
+                        {/if}
+                        </select>
+                       </div>
+                </div>
+        </div>
+
+        <div style="width: 45%;float: right;" class="slds-form-element">
+                <div class="slds-form-element__control">
+                
+                      <div class="" id="SecondDiv" style="float: left;width: 100%;">
+                       
+                          <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 32px;margin-bottom: 10px;">
+                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                              <div class="slds-combobox__form-element">
+                                  <input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" style="width:250px;height: 30px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                              </div>
+                              </div>
+                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
+                              <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
+                              </button>
+                          </div>
+                     </div>
+                         
+                        </div>
+                        
+                </div>
+        </div>
+      </div>
        <div id="contenitoreJoins">
 
         <div id="sectionField" style="width:100%; float: left; margin-top: 10px">
@@ -247,7 +300,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button data-add-button-popup="true" data-add-type="Popup" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Popup" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
                               </button>
                             
