@@ -268,7 +268,7 @@ $adb->pquery("update vtiger_notes set message=$recordid where notesid=?",array($
 		$sql = 'select email_flag from vtiger_emaildetails where emailid=?';
 		$result = $adb->pquery($sql, array($emailid));
 		$email_flag = $adb->query_result($result, 0, 'email_flag');
-		return  ($email_flag != 'SAVED');
+		return  ($email_flag == 'SENT');
 	}
 
 	function saveForwardAttachments($id, $module, $file_details) {

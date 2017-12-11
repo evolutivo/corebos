@@ -2462,8 +2462,19 @@ function closePopupData(remuveid,namediv) {
           App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
       }
 }
+
+
+
 // part of local History
 
+/**
+ * function to load the histoery every time you click on save map 
+ * (this functionm called in button by attribute if you do not want to use the standart modal )
+ *
+ * @class      SavehistoryCreateViewportal (name)
+ * @param      {string}  keephitoryidtoshow            The keephitoryidtoshow
+ * @param      {<type>}  keephitoryidtoshowidrelation  The keephitoryidtoshowidrelation
+ */
 function SavehistoryCreateViewportal(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
    if (App.SaveHistoryPop.length>0)
@@ -2498,6 +2509,15 @@ function ShowHistoryData(id,divshow)
 
 
 
+/**
+ * the html generate for local history 
+ *
+ * @param      {number}  IdLoad         The identifier load
+ * @param      {string}  dataarr        The dataarr
+ * @param      {<type>}  divanameLoad   The divaname load
+ * @param      {string}  dividrelation  The dividrelation
+ * @return     {string}  { description_of_the_return_value }
+ */
 function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
       var htmldat='<div class="Message Message"  >';
         htmldat+='<div class="Message-icon">';

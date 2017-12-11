@@ -254,6 +254,26 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="DETAILVIEWBLOCKPORTAL") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 DETAILVIEWBLOCKPORTAL($QueryHistory,$MapID);		
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -270,8 +290,107 @@ if ($MypType=="Mapping") {
  * All Function Needet 
  */
 
+/**
+ * function to generate the map type DETAILVIEWBLOCKPORTAL
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
+function DETAILVIEWBLOCKPORTAL($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	if (!empty($QueryHistory)) {
+		//TODO:: if exist the history check by id of history
+
+		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		 //fields 
+		$FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+
+			// this is for get the history filter by id 
+		$Allhistory=get_All_History($QueryHistory);
+		$Alldatas=array();
+
+		foreach ($Allhistory as $value) {
+			$xml=new SimpleXMLElement($value['query']);
+			$BlockArray=array();
+			foreach ($xml->blocks->block as $valueblock) {
+				$arratoinsert=[
+					'BlockName'=>(string)$valueblock->name,
+					'BlockNameText'=>(string)$valueblock->name,
+					'BlockNameoptionGroup'=>"",
+					'FirstModule'=>explode(',',get_The_history($QueryHistory,"firstmodule"))[0],
+					'FirstModuleText'=>explode(',',get_The_history($QueryHistory,"firstmodule"))[0],
+					'FirstModuleoptionGroup'=>'udentifined',
+					'JsonType'=>"Block",
+					'rows'=>array(),
+				];				
+				foreach ($valueblock->row as $valuecolumns) {
+					$insertcolumn=[
+						'fields'=>array(),
+						'texts'=>array()
+					];
+					foreach ($valuecolumns->column as $valuee) {
+						$insertcolumn['fields'][]=explode(",",CheckAllFirstForAllModules((string)$valuee))[0];
+					  	$insertcolumn['texts'][]=explode(",",CheckAllFirstForAllModules((string)$valuee))[1];
+					}
+				 	// array_push($insertcolumn,$arrrow);
+				 	$arratoinsert['rows'][]=$insertcolumn;
+				}
+				
+				array_push($BlockArray,$arratoinsert);
+			}
+            array_push($Alldatas,$BlockArray);
+		}
 
 
+		// print_r($Alldatas);
+		// exit();
+		//this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		//this is for save as map
+		 $data="MapGenerator,saveConditionExpresion";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+		 $saveasfunction="SavehistoryCreateViewportal";
+
+		 //assign tpl
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+
+		$smarty->assign("HistoryMap",$HistoryMap);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		$smarty->assign("FirstModuleFields",$FirstModuleFields);
+		//put the smarty modal
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+		$smarty->assign("PopupJS",$Alldatas);
+		$output = $smarty->fetch('modules/MapGenerator/DETAILVIEWBLOCKPORTAL.tpl');
+		echo $output;
+
+
+
+
+	} else {
+		//TODO:: if not exist by history check by id Of Map
+	}
+	
+}
+
+/**
+ * function to generate the map type CreateViewPortal
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
 function CREATEVIEWPORTAL($QueryHistory,$MapID)
 {
 	include_once('modfields.php');

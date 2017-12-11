@@ -15,7 +15,7 @@
  *************************************************************************************************/
 global $entityDel, $display;
 
-if(version_compare(phpversion(), '5.4.0') < 0 or version_compare(phpversion(), '7.1.0') >= 0) {
+if(version_compare(phpversion(), '5.4.0') < 0 or version_compare(phpversion(), '7.2.0') >= 0) {
 	header('Content-Type: text/html; charset=UTF-8');
 	$serverPhpVersion = phpversion();
 	require_once('phpversionfail.php');
@@ -25,23 +25,6 @@ if(version_compare(phpversion(), '5.4.0') < 0 or version_compare(phpversion(), '
 require_once('include/utils/utils.php');
 
 global $currentModule;
-
-/** Function to  return a string with backslashes stripped off
- * @param $value -- value:: Type string
- * @returns $value -- value:: Type string array
-*/
-function stripslashes_checkstrings($value){
-	if(is_string($value)){
-		return stripslashes($value);
-	}
-	return $value;
-}
-
-if(get_magic_quotes_gpc() == 1){
-	$_REQUEST = array_map('stripslashes_checkstrings', $_REQUEST);
-	$_POST = array_map('stripslashes_checkstrings', $_POST);
-	$_GET = array_map('stripslashes_checkstrings', $_GET);
-}
 
 header('Content-Type: text/html; charset='. $default_charset);
 
@@ -189,7 +172,6 @@ if(isset($action) && isset($module))
 		preg_match("/^LeadConvertToEntities/", $action) ||
 		preg_match("/^downloadfile/", $action) ||
 		preg_match("/^massdelete/", $action) ||
-		preg_match("/^updateLeadDBStatus/",$action) ||
 		preg_match("/^updateRole/",$action) ||
 		preg_match("/^UserInfoUtil/",$action) ||
 		preg_match("/^deleteRole/",$action) ||
@@ -347,8 +329,7 @@ if($use_current_login)
 	//getting the current user info from flat file
 	$result = $current_user->retrieveCurrentUserInfoFromFile($_SESSION['authenticated_user_id']);
 
-	if($result == null)
-	{
+	if ($result == null) {
 		coreBOS_Session::destroy();
 		header("Location: index.php?action=Login&module=Users");
 	}
@@ -359,20 +340,26 @@ if($use_current_login)
 	require_once('user_privileges/audit_trail.php');
 	/* Skip audit trail log for special request types */
 	$skip_auditing = false;
-	if(($action == 'ActivityReminderCallbackAjax' || (isset($_REQUEST['file']) && $_REQUEST['file'] == 'ActivityReminderCallbackAjax')) && $module == 'Calendar') {
+	if (($action == 'ActivityReminderCallbackAjax' || (isset($_REQUEST['file']) && $_REQUEST['file'] == 'ActivityReminderCallbackAjax')) && $module == 'Calendar') {
 		$skip_auditing = true;
-	} else if(($action == 'TraceIncomingCall' || (isset($_REQUEST['file']) && $_REQUEST['file'] == 'TraceIncomingCall')) && $module == 'PBXManager') {
+	} elseif (($action == 'TraceIncomingCall' || (isset($_REQUEST['file']) && $_REQUEST['file'] == 'TraceIncomingCall')) && $module == 'PBXManager') {
 		$skip_auditing = true;
 	}
-	/* END */
-	if($audit_trail == 'true' and !$skip_auditing) {
+	if ($audit_trail == 'true' and !$skip_auditing) {
+		if ($action=='Save') {
+			if (empty($record)) {
+				$action = 'Save (Create)';
+			} else {
+				$action = 'Save (Edit)';
+			}
+		}
 		$date_var = $adb->formatDate(date('Y-m-d H:i:s'), true);
-		$query = "insert into vtiger_audit_trial values(?,?,?,?,?,?)";
+		$query = 'insert into vtiger_audit_trial values(?,?,?,?,?,?)';
 		$qparams = array($adb->getUniqueID('vtiger_audit_trial'), $current_user->id, $module, $action, $record, $date_var);
 		$adb->pquery($query, $qparams);
 	}
-	if(!$skip_auditing) {
-		cbEventHandler::do_action('corebos.audit.action',array($current_user->id, $module, $action, $record, date('Y-m-d H:i:s')));
+	if (!$skip_auditing) {
+		cbEventHandler::do_action('corebos.audit.action', array($current_user->id, $module, $action, $record, date('Y-m-d H:i:s')));
 	}
 	$log->debug('Current user is: '.$current_user->user_name);
 }

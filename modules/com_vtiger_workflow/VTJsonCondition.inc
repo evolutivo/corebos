@@ -40,10 +40,10 @@ class VTJsonCondition {
 						$cond['fieldname'] = $fieldname;
 						$expressionResults[$conditionGroup][$i]['result'] = $this->checkCondition($entity, $cond, $entityData);
 					} else {
-						$expressionResults[$conditionGroup][$i]['result'] = FALSE;
+						$expressionResults[$conditionGroup][$i]['result'] = ($cond['operation'] == 'is empty' || ($cond['operation'] == 'is' && $cond['value'] == ''));
 					}
 				} else {
-					$expressionResults[$conditionGroup][$i]['result'] = FALSE;
+					$expressionResults[$conditionGroup][$i]['result'] = ($cond['operation'] == 'is empty' || ($cond['operation'] == 'is' && $cond['value'] == ''));
 				}
 			}
 			$expressionResults[$conditionGroup][$i + 1]['logicaloperator'] = (!empty($cond['joincondition'])) ? $cond['joincondition'] : 'and';
@@ -314,6 +314,10 @@ class VTJsonCondition {
 				return false;
 			case 'is today':
 				$today = date('Y-m-d');
+				if ($cond['fieldname'] == 'birthday') {
+					$fieldValue = date('m-d', strtotime($fieldValue));
+					$today = date('m-d');
+				}
 				if($fieldValue == $today) {
 					return true;
 				}
