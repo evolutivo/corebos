@@ -379,8 +379,6 @@ function get_reply_all(&$from, &$to, &$cc)
 function cut_address(&$addr, &$charset)
 {
     global $charset;
-    // Strip slashes from input
-    $addr = safestrip($addr);
 
     // Break address line into individual addresses, taking
     // quoted addresses into account
@@ -425,8 +423,7 @@ function cut_address(&$addr, &$charset)
     */
 
     // Loop through addresses
-    for ($i = 0; $i < sizeof($addresses); $i++)
-    {
+    for ($i = 0; $i < count($addresses); $i++) {
         // Wrap address in brackets, if not already
         $pos = strrpos($addresses[$i], '<');
         if (!is_int($pos))
@@ -598,18 +595,6 @@ function mailquote(&$body, &$from, $html_wrote)
   return($from . ' ' . $html_wrote . " :\n\n" . $body);
 
 }
-/* ----------------------------------------------------- */
-
-// If running with magic_quotes_gpc (get/post/cookie) set
-// in php.ini, we will need to strip slashes from every
-// field we receive from a get/post operation.
-function safestrip(&$string)
-{
-    if(get_magic_quotes_gpc())
-        $string = stripslashes($string);
-    return $string;
-}
-
 
 // Wrap outgoing messages to
 function wrap_outgoing_msg ($txt, $length, $newline)

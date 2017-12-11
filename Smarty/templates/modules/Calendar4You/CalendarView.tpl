@@ -26,7 +26,7 @@
 </div>
 <!-- Dropdown for Add Event on Button hover -->
 <div id='addButtonDropDown' style='width:160px' onmouseover='fnShowButton()' onmouseout='fnRemoveButton()'>
-<table width="100%" cellpadding="0" cellspacing="0" border="0">{$ADD_BUTTONEVENTLIST}</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">{$ADD_ADDEVENTLIST}</table>
 </div>
 <script>
 var Events_color = new Array();
@@ -257,6 +257,7 @@ jQuery(document).ready(function(){
 			eventlist = new Array({$EVENTLIST});
 			var timemodulearr = new Array({$TIMEMODULEARRAY});
 			var timemoduledet = {$TIMEMODULEDETAILS};
+			var calendar_other_default_duration = {$Calendar_Other_Default_Duration}; // hours
 {literal}
 			for(var i=0;i<(eventlist.length);i++){
 				document.getElementById("add"+eventlist[i].toLowerCase()).href="javascript:gITSshow('addITSEvent','"+eventlist[i]+"','"+startdate+"','"+enddate+"','"+starthr+"','"+startmin+"','"+startfmt+"','"+endhr+"','"+endmin+"','"+endfmt+"','"+viewOption+"','"+subtab+"');fnRemoveITSEvent();";
@@ -275,13 +276,19 @@ jQuery(document).ready(function(){
 					var nt = parseInt(starthr) + 12;
 					var tmetime = nt + ":" + endmin;
 				}
+				if (starthr == endhr && startmin == endmin) {
+					endhr = String(parseInt(endhr) + calendar_other_default_duration);
+					if (endhr.length == 1) {
+						endhr = '0'+endhr;
+					}
+				}
 				var addmoduleurl = "javascript:gotourl('index.php?action=EditView&return_module=Calendar4You&return_action=index&module="+tmmod;
 				addmoduleurl += timemoduledet[tmmod].start ? "&"+timemoduledet[tmmod].start+'='+startdate : '';
 				addmoduleurl += timemoduledet[tmmod].end ? "&"+timemoduledet[tmmod].end+'='+enddate : '';
 				addmoduleurl += timemoduledet[tmmod].stime ? "&"+timemoduledet[tmmod].stime+'='+tmstime : '';
 				addmoduleurl += timemoduledet[tmmod].etime ? "&"+timemoduledet[tmmod].etime+'='+tmetime : '';
 				addmoduleurl += "');";
-				document.getElementById("add"+tmmod.toLowerCase()).href=addmoduleurl;
+				document.getElementById("addmod"+tmmod.toLowerCase()).href=addmoduleurl;
 			}
 
             xOffset = 5;
@@ -445,6 +452,8 @@ function hideITSEventInfo(){
                         <tbody>
                             <tr>
                                   <td width="200px" valign="top" class="noprint">
+                                  {foreach item=PANEL_NAME from=$Calendar_Panel_Order}
+                                    {if $PANEL_NAME eq 'ActivityType'}
                                     <table class="dvtContentSpace" border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tbody>
                                             <tr>
@@ -461,8 +470,8 @@ function hideITSEventInfo(){
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <br>
-                                    {if $Calendar_Modules_Panel_Visible}
+                                    {/if}
+                                    {if $Calendar_Modules_Panel_Visible && $PANEL_NAME eq 'ModulePanel'}
                                     <table class="dvtContentSpace" border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tbody>
                                             <tr>
@@ -479,8 +488,8 @@ function hideITSEventInfo(){
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <br>
                                     {/if}
+                                    {if $PANEL_NAME eq 'AssignedUser'}
                                     <table class="dvtContentSpace" border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tbody>
                                             <tr>
@@ -503,8 +512,8 @@ function hideITSEventInfo(){
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <br>
-                                    <br>
+                                    {/if}
+                                    {if $PANEL_NAME eq 'ActivityStatus'}
                                     <table class="dvtContentSpace" border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tbody>
                                             <tr>
@@ -523,7 +532,8 @@ function hideITSEventInfo(){
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <br>
+                                    {/if}
+                                    {if $PANEL_NAME eq 'ActivityPriority'}
                                     <table class="dvtContentSpace" border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tbody>
                                             <tr>
@@ -540,6 +550,9 @@ function hideITSEventInfo(){
                                             </tr>
                                         </tbody>
                                     </table>
+                                    {/if}
+                                    <br/>
+                                    {/foreach}
                                   </td>
                                   <td align="left" valign="top"><!-- content cache -->
                                     <div style="padding:0px 10px 0px 10px">

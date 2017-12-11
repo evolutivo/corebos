@@ -120,7 +120,7 @@ class SalesOrder extends CRMEntity {
 		}
 		$updateInventoryProductRel_deduct_stock = true;
 		//Checking if quote_id is present and updating the quote status
-		if($this->column_fields['quote_id'] != '') {
+		if (!empty($this->column_fields['quote_id'])) {
 			$newStatus = GlobalVariable::getVariable('Quote_StatusOnSalesOrderSave', 'Accepted');
 			if ($newStatus!='DoNotChange') {
 				$qt_id = $this->column_fields['quote_id'];
@@ -391,7 +391,7 @@ class SalesOrder extends CRMEntity {
 		$matrix = $queryPlanner->newDependencyMatrix();
 		$matrix->setDependency('vtiger_crmentitySalesOrder', array('vtiger_usersSalesOrder', 'vtiger_groupsSalesOrder', 'vtiger_lastModifiedBySalesOrder'));
 		$matrix->setDependency('vtiger_inventoryproductrelSalesOrder', array('vtiger_productsSalesOrder', 'vtiger_serviceSalesOrder'));
-		if (!$queryPlanner->requireTable('vtiger_salesorder', $matrix) && !$queryplanner->requireTable('vtiger_salesordercf',$matrix)) {
+		if (!$queryPlanner->requireTable('vtiger_salesorder', $matrix) && !$queryPlanner->requireTable('vtiger_salesordercf',$matrix)) {
 			return '';
 		}
 		$matrix->setDependency('vtiger_salesorder',array('vtiger_crmentitySalesOrder', "vtiger_currency_info$secmodule",

@@ -994,7 +994,7 @@ function getActionid($action) {
 		$actionid = (isset($action_id_array[$action]) ? $action_id_array[$action] : '');
 	}
 	if ($actionid == '') {
-		$query="select * from vtiger_actionmapping where actionname=?";
+		$query="select actionid from vtiger_actionmapping where actionname=?";
 		$result =$adb->pquery($query, array($action));
 		$actionid=$adb->query_result($result,0,'actionid');
 	}
@@ -1015,7 +1015,7 @@ function getActionname($actionid) {
 		$actionname = (isset($action_name_array[$actionid]) ? $action_name_array[$actionid] : '');
 	}
 	if ($actionname == '') {
-		$query="select * from vtiger_actionmapping where actionid=? and securitycheck=0";
+		$query="select actionname from vtiger_actionmapping where actionid=? and securitycheck=0";
 		$result =$adb->pquery($query, array($actionid));
 		$actionname=$adb->query_result($result,0,"actionname");
 	}
@@ -1067,7 +1067,7 @@ function insertProfile2field($profileid) {
 	$log->debug("Entering insertProfile2field(".$profileid.") method ...");
 
 	$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
-	$fld_result = $adb->pquery("select * from vtiger_field where generatedtype=1 and displaytype in (1,2,3) and vtiger_field.presence in (0,2) and tabid != 29", array());
+	$fld_result = $adb->pquery("select tabid, fieldid from vtiger_field where generatedtype=1 and displaytype in (1,2,3) and vtiger_field.presence in (0,2) and tabid != 29", array());
 	$num_rows = $adb->num_rows($fld_result);
 	for($i=0; $i<$num_rows; $i++) {
 		$tab_id = $adb->query_result($fld_result,$i,'tabid');
@@ -1083,7 +1083,7 @@ function insert_def_org_field() {
 	global $log, $adb;
 	$log->debug("Entering insert_def_org_field() method ...");
 	$adb->database->SetFetchMode(ADODB_FETCH_ASSOC);
-	$fld_result = $adb->pquery("select * from vtiger_field where generatedtype=1 and displaytype in (1,2,3) and vtiger_field.presence in (0,2) and tabid != 29", array());
+	$fld_result = $adb->pquery("select tabid, fieldid from vtiger_field where generatedtype=1 and displaytype in (1,2,3) and vtiger_field.presence in (0,2) and tabid != 29", array());
 	$num_rows = $adb->num_rows($fld_result);
 	for($i=0; $i<$num_rows; $i++) {
 		$tab_id = $adb->query_result($fld_result,$i,'tabid');
@@ -1291,26 +1291,6 @@ function getQuickCreate($tabid,$actionid) {
 	return $QuickCreateForm;
 }
 
-/** Function to getQuickCreate for a given tabid
- * @param $tabid -- tab id :: Type string
- * @param $actionid -- action id :: Type integer
- * @returns $QuickCreateForm -- QuickCreateForm :: Type boolean
- */
-function ChangeStatus($status,$activityid,$activity_mode='') {
-	global $log, $adb;
-	$log->debug("Entering ChangeStatus(".$status.",".$activityid.",".$activity_mode."='') method ...");
-
-	if ($activity_mode == 'Task') {
-		$query = "Update vtiger_activity set status=? where activityid = ?";
-	} elseif ($activity_mode == 'Events') {
-		$query = "Update vtiger_activity set eventstatus=? where activityid = ?";
-	}
-	if($query) {
-		$adb->pquery($query, array($status, $activityid));
-	}
-	$log->debug("Exiting ChangeStatus method ...");
-}
-
 /** Function to get unitprice for a given product id
  * @param $productid -- product id :: Type integer
  * @returns $up -- up :: Type string
@@ -1334,11 +1314,12 @@ function getUnitPrice($productid, $module='Products') {
  * @param $mode -- mode :: Type string
  * @param $id -- id :: Type integer
  * @returns $ret_array -- return array:: Type array
+ * @deprecated
  */
 function upload_product_image_file($mode,$id) {
 	global $log, $root_directory;
 	$log->debug("Entering upload_product_image_file(".$mode.",".$id.") method ...");
-	$uploaddir = $root_directory ."/test/product/";
+	$uploaddir = $root_directory .'/cache/';
 
 	$file_path_name = $_FILES['imagename']['name'];
 	if (isset($_REQUEST['imagename_hidden'])) {
@@ -1911,7 +1892,7 @@ function getEmailParentsList($module,$id,$focus = false)
 	$fieldname = 'email';
 	if($focus->column_fields['email'] == '' && $focus->column_fields['secondaryemail'] != '' )
 		$fieldname='secondaryemail';
-	$res = $adb->pquery("select * from vtiger_field where tabid = ? and fieldname= ? and vtiger_field.presence in (0,2)", array(getTabid($module), $fieldname));
+	$res = $adb->pquery("select fieldid from vtiger_field where tabid = ? and fieldname= ? and vtiger_field.presence in (0,2)", array(getTabid($module), $fieldname));
 	$fieldid = $adb->query_result($res,0,'fieldid');
 
 	$hidden  = '<input type="hidden" name="emailids" value="'.$id.'@'.$fieldid.'|">';
@@ -2089,6 +2070,9 @@ function getTableNameForField($module,$fieldname)
 function getModuleForField($fieldid) {
 	global $log, $adb;
 	$log->debug("Entering getModuleForField($fieldid) method ...");
+	if ($fieldid == -1) {
+		return 'Users';
+	}
 	$sql = 'SELECT vtiger_tab.name
 		FROM vtiger_field
 		INNER JOIN vtiger_tab on vtiger_tab.tabid=vtiger_field.tabid
@@ -3009,7 +2993,7 @@ function getRecordValues($id_array,$module) {
 function is_related($relation_table,$crm_field,$related_module_id,$crmid)
 {
 	global $adb;
-	$check_res = $adb->query("select * from $relation_table where $crm_field=$related_module_id and crmid=$crmid");
+	$check_res = $adb->query("select crmid from $relation_table where $crm_field=$related_module_id and crmid=$crmid limit 1");
 	$count = $adb->num_rows($check_res);
 	if($count > 0)
 		return true;
@@ -3608,7 +3592,7 @@ function getSecParameterforMerge($module) {
 					OR (vtiger_crmentity.smownerid in (0)
 					AND (";
 
-			if(sizeof($current_user_groups) > 0) {
+			if (count($current_user_groups) > 0) {
 				$sec_parameter .= " vtiger_groups.groupname IN (
 								SELECT groupname
 								FROM vtiger_groups
@@ -3875,7 +3859,7 @@ function addToCallHistory($userExtension, $callfrom, $callto, $status, $adb, $us
  */
 function getSettingsBlocks(){
 	global $adb;
-	$sql = "select * from vtiger_settings_blocks order by sequence";
+	$sql = "select blockid, label from vtiger_settings_blocks order by sequence";
 	$result = $adb->query($sql);
 	$count = $adb->num_rows($result);
 	$blocks = array();
@@ -4332,23 +4316,6 @@ function columnExists($columnName, $tableName){
 	}
 }
 
-/* To get modules list for which work flow and field formulas is permitted*/
-function com_vtGetModules($adb) {
-	$sql="select distinct vtiger_field.tabid, name
-		from vtiger_field
-		inner join vtiger_tab
-			on vtiger_field.tabid=vtiger_tab.tabid
-		where vtiger_field.tabid not in(9,10,16,15,8,29) and vtiger_tab.presence = 0 and vtiger_tab.isentitytype=1";
-	$it = new SqlResultIterator($adb, $adb->query($sql));
-	$modules = array();
-	foreach($it as $row) {
-		if(isPermitted($row->name,'index') == "yes") {
-			$modules[$row->name] = getTranslatedString($row->name);
-		}
-	}
-	return $modules;
-}
-
 /**
  * this function accepts a potential id returns the module name and entity value for the related field
  * @param integer $id - the potential id
@@ -4611,7 +4578,7 @@ function hasEmailField($module) {
 	global $adb;
 	$querystr = 'SELECT fieldid FROM vtiger_field WHERE tabid=? and uitype=13 and vtiger_field.presence in (0,2)';
 	$queryres = $adb->pquery($querystr, array(getTabid($module)));
-	return ($queryres and $adb->num_rows($queryres)>0);
+	return (($queryres && $adb->num_rows($queryres)>0) || $module=='Campaigns');
 }
 
 function getFirstEmailField($module) {
@@ -4649,7 +4616,7 @@ function getInventoryModules() {
 function getActivityRelatedContacts($activityId) {
 	$adb = PearDatabase::getInstance();
 
-	$query = 'SELECT * FROM vtiger_cntactivityrel WHERE activityid=?';
+	$query = 'SELECT contactid FROM vtiger_cntactivityrel WHERE activityid=?';
 	$result = $adb->pquery($query, array($activityId));
 
 	$noOfContacts = $adb->num_rows($result);
