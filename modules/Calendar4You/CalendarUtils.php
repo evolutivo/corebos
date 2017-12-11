@@ -347,7 +347,7 @@ function getCalendar4YouNonAdminAccessControlQuery($userid,$scope='') {
 
 function getCalendar4YouSharedCalendarId($sharedid) {
 	global $adb;
-	$query = "SELECT * from vtiger_sharedcalendar where sharedid=?";
+	$query = "SELECT userid from vtiger_sharedcalendar where sharedid=?";
 	$result = $adb->pquery($query, array($sharedid));
 	if($adb->num_rows($result)!=0)
 	{
@@ -450,6 +450,9 @@ function transferForAddIntoTitle($type, $row, $CD) {
 	$Cal_Data = getDetailViewOutputHtml($CD["uitype"], $CD["fieldname"], $CD["fieldlabel"], $Col_Field, "2", $calendar_tabid, "Task");
         if ($CD['module']=='Calendar' or $CD['module']=='Events') {
 		$Cal_Data = getDetailViewOutputHtml($CD['uitype'], $CD['fieldname'], $CD['fieldlabel'], $Col_Field, '2', $calendar_tabid, 'Calendar');
+        if ($CD['fieldname'] == 'subject' && strpos($Cal_Data[1], 'a href') === false) {
+			$Cal_Data[1] = '<a target=_blank href="index.php?module=Task&action=DetailView&record=' . $row['crmid'] . '">' . $Cal_Data[1] . '</a>';
+		}
                 if (strpos($Cal_Data[1], 'vtlib_metainfo')===false) {
 			$Cal_Data[1] .= "<span type='vtlib_metainfo' vtrecordid='".$row["crmid"]."' vtfieldname='".$CD["fieldname"]."' vtmodule='Task' style='display:none;'></span>";
 		}

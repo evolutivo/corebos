@@ -53,6 +53,7 @@ class QueryGenerator {
 	public static $AND = 'AND';
 	public static $OR = 'OR';
 	private $customViewFields;
+	public $denormalized = false;
 
 	public function __construct($module, $user) {
 		$db = PearDatabase::getInstance();
@@ -476,10 +477,15 @@ class QueryGenerator {
 		$moduleFields = $this->getModuleFields();
 		$accessibleFieldList = array_keys($moduleFields);
 		$accessibleFieldList[] = 'id';
+		$allfields = $accessibleFieldList;
 		if($this->referenceFieldInfoList) { // Adding support for reference module fields
 			$accessibleFieldList = array_merge($this->referenceFieldNameList,$accessibleFieldList);
-		}  
-		$this->fields = array_intersect($this->fields, $accessibleFieldList);
+		}
+		if (in_array('*',$this->fields)) {
+			$this->fields = $allfields;
+		} else {
+			$this->fields = array_intersect($this->fields, $accessibleFieldList);
+		}
 		foreach ($this->fields as $field) {
 			$sql = $this->getSQLColumn($field);                                  
                         if(!empty($sql))
@@ -958,7 +964,7 @@ class QueryGenerator {
 						$fieldSql .= "$fieldGlue ".$field->getTableName().'.'.$field->getColumnName().' '.$valueSql;
 					}
 				}
-				if(($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k') && ($field->getFieldDataType() == 'owner' || $field->getFieldDataType() == 'picklist') ) {
+				if ($conditionInfo['operator'] == 'n' || $conditionInfo['operator'] == 'k') {
 					$fieldGlue = ' AND';
 				} else {
 					$fieldGlue = ' OR';
@@ -1110,26 +1116,18 @@ class QueryGenerator {
 	private function getConditionValue($value, $operator, $field, $referenceFieldName='') {
 		$operator = strtolower($operator);
 		$db = PearDatabase::getInstance();
-		$noncommaSeparatedFieldTypes = array('currency','percentage','double','integer','number');
+		$noncommaSeparatedFieldTypes = array('currency','percentage','double','number');
 
-		if(in_array($field->getFieldDataType(), $noncommaSeparatedFieldTypes)) {
-			if(is_array($value)) {
-				$valueArray = $value;
-			} else {
-				$valueArray = array($value);
-			}
-			// if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, array('e', 'n'))) {
-				// $valueArray = getCombinations($valueArray);
-				// foreach ($valueArray as $key => $value) {
-					// $valueArray[$key] = ltrim($value, ' |##| ');
-				// }
+		// if ($field->getFieldDataType() == 'multipicklist' && in_array($operator, array('e', 'n'))) {
+			// $valueArray = getCombinations($valueArray);
+			// foreach ($valueArray as $key => $value) {
+				// $valueArray[$key] = ltrim($value, ' |##| ');
 			// }
-		} elseif (is_string($value) and $operator!='e') {
+		// } else
+		if (is_string($value) && $operator != 'e' && !in_array($field->getFieldDataType(), $noncommaSeparatedFieldTypes)) {
 			$valueArray = explode(',' , $value);
-		} elseif(is_array($value)) {
-			$valueArray = $value;
 		} else {
-			$valueArray = array($value);
+			$valueArray = (array)$value;
 		}
 		$sql = array();
 		if ($operator=='exists') {

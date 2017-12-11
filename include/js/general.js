@@ -148,11 +148,17 @@ function set_cookie( name, value, exp_y, exp_m, exp_d, path, domain, secure )
 }
 
 // Retrieving cookies
-function get_cookie(cookie_name)
-{
+function get_cookie(cookie_name) {
 	var results = document.cookie.match('(^| )' + cookie_name + '=(.*?)(;|$)');
-	if (results) return (unescape(results[1]));
-	else return null;
+	if (results) {
+		if (results[1]==' ') {
+			return (unescape(results[2]));
+		} else {
+			return (unescape(results[1]));
+		}
+	} else {
+		return null;
+	}
 }
 
 // Delete cookies
@@ -1508,7 +1514,7 @@ function expandCont(bn)
 	leftTab.style.display = (leftTab.style.display == "block")?"none":"block";
 	img = document.getElementById("img_"+bn);
 	img.src=(img.src.indexOf("images/toggle1.gif")!=-1)?"themes/images/toggle2.gif":"themes/images/toggle1.gif";
-	set_cookie_gen(bn,leftTab.style.display);
+	set_cookie(bn,leftTab.style.display);
 
 }
 
@@ -1519,7 +1525,7 @@ function setExpandCollapse_gen()
 	{
 		var listObj=getObj(leftpanelistarray[i]);
 		var tgImageObj=getObj("img_"+leftpanelistarray[i]);
-		var status = get_cookie_gen(leftpanelistarray[i]);
+		var status = get_cookie(leftpanelistarray[i]);
 
 		if (status == "block") {
 			listObj.style.display="block";
@@ -1540,48 +1546,6 @@ function toggleDiv(id) {
 		listTableObj.style.display="block";
 	}
 //set_cookie(id,listTableObj.style.display)
-}
-
-//Setting cookies
-function set_cookie_gen( name, value, exp_y, exp_m, exp_d, path, domain, secure )
-{
-	var cookie_string = name + "=" + escape ( value );
-
-	if ( exp_y )
-	{
-		var expires = new Date ( exp_y, exp_m, exp_d );
-		cookie_string += "; expires=" + expires.toGMTString();
-	}
-
-	if ( path )
-		cookie_string += "; path=" + escape ( path );
-
-	if ( domain )
-		cookie_string += "; domain=" + escape ( domain );
-
-	if ( secure )
-		cookie_string += "; secure";
-
-	document.cookie = cookie_string;
-}
-
-// Retrieving cookies
-function get_cookie_gen ( cookie_name )
-{
-	var results = document.cookie.match ( cookie_name + '=(.*?)(;|$)' );
-
-	if ( results )
-		return ( unescape ( results[1] ) );
-	else
-		return null;
-}
-
-// Delete cookies
-function delete_cookie_gen ( cookie_name )
-{
-	var cookie_date = new Date ( );  // current date & time
-	cookie_date.setTime ( cookie_date.getTime() - 1 );
-	document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
 }
 
 /** This is Javascript Function which is used to toogle between
@@ -3245,6 +3209,29 @@ function ActivityReminderRegisterCallback(timeout) {
 	if(ActivityReminder_regcallback_timer == null) {
 		ActivityReminder_regcallback_timer = setTimeout("ActivityReminderCallback()", timeout);
 	}
+}
+
+function ajaxChangeCalendarStatus(statusname,activityid) {
+	document.getElementById("status").style.display = "inline";
+	var viewid = document.getElementById('viewname') ? document.getElementById('viewname').options[document.getElementById('viewname').options.selectedIndex].value : '';
+	var idstring = document.getElementById('idlist') ? document.getElementById('idlist').value : '';
+	var searchurl = document.getElementById('search_url') ? document.getElementById('search_url').value : '';
+	var urlstring = "module=cbCalendar&action=cbCalendarAjax&file=calendarops&op=changestatus&ajax=true&newstatus=" + statusname + "&activityid=" + activityid + "&viewname=" + viewid + "&idlist=" + idstring + searchurl;
+	jQuery.ajax({
+		method: 'POST',
+		url: 'index.php?' + urlstring
+	}).done(function (response) {
+		document.getElementById("status").style.display = "none";
+		result = response.split('&#&#&#');
+		if (document.getElementById("ListViewContents")) {
+			document.getElementById("ListViewContents").innerHTML = result[2];
+			document.getElementById('basicsearchcolumns').innerHTML = '';
+		}
+		if (result[1] != '') {
+			alert(result[1]);
+		}
+	});
+	return false;
 }
 
 //added for finding duplicates

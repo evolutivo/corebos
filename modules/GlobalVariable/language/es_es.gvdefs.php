@@ -777,6 +777,13 @@ $GlobalVariableDefinitons = array(
 	'values' => '',
 	'definition' => 'Número máximo de días en el pasado para buscar eventos que aparecerán en la ventana emergente del recordatorio. El valor predeterminado es 7 días.',
 ),
+'Calendar_Show_Only_My_Events' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Integer',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'Mostrar solo los eventos asignados a mi, compartidos conmigo y en los que esté invitado.',
+),
 'CronTasks_cronWatcher_mailto' => array(
 	'status' => 'Implementada',
 	'valuetype' => 'Emails CSV',
@@ -900,8 +907,8 @@ $GlobalVariableDefinitons = array(
 	'status' => 'Implementada',
 	'valuetype' => 'Texto',
 	'category' => 'Aplicación',
-	'values' => 'Country Name',
-	'definition' => 'Para las funciones de flujo de trabajo de cálculo de GeoDistance, esta variable establece el país predeterminado para usar si no se da ninguno. Útil cuando la empresa tiene un área local de influencia.',
+	'values' => 'Country Code',
+	'definition' => 'Para las funciones de flujo de trabajo de cálculo de GeoDistance, esta variable establece el código de país predeterminado para usar si no se da ninguno. Útil cuando la empresa tiene un área local de influencia. Ejemplo: es,fr,gb,de,...',
 ),
 'Workflow_GeoDistance_ServerIP' => array(
 	'status' => 'Implementada',
@@ -1019,28 +1026,28 @@ $GlobalVariableDefinitons = array(
 	'status' => 'Implementada',
 	'valuetype' => 'Texto',
 	'category' => 'Integración',
-	'values' => 'ID or name of template to use',
+	'values' => 'ID o nombre de la plantilla a utilizar',
 	'definition' => 'Cuando la variable CustomerPortal_PDF se establece en PDFMaker o GenDoc, esta variable indica qué plantilla se debe utilizar para generar el PDF de presupuestos. Si está vacía, se utilizará la primera plantilla encontrada.',
 ),
 'CustomerPortal_PDFTemplate_SalesOrder'  => array(
 	'status' => 'Implementada',
 	'valuetype' => 'Texto',
 	'category' => 'Integración',
-	'values' => 'ID or name of template to use',
+	'values' => 'ID o nombre de la plantilla a utilizar',
 	'definition' => 'Cuando la variable CustomerPortal_PDF se establece en PDFMaker o GenDoc, esta variable indica qué plantilla se debe utilizar para generar el PDF de ordenes de venta. Si está vacía, se utilizará la primera plantilla encontrada.',
 ),
 'CustomerPortal_PDFTemplate_Invoice'  => array(
 	'status' => 'Implementada',
 	'valuetype' => 'Texto',
 	'category' => 'Integración',
-	'values' => 'ID or name of template to use',
+	'values' => 'ID o nombre de la plantilla a utilizar',
 	'definition' => 'Cuando la variable CustomerPortal_PDF se establece en PDFMaker o GenDoc, esta variable indica qué plantilla se debe utilizar para generar el PDF de facturas. Si está vacía, se utilizará la primera plantilla encontrada.',
 ),
 'CustomerPortal_PDFTemplate_PurchaseOrder'  => array(
 	'status' => 'Implementada',
 	'valuetype' => 'Texto',
 	'category' => 'Integración',
-	'values' => 'ID or name of template to use',
+	'values' => 'ID o nombre de la plantilla a utilizar',
 	'definition' => 'Cuando la variable CustomerPortal_PDF se establece en PDFMaker o GenDoc, esta variable indica qué plantilla se debe utilizar para generar el PDF de ordenes de compra. Si está vacía, se utilizará la primera plantilla encontrada.',
 ),
 'Application_Permit_Assign_Up'  => array(
@@ -1059,7 +1066,7 @@ $GlobalVariableDefinitons = array(
 ),
 );
 
-foreach (glob('modules/GlobalVariable/language/es_es.gvdefs.*.php',GLOB_BRACE) as $tcode) {
+foreach (glob('modules/GlobalVariable/language/es_es.gvdefs.*.php', GLOB_BRACE) as $tcode) {
 	include($tcode);
 }
 
