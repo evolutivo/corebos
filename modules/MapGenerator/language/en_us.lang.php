@@ -121,8 +121,8 @@ $mod_strings = Array(
     'CREATEVIEWPORTAL'=>'CREATEVIEWPORTAL',
     'chooseanotherfieldsforthisrow'=>'Choose one field or some fields at the same time for a row',
     'Addsection'=>'Add Block ',
-    'writeBlockName'=>'write Block Name ',
-
+    'writeBlockName'=>'Write block name ',
+    'DETAILVIEWBLOCKPORTAL'=>'DETAILVIEWBLOCKPORTAL',
 
 
 );
