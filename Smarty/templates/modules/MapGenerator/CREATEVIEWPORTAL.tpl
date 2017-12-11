@@ -1,6 +1,6 @@
 {*ListColumns.tpl*}
 
-<div style="width: 100%;height: 100%">
+<div style="display: inline-grid; width: 100%;height: 100%">
   
   <div id="LoadingImage" style="display: none">
     <img src=""/>
@@ -78,7 +78,7 @@
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
   </div>
 
-<div style="width: 55%;height: 100%;float: left;">
+<div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
   	 <div class="slds-section-title--divider">
      	 	{if $HistoryMap neq ''}
      	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
@@ -87,8 +87,10 @@
      	 	{/if}
 
      		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveCreateViewPortal" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="SavehistoryCreateViewportal">{$MOD.CreateMap}</button>
-      	<h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.CREATEVIEWPORTAL}</h3>
-  	 </div>
+      	<center>
+          <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.CREATEVIEWPORTAL}</h3>
+  	   </center>
+     </div>
 	 <div>
 	 	<div style="width: 100%;">
 	 		<div class="slds-form-element">
@@ -144,14 +146,14 @@
 	 	
 	 </div>
 	</div>
-<div style="float: right;width: 44%;margin-left: 0px;">
-	<div id="LoadShowPopup"></div>
+           <div class="testoDiv" style="width: 70%;">
+              <center><b>{$MOD.SelectField}</b></center>
+           </div>  
+      <div id="LoadShowPopup" style="display: block;float: left; width: 70%;"></div>
+      <div id="LoadHistoryPopup" style="display: block; width: 30%;float: right;">
+      </div>
+{*End div contenitorejoin*}
 </div>
-<div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 50%;">
-</div>
-</div>
-
-
 {literal}
     <script>
        
