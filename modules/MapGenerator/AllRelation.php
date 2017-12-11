@@ -29,6 +29,7 @@ if (!empty($modules)) {
 	            }	            	           
 	            
 	        }
+	        $a.= getModFields($modules, $acno.$dbname);
 	       echo $a;
 	    }else{$log->debug("Info!! The database is empty or something was wrong");}
     }else {
