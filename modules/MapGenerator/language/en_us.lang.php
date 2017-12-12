@@ -128,5 +128,8 @@ $mod_strings = Array(
     'writethelabelName'=>'Info! One label have one parenttab. if you want to add more parent tab change the label name ',
     'MenustructureModule'=>'Choose Module',
     'MenustructureSelectedModule'=>'Selected Module',
+    'RecordAccessControl'=>'Record Access Control',
+
+
 );
 ?>

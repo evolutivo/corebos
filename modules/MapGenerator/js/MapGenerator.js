@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-12 09:52:56
+* @Last Modified time: 2017-12-12 18:02:42
 */
 
 
@@ -193,6 +193,12 @@
 				// idfieldfill,urlsend,dat
 				 App.ModulLabel='Module';
     			 App.FieldLabel='Label';
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "RecordAccessControl") {
+				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
