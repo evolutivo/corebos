@@ -2801,6 +2801,8 @@ function ShowHistoryDataLocal(Idload,divHistory)
 {
   var historydata=App.SaveHistoryPop[parseInt(Idload)];
    App.popupJson.length=0;
+   App.ModulLabel='Module';
+   App.FieldLabel='Label';
     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
       App.popupJson.push(historydata.PopupJSON[i]);
     }
