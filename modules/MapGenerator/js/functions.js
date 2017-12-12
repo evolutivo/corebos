@@ -2819,3 +2819,13 @@ function ShowHistoryDataLocal(Idload,divHistory)
     }
 
 }
+
+
+/**
+ *When user create a block, this function crear the blockName field, and unselect the selected fields.
+ * { function_description }
+ */
+function resetFieldCreateViewPortal() {
+    $("#BlockName").val('');
+    $("#FieldsForRow").find('option:selected').remove();
+}
