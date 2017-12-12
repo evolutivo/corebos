@@ -13,10 +13,13 @@
 {if $PopupJson neq ''} 
  <script type="text/javascript"> 
       {foreach key=profile_name item=$popjs  from=$PopupJson }
-       App.utils.addINJSON('{$popjs.FirstModuleval}','{$popjs.FirstModuletxt}','{$popjs.FirstFieldval}','{$popjs.FirstFieldtxt}','{$popjs.SecondModuleval}','{$popjs.SecondModuletxt}','{$popjs.SecondFieldval}','{$popjs.SecondFieldtext}','{$popjs.SecondFieldOptionGrup}');
-          
+        {foreach from=$popjs item=item key=key name=name}
+           App.utils.addINJSON('{$item.FirstModuleval}','{$item.FirstModuletxt}','{$item.FirstFieldval}','{$item.FirstFieldtxt}','{$item.SecondModuleval}','{$item.SecondModuletxt}','{$item.SecondFieldval}','{$item.SecondFieldtext}','{$item.SecondFieldOptionGrup}');
+        {/foreach}
+          HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+           App.JSONForCOndition.length=0;
       {/foreach}
-      App.utils.ReturnAllDataHistory('LoadShowPopup');
+      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
 
     </script>
    

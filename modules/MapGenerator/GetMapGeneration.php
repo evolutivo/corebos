@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-12 12:58:59
+ * @Last Modified time: 2017-12-12 16:53:44
  */
 
 
@@ -1816,35 +1816,44 @@ function Mapping_View($QueryHistory,$MapID)
 			$savehistory="true";
 			
 			$popupArray=array();
-			
-			$MyArray=array();
-			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query")); 
-			$nrindex=0;
-			foreach($xml->fields->field as $field)
-			{
-				$araymy=[
-					 'FirstFieldtxt' =>explode(",",  Get_Modul_fields_check_from_load($xml->targetmodule[0]->targetname,$field->fieldname))[1],
-					'FirstFieldval' => explode(",",Get_Modul_fields_check_from_load($xml->targetmodule[0]->targetname,$field->fieldname))[0],
+			//all history 
+			$Allhistory=get_All_History($QueryHistory);
 
-					'FirstModuleval' =>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0],
+			$Alldatas=array();
+			foreach ($Allhistory as $value) {
+				$MyArray=array();
+				$xml=new SimpleXMLElement($value['query']); 
+				$nrindex=0;
+				foreach($xml->fields->field as $field)
+				{
+					$araymy=[
+						 'FirstFieldtxt' =>explode(",",CheckAllFirstForAllModules($field->fieldname))[1],
+						'FirstFieldval' => explode(",",CheckAllFirstForAllModules($field->fieldname))[0],
 
-					'FirstModuletxt' =>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[1],
+						'FirstModuleval' =>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0],
 
-					'SecondModuletxt' =>explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule[0]->targetname,$xml->originmodule[0]->originname))[1],
+						'FirstModuletxt' =>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[1],
 
-					'SecondModuleval' =>explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule[0]->targetname,$xml->originmodule[0]->originname))[1],
+						'SecondModuletxt' =>explode("#",Get_First_Moduls_TextVal($xml->originmodule[0]->originname))[1],
 
-					'SecondFieldval' =>explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule[0]->targetname,$xml->originmodule[0]->originname))[0],
-					'idJSON'=>$nrindex++,
-					 'SecondFieldtext' => explode(",",Get_Modul_fields_check_from_load($field->Orgfields->Relfield->RelModule,$field->Orgfields->Relfield->RelfieldName))[1],
+						'SecondModuleval' =>explode("#",Get_First_Moduls_TextVal($xml->originmodule[0]->originname))[1],
 
-					'SecondFieldval' => explode(",",Get_Modul_fields_check_from_load($field->Orgfields->Relfield->RelModule,$field->Orgfields->Relfield->RelfieldName))[0],
-					'SecondFieldOptionGrup'=>explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0]
+						// 'SecondFieldval' =>explode("#",CheckAllFirstForAllModules($xml->originmodule[0]->originname))[0],
+						'idJSON'=>$nrindex++,
+						 'SecondFieldtext' => explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1],
 
-				];
+						'SecondFieldval' => explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0],
+						'SecondFieldOptionGrup'=>explode("#", Get_First_Moduls_TextVal($field->Orgfields->Relfield->RelModule))[0]
 
-				array_push($MyArray,$araymy);
+					];
+
+					array_push($MyArray,$araymy);
+				}
+				array_push($Alldatas,$MyArray);
 			}
+
+
+			
 
 			$smarty = new vtigerCRM_Smarty();
 			$smarty->assign("MOD", $mod_strings);
@@ -1855,16 +1864,16 @@ function Mapping_View($QueryHistory,$MapID)
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
-			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+			// $smarty->assign("SecondModulerelation",$SecondModulerelation);
 
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
-			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+			// $smarty->assign("FirstModuleFields",$FirstModuleFields);
 
-			$smarty->assign("PopupJson",$MyArray);
+			$smarty->assign("PopupJson",$Alldatas);
 
-			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+			// $smarty->assign("SecondModuleFields",$SecondModuleFields);
 
 			$output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');
 			echo $output;
@@ -1925,15 +1934,15 @@ function Mapping_View($QueryHistory,$MapID)
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
-			$smarty->assign("SecondModulerelation",$SecondModulerelation);
+			// $smarty->assign("SecondModulerelation",$SecondModulerelation);
 
 			$smarty->assign("PopupJson",$MyArray);
 
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
-			$smarty->assign("FirstModuleFields",$FirstModuleFields);
-			$smarty->assign("SecondModuleFields",$SecondModuleFields);
+			// $smarty->assign("FirstModuleFields",$FirstModuleFields);
+			// $smarty->assign("SecondModuleFields",$SecondModuleFields);
 
 			$output1 = $smarty->fetch('modules/MapGenerator/MappingView.tpl');
 			echo $output1;

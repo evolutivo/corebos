@@ -35,7 +35,7 @@
     // }else{
     //   alert(mv_arr.MappingFiledValid);
     //  }
-      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+     SavehistoryCreateViewportalIOMap('LoadHistoryPopup','LoadShowPopup');
     </script>
 
    
