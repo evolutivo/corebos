@@ -2538,6 +2538,16 @@ function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
         return htmldat;
     }
 
+
+
+function SavehistoryCreateViewportalIOMap(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+   if (App.SaveHistoryPop.length>0)
+      { 
+         $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+              $('#'+keephitoryidtoshow).append(showLocalHistoryIOMap(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
 ///////  Menu Structure Functions ////////////////
 
 /**
@@ -2554,18 +2564,73 @@ function ShowLocalHistoryMenuStructure(keephitoryidtoshow,keephitoryidtoshowidre
          $('#'+keephitoryidtoshow+' div').remove();
         for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
               $('#'+keephitoryidtoshow).append(modalhistoryshow(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
         }
       }
 }
+
+
+
+/**
+ * Shows the history data io map. Show history data,  only in IOMap.
+ *
+ * @class      ShowHistoryDataIOMap (name)
+ * @param      {<type>}  id       The identifier
+ * @param      {string}  divshow  The divshow
+ */
+function ShowHistoryDataIOMap(id,divshow)
+{
+   var historydata=App.SaveHistoryPop[parseInt(id)];
+   App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+
+       $('#LoadShowPopupInput div').remove();
+          $('#LoadShowPopup div').remove();
+
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var Field=App.popupJson[i].temparray[`DefaultText`];
+                var moduli=App.popupJson[i].temparray[`Moduli`];
+                var typeofppopup=App.popupJson[i].temparray['JsonType'];
+                  
+                  if(typeofppopup==="Input"){
+                      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
+                     $('#'+"LoadShowPopupInput").append(divinsert);
+                  }else if(typeofppopup==="Output"){
+                      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
+                     $('#'+"LoadShowPopup").append(divinsert);
+                  }
+        } 
+    }
+
+
+
+
+/**
+ * Shows the local history i/o map. Show history, when user click on save map, only for IOMap.
+ *
+ * @param      {number}  IdLoad         The identifier load
+ * @param      {string}  dataarr        The dataarr
 
 /**
  * function for popup of history
  *
  * @param      {number}  IdLoad         The identifier load
+
  * @param      {<type>}  divanameLoad   The divaname load
  * @param      {string}  dividrelation  The dividrelation
  * @return     {string}  { description_of_the_return_value }
  */
+
+function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
+      var htmldat='<div class="Message Message"  >';
+        htmldat+='<div class="Message-icon">';
+        // if (avtive===false)
+        // {
+          htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowHistoryDataIOMap(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+
 function modalhistoryshow(IdLoad,divanameLoad,dividrelation='')
 {
        var htmldat='<div class="Message Message"  >';
@@ -2573,10 +2638,144 @@ function modalhistoryshow(IdLoad,divanameLoad,dividrelation='')
         // if (avtive===false)
         // {
           htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowHistoryDataLocal(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+
         // }
         htmldat+='</div>';
         htmldat+='<div class="Message-body">';
         htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+
+        htmldat+='</div>';
+        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
+        htmldat+='</div>';
+        return htmldat;
+    }
+
+/**
+ * Closes a popup data i/o map. Remove alerts when user click close, only for IOMap
+ *
+ * @param      {(number|string)}  remuveid  The remuveid
+ * @param      {string}           namediv   The namediv
+ */
+function closePopupDataIoMap(remuveid,namediv) {
+
+    var check = false;
+      for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+          if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+            App.popupJson.splice(remuveid,1);
+              check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+      }
+      if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        
+          $('#LoadShowPopupInput div').remove();
+          $('#LoadShowPopup div').remove();
+        if (App.popupJson.length>0)
+        { 
+          for (var i = 0; i <= App.popupJson.length-1; i++) {
+               var Field=App.popupJson[i].temparray[`DefaultText`];
+                var moduli=App.popupJson[i].temparray[`Moduli`];
+                var typeofppopup=App.popupJson[i].temparray['JsonType'];
+                  
+                  if(typeofppopup==="Input"){
+                      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
+                     $('#'+"LoadShowPopupInput").append(divinsert);
+                  }else if(typeofppopup==="Output"){
+                      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
+                     $('#'+"LoadShowPopup").append(divinsert);
+                  }
+            } 
+
+        }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
+}
+
+
+
+/**
+ * Generate html alertes only for IOMap
+ *
+ * @param      {(number|string)}  Idd        The idd
+ * @param      {string}           moduli     The moduli
+ * @param      {string}           fields     The fields
+ * @param      {string}           divid      The divid
+ * @param      {string}           typepopup  The typepopup
+ * @return     {string}           { description_of_the_return_value }
+ */
+function addToPopupIoMap(Idd,moduli,fields,divid,typepopup)
+{
+ var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+          + '">';
+          INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupDataIoMap('
+              + Idd + ',\'' + divid + '\');">&times;</span>';
+          if (moduli && moduli!=='')
+          {
+            INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+moduli;
+            INSertAlerstJOIN += '<br/> '+mv_arr.field+'  ==> '+fields;
+          } else
+          {
+            INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+          }
+          
+          INSertAlerstJOIN += '</div';
+
+      return INSertAlerstJOIN;
+}
+
+/**
+ * Splits pops. Create get datata from inputs, to create popups only for IOMap
+ *
+ * @param      {<type>}  event   The event
+ */
+function split_popups(event){
+       var elem=event;
+
+          var allid=elem.dataset.addRelationId;
+          var showtext=elem.dataset.showId;
+          var Typeofpopup=elem.dataset.addType;
+          var replace=elem.dataset.addReplace;
+          var modulShow=elem.dataset.showModuleId;
+          var divid=elem.dataset.divShow;
+
+
+          var allidarray = allid.split(",");
+
+          $('#LoadShowPopupInput div').remove();  
+          $('#LoadShowPopup div').remove();
+
+          App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow);
+
+        if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+                var Field=App.popupJson[i].temparray[`DefaultText`];
+                var moduli=App.popupJson[i].temparray[`Moduli`];
+                var typeofppopup=App.popupJson[i].temparray['JsonType'];
+                  
+                  if(typeofppopup==="Input"){
+                      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
+                     $('#'+"LoadShowPopupInput").append(divinsert);
+                  }else if(typeofppopup==="Output"){
+                      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
+                     $('#'+"LoadShowPopup").append(divinsert);
+                  }
+              } 
+
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+            App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+
        htmldat+='</div>';
         // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
         htmldat+='</div>';
@@ -2608,4 +2807,5 @@ function ShowHistoryDataLocal(Idload,divHistory)
                 $('#'+divHistory).append(divinsert);
         } 
     }
+
 }
