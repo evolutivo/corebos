@@ -1,8 +1,12 @@
 <?php
 
 /**
- * File to load maps
+ * @Author: edmondi kacaj
+ * @Date:   2017-11-06 10:16:56
+ * @Last Modified by:   edmondi kacaj
+ * @Last Modified time: 2017-12-11 15:20:51
  */
+
 
 require_once ('include/utils/utils.php');
 require_once ('Smarty_setup.php');

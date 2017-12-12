@@ -123,7 +123,10 @@ $mod_strings = Array(
     'Addsection'=>'Add Block ',
     'writeBlockName'=>'Write block name ',
     'DETAILVIEWBLOCKPORTAL'=>'DETAILVIEWBLOCKPORTAL',
-
-
+    'MENUSTRUCTURE'=>'MENUSTRUCTURE',
+    'labelName'=>'Write the label name',
+    'writethelabelName'=>'Info! One label have one parenttab. if you want to add more parent tab change the label name ',
+    'MenustructureModule'=>'Choose Module',
+    'MenustructureSelectedModule'=>'Selected Module',
 );
 ?>
