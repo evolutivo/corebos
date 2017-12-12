@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-11 18:15:41
+* @Last Modified time: 2017-12-12 09:52:56
 */
 
 
@@ -18,8 +18,8 @@
 		popupJson : [],
 		SaveHistoryPop:[],
 		MultiList:[],
-		ModulLabel:'',
-		FieldLabel:'',
+		ModulLabel: null,
+		FieldLabel: null,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -41,17 +41,6 @@
 				initializer();
 			});
 		},
-
-	/*
-	 * Called to load the page and every section uploaded via ajax on its
-	 * content
-	 */
-	
-	loadModuleAndFields:function(module,fields){
-		App.ModulLabel=module;
-		App.FieldLabel=fields;
-	},
-
 	};
 
 
@@ -202,6 +191,8 @@
 						urlsend, dat);
 			}else if (select == "MENUSTRUCTURE") {
 				// idfieldfill,urlsend,dat
+				 App.ModulLabel='Module';
+    			 App.FieldLabel='Label';
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
@@ -1603,8 +1594,9 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+App.ModulLabel+' ==>'+moduli;
-				INSertAlerstJOIN += '<br/> '+App.FieldLabel+'  ==> '+fields;
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli;
+				INSertAlerstJOIN += '<br/> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields;
+
 			} else
 			{
 				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;

@@ -2538,3 +2538,74 @@ function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
         return htmldat;
     }
 
+///////  Menu Structure Functions ////////////////
+
+/**
+ * this show the history every time you click same map
+ *
+ * @class      ShowLocalHistoryMenuStructure (name)
+ * @param      {<type>}  keephitoryidtoshow            The keephitoryidtoshow
+ * @param      {<type>}  keephitoryidtoshowidrelation  The keephitoryidtoshowidrelation
+ */
+function ShowLocalHistoryMenuStructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+  if (App.SaveHistoryPop.length>0)
+      { 
+         $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+              $('#'+keephitoryidtoshow).append(modalhistoryshow(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        }
+      }
+}
+
+/**
+ * function for popup of history
+ *
+ * @param      {number}  IdLoad         The identifier load
+ * @param      {<type>}  divanameLoad   The divaname load
+ * @param      {string}  dividrelation  The dividrelation
+ * @return     {string}  { description_of_the_return_value }
+ */
+function modalhistoryshow(IdLoad,divanameLoad,dividrelation='')
+{
+       var htmldat='<div class="Message Message"  >';
+        htmldat+='<div class="Message-icon">';
+        // if (avtive===false)
+        // {
+          htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowHistoryDataLocal(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+        // }
+        htmldat+='</div>';
+        htmldat+='<div class="Message-body">';
+        htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+       htmldat+='</div>';
+        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
+        htmldat+='</div>';
+        return htmldat;
+}
+
+/**
+ * to show the popup for every history
+ *
+ * @class      ShowHistoryDataLocal (name)
+ * @param      {<type>}  Idload      The idload
+ * @param      {string}  divHistory  The div history
+ */
+function ShowHistoryDataLocal(Idload,divHistory)
+{
+  var historydata=App.SaveHistoryPop[parseInt(Idload)];
+   App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var Field=App.popupJson[i].temparray[`DefaultText`];
+                var moduli=App.popupJson[i].temparray[`Moduli`];
+                var typeofppopup=App.popupJson[i].temparray['JsonType'];
+                var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
+                $('#'+divHistory).append(divinsert);
+        } 
+    }
+}

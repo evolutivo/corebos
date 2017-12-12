@@ -1,9 +1,5 @@
 
-<script type="text/javascript">
-  App.ModulLabel='Module';
-  App.FieldLabel='Label';
-  // App.loadModuleAndFields('Module','Label');
-</script>
+
 
 
 <div>
@@ -50,16 +46,12 @@
           <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
         {/if}
 
-        <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveModuleSet" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+        <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveMenuStructure" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryMenuStructure">{$MOD.CreateMap}</button>
         <center>
           <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.MENUSTRUCTURE}</h3>
           <center>
-     </div>
+</div>
 
-   <div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
-   <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
-   </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
-   <br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();"></center></div>
 
   <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
@@ -98,7 +90,7 @@
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
                 <center>
-                    <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+                    <label class="slds-form-element__label" for="input-id-01">{$MOD.MenustructureModule}</label>
                 </center>  
                     <div class="slds-select_container">
                        <select data-select-load="true" id="FirstModule" name="mod" class="slds-select">
@@ -120,7 +112,7 @@
        <input type="hidden" name="MapName" id="MapName" value="{$MapName}"> -->
            <div id="contenitoreJoin">      
            <div class="testoDiv">
-                    <b>{$MOD.SelectField}</b>
+                    <b>{$MOD.MenustructureSelectedModule}</b>
                 </div> 
     </div>{*End div contenitorejoin*}
     <div id="LoadShowPopup" >        
@@ -129,10 +121,10 @@
         
       </div>
     </div>{*End div LoadShowPopup*}
-    <div id="LoadHistoryPopup" style="width: 24%;height: 100%;text-align: left;border: 1px;overflow-y: auto;overflow-x: hidden;">
-    </div>
+    
 </div>
-
+<div id="LoadHistoryPopup" style="width: 24%;height: 100%;text-align: left;border: 1px;overflow-y: auto;overflow-x: hidden;">
+</div>
 <div id="generatedquery">
     
 </div>
