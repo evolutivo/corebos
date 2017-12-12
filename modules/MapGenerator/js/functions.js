@@ -2540,13 +2540,16 @@ function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
 
 
 
-function SavehistoryCreateViewportalIOMap(keephitoryidtoshow,keephitoryidtoshowidrelation)
-{
+function SavehistoryCreateViewportalIOMap(keephitoryidtoshow,keephitoryidtoshowidrelation){
    if (App.SaveHistoryPop.length>0)
       { 
          $('#'+keephitoryidtoshow+' div').remove();
         for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
               $('#'+keephitoryidtoshow).append(showLocalHistoryIOMap(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
 
 ///////  Menu Structure Functions ////////////////
 
@@ -2630,6 +2633,16 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
         // if (avtive===false)
         // {
           htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowHistoryDataIOMap(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+
+        htmldat+='</div>';
+        htmldat+='<div class="Message-body">';
+        htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+
+        htmldat+='</div>';
+        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
+        htmldat+='</div>';
+        return htmldat;
+}
 
 function modalhistoryshow(IdLoad,divanameLoad,dividrelation='')
 {
@@ -2775,11 +2788,6 @@ function split_popups(event){
             // alert(mv_arr.MappingFiledValid);
             App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
           }
-
-       htmldat+='</div>';
-        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
-        htmldat+='</div>';
-        return htmldat;
 }
 
 /**
