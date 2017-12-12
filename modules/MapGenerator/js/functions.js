@@ -2633,6 +2633,15 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
         // if (avtive===false)
         // {
           htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowHistoryDataIOMap(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+
+        htmldat+='</div>';
+        htmldat+='<div class="Message-body">';
+        htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+
+        htmldat+='</div>';
+        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
+        htmldat+='</div>';
+        return htmldat;
 }
 
 function modalhistoryshow(IdLoad,divanameLoad,dividrelation='')
@@ -2779,11 +2788,6 @@ function split_popups(event){
             // alert(mv_arr.MappingFiledValid);
             App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
           }
-
-       htmldat+='</div>';
-        // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
-        htmldat+='</div>';
-        return htmldat;
 }
 
 /**
