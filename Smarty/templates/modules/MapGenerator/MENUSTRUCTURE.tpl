@@ -31,7 +31,7 @@
         HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
           App.popupJson.length=0;
       {/foreach}
-      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+     ShowLocalHistoryMenuStructure('LoadHistoryPopup','LoadShowPopup');
 
     </script>
    

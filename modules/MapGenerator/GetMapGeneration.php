@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-11 15:20:51
+ * @Last Modified time: 2017-12-12 12:58:59
  */
 
 
@@ -278,6 +278,27 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="MENUSTRUCTURE") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 MENUSTRUCTURE($QueryHistory,$MapID);		
+
+
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -293,6 +314,73 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+function MENUSTRUCTURE($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	
+	if (!empty($QueryHistory))
+	{
+		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		$Allhistory=get_All_History($QueryHistory);
+		$Alldatas=array();
+
+		foreach ($Allhistory as $value) {
+			$xml=new SimpleXMLElement($value['query']);
+			$MyArray=array();
+			foreach ($xml->menus->parenttab as  $valuexml) {
+				foreach ($valuexml->name as  $valuename) {
+					$temparray=[
+						'DefaultText'=>(string)$valuexml->label ,
+						'FirstModule'=> (string)$valuename,
+						'FirstModuleoptionGroup'=>"udentifined" ,
+						'JsonType'=>"Modul",
+						'LabelName'=>(string)$valuexml->label,
+						'LabelNameoptionGroup'=>"",
+						'Moduli'=>(string)$valuename,
+					];
+					array_push($MyArray,$temparray);
+				}
+			}
+			array_push($Alldatas,$MyArray);
+		}
+
+		//this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		//this is for save as map
+		 $data="MapGenerator,saveMenuStructure";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+		 $saveasfunction="ShowLocalHistoryMenuStructure";
+		 //assign tpl
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+
+		$smarty->assign("HistoryMap",$HistoryMap);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		//put the smarty modal
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+		$smarty->assign("PopupJS",$Alldatas);
+		$output = $smarty->fetch('modules/MapGenerator/MENUSTRUCTURE.tpl');
+		echo $output;
+
+	}else{
+		//TODO:: this is if not find the idquery to load map by Id of map 
+	}
+}
+
+
 
 /**
  * function to generate the map type DETAILVIEWBLOCKPORTAL
