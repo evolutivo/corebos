@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-13 12:40:47
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-13 16:24:58
+ * @Last Modified time: 2017-12-13 17:06:32
  */
 
 
@@ -54,9 +54,7 @@ function GetAllrelation($module="")
 	        {
 	            $Modules = $adb->query_result($result,$i-1,'label');
 	           
-	            $a.='<option value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';//.str_replace("'", "", getTranslatedString($Modules))
-	           
-	            
+	            $a.='<option value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';	            
 	        }
 	       return $a;
 	    }else{$log->debug("Info!! The database is empty or something was wrong");}
