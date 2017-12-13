@@ -144,7 +144,7 @@ function add_content($DataDecode)
          $searchfields->appendChild($searchfieldstxt);
 
          $searchcondition=$xml->createElement("searchcondition");
-         $searchconditiontxt = $xml->createTextNode(($value->temparray->startwithchck==1)?"startswith":"endwith");
+         $searchconditiontxt = $xml->createTextNode(($value->temparray->startwithchck==1)?"startswith":"contains");
          $searchcondition->appendChild($searchconditiontxt);
 
          $showfields=$xml->createElement("showfields");

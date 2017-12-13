@@ -95,12 +95,12 @@
 	 		<div style="float: left;width: 13px;font-size: 30px;margin-left: 10;padding: 15px 0px 0px 32px;">
 	 			<div class="slds-form-element" style="display: inline-block;">
                 <label class="slds-checkbox--toggle slds-grid">
-                 <input id="startwithchck" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
-                  <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                 <input id="startwithchck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                 <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                     <span class="slds-checkbox--faux"></span>
-                    <span class="slds-checkbox" style="font-size: initial;margin-right: 0px">Start/End</span>
-                    <!-- <span class="slds-checkbox--of">editable-false</span> -->
-                  </span>
+                    <span class="slds-checkbox--on" style="font-size: initial;margin-right: 0px">{$MOD.Startwith}</span>
+                    <span class="slds-checkbox--off" style="font-size: initial;margin-right: 0px">{$MOD.contains}</span>
+                 </span>
                 </label>
               </div>
 	 		</div>

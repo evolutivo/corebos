@@ -107,6 +107,8 @@ $mod_strings = Array(
     'Add'=>'Add',
     'FieldDependencyPortal'=>'Field Dependency Portal',
     'GlobalSearchAutocompleteMapping'=>'Global Search Autocomplete',
+    'Startwith'=>'Startwith',
+    'contains'=>'Contains',
     'SelectShowFields'=>'Select fields you want to show',
     'SelectsearchFields'=>'Select fields you want to search',
     'ConditionExpression'=>'Condition Expression',
@@ -129,6 +131,17 @@ $mod_strings = Array(
     'MenustructureModule'=>'Choose Module',
     'MenustructureSelectedModule'=>'Selected Module',
     'RecordAccessControl'=>'Record Access Control',
+    'ListView'=>'List View',
+    'DetailView'=>'Detail View',
+    'YES'=>'Yes',
+    'NO'=>'No',
+    'Duplicate'=>'Duplicate',
+    'View'=>'View',
+    'Edit'=>'Edit',
+    'Delete'=>'Delete',
+    'Add'=>'Add',
+    'Select'=>'Select',
+    'ClickAdd'=>'Click to add',
 
 
 );
