@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-12 16:53:44
+ * @Last Modified time: 2017-12-14 10:40:19
  */
 
 
@@ -445,7 +445,7 @@ function DETAILVIEWBLOCKPORTAL($QueryHistory,$MapID)
 		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 		//this is for save as map
-		 $data="MapGenerator,saveConditionExpresion";
+		 $data="MapGenerator,saveHIstoryDetailViewBlockPortal";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
 		 $saveasfunction="SavehistoryCreateViewportal";
@@ -540,7 +540,7 @@ function CREATEVIEWPORTAL($QueryHistory,$MapID)
 		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 		//this is for save as map
-		 $data="MapGenerator,saveConditionExpresion";
+		 $data="MapGenerator,saveCreateViewPortal";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
 		 $saveasfunction="SavehistoryCreateViewportal";
@@ -1376,7 +1376,7 @@ function List_Clomns($QueryHistory,$MapID)
 			$HistoryMap=$QueryHistory.",".$MapID;
 
 			
-
+			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query"));
 			$SmoduleID=(string) $xml->relatedlists[0]->relatedlist->linkfield;
 			$FmoduleID=(string)  $xml->popup->linkfield;
 
@@ -1597,7 +1597,7 @@ function Master_detail($QueryHistory,$MapID)
 			$MapName=get_form_Map($MapID,"mapname");
 
 			$HistoryMap=$QueryHistory.",".$MapID;
-
+			$xml=new SimpleXMLElement(get_The_history($QueryHistory,"query"));
 			$FmoduleID=(string) $xml->linkfields->targetfield;
 			$SmoduleID=(string) $xml->linkfields->originfield;
 
@@ -1805,7 +1805,7 @@ function Mapping_View($QueryHistory,$MapID)
 		if (!empty($QueryHistory)) {
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
-			$SecondModulerelation=GetModulRelOneTomulti(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"));
 			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
 			$SecondModuleFields=getModFields(get_The_history($QueryHistory,"secondmodule"));
 			$MapName=get_form_Map($MapID,"mapname");
@@ -1840,9 +1840,9 @@ function Mapping_View($QueryHistory,$MapID)
 
 						// 'SecondFieldval' =>explode("#",CheckAllFirstForAllModules($xml->originmodule[0]->originname))[0],
 						'idJSON'=>$nrindex++,
-						 'SecondFieldtext' => explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1],
+						 'SecondFieldtext' =>(!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1]:"Default-Value"),
 
-						'SecondFieldval' => explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0],
+						'SecondFieldval' =>(!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0]:$field->value),
 						'SecondFieldOptionGrup'=>explode("#", Get_First_Moduls_TextVal($field->Orgfields->Relfield->RelModule))[0]
 
 					];
@@ -1864,16 +1864,16 @@ function Mapping_View($QueryHistory,$MapID)
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
-			// $smarty->assign("SecondModulerelation",$SecondModulerelation);
+			$smarty->assign("SecondModulerelation",$SecondModulerelation);
 
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
-			// $smarty->assign("FirstModuleFields",$FirstModuleFields);
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 
 			$smarty->assign("PopupJson",$Alldatas);
 
-			// $smarty->assign("SecondModuleFields",$SecondModuleFields);
+			$smarty->assign("SecondModuleFields",$SecondModuleFields);
 
 			$output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');
 			echo $output;
@@ -2767,4 +2767,40 @@ function getIdForEntityName($module,$moduleName="entityidfield")
 		 $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
 		 return "";
 	}
+}
+
+
+/**
+ * This function is to get all maps from database a
+ * @param string $value  this param is if you want to filter by map type
+ * @return  a list of maps 
+ */
+function GetAllrelation1TOManyMaps($module="")
+{
+	global $adb, $root_directory, $log;
+	if (!empty($module))
+	{
+		$log->debug("Info!! Value is not ampty");
+		// return "is not empty $module";
+		$sql="SELECT relmodule FROM `vtiger_fieldmodulerel` WHERE module = '$module' UNION SELECT module FROM `vtiger_fieldmodulerel` WHERE relmodule = '$module' ";
+		$result = $adb->query($sql);
+	    $num_rows=$adb->num_rows($result);
+	    $historymap="";
+	    $a='<option value="" >(Select a module)</option>';
+	    if($num_rows!=0)
+	    {
+	        for($i=1;$i<=$num_rows;$i++)
+	        {
+	            $Modules = $adb->query_result($result,$i-1,'relmodule');
+	           
+	            $a.='<option value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';//.str_replace("'", "", getTranslatedString($Modules))
+	           
+	            
+	        }
+	       return $a;
+	    }else{$log->debug("Info!! The database is empty or something was wrong");}
+    }else {
+		return "";
+	}
+	 
 }

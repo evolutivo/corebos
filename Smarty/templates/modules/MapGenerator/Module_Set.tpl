@@ -33,6 +33,13 @@
     </script>
    
 {/if}
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+{/if}
+
 <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
    
 

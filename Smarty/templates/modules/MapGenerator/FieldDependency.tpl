@@ -37,6 +37,15 @@
 
 
 {/if}
+
+
+ {if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+    {/if}
+
+
 <div class="slds">
             <div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
                 <div class="slds-modal__container">

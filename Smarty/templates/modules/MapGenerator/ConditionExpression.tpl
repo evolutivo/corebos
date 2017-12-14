@@ -31,6 +31,15 @@
 
 {/if}
 
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+{/if}
+
+
+
 <div>
     <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">

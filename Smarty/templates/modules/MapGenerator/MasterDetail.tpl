@@ -53,11 +53,12 @@
     </script>
    
 {/if}
-<!-- 
-<div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
-  <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
-    <right style="margin-left: 10%"><b> {$MOD.OriginModule}</b></right>
-</div> -->
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+{/if}
 <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
 
        <div class="slds-section-title--divider">

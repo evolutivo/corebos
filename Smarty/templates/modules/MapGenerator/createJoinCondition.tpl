@@ -231,7 +231,7 @@
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
-                    <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
+                    <center><label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label></center>
                     <div class="slds-select_container">
                         {*{if !empty($FirstSecModule)}*}
                         {*<select id="secmodule" name="secmodule" class="slds-select">*}

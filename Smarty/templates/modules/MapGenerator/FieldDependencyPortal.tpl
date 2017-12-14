@@ -37,6 +37,13 @@
 
 
 {/if}
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+    {/if}
+
 <div class="slds">
             <div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
                 <div class="slds-modal__container">
@@ -128,7 +135,7 @@
 
                     </div>
                     <div class="slds-modal__footer">
-                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
+                        {* <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
                         </button>
                         <button  data-add-button-popup="true" data-add-type="Fileds" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
@@ -199,7 +206,7 @@
 
                     </div>
                     <div class="slds-modal__footer">
-                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
+                        {* <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}
                         </button>
                         <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
