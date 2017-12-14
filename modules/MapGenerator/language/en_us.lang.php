@@ -144,8 +144,10 @@ $mod_strings = Array(
     'Sort'=>'Sort',
     'Hidden'=>'Hidden',
     'Mandatory'=>'Mandatory',
-
+    'Readonly'=>'Readonly',
     'ClickAdd'=>'Click to add',
+    'Hide'=>'Hide',
+    'Show'=>'Show',
 
 
 );
