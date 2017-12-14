@@ -48,7 +48,7 @@
             <div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
                 <div class="slds-modal__container">
                     <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop" >
                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
                                 <use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
                             </svg>
@@ -79,23 +79,25 @@
 						                <div class="slds-form-element__control">
 						                
 						                    <div class="" id="SecondDiv" style="float: left;width: 105%;">
-						                      <div class="slds-form-element" style="display: inline-block;">
+						                     <!--SLDS Checkbox Toggle Element Start-->
+						                     <div class="slds-form-element" style="display: inline-block;">
 						                        <label class="slds-checkbox--toggle slds-grid">
-						                         <input id="ShowHidecheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
-						                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
+						                         <input  onchange="RemovecheckedMasterDetail(this)" data-all-id="Readonlycheck,mandatorychk"  id="ShowHidecheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+						                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
 						                            <span class="slds-checkbox--faux"></span>
-						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hide/Show</span>
-						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+						                            <span class="slds-checkbox--on" style="font-size: initial;margin-right: 10px">{$MOD.Hidden}-{$MOD.YES}</span>
+						                            <span class="slds-checkbox--off" style="font-size: initial;margin-right: 10px">{$MOD.Hidden}-{$MOD.NO}</span>
 						                          </span>
 						                        </label>
 						                      </div>
-						                     <!--SLDS Checkbox Toggle Element Start-->
+
 						                      <div class="slds-form-element" style="display: inline-block;">
 						                        <label class="slds-checkbox--toggle slds-grid">
 						                         <input id="Readonlycheck" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
 						                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
 						                            <span class="slds-checkbox--faux"></span>
-						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Readonly</span>
+						                            <span class="slds-checkbox--on" style="font-size: initial;margin-right: 10px">{$MOD.Readonly}-{$MOD.YES}</span>
+						                            <span class="slds-checkbox--off" style="font-size: initial;margin-right: 10px">{$MOD.Readonly}-{$MOD.NO}</span>
 						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
 						                          </span>
 						                        </label>
@@ -105,17 +107,19 @@
 						                         <input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
 						                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
 						                            <span class="slds-checkbox--faux"></span>
-						                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Mandatory</span>
+						                            <span class="slds-checkbox--on" style="font-size: initial;margin-right: 10px">{$MOD.Mandatory}-{$MOD.YES}</span>
+						                            <span class="slds-checkbox--off" style="font-size: initial;margin-right: 10px">{$MOD.Mandatory}-{$MOD.NO}</span>
 						                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
 						                          </span>
 						                        </label>
 						                      </div>
-						                    {*    <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;vertical-align: bottom;">
+
+						                    {*    <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 31px;height: 40px;vertical-align: bottom;">
 						                             <!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,secmodule,SecondfieldID,sortt6ablechk,editablechk,mandatorychk,hiddenchk" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
 						                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
 						                              </button> -->
 						                               <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-						                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
+						                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29">
 						                              </button>
 						                          </div> *}
 						                    
@@ -136,11 +140,11 @@
                     </div>
                     <div class="slds-modal__footer">
                         {* <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
-                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
-                        </button>
-                        <button  data-add-button-popup="true" data-add-type="Fileds" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
+                        <button  data-add-button-popup="true" data-add-type="Field" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
+                        <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -149,6 +153,7 @@
             <!-- Button To Open Modal -->
             {*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
 </div>
+
 
 <div class="slds">
             <div class="slds-modal" aria-hidden="false" role="dialog" id="Picklist">
