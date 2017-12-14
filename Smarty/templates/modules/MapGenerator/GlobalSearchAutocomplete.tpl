@@ -47,14 +47,6 @@
 
 {/if}
 
-
-{if $Modali neq ''}
-      <div>
-        {$Modali}
-      </div>
-{/if}
-
-
   <div>
   	<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
     <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
@@ -125,7 +117,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button data-add-button-popup="true" data-add-type="Modul" data-add-relation-id="FirstModule,Firstfield,Firstfield2,startwithchck" data-show-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Modul" data-add-relation-id="FirstModule,Firstfield,Firstfield2,startwithchck" onclick="resetFieldGlobalSearchAuto();" data-show-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
                           </div>
@@ -139,7 +131,7 @@
 	 </div>
 	
 </div>
-<div style="float: right;width: 25%;margin-left: 20px;">
+<div id="GlobalSearchAutocompletels" style="float: right;width: 25%;margin-left: 20px;">
 	<div id="LoadShowPopup"></div>
 </div>
 <div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 71%;">
