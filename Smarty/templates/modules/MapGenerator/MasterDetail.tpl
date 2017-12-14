@@ -137,7 +137,7 @@
                 <div class="slds-form-element__control">
                   <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
                     <div class="slds-select_container">
-                       <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMapping" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                       <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMapping" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                         </select>
 
@@ -168,7 +168,7 @@
                 <div class="slds-form-element__control">
                   <center><label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label></center>
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" data-second-firstmodule-id="FirstModule"  name="secmodule" class="slds-select">
+                        <select id="secmodule" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" data-second-firstmodule-id="FirstModule"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}
                         </select>
                      </div>
@@ -189,8 +189,18 @@
                          <input id="sortt6ablechk" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
                           <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Sort</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Sort}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Sort}-{$MOD.NO}</span>
+                          </span>
+                        </label>
+                      </div>
+                      <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input  onchange="RemovecheckedMasterDetail(this)" data-all-id="mandatorychk,editablechk"  id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox--on">{$MOD.Hidden}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Hidden}-{$MOD.NO}</span>
                           </span>
                         </label>
                       </div>
@@ -200,8 +210,8 @@
                          <input id="editablechk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Editable</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Edit}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Edit}-{$MOD.NO}</span> 
                           </span>
                         </label>
                       </div>
@@ -210,22 +220,11 @@
                          <input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Mandatory</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Mandatory}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Mandatory}-{$MOD.NO}</span>
                           </span>
                         </label>
                       </div>
-                        <div class="slds-form-element" style="display: inline-block;">
-                        <label class="slds-checkbox--toggle slds-grid">
-                         <input id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
-                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-                            <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Hidden</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
-                          </span>
-                        </label>
-                      </div>
-
                       <div class="slds-form-element" style="display: inline-block;float: right;margin-right: 14px;">
                         <label class="slds-checkbox--toggle slds-grid">
                         <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">

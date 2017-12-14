@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-13 16:27:37
+* @Last Modified time: 2017-12-14 14:08:53
 */
 
 
@@ -382,6 +382,8 @@
 			var relationmodule=elem.attr("data-second-select-file");
 			var secondmodulefile=elem.attr("data-second-module-file");
 			var firstfieldid=elem.attr("data-select-fieldid");
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
 			var urlsendmodule;
 			var valueselected = elem.find(":selected").val();
 			if (secondmodule != "undefined") {
@@ -437,6 +439,17 @@
 					}
 				}
 				
+				if (datareset && datareset==="true")
+				{
+					if (idreset)
+					{
+						$('#'+idreset+' div').remove();
+						App.popupJson.length=0;
+						App.JSONForCOndition.length=0;
+					}
+					
+				}
+
 				VauefromPost = null;
 			}
 		 },
@@ -457,6 +470,8 @@
 			var firstfieldid=elem.attr("data-select-fieldid");
 			var sendfirstmodule=elem.attr('data-second-firstmodule-id');
 			var selectsecondfields = elem.find(":selected").val();
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
 			if (relationid != "undefined") {
 				var sp = selectsecondfields.split(";");
 				var mod = sp[0].split("(many)");
@@ -495,6 +510,17 @@
 				// $("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
 				$("#" + relationid).append(str1);
 				VauefromPost = null;
+
+				if (datareset && datareset==="true")
+				{
+					if (idreset)
+					{
+						$('#'+idreset+' div').remove();
+						App.popupJson.length=0;
+						App.JSONForCOndition.length=0;
+					}
+					
+				}
 			}
 
 		},
@@ -807,6 +833,7 @@
 	   	 $('#ErrorVAlues').text('');
 	     $('#'+closemodal).removeClass('slds-fade-in-open');
 	     $('#'+closebackdrop).removeClass('slds-backdrop--open');
+	     $('#SaveasMapText').val('');
 
 	   },
 
@@ -1078,7 +1105,7 @@
 			}
 			if (keephitoryidtoshow)
 			{
-				if (executefunction)
+				if (executefunction && executefunction!=="undefined")
 				{
 					var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
 					eval(funcCall);

@@ -2863,7 +2863,49 @@ function Removechecked(event) {
   }
 }
 
- function resetFieldGlobalSearchAuto() {
+
+/**
+ * this function is only for Master detail 
+ *
+ * @class      RemovecheckedMasterDetail (name)
+ * @param      {<type>}  event   The event
+ */
+function RemovecheckedMasterDetail(event)
+{
+  
+    var elem=event;
+    var allids=elem.dataset.allId;
+
+   if (elem.checked)
+    {
+      if (allids)
+      {
+        allids=allids.split(',');
+        for (var i = allids.length - 1; i >= 0; i--) {
+          $("#"+allids[i]).removeAttr('checked');
+          $("#"+allids[i]).attr("disabled", true);
+        }
+      }
+
+    }else
+    {
+      if (allids)
+      {
+        allids=allids.split(',');
+        for (var i = allids.length - 1; i >= 0; i--) {         
+          $("#"+allids[i]).removeAttr('disabled');
+          $("#"+allids[i]).prop("checked", "checked");
+        }
+      }
+    }
+}
+
+
+
+
+
+
+function resetFieldGlobalSearchAuto() {
 
     clear_selections = function(){
         setTimeout(function(){
