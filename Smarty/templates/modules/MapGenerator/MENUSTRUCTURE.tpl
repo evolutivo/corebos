@@ -102,7 +102,7 @@
             </div>
            
         </div>
-        <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin-left: 80px;padding: 0px;width: 47px;height: 39px;">
+        <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin-top: 85px;padding: 0px;width: 47px;height: 39px;">
             <button data-add-button-popup="true" data-add-type="Modul" data-add-relation-id="LabelName,FirstModule" data-show-id="LabelName" data-div-show="LoadShowPopup" data-show-modul-id="FirstModule" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                 <img src="themes/images/btnL3Add.gif" style="width: 100%;">
             </button>
