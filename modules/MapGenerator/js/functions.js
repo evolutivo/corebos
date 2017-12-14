@@ -2827,7 +2827,7 @@ if (App.popupJson.length>0)
  */
  function resetFieldCreateViewPortal() {
   $("#BlockName").val('');
-  $("#FieldsForRow").find('option:selected').remove();
+  $("#FieldsForRow").find('option:selected').removeAttr("selected");
 }
 
 
@@ -2861,4 +2861,21 @@ function Removechecked(event) {
       }
     }
   }
+}
+
+ function resetFieldGlobalSearchAuto() {
+
+    clear_selections = function(){
+        setTimeout(function(){
+            if($('#LoadShowPopup').find(".alerts").length==0){
+                clear_selections();
+            }else{
+                $("#Firstfield").find('option:selected').removeAttr("selected");
+                $("#Firstfield2").find('option:selected').removeAttr("selected");
+                $("#FirstModule").val("");
+            }
+        },50);
+    }
+    clear_selections();
+    
 }
