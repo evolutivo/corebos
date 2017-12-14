@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-14 12:15:05
+* @Last Modified time: 2017-12-14 12:26:52
 */
 
 
@@ -807,6 +807,7 @@
 	   	 $('#ErrorVAlues').text('');
 	     $('#'+closemodal).removeClass('slds-fade-in-open');
 	     $('#'+closebackdrop).removeClass('slds-backdrop--open');
+	     $('#SaveasMapText').val('');
 
 	   },
 
