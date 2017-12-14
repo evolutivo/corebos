@@ -146,8 +146,12 @@ $mod_strings = Array(
     'Mandatory'=>'Mandatory',
     'Readonly'=>'Readonly',
     'ClickAdd'=>'Click to add',
+    'equals'=>'Equals',
+    'not_equals'=>'Not equals',
+    'empty'=>'Empty',
+    'not_empty'=>'Not empty'
     'Hide'=>'Hide',
-    'Show'=>'Show',
+    'Show'=>'Show'
 
 
 );
