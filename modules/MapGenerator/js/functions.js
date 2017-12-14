@@ -2870,9 +2870,14 @@ function Removechecked(event) {
             if($('#LoadShowPopup').find(".alerts").length==0){
                 clear_selections();
             }else{
-                $("#Firstfield").find('option:selected').removeAttr("selected");
-                $("#Firstfield2").find('option:selected').removeAttr("selected");
+                // $("#Firstfield").find('option:selected').removeAttr("selected");
+                // $("#Firstfield2").find('option:selected').removeAttr("selected");
                 $("#FirstModule").val("");
+                $("#Firstfield").find('option').remove();
+                $("#Firstfield2").find('option').remove();
+                $("#Firstfield").find('optgroup').remove();
+                $("#Firstfield2").find('optgroup').remove();
+               
             }
         },50);
     }
