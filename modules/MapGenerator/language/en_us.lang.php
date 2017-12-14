@@ -141,6 +141,10 @@ $mod_strings = Array(
     'Delete'=>'Delete',
     'Add'=>'Add',
     'Select'=>'Select',
+    'Sort'=>'Sort',
+    'Hidden'=>'Hidden',
+    'Mandatory'=>'Mandatory',
+
     'ClickAdd'=>'Click to add',
 
 

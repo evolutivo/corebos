@@ -105,6 +105,7 @@
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center> <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label> </center>
                     <div class="slds-select_container">
                        <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
@@ -127,6 +128,7 @@
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center> <label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label> </center>
                     <div class="slds-select_container">
                         <select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField"  data-second-select-file="AllRelation"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}

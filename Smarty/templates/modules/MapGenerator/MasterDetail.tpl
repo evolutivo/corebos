@@ -189,8 +189,18 @@
                          <input id="sortt6ablechk" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
                           <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Sort</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Sort}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Sort}-{$MOD.NO}</span>
+                          </span>
+                        </label>
+                      </div>
+                      <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input  onchange="RemovecheckedMasterDetail(this)" data-all-id="mandatorychk,editablechk"  id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox--on">{$MOD.Hidden}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Hidden}-{$MOD.NO}</span>
                           </span>
                         </label>
                       </div>
@@ -200,8 +210,8 @@
                          <input id="editablechk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Editable</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Edit}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Edit}-{$MOD.NO}</span> 
                           </span>
                         </label>
                       </div>
@@ -210,22 +220,11 @@
                          <input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Mandatory</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Mandatory}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Mandatory}-{$MOD.NO}</span>
                           </span>
                         </label>
                       </div>
-                        <div class="slds-form-element" style="display: inline-block;">
-                        <label class="slds-checkbox--toggle slds-grid">
-                         <input id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
-                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-                            <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox">Hidden</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
-                          </span>
-                        </label>
-                      </div>
-
                       <div class="slds-form-element" style="display: inline-block;float: right;margin-right: 14px;">
                         <label class="slds-checkbox--toggle slds-grid">
                         <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
