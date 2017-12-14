@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-14 10:40:19
+ * @Last Modified time: 2017-12-14 14:19:29
  */
 
 
@@ -697,7 +697,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 	if (!empty($QueryHistory)) {
 		//TODO:: check if exist the history
 		
-		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 		 //fields 
 		 $FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
 
@@ -1805,7 +1805,7 @@ function Mapping_View($QueryHistory,$MapID)
 		if (!empty($QueryHistory)) {
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
-			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"));
+			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
 			$SecondModuleFields=getModFields(get_The_history($QueryHistory,"secondmodule"));
 			$MapName=get_form_Map($MapID,"mapname");
@@ -2775,7 +2775,7 @@ function getIdForEntityName($module,$moduleName="entityidfield")
  * @param string $value  this param is if you want to filter by map type
  * @return  a list of maps 
  */
-function GetAllrelation1TOManyMaps($module="")
+function GetAllrelation1TOManyMaps($module="",$selectedmodule="")
 {
 	global $adb, $root_directory, $log;
 	if (!empty($module))
@@ -2793,7 +2793,11 @@ function GetAllrelation1TOManyMaps($module="")
 	        {
 	            $Modules = $adb->query_result($result,$i-1,'relmodule');
 	           
-	            $a.='<option value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';//.str_replace("'", "", getTranslatedString($Modules))
+	            if (!empty($selectedmodule) && $Modules===$selectedmodule) {
+	            	$a.='<option selected value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';
+	            }else{
+	            	$a.='<option value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';
+	            }
 	           
 	            
 	        }

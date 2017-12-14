@@ -137,7 +137,7 @@
                 <div class="slds-form-element__control">
                   <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
                     <div class="slds-select_container">
-                       <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMapping" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                       <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMapping" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                         </select>
 
@@ -168,7 +168,7 @@
                 <div class="slds-form-element__control">
                   <center><label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label></center>
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" data-second-firstmodule-id="FirstModule"  name="secmodule" class="slds-select">
+                        <select id="secmodule" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" data-second-firstmodule-id="FirstModule"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}
                         </select>
                      </div>
