@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-14 14:19:29
+ * @Last Modified time: 2017-12-14 14:58:14
  */
 
 
@@ -1588,7 +1588,7 @@ function Master_detail($QueryHistory,$MapID)
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 
-			$SecondModulerelation=GetModulRelOneTomulti(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 
 			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
 
@@ -1690,7 +1690,7 @@ function Master_detail($QueryHistory,$MapID)
 			
 			$xml=new SimpleXMLElement(get_form_Map($MapID)); 
 			$FirstModuleSelected=Get_First_Moduls((string) $xml->targetmodule[0]);
-			 $SecondModulerelation=GetModulRelOneTomulti((string)$xml->targetmodule[0] ,(string)$xml->targetmodule[0]);
+			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 			$FirstModuleFields=getModFields((string)$xml->targetmodule[0]);
 			$SecondModuleFields=getModFields((string)$xml->originmodule[0]);
 			$MapName=get_form_Map($MapID,"mapname");
