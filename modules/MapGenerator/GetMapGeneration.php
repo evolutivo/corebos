@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-14 17:14:19
+ * @Last Modified time: 2017-12-15 11:52:25
  */
 
 
@@ -929,7 +929,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 	if (!empty($QueryHistory)) {
 		 //TODO:: if find the id of of history table 
 		
-		 $FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		 $FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 		 //fields 
 		 $FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
 

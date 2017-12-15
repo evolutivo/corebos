@@ -250,7 +250,7 @@
 	 		<div class="slds-form-element">
             <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
             <div class="slds-form-element__control">
-              	<select data-select-load="true" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
+              	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                  </select>
 

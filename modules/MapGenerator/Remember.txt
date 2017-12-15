@@ -13,6 +13,10 @@ data-second-select-file="AllRelation"  ---if you want to get the field for anoth
 
 data-second-module-file="nameof file" --if you want to get the data from another php file
 
+//this is if you want to reset all choise you make when choose the first and second module 
+data-reset-all="true" 
+data-reset-id-popup="LoadShowPopup"
+
 
 --- click a or button or another 
 this is to show and hide a 2 elements 
