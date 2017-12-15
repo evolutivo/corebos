@@ -60,6 +60,8 @@
     }else{
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
      }
+
+      ShowHistoryData(App.SaveHistoryPop.length-1,'LoadShowPopup');
   </script>
 
 

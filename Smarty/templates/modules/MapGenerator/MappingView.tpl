@@ -20,6 +20,13 @@
            App.JSONForCOndition.length=0;
       {/foreach}
       App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+     //console.log(App.SaveHistoryPop.length);
+     var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+     App.JSONForCOndition.length=0;
+      for (var i=0;i<=historydata.JSONCondition.length-1;i++){
+        App.JSONForCOndition.push(historydata.JSONCondition[i]);
+      }
+      App.utils.ReturnAllDataHistory('LoadShowPopup');
 
     </script>
    

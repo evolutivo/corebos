@@ -12,7 +12,7 @@ if (!empty($modules)) {
 	if (!empty($modules))
 	{
 		$log->debug("Info!! Value is not ampty");
-		$sql="SELECT relmodule FROM `vtiger_fieldmodulerel` WHERE module = '$modules' UNION SELECT module FROM `vtiger_fieldmodulerel` WHERE relmodule = '$modules' ";
+		$sql="SELECT module FROM `vtiger_fieldmodulerel` WHERE relmodule = '$modules' ";
 		$result = $adb->query($sql);
 	    $num_rows=$adb->num_rows($result);
 	    $historymap="";
@@ -22,7 +22,7 @@ if (!empty($modules)) {
 	    {
 	        for($i=1;$i<=$num_rows;$i++)
 	        {
-	            $Module = $adb->query_result($result,$i-1,'relmodule');
+	            $Module = $adb->query_result($result,$i-1,'module');
 	            $keepmodules[]=$Module;
 	            if ($Module!=$firstmodule)
 	            {
