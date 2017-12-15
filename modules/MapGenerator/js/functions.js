@@ -1986,7 +1986,7 @@ function GenearteMasterDetail() {
     INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+firstfield;
     INSertAlerstJOIN += '<br><strong>#Sort!  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
     INSertAlerstJOIN += '<br><strong>#Editable!  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Mandotary!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>#Mandatory!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
     INSertAlerstJOIN += '<br><strong>#Hidden!  '+(Idd+1)+'</strong> '+(hiddenchk==1?"True":"False");
 
     INSertAlerstJOIN += '</div';
