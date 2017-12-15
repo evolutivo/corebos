@@ -824,7 +824,10 @@ function FieldDependency($QueryHistory,$MapID)
 			 		'FirstModuleoptionGroup'=>'undefined',
 			 		'Firstfield'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			 		'FirstfieldoptionGroup'=>(string)$xml->targetmodule->targetname,
-			 		'JsonType'=>'Responsible'
+			 		'JsonType'=>'Responsible',
+			 		'Conditionalfield'=>(string)$xml->targetmodule->comparisonText,
+			 		'ConditionalfieldoptionGroup'=>'undefined'
+
 
 			 	];
 

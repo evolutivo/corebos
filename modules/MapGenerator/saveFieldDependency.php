@@ -164,7 +164,7 @@ function add_content($DataDecode,$mapname)
 		     $fieldvalue->appendChild($fieldvalueText);
 
 		     $comparison = $xml->createElement("comparison");
-		     $comparisonText = $xml->createTextNode("equal");
+		     $comparisonText = $xml->createTextNode($value->temparray->Conditionalfield);
 		     $comparison->appendChild($comparisonText);
 
 		     $Responsiblefield->appendChild($fieldname);
