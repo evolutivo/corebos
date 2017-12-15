@@ -270,9 +270,9 @@
 	          </div>
 	 		</div>
 	 		<div style="display: inline-block; margin: 23px 0px 0px 23px;">
-	 			<select  id="Firstfield" name="mod" class="slds-select">
-	                        <option value="equals">{$MOD.equals}</option>
-	                        <option value="not equals">{$MOD.not_equals}</option>
+	 			<select  id="Conditionalfield" name="mod" class="slds-select">
+	                        <option value="equal">{$MOD.equals}</option>
+	                        <option value="not equal">{$MOD.not_equals}</option>
 	                        <option value="empty">{$MOD.empty}</option>
 	                        <option value="not empty">{$MOD.not_empty}</option>
 	            </select></div>
@@ -287,7 +287,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px; position: absolute; right: 0px;">
-                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;" >
                               </button>
                           </div>
