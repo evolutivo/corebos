@@ -146,5 +146,10 @@ $mod_strings = array(
 	'ClickAdd' => 'Click to add',
 	'Hide' => 'Hide',
 	'Show' => 'Show',
+    'equals'=>'Equals',
+    'not_equals'=>'Not equals',
+    'empty'=>'Empty',
+    'not_empty'=>'Not empty'
+
 );
 ?>

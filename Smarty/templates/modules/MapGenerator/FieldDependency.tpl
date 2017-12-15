@@ -271,10 +271,10 @@
 	 		</div>
 	 		<div style="display: inline-block; margin: 23px 0px 0px 23px;">
 	 			<select  id="Firstfield" name="mod" class="slds-select">
-	                        <option>{$MOD.equals}</option>
-	                        <option>{$MOD.not_equals}</option>
-	                        <option>{$MOD.empty}</option>
-	                        <option>{$MOD.not_empty}</option>
+	                        <option value="equals">{$MOD.equals}</option>
+	                        <option value="not equals">{$MOD.not_equals}</option>
+	                        <option value="empty">{$MOD.empty}</option>
+	                        <option value="not empty">{$MOD.not_empty}</option>
 	            </select></div>
 	 		<div style="float: right; width: 40%; *//* margin: 0px; */padding: 0px;">
 		 		<div class="slds-form-element">
