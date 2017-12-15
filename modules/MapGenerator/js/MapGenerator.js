@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-14 14:08:53
+* @Last Modified time: 2017-12-15 14:35:31
 */
 
 
@@ -90,10 +90,10 @@
 
 				} else {
 					// alert(mv_arr.Choseobject);
-					App.utils.ShowNotification("snackbar",4000,mv_arr.Choseobject);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.Choseobject);
 				}
 			} else if (types == "TypeMap") {
-				if (!urlpost && urlpost===""){/*alert(mv_arr.Buttonsendajax);*/ App.utils.ShowNotification("snackbar",4000,mv_arr.Buttonsendajax); return false;}
+				if (!urlpost && urlpost===""){/*alert(mv_arr.Buttonsendajax);*/ App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax); return false;}
 			else{urlpost=urlpost.split(','); }
 				if (select.length > 0) {
 					var nameview = $('#nameView').val();
@@ -331,7 +331,7 @@
 				}
             }else{
             	// alert(mv_arr.addJoinValidation);
-            	App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
+            	App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
             }
 
 		},		
@@ -581,7 +581,7 @@
 								$('#'+idrelation).attr('disabled', 'true');
 							}
 							elem.focus();
-							// App.utils.ShowNotification("snackbar",4000,mv_arr.MapNameExist);
+							// App.utils.ShowNotification("snackbar",2000,mv_arr.MapNameExist);
 						}
 
 					}else
@@ -604,7 +604,7 @@
 					$('#'+idrelation).attr('disabled', 'true');
 				}
 				elem.focus();
-				// App.utils.ShowNotification("snackbar",4000,mv_arr.NameQuery);
+				// App.utils.ShowNotification("snackbar",2000,mv_arr.NameQuery);
 			}
 
 	 },
@@ -643,7 +643,7 @@
 		 	 	}else
 		 	 	{
 		 	 		// alert(mv_arr.MissingIDtoShow);
-		 	 		App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIDtoShow);
+		 	 		App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIDtoShow);
 		 	 	}
 
 		 	 }
@@ -667,7 +667,7 @@
 		 	if (!urltosend)
 		 	{
 		 		// alert(mv_arr.NameOFMapMissingFile);
-		 		App.utils.ShowNotification("snackbar",4000,mv_arr.NameOFMapMissingFile);
+		 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
 		 		return false;
 		 	}
 
@@ -682,7 +682,7 @@
 	        		if (!VauefromPost)
 	        		{
 	        			// alert(mv_arr.ReturnErrorFromMap);
-	        			App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
 	        			return false;
 	        		}
 	        		if (idtoshow)
@@ -693,21 +693,21 @@
 	        		}else
 	        		{
 	        			// alert(mv_arr.MissingDivID);
-	        			App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 	        		}
 
 
 	        	}else
 	        	{
 	        		// alert(mv_arr.ChoseMap);
-	        		App.utils.ShowNotification("snackbar",4000,mv_arr.ChoseMap);
+	        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
 	        	}
 
 
 	        }else
 	        {
 	        	// alert(mv_arr.MissingIdValue);
-	        	App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIdValue);
+	        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
 	        	return false;
 	        }
 
@@ -782,7 +782,7 @@
 
 			 	 	}else{
 			 	 		// alert(mv_arr.MappingFiledValid);
-			 	 		App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+			 	 		App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
 			 	 	}
 			 }
 		},
@@ -816,7 +816,7 @@
 			    }
 			    else {
 			        // alert(mv_arr.ReturnFromPost);
-			        App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+			        App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnFromPost);
 			    }
 			}
 		},
@@ -867,7 +867,7 @@
     	 		$('#'+idModals).addClass('slds-fade-in-open');
 	   	 	} else
 	   	 	{
-	   	 		App.utils.ShowNotification("snackbar",4000,mv_arr.Fieldsaremepty);
+	   	 		App.utils.ShowNotification("snackbar",2000,mv_arr.Fieldsaremepty);
 	   	 	}
 
 	   	 } else
@@ -885,11 +885,11 @@
 	   	 var idset=elem.attr('data-load-element-idset');
 
 	   	 if (!idget ){
-	   	 	App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);
+	   	 	App.utils.ShowNotification("snackbar",2000,mv_arr.missingtheidgetValue);
 	   	 }
 		if (!idget )
 		{
-			App.utils.ShowNotification("snackbar",4000,mv_arr.missingIdtoSetValue);
+			App.utils.ShowNotification("snackbar",2000,mv_arr.missingIdtoSetValue);
 		}
 
 		idget=idget.split(',');
@@ -999,7 +999,7 @@
 			
 			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
 				// alert(mv_arr.Buttonsendajax);
-				App.utils.ShowNotification("snackbar",4000,mv_arr.Buttonsendajax);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax);
 				return false;
 			}
 			
@@ -1011,7 +1011,7 @@
 							datatusend +=`ListData=${JSON.stringify(datasend)}`;
 						}else{
 							// alert(mv_arr.MappingFiledValid);
-							App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+							App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
 						}
 					}else{
 						datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
@@ -1055,7 +1055,7 @@
 				 			
 				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
 							// alert(mv_arr.ReturnSucessFromMap);
-							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
 				 		}else
 				 		{
@@ -1069,21 +1069,21 @@
 				 			}
 				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
 							// alert(mv_arr.ReturnSucessFromMap);
-							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
 				 		}
 				 	}else
 				 	{
 				 		App.savehistoryar=VauefromPost;
 						// alert(mv_arr.ReturnSucessFromMap);
-						App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
 						VauefromPost=null;
 				 	}
 	 				
 				 }else
 				 {
 				 	// alert(mv_arr.ReturnErrorFromMap);
-				 	App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
+				 	App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
 				 }
 			}
 			if (sendSaveAs && sendSaveAs==="true")
@@ -1136,7 +1136,7 @@
 			 }else
 			 {
 			 	// alert(mv_arr.RemovedivHistory);
-			 	App.utils.ShowNotification("snackbar",4000,mv_arr.RemovedivHistory);
+			 	App.utils.ShowNotification("snackbar",2000,mv_arr.RemovedivHistory);
 			 }
 			 if (keephitoryidtoshow)
 			 {
@@ -1158,10 +1158,10 @@
 			if (!diwtoshow)
 			{
 				// alert(mv_arr.MissingDivID);
-				App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 			}
 
-			if (!iddivrelation) {/*alert(mv_arr.MissingIDtoShow);*/App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIDtoShow);}
+			if (!iddivrelation) {/*alert(mv_arr.MissingIDtoShow);*/App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIDtoShow);}
 			else
 			{
 				var historydata=App.SaveHistoryPop[parseInt(idtoshow)];
@@ -1181,7 +1181,7 @@
 					}else
 					{
 						// alert(mv_arr.MissingDivID);
-						App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 					}
 
 				}else
@@ -1201,7 +1201,7 @@
 					}else
 					{
 						// alert(mv_arr.MissingDivID);
-						App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 					}
 
 				}
@@ -1414,12 +1414,12 @@
 					App.popupJson.push({temparray});
 				}else
 				{
-					App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
 				}
 				
 			}else
 			{
-				App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
 			}
 			
 		},
@@ -1903,7 +1903,7 @@
 		 * @param {Number} timetohide     the time to stay the notification after show
 		 * @param {String} message        the meessage of notification
 		 */
-		ShowNotification:function(idnotification="snackbar",timetohide=4000,message="Put a messsage to show") {
+		ShowNotification:function(idnotification="snackbar",timetohide=2000,message="Put a messsage to show") {
 			var x = document.getElementById(idnotification);
 			x.innerHTML=message;
 			x.className = "show";
