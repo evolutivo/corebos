@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-15 11:52:25
+ * @Last Modified time: 2017-12-15 12:16:53
  */
 
 
@@ -339,7 +339,7 @@ function MENUSTRUCTURE($QueryHistory,$MapID)
 						'DefaultText'=>(string)$valuexml->label ,
 						'FirstModule'=> (string)$valuename,
 						'FirstModuleoptionGroup'=>"udentifined" ,
-						'JsonType'=>"Modul",
+						'JsonType'=>"Module",
 						'LabelName'=>(string)$valuexml->label,
 						'LabelNameoptionGroup'=>"",
 						'Moduli'=>(string)$valuename,
@@ -696,8 +696,8 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 
 	if (!empty($QueryHistory)) {
 		//TODO:: check if exist the history
-		
-		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+		$firstmodulearray=explode(',',get_The_history($QueryHistory,"firstmodule"));
+		$FirstModuleSelected=Get_First_Moduls(end($firstmodulearray));
 		 //fields 
 		 $FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
 
@@ -725,7 +725,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		 			'Firstfield2'=>array(),
 		 			'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
 		 			'FirstfieldoptionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
-		 			'JsonType'=>"Modul",
+		 			'JsonType'=>"Module",
 		 			'startwithchck'=>($value->searchcondition=="startswith")?1:0,
 		 			'startwithchckoptionGroup'=>"",
 		 		];
@@ -840,7 +840,7 @@ function FieldDependency($QueryHistory,$MapID)
 			  		'FirstModuleoptionGroup'=>'undefined',
 			  		'Firstfield2'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			  		'Firstfield2optionGroup'=>(string)$xml->targetmodule->targetname,
-			  		'JsonType'=>'Fileds',
+			  		'JsonType'=>'Field',
 			  		'ReadonlycheckoptionGroup'=>'',
 			  		'ShowHidecheckoptionGroup'=>'',
 			  		'mandatorychk'=>(string)(!empty($xmlval->mandatory))?1:0,
@@ -976,7 +976,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			  		'FirstModuleoptionGroup'=>'undefined',
 			  		'Firstfield2'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			  		'Firstfield2optionGroup'=>(string)$xml->targetmodule->targetname,
-			  		'JsonType'=>'Fileds',
+			  		'JsonType'=>'Field',
 			  		'ReadonlycheckoptionGroup'=>'',
 			  		'ShowHidecheckoptionGroup'=>'',
 			  		'mandatorychk'=>(string)(!empty($xmlval->mandatory))?1:0,
@@ -1177,7 +1177,7 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 						"firstModule"=>explode("#", Get_First_Moduls_TextVal($value))[0],
 						"HistoryValueToShow"=>" ",
 						"HistoryValueToShowoptionGroup"=>" ",
-						"JsonType"=>"Modul",
+						"JsonType"=>"Module",
 						"firstModuleoptionGroup"=>"undefined",
 					];
 					array_push($MyArray,$arrayy);

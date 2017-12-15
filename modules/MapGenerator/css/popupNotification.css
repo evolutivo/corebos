@@ -146,8 +146,8 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 
 #snackbar.show {
     visibility: visible;
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    -webkit-animation: fadein 0.8s;
+    animation: fadein 0.8s;
 }
 
 @-webkit-keyframes fadein {
