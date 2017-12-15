@@ -2012,6 +2012,14 @@ function GenearteMasterDetail() {
   }
 }
 
+function showmodalformasterdetail2(keephitoryidtoshow,keephitoryidtoshowidrelation){
+   if (App.SaveHistoryPop.length>0)
+    { 
+        App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation,'showmodalformasterdetail');
+       // App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+    }
+}
+
 /**
  * SELECT * from vtiger_tab;
  *SELECT * from vtiger_field;
