@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-15 12:16:53
+ * @Last Modified time: 2017-12-15 15:27:34
  */
 
 
@@ -398,7 +398,7 @@ function DETAILVIEWBLOCKPORTAL($QueryHistory,$MapID)
 	if (!empty($QueryHistory)) {
 		//TODO:: if exist the history check by id of history
 
-		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 		 //fields 
 		$FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
 
@@ -493,7 +493,7 @@ function CREATEVIEWPORTAL($QueryHistory,$MapID)
 	if (!empty($QueryHistory)) {
 		//TODO:: if exist the history check by id of history
 
-		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 		 //fields 
 		$FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
 

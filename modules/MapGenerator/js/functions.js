@@ -2150,6 +2150,19 @@ function RemoveThis(argument,idinput) {
 }
 
 
+/**
+ * function to remove all selected if you change the funkion name 
+ */
+function removearrayselectedall()
+{
+  if (App.popupJson.length>0)
+  {
+    App.popupJson.length=0;
+    $('#LoadShowPopup').empty();
+  }
+}
+
+
 
 //check if function name is empty or not 
 

@@ -94,7 +94,7 @@
 	 		<div class="slds-form-element">
             <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
             <div class="slds-form-element__control">
-              	<select data-select-load="true" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
+              	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                  </select>
 
