@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-18 10:37:50
+* @Last Modified time: 2017-12-18 11:21:39
 */
 
 
@@ -614,7 +614,6 @@
 		 	if (event) {event.preventDefault();}
 		 	 var elem=$(this);
 		 	 var getfile=elem.attr('data-autoload-Filename');
-		 	 var getType=elem.attr('data-autoload-Type-Map');
 		 	 var idtofill=elem.attr('data-autoload-id-relation');
 		 	 // var thisid=elem.attr('id');
 		 	 var datsend="";
@@ -625,20 +624,13 @@
 		 	 {
 		 	 	getfile=["MapGenerator","GetAllMaps"];
 		 	 }
-
-		 	 if (getType)
-		 	 {
-		 	 	datasend=`${getType}=${getType}`;
-		 	 }
-
-		 	 App.utils.PostDataGeneric(event,getfile,datasend);
+		 	 App.utils.PostDataGeneric(event,getfile,"");
 		 	 if (VauefromPost)
 		 	 {
 		 	 	if (idtofill)
 		 	 	{
 		 	 		$('#'+idtofill).html('');
-		 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
-		 	 		$('#'+idtofill).append(VauefromPost);
+		 	 		$('#'+idtofill).html(VauefromPost);
 		 	 		VauefromPost=null;
 		 	 	}else
 		 	 	{
@@ -667,61 +659,59 @@
 			var dataloadingiddiv=elem.attr('data-loading-divid');
 			if (loadingflag && loadingflag==="true")
 			{
-				if (dataloadingiddiv){
-			        	var x = document.getElementById(dataloadingiddiv);
-			        	x.className = "loading";
-					}
-			 	if (!urltosend)
-			 	{
-			 		// alert(mv_arr.NameOFMapMissingFile);
-			 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
-			 		return false;
-			 	}
+				App.utils.ShowLoading(dataloadingiddiv,true);
+			}
+		 	if (!urltosend)
+		 	{
+		 		// alert(mv_arr.NameOFMapMissingFile);
+		 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
+		 		return false;
+		 	}
+			
+	        if (iddropdown)
+	        {
+	        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
+	        	if (valuesfromdropdown && valuesfromdropdown.length>0)
+	        	{
+	        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
+	        		App.utils.PostDataGeneric(event,urltosend.split(","),datasendto);
 
-		        if (iddropdown)
-		        {
-		        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
-		        	if (valuesfromdropdown && valuesfromdropdown.length>0)
-		        	{
-		        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
-		        		App.utils.PostDataGeneric(event,urltosend.split(","),datasendto);
-
-		        		if (!VauefromPost)
-		        		{
-		        			// alert(mv_arr.ReturnErrorFromMap);
-		        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
-		        			return false;
-		        		}
-		        		if (idtoshow)
-		        		{
-		        			$('#'+idtoshow).html("");
-		        			$('#'+idtoshow).html(VauefromPost);
-		        			VauefromPost=null;
-		        		}else
-		        		{
-		        			// alert(mv_arr.MissingDivID);
-		        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
-		        		}
+	        		if (!VauefromPost)
+	        		{
+	        			// alert(mv_arr.ReturnErrorFromMap);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
+	        			return false;
+	        		}
+	        		if (idtoshow)
+	        		{
+	        			$('#'+idtoshow).html("");
+	        			$('#'+idtoshow).html(VauefromPost);
+	        			VauefromPost=null;
+	        		}else
+	        		{
+	        			// alert(mv_arr.MissingDivID);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
+	        		}
 
 
-		        	}else
-		        	{
-		        		// alert(mv_arr.ChoseMap);
-		        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
-		        	}
+	        	}else
+	        	{
+	        		// alert(mv_arr.ChoseMap);
+	        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
+	        	}
 
 
-		        }else
-		        {
-		        	// alert(mv_arr.MissingIdValue);
-		        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
-		        	return false;
-		        }
+	        }else
+	        {
+	        	// alert(mv_arr.MissingIdValue);
+	        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
+	        	return false;
+	        }
 	        	// if (dataloadingiddiv){$( "#"+dataloadingiddiv).removeClass( "loading" );}
-	        	if (dataloadingiddiv){
-			        	var x = document.getElementById(dataloadingiddiv);
-			        	x.className = x.className.replace("loading", "");
-					}
+	        	
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,false);
 			}
 
 
@@ -1009,6 +999,8 @@
 			var dataloadingiddiv=elem.attr('data-loading-divid');
 			if (loadingflag && loadingflag==="true")
 			{
+				App.utils.ShowLoading(dataloadingiddiv,true);
+			}
 				
 
 				if(dataid != "undefined"){
@@ -1136,7 +1128,10 @@
 
 				}
 				App.UniversalPopup.CloseModalWithoutCheck();
-				if (dataloadingiddiv){$( "#"+dataloadingiddiv).removeClass( "loading" );}
+
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,false);
 			}
 		},
 		
@@ -1938,6 +1933,22 @@
 			x.innerHTML=message;
 			x.className = "show";
 			setTimeout(function(){ x.className = x.className.replace("show", ""); }, timetohide);
+		},
+		ShowLoading:function(idnotification="",closeopen=true,message="Loading") {
+			if (idnotification){
+				if (closeopen===true)
+				{
+					var x = document.getElementById(idnotification);
+						x.innerHTML=message;
+						x.className = "loading";
+				} else
+				{
+					var x = document.getElementById(idnotification);
+						x.innerHTML=message;
+						x.className = x.className.replace("loading", "");
+					
+				}
+			}
 		}
 
 	};
