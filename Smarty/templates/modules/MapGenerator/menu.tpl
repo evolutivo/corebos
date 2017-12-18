@@ -69,7 +69,7 @@
         <ul class="slds-tabs--default__nav" role="tablist">
             <li class="slds-tabs--default__item slds-text-heading--label slds-active" title="{$MOD.CreateView}"
             role="presentation">
-            <a class="slds-tabs--default__link" href="" role="tab" tabindex="0"  data-autoload-maps="true" data-autoload-Filename="MapGenerator,CreateMaps"  aria-selected="true" data-autoload-id-relation="CreateMaps"
+            <a class="slds-tabs--default__link" href="" role="tab" tabindex="0"  data-autoload-maps="true" data-autoload-Filename="MapGenerator,createMaps"  aria-selected="true" data-autoload-id-relation="CreateMaps"
             aria-controls="tab-default-1" id="tab-default-1__item" onclick="selectTab(this);">{$MOD.CreateView}</a>
         </li>
 
