@@ -1,5 +1,5 @@
-<div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
-         aria-labelledby="tab-default-1__item">
+{* <div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
+         aria-labelledby="tab-default-1__item"> *}
          <span id="ShowErorrNameMap" class="error" style="margin-left: 227px;padding: 5px;background-color: red;width: 50%;font;font-size: 12px;border-radius: 9px;color: white;float: none;display: none;"> </span>
     <div id="DivObjectID">
        <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.NameView}:</h3></div>
@@ -73,4 +73,4 @@
         </div>
 
     </div>	  
-    </div>
+   {*  </div> *}

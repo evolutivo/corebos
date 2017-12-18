@@ -69,13 +69,13 @@
         <ul class="slds-tabs--default__nav" role="tablist">
             <li class="slds-tabs--default__item slds-text-heading--label slds-active" title="{$MOD.CreateView}"
             role="presentation">
-            <a class="slds-tabs--default__link" href="" role="tab" tabindex="0"  data-autoload-maps="true" data-autoload-Filename="MapGenerator,createMaps"  aria-selected="true" data-autoload-id-relation="CreateMaps"
+            <a class="slds-tabs--default__link" href="" role="tab" tabindex="0"  data-autoload-maps="true" data-autoload-Filename="MapGenerator,createMaps"  aria-selected="true" data-autoload-id-put="CreateMaps" data-autoload-id-relation="LoadMAps"
             aria-controls="tab-default-1" id="tab-default-1__item" onclick="selectTab(this);">{$MOD.CreateView}</a>
         </li>
 
         <li class="slds-tabs--default__item slds-text-heading--label" title="Load  Map"
         role="presentation">
-        <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false" data-autoload-maps="true" data-autoload-Filename="MapGenerator,LoadAllMaps" data-autoload-id-relation="LoadMAps" aria-controls="tab-default-2" id="tab-default-2__item"
+        <a class="slds-tabs--default__link" href="" role="tab" tabindex="-1" aria-selected="false" data-autoload-maps="true" data-autoload-Filename="MapGenerator,LoadAllMaps" data-autoload-id-put="LoadMAps" data-autoload-id-relation="CreateMaps" aria-controls="tab-default-2" id="tab-default-2__item"
         onclick="selectTab(this);">{$MOD.LoadMap}</a>
     </li>
     <li class="slds-tabs--default__item slds-text-heading--label" style="margin-left: 280px;" title="{$MOD.exit}"
@@ -93,26 +93,24 @@
 <div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
 aria-labelledby="tab-default-1__item">
 <div id="CreateMaps">
-    <div id="tab-default-1" class="slds-tabs--default__content slds-show" role="tabpanel"
-    aria-labelledby="tab-default-1__item">
     <span id="ShowErorrNameMap" class="error" style="margin-left: 227px;padding: 5px;background-color: red;width: 50%;font;font-size: 12px;border-radius: 9px;color: white;float: none;display: none;"> </span>
     <div id="DivObjectID">
-     <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.NameView}:</h3></div>
-     <div class="slds-form-element__control allinea" id='nameViewDiv'>
-      <div class="slds-form-element"  style="width:100%;height:100%; ">
-        <div  class="slds-form-element__control">
-            <div class="slds-select_container">
-                <select  data-load-Map="true" data-type-select="TypeObject" class="slds-select">
-                    <option value="">{$MOD.ChooseTypeOfMap}</option>
-                    <option value="MaterializedView">{$MOD.MaterializedView}</option>
-                    <option value="Script">{$MOD.Script}</option>
-                    <option value="Map">{$MOD.Map}</option>
-                </select>
+         <div class="slds-text-title" id='labelNameView' style="float: left; overflow:hidden;"><h3 class="slds-section-title--divider">{$MOD.NameView}:</h3></div>
+         <div class="slds-form-element__control allinea" id='nameViewDiv'>
+              <div class="slds-form-element"  style="width:100%;height:100%; ">
+                <div  class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select  data-load-Map="true" data-type-select="TypeObject" class="slds-select">
+                            <option value="">{$MOD.ChooseTypeOfMap}</option>
+                            <option value="MaterializedView">{$MOD.MaterializedView}</option>
+                            <option value="Script">{$MOD.Script}</option>
+                            <option value="Map">{$MOD.Map}</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-</div>
+     </div>
 <div id="MapDivID" style="display: none;">
 
     <div class="map-creator-block">
@@ -166,10 +164,10 @@ aria-labelledby="tab-default-1__item">
 </div>
 
 </div>    
-</div>
-</div>   
+</div> {* end div CreateMaps *}
+</div> {* edn divtab *}
 
-</div>
+{* </div> *}
 
 <div id="tab-default-2" class="slds-tabs--default__content slds-hide" role="tabpanel"
 aria-labelledby="tab-default-2__item">

@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-18 11:21:39
+* @Last Modified time: 2017-12-18 12:48:48
 */
 
 
@@ -614,9 +614,15 @@
 		 	if (event) {event.preventDefault();}
 		 	 var elem=$(this);
 		 	 var getfile=elem.attr('data-autoload-Filename');
-		 	 var idtofill=elem.attr('data-autoload-id-relation');
-		 	 // var thisid=elem.attr('id');
-		 	 var datsend="";
+		 	 var idtofill=elem.attr('data-autoload-id-put');
+		 	 var idtodelete=elem.attr('data-autoload-id-relation');
+		 	 App.popupJson.length=0;
+		 	 App.JSONForCOndition.length=0;
+		 	 App.SaveHistoryPop.length=0;
+		 	 
+		 	 $('#'+idtodelete+' div ').empty('');
+		 	 $('#'+idtofill+' div ').empty('');
+		 	 var datsend=""; 
 		 	 if (getfile)
 		 	 {
 		 	 	getfile=getfile.split(",");
@@ -629,7 +635,7 @@
 		 	 {
 		 	 	if (idtofill)
 		 	 	{
-		 	 		$('#'+idtofill).html('');
+		 	 		
 		 	 		$('#'+idtofill).html(VauefromPost);
 		 	 		VauefromPost=null;
 		 	 	}else
@@ -1939,12 +1945,12 @@
 				if (closeopen===true)
 				{
 					var x = document.getElementById(idnotification);
-						x.innerHTML=message;
+						// x.innerHTML=message;
 						x.className = "loading";
 				} else
 				{
 					var x = document.getElementById(idnotification);
-						x.innerHTML=message;
+						// x.innerHTML=message;
 						x.className = x.className.replace("loading", "");
 					
 				}
