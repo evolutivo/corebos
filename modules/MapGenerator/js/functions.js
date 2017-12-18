@@ -2602,31 +2602,31 @@ if (App.popupJson.length>0)
  * @param      {<type>}  id       The identifier
  * @param      {string}  divshow  The divshow
  */
- function ShowHistoryDataIOMap(id,divshow)
- {
-   var historydata=App.SaveHistoryPop[parseInt(id)];
-   App.popupJson.length=0;
-   for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-    App.popupJson.push(historydata.PopupJSON[i]);
-  }
-  if (App.popupJson.length>0)
+function ShowHistoryDataIOMap(id,divshow)
+{
+     var historydata=App.SaveHistoryPop[parseInt(id)];
+     App.popupJson.length=0;
+     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+       App.popupJson.push(historydata.PopupJSON[i]);
+      }
+    if (App.popupJson.length>0)
 
    $('#LoadShowPopupInput div').remove();
- $('#LoadShowPopup div').remove();
+   $('#LoadShowPopup div').remove();
 
- for (var i = 0; i <= App.popupJson.length-1; i++) {
-  var Field=App.popupJson[i].temparray[`DefaultText`];
-  var moduli=App.popupJson[i].temparray[`Moduli`];
-  var typeofppopup=App.popupJson[i].temparray['JsonType'];
+   for (var i = 0; i <= App.popupJson.length-1; i++) {
+    var Field=App.popupJson[i].temparray[`DefaultText`];
+    var moduli=App.popupJson[i].temparray[`Moduli`];
+    var typeofppopup=App.popupJson[i].temparray['JsonType'];
 
-  if(typeofppopup==="Input"){
-    var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
-    $('#'+"LoadShowPopupInput").append(divinsert);
-  }else if(typeofppopup==="Output"){
-    var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
-    $('#'+"LoadShowPopup").append(divinsert);
-  }
-} 
+    if(typeofppopup==="Input"){
+      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
+      $('#'+"LoadShowPopupInput").append(divinsert);
+    }else if(typeofppopup==="Output"){
+      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
+      $('#'+"LoadShowPopup").append(divinsert);
+    }
+   } 
 }
 
 

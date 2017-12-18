@@ -36,6 +36,7 @@
     //   alert(mv_arr.MappingFiledValid);
     //  }
      SavehistoryCreateViewportalIOMap('LoadHistoryPopup','LoadShowPopup');
+     ShowHistoryDataIOMap(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
     </script>
 
    

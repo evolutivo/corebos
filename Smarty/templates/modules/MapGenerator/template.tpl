@@ -57,6 +57,8 @@
                                             <a onclick="selectTab(false);" class="slds-tabs--scoped__link" data-autoload-maps="true" data-autoload-Filename="MapGenerator,LoadAllMaps" data-autoload-id-put="LoadMAps" data-autoload-id-relation="CreateMaps" href="" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab--scoped-2" id="tab--scoped-2__item">{$MOD.LoadMap}</a>
                                         </li>
                                     </ul>
+                                    {* for notification *}
+                                    <div id="snackbar" ></div>
                                     <!-- CREATE MAP TAB -->
                                     <div id="CreateMaps" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
                                         <!-- div id="DivObjectID">

@@ -33,7 +33,7 @@
           App.popupJson.length=0;
       {/foreach}
      ShowLocalHistoryMenuStructure('LoadHistoryPopup','LoadShowPopup');
-
+     ShowHistoryDataLocal(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
     </script>
    
 {/if}
