@@ -14,17 +14,17 @@
   {if $PopupJS neq ''}
   <script type="text/javascript">
     {foreach from=$PopupJS item=allitems key=key name=name}
-    {foreach name=outer item=popi from=$allitems}  
-    var temparray = {};
-    {foreach key=key item=item from=$popi}
-    temparray['{$key}']='{$item}';
-    {/foreach}
-    App.popupJson.push({'{'}temparray{'}'});
+      {foreach name=outer item=popi from=$allitems}  
+          var temparray = {};
+          {foreach key=key item=item from=$popi}
+          temparray['{$key}']='{$item}';
+      {/foreach}
+       App.popupJson.push({'{'}temparray{'}'});
             // console.log(temparray);
             {/foreach}
             HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
             App.popupJson.length=0;
-            {/foreach}
+    {/foreach}
 
             if (App.SaveHistoryPop.length>0)
             { 
@@ -73,7 +73,7 @@
               <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
             </center>
             <div class="slds-select_container">
-             <select data-select-load="true" data-second-module-id="relatedModule"  data-second-module-file="RelatedModuleRecordAccess"  data-module="MapGenerator"   id="FirstModule" name="mod" class="slds-select">
+             <select  data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-load="true"  data-second-module-id="relatedModule"  data-second-module-file="RelatedModuleRecordAccess"  data-module="MapGenerator"   id="FirstModule" name="mod" class="slds-select">
               {$FirstModuleSelected}
             </select>
           </div>
@@ -238,7 +238,7 @@
             </center>
             <div class="slds-select_container">
              <select  name="relatedModule" id="relatedModule" class="slds-select">
-              
+                {$AllModulerelated}
             </select>
           </div>
         </div>

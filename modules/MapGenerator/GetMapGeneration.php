@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-18 15:59:02
+ * @Last Modified time: 2017-12-18 18:05:55
  */
 
 
@@ -299,6 +299,26 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="Record Access Control") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			RecordAccessControl($QueryHistory,$MapID);		
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -315,6 +335,96 @@ if ($MypType=="Mapping") {
  * All Function Needet 
  */
 
+function RecordAccessControl($QueryHistory,$MapID)
+{
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	
+	if (!empty($QueryHistory))
+	{
+		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+		 $decondRelatedModule=GetAllrelationModules(get_The_history($QueryHistory,"firstmodule"));
+
+		$Allhistory=get_All_History($QueryHistory);
+		$Alldatas=array();
+
+		foreach ($Allhistory as $value) {
+			$xml=new SimpleXMLElement($value['query']);
+			$MyArray=array();
+			foreach ($xml->relatedlists->relatedlist as  $valuexml) {
+				$temparray=[
+						'AddcheckListview'=>(string)$xml->listview->c,
+						'AddcheckListviewoptionGroup'=>"",
+						'deletecheckListview'=>(string)$xml->listview->d,
+						'deletecheckListviewoptionGroup'=>"",
+						'editcheckListview'=>(string)$xml->listview->u,
+						'editcheckListviewoptionGroup'=>"",
+						'viewcheckListview'=>(string)$xml->listview->r,
+						'viewcheckListviewoptionGroup'=>"",
+
+						'deletecheckDetailView'=>(string)$xml->detailview->d,
+						'deletecheckDetailViewoptionGroup'=>"",
+						'duplicatecheckDetailView'=>(string)$xml->detailview->c,
+						'duplicatecheckDetailViewoptionGroup'=>"",
+						'editcheckDetailView'=>(string)$xml->detailview->u,
+						'editcheckDetailViewoptionGroup'=>"",
+						'viewcheckDetailView'=>(string)$xml->detailview->r,
+						'viewcheckDetailViewoptionGroup'=>"",
+
+						'DefaultText'=>(!empty(explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0])?explode("#", Get_First_Moduls_TextVal((string)$valuexml->modulename))[1]:(string)$valuexml->modulename) ,
+						'FirstModule'=>(string)$xml->originmodule->originname,
+						'FirstModuleoptionGroup'=>'undefined',
+						'Moduli'=>(string)$xml->originmodule->originname,
+						'JsonType'=>"Related",
+						'relatedModule'=>(!empty(explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0])?explode("#", Get_First_Moduls_TextVal((string)$valuexml->modulename))[0]:(string)$valuexml->modulename),
+						'relatedModuleoptionGroup'=>'undefined',
+						'viewcheckRelatedlist'=>(string)$valuexml->r,
+						'viewcheckRelatedlistoptionGroup'=>"",
+						'selectcheckrelatedlist'=>(string)$valuexml->s,
+						'selectcheckrelatedlistoptionGroup'=>"",
+						'editcheckrelatetlist'=>(string)$valuexml->u,
+						'editcheckrelatetlistoptionGroup'=>"",
+						'deletecheckrelatedlist'=>(string)$valuexml->d,
+						'deletecheckrelatedlistoptionGroup'=>"",
+						'addcheckRelatetlist'=>(string)$valuexml->c,
+						'addcheckRelatetlistoptionGroup'=>"",						
+					];
+					array_push($MyArray,$temparray);
+				
+			}
+			array_push($Alldatas,$MyArray);
+		}
+
+		//this is for save as 
+		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		//this is for save as map
+		 $data="MapGenerator,saveRecordAccessControl";
+		 $dataid="ListData,MapName";
+		 $savehistory="true";
+		//  //assign tpl
+		$smarty = new vtigerCRM_Smarty();
+		$smarty->assign("MOD", $mod_strings);
+		$smarty->assign("APP", $app_strings);
+		
+		$smarty->assign("MapName", $MapName);
+
+		$smarty->assign("HistoryMap",$HistoryMap);
+
+		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+		$smarty->assign("AllModulerelated",$decondRelatedModule);
+		//put the smarty modal
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+
+		$smarty->assign("PopupJS",$Alldatas);
+		$output = $smarty->fetch('modules/MapGenerator/RecordAccessControl.tpl');
+		echo $output;
+
+	}else{
+		//TODO:: this is if not find the idquery to load map by Id of map 
+	}
+}
 
 function MENUSTRUCTURE($QueryHistory,$MapID)
 {
@@ -2804,6 +2914,41 @@ function GetAllrelation1TOManyMaps($module="",$selectedmodule="")
 	            }
 	           
 	            
+	        }
+	       return $a;
+	    }else{$log->debug("Info!! The database is empty or something was wrong");}
+    }else {
+		return "";
+	}
+	 
+}
+
+/**
+ * Gets the allrelation.
+ *
+ * @param      string  $module  The module
+ *
+ * @return     string  The allrelation.
+ */
+function GetAllrelationModules($module="")
+{
+	global $adb, $root_directory, $log;
+	if (!empty($module))
+	{
+		$log->debug("Info!! Value is not ampty");
+		$idmodul=getModuleID($module,"tabid");
+		$sql="SELECT * from vtiger_relatedlists where tabid='$idmodul'";
+		$result = $adb->query($sql);
+	    $num_rows=$adb->num_rows($result);
+	    $historymap="";
+	    $a='<option value="" >(Select a module)</option>';
+	    if($num_rows!=0)
+	    {
+	        for($i=1;$i<=$num_rows;$i++)
+	        {
+	            $Modules = $adb->query_result($result,$i-1,'label');
+	           
+	            $a.='<option value="'.$Modules.'">'.str_replace("'", "", getTranslatedString($Modules)).'</option>';	            
 	        }
 	       return $a;
 	    }else{$log->debug("Info!! The database is empty or something was wrong");}
