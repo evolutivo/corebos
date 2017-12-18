@@ -354,6 +354,8 @@
 					App.GetModuleForMapGenerator.AllMapsLoad);
 			$(document).on('click', 'a[data-select-map-load="true"]',
 								App.GetModuleForMapGenerator.LadAllMaps);
+			$(document).on('click', 'input[data-select-map-load="true"]',
+								App.GetModuleForMapGenerator.LadAllMaps);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {

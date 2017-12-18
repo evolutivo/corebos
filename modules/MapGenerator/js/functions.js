@@ -2959,9 +2959,13 @@ function selectTab(isactive=true) {
     if(isactive){
       $("#firstTab").addClass('active');
       $("#secondTab").removeClass('active');
+      $("#LoadMAps").css('display','none');
+      $("#CreateMaps").css('display','block');
     }else{
       $("#firstTab").removeClass('active');
       $("#secondTab").addClass('active');
+      $("#LoadMAps").css('display','block');
+      $("#CreateMaps").css('display','none');
     }
    
 }

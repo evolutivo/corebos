@@ -10,13 +10,11 @@
 <script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/MapGenerator.js"></script>
 <script src="https://use.fontawesome.com/c74e66ed00.js"></script>
-
 <div class="small">
     <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz" style="background-color: #f7f9fb;">
         <tr class="slds-text-title--caps">
             <td style="padding: 0;">
-                {*
-                <!--Module Record numbering, used MOD_SEQ_ID instead of ID-->*} {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID} {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
+                {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID} {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
                 <div class="slds-page-header s1FixedFullWidth s1FixedTop forceHighlightsStencilDesktop" style="height: 60px; margin-top: 15px;">
                     <div class="slds-grid primaryFieldRow" style="transform: translate3d(0, -8.65823px, 0);">
                         <div class="slds-grid slds-col slds-has-flexi-truncate slds-media--center">
@@ -59,23 +57,6 @@
                                     </ul>
                                     <!-- CREATE MAP TAB -->
                                     <div id="CreateMaps" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
-                                        <!-- div id="DivObjectID">
-									       <div class="slds-text-title" id='labelNameView'><h3 class="slds-section-title--divider">{$MOD.NameView}:</h3></div>
-									    	<div class="slds-form-element__control allinea" id='nameViewDiv'>
-									    	  <div class="slds-form-element">
-									    	            <div  class="slds-form-element__control">
-									    	                <div class="slds-select_container">
-									    	                    <select  data-load-Map="true" data-type-select="TypeObject" class="slds-select">
-									        	                    <option value="">{$MOD.ChooseTypeOfMap}</option>
-									        	                    <option value="MaterializedView">{$MOD.MaterializedView}</option>
-									        	                    <option value="Script">{$MOD.Script}</option>
-									        	                    <option value="Map">{$MOD.Map}</option>
-									                            </select>
-									    	                </div>
-									    	            </div>
-									    	        </div>
-									    	  </div>
-									    </div> -->
                                         <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
                                             <tbody>
                                                 <tr class="blockStyleCss" id="DivObjectID">
@@ -180,45 +161,9 @@
                                         </table>
                                     </div>
                                     <div id="LoadMAps" style="display: none;" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
-                                        sdfsd
                                     </div>
                                 </div>
                             </td>
-                            <!--                           <td class="noprint action-block" style=" width: 35%; {$DEFAULT_ACTION_PANEL_STATUS}" id="actioncolumn">
-                                <div class="flexipageComponent">
-                                    <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
-                                        <div class="slds-card__header slds-grid">
-                                            <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                                <div class="slds-media__body">
-                                                    <h2 class="header-title-container">
-														<span class="slds-text-heading--small slds-truncate actionLabel"><b>PopUp Zone</b> </span>
-													</h2>
-                                                </div>
-                                            </header>
-                                        </div>
-                                        <div class="slds-card__body slds-card__body--inner">
-                                           <div id="LoadShowPopup" ></div>
-                                        </div>
-                                    </article>
-                                </div>
-                                <br/>
-                                <div class="flexipageComponent">
-                                    <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
-                                        <div class="slds-card__header slds-grid">
-                                            <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                                <div class="slds-media__body">
-                                                    <h2 class="header-title-container">
-														<span class="slds-text-heading--small slds-truncate actionLabel"><b>History Zone</b> </span>
-													</h2>
-                                                </div>
-                                            </header>
-                                        </div>
-                                        <div class="slds-card__body slds-card__body--inner">
-                                            <br>
-                                        </div>
-                                    </article>
-                                </div>
-                            </td> -->
                         </tr>
                     </table>
                 </div>
