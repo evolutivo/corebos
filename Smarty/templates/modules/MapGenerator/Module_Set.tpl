@@ -30,6 +30,14 @@
       {/foreach}
       App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
 
+
+       var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+    App.popupJson.push(historydata.PopupJSON[i]);
+    }
+      App.utils.ReturnDataSaveHistory('LoadShowPopup');
+
     </script>
    
 {/if}

@@ -2602,41 +2602,37 @@ if (App.popupJson.length>0)
  * @param      {<type>}  id       The identifier
  * @param      {string}  divshow  The divshow
  */
- function ShowHistoryDataIOMap(id,divshow)
- {
-   var historydata=App.SaveHistoryPop[parseInt(id)];
-   App.popupJson.length=0;
-   for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-    App.popupJson.push(historydata.PopupJSON[i]);
-  }
-  if (App.popupJson.length>0)
+function ShowHistoryDataIOMap(id,divshow)
+{
+     var historydata=App.SaveHistoryPop[parseInt(id)];
+     App.popupJson.length=0;
+     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+       App.popupJson.push(historydata.PopupJSON[i]);
+      }
+    if (App.popupJson.length>0)
 
    $('#LoadShowPopupInput div').remove();
- $('#LoadShowPopup div').remove();
+   $('#LoadShowPopup div').remove();
 
- for (var i = 0; i <= App.popupJson.length-1; i++) {
-  var Field=App.popupJson[i].temparray[`DefaultText`];
-  var moduli=App.popupJson[i].temparray[`Moduli`];
-  var typeofppopup=App.popupJson[i].temparray['JsonType'];
+   for (var i = 0; i <= App.popupJson.length-1; i++) {
+    var Field=App.popupJson[i].temparray[`DefaultText`];
+    var moduli=App.popupJson[i].temparray[`Moduli`];
+    var typeofppopup=App.popupJson[i].temparray['JsonType'];
 
-  if(typeofppopup==="Input"){
-    var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
-    $('#'+"LoadShowPopupInput").append(divinsert);
-  }else if(typeofppopup==="Output"){
-    var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
-    $('#'+"LoadShowPopup").append(divinsert);
-  }
-} 
+    if(typeofppopup==="Input"){
+      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
+      $('#'+"LoadShowPopupInput").append(divinsert);
+    }else if(typeofppopup==="Output"){
+      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
+      $('#'+"LoadShowPopup").append(divinsert);
+    }
+   } 
 }
 
 
 
 
-/**
- * Shows the local history i/o map. Show history, when user click on save map, only for IOMap.
- *
- * @param      {number}  IdLoad         The identifier load
- * @param      {string}  dataarr        The dataarr
+
 
 /**
  * function for popup of history
@@ -2648,7 +2644,7 @@ if (App.popupJson.length>0)
  * @return     {string}  { description_of_the_return_value }
  */
 
- function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
+function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
   var htmldat='<div class="Message Message"  >';
   htmldat+='<div class="Message-icon">';
         // if (avtive===false)
@@ -2771,7 +2767,7 @@ if (App.popupJson.length>0)
  *
  * @param      {<type>}  event   The event
  */
- function split_popups(event){
+function split_popups(event){
    var elem=event;
 
    var allid=elem.dataset.addRelationId;
@@ -2809,7 +2805,7 @@ if (App.popupJson.length>0)
             // alert(mv_arr.MappingFiledValid);
             App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
           }
-        }
+}
 
 /**
  * to show the popup for every history

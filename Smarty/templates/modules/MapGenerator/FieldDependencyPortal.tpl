@@ -276,19 +276,25 @@
 	            </div>
 	          </div>
 	 		</div>
-	 		<div style="float: left;/* width: 89px; */font-size: 30px;margin-left: 10;padding: 15px 0px 0px 46px;">=</div>
-	 		<div style="float: right;/* width: 40%; *//* margin: 0px; */padding: 0px;">
+	 		<div style="display: inline-block; margin: 23px 0px 0px 23px;">
+	 			<select  id="Conditionalfield" name="mod" class="slds-select">
+	                        <option value="equal">{$MOD.equals}</option>
+	                        <option value="not equal">{$MOD.not_equals}</option>
+	                        <option value="empty">{$MOD.empty}</option>
+	                        <option value="not empty">{$MOD.not_empty}</option>
+	            </select></div>
+	 		<div style="float: right; width: 40%; /**//* margin: 0px; */padding: 0px;">
 		 		<div class="slds-form-element">
 	            <label class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
 	            <div class="slds-form-element__control">
 	              	<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
                              <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
                               <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                                  <input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" style="width:230px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
                           </div>
