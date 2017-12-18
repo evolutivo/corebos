@@ -35,6 +35,7 @@
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
 </div> -->
+<div id="waitingIddiv"></div>
 <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
 
 
@@ -45,7 +46,7 @@
         <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
       {/if}
 
-      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true" data-loading="true" data-loading-divid="waitingIddiv"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
       <center><h3 class="slds-section-title--divider">{$MOD.TypeMapMapping}</h3>
         </center>
    </div>

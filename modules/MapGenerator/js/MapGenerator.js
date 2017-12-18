@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-15 14:35:31
+* @Last Modified time: 2017-12-18 10:37:50
 */
 
 
@@ -663,54 +663,66 @@
 		 	var iddropdown=elem.attr('data-select-map-load-id-relation');
 		 	var urltosend=elem.attr('data-select-map-load-url');
 		 	var idtoshow=elem.attr('data-select-map-load-id-to-show');
+		 	var loadingflag=elem.attr('data-loading');
+			var dataloadingiddiv=elem.attr('data-loading-divid');
+			if (loadingflag && loadingflag==="true")
+			{
+				if (dataloadingiddiv){
+			        	var x = document.getElementById(dataloadingiddiv);
+			        	x.className = "loading";
+					}
+			 	if (!urltosend)
+			 	{
+			 		// alert(mv_arr.NameOFMapMissingFile);
+			 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
+			 		return false;
+			 	}
 
-		 	if (!urltosend)
-		 	{
-		 		// alert(mv_arr.NameOFMapMissingFile);
-		 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
-		 		return false;
-		 	}
+		        if (iddropdown)
+		        {
+		        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
+		        	if (valuesfromdropdown && valuesfromdropdown.length>0)
+		        	{
+		        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
+		        		App.utils.PostDataGeneric(event,urltosend.split(","),datasendto);
 
-	        if (iddropdown)
-	        {
-	        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
-	        	if (valuesfromdropdown && valuesfromdropdown.length>0)
-	        	{
-	        		var datasendto=`${iddropdown}=${valuesfromdropdown}`;
-	        		App.utils.PostDataGeneric(event,urltosend.split(","),datasendto);
-
-	        		if (!VauefromPost)
-	        		{
-	        			// alert(mv_arr.ReturnErrorFromMap);
-	        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
-	        			return false;
-	        		}
-	        		if (idtoshow)
-	        		{
-	        			$('#'+idtoshow).html("");
-	        			$('#'+idtoshow).html(VauefromPost);
-	        			VauefromPost=null;
-	        		}else
-	        		{
-	        			// alert(mv_arr.MissingDivID);
-	        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
-	        		}
+		        		if (!VauefromPost)
+		        		{
+		        			// alert(mv_arr.ReturnErrorFromMap);
+		        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
+		        			return false;
+		        		}
+		        		if (idtoshow)
+		        		{
+		        			$('#'+idtoshow).html("");
+		        			$('#'+idtoshow).html(VauefromPost);
+		        			VauefromPost=null;
+		        		}else
+		        		{
+		        			// alert(mv_arr.MissingDivID);
+		        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
+		        		}
 
 
-	        	}else
-	        	{
-	        		// alert(mv_arr.ChoseMap);
-	        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
-	        	}
+		        	}else
+		        	{
+		        		// alert(mv_arr.ChoseMap);
+		        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
+		        	}
 
 
-	        }else
-	        {
-	        	// alert(mv_arr.MissingIdValue);
-	        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
-	        	return false;
-	        }
-
+		        }else
+		        {
+		        	// alert(mv_arr.MissingIdValue);
+		        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
+		        	return false;
+		        }
+	        	// if (dataloadingiddiv){$( "#"+dataloadingiddiv).removeClass( "loading" );}
+	        	if (dataloadingiddiv){
+			        	var x = document.getElementById(dataloadingiddiv);
+			        	x.className = x.className.replace("loading", "");
+					}
+			}
 
 
 	 },
@@ -993,132 +1005,140 @@
 			var keephitoryidtoshow=elem.attr('data-save-history-show-id');
 			var keephitoryidtoshowidrelation=elem.attr('data-save-history-show-id-relation');
 			var executefunction=elem.attr('data-send-savehistory-functionname');
-			if(dataid != "undefined"){
-				inputsplit=dataid.split(",");
-			}
-			
-			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
-				// alert(mv_arr.Buttonsendajax);
-				App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax);
-				return false;
-			}
-			
-			if(inputsplit.length>0){
-				for(index=0; index <= inputsplit.length-1; index++){
-					if(inputsplit[index].toUpperCase()=="LISTDATA"){
-						if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
-							var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
-							datatusend +=`ListData=${JSON.stringify(datasend)}`;
-						}else{
-							// alert(mv_arr.MappingFiledValid);
-							App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
-						}
-					}else{
-						datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
-					}
-						
+			var loadingflag=elem.attr('data-loading');
+			var dataloadingiddiv=elem.attr('data-loading-divid');
+			if (loadingflag && loadingflag==="true")
+			{
+				
+
+				if(dataid != "undefined"){
+					inputsplit=dataid.split(",");
 				}
 				
-			}
-			
-			
-            
-             if (savehistory!="undefined" && savehistory=="true")
-             {
-             		if (App.savehistoryar)
-	             	{
-	             	 	datatusend+="&savehistory="+App.savehistoryar;
-	             	}else
-	             	{
-	             		datatusend+="&savehistory";
-	             	}
-             	
-             }
+				if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
+					// alert(mv_arr.Buttonsendajax);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax);
+					return false;
+				}
+				
+				if(inputsplit.length>0){
+					for(index=0; index <= inputsplit.length-1; index++){
+						if(inputsplit[index].toUpperCase()=="LISTDATA"){
+							if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
+								var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
+								datatusend +=`ListData=${JSON.stringify(datasend)}`;
+							}else{
+								// alert(mv_arr.MappingFiledValid);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
+							}
+						}else{
+							datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
+						}
+							
+					}
+					
+				}
+				
+				
+	            
+	             if (savehistory!="undefined" && savehistory=="true")
+	             {
+	             		if (App.savehistoryar)
+		             	{
+		             	 	datatusend+="&savehistory="+App.savehistoryar;
+		             	}else
+		             	{
+		             		datatusend+="&savehistory";
+		             	}
+	             	
+	             }
 
-             App.utils.PostDataGeneric(event,urlcheck,datatusend);
-			if(VauefromPost){
-				 var returndt=VauefromPost.split(",");
-				 if(returndt[1]>0)
-				 {
-				 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
-				 	{
+	             App.utils.PostDataGeneric(event,urlcheck,datatusend);
+				if(VauefromPost){
+					 var returndt=VauefromPost.split(",");
+					 if(returndt[1]>0)
+					 {
+					 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
+					 	{
 
-				 		if (App.savehistoryar===VauefromPost.replace(/\s+/g, ''))
-				 		{
-				 			if (App.JSONForCOndition.length>0)
-				 			{
-				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-				 			}else
-				 			{
-				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-				 			}
-				 			
-				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+					 		if (App.savehistoryar===VauefromPost.replace(/\s+/g, ''))
+					 		{
+					 			if (App.JSONForCOndition.length>0)
+					 			{
+					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+					 			}else
+					 			{
+					 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					 			}
+					 			
+					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+								// alert(mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								VauefromPost=null;
+					 		}else
+					 		{
+					 			App.SaveHistoryPop.length=0;
+					 			if (App.JSONForCOndition.length>0)
+					 			{
+					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+					 			}else
+					 			{
+					 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					 			}
+					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+								// alert(mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								VauefromPost=null;
+					 		}
+					 	}else
+					 	{
+					 		App.savehistoryar=VauefromPost;
 							// alert(mv_arr.ReturnSucessFromMap);
 							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
-				 		}else
-				 		{
-				 			App.SaveHistoryPop.length=0;
-				 			if (App.JSONForCOndition.length>0)
-				 			{
-				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-				 			}else
-				 			{
-				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-				 			}
-				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
-							// alert(mv_arr.ReturnSucessFromMap);
-							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
-							VauefromPost=null;
-				 		}
-				 	}else
-				 	{
-				 		App.savehistoryar=VauefromPost;
-						// alert(mv_arr.ReturnSucessFromMap);
-						App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
-						VauefromPost=null;
-				 	}
-	 				
-				 }else
-				 {
-				 	// alert(mv_arr.ReturnErrorFromMap);
-				 	App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
-				 }
-			}
-			if (sendSaveAs && sendSaveAs==="true")
-			{
-				var ulrsaveas=[urlcheck[0],"SavenewMap"];
-				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}&anotherfunction=${executefunction}`;
-				App.utils.PostDataGeneric(event,ulrsaveas,dat);
-				if (VauefromPost)
+					 	}
+		 				
+					 }else
+					 {
+					 	// alert(mv_arr.ReturnErrorFromMap);
+					 	App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
+					 }
+				}
+				if (sendSaveAs && sendSaveAs==="true")
 				{
-					 //document.body.innerHTML +=VauefromPost;
-					 $('body').append(VauefromPost);
-					 VauefromPost=null;
-					 $('#'+idbutton).removeAttr('disabled')
-				} else
+					var ulrsaveas=[urlcheck[0],"SavenewMap"];
+					dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}&anotherfunction=${executefunction}`;
+					App.utils.PostDataGeneric(event,ulrsaveas,dat);
+					if (VauefromPost)
+					{
+						 //document.body.innerHTML +=VauefromPost;
+						 $('body').append(VauefromPost);
+						 VauefromPost=null;
+						 $('#'+idbutton).removeAttr('disabled')
+					} else
+					{
+
+					}
+	              
+				}
+				if (keephitoryidtoshow)
+				{
+					if (executefunction && executefunction!=="undefined")
+					{
+						var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
+						eval(funcCall);
+					} else
+					{
+						App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
+					}
+				}else
 				{
 
 				}
-              
+				App.UniversalPopup.CloseModalWithoutCheck();
+				if (dataloadingiddiv){$( "#"+dataloadingiddiv).removeClass( "loading" );}
 			}
-			if (keephitoryidtoshow)
-			{
-				if (executefunction && executefunction!=="undefined")
-				{
-					var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
-					eval(funcCall);
-				} else
-				{
-					App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
-				}
-			}else
-			{
-
-			}
-			App.UniversalPopup.CloseModalWithoutCheck();
-			},
+		},
 		
 		/**
 		 * function to remove the history popup 
@@ -1266,7 +1286,7 @@
 		 * @param {[type]} Urlsend the URL
 		 * @param {[type]} dat     data to send 
 		 */
-		PostDataGeneric : function(event=null,Urlsend, dat) {
+		PostDataGeneric : function(event=null,Urlsend, dat,idloading="") {
 			if (event) {event.preventDefault();}
 			jQuery.ajax({
 				type : "POST",
@@ -1275,7 +1295,17 @@
 				dataType : "html",
 				async : false,
 				data : dat,
+				beforeSend: function() {
+			        if (idloading){
+			        	var x = document.getElementById(idloading);
+			        	x.className = "loading";
+					}
+			    },
 				success : function(msg) {
+					if (idloading){
+			        	var x = document.getElementById(idloading);
+			        	x.className = x.className.replace("loading", "");
+					}
 					VauefromPost = msg;
 				},
 				error : function() {

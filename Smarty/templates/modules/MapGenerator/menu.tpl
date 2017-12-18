@@ -5,6 +5,7 @@
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet"/>
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css" rel="stylesheet"/>
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/Loading.css" rel="stylesheet">
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
@@ -172,7 +173,7 @@
     </div>
     <div id="tab-default-2" class="slds-tabs--default__content slds-hide" role="tabpanel"
          aria-labelledby="tab-default-2__item">
-       <!--  <div id="snackbar" ></div> -->
+        <div id="divloadingid" ></div>
         <div id="LoadfromMapFirstStep">
             <div class="slds-form-element"  style="margin-right:20%; ">
 
@@ -185,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            <a id="set" style="margin-top: 30px;" data-select-map-load="true"  data-select-map-load-id-relation="GetALLMaps" data-select-map-load-id-to-show="LoadfromMapSecondStep" data-select-map-load-url="MapGenerator,GetMapGeneration" data-showhide-load="true" data-tools-id="LoadfromMapFirstStep,LoadfromMapSecondStep"
+            <a id="set" style="margin-top: 30px;" data-select-map-load="true" data-loading="true" data-loading-divid="divloadingid"  data-select-map-load-id-relation="GetALLMaps" data-select-map-load-id-to-show="LoadfromMapSecondStep" data-select-map-load-url="MapGenerator,GetMapGeneration" data-showhide-load="true" data-tools-id="LoadfromMapFirstStep,LoadfromMapSecondStep"
                     class="slds-button slds-button--neutral">Next
             </a>
         </div>
