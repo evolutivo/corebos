@@ -24,15 +24,6 @@
 								</h1>
                             </div>
                         </div>
-                        <div class="slds-col slds-no-flex slds-grid slds-align-middle actionsContainer" id="detailview_utils_thirdfiller">
-                            <div class="slds-grid forceActionsContainer">
-                                <!-- The Buttons Space -->
-                                {if $HistoryMap neq ''}
-                                <button class="slds-button slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>{* saveFieldDependency *} {else} &nbsp;
-                                <button class="slds-button slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if} &nbsp;
-                                <button class="slds-button slds-button--neutral slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="														SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="showmodalformasterdetail2"> {$MOD.CreateMap}</button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </td>
@@ -56,7 +47,7 @@
                                         </li>
                                     </ul>
                                     {* for notification *}
-                                    <div id="snackbar" ></div>
+                                    <div id="snackbar"></div>
                                     <!-- CREATE MAP TAB -->
                                     <div id="CreateMaps" role="tabpanel" aria-labelledby="tab--scoped-1__item" class="slds-tabs--scoped__content slds-truncate">
                                         <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
