@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-18 12:48:48
+* @Last Modified time: 2017-12-18 16:52:56
 */
 
 
@@ -356,6 +356,8 @@
 								App.GetModuleForMapGenerator.LadAllMaps);
 			$(document).on('click', 'input[data-select-map-load="true"]',
 								App.GetModuleForMapGenerator.LadAllMaps);
+			$(document).on('click', 'input[data-showhide-load="true"]',
+					App.GetModuleForMapGenerator.ChangeTextDropDown);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
