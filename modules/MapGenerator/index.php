@@ -28,5 +28,6 @@ $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("URLAPP", $site_URL);
 $smarty->assign("currlang",$current_language);
-$smarty->display('modules/MapGenerator/MVCreator.tpl');
+// $smarty->display('modules/MapGenerator/MVCreator.tpl');
+$smarty->display('modules/MapGenerator/template.tpl');
 ?>

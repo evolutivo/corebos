@@ -2947,3 +2947,21 @@ function resetFieldGlobalSearchAuto() {
     clear_selections();
     
 }
+
+
+/////////////TEMPLATE.TPL 
+/**
+ * { function_description }
+ *
+ * @param      {boolean}  isactive  The isactive
+ */
+function selectTab(isactive=true) {
+    if(isactive){
+      $("#firstTab").addClass('active');
+      $("#secondTab").removeClass('active');
+    }else{
+      $("#firstTab").removeClass('active');
+      $("#secondTab").addClass('active');
+    }
+   
+}
