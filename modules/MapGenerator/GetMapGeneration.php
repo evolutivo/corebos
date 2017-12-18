@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-15 15:27:34
+ * @Last Modified time: 2017-12-18 15:59:02
  */
 
 
@@ -825,7 +825,7 @@ function FieldDependency($QueryHistory,$MapID)
 			 		'Firstfield'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			 		'FirstfieldoptionGroup'=>(string)$xml->targetmodule->targetname,
 			 		'JsonType'=>'Responsible',
-			 		'Conditionalfield'=>(string)$xml->targetmodule->comparisonText,
+			 		'Conditionalfield'=>(string)$xmlval->comparison,
 			 		'ConditionalfieldoptionGroup'=>'undefined'
 
 
@@ -963,8 +963,9 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			 		'FirstModuleoptionGroup'=>'undefined',
 			 		'Firstfield'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			 		'FirstfieldoptionGroup'=>(string)$xml->targetmodule->targetname,
-			 		'JsonType'=>'Responsible'
-
+			 		'JsonType'=>'Responsible',
+			 		'Conditionalfield'=>(string)$xmlval->comparison,
+			 		'ConditionalfieldoptionGroup'=>'undefined'
 			 	];
 
 			 	array_push($MyArray,$ResponsibileArr);

@@ -2632,11 +2632,7 @@ function ShowHistoryDataIOMap(id,divshow)
 
 
 
-/**
- * Shows the local history i/o map. Show history, when user click on save map, only for IOMap.
- *
- * @param      {number}  IdLoad         The identifier load
- * @param      {string}  dataarr        The dataarr
+
 
 /**
  * function for popup of history
@@ -2648,7 +2644,7 @@ function ShowHistoryDataIOMap(id,divshow)
  * @return     {string}  { description_of_the_return_value }
  */
 
- function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
+function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
   var htmldat='<div class="Message Message"  >';
   htmldat+='<div class="Message-icon">';
         // if (avtive===false)
@@ -2771,7 +2767,7 @@ function ShowHistoryDataIOMap(id,divshow)
  *
  * @param      {<type>}  event   The event
  */
- function split_popups(event){
+function split_popups(event){
    var elem=event;
 
    var allid=elem.dataset.addRelationId;
@@ -2809,7 +2805,7 @@ function ShowHistoryDataIOMap(id,divshow)
             // alert(mv_arr.MappingFiledValid);
             App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
           }
-        }
+}
 
 /**
  * to show the popup for every history
