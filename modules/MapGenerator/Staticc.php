@@ -14,6 +14,13 @@ abstract  class TypeOFErrors
 	 */
 	const Tabele_name="mapgeneration_queryhistory";
 
+	const AllMaps = array(
+		
+	'SQL'=>'ConditionQuery',
+	'Mapping'=>'TypeMapMapping',
+	'IOMap'=>'TypeMapIOMap',
+	'FieldDependency'=>'TypeMapFieldDependency',	
+	);
 	
 	public static function FunctionName($exepsion)
 	{

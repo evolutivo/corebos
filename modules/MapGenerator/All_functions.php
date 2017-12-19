@@ -1985,4 +1985,23 @@ function GetAllRelationDuplicaterecords($module="")
      
 }
 
+
+
+
+function SelectallMaps()
+{
+    global $mod_strings;
+    require_once("Staticc.php");
+    $allmaps='<option value="">'.$mod_strings['TypeMapNone'].'</option>';
+    foreach (TypeOFErrors::AllMaps as $key => $value) {
+       $allmaps.=' <option value="'.$key.'">'.$mod_strings[$value].'</option>';
+    }
+    return $allmaps;
+}
+
+
+
+
+
+
 ?>
