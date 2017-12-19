@@ -26,13 +26,8 @@
             App.popupJson.length=0;
     {/foreach}
 
-            if (App.SaveHistoryPop.length>0)
-            { 
-              App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
-              App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-            }else{
-             App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-           }
+            
+           ShowLocalHistoryMenuStructure('LoadHistoryPopup','LoadShowPopup')
          ClickToshowSelectedFileds(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
          </script>
 

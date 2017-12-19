@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-18 18:05:55
+ * @Last Modified time: 2017-12-19 12:11:02
  */
 
 
@@ -403,6 +403,7 @@ function RecordAccessControl($QueryHistory,$MapID)
 		 $data="MapGenerator,saveRecordAccessControl";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="ShowLocalHistoryMenuStructure";
 		//  //assign tpl
 		$smarty = new vtigerCRM_Smarty();
 		$smarty->assign("MOD", $mod_strings);
@@ -415,7 +416,7 @@ function RecordAccessControl($QueryHistory,$MapID)
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 		$smarty->assign("AllModulerelated",$decondRelatedModule);
 		//put the smarty modal
-		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
 		$smarty->assign("PopupJS",$Alldatas);
 		$output = $smarty->fetch('modules/MapGenerator/RecordAccessControl.tpl');
@@ -479,7 +480,7 @@ function MENUSTRUCTURE($QueryHistory,$MapID)
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 		//put the smarty modal
-		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
 		$smarty->assign("PopupJS",$Alldatas);
 		$output = $smarty->fetch('modules/MapGenerator/MENUSTRUCTURE.tpl');
