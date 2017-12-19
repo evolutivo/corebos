@@ -54,6 +54,163 @@
     {/if}
 
 
+
+  <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+        <tbody>
+            <tr class="blockStyleCss" id="DivObjectID">
+                <td class="detailViewContainer" valign="top">
+                    <div class="forceRelatedListSingleContainer">
+                        <article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                    <div class="slds-media__body">
+                                        <h2>
+                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
+                                    <b>{$MOD.ChoseResponsabile}</b>
+                                </span>
+                            </h2>
+                                    </div>
+                                </header>
+                                <div class="slds-no-flex" data-aura-rendered-by="1224:0">
+                                    <div class="actionsContainer mapButton">
+                                       	 <div class="slds-section-title--divider">
+   	 	{if $HistoryMap neq ''}
+   	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+   	 	{else}
+   	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
+   	 	{/if}
+
+   		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveFieldDependency" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="slds-truncate">
+                        <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+                            <tr class="slds-line-height--reset">
+                                <td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+                                        <!-- THE MODULE Zone -->
+
+                                        <div">
+
+	 <div>
+	 	<div style="width: 100%;">
+	 		<div class="slds-form-element">
+            <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
+            <div class="slds-form-element__control">
+              	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
+                        {$FirstModuleSelected}
+                 </select>
+
+            </div>
+          </div>
+	 	</div>
+	 	<div>
+	 		<div style="float: left;width: 40%;">
+		 		<div class="slds-form-element">
+	            <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
+	            <div class="slds-form-element__control">
+	              	<select  id="Firstfield" name="mod" class="slds-select">
+	                        {$FirstModuleFields}
+	                 </select>
+
+	            </div>
+	          </div>
+	 		</div>
+	 		<div style="display: inline-block; margin: 24px 290px 13px 0px;">
+	 			<select  id="Conditionalfield" name="mod" class="slds-select">
+	 				
+	                        <option value="equal">{$MOD.equals}</option>
+	                        <option value="not equal">{$MOD.not_equals}</option>
+	                        <option value="empty">{$MOD.empty}</option>
+	                        <option value="not empty">{$MOD.not_empty}</option>
+	            </select></div>
+	 		<div style="float: right; width: 40%; *//* margin: 0px; */padding: 0px;">
+		 		<div class="slds-form-element" style="width: 100%;margin-top:-67px;height: 34px; position: relative;">
+	            <label class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
+	            <div class="slds-form-element__control">
+	              	<div class="slds-combobox_container slds-has-object-switcher" >
+                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                              <div class="slds-combobox__form-element">
+                                  <input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" style="width:250px;height: 32px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                              </div>
+                              </div>
+                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px; position: absolute; right: 0px;">
+                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;" >
+                              </button>
+                          </div>
+                     </div>
+
+	            </div>
+	          </div>
+	 		</div>
+	 	</div>
+	 	
+	 </div>
+	 <div class="add-fields-picklist-block" style="margin:5% 0% 0% 0% ">
+   	 	<button class="slds-button slds-button--neutral slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop" style="float: left;">{$MOD.AddFields}</button>
+   		<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.AddPickList}</button>
+    	{* <h3 style="margin-left: 40%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
+	 </div>
+                                </td>
+                                <td class="dvtCellInfo" align="left" width="40%">
+                                    <div class="">
+                                        <div class="flexipageComponent">
+                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                                <div class="slds-card__header slds-grid">
+                                                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                        <div class="slds-media__body">
+                                                            <h2 class="header-title-container"> 
+                                                              <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                <b>PopUp Zone</b>
+                                                              </span> 
+                                                            </h2>
+                                                        </div>
+                                                    </header>
+                                                </div>
+                                                <div id="contenitoreJoin">
+                                                    <div id="LoadShowPopup" style="height: 125px;display: grid;"></div>
+                                                </div>
+                                                {*End div contenitorejoin*}
+                                        </div>
+                                        </article>
+                                        <br/>
+                                        <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                            <div class="slds-card__header slds-grid">
+                                                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                    <div class="slds-media__body">
+                                                        <h2 class="header-title-container"> 
+                                                              <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                <b>History Zone</b>
+                                                              </span> 
+                                                            </h2>
+                                                    </div>
+                                                </header>
+                                            </div>
+                                            <div class="slds-card__body slds-card__body--inner">
+                                                <div id="contenitoreJoin">
+                                                    <div id="LoadHistoryPopup">
+                                                    </div>
+                                                </div>{*End div contenitorejoin*}
+                                            </div>
+                                        </article>
+                                    </div>
+                        </table>
+        </tbody>
+    </table>
+    <div id="waitingIddiv"></div>
+    <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
+    </div>
+    <div id="generatedquery">
+        <div id="results" style="margin-top: 1%;"></div>
+    </div>
+    <div id="null"></div>
+    <div>
+        <div id="queryfrommap"></div>
+    </div>
+
 <div class="slds">
             <div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
                 <div class="slds-modal__container">
@@ -242,76 +399,7 @@
     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
   </div>
 
-<div style="width: 70%;height: 100%;float: left;">
-	 <div class="slds-section-title--divider">
-   	 	{if $HistoryMap neq ''}
-   	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
-   	 	{else}
-   	 		<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
-   	 	{/if}
 
-   		<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveFieldDependency" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
-    	<h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3>
-	 </div>
-	 <div>
-	 	<div style="width: 100%;">
-	 		<div class="slds-form-element">
-            <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
-            <div class="slds-form-element__control">
-              	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
-                        {$FirstModuleSelected}
-                 </select>
-
-            </div>
-          </div>
-	 	</div>
-	 	<div>
-	 		<div style="float: left;width: 40%;">
-		 		<div class="slds-form-element">
-	            <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
-	            <div class="slds-form-element__control">
-	              	<select  id="Firstfield" name="mod" class="slds-select">
-	                        {$FirstModuleFields}
-	                 </select>
-
-	            </div>
-	          </div>
-	 		</div>
-	 		<div style="display: inline-block; margin: 23px 0px 0px 23px;">
-	 			<select  id="Conditionalfield" name="mod" class="slds-select">
-	                        <option value="equal">{$MOD.equals}</option>
-	                        <option value="not equal">{$MOD.not_equals}</option>
-	                        <option value="empty">{$MOD.empty}</option>
-	                        <option value="not empty">{$MOD.not_empty}</option>
-	            </select></div>
-	 		<div style="float: right; width: 40%; *//* margin: 0px; */padding: 0px;">
-		 		<div class="slds-form-element">
-	            <label class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
-	            <div class="slds-form-element__control">
-	              	<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 34px; position: relative;">
-                             <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                              <div class="slds-combobox__form-element">
-                                  <input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" style="width:250px;height: 32px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
-                              </div>
-                              </div>
-                          <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px; position: absolute; right: 0px;">
-                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;" >
-                              </button>
-                          </div>
-                     </div>
-
-	            </div>
-	          </div>
-	 		</div>
-	 	</div>
-	 	
-	 </div>
-	 <div class="add-fields-picklist-block" style="margin:5% 0% 0% 0% ">
-   	 	<button class="slds-button slds-button--neutral slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop" style="float: left;">{$MOD.AddFields}</button>
-   		<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.AddPickList}</button>
-    	{* <h3 style="margin-left: 40%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
-	 </div>
         
 </div>
 <div style="float: right;width: 25%;margin-left: 20px;">
