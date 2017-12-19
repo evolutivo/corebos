@@ -19,7 +19,7 @@
 -->*}
 <script  src="Smarty/angular/ng-table.js"></script>
 <script src="modules/Pivottable/js/ui-bootstrap-tpls-0.6.0.js"></script>
-<link href="modules/Pivottable/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="modules/Pivottable/pivotNew/Scripts/pivottable/bootstrap-combined.min.css" rel="stylesheet">
 <script src="Smarty/angular/angular-multi-select.js"></script>  
 <link rel="stylesheet" href="Smarty/angular/angular-multi-select.css">
 {if $currTab eq 'sorting'}
@@ -409,6 +409,7 @@ angular.module('demoApp',['ngTable','ui.bootstrap','multi-select'])
                             aggregatorName: resp_arr.aggregatorName,
                         {else}
                             aggregatorName: resp_arr.vals[0],
+                            aggregatorValue: resp_arr.aggregatorName[0],
                         {/if}
                         {literal}
                         vals: resp_arr.vals

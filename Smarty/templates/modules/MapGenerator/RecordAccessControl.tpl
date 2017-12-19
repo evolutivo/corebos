@@ -14,27 +14,22 @@
   {if $PopupJS neq ''}
   <script type="text/javascript">
     {foreach from=$PopupJS item=allitems key=key name=name}
-    {foreach name=outer item=popi from=$allitems}  
-    var temparray = {};
-    {foreach key=key item=item from=$popi}
-    temparray['{$key}']='{$item}';
-    {/foreach}
-    App.popupJson.push({'{'}temparray{'}'});
+      {foreach name=outer item=popi from=$allitems}  
+          var temparray = {};
+          {foreach key=key item=item from=$popi}
+          temparray['{$key}']='{$item}';
+      {/foreach}
+       App.popupJson.push({'{'}temparray{'}'});
             // console.log(temparray);
             {/foreach}
             HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
             App.popupJson.length=0;
-            {/foreach}
+    {/foreach}
 
-            if (App.SaveHistoryPop.length>0)
-            { 
-              App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
-              App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-            }else{
-             App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-           }
+            
+           ShowLocalHistoryRecordAccessControll('LoadHistoryPopup','LoadShowPopup')
+         ClickToshowSelectedFileds(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
          </script>
-
 
          {/if}
 
@@ -54,7 +49,7 @@
     <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
     {/if}
 
-    <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveRecordAccessControl" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+    <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveRecordAccessControl" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordAccessControll" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
     <center>
       <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.ListColumns}</h3>
       <center>
@@ -73,7 +68,7 @@
               <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
             </center>
             <div class="slds-select_container">
-             <select data-select-load="true" data-second-module-id="relatedModule"  data-second-module-file="RelatedModuleRecordAccess"  data-module="MapGenerator"   id="FirstModule" name="mod" class="slds-select">
+             <select  data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-load="true"  data-second-module-id="relatedModule"  data-second-module-file="RelatedModuleRecordAccess"  data-module="MapGenerator"   id="FirstModule" name="mod" class="slds-select">
               {$FirstModuleSelected}
             </select>
           </div>
@@ -234,11 +229,11 @@
       <div class="slds-form-element" style="width: 100%">
           <div class="slds-form-element__control">
             <center>
-              <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+              <label class="slds-form-element__label" for="input-id-01">{$MOD.RelatedModule}</label>
             </center>
             <div class="slds-select_container">
              <select  name="relatedModule" id="relatedModule" class="slds-select">
-              
+                {$AllModulerelated}
             </select>
           </div>
         </div>

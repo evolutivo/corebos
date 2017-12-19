@@ -1911,6 +1911,97 @@ function getModuleID($module,$moduleName="entityidfield")
     }
 }
 
+/**
+ * function to search by module id 
+ *
+ * @param      <type>     $Idmodule    The idmodule
+ * @param      string     $moduleName  The module name what do you want to take 
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     string     ( description_of_the_return_value )
+ */
+function SearchbyIDModule($Idmodule,$moduleName="modulename")
+{
+    global $adb,$root_directory, $log;
+    require_once('Staticc.php');
+    try {
+        
+        $sql="SELECT * from vtiger_entityname WHERE tabid='$Idmodule'";
+        $result = $adb->query($sql);
+        $num_rows=$adb->num_rows($result);
+        if ($num_rows>0) {
+            $Resulti = $adb->query_result($result,0,$moduleName);
+
+            if (!empty($Resulti)) {
+                return $Resulti;
+            } else {
+                throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+            }
+        } else {
+            throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+        }
+    } catch (Exception $ex) {
+         $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+         return "";
+    }
+}
+
+
+/**
+ * Gets the allrelation.
+ *
+ * @param      string  $module  The module
+ *
+ * @return     string  The allrelation.
+ */
+function GetAllRelationDuplicaterecords($module="")
+{
+    global $adb, $root_directory, $log;
+    if (!empty($module))
+    {
+        $log->debug("Info!! Value is not ampty");
+        $idmodul=getModuleID($module,"tabid");
+        $sql="SELECT * from vtiger_relatedlists where tabid='$idmodul'";
+        $result = $adb->query($sql);
+        $num_rows=$adb->num_rows($result);
+        $historymap="";
+        $a='<option value="" >(Select a module)</option>';
+        if($num_rows!=0)
+        {
+            for($i=1;$i<=$num_rows;$i++)
+            {
+                $modulename=(!empty(SearchbyIDModule($adb->query_result($result,$i-1,'related_tabid')))?SearchbyIDModule($adb->query_result($result,$i-1,'related_tabid')):$adb->query_result($result,$i-1,'label'));
+                $Modules = $adb->query_result($result,$i-1,'label');
+                $relatedtypes = $adb->query_result($result,$i-1,'relationtype');
+               
+                $a.='<option value="'.$modulename.'#'.$relatedtypes.'">'.str_replace("'", "", getTranslatedString($modulename)).'</option>';                
+            }
+           return $a;
+        }else{$log->debug("Info!! The database is empty or something was wrong");}
+    }else {
+        return "";
+    }
+     
+}
+
+
+
+
+function SelectallMaps()
+{
+    global $mod_strings;
+    require_once("Staticc.php");
+    $allmaps='<option value="">'.$mod_strings['TypeMapNone'].'</option>';
+    foreach (TypeOFErrors::AllMaps as $key => $value) {
+       $allmaps.=' <option value="'.$key.'">'.$mod_strings[$value].'</option>';
+    }
+    return $allmaps;
+}
+
+
+
+
 
 
 ?>

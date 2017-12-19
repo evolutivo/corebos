@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-18 16:52:56
+* @Last Modified time: 2017-12-19 12:14:12
 */
 
 
@@ -198,6 +198,14 @@
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "RecordAccessControl") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				App.ModulLabel='Module';
+    			 App.FieldLabel='Related';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "DuplicateRecords") {
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				App.ModulLabel='Module';

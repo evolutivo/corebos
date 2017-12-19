@@ -2,9 +2,9 @@
 
 /**
  * @Author: edmondi kacaj
- * @Date:   2017-12-13 17:07:17
+ * @Date:   2017-12-19 14:34:17
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 15:18:14
+ * @Last Modified time: 2017-12-19 16:55:21
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -17,7 +17,7 @@ global $root_directory, $log;
 $Data = array();
 
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
-$MapType = "Record Access Control"; // stringa con tutti i campi scelti in selField1
+$MapType = "DuplicateRecords"; // stringa con tutti i campi scelti in selField1
 $SaveasMapText = $_POST['SaveasMapText'];
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
@@ -33,13 +33,13 @@ if (empty($SaveasMapText)) {
 }
 if (empty($MapType))
  {
-    $MapType = "Record Access Control";
+    $MapType = "DuplicateRecords";
 }
 
 if (!empty($Data)) {
 	
 	$jsondecodedata=json_decode($Data);	
-	 // echo add_content($jsondecodedata);
+	  // echo add_content($jsondecodedata);
 	// print_r($jsondecodedata);
 	if(strlen($MapID[1]==0)){
 
@@ -108,118 +108,44 @@ if (!empty($Data)) {
  */
 function add_content($DataDecode)
 {
-	$a=array();
-	
-	foreach ($DataDecode as $value) {
-		$a[]=$value->temparray->LabelName;
-	}
-	$a=array_unique($a);
-
-    $xml = new DOMDocument("1.0");
+	$xml = new DOMDocument("1.0");
      $root = $xml->createElement("map");
      $xml->appendChild($root);   
      //put the menus     
      $originmodule = $xml->createElement("originmodule");
-     $originmoduleid = $xml->createElement("originid");
-     $originmoduleidText = $xml->createTextNode("");
-     $originmoduleid->appendChild($originmoduleidText);
      $originmodulename = $xml->createElement("originname");
      $originmodulenameText = $xml->createTextNode($DataDecode[0]->temparray->FirstModule);
      $originmodulename->appendChild($originmodulenameText);
-     $originmodule->appendChild($originmoduleid);
      $originmodule->appendChild($originmodulename);
      $root->appendChild($originmodule);
-
-     //for listview
-
-     $listview=$xml->createElement("listview");
-     $c=$xml->createElement("c");
-     $ctext=$xml->createTextNode($DataDecode[0]->temparray->AddcheckListview);
-     $c->appendChild($ctext);
-
-     $r=$xml->createElement("r");
-     $rtext=$xml->createTextNode($DataDecode[0]->temparray->viewcheckListview);
-     $r->appendChild($rtext);
-
-     $u=$xml->createElement("u");
-     $utext=$xml->createTextNode($DataDecode[0]->temparray->editcheckListview);
-     $u->appendChild($utext);
-
-     $d=$xml->createElement("d");
-     $dtext=$xml->createTextNode($DataDecode[0]->temparray->deletecheckListview);
-     $d->appendChild($dtext);
-
-     $listview->appendChild($c);
-     $listview->appendChild($r);
-     $listview->appendChild($u);
-     $listview->appendChild($d);
-     $root->appendChild($listview);
-
-	 $detailview=$xml->createElement("detailview");
-     $c=$xml->createElement("c");
-     $ctext=$xml->createTextNode($DataDecode[0]->temparray->duplicatecheckDetailView);
-     $c->appendChild($ctext);
-
-     $r=$xml->createElement("r");
-     $rtext=$xml->createTextNode($DataDecode[0]->temparray->viewcheckDetailView);
-     $r->appendChild($rtext);
-
-     $u=$xml->createElement("u");
-     $utext=$xml->createTextNode($DataDecode[0]->temparray->editcheckDetailView);
-     $u->appendChild($utext);
-
-     $d=$xml->createElement("d");
-     $dtext=$xml->createTextNode($DataDecode[0]->temparray->deletecheckDetailView);
-     $d->appendChild($dtext);
-
-     $detailview->appendChild($c);
-     $detailview->appendChild($r);
-     $detailview->appendChild($u);
-     $detailview->appendChild($d);
-     $root->appendChild($detailview);
-
-     $relatedlists=$xml->createElement("relatedlists");
+     
+     $relatedmodules=$xml->createElement("relatedmodules");
 
 
 	foreach ($DataDecode as $values) {
-		 $relatedlist=$xml->createElement("relatedlist");
+		 $relatedmodule=$xml->createElement("relatedmodule");
 
-		 $modulename=$xml->createElement("modulename");
-	     $modulenametext=$xml->createTextNode($values->temparray->relatedModule);
-	     $modulename->appendChild($modulenametext);
+		 $module=$xml->createElement("module");
+	     $moduletext=$xml->createTextNode(explode('#',$values->temparray->relatedModule)[0]);
+	     $module->appendChild($moduletext);
 
-		 $c=$xml->createElement("c");
-	     $ctext=$xml->createTextNode($values->temparray->addcheckRelatetlist);
-	     $c->appendChild($ctext);
+	     $relation=$xml->createElement("relation");
+	     $relationtext=$xml->createTextNode(explode('#',$values->temparray->relatedModule)[1]);
+	     $relation->appendChild($relationtext);
+		
+	     $relatedmodule->appendChild($module);
+	     $relatedmodule->appendChild($relation);
 
-	     $r=$xml->createElement("r");
-	     $rtext=$xml->createTextNode($values->temparray->viewcheckRelatedlist);
-	     $r->appendChild($rtext);
-
-	     $u=$xml->createElement("u");
-	     $utext=$xml->createTextNode($values->temparray->editcheckrelatetlist);
-	     $u->appendChild($utext);
-
-	     $d=$xml->createElement("d");
-	     $dtext=$xml->createTextNode($values->temparray->deletecheckrelatedlist);
-	     $d->appendChild($dtext);
-
-	     $s=$xml->createElement("s");
-	     $stext=$xml->createTextNode($values->temparray->selectcheckrelatedlist);
-	     $s->appendChild($stext);
-
-	     $relatedlist->appendChild($modulename);
-	     $relatedlist->appendChild($c);
-	     $relatedlist->appendChild($r);
-	     $relatedlist->appendChild($u);
-	     $relatedlist->appendChild($d);
-	     $relatedlist->appendChild($s);
-
-	     $relatedlists->appendChild($relatedlist);
+	     $relatedmodules->appendChild($relatedmodule);
 
 	}
+     $DuplicateDirectRelations = $xml->createElement("DuplicateDirectRelations");
+    $DuplicateDirectRelationsText = $xml->createTextNode($DataDecode[0]->temparray->DuplicateDirectRelationscheck);
+     $DuplicateDirectRelations->appendChild($DuplicateDirectRelationsText);
      
-     $root->appendChild($relatedlists);        
+     $root->appendChild($relatedmodules); 
+     $root->appendChild($DuplicateDirectRelations);
+            
      $xml->formatOutput = true;
      return $xml->saveXML();
 }
@@ -275,11 +201,4 @@ function save_history($datas,$queryid,$xmldata){
         }
         echo $idquery2;
 }
-
-
-
-
-
-?>
-
 
