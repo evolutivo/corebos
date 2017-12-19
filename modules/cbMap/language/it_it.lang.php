@@ -49,5 +49,7 @@ $mod_strings = Array(
 	'DuplicateRelations' => 'Relazioni Duplicate',
 	'MasterDetailLayout' => 'Layout Master Dettaglio',
 	'Validations' => 'Validazioni',
+	'FieldDependencyPortal' => 'Field Dependency Portal',
+	'DuplicateRecords' => 'Duplicate Records',
 );
 ?>

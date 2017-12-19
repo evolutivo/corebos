@@ -6,7 +6,7 @@ include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
 require_once ('include/utils/utils.php');
 require_once('All_functions.php');
-
+include_once 'Staticc.php';
 
 global $root_directory, $log; 
 $Data = array();
@@ -53,7 +53,7 @@ if (!empty($Data)) {
      if (!$focust->saveentity("cbMap"))//
       {
       		
-          if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+          if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
                  echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$focust->id;
              } 
              else{
@@ -87,7 +87,7 @@ if (!empty($Data)) {
      $focust->mode = "edit";
      $focust->save("cbMap");
 
-		if (Check_table_if_exist("mapgeneration_queryhistory")>0)
+		if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0)
 		{
 			echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$MapID[1];
 		}else{
@@ -287,20 +287,20 @@ function save_history($datas,$queryid,$xmldata){
         global $adb;
         $idquery=$queryid;
 
-          $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery' order by sequence DESC");
+          $q=$adb->query("select sequence from ".TypeOFErrors::Tabele_name." where id='$idquery' order by sequence DESC");
           $seq=$adb->query_result($q,0,0);
         if(!empty($seq))
         {
              $seq=$seq+1;
-             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery'");                            
+             $adb->query("update ".TypeOFErrors::Tabele_name." set active=0 where id='$idquery'");                            
               //$seqmap=count($data);
-             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
+             $adb->pquery("insert into ".TypeOFErrors::Tabele_name." values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,$seq,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
               //return $idquery;
         }else 
         {
 
             //$idquery=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
-            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
+            $adb->pquery("insert into ".TypeOFErrors::Tabele_name." values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery,$datas["FirstModuleval"],$datas["FirstModuletxt"],$datas["SecondModuletxt"],$datas["SecondModuleval"],$xmldata,1,1,$datas["firstmodulelabel"],$datas["secondmodulelabel"],$datas["Labels"]));
         }
        echo $idquery;
 }

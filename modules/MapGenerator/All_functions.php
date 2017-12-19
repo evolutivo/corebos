@@ -1911,6 +1911,40 @@ function getModuleID($module,$moduleName="entityidfield")
     }
 }
 
+/**
+ * function to search by module id 
+ *
+ * @param      <type>     $Idmodule    The idmodule
+ * @param      string     $moduleName  The module name what do you want to take 
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     string     ( description_of_the_return_value )
+ */
+function SearchbyIDModule($Idmodule,$moduleName="modulename")
+{
+    global $adb,$root_directory, $log;
+    require_once('Staticc.php');
+    try {
+        
+        $sql="SELECT * from vtiger_entityname WHERE tabid='$Idmodule'";
+        $result = $adb->query($sql);
+        $num_rows=$adb->num_rows($result);
+        if ($num_rows>0) {
+            $Resulti = $adb->query_result($result,0,$moduleName);
 
+            if (!empty($Resulti)) {
+                return $Resulti;
+            } else {
+                throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+            }
+        } else {
+            throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+        }
+    } catch (Exception $ex) {
+         $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+         return "";
+    }
+}
 
 ?>

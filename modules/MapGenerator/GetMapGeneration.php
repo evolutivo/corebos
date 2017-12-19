@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 12:11:02
+ * @Last Modified time: 2017-12-19 15:08:32
  */
 
 
@@ -2191,7 +2191,7 @@ function get_The_history($Id_Encrypt="",$field_take="query",$sequence='')
 
 	try {
 
-		$q="SELECT * FROM mapgeneration_queryhistory Where id='$Id_Encrypt'";
+		$q="SELECT * FROM ".TypeOFErrors::Tabele_name." Where id='$Id_Encrypt'";
 		if (!empty($sequence)) {
 			$q.="  AND sequence='$sequence' ";
 		}else
@@ -2224,10 +2224,10 @@ function get_The_history($Id_Encrypt="",$field_take="query",$sequence='')
 
 
 /**
- * Gets all history.function to get all data from mapgeneration_queryhistory
+ * Gets all history.function to get all data from ".TypeOFErrors::Tabele_name."
  * table
  *
- * @param      integer|string  $Id_Encrypt  The Id of mapgeneration_queryhistory
+ * @param      integer|string  $Id_Encrypt  The Id of ".TypeOFErrors::Tabele_name."
  * @param      string          $field_take  The field you want to take (Default
  *                                          is query)
  *
@@ -2246,7 +2246,7 @@ function get_All_History($Id_Encrypt="",$field_take="query")
 
 	try {
 
-		$q=" SELECT * FROM `mapgeneration_queryhistory` WHERE id='$Id_Encrypt' ORDER BY `mapgeneration_queryhistory`.`sequence` ASC ";
+		$q=" SELECT * FROM `".TypeOFErrors::Tabele_name."` WHERE id='$Id_Encrypt' ORDER BY `".TypeOFErrors::Tabele_name."`.`sequence` ASC ";
 
 		$result = $adb->query($q);
 		$num_rows = $adb->num_rows($result);

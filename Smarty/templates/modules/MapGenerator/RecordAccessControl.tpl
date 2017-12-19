@@ -229,7 +229,7 @@
       <div class="slds-form-element" style="width: 100%">
           <div class="slds-form-element__control">
             <center>
-              <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+              <label class="slds-form-element__label" for="input-id-01">{$MOD.RelatedModule}</label>
             </center>
             <div class="slds-select_container">
              <select  name="relatedModule" id="relatedModule" class="slds-select">

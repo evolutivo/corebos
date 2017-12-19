@@ -151,6 +151,9 @@ $mod_strings = array(
     'empty'=>'Empty',
     'not_empty'=>'Not empty',
 	'DuplicateRecords'=>'Duplicate Records',
-
+	'RelatedModule'=>'Related Module',
+	'DuplicateDirectRelations'=>'Duplicate Direct Relations',
+	'TRUEE'=>'True',
+	'FALSEE'=>'False',
 );
 ?>

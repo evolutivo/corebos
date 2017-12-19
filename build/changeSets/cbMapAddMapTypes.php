@@ -28,6 +28,7 @@ class cbMapAddMapTypes extends cbupdaterWorker {
 				'Module Set Mapping',
 				'ListColumns',
 				'DuplicateRelations',
+				'DuplicateRecords',
 				'MasterDetailLayout',
 				'IOMap',
 				'FieldDependency',

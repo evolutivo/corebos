@@ -42,5 +42,6 @@ $mod_strings = Array(
 	'MasterDetailLayout' => 'Master Detail Layout',
 	'Validations' => 'Validations',
 	'FieldDependencyPortal' => 'Field Dependency Portal',
+	'DuplicateRecords' => 'Duplicate Records',
 );
 ?>
