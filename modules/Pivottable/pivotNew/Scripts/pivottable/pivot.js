@@ -1454,6 +1454,10 @@
             }
             subopts.aggregatorName = aggregator.val();
             subopts.vals = vals;
+            if(opts.aggregatorValue!=null && (vals[0]==opts.aggregatorValue || vals[0]==subopts.aggregatorName)){
+            _this.find(".pvtAttrDropdown").val(opts.aggregatorValue);
+             refresh(); 
+            }
             subopts.aggregator = opts.aggregators[aggregator.val()](vals);
             subopts.renderer = opts.renderers[renderer.val()];
             exclusions = {};
