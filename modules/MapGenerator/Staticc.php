@@ -14,14 +14,29 @@ abstract  class TypeOFErrors
 	 */
 	const Tabele_name="mapgeneration_queryhistory";
 
+	//this is for all maps key is the name of map ,values is used for translate 
 	const AllMaps = array(
-		
+
 	'SQL'=>'ConditionQuery',
 	'Mapping'=>'TypeMapMapping',
 	'IOMap'=>'TypeMapIOMap',
-	'FieldDependency'=>'TypeMapFieldDependency',	
+	'FieldDependency'=>'TypeMapFieldDependency',
+	'FieldDependencyPortal'=>'FieldDependencyPortal',
+	'WS'=>'TypeMapWS',
+	'MasterDetail'=>'MasterDetail',
+	'ListColumns'=>'ListColumns',
+	'Module_Set'=>'module_set',
+	'GlobalSearchAutocomplete'=>'GlobalSearchAutocompleteMapping',
+	'CREATEVIEWPORTAL'=>'CREATEVIEWPORTAL',
+	'ConditionExpression'=>'ConditionExpression',
+	'DETAILVIEWBLOCKPORTAL'=>'DETAILVIEWBLOCKPORTAL',
 	);
 	
+	/**
+	 * function to show the error only 
+	 *
+	 * @param      <type>  $exepsion  The exepsion
+	 */
 	public static function FunctionName($exepsion)
 	{
 		$updateMovedInToAssigned = fopen(__DIR__."logs/ErrorExepsion.txt", "a");
