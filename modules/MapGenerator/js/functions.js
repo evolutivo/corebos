@@ -2965,3 +2965,54 @@ function selectTab(isactive=true) {
     }
    
 }
+
+////////////// Record Access Controll ////////////////////////////
+
+function RecordAccesLocalHistroty(IdLoad,divanameLoad,dividrelation='')
+{
+   var htmldat='<div class="Message Message"  >';
+   htmldat+='<div class="Message-icon">';
+   htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFileds(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+   htmldat+='</div>';
+   htmldat+='<div class="Message-body">';
+   htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='</div>';
+   htmldat+='</div>';
+   return htmldat;
+}
+
+
+function ShowLocalHistoryMenuStructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+       $('#'+keephitoryidtoshow+' div').remove();
+       for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+        $('#'+keephitoryidtoshow).append(RecordAccesLocalHistroty(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+
+function ClickToshowSelectedFileds(Idload,divHistory)
+{
+    var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    App.ModulLabel='Module';
+    App.FieldLabel='Related';
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var Field=App.popupJson[i].temparray[`DefaultText`];
+        var moduli=App.popupJson[i].temparray[`Moduli`];
+        var typeofppopup=App.popupJson[i].temparray['JsonType'];
+        var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
+        $('#'+divHistory).append(divinsert);
+      } 
+    }
+}

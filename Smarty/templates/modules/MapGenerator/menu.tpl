@@ -151,6 +151,7 @@ aria-labelledby="tab-default-1__item">
                 <option value="DETAILVIEWBLOCKPORTAL">{$MOD.DETAILVIEWBLOCKPORTAL}</option>
                 <option value="MENUSTRUCTURE">{$MOD.MENUSTRUCTURE}</option>
                 <option value="RecordAccessControl">{$MOD.RecordAccessControl}</option>
+                <option value="DuplicateRecords">{$MOD.DuplicateRecords}</option>
                 {* <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> --> *}
             </select>
         </div>

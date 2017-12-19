@@ -149,7 +149,8 @@ $mod_strings = array(
     'equals'=>'Equals',
     'not_equals'=>'Not equals',
     'empty'=>'Empty',
-    'not_empty'=>'Not empty'
+    'not_empty'=>'Not empty',
+	'DuplicateRecords'=>'Duplicate Records',
 
 );
 ?>
