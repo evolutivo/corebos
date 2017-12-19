@@ -1,19 +1,19 @@
 <?php
 
-$TypeMaps=$_POST['ALL'];
+// $TypeMaps=$_POST['ALL'];
 
-if (!empty($TypeMaps)) {
+// if (!empty($TypeMaps)) {
 	
-	if (!empty(GetMaps($TypeMaps))) {
-	  echo GetMaps($TypeMaps);
-	} else {
-	  echo "<option value=''>None</option>";
-	}
+// 	if (!empty(GetMaps($TypeMaps))) {
+// 	  echo GetMaps($TypeMaps);
+// 	} else {
+// 	  echo "<option value=''>None</option>";
+// 	}
 	
 
-} else {
-	 echo "<option value=''>None</option>";
-}
+// } else {
+// 	 echo "<option value=''>None</option>";
+// }
 
 
 

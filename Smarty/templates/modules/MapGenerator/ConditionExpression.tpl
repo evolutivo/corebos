@@ -26,10 +26,27 @@
     }else{
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
      }
+
+     var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      App.popupJson.length=0;
+      for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+      }
+      App.utils.ReturnDataSaveHistory('LoadShowPopup');
   </script>
 
 
+
 {/if}
+
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+{/if}
+
+
 
 <div>
     <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
@@ -79,7 +96,7 @@
                                 <div class="slds-form-element">
                                       <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
                                       <div class="slds-form-element__control">
-                                          <select  data-select-load="true" id="FirstModule"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
+                                          <select  data-select-load="true" id="FirstModule" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
                                                   {$FirstModuleSelected}
                                           </select>
 
@@ -139,7 +156,7 @@
                                 <div class="slds-form-element">
                                   <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
                                   <div id="divfunctionname" class="slds-form-element__control">
-                                   <input style="width:100%;" type="text"  id="FunctionName" onblur="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}">
+                                   <input style="width:100%;" type="text"  id="FunctionName" onblur="checkfunctionname(this);removearrayselectedall()" class="slds-input" placeholder="{$MOD.writethefunctionname}">
                                   </div>
                                 </div>
                           </div>
@@ -148,7 +165,7 @@
                                 <div class="slds-form-element">
                                   <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
                                   <div class="slds-form-element__control">
-                                  <select class="slds-select" id="Firstmodule2" disabled="disabled" data-select-load="true" data-select-relation-field-id="Firstfield2" data-module="MapGenerator" >
+                                  <select class="slds-select" id="Firstmodule2" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  disabled="disabled" data-select-load="true" data-select-relation-field-id="Firstfield2" data-module="MapGenerator" >
                                     {$FirstModuleSelected}
                                     <option>Select One</option>
 
@@ -161,7 +178,7 @@
                             <div class="slds-form-element">
                                   <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectFieldOrwritetheparameters}</label>
                                   <div class="slds-form-element__control">
-                                      <select  id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="true" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('Parameter','Expression')">
+                                      <select  id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="true" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('','Expression')">
                                               {$FirstModuleFields}
                                       </select>
 
@@ -173,7 +190,7 @@
                             <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
                                                <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                 <div class="slds-combobox__form-element">
-                                                    <input type="text" disabled="disabled" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input"  onfocus="removearrayselected('Function','Expression')">
+                                                    <input type="text" disabled="disabled" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input"  onfocus="removearrayselected('','Expression')">
                                                 </div>
                                                 </div>
                                                <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">

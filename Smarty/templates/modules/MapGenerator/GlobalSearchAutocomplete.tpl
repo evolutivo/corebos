@@ -42,9 +42,24 @@
     }else{
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
      }
+     
+      var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+    App.popupJson.push(historydata.PopupJSON[i]);
+    }
+      App.utils.ReturnDataSaveHistory('LoadShowPopup');
   </script>
 
 
+{/if}
+
+
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
 {/if}
 
   <div>
@@ -95,12 +110,12 @@
 	 		<div style="float: left;width: 13px;font-size: 30px;margin-left: 10;padding: 15px 0px 0px 32px;">
 	 			<div class="slds-form-element" style="display: inline-block;">
                 <label class="slds-checkbox--toggle slds-grid">
-                 <input id="startwithchck" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
-                  <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                 <input id="startwithchck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                 <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                     <span class="slds-checkbox--faux"></span>
-                    <span class="slds-checkbox" style="font-size: initial;margin-right: 0px">Start/End</span>
-                    <!-- <span class="slds-checkbox--of">editable-false</span> -->
-                  </span>
+                    <span class="slds-checkbox--on" style="font-size: initial;margin-right: 0px">{$MOD.Startwith}</span>
+                    <span class="slds-checkbox--off" style="font-size: initial;margin-right: 0px">{$MOD.contains}</span>
+                 </span>
                 </label>
               </div>
 	 		</div>
@@ -117,7 +132,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                              <button data-add-button-popup="true" data-add-type="Modul" data-add-relation-id="FirstModule,Firstfield,Firstfield2,startwithchck" data-show-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                              <button data-add-button-popup="true" data-add-type="Module" data-add-relation-id="FirstModule,Firstfield,Firstfield2,startwithchck" onclick="resetFieldGlobalSearchAuto();" data-show-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
                           </div>
@@ -131,7 +146,7 @@
 	 </div>
 	
 </div>
-<div style="float: right;width: 25%;margin-left: 20px;">
+<div id="GlobalSearchAutocompletels" style="float: right;width: 25%;margin-left: 20px;">
 	<div id="LoadShowPopup"></div>
 </div>
 <div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 71%;">

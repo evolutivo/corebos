@@ -1,6 +1,10 @@
-/**
- * 
- */
+/*
+* @Author: edmondi kacaj
+* @Date:   2017-11-06 10:16:56
+* @Last Modified by:   edmondi kacaj
+* @Last Modified time: 2017-12-18 16:52:56
+*/
+
 
 (function(global, $) {
 	global.historySave=[];
@@ -14,6 +18,8 @@
 		popupJson : [],
 		SaveHistoryPop:[],
 		MultiList:[],
+		ModulLabel: null,
+		FieldLabel: null,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -35,12 +41,6 @@
 				initializer();
 			});
 		},
-
-	/*
-	 * Called to load the page and every section uploaded via ajax on its
-	 * content
-	 */
-
 	};
 
 
@@ -90,10 +90,10 @@
 
 				} else {
 					// alert(mv_arr.Choseobject);
-					App.utils.ShowNotification("snackbar",4000,mv_arr.Choseobject);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.Choseobject);
 				}
 			} else if (types == "TypeMap") {
-				if (!urlpost && urlpost===""){/*alert(mv_arr.Buttonsendajax);*/ App.utils.ShowNotification("snackbar",4000,mv_arr.Buttonsendajax); return false;}
+				if (!urlpost && urlpost===""){/*alert(mv_arr.Buttonsendajax);*/ App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax); return false;}
 			else{urlpost=urlpost.split(','); }
 				if (select.length > 0) {
 					var nameview = $('#nameView').val();
@@ -189,7 +189,24 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "MENUSTRUCTURE") {
+				// idfieldfill,urlsend,dat
+				 App.ModulLabel='Module';
+    			 App.FieldLabel='Label';
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "RecordAccessControl") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				App.ModulLabel='Module';
+    			 App.FieldLabel='Related';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
+
 		},
 
 		LoadLabel:function(event){
@@ -314,7 +331,7 @@
 				}
             }else{
             	// alert(mv_arr.addJoinValidation);
-            	App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
+            	App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
             }
 
 		},		
@@ -337,6 +354,10 @@
 					App.GetModuleForMapGenerator.AllMapsLoad);
 			$(document).on('click', 'a[data-select-map-load="true"]',
 								App.GetModuleForMapGenerator.LadAllMaps);
+			$(document).on('click', 'input[data-select-map-load="true"]',
+								App.GetModuleForMapGenerator.LadAllMaps);
+			$(document).on('click', 'input[data-showhide-load="true"]',
+					App.GetModuleForMapGenerator.ChangeTextDropDown);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -365,6 +386,8 @@
 			var relationmodule=elem.attr("data-second-select-file");
 			var secondmodulefile=elem.attr("data-second-module-file");
 			var firstfieldid=elem.attr("data-select-fieldid");
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
 			var urlsendmodule;
 			var valueselected = elem.find(":selected").val();
 			if (secondmodule != "undefined") {
@@ -420,6 +443,17 @@
 					}
 				}
 				
+				if (datareset && datareset==="true")
+				{
+					if (idreset)
+					{
+						$('#'+idreset+' div').remove();
+						App.popupJson.length=0;
+						App.JSONForCOndition.length=0;
+					}
+					
+				}
+
 				VauefromPost = null;
 			}
 		 },
@@ -440,6 +474,8 @@
 			var firstfieldid=elem.attr("data-select-fieldid");
 			var sendfirstmodule=elem.attr('data-second-firstmodule-id');
 			var selectsecondfields = elem.find(":selected").val();
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
 			if (relationid != "undefined") {
 				var sp = selectsecondfields.split(";");
 				var mod = sp[0].split("(many)");
@@ -478,6 +514,17 @@
 				// $("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
 				$("#" + relationid).append(str1);
 				VauefromPost = null;
+
+				if (datareset && datareset==="true")
+				{
+					if (idreset)
+					{
+						$('#'+idreset+' div').remove();
+						App.popupJson.length=0;
+						App.JSONForCOndition.length=0;
+					}
+					
+				}
 			}
 
 		},
@@ -538,7 +585,7 @@
 								$('#'+idrelation).attr('disabled', 'true');
 							}
 							elem.focus();
-							// App.utils.ShowNotification("snackbar",4000,mv_arr.MapNameExist);
+							// App.utils.ShowNotification("snackbar",2000,mv_arr.MapNameExist);
 						}
 
 					}else
@@ -561,7 +608,7 @@
 					$('#'+idrelation).attr('disabled', 'true');
 				}
 				elem.focus();
-				// App.utils.ShowNotification("snackbar",4000,mv_arr.NameQuery);
+				// App.utils.ShowNotification("snackbar",2000,mv_arr.NameQuery);
 			}
 
 	 },
@@ -571,10 +618,15 @@
 		 	if (event) {event.preventDefault();}
 		 	 var elem=$(this);
 		 	 var getfile=elem.attr('data-autoload-Filename');
-		 	 var getType=elem.attr('data-autoload-Type-Map');
-		 	 var idtofill=elem.attr('data-autoload-id-relation');
-		 	 // var thisid=elem.attr('id');
-		 	 var datsend="";
+		 	 var idtofill=elem.attr('data-autoload-id-put');
+		 	 var idtodelete=elem.attr('data-autoload-id-relation');
+		 	 App.popupJson.length=0;
+		 	 App.JSONForCOndition.length=0;
+		 	 App.SaveHistoryPop.length=0;
+		 	 
+		 	 $('#'+idtodelete+' div ').empty('');
+		 	 $('#'+idtofill+' div ').empty('');
+		 	 var datsend=""; 
 		 	 if (getfile)
 		 	 {
 		 	 	getfile=getfile.split(",");
@@ -582,25 +634,18 @@
 		 	 {
 		 	 	getfile=["MapGenerator","GetAllMaps"];
 		 	 }
-
-		 	 if (getType)
-		 	 {
-		 	 	datasend=`${getType}=${getType}`;
-		 	 }
-
-		 	 App.utils.PostDataGeneric(event,getfile,datasend);
+		 	 App.utils.PostDataGeneric(event,getfile,"");
 		 	 if (VauefromPost)
 		 	 {
 		 	 	if (idtofill)
 		 	 	{
-		 	 		$('#'+idtofill).html('');
-		 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
-		 	 		$('#'+idtofill).append(VauefromPost);
+		 	 		
+		 	 		$('#'+idtofill).html(VauefromPost);
 		 	 		VauefromPost=null;
 		 	 	}else
 		 	 	{
 		 	 		// alert(mv_arr.MissingIDtoShow);
-		 	 		App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIDtoShow);
+		 	 		App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIDtoShow);
 		 	 	}
 
 		 	 }
@@ -620,14 +665,19 @@
 		 	var iddropdown=elem.attr('data-select-map-load-id-relation');
 		 	var urltosend=elem.attr('data-select-map-load-url');
 		 	var idtoshow=elem.attr('data-select-map-load-id-to-show');
-
+		 	var loadingflag=elem.attr('data-loading');
+			var dataloadingiddiv=elem.attr('data-loading-divid');
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,true);
+			}
 		 	if (!urltosend)
 		 	{
 		 		// alert(mv_arr.NameOFMapMissingFile);
-		 		App.utils.ShowNotification("snackbar",4000,mv_arr.NameOFMapMissingFile);
+		 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
 		 		return false;
 		 	}
-
+			
 	        if (iddropdown)
 	        {
 	        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
@@ -639,7 +689,7 @@
 	        		if (!VauefromPost)
 	        		{
 	        			// alert(mv_arr.ReturnErrorFromMap);
-	        			App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
 	        			return false;
 	        		}
 	        		if (idtoshow)
@@ -650,24 +700,29 @@
 	        		}else
 	        		{
 	        			// alert(mv_arr.MissingDivID);
-	        			App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 	        		}
 
 
 	        	}else
 	        	{
 	        		// alert(mv_arr.ChoseMap);
-	        		App.utils.ShowNotification("snackbar",4000,mv_arr.ChoseMap);
+	        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
 	        	}
 
 
 	        }else
 	        {
 	        	// alert(mv_arr.MissingIdValue);
-	        	App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIdValue);
+	        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
 	        	return false;
 	        }
-
+	        	// if (dataloadingiddiv){$( "#"+dataloadingiddiv).removeClass( "loading" );}
+	        	
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,false);
+			}
 
 
 	 },
@@ -690,6 +745,10 @@
 								App.UniversalPopup.Add_show_Popup);
 			$(document).on('change', 'select[data-load-element="true"]',
 								App.UniversalPopup.addIntoElement);
+			$(document).on('mouseover', 'button[data-message-show="true"]',
+								App.UniversalPopup.ShowHelpMessage);
+			$(document).on('mouseout', 'button[data-message-show="true"]',
+								App.UniversalPopup.hideHelpMessage);
 		},
 
 		Add_show_Popup:function(event){
@@ -735,7 +794,7 @@
 
 			 	 	}else{
 			 	 		// alert(mv_arr.MappingFiledValid);
-			 	 		App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+			 	 		App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
 			 	 	}
 			 }
 		},
@@ -769,7 +828,7 @@
 			    }
 			    else {
 			        // alert(mv_arr.ReturnFromPost);
-			        App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+			        App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnFromPost);
 			    }
 			}
 		},
@@ -786,6 +845,7 @@
 	   	 $('#ErrorVAlues').text('');
 	     $('#'+closemodal).removeClass('slds-fade-in-open');
 	     $('#'+closebackdrop).removeClass('slds-backdrop--open');
+	     $('#SaveasMapText').val('');
 
 	   },
 
@@ -819,7 +879,7 @@
     	 		$('#'+idModals).addClass('slds-fade-in-open');
 	   	 	} else
 	   	 	{
-	   	 		App.utils.ShowNotification("snackbar",4000,mv_arr.Fieldsaremepty);
+	   	 		App.utils.ShowNotification("snackbar",2000,mv_arr.Fieldsaremepty);
 	   	 	}
 
 	   	 } else
@@ -837,11 +897,11 @@
 	   	 var idset=elem.attr('data-load-element-idset');
 
 	   	 if (!idget ){
-	   	 	App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);
+	   	 	App.utils.ShowNotification("snackbar",2000,mv_arr.missingtheidgetValue);
 	   	 }
 		if (!idget )
 		{
-			App.utils.ShowNotification("snackbar",4000,mv_arr.missingIdtoSetValue);
+			App.utils.ShowNotification("snackbar",2000,mv_arr.missingIdtoSetValue);
 		}
 
 		idget=idget.split(',');
@@ -852,7 +912,28 @@
 		App.utils.SetValueTohtmlComponents(idset,valuetoshow);
 	   },
 
+	   ShowHelpMessage:function(event){
 
+	   	var elem=$(this);
+
+	   	var idtoshow=elem.attr('data-message-show-id');
+	   	if (idtoshow)
+	   	{
+	   		$('#'+idtoshow).css('display', 'inline-block');
+	   	}
+
+	   },
+	hideHelpMessage:function(event){
+
+		   	var elem=$(this);
+
+		   	var idtoshow=elem.attr('data-message-show-id');
+		   	if (idtoshow)
+		   	{
+		   		$('#'+idtoshow).css('display', 'none');
+		   	}
+
+		   },
 	};
 
 	App.SelectModule = {
@@ -924,132 +1005,145 @@
 			var keephitoryidtoshow=elem.attr('data-save-history-show-id');
 			var keephitoryidtoshowidrelation=elem.attr('data-save-history-show-id-relation');
 			var executefunction=elem.attr('data-send-savehistory-functionname');
-			if(dataid != "undefined"){
-				inputsplit=dataid.split(",");
+			var loadingflag=elem.attr('data-loading');
+			var dataloadingiddiv=elem.attr('data-loading-divid');
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,true);
 			}
-			
-			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
-				// alert(mv_arr.Buttonsendajax);
-				App.utils.ShowNotification("snackbar",4000,mv_arr.Buttonsendajax);
-				return false;
-			}
-			
-			if(inputsplit.length>0){
-				for(index=0; index <= inputsplit.length-1; index++){
-					if(inputsplit[index].toUpperCase()=="LISTDATA"){
-						if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
-							var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
-							datatusend +=`ListData=${JSON.stringify(datasend)}`;
-						}else{
-							// alert(mv_arr.MappingFiledValid);
-							App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-						}
-					}else{
-						datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
-					}
-						
+				
+
+				if(dataid != "undefined"){
+					inputsplit=dataid.split(",");
 				}
 				
-			}
-			
-			
-            
-             if (savehistory!="undefined" && savehistory=="true")
-             {
-             		if (App.savehistoryar)
-	             	{
-	             	 	datatusend+="&savehistory="+App.savehistoryar;
-	             	}else
-	             	{
-	             		datatusend+="&savehistory";
-	             	}
-             	
-             }
+				if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
+					// alert(mv_arr.Buttonsendajax);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax);
+					return false;
+				}
+				
+				if(inputsplit.length>0){
+					for(index=0; index <= inputsplit.length-1; index++){
+						if(inputsplit[index].toUpperCase()=="LISTDATA"){
+							if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
+								var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
+								datatusend +=`ListData=${JSON.stringify(datasend)}`;
+							}else{
+								// alert(mv_arr.MappingFiledValid);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
+							}
+						}else{
+							datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
+						}
+							
+					}
+					
+				}
+				
+				
+	            
+	             if (savehistory!="undefined" && savehistory=="true")
+	             {
+	             		if (App.savehistoryar)
+		             	{
+		             	 	datatusend+="&savehistory="+App.savehistoryar;
+		             	}else
+		             	{
+		             		datatusend+="&savehistory";
+		             	}
+	             	
+	             }
 
-             App.utils.PostDataGeneric(event,urlcheck,datatusend);
-			if(VauefromPost){
-				 var returndt=VauefromPost.split(",");
-				 if(returndt[1]>0)
-				 {
-				 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
-				 	{
+	             App.utils.PostDataGeneric(event,urlcheck,datatusend);
+				if(VauefromPost){
+					 var returndt=VauefromPost.split(",");
+					 if(returndt[1]>0)
+					 {
+					 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
+					 	{
 
-				 		if (App.savehistoryar===VauefromPost.replace(/\s+/g, ''))
-				 		{
-				 			if (App.JSONForCOndition.length>0)
-				 			{
-				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-				 			}else
-				 			{
-				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-				 			}
-				 			
-				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+					 		if (App.savehistoryar===VauefromPost.replace(/\s+/g, ''))
+					 		{
+					 			if (App.JSONForCOndition.length>0)
+					 			{
+					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+					 			}else
+					 			{
+					 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					 			}
+					 			
+					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+								// alert(mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								VauefromPost=null;
+					 		}else
+					 		{
+					 			App.SaveHistoryPop.length=0;
+					 			if (App.JSONForCOndition.length>0)
+					 			{
+					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+					 			}else
+					 			{
+					 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					 			}
+					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+								// alert(mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								VauefromPost=null;
+					 		}
+					 	}else
+					 	{
+					 		App.savehistoryar=VauefromPost;
 							// alert(mv_arr.ReturnSucessFromMap);
-							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
-				 		}else
-				 		{
-				 			App.SaveHistoryPop.length=0;
-				 			if (App.JSONForCOndition.length>0)
-				 			{
-				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-				 			}else
-				 			{
-				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-				 			}
-				 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
-							// alert(mv_arr.ReturnSucessFromMap);
-							App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
-							VauefromPost=null;
-				 		}
-				 	}else
-				 	{
-				 		App.savehistoryar=VauefromPost;
-						// alert(mv_arr.ReturnSucessFromMap);
-						App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnSucessFromMap);
-						VauefromPost=null;
-				 	}
-	 				
-				 }else
-				 {
-				 	// alert(mv_arr.ReturnErrorFromMap);
-				 	App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
-				 }
-			}
-			if (sendSaveAs && sendSaveAs==="true")
-			{
-				var ulrsaveas=[urlcheck[0],"SavenewMap"];
-				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}&anotherfunction=${executefunction}`;
-				App.utils.PostDataGeneric(event,ulrsaveas,dat);
-				if (VauefromPost)
+					 	}
+		 				
+					 }else
+					 {
+					 	// alert(mv_arr.ReturnErrorFromMap);
+					 	App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
+					 }
+				}
+				if (sendSaveAs && sendSaveAs==="true")
 				{
-					 //document.body.innerHTML +=VauefromPost;
-					 $('body').append(VauefromPost);
-					 VauefromPost=null;
-					 $('#'+idbutton).removeAttr('disabled')
-				} else
+					var ulrsaveas=[urlcheck[0],"SavenewMap"];
+					dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}&anotherfunction=${executefunction}`;
+					App.utils.PostDataGeneric(event,ulrsaveas,dat);
+					if (VauefromPost)
+					{
+						 //document.body.innerHTML +=VauefromPost;
+						 $('body').append(VauefromPost);
+						 VauefromPost=null;
+						 $('#'+idbutton).removeAttr('disabled')
+					} else
+					{
+
+					}
+	              
+				}
+				if (keephitoryidtoshow)
+				{
+					if (executefunction && executefunction!=="undefined")
+					{
+						var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
+						eval(funcCall);
+					} else
+					{
+						App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
+					}
+				}else
 				{
 
 				}
-              
-			}
-			if (keephitoryidtoshow)
-			{
-				if (executefunction)
-				{
-					var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
-					eval(funcCall);
-				} else
-				{
-					App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
-				}
-			}else
-			{
+				App.UniversalPopup.CloseModalWithoutCheck();
 
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,false);
 			}
-			App.UniversalPopup.CloseModalWithoutCheck();
-			},
+		},
 		
 		/**
 		 * function to remove the history popup 
@@ -1067,7 +1161,7 @@
 			 }else
 			 {
 			 	// alert(mv_arr.RemovedivHistory);
-			 	App.utils.ShowNotification("snackbar",4000,mv_arr.RemovedivHistory);
+			 	App.utils.ShowNotification("snackbar",2000,mv_arr.RemovedivHistory);
 			 }
 			 if (keephitoryidtoshow)
 			 {
@@ -1089,10 +1183,10 @@
 			if (!diwtoshow)
 			{
 				// alert(mv_arr.MissingDivID);
-				App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 			}
 
-			if (!iddivrelation) {/*alert(mv_arr.MissingIDtoShow);*/App.utils.ShowNotification("snackbar",4000,mv_arr.MissingIDtoShow);}
+			if (!iddivrelation) {/*alert(mv_arr.MissingIDtoShow);*/App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIDtoShow);}
 			else
 			{
 				var historydata=App.SaveHistoryPop[parseInt(idtoshow)];
@@ -1112,7 +1206,7 @@
 					}else
 					{
 						// alert(mv_arr.MissingDivID);
-						App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 					}
 
 				}else
@@ -1132,7 +1226,7 @@
 					}else
 					{
 						// alert(mv_arr.MissingDivID);
-						App.utils.ShowNotification("snackbar",4000,mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 					}
 
 				}
@@ -1197,7 +1291,7 @@
 		 * @param {[type]} Urlsend the URL
 		 * @param {[type]} dat     data to send 
 		 */
-		PostDataGeneric : function(event=null,Urlsend, dat) {
+		PostDataGeneric : function(event=null,Urlsend, dat,idloading="") {
 			if (event) {event.preventDefault();}
 			jQuery.ajax({
 				type : "POST",
@@ -1206,7 +1300,17 @@
 				dataType : "html",
 				async : false,
 				data : dat,
+				beforeSend: function() {
+			        if (idloading){
+			        	var x = document.getElementById(idloading);
+			        	x.className = "loading";
+					}
+			    },
 				success : function(msg) {
+					if (idloading){
+			        	var x = document.getElementById(idloading);
+			        	x.className = x.className.replace("loading", "");
+					}
 					VauefromPost = msg;
 				},
 				error : function() {
@@ -1345,12 +1449,12 @@
 					App.popupJson.push({temparray});
 				}else
 				{
-					App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
 				}
 				
 			}else
 			{
-				App.utils.ShowNotification("snackbar",4000,mv_arr.addJoinValidation);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
 			}
 			
 		},
@@ -1560,8 +1664,9 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+moduli;
-				INSertAlerstJOIN += '<br/> '+mv_arr.field+'  ==> '+fields;
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli;
+				INSertAlerstJOIN += '<br/> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields;
+
 			} else
 			{
 				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
@@ -1833,11 +1938,27 @@
 		 * @param {Number} timetohide     the time to stay the notification after show
 		 * @param {String} message        the meessage of notification
 		 */
-		ShowNotification:function(idnotification="snackbar",timetohide=4000,message="Put a messsage to show") {
+		ShowNotification:function(idnotification="snackbar",timetohide=2000,message="Put a messsage to show") {
 			var x = document.getElementById(idnotification);
 			x.innerHTML=message;
 			x.className = "show";
 			setTimeout(function(){ x.className = x.className.replace("show", ""); }, timetohide);
+		},
+		ShowLoading:function(idnotification="",closeopen=true,message="Loading") {
+			if (idnotification){
+				if (closeopen===true)
+				{
+					var x = document.getElementById(idnotification);
+						// x.innerHTML=message;
+						x.className = "loading";
+				} else
+				{
+					var x = document.getElementById(idnotification);
+						// x.innerHTML=message;
+						x.className = x.className.replace("loading", "");
+					
+				}
+			}
 		}
 
 	};

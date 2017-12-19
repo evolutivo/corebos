@@ -60,6 +60,8 @@
     }else{
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
      }
+     //var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      ShowHistoryData(App.SaveHistoryPop.length-1,'LoadShowPopup');
   </script>
 
 
@@ -94,7 +96,7 @@
 	 		<div class="slds-form-element">
             <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
             <div class="slds-form-element__control">
-              	<select data-select-load="true" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
+              	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                  </select>
 
@@ -132,7 +134,7 @@
                               </button>
                           </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="float: right;">
-                              <button   data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this)" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.Addsection}
+                              <button   data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this);resetFieldCreateViewPortal();" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.Addsection}
                               </button>
                           </div>
                      </div>

@@ -35,7 +35,8 @@
     // }else{
     //   alert(mv_arr.MappingFiledValid);
     //  }
-      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+     SavehistoryCreateViewportalIOMap('LoadHistoryPopup','LoadShowPopup');
+     ShowHistoryDataIOMap(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
     </script>
 
    
@@ -66,7 +67,7 @@
         <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
       {/if}
 
-      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveTypeIOMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveTypeIOMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-send-savehistory-functionname="SavehistoryCreateViewportalIOMap" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
       <center><h3 class="slds-section-title--divider">{$MOD.TypeMapIOMap}</h3></center>
    </div>
 
@@ -105,7 +106,7 @@
                 
                     <div class="" id="SecondDiv" style="float: left;width: 90%;">
                         <center><label  style="margin-top: -17px;"  class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label></center>
-                        <select  style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="true" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
+                        <select  style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput"  name="AllFieldsInput" data-select-load="true" onchange="split_popups(this);" data-module="MapGenerator"  data-second-module-id="AllFieldsOutputselect"  data-second-module-file="AllFields_File" data-add-button-popup="false" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
                           {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px; height: 35px;">
@@ -115,7 +116,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-                              <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="true" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                              <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="false" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " onclick="split_popups(this);" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
                               </button>
                           </div>
@@ -138,7 +139,7 @@
               
                     <div class="" id="SecondDiv" style="float: left;width: 90%;">
                         <center><label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">{$MOD.outputFields}</label></center>
-                        <select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="true" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
+                        <select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect"  name="AllFieldsOutput" data-add-button-popup="false" onchange="split_popups(this);" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
                           {$allfields}
                           </select>
                           <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px;height: 35px;">
@@ -148,7 +149,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-                              <button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="" data-div-show="LoadShowPopup" data-add-button-popup="true" data-add-type="Output" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                              <button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="" data-div-show="LoadShowPopup" data-add-button-popup="false" data-add-type="Output" class="slds-button slds-button_icon" onclick="split_popups(this);" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;height: 29px;">
                               </button>
                           </div>
@@ -185,13 +186,17 @@
         </div>
     </div>
 </div>
-    <div id="contenitoreJoin" style="display: inline;">      
+    <div id="contenitoreJoin" style="display: inline; color: red;">      
            <div class="testoDiv">
                     <center><b>{$MOD.SelectField}</b></center>
                 </div>  
-      <div id="LoadShowPopup" style="margin-top: 10px;display: block;float: left; width: 70%;"></div>
-      <!-- <div id="LoadShowPopupInput" style="margin-top: 10px;display: block; width: 35%;float: left;"></div> -->
-      <div id="LoadHistoryPopup" style="margin-top: 10px;display: block; width: 30%;float: right;">
+
+      <div id="LoadShowPopupInput" style="margin-top: 10px;width: 50%;float:left;"></div>
+      <div style="margin-top: 10px; width: 50%;float: right; display: inline-grid;">
+        <div id="LoadShowPopup" >
+        </div>
+        <div id="LoadHistoryPopup">
+        </div>
       </div>
     </div>{*End div contenitorejoin*}
 </div>

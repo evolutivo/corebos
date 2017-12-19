@@ -33,15 +33,27 @@
     }else{
        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
      }
+
+    var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+    App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    App.utils.ReturnDataSaveHistory('LoadShowPopup');
+
+
   </script>
 
 
 {/if}
 
-<!-- <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
-    <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
-    <right style="margin-left: 10%"><b> {$MOD.OriginModule}</b></right>
-</div> -->
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+{/if}
+
 <div id="contentJoinButtons" style="width: 75%">
 
    <div class="slds-section-title--divider">

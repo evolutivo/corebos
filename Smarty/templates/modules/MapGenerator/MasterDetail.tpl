@@ -50,14 +50,24 @@
         }else{
            App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
          }
+
+      var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      App.popupJson.length=0;
+      for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+      }
+      // App.utils.ReturnDataSaveHistory('LoadShowPopup');
+      showmodalformasterdetail();
+
     </script>
    
 {/if}
-<!-- 
-<div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
-  <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
-    <right style="margin-left: 10%"><b> {$MOD.OriginModule}</b></right>
-</div> -->
+
+{if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+{/if}
 <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
 
        <div class="slds-section-title--divider">
@@ -67,7 +77,7 @@
           <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
         {/if}
 
-        <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+        <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveMasterDetail" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="showmodalformasterdetail2">{$MOD.CreateMap}</button>
         <center>
           <h3 style="margin-left: 20%;" class="slds-section-title--divider">{$MOD.MasterDetail}</h3>
           <center>
@@ -136,7 +146,7 @@
                 <div class="slds-form-element__control">
                   <center><label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label></center>
                     <div class="slds-select_container">
-                       <select data-select-load="true" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMapping" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                       <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-fieldid="FirstfieldID" data-module="MapGenerator"  data-second-module-file="SecondModuleMapping" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                         </select>
 
@@ -167,7 +177,7 @@
                 <div class="slds-form-element__control">
                   <center><label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label></center>
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" data-second-firstmodule-id="FirstModule"  name="secmodule" class="slds-select">
+                        <select id="secmodule" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" data-second-firstmodule-id="FirstModule"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}
                         </select>
                      </div>
@@ -186,10 +196,20 @@
                       <div class="slds-form-element" style="display: inline-block;">
                         <label class="slds-checkbox--toggle slds-grid">
                          <input id="sortt6ablechk" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
-                          <span  id="toggle-desc" style="margin-right: 10px;" class="slds-checkbox--faux_container" aria-live="assertive">
+                          <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Sort</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Sort}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Sort}-{$MOD.NO}</span>
+                          </span>
+                        </label>
+                      </div>
+                      <div class="slds-form-element" style="display: inline-block;">
+                        <label class="slds-checkbox--toggle slds-grid">
+                         <input  onchange="RemovecheckedMasterDetail(this)" data-all-id="mandatorychk,editablechk"  id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                            <span class="slds-checkbox--faux"></span>
+                            <span class="slds-checkbox--on">{$MOD.Hidden}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Hidden}-{$MOD.NO}</span>
                           </span>
                         </label>
                       </div>
@@ -199,39 +219,29 @@
                          <input id="editablechk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Editable</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Edit}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Edit}-{$MOD.NO}</span> 
                           </span>
                         </label>
                       </div>
-                        <div class="slds-form-element" style="display: inline-block;">
+                        <div class="slds-form-element" style="display: inline-block; margin-right: -5px;">
                         <label class="slds-checkbox--toggle slds-grid">
                          <input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
                           <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                             <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Mandatory</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
+                            <span class="slds-checkbox--on">{$MOD.Mandatory}-{$MOD.YES}</span>
+                            <span class="slds-checkbox--off">{$MOD.Mandatory}-{$MOD.NO}</span>
                           </span>
                         </label>
                       </div>
-                        <div class="slds-form-element" style="display: inline-block;">
+                      <div class="slds-form-element" style="display: inline-block;float: right;margin-right: 14px;">
                         <label class="slds-checkbox--toggle slds-grid">
-                         <input id="hiddenchk" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
-                          <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-                            <span class="slds-checkbox--faux"></span>
-                            <span class="slds-checkbox" style="font-size: initial;margin-right: 10px">Hidden</span>
-                            <!-- <span class="slds-checkbox--of">editable-false</span> -->
-                          </span>
-                        </label>
-                      </div>
-                      <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;vertical-align: bottom;">
-                             <!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,secmodule,SecondfieldID,sortt6ablechk,editablechk,mandatorychk,hiddenchk" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                  <img src="themes/images/btnL3Add.gif" style="width: 100%;">
-                              </button> -->
-                               <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                        <button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                               </button>
-                          </div>
+                        </label>
+                      </div>
+
                         <!-- <select id="SecondField"  name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup"  class="slds-select">
                           </select> -->
                           <!-- <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;"> -->
@@ -475,6 +485,22 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
+
+
+        #toggle-desc .slds-checkbox{
+          font-size: 11px !important; 
+          margin: 0 5px !important; 
+        }
+
+        /*#SecondDiv .slds-form-element{*/
+          
+          /*margin-right: 6px !important; */
+        /*}*/
+
+        #toggle-desc .slds-checkbox--faux{
+                  margin-right: 12px !important;
+                  text-align: center;
+                }
 
     </style>
  

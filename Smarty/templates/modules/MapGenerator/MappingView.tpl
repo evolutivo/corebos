@@ -13,9 +13,19 @@
 {if $PopupJson neq ''} 
  <script type="text/javascript"> 
       {foreach key=profile_name item=$popjs  from=$PopupJson }
-       App.utils.addINJSON('{$popjs.FirstModuleval}','{$popjs.FirstModuletxt}','{$popjs.FirstFieldval}','{$popjs.FirstFieldtxt}','{$popjs.SecondModuleval}','{$popjs.SecondModuletxt}','{$popjs.SecondFieldval}','{$popjs.SecondFieldtext}','{$popjs.SecondFieldOptionGrup}');
-          
+        {foreach from=$popjs item=item key=key name=name}
+           App.utils.addINJSON('{$item.FirstModuleval}','{$item.FirstModuletxt}','{$item.FirstFieldval}','{$item.FirstFieldtxt}','{$item.SecondModuleval}','{$item.SecondModuletxt}','{$item.SecondFieldval}','{$item.SecondFieldtext}','{$item.SecondFieldOptionGrup}');
+        {/foreach}
+          HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+           App.JSONForCOndition.length=0;
       {/foreach}
+      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+     //console.log(App.SaveHistoryPop.length);
+     var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+     App.JSONForCOndition.length=0;
+      for (var i=0;i<=historydata.JSONCondition.length-1;i++){
+        App.JSONForCOndition.push(historydata.JSONCondition[i]);
+      }
       App.utils.ReturnAllDataHistory('LoadShowPopup');
 
     </script>
@@ -25,6 +35,7 @@
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
 </div> -->
+<div id="waitingIddiv"></div>
 <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
 
 
@@ -35,7 +46,7 @@
         <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled >{$MOD.SaveAsMap}</button>  {* saveFieldDependency *}
       {/if}
 
-      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+      <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true" data-loading="true" data-loading-divid="waitingIddiv"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
       <center><h3 class="slds-section-title--divider">{$MOD.TypeMapMapping}</h3>
         </center>
    </div>
@@ -102,8 +113,9 @@
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center> <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label> </center>
                     <div class="slds-select_container">
-                       <select data-select-load="true" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+                       <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
                         {$FirstModuleSelected}
                         </select>
                        </div>
@@ -124,8 +136,9 @@
         <div style="float:left; overflow: hidden;width:45%" id="sel2">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
+                  <center> <label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label> </center>
                     <div class="slds-select_container">
-                        <select id="secmodule" data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField"  data-second-select-file="AllRelation"  name="secmodule" class="slds-select">
+                        <select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField"  data-second-select-file="AllRelation"  name="secmodule" class="slds-select">
                           {$SecondModulerelation}
                         </select>
                      </div>

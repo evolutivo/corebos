@@ -151,95 +151,99 @@ function add_content($DataDecode,$mapname)
      //put first the responsibile fields 
      foreach ($DataDecode as  $value) {
 
-     	 if ($value->temparray->JsonType==="Responsible") {
+         if ($value->temparray->JsonType==="Responsible") {
 
-     	 	 $Responsiblefield = $xml->createElement("Responsiblefield");
+             $Responsiblefield = $xml->createElement("Responsiblefield");
 
-		     $fieldname = $xml->createElement("fieldname");
-		     $fieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield)[2]);
-		     $fieldname->appendChild($fieldnameText);
+             $fieldname = $xml->createElement("fieldname");
+             $fieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield)[2]);
+             $fieldname->appendChild($fieldnameText);
 
-		     $fieldvalue = $xml->createElement("fieldvalue");
-		     $fieldvalueText = $xml->createTextNode($value->temparray->DefaultValueResponsibel);
-		     $fieldvalue->appendChild($fieldvalueText);
+             $fieldvalue = $xml->createElement("fieldvalue");
+             $fieldvalueText = $xml->createTextNode($value->temparray->DefaultValueResponsibel);
+             $fieldvalue->appendChild($fieldvalueText);
 
-		     $comparison = $xml->createElement("comparison");
-		     $comparisonText = $xml->createTextNode("equal");
-		     $comparison->appendChild($comparisonText);
+             $comparison = $xml->createElement("comparison");
+             $comparisonText = $xml->createTextNode($value->temparray->Conditionalfield);
+             $comparison->appendChild($comparisonText);
 
-		     $Responsiblefield->appendChild($fieldname);
-		     $Responsiblefield->appendChild($fieldvalue);
-			 $Responsiblefield->appendChild($comparison);
+             $Responsiblefield->appendChild($fieldname);
+             $Responsiblefield->appendChild($fieldvalue);
+             $Responsiblefield->appendChild($comparison);
 
-			 $field->appendChild($Responsiblefield);
+             $field->appendChild($Responsiblefield);
 
-     	 }
+         }
         }
 
      //  //put the Fields
       foreach ($DataDecode as  $value) {
 
-     	 if ($value->temparray->JsonType==="Fileds") {
-     	 	 $Orgfield = $xml->createElement("Orgfield");
+         if ($value->temparray->JsonType==="Field") {
+             $Orgfield = $xml->createElement("Orgfield");
 
-		     $Orgfieldfieldname = $xml->createElement("fieldname");
-		     $OrgfieldfieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield2)[2]);
-		     $Orgfieldfieldname->appendChild($OrgfieldfieldnameText);
+             $Orgfieldfieldname = $xml->createElement("fieldname");
+             $OrgfieldfieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield2)[2]);
+             $Orgfieldfieldname->appendChild($OrgfieldfieldnameText);
+             $Orgfield->appendChild($Orgfieldfieldname);
 
-		     $fieldactionShohide = $xml->createElement("fieldaction");
-		     $fieldactionShohideText = $xml->createTextNode(($value->temparray->fieldaction===0)?"hide":"show");
-		     $fieldactionShohide->appendChild($fieldactionShohideText);
+             $fieldactionShohide = $xml->createElement("fieldaction");
+             $fieldactionShohideText = $xml->createTextNode(($value->temparray->fieldaction===0)?"hide":"show");
+             $fieldactionShohide->appendChild($fieldactionShohideText);
+             $Orgfield->appendChild($fieldactionShohide);
 
-		     $fieldactionreadonly  = $xml->createElement("fieldaction");
-		     $fieldactionreadonlyText = $xml->createTextNode(($value->temparray->Readonlycheck===0)?"":"readonly");
-		     $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+             if ($value->temparray->Readonlycheck!=0) {
+                 $fieldactionreadonly  = $xml->createElement("fieldaction");
+                 $fieldactionreadonlyText = $xml->createTextNode("readonly");
+                 $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+                 $Orgfield->appendChild($fieldactionreadonly);
+             }
+             
 
-		     $Orgfieldfieldvalue = $xml->createElement("fieldvalue");
-		     $OrgfieldfieldvalueText = $xml->createTextNode("");
-		     $Orgfieldfieldvalue->appendChild($fieldvalueText);
+             $Orgfieldfieldvalue = $xml->createElement("fieldvalue");
+             $OrgfieldfieldvalueText = $xml->createTextNode("");
+             $Orgfieldfieldvalue->appendChild($OrgfieldfieldvalueText);
+             $Orgfield->appendChild($Orgfieldfieldvalue);
 
-		     $mandatory = $xml->createElement("mandatory");
-		     $mandatoryText = $xml->createTextNode(($value->temparray->Readonlycheck===0)?"":"mandatory");
-		     $mandatory->appendChild($mandatoryText);
+             if ($value->temparray->mandatorychk!=0) {
+                  $mandatory = $xml->createElement("mandatory");
+                  $mandatoryText = $xml->createTextNode("mandatory");
+                  $mandatory->appendChild($mandatoryText);
+                  $Orgfield->appendChild($mandatory);
+             }           
 
-		     $Orgfield->appendChild($Orgfieldfieldname);
-		     $Orgfield->appendChild($fieldactionShohide);
-		     $Orgfield->appendChild($fieldactionreadonly);
-		     $Orgfield->appendChild($Orgfieldfieldvalue);
-			 $Orgfield->appendChild($mandatory);
+             $field->appendChild($Orgfield);
 
-			 $field->appendChild($Orgfield);
-
-     	 }
+         }
      }
 
      //  //put the Picklist
       foreach ($DataDecode as  $value) {
-      	 
-     	 if ($value->temparray->JsonType==="Picklist") {
-     	 	 $Picklist = $xml->createElement("Picklist");
+         
+         if ($value->temparray->JsonType==="Picklist") {
+             $Picklist = $xml->createElement("Picklist");
 
-		     $Picklistname = $xml->createElement("fieldname");
-		     $PicklistnameText = $xml->createTextNode(explode(':',$value->temparray->PickListFields)[2]);
-		     $Picklistname->appendChild($PicklistnameText);
-		     $Picklist->appendChild($Picklistname);
-			 $i=1;
-		     foreach ($value->temparray as $key => $valua) {
-			       if (!empty($valua)) {
-		       			 if (strpos($key,'DefaultValueFirstModuleField')!== false) {
-		       			 	 $values = $xml->createElement("values");
-						     $valuesText = $xml->createTextNode($valua);
-						     $values->appendChild($valuesText);
-							 $Picklist->appendChild($values);
-		       			  }				
-					}								
-		        }
+             $Picklistname = $xml->createElement("fieldname");
+             $PicklistnameText = $xml->createTextNode(explode(':',$value->temparray->PickListFields)[2]);
+             $Picklistname->appendChild($PicklistnameText);
+             $Picklist->appendChild($Picklistname);
+             $i=1;
+             foreach ($value->temparray as $key => $valua) {
+                   if (!empty($valua)) {
+                         if (strpos($key,'DefaultValueFirstModuleField')!== false) {
+                             $values = $xml->createElement("values");
+                             $valuesText = $xml->createTextNode($valua);
+                             $values->appendChild($valuesText);
+                             $Picklist->appendChild($values);
+                          }             
+                    }                               
+                }
 
-		     		     
+                         
 
-			 $field->appendChild($Picklist);
+             $field->appendChild($Picklist);
 
-     	 }
+         }
      }
 
 
@@ -249,7 +253,6 @@ function add_content($DataDecode,$mapname)
      $xml->formatOutput = true;
      return $xml->saveXML();
 }
-
 
 
 // function getModuleID($module,$moduleName="entityidfield")
