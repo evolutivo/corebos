@@ -114,7 +114,7 @@
                                                                 <tr class="slds-line-height--reset">
                                                                     <td class="dvtCellLabel" width="50%">{$MOD.InsertNameQuery}:</td>
                                                                     <td class="dvtCellInfo" align="left" width="50%">
-                                                                        <div class="slds-select_container">
+                                                                        <div>
                                                                             <input type="text" minlength="5" id="nameView" name="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />
                                                                         </div>
                                                                     </td>
