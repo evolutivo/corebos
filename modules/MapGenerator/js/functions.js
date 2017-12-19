@@ -2982,7 +2982,7 @@ function RecordAccesLocalHistroty(IdLoad,divanameLoad,dividrelation='')
 }
 
 
-function ShowLocalHistoryMenuStructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
+function ShowLocalHistoryRecordAccessControll(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
     if (App.SaveHistoryPop.length>0)
     { 

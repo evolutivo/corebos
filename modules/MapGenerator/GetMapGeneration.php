@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 15:08:32
+ * @Last Modified time: 2017-12-19 16:52:58
  */
 
 
@@ -319,6 +319,26 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="DuplicateRecords") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			DuplicateRecords($QueryHistory,$MapID);		
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -334,6 +354,79 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+function DuplicateRecords($QueryHistory,$MapID)
+{
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	
+
+	try{
+		if (!empty($QueryHistory))
+		{
+			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+			 $decondRelatedModule=GetAllRelationDuplicaterecords(get_The_history($QueryHistory,"firstmodule"));
+
+			$Allhistory=get_All_History($QueryHistory);
+			$Alldatas=array();
+
+			foreach ($Allhistory as $value) {
+				$xml=new SimpleXMLElement($value['query']);
+				$MyArray=array();
+				foreach ($xml->relatedmodules->relatedmodule as  $valuexml) {
+					$temparray=[
+							'DefaultText'=>(string)$valuexml->module,
+							'DuplicateDirectRelationscheck'=>$xml->DuplicateDirectRelations,
+							'DuplicateDirectRelationscheckoptionGroup'=>"",
+							'FirstModule'=>(string)$xml->originmodule->originname,
+							'FirstModuleoptionGroup'=>"undefined",
+							'JsonType'=>"Related",
+							'Moduli'=>(string)$xml->originmodule->originname,
+							'relatedModule'=>(string)$valuexml->module."#".(string)$valuexml->relation,
+							'relatedModuleoptionGroup'=>"undefined",
+							
+						];
+						array_push($MyArray,$temparray);
+					
+				}
+				array_push($Alldatas,$MyArray);
+			}
+
+			//this is for save as 
+			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+			//this is for save as map
+			 $data="MapGenerator,saveRecordAccessControl";
+			 $dataid="ListData,MapName";
+			 $savehistory="true";
+			 $saveasfunction="ShowLocalHistoryRecordAccessControll";
+			//  //assign tpl
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("AllModulerelated",$decondRelatedModule);
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/DuplicateRecords.tpl');
+			echo $output;
+
+		}else{
+			//TODO:: this is if not find the idquery to load map by Id of map 
+		}
+	}catch(Exception $ex){
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+}
+
+
 
 function RecordAccessControl($QueryHistory,$MapID)
 {
@@ -403,7 +496,7 @@ function RecordAccessControl($QueryHistory,$MapID)
 		 $data="MapGenerator,saveRecordAccessControl";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
-		 $saveasfunction="ShowLocalHistoryMenuStructure";
+		 $saveasfunction="ShowLocalHistoryRecordAccessControll";
 		//  //assign tpl
 		$smarty = new vtigerCRM_Smarty();
 		$smarty->assign("MOD", $mod_strings);

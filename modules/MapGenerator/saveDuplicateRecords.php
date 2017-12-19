@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-19 14:34:17
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 15:26:38
+ * @Last Modified time: 2017-12-19 16:55:21
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -139,8 +139,13 @@ function add_content($DataDecode)
 	     $relatedmodules->appendChild($relatedmodule);
 
 	}
+     $DuplicateDirectRelations = $xml->createElement("DuplicateDirectRelations");
+    $DuplicateDirectRelationsText = $xml->createTextNode($DataDecode[0]->temparray->DuplicateDirectRelationscheck);
+     $DuplicateDirectRelations->appendChild($DuplicateDirectRelationsText);
      
-     $root->appendChild($relatedmodules);        
+     $root->appendChild($relatedmodules); 
+     $root->appendChild($DuplicateDirectRelations);
+            
      $xml->formatOutput = true;
      return $xml->saveXML();
 }
