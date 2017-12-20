@@ -6,24 +6,29 @@
     <script type="text/javascript">
     App.savehistoryar = '{$HistoryMap}';
     </script>
-    {/if} {if $PopupJson neq ''}
-    <script type="text/javascript">
-    { foreach key = profile_name item = $popjs from = $PopupJson } { foreach from = $popjs item = item key = key name = name }
-    App.utils.addINJSON('{$item.FirstModuleval}', '{$item.FirstModuletxt}', '{$item.FirstFieldval}', '{$item.FirstFieldtxt}', '{$item.SecondModuleval}', '{$item.SecondModuletxt}', '{$item.SecondFieldval}', '{$item.SecondFieldtext}', '{$item.SecondFieldOptionGrup}'); {
-        /foreach}
-        HistoryPopup.addtoarray(App.JSONForCOndition, "JSONCondition");
-        App.JSONForCOndition.length = 0; {
-            /foreach}
-            App.utils.AddtoHistory('LoadHistoryPopup', 'LoadShowPopup');
-            //console.log(App.SaveHistoryPop.length);
-            var historydata = App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length - 1)];
-            App.JSONForCOndition.length = 0;
-            for (var i = 0; i <= historydata.JSONCondition.length - 1; i++) {
-                App.JSONForCOndition.push(historydata.JSONCondition[i]);
-            }
-            App.utils.ReturnAllDataHistory('LoadShowPopup');
-    </script>
     {/if}
+
+{if $PopupJson neq ''} 
+ <script type="text/javascript"> 
+      {foreach key=profile_name item=$popjs  from=$PopupJson }
+        {foreach from=$popjs item=item key=key name=name}
+           App.utils.addINJSON('{$item.FirstModuleval}','{$item.FirstModuletxt}','{$item.FirstFieldval}','{$item.FirstFieldtxt}','{$item.SecondModuleval}','{$item.SecondModuletxt}','{$item.SecondFieldval}','{$item.SecondFieldtext}','{$item.SecondFieldOptionGrup}');
+        {/foreach}
+          HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+           App.JSONForCOndition.length=0;
+      {/foreach}
+      App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+     //console.log(App.SaveHistoryPop.length);
+     var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+     App.JSONForCOndition.length=0;
+      for (var i=0;i<=historydata.JSONCondition.length-1;i++){
+        App.JSONForCOndition.push(historydata.JSONCondition[i]);
+      }
+      App.utils.ReturnAllDataHistory('LoadShowPopup');
+
+    </script>
+   
+{/if}
     <!-- <div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
     <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
     <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
@@ -124,7 +129,7 @@
                                                         <label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label>
                                                     </center>
                                                     <div class="slds-select_container">
-                                                        <select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="AllRelation" name="secmodule" class="slds-select">
+                                                        <select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="mappingFieldRelation" name="secmodule" class="slds-select">
                                                             {$SecondModulerelation}
                                                         </select>
                                                     </div>

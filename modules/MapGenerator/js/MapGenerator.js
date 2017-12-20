@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-19 12:14:12
+* @Last Modified time: 2017-12-20 15:33:36
 */
 
 
@@ -631,6 +631,7 @@
 		 	 App.popupJson.length=0;
 		 	 App.JSONForCOndition.length=0;
 		 	 App.SaveHistoryPop.length=0;
+		 	 App.savehistoryar="";
 		 	 
 		 	 $('#'+idtodelete+' div ').empty('');
 		 	 $('#'+idtofill+' div ').empty('');

@@ -2,7 +2,7 @@
 
 
 function GetModulRel($m)
-   {
+{
     global $log, $mod_strings,$adb;
     $j = 0;
     $result = $adb->pquery("SELECT relmodule,columnname,fieldlabel 
@@ -1985,9 +1985,71 @@ function GetAllRelationDuplicaterecords($module="")
      
 }
 
+/**
+ * Gets the exception trace as string.
+ *
+ * @param      <type>  $exception  The exception
+ *
+ * @return     string  The exception trace as string.
+ */
+function getExceptionTraceAsString($exception) {
+    $rtn = "";
+    $count = 0;
+    foreach ($exception->getTrace() as $frame) {
+        $args = "";
+        if (isset($frame['args'])) {
+            $args = array();
+            foreach ($frame['args'] as $arg) {
+                if (is_string($arg)) {
+                    $args[] = "'" . $arg . "'";
+                } elseif (is_array($arg)) {
+                    $args[] = "Array";
+                } elseif (is_null($arg)) {
+                    $args[] = 'NULL';
+                } elseif (is_bool($arg)) {
+                    $args[] = ($arg) ? "true" : "false";
+                } elseif (is_object($arg)) {
+                    $args[] = get_class($arg);
+                } elseif (is_resource($arg)) {
+                    $args[] = get_resource_type($arg);
+                } else {
+                    $args[] = $arg;
+                }   
+            }   
+            $args = join(", ", $args);
+        }
+        $rtn .= sprintf( "#%s %s(%s): %s(%s)\n",
+    $count,
+    isset($frame['file']) ? $frame['file'] : 'unknown file',
+    isset($frame['line']) ? $frame['line'] : 'unknown line',
+    (isset($frame['class']))  ? $frame['class'].$frame['type'].$frame['function'] : $frame['function'],
+    $args );
+        $count++;
+    }
+    return $rtn;
+}
+
+/**
+     * function to show the error only 
+     *
+     * @param      <type>  $exepsion  The exepsion
+     */
+function LogFile($exepsion)
+{
+    global $root_directory;
+    $updateMovedInToAssigned = fopen($root_directory."logs/MapGeneratorLogs.txt", "a");
+    $str = "\n\n~~~~~~~~~~~~~~~~~~~~~ \n[".date("Y/m/d h:i:s " , mktime())."] \n~~~~~~~~~~~~~~~~~~~~~\n";
+     $str .= "\n\n~~~~~~~~~~~Message~~~~~~~~~~ ".$exepsion->getMessage()."\n";
+    fwrite($updateMovedInToAssigned, "\n".$str."\nError Handler : \n\t\t".getExceptionTraceAsString($exepsion));
+    fclose($updateMovedInToAssigned);
+}
 
 
-
+/**
+ * for all maps type
+ *
+ * @return     string  ( description_of_the_return_value )
+ */
 function SelectallMaps()
 {
     global $mod_strings;
@@ -2001,6 +2063,91 @@ function SelectallMaps()
 
 
 
+function GetFromVtigerField($idmodule,$uitype,$columnname="fieldid")
+{
+    global $adb;
+    $sql="SELECT * FROM  `vtiger_field` WHERE  `tabid` =".$idmodule." AND  `uitype`=".$uitype."";
+    $result = $adb->query($sql);
+    $num_rows=$adb->num_rows($result);
+    $retrive = array();
+    if ($num_rows>0) {
+        for ($i=1; $i<=$num_rows; $i++) { 
+            array_push($retrive,$adb->query_result($result,$i-1,$columnname));
+        }
+        return $retrive;
+    }else{
+        // throw new Exception("Data retrive from query are empty or something was wrong ", 1);
+        return "";
+    }
+    
+}
+
+
+/**
+ * Gets the from vtiger fieldmodulerel.
+ *
+ * @param      string     $fieldid     The fieldid
+ * @param      string     $columnname  The columnname
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     array      The from vtiger fieldmodulerel.
+ */
+function GetFromVtigerFieldmodulerel($fieldid,$columnname="relmodule")
+{
+    global $adb;
+    $sql="SELECT * FROM  `vtiger_fieldmodulerel` WHERE  `fieldid` ='".$fieldid."'";
+    $result = $adb->query($sql);
+    $num_rows=$adb->num_rows($result);
+    $modules = array();
+    if ($num_rows>0) {
+        for ($i=1; $i<=$num_rows; $i++) { 
+            array_push($modules,$adb->query_result($result,$i-1,$columnname));
+        }
+        return $modules;
+    }else{
+        throw new Exception("Data retrive from query are empty or something was wrong ", 1);       
+    }
+    
+}
+
+
+/**
+ * function for mapping 
+ *
+ * @param      <type>  $module  The module
+ */
+function MappingRelationFields($module)
+{   require_once("Staticc.php");
+    
+    global $adb, $root_directory, $log;
+    $showfields="<option values=''>Select one</option>";
+    $allmodules = array();
+   try{
+    if (empty($module)) {
+        throw new Exception("Missing the Module name ", 1);
+        
+    }
+      $idmodule=getModuleID($module,"tabid"); 
+      $arrafieldid=GetFromVtigerField($idmodule,"10");
+      if (!empty($arrafieldid)) {
+           foreach ($arrafieldid as $value) {
+              foreach (GetFromVtigerFieldmodulerel($value) as $valuee) {
+                   $showfields.=getModFields($valuee);
+                   array_push($valuee);
+               } 
+          }
+      }
+      $showfields.=getModFields($module);     
+      return $showfields;
+        
+    }catch(Exception $ex)
+    {
+       $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception (for more information check the MapGeneratorLogs.txt) ".$ex->getMessage());
+       LogFile($ex);
+       return "";
+    }
+}
 
 
 

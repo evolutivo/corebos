@@ -22,11 +22,16 @@ require_once('include/database/PearDatabase.php');
 //require_once('database/DatabaseConnection.php');
 require_once ('include/CustomFieldUtil.php');
 require_once ('data/Tracker.php');
+require_once("All_functions.php");
 coreBOS_Session::set('selectedfields','');
 $smarty = new vtigerCRM_Smarty();
 $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("URLAPP", $site_URL);
 $smarty->assign("currlang",$current_language);
+$smarty->assign("Allmaps",SelectallMaps());
 $smarty->display('modules/MapGenerator/template.tpl');
+
+
 ?>
+

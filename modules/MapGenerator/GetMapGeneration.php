@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 16:52:58
+ * @Last Modified time: 2017-12-20 16:20:30
  */
 
 
@@ -2003,8 +2003,9 @@ function Master_detail($QueryHistory,$MapID)
  * @return     The   template loaded
  */
 function Mapping_View($QueryHistory,$MapID)
-{
-	include_once('modfields.php');
+{	
+	include_once("All_functions.php");
+	include_once('modfields.php');	
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
@@ -2015,7 +2016,7 @@ function Mapping_View($QueryHistory,$MapID)
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
-			$SecondModuleFields=getModFields(get_The_history($QueryHistory,"secondmodule"));
+			$SecondModuleFields=MappingRelationFields(get_The_history($QueryHistory,"secondmodule"));
 			$MapName=get_form_Map($MapID,"mapname");
 			$HistoryMap=$QueryHistory.",".$MapID;
 			// value for Save As 
@@ -2159,7 +2160,9 @@ function Mapping_View($QueryHistory,$MapID)
 		
 	} catch (Exception $ex) {
 		$log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
-		echo "Missing the Id of the Map and also the Id of query history ";
+		  LogFile($ex);
+		// echo "Missing the Id of the Map and also the Id of query history ";
+		 showError("Something was wrong","Missing the Id of the Map and also the Id of query history");
 	}
 }
 

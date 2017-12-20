@@ -14,9 +14,8 @@ abstract  class TypeOFErrors
 	 */
 	const Tabele_name="mapgeneration_queryhistory";
 
-	//this is for all maps key is the name of map ,values is used for translate 
+	//this is for all maps, key is the name of map ,values is used for translate 
 	const AllMaps = array(
-
 	'SQL'=>'ConditionQuery',
 	'Mapping'=>'TypeMapMapping',
 	'IOMap'=>'TypeMapIOMap',
@@ -30,19 +29,11 @@ abstract  class TypeOFErrors
 	'CREATEVIEWPORTAL'=>'CREATEVIEWPORTAL',
 	'ConditionExpression'=>'ConditionExpression',
 	'DETAILVIEWBLOCKPORTAL'=>'DETAILVIEWBLOCKPORTAL',
+	'MENUSTRUCTURE'=>'MENUSTRUCTURE',
+	'RecordAccessControl'=>'RecordAccessControl',
+	'DuplicateRecords'=>'DuplicateRecords',
 	);
 	
-	/**
-	 * function to show the error only 
-	 *
-	 * @param      <type>  $exepsion  The exepsion
-	 */
-	public static function FunctionName($exepsion)
-	{
-		$updateMovedInToAssigned = fopen(__DIR__."logs/ErrorExepsion.txt", "a");
-		$str = "~~~~~~~~~~~~~~~~~~~~~ \n[".date("Y/m/d h:i:s " , mktime())."] \n~~~~~~~~~~~~~~~~~~~~~\n";
-		fwrite($updateMovedInToAssigned, "\n".$str."\nError Handler : \n\t\t".$exepsion);
-		fclose($updateMovedInToAssigned);
-	}
+	
 
 }
