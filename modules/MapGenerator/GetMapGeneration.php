@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-20 16:20:30
+ * @Last Modified time: 2017-12-20 17:15:37
  */
 
 
@@ -2015,8 +2015,14 @@ function Mapping_View($QueryHistory,$MapID)
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+
 			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
-			$SecondModuleFields=MappingRelationFields(get_The_history($QueryHistory,"secondmodule"));
+			
+			 $showfields="<option values=''>Select one</option>";
+			  foreach (MappingRelationFields(get_The_history($QueryHistory,"secondmodule")) as $value) {
+		          $showfields.=getModFields($value);          
+		      }
+			$SecondModuleFields=$showfields;
 			$MapName=get_form_Map($MapID,"mapname");
 			$HistoryMap=$QueryHistory.",".$MapID;
 			// value for Save As 

@@ -2120,26 +2120,25 @@ function GetFromVtigerFieldmodulerel($fieldid,$columnname="relmodule")
 function MappingRelationFields($module)
 {   require_once("Staticc.php");
     
-    global $adb, $root_directory, $log;
-    $showfields="<option values=''>Select one</option>";
+    global $adb, $root_directory, $log;    
     $allmodules = array();
    try{
-    if (empty($module)) {
-        throw new Exception("Missing the Module name ", 1);
-        
-    }
+      if (empty($module)) {
+            throw new Exception("Missing the Module name ", 1);
+            
+       }
+      array_push($allmodules,$module);
       $idmodule=getModuleID($module,"tabid"); 
       $arrafieldid=GetFromVtigerField($idmodule,"10");
       if (!empty($arrafieldid)) {
            foreach ($arrafieldid as $value) {
-              foreach (GetFromVtigerFieldmodulerel($value) as $valuee) {
-                   $showfields.=getModFields($valuee);
-                   array_push($valuee);
+              foreach (GetFromVtigerFieldmodulerel($value) as $valuee) {                   
+                   array_push($allmodules,$valuee);
                } 
           }
       }
-      $showfields.=getModFields($module);     
-      return $showfields;
+      $unioqueModul = array_unique($allmodules);      
+      return $unioqueModul;
         
     }catch(Exception $ex)
     {
