@@ -2122,31 +2122,28 @@ function RemoveThis(argument,idinput) {
   }
 
 
-  function removearrayselected(typeremove,type2="")
-  {
+function removearrayselected(typeremove,type2="")
+{
 
-    for (var i = App.popupJson.length - 1; i >= 0; i--) {
-     if (App.popupJson[i].temparray['JsonType']===typeremove || App.popupJson[i].temparray['JsonType']===type2)
-     {
-      App.popupJson.splice(i,1);
-    }
+  for (var i = App.popupJson.length - 1; i >= 0; i--) {
+   if (App.popupJson[i].temparray['JsonType']===typeremove || App.popupJson[i].temparray['JsonType']===type2)
+   {
+    App.popupJson.splice(i,1);
+  }
 
   }
 
   $('#LoadShowPopup').empty();
   if (App.popupJson.length>0)
   { 
-    for (var i = 0; i <= App.popupJson.length-1; i++) {
-      var module=App.popupJson[i].temparray[`DefaultText`];
-      var typeofppopup=App.popupJson[i].temparray['JsonType'];
-      var divinsert= App.utils.DivPopup(i,"",module,"LoadShowPopup",typeofppopup);
-      $('#LoadShowPopup').append(divinsert);
-    } 
+  for (var i = 0; i <= App.popupJson.length-1; i++) {
+    var module=App.popupJson[i].temparray[`DefaultText`];
+    var typeofppopup=App.popupJson[i].temparray['JsonType'];
+    var divinsert= App.utils.DivPopup(i,"",module,"LoadShowPopup",typeofppopup);
+    $('#LoadShowPopup').append(divinsert);
+  } 
 
   }
-
-
-
 }
 
 
@@ -2205,46 +2202,46 @@ function checkfunctionname(elem)
  *
  * @param      {<type>}  event   The event
  */
- function addrows(event)
- {
-   var elem=event;
-   var Idtoget=elem.dataset.addRelationId;
-   var typeofpopup=elem.dataset.addType;
-   var dataDivtoShowe=elem.dataset.divShow;
-   if (!Idtoget || Idtoget==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
-   if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
-   if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
-   allfieldsval=[];
-   allfieldstetx=[];
+function addrows(event)
+{
+    var elem=event;
+    var Idtoget=elem.dataset.addRelationId;
+    var typeofpopup=elem.dataset.addType;
+    var dataDivtoShowe=elem.dataset.divShow;
+    if (!Idtoget || Idtoget==='') { App.utils.ShowNotification("snackbar",4000,mv_arr.missingtheidgetValue);}
+    if (!typeofpopup || typeofpopup==='') { typeofpopup="Default";}
+    if (!dataDivtoShowe || dataDivtoShowe==='') { dataDivtoShowe="LoadShowPopup";}
+    allfieldsval=[];
+    allfieldstetx=[];
 
-   if( $("#"+Idtoget+" option:selected").length){
+    if( $("#"+Idtoget+" option:selected").length){
      $("#"+Idtoget+" option:selected").each(function() {
       allfieldsval.push($(this).val());
     });
      $("#"+Idtoget+" option:selected").each(function() {
       allfieldstetx.push($(this).text());
     }); 
-   }else
-   {
+    }else
+    {
     App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
-  }
-  var checkifexist={fields:allfieldsval,texts:allfieldstetx};
-  if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
-  {
-   App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
- }else
- {
-   rowsInViewPosrtal.push(checkifexist);
+    }
+    var checkifexist={fields:allfieldsval,texts:allfieldstetx};
+    if (App.utils.checkinArray(rowsInViewPosrtal,checkifexist)===true)
+    {
+    App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+    }else
+    {
+    rowsInViewPosrtal.push(checkifexist);
 
- }
- if (rowsInViewPosrtal.length>0)
- {
-  $('#' + dataDivtoShowe + ' div').remove();
-  for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
+    }
+    if (rowsInViewPosrtal.length>0)
+    {
+    $('#' + dataDivtoShowe + ' div').remove();
+    for (var i = rowsInViewPosrtal.length - 1; i >= 0; i--) {
     var divinsert= addrowspopup(i,rowsInViewPosrtal[i],dataDivtoShowe);
     $('#'+dataDivtoShowe).append(divinsert);
-  }
-}
+    }
+    }
 }
 
 
@@ -2620,8 +2617,8 @@ function ShowHistoryDataIOMap(id,divshow)
     var typeofppopup=App.popupJson[i].temparray['JsonType'];
 
     if(typeofppopup==="Input"){
-      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
-      $('#'+"LoadShowPopupInput").append(divinsert);
+      var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
+      $('#'+"LoadShowPopup").append(divinsert);
     }else if(typeofppopup==="Output"){
       var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
       $('#'+"LoadShowPopup").append(divinsert);
@@ -2774,14 +2771,14 @@ function split_popups(event){
    var showtext=elem.dataset.showId;
    var Typeofpopup=elem.dataset.addType;
    var replace=elem.dataset.addReplace;
-   var modulShow=elem.dataset.showModuleId;
+   var modulShow=elem.dataset.showModulId;
    var divid=elem.dataset.divShow;
 
 
    var allidarray = allid.split(",");
 
-   $('#LoadShowPopupInput div').remove();  
-   $('#LoadShowPopup div').remove();
+   $('#LoadShowPopupInput div').remove();
+   $('#'+divid+' div').remove();
 
    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow);
 
@@ -2793,11 +2790,11 @@ function split_popups(event){
       var typeofppopup=App.popupJson[i].temparray['JsonType'];
 
       if(typeofppopup==="Input"){
-        var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
-        $('#'+"LoadShowPopupInput").append(divinsert);
+        var divinsert= addToPopupIoMap(i,moduli,Field,divid,typeofppopup,"IS");
+        $('#'+divid).append(divinsert);
       }else if(typeofppopup==="Output"){
-        var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
-        $('#'+"LoadShowPopup").append(divinsert);
+        var divinsert= addToPopupIoMap(i,moduli,Field,divid,typeofppopup,"IS");
+        $('#'+divid).append(divinsert);
       }
     } 
 

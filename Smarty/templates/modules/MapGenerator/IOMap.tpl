@@ -6,33 +6,41 @@
     <script type="text/javascript">
     App.savehistoryar = '{$HistoryMap}';
     </script>
-    {/if} {if $PopupJS neq ''}
-    <script type="text/javascript">
-    { foreach name = outer item = popi from = $PopupJS } { foreach item = hist from = $popi }
-    var temparray = {}; { foreach key = key item = item from = $hist }
-    temparray['{$key}'] = '{$item}'; {
-        /foreach}
-        App.popupJson.push({ '{' } temparray { '}' }); {
-            /foreach}
-            HistoryPopup.addtoarray(App.popupJson, "PopupJSON");
-            App.popupJson.length = 0; {
-                /foreach}
+    {/if} 
+    
+{if $PopupJS neq ''} 
+ <script type="text/javascript"> 
+       {foreach name=outer item=popi from=$PopupJS}
+          {foreach item=hist from=$popi}
+             var temparray = {};
+             {foreach key=key item=item from=$hist}
+               temparray['{$key}']='{$item}';
+             {/foreach}
+             App.popupJson.push({'{'}temparray{'}'});
+          {/foreach}
+          HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
+      {/foreach}
 
-                // if (App.popupJson.length>0)
-                // { 
-                //    for (var i = 0; i <= App.popupJson.length-1; i++) {
-                //      var module=App.popupJson[i].temparray[`DefaultText`];
-                //      var typeofppopup=App.popupJson[i].temparray['JsonType'];
-                //      var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
-                //      $('#LoadShowPopup').append(divinsert);
-                //    } 
-                // }else{
-                //   alert(mv_arr.MappingFiledValid);
-                //  }
-                SavehistoryCreateViewportalIOMap('LoadHistoryPopup', 'LoadShowPopup');
-                ShowHistoryDataIOMap(parseInt(App.SaveHistoryPop.length - 1), 'LoadShowPopup');
+    // if (App.popupJson.length>0)
+    // { 
+    //    for (var i = 0; i <= App.popupJson.length-1; i++) {
+    //      var module=App.popupJson[i].temparray[`DefaultText`];
+    //      var typeofppopup=App.popupJson[i].temparray['JsonType'];
+    //      var divinsert= App.utils.DivPopup(i,module,"LoadShowPopup",typeofppopup);
+    //      $('#LoadShowPopup').append(divinsert);
+    //    } 
+    // }else{
+    //   alert(mv_arr.MappingFiledValid);
+    //  }
+     SavehistoryCreateViewportalIOMap('LoadHistoryPopup','LoadShowPopup');
+     ShowHistoryDataIOMap(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
     </script>
-    {/if}
+
+   
+{/if}
+    
+    
     <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>
             <tr class="blockStyleCss" id="DivObjectID">
@@ -85,7 +93,7 @@
                                                         <center>
                                                             <label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label>
                                                         </center>
-                                                        <select style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput" name="AllFieldsInput" data-select-load="true" onchange="split_popups(this);" data-module="MapGenerator" data-second-module-id="AllFieldsOutputselect" data-second-module-file="AllFields_File" data-add-button-popup="false" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
+                                                        <select style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput" name="AllFieldsInput" data-select-load="false" onchange="split_popups(this);" data-module="MapGenerator" data-second-module-id="AllFieldsOutputselect" data-second-module-file="AllFields_File" data-add-button-popup="false" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="AllFieldsInput" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
                                                             {$allfields}
                                                         </select>
                                                         <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px; height: 35px;">
@@ -95,7 +103,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-                                                                <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="false" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " onclick="split_popups(this);" style="width:2.1rem;">
+                                                                <button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="AllFieldsInputByhand" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="false" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " onclick="split_popups(this);" style="width:2.1rem;">
                                                                     <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
                                                                 </button>
                                                             </div>
@@ -116,7 +124,7 @@
                                                         <center>
                                                             <label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">{$MOD.outputFields}</label>
                                                         </center>
-                                                        <select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect" name="AllFieldsOutput" data-add-button-popup="false" onchange="split_popups(this);" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="" data-show-modul-id="AllFieldsOutputselect" data-div-show="LoadShowPopup" class="slds-select">
+                                                        <select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect" name="AllFieldsOutput" data-add-button-popup="false" onchange="split_popups(this);" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="AllFieldsOutputselect" data-show-modul-id="AllFieldsOutputselect"  data-div-show="LoadShowPopup" class="slds-select">
                                                             {$allfields}
                                                         </select>
                                                         <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px;height: 35px;">
@@ -126,7 +134,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-                                                                <button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="" data-div-show="LoadShowPopup" data-add-button-popup="false" data-add-type="Output" class="slds-button slds-button_icon" onclick="split_popups(this);" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
+                                                                <button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="AllFieldsOutputbyHand" data-div-show="LoadShowPopup" data-add-button-popup="false" data-add-type="Output" class="slds-button slds-button_icon" onclick="split_popups(this);" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
                                                                     <img src="themes/images/btnL3Add.gif" style="width: 100%;height: 29px;">
                                                                 </button>
                                                             </div>

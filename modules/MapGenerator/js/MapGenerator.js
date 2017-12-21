@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-20 15:33:36
+* @Last Modified time: 2017-12-21 10:23:16
 */
 
 
@@ -151,7 +151,7 @@
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "AllFields_File" ];
 				var dat = "FirstModul"
-				App.GetModuleForMapGenerator.GetFirstModule("AllFieldsInput",
+				App.GetModuleForMapGenerator.GetFirstModule("AllFieldsInput,AllFieldsOutputselect",
 						urlsend, dat);
 			}else if (select == "FieldDependency") {
 				// idfieldfill,urlsend,dat
