@@ -40,10 +40,16 @@
                     <div class="slds-truncate">
                         <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
                             <tr class="slds-line-height--reset">
-                                <td class="dvtCellLabel" width="50%">{$MOD.ChoseMapTXT}</td>
-                                <td class="dvtCellInfo" align="left" width="50%">
-                                    <div class="slds-select_container">
-                                        <select id="GetALLMaps" class="slds-select">
+                                <td class="dvtCellLabel" width="20%">{$MOD.ChoseMapTXT}</td>
+                                <td class="dvtCellInfo" align="left" width="80%">
+                                    <style scoped>
+                                        @import "modules/MapGenerator/css/Searchselect.css";
+                                        span{
+                                            /*width: 500px;*/
+                                        }
+                                    </style>
+                                    <div class="">
+                                        <select class="js-example-basic-single" name="state" id="GetALLMaps" >
                                             {$AllMaps}
                                         </select>
                                     </div>
@@ -60,6 +66,12 @@
             </tr>
         </tbody>
     </table>
+    <script type="text/javascript">
+        // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+    </script>
 </div>
 <div id="LoadfromMapSecondStep" style="display: none;">
 </div>

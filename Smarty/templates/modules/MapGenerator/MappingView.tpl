@@ -42,11 +42,19 @@
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                     <div class="slds-media__body">
-                                        <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.TypeMapMapping}</b>
-                                </span>
-                            </h2>
+                                        <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.TypeMapMapping}</b>
+                                          </span>
+                                        </h2>
+                                    {if $NameOFMap neq ''}
+                                     <h2 style="width: 50%;float: left;">
+                                            <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                            <b>{$NameOFMap}</b>
+                                             </span>
+                                     </h2>
+                                    {/if}
+                            
                                     </div>
                                 </header>
                                 <div class="slds-no-flex" data-aura-rendered-by="1224:0">

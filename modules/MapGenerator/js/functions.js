@@ -3013,3 +3013,23 @@ function ClickToshowSelectedFileds(Idload,divHistory)
       } 
     }
 }
+
+
+
+/////////// Field Dependency ///////////////
+
+
+function removedataafterclick()
+{
+  setTimeout(function(){
+    var selectid=$('#PickListFields');
+    var count=$('#ShowmoreInput input').size();
+    for (var i = 2; i<=count; i++) {
+      var idtoremove='#DefaultValueFirstModuleField_'+i;
+       $(idtoremove).parent().parent().parent().remove();
+    }
+    $('#DefaultValueFirstModuleField_1').val("");
+    $('#AddToArray').attr('data-add-relation-id','PickListFields,DefaultValueFirstModuleField_1');
+  },100);
+   
+}

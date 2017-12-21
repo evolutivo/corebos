@@ -7,39 +7,50 @@
     <script type="text/javascript">
     App.savehistoryar = '{$HistoryMap}';
     </script>
-    {/if} {if $PopupJS neq ''}
-    <script type="text/javascript">
-    { foreach from = $PopupJS item = allitems key = key name = name } { foreach name = outer item = popi from = $allitems }
-    var temparray = {}; { foreach key = key item = item from = $popi }
-    temparray['{$key}'] = '{$item}'; {
-        /foreach}
-        App.popupJson.push({ '{' } temparray { '}' });
-        // console.log(temparray);
-        {
-            /foreach}
-            HistoryPopup.addtoarray(App.popupJson, "PopupJSON");
-            App.popupJson.length = 0; {
-                /foreach}
+    {/if}
 
-                if (App.SaveHistoryPop.length > 0) {
-                    App.utils.AddtoHistory('LoadHistoryPopup', 'LoadShowPopup');
-                    App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryCorrect);
-                } else {
-                    App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryError);
-                }
 
-                var historydata = App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length - 1)];
-                App.popupJson.length = 0;
-                for (var i = 0; i <= historydata.PopupJSON.length - 1; i++) {
-                    App.popupJson.push(historydata.PopupJSON[i]);
-                }
-                App.utils.ReturnDataSaveHistory('LoadShowPopup');
-    </script>
-    {/if} {if $Modali neq ''}
+{if $PopupJS neq ''}
+  <script type="text/javascript">
+      {foreach from=$PopupJS item=allitems key=key name=name}
+           {foreach name=outer item=popi from=$allitems}  
+            var temparray = {};
+            {foreach key=key item=item from=$popi}
+                temparray['{$key}']='{$item}';
+            {/foreach}
+            App.popupJson.push({'{'}temparray{'}'});
+            // console.log(temparray);
+          {/foreach}
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
+      {/foreach}
+    
+     if (App.SaveHistoryPop.length>0)
+    { 
+        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+    }else{
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+     }
+
+     var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      App.popupJson.length=0;
+      for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+        App.popupJson.push(historydata.PopupJSON[i]);
+      }
+      App.utils.ReturnDataSaveHistory('LoadShowPopup');
+     
+  </script>
+
+
+{/if}
+
+
+{if $Modali neq ''}
     <div>
         {$Modali}
     </div>
-    {/if}
+{/if}
     <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>
             <tr class="blockStyleCss" id="DivObjectID">
@@ -49,11 +60,18 @@
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                     <div class="slds-media__body">
-                                        <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.ChoseResponsabile}</b>
-                                </span>
-                            </h2>
+                                        <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.FieldDependencyPortal}</b>
+                                          </span>
+                                        </h2>
+                                      {if $NameOFMap neq ''}
+                                       <h2 style="width: 50%;float: left;">
+                                              <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                              <b>{$NameOFMap}</b>
+                                               </span>
+                                       </h2>
+                                      {/if}
                                     </div>
                                 </header>
                                 <div class="slds-no-flex" data-aura-rendered-by="1224:0">
@@ -342,7 +360,7 @@
                     <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
                     <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist">{$MOD.cancel}
                     </button>
-                    <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" class="slds-button slds-button--neutral slds-button--brand">
+                    <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="removedataafterclick();" class="slds-button slds-button--neutral slds-button--brand">
                         {$MOD.Add}
                     </button>
                     <!-- data-send-savehistory="{$savehistory}" -->

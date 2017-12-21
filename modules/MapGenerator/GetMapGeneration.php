@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-20 17:15:37
+ * @Last Modified time: 2017-12-21 16:42:04
  */
 
 
@@ -1087,6 +1087,7 @@ function FieldDependency($QueryHistory,$MapID)
 		 //this is for save as 
 		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		 $NameOFMap=get_form_MapQueryID($QueryHistory,"mapname");
 		 // $smarty=new vtigerCRM_Smarty();
 		 $data="MapGenerator,saveFieldDependency";
 		 $dataid="ListData,MapName";
@@ -1104,6 +1105,7 @@ function FieldDependency($QueryHistory,$MapID)
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 			$smarty->assign("Picklistdropdown",$Picklistdropdown);
+			$smarty->assign("NameOFMap",$NameOFMap);
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
@@ -1224,6 +1226,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 		 //this is for save as 
 		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		 $NameOFMap=get_form_MapQueryID($QueryHistory,"mapname");
 		 // $smarty=new vtigerCRM_Smarty();
 		 $data="MapGenerator,saveFieldDependencyPortal";
 		 $dataid="ListData,MapName";
@@ -1245,7 +1248,8 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
 			$smarty->assign("PopupJS",$Alldatas);
-			$output = $smarty->fetch('modules/MapGenerator/FieldDependency.tpl');
+			$smarty->assign("NameOFMap",$NameOFMap);
+			$output = $smarty->fetch('modules/MapGenerator/FieldDependencyPortal.tpl');
 			echo $output;
 
 	} else {
@@ -2025,6 +2029,7 @@ function Mapping_View($QueryHistory,$MapID)
 			$SecondModuleFields=$showfields;
 			$MapName=get_form_Map($MapID,"mapname");
 			$HistoryMap=$QueryHistory.",".$MapID;
+			$NameOFMap=get_form_Map($MapID,"mapname");
 			// value for Save As 
 			$data="MapGenerator,SaveTypeMaps";
 			$dataid="ListData,MapName";
@@ -2087,7 +2092,7 @@ function Mapping_View($QueryHistory,$MapID)
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 
 			$smarty->assign("PopupJson",$Alldatas);
-
+			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("SecondModuleFields",$SecondModuleFields);
 
 			$output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');

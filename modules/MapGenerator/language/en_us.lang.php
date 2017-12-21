@@ -155,5 +155,7 @@ $mod_strings = array(
 	'DuplicateDirectRelations'=>'Duplicate Direct Relations',
 	'TRUEE'=>'True',
 	'FALSEE'=>'False',
+	'FieldDependency'=>'Field Dependency',
+	'FieldDependencyPortal'=>'Field DependencyPortal',
 );
 ?>

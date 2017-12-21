@@ -9,7 +9,7 @@
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/MapGenerator.js"></script>
-<script src="https://use.fontawesome.com/c74e66ed00.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 <div class="small">
     <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz" style="background-color: #f7f9fb;">
         <tr class="slds-text-title--caps">
