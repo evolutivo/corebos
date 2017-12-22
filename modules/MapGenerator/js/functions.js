@@ -3063,3 +3063,20 @@ function Checkifexist()
   // }
    
 }
+
+
+
+function CheckChoise(sel)
+{
+  var valueselected=sel.value;
+  if (valueselected==='empty' || valueselected==='not empty')
+  {
+    $('#DefaultValueResponsibel').hide('slow');
+    $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,Firstfield,Conditionalfield');
+  }else
+  {
+    $('#DefaultValueResponsibel').show('slow');
+    $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield');
+  }
+
+}
