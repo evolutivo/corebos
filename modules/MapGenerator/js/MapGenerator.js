@@ -1550,7 +1550,7 @@
 		 * @param {[String]} SecondModuleLoad  the name of second module 
 		 */
 		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation='',callfunction='none'){
-			var htmldat='<div class="Message Message"  >';
+			var htmldat='<div class="Message"  >';
 				htmldat+='<div class="Message-icon">';
 				// if (avtive===false)
 				// {
@@ -1558,10 +1558,10 @@
 				// }
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';
-				htmldat+='<p>@HISTORY : '+(IdLoad+1)+'<br/></p>';
+				htmldat+='<p class="history-title">@HISTORY : '+(IdLoad+1)+'<br/></p>';
 				if (FirstModuleLoad && FirstModuleLoad!=="")
 				{
-					htmldat+='<p><bold>'+FirstModuleLoad+'</bold>';
+					htmldat+='<p class="history-container"><bold>'+FirstModuleLoad+'</bold>';
 				}
 				
 				if (SecondModuleLoad && SecondModuleLoad!=="")
