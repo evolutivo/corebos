@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-21 10:23:16
+* @Last Modified time: 2017-12-22 16:56:38
 */
 
 
@@ -213,8 +213,15 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "RendicontaConfig") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				// App.ModulLabel='Module';
+    			 // App.FieldLabel='Related';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
-
 		},
 
 		LoadLabel:function(event){
@@ -366,6 +373,9 @@
 								App.GetModuleForMapGenerator.LadAllMaps);
 			$(document).on('click', 'input[data-showhide-load="true"]',
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
+			$(document).on('change', 'select[data-reset="true"]',
+					App.GetModuleForMapGenerator.RemoveallSelected);
+
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -466,13 +476,40 @@
 			}
 		 },
 
-		 /**
+		/**
+		 * function to remove all choosed 
+		 *
+		 * @class      RemoveallSelected (name)
+		 * @param      {<type>}  event   The event
+		 */
+		RemoveallSelected:function(event){
+			if (event)
+				event.preventDefault();
+			var elem = $(this);
+
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
+
+			if (datareset && datareset==="true")
+			{
+				if (idreset)
+				{
+					$('#'+idreset+' div').remove();
+					App.popupJson.length=0;
+					App.JSONForCOndition.length=0;
+				}
+				
+			}
+
+		},
+
+		/**
 		  * function to select the origin module and after put the fields in base of what you select 
 		  *
 		  * @class      GetSecondField (name)
 		  * @param      {<type>}  event   The event
-		  */
-		 GetSecondField : function(event) {
+		 */
+		GetSecondField : function(event) {
 			if (event)
 				event.preventDefault();
 			var elem = $(this);
