@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-21 16:42:04
+ * @Last Modified time: 2017-12-22 10:46:18
  */
 
 
@@ -406,7 +406,8 @@ function DuplicateRecords($QueryHistory,$MapID)
 			$smarty->assign("APP", $app_strings);
 			
 			$smarty->assign("MapName", $MapName);
-
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -503,7 +504,8 @@ function RecordAccessControl($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -568,7 +570,8 @@ function MENUSTRUCTURE($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -660,7 +663,8 @@ function DETAILVIEWBLOCKPORTAL($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -755,7 +759,8 @@ function CREATEVIEWPORTAL($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -872,7 +877,8 @@ function ConditionExpression($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -961,7 +967,8 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -1318,6 +1325,7 @@ function Module_IOMap($QueryHistory,$MapID)
 				array_push($Alldatas,$MyArray);
 			}
 			$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+
 			$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 			$smarty=new vtigerCRM_Smarty();
 			$data="MapGenerator,saveTypeIOMap";
@@ -1332,6 +1340,8 @@ function Module_IOMap($QueryHistory,$MapID)
 			// $smarty->assign("Allfilds", $MapName);
 
 			$smarty->assign("HistoryMap",$HistoryMap);
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 
 			$smarty->assign("allfields",$allfields);
 			//put the smarty modal
@@ -1414,7 +1424,8 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 			$smarty->assign("APP", $app_strings);
 			
 			$smarty->assign("MapName", $MapName);
-
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -1524,6 +1535,10 @@ function ConditionQuery($QueryHistory,$MapID)
 		$smarty->assign("valueli",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
 		// $smarty->assign("texticombo", $texticombo);
 		$smarty->assign("FOPTION", '');
+
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
+
 		// $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
 		$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT'])); 
 		
@@ -1658,6 +1673,8 @@ function List_Clomns($QueryHistory,$MapID)
 			$smarty->assign("FmoduleID",$FmoduleID);
 			$smarty->assign("SmoduleID",$SmoduleID);
 
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("SecondModulerelation",$SecondModulerelation);
@@ -1879,6 +1896,8 @@ function Master_detail($QueryHistory,$MapID)
 			$smarty->assign("FmoduleID",$FmoduleID);
 			$smarty->assign("SmoduleID",$SmoduleID);
 
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("SecondModulerelation",$SecondModulerelation);

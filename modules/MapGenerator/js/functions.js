@@ -3033,3 +3033,33 @@ function removedataafterclick()
   },100);
    
 }
+
+
+function clearInput()
+{
+  setTimeout(function(){
+    $('#DefaultValueResponsibel').val("");   
+  },100);
+   
+}
+
+
+function Checkifexist()
+{
+  var valuefromdropdown=$('#PickListFields  option:selected').val();
+
+  var found=App.popupJson.some(function(el){
+    return el.PickListFields===valuefromdropdown;
+  });
+
+  if (!found)
+  {
+    console.log("EdmondiKAcaj");
+  }
+  // for (var i = App.popupJson.length - 1; i >= 0; i--) {
+  //     if (valuefromdropdown==App.popupJson[i].temparray[]) {}
+
+  //   App.popupJson[i]
+  // }
+   
+}

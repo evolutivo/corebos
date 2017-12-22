@@ -105,7 +105,7 @@
                                     </div>
                                     {/if}
                                     <div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
-                                        <div style="float:left; overflow: hidden;width:45%" id="sel1">
+                                        <div style="float:left; overflow: hidden;width:45%;margin-right: 64px;" id="sel1">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <center>
@@ -129,7 +129,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div>
+                                        {* <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div> *}
                                         <div style="float:left; overflow: hidden;width:45%" id="sel2">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
