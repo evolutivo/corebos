@@ -6,57 +6,66 @@
     <script type="text/javascript">
     App.savehistoryar = '{$HistoryMap}';
     </script>
-    {/if} {if $PopupJS neq ''}
-    <script type="text/javascript">
-    { foreach from = $PopupJS item = allitem key = key name = name } { foreach key = profile_name item = $popjs from = $allitem }
-    var temparray = {};
-    temparray['DefaultText'] = '';
-    temparray['JsonType'] = '{$popjs.JsonType}';
-    temparray['FirstfieldoptionGroup'] = '{$popjs.FirstfieldoptionGroup}';
-    temparray['FirstModule'] = '{$popjs.FirstModule}';
-    temparray['FirstModuleoptionGroup'] = '{$popjs.FirstModuleoptionGroup}';
-    temparray['FirstfieldID'] = '{$popjs.FirstfieldID}';
-    temparray['FirstfieldIDoptionGroup'] = '{$popjs.FirstfieldIDoptionGroup}';
-    temparray['Firstfield'] = '{$popjs.Firstfield}';
-    temparray['Firstfield_Text'] = '{$popjs.Firstfield_Text}';
-    temparray['secmodule'] = '{$popjs.secmodule}';
-    temparray['secmoduleoptionGroup'] = '{$popjs.secmoduleoptionGroup}';
-    temparray['SecondfieldID'] = '{$popjs.SecondfieldID}';
-    temparray['sortt6ablechk'] = '{$popjs.sortt6ablechk}';
-    temparray['sortt6ablechkoptionGroup'] = '{$popjs.sortt6ablechkoptionGroup}';
-    temparray['editablechk'] = '{$popjs.editablechk}';
-    temparray['editablechkoptionGroup'] = '{$popjs.editablechkoptionGroup}';
-    temparray['mandatorychk'] = '{$popjs.mandatorychk}';
-    temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
-    temparray['hiddenchk'] = '{$popjs.hiddenchk}';
-    temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
-    App.popupJson.push({ '{' } temparray { '}' }); {
-        /foreach}
-        HistoryPopup.addtoarray(App.popupJson, "PopupJSON");
-        App.popupJson.length = 0; {
-            /foreach}
+    {/if} 
 
-            if (App.SaveHistoryPop.length > 0) {
-                App.utils.AddtoHistory('LoadHistoryPopup', 'LoadShowPopup', 'showmodalformasterdetail');
-                App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryCorrect);
-            } else {
-                App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryError);
-            }
+    {if $PopupJS neq ''} 
+ <script type="text/javascript"> 
 
-            var historydata = App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length - 1)];
-            App.popupJson.length = 0;
-            for (var i = 0; i <= historydata.PopupJSON.length - 1; i++) {
-                App.popupJson.push(historydata.PopupJSON[i]);
-            }
-            // App.utils.ReturnDataSaveHistory('LoadShowPopup');
-            showmodalformasterdetail();
+      {foreach from=$PopupJS item=allitem key=key name=name}
+          {foreach key=profile_name item=$popjs  from=$allitem }
+                var temparray = {};
+                temparray['DefaultText'] = '';
+                temparray['JsonType'] = '{$popjs.JsonType}';
+                temparray['FirstfieldoptionGroup'] = '{$popjs.FirstfieldoptionGroup}';
+                temparray['FirstModule'] ='{$popjs.FirstModule}';
+                temparray['FirstModuleoptionGroup'] = '{$popjs.FirstModuleoptionGroup}';
+                temparray['FirstfieldID'] = '{$popjs.FirstfieldID}';
+                temparray['FirstfieldIDoptionGroup'] ='{$popjs.FirstfieldIDoptionGroup}';
+                temparray['Firstfield'] = '{$popjs.Firstfield}';
+                temparray['Firstfield_Text'] ='{$popjs.Firstfield_Text}';
+                temparray['secmodule'] = '{$popjs.secmodule}';
+                temparray['secmoduleoptionGroup'] ='{$popjs.secmoduleoptionGroup}';
+                temparray['SecondfieldID'] ='{$popjs.SecondfieldID}';
+                temparray['sortt6ablechk'] = '{$popjs.sortt6ablechk}';
+                temparray['sortt6ablechkoptionGroup'] = '{$popjs.sortt6ablechkoptionGroup}';
+                temparray['editablechk'] = '{$popjs.editablechk}';
+                temparray['editablechkoptionGroup'] = '{$popjs.editablechkoptionGroup}';
+                temparray['mandatorychk'] = '{$popjs.mandatorychk}';
+                temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
+                temparray['hiddenchk'] = '{$popjs.hiddenchk}';
+                temparray['hiddenchkoptionGroup'] = '{$popjs.hiddenchkoptionGroup}';
+              App.popupJson.push({'{'}temparray{'}'});
+          {/foreach}
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+           App.popupJson.length=0;
+      {/foreach}
+    
+        if (App.SaveHistoryPop.length>0)
+        { 
+            App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup','showmodalformasterdetail');
+           App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+        }else{
+           App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+         }
+
+      var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+      App.popupJson.length=0;
+      for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+      }
+      // App.utils.ReturnDataSaveHistory('LoadShowPopup');
+      showmodalformasterdetail();
+
     </script>
-    {/if} {if $Modali neq ''}
-    <div>
-        {$Modali}
-    </div>
-    {/if}
-    <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
+   
+{/if}
+
+{if $Modali neq ''}
+  <div>
+    {$Modali}
+  </div>
+{/if}
+    <div id="contentJoinButtons" style="width: 100%;height: 100%;float: left;">
         <!-- <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
          style="float:left; overflow: hidden;width:20%" id="buttons">
 
@@ -112,11 +121,18 @@
                                 <div class="slds-card__header slds-grid">
                                     <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                         <div class="slds-media__body">
-                                            <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.MasterDetail}</b>
-                                </span>
-                            </h2>
+                                            <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.MasterDetail}</b>
+                                          </span>
+                                        </h2>
+                                    {if $NameOFMap neq ''}
+                                     <h2 style="width: 50%;float: left;">
+                                            <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                            <b>{$NameOFMap}</b>
+                                             </span>
+                                     </h2>
+                                    {/if}
                                         </div>
                                     </header>
                                     <div class="slds-no-flex" data-aura-rendered-by="1224:0">
@@ -135,10 +151,10 @@
                         <div class="slds-truncate">
                             <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
                                 <tr class="slds-line-height--reset">
-                                    <td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+                                    <td class="dvtCellLabel" width="100%" style="vertical-align: top;">
                                         <!-- THE MODULE Zone -->
                                         <div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
-                                            <div style="float:left; overflow: hidden;width:45%" id="sel1">
+                                            <div style="float:left; overflow: hidden;width:45%;margin-right: 50px;" id="sel1">
                                                 <div class="slds-form-element">
                                                     <div class="slds-form-element__control">
                                                         <center>
@@ -166,8 +182,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="float:left; overflow: hidden;width:10%;" id="centerJoin">
-                                                <span class="slds-form-element__label" style="margin-top: 20px;font-size: 35px;margin-left: 10px;">=</span> =</div>
+                                            {* <div style="float:left; overflow: hidden;width:10%;" id="centerJoin">
+                                                <span class="slds-form-element__label" style="margin-top: 20px;font-size: 35px;margin-left: 10px;">=</span> =</div> *}
                                             <div style="float:left; overflow: hidden;width:45%" id="sel2">
                                                 <div class="slds-form-element">
                                                     <div class="slds-form-element__control">

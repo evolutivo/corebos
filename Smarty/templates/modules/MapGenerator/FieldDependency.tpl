@@ -71,7 +71,7 @@
                                         </h2>
                                       {if $NameOFMap neq ''}
                                        <h2 style="width: 50%;float: left;">
-                                              <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                              <span style="text-transform: capitalize;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
                                               <b>{$NameOFMap}</b>
                                                </span>
                                        </h2>
@@ -144,7 +144,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px; position: absolute; right: 0px;">
-                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                              <button onclick="clearInput();" data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;" >
                               </button>
                           </div>

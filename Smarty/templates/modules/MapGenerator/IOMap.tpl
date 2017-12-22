@@ -49,12 +49,19 @@
                         <article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                    <div class="slds-media__body">
-                                        <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.TypeMapIOMap}</b>
-                                </span>
-                            </h2>
+                                    <div>
+                                        <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.TypeMapIOMap}</b>
+                                          </span>
+                                        </h2>
+                                      {if $NameOFMap neq ''}
+                                       <h2 style="width: 50%;float: left;">
+                                              <span style="text-transform: capitalize;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                              <b>{$NameOFMap}</b>
+                                               </span>
+                                       </h2>
+                                      {/if}
                                     </div>
                                 </header>
                                 <div class="slds-no-flex" data-aura-rendered-by="1224:0">
@@ -76,7 +83,7 @@
                                 <td class="dvtCellLabel" width="70%" style="vertical-align: top;">
                                     <!-- THE MODULE Zone -->
                                     <div id="selJoin" style="float:left; overflow: hidden;width:100%;height: 50px">
-                                        <div style="float:left; overflow: hidden;width:45%" id="sel1">
+                                        <div style="float:left; overflow: hidden;width:45%;margin-right: 45px;" id="sel1">
                                             <br>
                                             <!--  <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -91,7 +98,7 @@
                                                 <div class="slds-form-element__control">
                                                     <div class="" id="SecondDiv" style="float: left;width: 90%;">
                                                         <center>
-                                                            <label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label>
+                                                            <label style="margin-top: -14px;" class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label>
                                                         </center>
                                                         <select style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput" name="AllFieldsInput" data-select-load="false" onchange="split_popups(this);" data-module="MapGenerator" data-second-module-id="AllFieldsOutputselect" data-second-module-file="AllFields_File" data-add-button-popup="false" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="AllFieldsInput" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
                                                             {$allfields}
@@ -115,14 +122,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div>
+                                        {* <div style="float:left;overflow: hidden;w;/* width:10%; */margin: 0 39px 0 8px;" id="centerJoin"> </div> *}
                                         <div style="float:left; overflow: hidden;width:45%" id="sel2">
                                             <br>
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <div class="" id="SecondDiv" style="float: left;width: 90%;">
                                                         <center>
-                                                            <label style="margin-top: -17px;" class="slds-form-element__label" for="input-id-01">{$MOD.outputFields}</label>
+                                                            <label style="margin-top: -14px;" class="slds-form-element__label" for="input-id-01">{$MOD.outputFields}</label>
                                                         </center>
                                                         <select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect" name="AllFieldsOutput" data-add-button-popup="false" onchange="split_popups(this);" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="AllFieldsOutputselect" data-show-modul-id="AllFieldsOutputselect"  data-div-show="LoadShowPopup" class="slds-select">
                                                             {$allfields}
