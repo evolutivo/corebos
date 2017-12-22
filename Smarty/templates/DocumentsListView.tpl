@@ -132,6 +132,6 @@
 				{include file="DocumentsListViewEntries.tpl"}
 			</div>
 		</td>
-		</tr>
+	</tr>
 </table>
 <script type="text/javascript" src="modules/Documents/Documents.js"></script>

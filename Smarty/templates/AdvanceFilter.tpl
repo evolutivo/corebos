@@ -55,7 +55,7 @@ function addColumnConditionGlue(columnIndex) {ldelim}
 	var columnConditionGlueElement = document.getElementById('columnconditionglue_'+columnIndex);
 
 	if(columnConditionGlueElement) {ldelim}
-		columnConditionGlueElement.innerHTML = "<select name='fcon"+columnIndex+"' id='fcon"+columnIndex+"' class='detailedViewTextBox'>"+
+		columnConditionGlueElement.innerHTML = "<select name='fcon"+columnIndex+"' id='fcon"+columnIndex+"' class='slds-select'>"+
 			"<option value='and'>{'LBL_CRITERIA_AND'|@getTranslatedString:$MODULE}</option>"+
 			"<option value='or'>{'LBL_CRITERIA_OR'|@getTranslatedString:$MODULE}</option>"+
 			"</select>";
@@ -88,11 +88,11 @@ function addConditionRow(groupIndex) {ldelim}
 	node1.setAttribute('width', '25%');
 	newNode.appendChild(node1);
 	{if $SOURCE eq 'reports'}
-		node1.innerHTML = '<select name="fcol'+columnIndex+'" id="fcol'+columnIndex+'" onchange="updatefOptions(this, \'fop'+columnIndex+'\');addRequiredElements('+columnIndex+');updateRelFieldOptions(this, \'fval_'+columnIndex+'\');" class="detailedViewTextBox">'+
+		node1.innerHTML = '<select name="fcol'+columnIndex+'" id="fcol'+columnIndex+'" onchange="updatefOptions(this, \'fop'+columnIndex+'\');addRequiredElements('+columnIndex+');updateRelFieldOptions(this, \'fval_'+columnIndex+'\');" class="slds-select">'+
 							'<option value="">{'LBL_NONE'|@getTranslatedString:$MODULE}</option>'+COL_BLOCK+
 						'</select>';
 	{else}
-		node1.innerHTML = "<select name='fcol"+columnIndex+"' id='fcol"+columnIndex+"' onchange='updatefOptions(this, \"fop"+columnIndex+"\");addRequiredElements("+columnIndex+");' class='detailedViewTextBox'>"+
+		node1.innerHTML = "<select name='fcol"+columnIndex+"' id='fcol"+columnIndex+"' onchange='updatefOptions(this, \"fop"+columnIndex+"\");addRequiredElements("+columnIndex+");' class='slds-select'>"+
 							"<option value=''>{'LBL_NONE'|@getTranslatedString:$MODULE}</option>"+COL_BLOCK+
 						"</select>";
 	{/if}
@@ -100,7 +100,7 @@ function addConditionRow(groupIndex) {ldelim}
 	node2.setAttribute('class', 'dvtCellLabel');
 	node2.setAttribute('width', '25%');
 
-	node2.innerHTML = '<select name="fop'+columnIndex+'" id="fop'+columnIndex+'" class="repBox slds-select" style="width:150px;" onchange="addRequiredElements('+columnIndex+');">'+FOPTION_ADV+
+	node2.innerHTML = '<select name="fop'+columnIndex+'" id="fop'+columnIndex+'" class="repBox slds-select" style="width:200px;" onchange="addRequiredElements('+columnIndex+');">'+FOPTION_ADV+
 							'<option value="">{'LBL_NONE'|@getTranslatedString:$MODULE}</option>'+
 						'</select>';
 	newNode.appendChild(node2);
@@ -154,18 +154,18 @@ function addConditionRow(groupIndex) {ldelim}
 							'</table>'+
 						'</div>';
 	{else}
-		node3.innerHTML = '<input name="fval'+columnIndex+'" id="fval'+columnIndex+'" class="slds-input" type="text" value="">'+ '<img align="absmiddle" style="cursor: pointer;" onclick="document.getElementById(\'fval'+columnIndex+'\').value=\'\';return false;" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/>';
+		node3.innerHTML = '<input name="fval'+columnIndex+'" id="fval'+columnIndex+'" class="slds-input" type="text" value="" style="width:200px;">'+ '<img align="absmiddle" style="cursor: pointer;margin-left:5px;" onclick="document.getElementById(\'fval'+columnIndex+'\').value=\'\';return false;" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/>';
 	{/if}
 
 	node4 = document.createElement('td');
 	node4.setAttribute('class', 'dvtCellLabel');
 	node4.setAttribute('id', 'columnconditionglue_'+columnIndex);
-	node4.setAttribute('width', '60px');
+	node4.setAttribute('width', '100px');
 	newNode.appendChild(node4);
 
 	node5 = document.createElement('td');
 	node5.setAttribute('class', 'dvtCellLabel');
-	node5.setAttribute('width', '30px');
+	node5.setAttribute('width', '50px');
 	newNode.appendChild(node5);
 	node5.innerHTML = '<a onclick="deleteColumnRow('+groupIndex+','+columnIndex+');" href="javascript:;">'+
 					'<img src="themes/images/delete.gif" align="absmiddle" border="0"></a>';
@@ -181,7 +181,7 @@ function addGroupConditionGlue(groupIndex) {ldelim}
 
 	var groupConditionGlueElement = document.getElementById('groupconditionglue_'+groupIndex);
 	if(groupConditionGlueElement) {ldelim}
-		groupConditionGlueElement.innerHTML = "<select name='gpcon"+groupIndex+"' id='gpcon"+groupIndex+"' class='slds-select small'>"+
+		groupConditionGlueElement.innerHTML = "<select name='gpcon"+groupIndex+"' id='gpcon"+groupIndex+"' class='slds-select small' style='width:100px;text-align:center;'>"+
 			"<option value='and'>{'LBL_CRITERIA_AND'|@getTranslatedString:$MODULE}</option>"+
 			"<option value='or'>{'LBL_CRITERIA_OR'|@getTranslatedString:$MODULE}</option>"+
 		"</select>";
@@ -275,7 +275,7 @@ function add_grouping_criteria(grouping_criteria) {ldelim}
 {rdelim}
 </script>
 
-<div style="overflow:auto;margin-top: 30px;" id='adv_filter_div' name='adv_filter_div'>
+<div style="overflow:auto;" id='adv_filter_div' name='adv_filter_div'>
 		<!--Lighting Desing -->
 	<div class="flexipageComponent" style="background-color: #fff; ">
 		<article class="slds-card container MEDIUM forceBaseCard
