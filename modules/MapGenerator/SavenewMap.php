@@ -13,6 +13,7 @@ require_once ('data/Tracker.php');
 $dataa=$_POST["data"];
 $dataid=$_POST["dataid"];
 $savehistory=$_POST["savehistory"];
+$saveasfunction=$_POST["anotherfunction"];
 
 
     $smarty = new vtigerCRM_Smarty();
@@ -21,5 +22,6 @@ $savehistory=$_POST["savehistory"];
 	$smarty->assign("Datas", $dataa);
     $smarty->assign("dataid", $dataid);
     $smarty->assign("savehistory", $savehistory);   
+    $smarty->assign("anotherfunction", $saveasfunction);   
     $output = $smarty->fetch('modules/MapGenerator/Modal.tpl');
     echo $output;

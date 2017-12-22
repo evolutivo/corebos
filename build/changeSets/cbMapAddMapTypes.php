@@ -28,6 +28,7 @@ class cbMapAddMapTypes extends cbupdaterWorker {
 				'Module Set Mapping',
 				'ListColumns',
 				'DuplicateRelations',
+				'DuplicateRecords',
 				'MasterDetailLayout',
 				'IOMap',
 				'FieldDependency',
@@ -40,6 +41,8 @@ class cbMapAddMapTypes extends cbupdaterWorker {
                                 'Divide EditCreate',
 				'FieldInfo',
 				'GlobalSearchAutocomplete',
+				'FieldDependencyPortal',
+                                'MENUSTRUCTURE'
 			);
 			$moduleInstance = Vtiger_Module::getInstance('cbMap');
 			$field = Vtiger_Field::getInstance('maptype',$moduleInstance);

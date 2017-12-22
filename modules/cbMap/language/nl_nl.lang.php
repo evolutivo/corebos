@@ -40,5 +40,7 @@ $mod_strings = array(
 	'Description' => 'Beschrijving',
 	'GlobalVariable' => 'Globale Variabele',
 	'Validations' => 'Validations',
+	'FieldDependencyPortal' => 'Field Dependency Portal',
+	'DuplicateRecords' => 'Duplicate Records',
 );
 ?>

@@ -13,7 +13,7 @@ var mv_arr = {
 'Choseobject':'You need to select a value to continue ',
 'ChoseMap':'You need to select which map you want ',
 'ReturnFromPost':'Something was wrong ',
-'NameQuery':'The name for Map must be minimum 5 chars ',
+'NameQuery':'The name for Map must be minimum 6 chars ',
 'attributeselect':'This drop down not have relation with another else',
 'divshowmodal':'Missing attribute data-div-show="Name of div to show" ',
 'Buttonsendajax':'Missing Module and filename  ',
@@ -33,4 +33,17 @@ var mv_arr = {
 'morefivechars':'You need a more than 5 characters name',
 'ReturnValueCheck':'Cannot Generate a map With empty return Value',
 'RemovedivHistory':'Something was wrong you cannot remove this history',
+'NotAllowedDopcicate':'This Exist you cannot dupliacte',
+'LoadHIstoryError':'You list is empty or something was wrong',
+'LoadHIstoryCorrect':'Click to the eyes to show the history',
+'Fieldsaremepty':'Something is empty please fill all fields',
+'missingtheidgetValue':'Missing the id to get the value',
+'missingIdtoSetValue':'Missing the id to put the values',
+'module':'Module',
+'field':'Field',
+'chooseanotherfieldsforthisrow':'Choose one field or some fields at the same time for a row',
+'MissingFields':'Missing fields for row ',
+'AddRowsinMemoery':'You add a row, add more or click Add block to continue with another block',
+
+
 }

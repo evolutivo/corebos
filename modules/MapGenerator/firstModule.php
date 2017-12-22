@@ -15,6 +15,7 @@
 *************************************************************************************************/
 //echo "fillim fare ";
 include 'XmlContent.php';
+global $adb;
 
 $FirstmoduleXML = "";//"edmondi" . $_POST['MapID'];
 if (isset($_REQUEST['MapID'])) {
@@ -41,6 +42,7 @@ if (isset($_REQUEST['secModule']) && isset($_REQUEST['firstModule'])) {
         and name<>'PBXManager' and name<>'Modcomments' and name<>'Calendar' and presence=0";
     //echo "brenda elsit nese nuk plotesohet if ";
 }
+$a='<option value="" >(Select a module)</option>';
 $result = $adb->query($query);
 $num_rows = $adb->num_rows($result);
 //echo "para ciklit fore  ";

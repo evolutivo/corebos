@@ -9,4 +9,9 @@ abstract  class TypeOFErrors
 	const INFOLG="----Edmondi Kacaj----- INFO !!!";
 	const WARNINGLG="---Edmondi Kacaj---- WARNING !!!";
 	const SuccesLG="----Edmondi Kacaj----- SUCCESS !!!";
+	/**
+	 * @param      <String>  constant for tabele of history
+	 */
+	const Tabele_name="mapgeneration_queryhistory";	
+
 }

@@ -805,7 +805,7 @@ function __construct($module) {
         $mapfocus=  CRMEntity::getInstance("cbMap");
         $mapfocus->retrieve_entity_info($linktomap,"cbMap");
         
-        if($maptype=='CREATEVIEWPORTAL' || $maptype=='DETAILVIEWPORTAL'){
+        if($maptype=='CREATEVIEWPORTAL' || $maptype=='DETAILVIEWBLOCKPORTAL'){
             $mapInfo=$mapfocus->getMapPortalDvBlocks();
         }  
         
@@ -1040,7 +1040,7 @@ function __construct($module) {
         . ' INNER JOIN vtiger_cbmap  ON vtiger_businessrules.linktomap=vtiger_cbmap.cbmapid'
         . ' INNER JOIN vtiger_crmentity c2 ON c2.crmid=vtiger_cbmap.cbmapid'
         . ' where ce.deleted=0 and c2.deleted=0 and module_rules =? and maptype=?';
-        $result=$adb->pquery($qry,array($mod,'DETAILVIEWPORTAL'));
+        $result=$adb->pquery($qry,array($mod,'DETAILVIEWBLOCKPORTAL'));
         $nr=$adb->num_rows($result);
         for($i=0;$i<$nr;$i++){
             $brid=$adb->query_result($result,$i,'businessrulesid');

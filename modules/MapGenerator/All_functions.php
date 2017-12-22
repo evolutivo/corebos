@@ -2,7 +2,7 @@
 
 
 function GetModulRel($m)
-   {
+{
     global $log, $mod_strings,$adb;
     $j = 0;
     $result = $adb->pquery("SELECT relmodule,columnname,fieldlabel 
@@ -685,6 +685,10 @@ function GetAllRelationMOdul($m){
 
 
 
+
+
+
+
 // function get all relation module only relation one to multi
 function GetModulRelOneTomulti($m,$valuefromLoad="")
    {
@@ -738,8 +742,7 @@ function GetModulRelOneTomulti($m,$valuefromLoad="")
     }
     $query2 = "SELECT uitype, columnname, fieldlabel from  vtiger_field 
              join  vtiger_tab on  vtiger_tab.tabid= vtiger_field.tabid 
-             where (uitype=76 or uitype=50 or uitype=51 or uitype=57 or uitype=58 or uitype=59 or uitype=73 or uitype=75 or  uitype=78
-             or  uitype=80 or uitype=81 or uitype=68) and name='$m' and  vtiger_tab.presence=0";
+             where (uitype=15) and name='$m' and  vtiger_tab.presence=0";
 
     $result2 = $adb->query($query2);
     $num_rows2 = $adb->num_rows($result2);
@@ -1014,6 +1017,10 @@ function GetModulRelOneTomulti($m,$valuefromLoad="")
 
 
 
+
+
+
+ 
 // function get all relation module 
 function GetModulToAll($m,$valuefromLoad="")
    {
@@ -1452,6 +1459,7 @@ function GetModuleMultiToOne($m)
    {
     global $log, $mod_strings,$adb;
     $j = 0;
+    $a='<option value="" >(Select a module)</option>';
     $result = $adb->pquery("SELECT relmodule,columnname,fieldlabel 
             from vtiger_fieldmodulerel join vtiger_field 
             on vtiger_field.fieldid=vtiger_fieldmodulerel.fieldid 
@@ -1826,6 +1834,318 @@ function Check_table_if_exist($tableName,$primaryIds="")
         {
         return 0;
         }
+}
+
+
+
+
+/**
+ * function to call a php file and return the values
+ * @param [type] $file filename (include the path )
+ */
+function GetTheresultByFile($file){
+    ob_start();
+    require($file);
+    return ob_get_clean();
+}
+
+/**
+ * this function generate the template to show the error if something was wrong 
+ *
+ * @param      string            $TitleError  The title error
+ * @param      string            $BoddyError  The boddy error
+ *
+ * @return     vtigerCRM_Smarty  ( description_of_the_return_value )
+ */
+function showError($TitleError='',$BoddyError='')
+{
+    global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
+    $theme_path = "themes/" . $theme . "/";
+    $image_path = $theme_path . "images/";
+    require_once ('include/utils/utils.php');
+    require_once ('Smarty_setup.php');
+    require_once ('include/database/PearDatabase.php');
+    // require_once('database/DatabaseConnection.php');
+    require_once ('include/CustomFieldUtil.php');
+    require_once ('data/Tracker.php');
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("TitleError", $TitleError);
+    $smarty->assign("BodyError", $BoddyError);
+    $output = $smarty->fetch('modules/MapGenerator/Error.tpl');
+    return $output; 
+}
+
+
+
+/**
+ * Gets the module id.or anothe record from vtiger_entityname
+ *
+ * @param      <type>     $module      The module
+ * @param      string     $moduleName  The module name
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     string     The module id.
+ */
+function getModuleID($module,$moduleName="entityidfield")
+{
+    global $adb,$root_directory, $log;
+    try {
+
+        $result = $adb->pquery("Select * from  vtiger_entityname where modulename = ?",array($module));
+        $num_rows = $adb->num_rows($result);
+        if ($num_rows>0) {
+            $Resulti = $adb->query_result($result,0,$moduleName);
+
+            if (!empty($Resulti)) {
+                return $Resulti;
+            } else {
+                throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+            }
+        } else {
+            throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+        }
+    } catch (Exception $ex) {
+         $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+         return "";
+    }
+}
+
+/**
+ * function to search by module id 
+ *
+ * @param      <type>     $Idmodule    The idmodule
+ * @param      string     $moduleName  The module name what do you want to take 
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     string     ( description_of_the_return_value )
+ */
+function SearchbyIDModule($Idmodule,$moduleName="modulename")
+{
+    global $adb,$root_directory, $log;
+    require_once('Staticc.php');
+    try {
+        
+        $sql="SELECT * from vtiger_entityname WHERE tabid='$Idmodule'";
+        $result = $adb->query($sql);
+        $num_rows=$adb->num_rows($result);
+        if ($num_rows>0) {
+            $Resulti = $adb->query_result($result,0,$moduleName);
+
+            if (!empty($Resulti)) {
+                return $Resulti;
+            } else {
+                throw new Exception(TypeOFErrors::ErrorLG." Something was wrong RESULT IS EMPTY", 1);
+            }
+        } else {
+            throw new Exception(TypeOFErrors::ErrorLG."Not exist Map with this ID=".$Queryid,1);
+        }
+    } catch (Exception $ex) {
+         $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+         return "";
+    }
+}
+
+
+/**
+ * Gets the allrelation.
+ *
+ * @param      string  $module  The module
+ *
+ * @return     string  The allrelation.
+ */
+function GetAllRelationDuplicaterecords($module="")
+{
+    global $adb, $root_directory, $log;
+    if (!empty($module))
+    {
+        $log->debug("Info!! Value is not ampty");
+        $idmodul=getModuleID($module,"tabid");
+        $sql="SELECT * from vtiger_relatedlists where tabid='$idmodul'";
+        $result = $adb->query($sql);
+        $num_rows=$adb->num_rows($result);
+        $historymap="";
+        $a='<option value="" >(Select a module)</option>';
+        if($num_rows!=0)
+        {
+            for($i=1;$i<=$num_rows;$i++)
+            {
+                $modulename=(!empty(SearchbyIDModule($adb->query_result($result,$i-1,'related_tabid')))?SearchbyIDModule($adb->query_result($result,$i-1,'related_tabid')):$adb->query_result($result,$i-1,'label'));
+                $Modules = $adb->query_result($result,$i-1,'label');
+                $relatedtypes = $adb->query_result($result,$i-1,'relationtype');
+               
+                $a.='<option value="'.$modulename.'#'.$relatedtypes.'">'.str_replace("'", "", getTranslatedString($modulename)).'</option>';                
+            }
+           return $a;
+        }else{$log->debug("Info!! The database is empty or something was wrong");}
+    }else {
+        return "";
+    }
+     
+}
+
+/**
+ * Gets the exception trace as string.
+ *
+ * @param      <type>  $exception  The exception
+ *
+ * @return     string  The exception trace as string.
+ */
+function getExceptionTraceAsString($exception) {
+    $rtn = "";
+    $count = 0;
+    foreach ($exception->getTrace() as $frame) {
+        $args = "";
+        if (isset($frame['args'])) {
+            $args = array();
+            foreach ($frame['args'] as $arg) {
+                if (is_string($arg)) {
+                    $args[] = "'" . $arg . "'";
+                } elseif (is_array($arg)) {
+                    $args[] = "Array";
+                } elseif (is_null($arg)) {
+                    $args[] = 'NULL';
+                } elseif (is_bool($arg)) {
+                    $args[] = ($arg) ? "true" : "false";
+                } elseif (is_object($arg)) {
+                    $args[] = get_class($arg);
+                } elseif (is_resource($arg)) {
+                    $args[] = get_resource_type($arg);
+                } else {
+                    $args[] = $arg;
+                }   
+            }   
+            $args = join(", ", $args);
+        }
+        $rtn .= sprintf( "#%s %s(%s): %s(%s)\n",
+    $count,
+    isset($frame['file']) ? $frame['file'] : 'unknown file',
+    isset($frame['line']) ? $frame['line'] : 'unknown line',
+    (isset($frame['class']))  ? $frame['class'].$frame['type'].$frame['function'] : $frame['function'],
+    $args );
+        $count++;
+    }
+    return $rtn;
+}
+
+/**
+     * function to show the error only 
+     *
+     * @param      <type>  $exepsion  The exepsion
+     */
+function LogFile($exepsion)
+{
+    global $root_directory;
+    $updateMovedInToAssigned = fopen($root_directory."logs/MapGeneratorLogs.txt", "a");
+    $str = "\n\n~~~~~~~~~~~~~~~~~~~~~ \n[".date("Y/m/d h:i:s " , mktime())."] \n~~~~~~~~~~~~~~~~~~~~~\n";
+     $str .= "\n\n~~~~~~~~~~~Message~~~~~~~~~~ ".$exepsion->getMessage()."\n";
+    fwrite($updateMovedInToAssigned, "\n".$str."\nError Handler : \n\t\t".getExceptionTraceAsString($exepsion));
+    fclose($updateMovedInToAssigned);
+}
+
+
+/**
+ * for all maps type
+ *
+ * @return     string  ( description_of_the_return_value )
+ */
+function SelectallMaps()
+{
+    global $mod_strings;
+    require_once("AllMapsType.php");
+    $allmaps='<option value="">'.$mod_strings['TypeMapNone'].'</option>';
+    foreach ($AllMaps as $key => $value) {
+       $allmaps.=' <option value="'.$key.'">'.$mod_strings[$value].'</option>';
+    }
+    return $allmaps;
+}
+
+
+
+function GetFromVtigerField($idmodule,$uitype,$columnname="fieldid")
+{
+    global $adb;
+    $sql="SELECT * FROM  `vtiger_field` WHERE  `tabid` =".$idmodule." AND  `uitype`=".$uitype."";
+    $result = $adb->query($sql);
+    $num_rows=$adb->num_rows($result);
+    $retrive = array();
+    if ($num_rows>0) {
+        for ($i=1; $i<=$num_rows; $i++) { 
+            array_push($retrive,$adb->query_result($result,$i-1,$columnname));
+        }
+        return $retrive;
+    }else{
+        // throw new Exception("Data retrive from query are empty or something was wrong ", 1);
+        return "";
+    }
+    
+}
+
+
+/**
+ * Gets the from vtiger fieldmodulerel.
+ *
+ * @param      string     $fieldid     The fieldid
+ * @param      string     $columnname  The columnname
+ *
+ * @throws     Exception  (description)
+ *
+ * @return     array      The from vtiger fieldmodulerel.
+ */
+function GetFromVtigerFieldmodulerel($fieldid,$columnname="relmodule")
+{
+    global $adb;
+    $sql="SELECT * FROM  `vtiger_fieldmodulerel` WHERE  `fieldid` ='".$fieldid."'";
+    $result = $adb->query($sql);
+    $num_rows=$adb->num_rows($result);
+    $modules = array();
+    if ($num_rows>0) {
+        for ($i=1; $i<=$num_rows; $i++) { 
+            array_push($modules,$adb->query_result($result,$i-1,$columnname));
+        }
+        return $modules;
+    }else{
+        throw new Exception("Data retrive from query are empty or something was wrong ", 1);       
+    }
+    
+}
+
+
+/**
+ * function for mapping 
+ *
+ * @param      <type>  $module  The module
+ */
+function MappingRelationFields($module)
+{   require_once("Staticc.php");
+    
+    global $adb, $root_directory, $log;    
+    $allmodules = array();
+   try{
+      if (empty($module)) {
+            throw new Exception("Missing the Module name ", 1);
+            
+       }
+      array_push($allmodules,$module);
+      $idmodule=getModuleID($module,"tabid"); 
+      $arrafieldid=GetFromVtigerField($idmodule,"10");
+      if (!empty($arrafieldid)) {
+           foreach ($arrafieldid as $value) {
+              foreach (GetFromVtigerFieldmodulerel($value) as $valuee) {                   
+                   array_push($allmodules,$valuee);
+               } 
+          }
+      }
+      $unioqueModul = array_unique($allmodules);      
+      return $unioqueModul;
+        
+    }catch(Exception $ex)
+    {
+       $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception (for more information check the MapGeneratorLogs.txt) ".$ex->getMessage());
+       LogFile($ex);
+       return "";
+    }
 }
 
 

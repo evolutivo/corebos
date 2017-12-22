@@ -21,14 +21,28 @@
     </script>
    
 {/if}
-<div class="subTitleDiv" id="subTitleDivJoin" style="margin-top: 1%">
-    <left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
-    <right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
-</div>
-<div id="contentJoinButtons">
-    <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
-         style="float:left; overflow: hidden;width:20%" id="buttons">
 
+
+  <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+        <tbody>
+            <tr class="blockStyleCss" id="DivObjectID">
+                <td class="detailViewContainer" valign="top">
+                    <div class="forceRelatedListSingleContainer">
+                        <article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                    <div class="slds-media__body">
+                                        <h2>
+                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
+                                    <b>{$MOD.TypeMapMapping}</b>
+                                </span>
+                            </h2>
+                                    </div>
+                                </header>
+                                <div class="slds-no-flex" data-aura-rendered-by="1224:0">
+                                    <div class="actionsContainer mapButton">
+                                        <div class="slds-section-title--divider">
+                                           
         <ul id="LDSstyle">
         
         <li><button class="slds-button slds-button--brand"  data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" style="width:98%;margin:5px;">{$MOD.CreateMap}</button></li>
@@ -39,26 +53,6 @@
             <li><button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--brand" disabled style="width:98%;margin:5px;">{$MOD.SaveAsMap}</button></li>
         {/if}
         
-         {*
-            <li><a href="javascript:void(0);" id="addJoin" name="radio" onclick="showform(this);"
-                   class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.AddJoin}</a></li>
-        <!--    <li><a href="javascript:void(0);" id="deleteLast" name="radio" onclick="openalertsJoin();"
-                   class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.DeleteLastJoin}</a></li>-->
-           <!--  <li><a href="javascript:void(0);" id="create" name="radio" onclick="creaVista();"
-                   class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateMaterializedView}</a></li> -->
-            <!-- <li><a href="javascript:void(0);" id="createscript" name="radio" onclick="generateScript();"
-                   class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateScript}</a></li> -->
-            <li><a href="javascript:void(0);" id="createmap" name="radio" onclick="SaveMap();"
-                   class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.CreateMap}</a></li>
-            <li><a href="javascript:void(0);" id="saveasmap" name="radio"
-                   class="slds-navigation-list--vertical__action slds-text-link--reset"
-                   aria-describedby="entity-header">{$MOD.SaveAsMap}</a></li>
-         *}
 
 
         </ul>
@@ -68,21 +62,18 @@
    <center><b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
    </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
    <br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();"></center></div>
-
-  <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
-    <input type="hidden" name="querysequence" id="querysequence" value="">
-    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-    <div data-div-load-automatic="true" id="ModalShow">
-      
-    </div>
-
-    {if $Modali neq ''}
-      <div>
-        {$Modali}
-      </div>
-    {/if}
-    <div id="selJoin" style="float:left; overflow: hidden;width:80%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="slds-truncate">
+                        <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+                            <tr class="slds-line-height--reset">
+                                <td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+                                        <!-- THE MODULE Zone -->
+                                         <div id="selJoin" style="float:left; overflow: hidden;width:80%">
         <div style="float:left; overflow: hidden;width:45%" id="sel1">
             <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -148,14 +139,82 @@
           </div>
             
        <br><br>
+                                </td>
+                                <td class="dvtCellInfo" align="left" width="40%">
+                                    <div class="">
+                                        <div class="flexipageComponent">
+                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                                <div class="slds-card__header slds-grid">
+                                                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                        <div class="slds-media__body">
+                                                            <h2 class="header-title-container"> 
+                                                              <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                <b>PopUp Zone</b>
+                                                              </span> 
+                                                            </h2>
+                                                        </div>
+                                                    </header>
+                                                </div>
+                                                <div id="contenitoreJoin">
+                                                    <div id="LoadShowPopup" style="height: 125px;display: grid;"></div>
+                                                </div>
+                                                {*End div contenitorejoin*}
+                                        </div>
+                                        </article>
+                                        <br/>
+                                        <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                            <div class="slds-card__header slds-grid">
+                                                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                                                    <div class="slds-media__body">
+                                                        <h2 class="header-title-container"> 
+                                                              <span class="slds-text-heading--small slds-truncate actionLabel">
+                                                                <b>History Zone</b>
+                                                              </span> 
+                                                            </h2>
+                                                    </div>
+                                                </header>
+                                            </div>
+                                            <div class="slds-card__body slds-card__body--inner">
+                                                <div id="contenitoreJoin">
+                                                    <div id="LoadHistoryPopup">
+                                                    </div>
+                                                </div>{*End div contenitorejoin*}
+                                            </div>
+                                        </article>
+                                    </div>
+                        </table>
+        </tbody>
+    </table>
+    <div id="waitingIddiv"></div>
+    <div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
+    </div>
+    <div id="generatedquery">
+        <div id="results" style="margin-top: 1%;"></div>
+    </div>
+    <div id="null"></div>
+    <div>
+        <div id="queryfrommap"></div>
+    </div>
+
+
+  <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+    <input type="hidden" name="querysequence" id="querysequence" value="">
+    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+    <div data-div-load-automatic="true" id="ModalShow">
+      
+    </div>
+
+    {if $Modali neq ''}
+      <div>
+        {$Modali}
+      </div>
+    {/if}
     <div id="contenitoreJoin">
 
         <div id="sectionField">
 
             <div>
-                <div class="testoDiv">
-                    <center><b>{$MOD.SelectField}</b></center>
-                </div>
                 <div class="slds-form-element">
                     <div class="slds-form-element__control">
                         <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">                  
@@ -179,20 +238,7 @@
 
     </div>
 </div>
-    <div id="contenitoreJoin" >        
-      <div id="LoadShowPopup" style="margin-top: 10px;display: block; width: 100%;">                  
-
-                        </div>
-    </div>{*End div contenitorejoin*}
-</div>
-
-<div id="generatedquery">
-    <div id="results" style="margin-top: 1%;"></div>
-</div>
-<div id="null"></div>
-<div>
-  <div id="queryfrommap"></div>
-  </div>
+   
 {literal}
     <script>
        

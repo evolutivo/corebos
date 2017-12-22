@@ -88,6 +88,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Calendar_Show_Group_Events',
 				'Calendar_Push_End_On_Start_Change',
 				'Calendar_PopupReminder_DaysPast',
+				'Calendar_Show_Only_My_Events',
 
 				'CronTasks_cronWatcher_mailto',
 				'CronTasks_cronWatcher_TimeThreshold',
@@ -140,6 +141,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Workflow_GeoDistance_Country_Default',
 				'Workflow_GeoDistance_ServerIP',
 				'Workflow_GeoDistance_Email',
+				'Workflow_GeoDistance_Nominatim_Server',
 				'ModComments_DefaultCriteria',
 				'ModComments_DefaultBlockStatus',
 				'EMail_OpenTrackingEnabled',

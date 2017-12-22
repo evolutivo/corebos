@@ -67,4 +67,144 @@ if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "SQL") {
     $smarty->assign("NameView", $NameView);
     $output = $smarty->fetch('modules/MapGenerator/createJoinCondition.tpl');
     echo $output;
-} 
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "Module_Set") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/Module_Set.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "IOMap") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/IOMap.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "FieldDependency") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/FieldDependency.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "FieldDependencyPortal") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/FieldDependencyPortal.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "GlobalSearchAutocomplete") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/GlobalSearchAutocomplete.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "ConditionExpression") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/ConditionExpression.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "CREATEVIEWPORTAL") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/CREATEVIEWPORTAL.tpl');
+    echo $output;
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "DETAILVIEWBLOCKPORTAL") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/DETAILVIEWBLOCKPORTAL.tpl');
+    echo $output;
+    
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "MENUSTRUCTURE") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/MENUSTRUCTURE.tpl');
+    echo $output;
+    
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "RecordAccessControl") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/RecordAccessControl.tpl');
+    echo $output;
+    
+}else if (isset($_POST['ObjectType']) && $_POST['ObjectType'] == "DuplicateRecords") {
+    $queryid=md5(date("Y-m-d H:i:s").uniqid(rand(), true));
+    //echo "<h2>".$MapId."</h2>";
+    $smarty = new vtigerCRM_Smarty();
+    $smarty->assign("MOD", $mod_strings);
+    $smarty->assign("APP", $app_strings);
+    $smarty->assign("MapID", $MapId);
+    $smarty->assign("queryid", $queryid);
+    $smarty->assign("NameView", $NameView);
+    $smarty->assign("MapName", $mapName);
+    $output = $smarty->fetch('modules/MapGenerator/DuplicateRecords.tpl');
+    echo $output;
+    
+}else{
+    require_once('All_functions.php');
+
+    echo showError("An error has occurred","Missing the Map type ".$_POST['ObjectType']);
+}

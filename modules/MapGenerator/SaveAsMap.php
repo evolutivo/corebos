@@ -21,7 +21,7 @@ include_once("modules/cbMap/cbMap.php");
 require_once('data/CRMEntity.php');
 require_once('include/utils/utils.php');
 require_once('All_functions.php');
-
+require_once('Staticc.php');
 global $root_directory, $log;
 
 $FirstModule=$_POST['FirstModul'];
@@ -59,7 +59,7 @@ if (!empty($allvalues)) {
             $focust->column_fields['mvqueryid'] = $idquery;
             $log->debug(" we inicialize value for insert in database ");
             if (!$focust->saveentity("cbMap")) {
-                     if (Check_table_if_exist("mapgeneration_queryhistory")>0)
+                     if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0)
                      {
                         echo save_history($alldata,$idquery,addsqlTag($QueryGenerate,explode(':',$alldata->returnvaluesval)[1])).",".$focust->id;
                      }else
@@ -88,7 +88,7 @@ if (!empty($allvalues)) {
             $log->debug(" we inicialize value for insert in database ");
             $focust->mode = "edit";
             $focust->save("cbMap");
-               if (Check_table_if_exist("mapgeneration_queryhistory")>0) {
+               if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
                     echo save_history($alldata,$idquery,addsqlTag($QueryGenerate,explode(':',$alldata->returnvaluesval)[1])).",".$focust->id;
                  } 
                  else
@@ -118,7 +118,7 @@ if (!empty($allvalues)) {
 function save_history($datas,$queryid,$xmldata){
         global $adb;
         $idquery2=$queryid;
-        $q=$adb->query("select sequence from mapgeneration_queryhistory where id='$idquery2' order by sequence DESC");
+        $q=$adb->query("select sequence from ".TypeOFErrors::Tabele_name." where id='$idquery2' order by sequence DESC");
              //$nr=$adb->num_rows($q);
              // echo "q=".$q;
              
@@ -127,14 +127,14 @@ function save_history($datas,$queryid,$xmldata){
         if(!empty($seq))
         {
             $seq=$seq+1;
-             $adb->query("update mapgeneration_queryhistory set active=0 where id='$idquery2'");                            
+             $adb->query("update ".TypeOFErrors::Tabele_name." set active=0 where id='$idquery2'");                            
               //$seqmap=count($data);
-             $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas->FirstModuleJSONvalue,$datas->FirstModuleJSONtext,$datas->SecondModuleJSONvalue,$datas->SecondModuleJSONtext,$xmldata,$seq,1,$datas->FirstModuleJSONfield,$datas->SecondModuleJSONfield,$datas->Labels));
+             $adb->pquery("insert into ".TypeOFErrors::Tabele_name." values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas->FirstModuleJSONvalue,$datas->FirstModuleJSONtext,$datas->SecondModuleJSONvalue,$datas->SecondModuleJSONtext,$xmldata,$seq,1,$datas->FirstModuleJSONfield,$datas->SecondModuleJSONfield,$datas->Labels));
               //return $idquery;
         }else 
         {
 
-            $adb->pquery("insert into mapgeneration_queryhistory values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas->FirstModuleJSONvalue,$datas->FirstModuleJSONtext,$datas->SecondModuleJSONvalue,$datas->SecondModuleJSONtext,$xmldata,1,1,$datas->FirstModuleJSONfield,$datas->SecondModuleJSONfield,$datas->Labels));
+            $adb->pquery("insert into ".TypeOFErrors::Tabele_name." values (?,?,?,?,?,?,?,?,?,?,?)",array($idquery2,$datas->FirstModuleJSONvalue,$datas->FirstModuleJSONtext,$datas->SecondModuleJSONvalue,$datas->SecondModuleJSONtext,$xmldata,1,1,$datas->FirstModuleJSONfield,$datas->SecondModuleJSONfield,$datas->Labels));
         }
         echo $idquery2;
 }

@@ -1856,7 +1856,7 @@ function constructArray($var)
  */
 function constructSingleStringValueArray($var)
 {
-	$size = sizeof($var);
+	$size = count($var);
 	$i=1;
 	if (is_array($var)) {
 		$code = 'array(';
@@ -1879,7 +1879,7 @@ function constructSingleStringValueArray($var)
  */
 function constructSingleStringKeyAndValueArray($var)
 {
-	$size = sizeof($var);
+	$size = count($var);
 	$i=1;
 	if (is_array($var)) {
 		$code = 'array(';
@@ -1902,7 +1902,7 @@ function constructSingleStringKeyAndValueArray($var)
  */
 function constructSingleStringKeyValueArray($var) {
 	global $adb;
-	$size = sizeof($var);
+	$size = count($var);
 	$i=1;
 	if (is_array($var)) {
 		$code = 'array(';
@@ -2112,8 +2112,7 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 		// Lookup for the variable if not set through function argument
 		if(!$var_name_arr) $var_name_arr=$$var_name;
 		$user_arr=Array();
-		if(sizeof($var_name_arr['ROLE']) > 0)
-		{
+		if (count($var_name_arr['ROLE']) > 0) {
 			foreach($var_name_arr['ROLE'] as $roleid=>$roleusers)
 			{
 				foreach($roleusers as $user_id)
@@ -2127,8 +2126,7 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 				}
 			}
 		}
-		if(sizeof($var_name_arr['GROUP']) > 0)
-		{
+		if (count($var_name_arr['GROUP']) > 0) {
 			foreach($var_name_arr['GROUP'] as $grpid=>$grpusers)
 			{
 				foreach($grpusers as $user_id)
@@ -2159,12 +2157,10 @@ function populateSharingPrivileges($enttype,$userid,$module,$pertype, $var_name_
 		// Lookup for the variable if not set through function argument
 		if(!$var_name_arr) $var_name_arr=$$var_name;
 		$grp_arr=Array();
-		if(sizeof($var_name_arr['GROUP']) > 0)
-		{
+		if (count($var_name_arr['GROUP']) > 0) {
 			foreach($var_name_arr['GROUP'] as $grpid=>$grpusers)
 			{
-				if(! in_array($grpid,$grp_arr))
-				{
+				if (!in_array($grpid, $grp_arr)) {
 					$query="insert into ".$table_name." values(?,?,?)";
 					$adb->pquery($query, array($userid, $tabid, $grpid));
 					$grp_arr[]=$grpid;
@@ -2210,8 +2206,7 @@ function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$p
 		// Lookup for the variable if not set through function argument
 		if(!$var_name_arr) $var_name_arr=$$var_name;
 		$user_arr=Array();
-		if(sizeof($var_name_arr['ROLE']) > 0)
-		{
+		if (count($var_name_arr['ROLE']) > 0) {
 			foreach($var_name_arr['ROLE'] as $roleid=>$roleusers)
 			{
 				foreach($roleusers as $user_id)
@@ -2225,8 +2220,7 @@ function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$p
 				}
 			}
 		}
-		if(sizeof($var_name_arr['GROUP']) > 0)
-		{
+		if (count($var_name_arr['GROUP']) > 0) {
 			foreach($var_name_arr['GROUP'] as $grpid=>$grpusers)
 			{
 				foreach($grpusers as $user_id)
@@ -2256,8 +2250,7 @@ function populateRelatedSharingPrivileges($enttype,$userid,$module,$relmodule,$p
 		// Lookup for the variable if not set through function argument
 		if(!$var_name_arr) $var_name_arr=$$var_name;
 		$grp_arr=Array();
-		if(sizeof($var_name_arr['GROUP']) > 0)
-		{
+		if (count($var_name_arr['GROUP']) > 0) {
 			foreach($var_name_arr['GROUP'] as $grpid=>$grpusers)
 			{
 				if(! in_array($grpid,$grp_arr))

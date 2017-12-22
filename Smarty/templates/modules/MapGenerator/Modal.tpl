@@ -2,9 +2,9 @@
             <div class="slds-modal" aria-hidden="false" role="dialog" id="modal">
                 <div class="slds-modal__container">
                     <div class="slds-modal__header">
-                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="closeModal()">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true">
                             <svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-                                <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                                <use xlink:href="include/LD//assets/icons/action-sprite/svg/symbols.svg#close"></use>
                             </svg>
                             <span class="slds-assistive-text">{$MOD.close}</span>
                         </button>
@@ -24,12 +24,13 @@
                         </div>
                     </div>
                     <div class="slds-modal__footer">
-                        <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
+                        <label id="ErrorLabelModal" style="margin-right: 100px;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
+                         <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="{$anotherfunction}" disabled class="slds-button slds-button--neutral slds-button--brand">
+                            {$MOD.save}
+                        </button>                        
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" >{$MOD.cancel}
                         </button>
-                        <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" disabled class="slds-button slds-button--neutral slds-button--brand">
-                            {$MOD.save}
-                        </button>  <!-- data-send-savehistory="{$savehistory}" -->
+                         <!-- data-send-savehistory="{$savehistory}" -->
                     </div>
                 </div>
             </div>

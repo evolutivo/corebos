@@ -13,6 +13,10 @@ data-second-select-file="AllRelation"  ---if you want to get the field for anoth
 
 data-second-module-file="nameof file" --if you want to get the data from another php file
 
+//this is if you want to reset all choise you make when choose the first and second module 
+data-reset-all="true" 
+data-reset-id-popup="LoadShowPopup"
+
 
 --- click a or button or another 
 this is to show and hide a 2 elements 
@@ -40,6 +44,29 @@ data-send-savehistory="true"    -- key you want to use the history
 
 
 
+
+------------- for local history 
+
+data-save-history="true" -- key for execute the save history
+
+data-save-history-show-id="LoadHistoryPopup" -- the id of div  for history 
+
+data-save-history-show-id-relation="LoadShowPopup"  --- the id of relation when you click to show all popup 
+
+ data-send-savehistory-functionname="SavehistoryCreateViewportal"  --- function name if you want to run another function not stanadrt function if you want to use standart remove this attribute (this function pass 2 params  {LoadHistoryPopup,LoadShowPopup})
+
+
+
+
+
+
+
+
+
+
+
+
+
 // data-history-autorun="true" 
 
 // data-history-autorun-id="LoadHistoryPopup" 
@@ -52,7 +79,13 @@ data-send-savehistory="true"    -- key you want to use the history
 
 data-modal-saveas-open="true" -- key to understand if you want to use the modal
 
-id="SaveAsButton"  -- the id of button 
+data-modal-check-id="id1,id2" -- list of id if you want to check before show a modal 
+
+data-modal-id="ifofmodal" -- the id of modal you want to show
+
+data-modal-close-backdrop-id="backdrop"  -- the id of backdrop default is backdrop  
+
+id="SaveAsButton"  -- the id of button  if you want to remove the disamblet 
 
 
 
@@ -104,12 +137,14 @@ data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue"  are the
 
 data-div-show="LoadShowPopup"    to show the popup if you want 
 
-
-
 data-add-button-popup="true"   is for show the modal of selected fields used in <button> <a> or another element of html 
 
+data-add-replace="true" or false  this attribut is if you want to remove from history and to start from brgin
 
-
+data-add-button-popup="true"
+ data-add-type="Expression"  type of popyp
+data-add-relation-id="FirstModule,Firstfield,expresion"  the id to get value 
+data-show-modul-id=""   ------the id for module you want to show
 
 data-label-change-load="true"  understand the server you want to use that function when change the value (only for dropdown)
 data-select-filename=""        the file name where you want to get data 

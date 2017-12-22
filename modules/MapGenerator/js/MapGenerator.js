@@ -1,6 +1,10 @@
-/**
- * 
- */
+/*
+* @Author: edmondi kacaj
+* @Date:   2017-11-06 10:16:56
+* @Last Modified by:   edmondi kacaj
+* @Last Modified time: 2017-12-21 10:23:16
+*/
+
 
 (function(global, $) {
 	global.historySave=[];
@@ -13,6 +17,9 @@
 		savehistoryar:null,
 		popupJson : [],
 		SaveHistoryPop:[],
+		MultiList:[],
+		ModulLabel: null,
+		FieldLabel: null,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -34,12 +41,6 @@
 				initializer();
 			});
 		},
-
-	/*
-	 * Called to load the page and every section uploaded via ajax on its
-	 * content
-	 */
-
 	};
 
 
@@ -59,11 +60,23 @@
 
 						
 		},
+
+
+
+
+		/**
+		 * function to choose the type of map 
+		 *
+		 * @class      TypeOfMaps (name)
+		 * @return     {boolean}  { description_of_the_return_value }
+		 */
 		TypeOfMap : function() {
 			var types = $('select[data-load-Map="true"]').attr(
 					'data-type-select');
 			var select = $('select[data-load-Map="true"]').find(":selected")
 					.val();
+			var urlpost= $('select[data-load-Map="true"]').attr('data-type-select-module');
+
 			if (types == "TypeObject") {
 				var divmap = $('select[data-load-Map="true"]').attr(
 						'data-type-select');
@@ -76,15 +89,18 @@
 					}
 
 				} else {
-					alert(mv_arr.Choseobject);
+					// alert(mv_arr.Choseobject);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.Choseobject);
 				}
 			} else if (types == "TypeMap") {
+				if (!urlpost && urlpost===""){/*alert(mv_arr.Buttonsendajax);*/ App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax); return false;}
+			else{urlpost=urlpost.split(','); }
 				if (select.length > 0) {
 					var nameview = $('#nameView').val();
 					if (nameview.length >= 5) {
 						App.utils
 								.PostDataHTML(
-										"index.php?module=MapGenerator&action=MapGeneratorAjax&file=ChoseeObject",
+										`index.php?module=${urlpost[0]}&action=${urlpost[0]}Ajax&file=${urlpost[1]}`,
 										"ObjectType=" + select + "&NameView="
 												+ nameview);
 						document.getElementById('MapDivID').innerHTML = VauefromPost;
@@ -101,7 +117,7 @@
 			}
 			if (select == "Mapping") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
@@ -109,23 +125,96 @@
 				getFirstModule();
 			}else if (select == "MasterDetail") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ListColumns") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ConditionQuery") {
 				// idfieldfill,urlsend,dat
-				var urlsend = [ "MapGenerator", "firstModule" ];
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "Module_Set") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "IOMap") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "AllFields_File" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("AllFieldsInput,AllFieldsOutputselect",
+						urlsend, dat);
+			}else if (select == "FieldDependency") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "FieldDependencyPortal") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "GlobalSearchAutocomplete") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "ConditionExpression") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule,Firstmodule2",
+						urlsend, dat);
+			}else if (select == "CREATEVIEWPORTAL") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "DETAILVIEWBLOCKPORTAL") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "MENUSTRUCTURE") {
+				// idfieldfill,urlsend,dat
+				 App.ModulLabel='Module';
+    			 App.FieldLabel='Label';
+				var urlsend = [ urlpost[0], "firstModule" ];
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "RecordAccessControl") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				App.ModulLabel='Module';
+    			 App.FieldLabel='Related';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "DuplicateRecords") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				App.ModulLabel='Module';
+    			 App.FieldLabel='Related';
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}
+
 		},
 
 		LoadLabel:function(event){
@@ -205,12 +294,15 @@
 			if(elem[0].nodeName === "SELECT"){
 				var SecondFieldval = $(this).find('option:selected').val();
 				var SecondFieldtext = $(this).find('option:selected').text();
+				// var SecondFieldModule = $(this).find('option:selected').closest('optgroup').attr('label');
 				 var SecondFieldOptionGrup = App.utils.GetSelectParent(elem[0].id);				
 			}else if(elem[0].nodeName === "BUTTON"){
 				if (FirstFieldval) {
 				   var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
 		           var SecondFieldtext = "Default-Value";
 		            $("#" + idrelation[3]).val("");	
+		            var SecondFieldOptionGrup = $("#" +  idrelation[2] + " option:selected")
+					.text();
 		           
 				}
 				
@@ -227,8 +319,10 @@
 				// alert(length_history-1);
 				for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 					var idd = ii;// JSONForCOndition[ii].idJSON;
-					var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
-					var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+					var firmod = App.JSONForCOndition[ii].FirstModuletxt;
+					var secmod = App.JSONForCOndition[ii].SecondFieldOptionGrup;
+					var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
+					var secfields = App.JSONForCOndition[ii].SecondFieldtext;
 					// var selectedfields = JSONForCOndition[ii].ValuesParagraf;
 					// console.log(idd+firmod+secmod);
 					// console.log(selectedfields);
@@ -238,13 +332,14 @@
 					} else {
 						check = false;
 					}
-					var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod, check,
+					var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod,firfields,secfields,check,
 							divshowmodal);
 					$('#' + divshowmodal).append(alerstdiv);
 
 				}
             }else{
-            	alert(mv_arr.addJoinValidation);
+            	// alert(mv_arr.addJoinValidation);
+            	App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
             }
 
 		},		
@@ -261,12 +356,16 @@
 					App.GetModuleForMapGenerator.GetSecondField);
 			$(document).on('click', 'a[data-showhide-load="true"]',
 					App.GetModuleForMapGenerator.ChangeTextDropDown);
-			$(document).on('blur', 'input[data-controll="true"]',
+			$(document).on('keyup', 'input[data-controll="true"]',
 					App.GetModuleForMapGenerator.checkInput);
 			$(document).on('click', 'a[data-autoload-maps="true"]',
 					App.GetModuleForMapGenerator.AllMapsLoad);
 			$(document).on('click', 'a[data-select-map-load="true"]',
 								App.GetModuleForMapGenerator.LadAllMaps);
+			$(document).on('click', 'input[data-select-map-load="true"]',
+								App.GetModuleForMapGenerator.LadAllMaps);
+			$(document).on('click', 'input[data-showhide-load="true"]',
+					App.GetModuleForMapGenerator.ChangeTextDropDown);
 		},
 
 		GetFirstModule : function(idfieldfill, urlsend, dat) {
@@ -274,9 +373,13 @@
 			var data = "Data=" + dat;
 			var returndata = null;
 			var returndata = App.utils.PostDataGeneric(null,urlsend, data);
-			$("#" + idfieldfill).empty();
-			$("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
-			$("#" + idfieldfill).append(VauefromPost);
+			idfieldfill=idfieldfill.split(',');
+
+			for (var i = idfieldfill.length - 1; i >= 0; i--) {
+				$("#" + idfieldfill[i]).empty();
+				// $("#" + idfieldfill).append('<option value="" selected="selected">Select a value</option>');
+				$("#" + idfieldfill[i]).append(VauefromPost);
+			}
 			VauefromPost = null;
 		},
 		GetSecondModuleField : function(event) {
@@ -291,6 +394,8 @@
 			var relationmodule=elem.attr("data-second-select-file");
 			var secondmodulefile=elem.attr("data-second-module-file");
 			var firstfieldid=elem.attr("data-select-fieldid");
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
 			var urlsendmodule;
 			var valueselected = elem.find(":selected").val();
 			if (secondmodule != "undefined") {
@@ -305,9 +410,7 @@
 				var dat = "mod=" + valueselected;
 				App.utils.PostDataGeneric(event,urlsendmodule, dat, "");
 				$("#" + secondmodule).empty();
-				$("#" + secondmodule)
-						.append(
-								'<option value="" selected="selected">Select a value</option>');
+				// $("#" + secondmodule).append('<option value="" selected="selected">Select a value</option>');
 				$("#" + secondmodule).append(VauefromPost);
 				VauefromPost = null;
 			}
@@ -337,11 +440,38 @@
 				{
 					$("#" + firstfieldid).val(str3);
 				}
-				$("#" + field).append('<option value="">Select a value</option>');
-				$("#" + field).append(str1);
+
+				if (field)
+				{
+					field=field.split(',');
+					for (var i = field.length - 1; i >= 0; i--) {
+						$("#" + field[i]).empty();
+						// $("#" + field[i]).append('<option value="">Select a value</option>');
+						$("#" + field[i]).append(str1);
+					}
+				}
+				
+				if (datareset && datareset==="true")
+				{
+					if (idreset)
+					{
+						$('#'+idreset+' div').remove();
+						App.popupJson.length=0;
+						App.JSONForCOndition.length=0;
+					}
+					
+				}
+
 				VauefromPost = null;
 			}
 		 },
+
+		 /**
+		  * function to select the origin module and after put the fields in base of what you select 
+		  *
+		  * @class      GetSecondField (name)
+		  * @param      {<type>}  event   The event
+		  */
 		 GetSecondField : function(event) {
 			if (event)
 				event.preventDefault();
@@ -350,7 +480,10 @@
 			var modulesecondfield = elem.attr("data-module");
 			var relationmodule=elem.attr("data-second-select-file");
 			var firstfieldid=elem.attr("data-select-fieldid");
+			var sendfirstmodule=elem.attr('data-second-firstmodule-id');
 			var selectsecondfields = elem.find(":selected").val();
+			var datareset=elem.attr('data-reset-all');
+			var idreset=elem.attr('data-reset-id-popup');
 			if (relationid != "undefined") {
 				var sp = selectsecondfields.split(";");
 				var mod = sp[0].split("(many)");
@@ -358,6 +491,10 @@
 				secModule = mod0[0];
 				var urlsendfield = [ modulesecondfield, "moduleFields" ];
 				var datfields = "mod=" + secModule;
+				if (sendfirstmodule)
+				{
+					datfields+="&firstmodule="+App.utils.IsSelectORDropDown(sendfirstmodule);
+				}
 				if (relationmodule)
 				 {
 				 	if (relationmodule.length > 0)
@@ -382,11 +519,20 @@
 					$("#" + firstfieldid).val(str3);
 				}
 				$("#" + relationid).empty();
-				$("#" + relationid)
-						.append(
-								'<option value="" selected="selected">Select a value</option>');
+				// $("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
 				$("#" + relationid).append(str1);
 				VauefromPost = null;
+
+				if (datareset && datareset==="true")
+				{
+					if (idreset)
+					{
+						$('#'+idreset+' div').remove();
+						App.popupJson.length=0;
+						App.JSONForCOndition.length=0;
+					}
+					
+				}
 			}
 
 		},
@@ -419,8 +565,8 @@
 			  {
 				if (valuetxt.length<5)
 				{
-					$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-					$('#'+idhshow).html(mv_arr.NameQuery);
+					/*$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
+					$('#'+idhshow).html(mv_arr.NameQuery);*/
 					//elem.focus();
 				}else
 				{
@@ -430,22 +576,24 @@
 					{
 						if (VauefromPost==="0")
 						{
-							$('#'+idhshow).fadeIn('fast').delay(3000).fadeOut('slow')
-							$('#'+idhshow).html(mv_arr.MapNameNotExist);
-							if(idrelation)
-							{
-								$('#'+idrelation).removeAttr('disabled');
-							}
+							$('#'+idhshow).fadeOut('slow')
+							// $('#'+idhshow).html(mv_arr.MapNameNotExist);
+							// if(idrelation)
+							// {
+							 	$('#'+idrelation).removeAttr('disabled');
+							// }
 							//elem.focus();
+							// App.utils.ShowNotification("snackbar",5000,mv_arr.MapNameNotExist);
 						}else
 						{
-							$('#'+idhshow).fadeIn('fast');
+							$('#'+idhshow).fadeIn('fast');//.delay(2000).fadeOut('slow');
 							$('#'+idhshow).html(mv_arr.MapNameExist);
 							if(idrelation)
 							{
 								$('#'+idrelation).attr('disabled', 'true');
 							}
-							//elem.focus();
+							elem.focus();
+							// App.utils.ShowNotification("snackbar",2000,mv_arr.MapNameExist);
 						}
 
 					}else
@@ -461,8 +609,14 @@
 				}
 			}else
 			{
-				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow')
-					$('#'+idhshow).html(mv_arr.NameQuery);
+				$('#'+idhshow).fadeIn('fast');//.delay(1000).fadeOut('slow');
+				$('#'+idhshow).html(mv_arr.NameQuery);
+				if(idrelation)
+				{
+					$('#'+idrelation).attr('disabled', 'true');
+				}
+				elem.focus();
+				// App.utils.ShowNotification("snackbar",2000,mv_arr.NameQuery);
 			}
 
 	 },
@@ -472,10 +626,16 @@
 		 	if (event) {event.preventDefault();}
 		 	 var elem=$(this);
 		 	 var getfile=elem.attr('data-autoload-Filename');
-		 	 var getType=elem.attr('data-autoload-Type-Map');
-		 	 var idtofill=elem.attr('data-autoload-id-relation');
-		 	 // var thisid=elem.attr('id');
-		 	 var datsend="";
+		 	 var idtofill=elem.attr('data-autoload-id-put');
+		 	 var idtodelete=elem.attr('data-autoload-id-relation');
+		 	 App.popupJson.length=0;
+		 	 App.JSONForCOndition.length=0;
+		 	 App.SaveHistoryPop.length=0;
+		 	 App.savehistoryar="";
+		 	 
+		 	 $('#'+idtodelete+' div ').empty('');
+		 	 $('#'+idtofill+' div ').empty('');
+		 	 var datsend=""; 
 		 	 if (getfile)
 		 	 {
 		 	 	getfile=getfile.split(",");
@@ -483,24 +643,18 @@
 		 	 {
 		 	 	getfile=["MapGenerator","GetAllMaps"];
 		 	 }
-
-		 	 if (getType)
-		 	 {
-		 	 	datasend=`${getType}=${getType}`;
-		 	 }
-
-		 	 App.utils.PostDataGeneric(event,getfile,datasend);
+		 	 App.utils.PostDataGeneric(event,getfile,"");
 		 	 if (VauefromPost)
 		 	 {
 		 	 	if (idtofill)
 		 	 	{
-		 	 		$('#'+idtofill).html('');
-		 	 		$('#'+idtofill).append('<option value="">Select a value</option>');
-		 	 		$('#'+idtofill).append(VauefromPost);
+		 	 		
+		 	 		$('#'+idtofill).html(VauefromPost);
 		 	 		VauefromPost=null;
 		 	 	}else
 		 	 	{
-		 	 		alert(mv_arr.MissingIDtoShow);
+		 	 		// alert(mv_arr.MissingIDtoShow);
+		 	 		App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIDtoShow);
 		 	 	}
 
 		 	 }
@@ -520,13 +674,19 @@
 		 	var iddropdown=elem.attr('data-select-map-load-id-relation');
 		 	var urltosend=elem.attr('data-select-map-load-url');
 		 	var idtoshow=elem.attr('data-select-map-load-id-to-show');
-
+		 	var loadingflag=elem.attr('data-loading');
+			var dataloadingiddiv=elem.attr('data-loading-divid');
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,true);
+			}
 		 	if (!urltosend)
 		 	{
-		 		alert(mv_arr.NameOFMapMissingFile);
+		 		// alert(mv_arr.NameOFMapMissingFile);
+		 		App.utils.ShowNotification("snackbar",2000,mv_arr.NameOFMapMissingFile);
 		 		return false;
 		 	}
-
+			
 	        if (iddropdown)
 	        {
 	        	var valuesfromdropdown=App.utils.IsSelectORDropDown(iddropdown);
@@ -537,7 +697,8 @@
 
 	        		if (!VauefromPost)
 	        		{
-	        			alert(mv_arr.ReturnErrorFromMap);
+	        			// alert(mv_arr.ReturnErrorFromMap);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
 	        			return false;
 	        		}
 	        		if (idtoshow)
@@ -547,22 +708,30 @@
 	        			VauefromPost=null;
 	        		}else
 	        		{
-	        			alert(mv_arr.MissingDivID);
+	        			// alert(mv_arr.MissingDivID);
+	        			App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 	        		}
 
 
 	        	}else
 	        	{
-	        		alert(mv_arr.ChoseMap);
+	        		// alert(mv_arr.ChoseMap);
+	        		App.utils.ShowNotification("snackbar",2000,mv_arr.ChoseMap);
 	        	}
 
 
 	        }else
 	        {
-	        	alert(mv_arr.MissingIdValue);
+	        	// alert(mv_arr.MissingIdValue);
+	        	App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIdValue);
 	        	return false;
 	        }
-
+	        	// if (dataloadingiddiv){$( "#"+dataloadingiddiv).removeClass( "loading" );}
+	        	
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,false);
+			}
 
 
 	 },
@@ -581,39 +750,60 @@
 								App.UniversalPopup.CloseModalWithoutCheck);
 			$(document).on('click', 'button[data-modal-saveas-open="true"]',
 								App.UniversalPopup.OpeModalsaveAsMap);
-
+			$(document).on('change', 'select[data-add-button-popup="true"]',
+								App.UniversalPopup.Add_show_Popup);
+			$(document).on('change', 'select[data-load-element="true"]',
+								App.UniversalPopup.addIntoElement);
+			$(document).on('mouseover', 'button[data-message-show="true"]',
+								App.UniversalPopup.ShowHelpMessage);
+			$(document).on('mouseout', 'button[data-message-show="true"]',
+								App.UniversalPopup.hideHelpMessage);
 		},
 
 		Add_show_Popup:function(event){
 			//$('#contenitoreJoin').empty();
-			 $('#contenitoreJoin div').remove();
+			 
 			 if (event) {event.preventDefault();}
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
-			 var showtext=elem.attr(" data-show-id");
+			 var showtext=elem.attr("data-show-id");
 			 var Typeofpopup=elem.attr('data-add-type');
+			 var replace=elem.attr('data-add-replace');
+			 var modulShow=elem.attr('data-show-modul-id');
+			 var divid=elem.attr('data-div-show');
+			 if (divid && divid==='')
+			 {
+			 	divid='LoadShowPopup';
+			 } 
+			 $('#'+divid+' div').remove();
+			 if (replace && replace==="true")
+			 {
+			 	App.popupJson.length=0;
+			 }
 			 if (allids)
 			 {
 			 	var allidarray=allids.split(",");
 			 	if (Typeofpopup)
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup);
+			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext,modulShow);
 			 	} else
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,"Default");
+			 		App.utils.Add_to_universal_popup(allidarray,"Default",showtext,modulShow);
 			 	}
 			 	 
 			 	 if (App.popupJson.length>0)
 			 	 	{	
 			 	 		for (var i = 0; i <= App.popupJson.length-1; i++) {
-			 	 				var module=App.popupJson[i].temparray[`DefaultText`];
+			 	 				var Field=App.popupJson[i].temparray[`DefaultText`];
+			 	 				var moduli=App.popupJson[i].temparray[`Moduli`];
 			 	 				var typeofppopup=App.popupJson[i].temparray['JsonType'];
-			 	 				var divinsert= App.utils.DivPopup(i,module,"contenitoreJoin",typeofppopup);
-			 	 				$('#contenitoreJoin').append(divinsert);
+			 	 				var divinsert= App.utils.DivPopup(i,moduli,Field,divid,typeofppopup);
+			 	 				$('#'+divid).append(divinsert);
 			 	 			}	
 
 			 	 	}else{
-			 	 		alert(mv_arr.MappingFiledValid);
+			 	 		// alert(mv_arr.MappingFiledValid);
+			 	 		App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
 			 	 	}
 			 }
 		},
@@ -646,25 +836,113 @@
 			       // $('#selectableFields option:selected').attr("selected", null);
 			    }
 			    else {
-			        alert(mv_arr.ReturnFromPost);
+			        // alert(mv_arr.ReturnFromPost);
+			        App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnFromPost);
 			    }
 			}
 		},
 
 	   CloseModalWithoutCheck:function(event){
 	   	 if (event) {event.preventDefault();}
+	   	 var elem=$(this);
+	   	 var closemodal=elem.attr('data-modal-close-id');
+	   	 var closebackdrop=elem.attr('data-modal-close-backdrop-id');
+
+	   	 if (!closemodal) {closemodal="modal";}
+	   	 if (!closebackdrop) {closebackdrop="backdrop";}
+
 	   	 $('#ErrorVAlues').text('');
-	     $('#modal').removeClass('slds-fade-in-open');
-	     $('#backdrop').removeClass('slds-backdrop--open');
+	     $('#'+closemodal).removeClass('slds-fade-in-open');
+	     $('#'+closebackdrop).removeClass('slds-backdrop--open');
+	     $('#SaveasMapText').val('');
 
 	   },
 
 	   OpeModalsaveAsMap:function(event){
 	   	 if (event) {event.preventDefault();}
-	   	 $('#backdrop').addClass('slds-backdrop--open');
-    	 $('#modal').addClass('slds-fade-in-open');
+	   	 var elem=$(this);
+	   	 var dataToCheck=elem.attr('data-modal-check-id');
+	   	 var idModals=elem.attr('data-modal-id');
+	   	 var idbackdrop=elem.attr('data-modal-backdrop-id');
+	   	 var truorfalse=false;
+
+	   	 if (!idModals){idModals="modal";}
+		 if (!idbackdrop){idbackdrop="backdrop";}
+
+	   	 if (dataToCheck)
+	   	 {
+	   	 	dataToCheck=dataToCheck.split(',');
+	   	 	for (var i=0;i <= dataToCheck.length - 1; i++) {
+	   	 		if (App.utils.IsSelectORDropDown(dataToCheck[i]).length>0)
+	   	 		 {
+	   	 		 	truorfalse=true;
+	   	 		 }else
+	   	 		 {
+	   	 		 	truorfalse=false;
+	   	 		 }
+	   	 	}
+
+	   	 	if (truorfalse===true)
+	   	 	{
+	   	 		$('#'+idbackdrop).addClass('slds-backdrop--open');
+    	 		$('#'+idModals).addClass('slds-fade-in-open');
+	   	 	} else
+	   	 	{
+	   	 		App.utils.ShowNotification("snackbar",2000,mv_arr.Fieldsaremepty);
+	   	 	}
+
+	   	 } else
+	   	 {
+	   	 	$('#'+idbackdrop).addClass('slds-backdrop--open');
+    	 	$('#'+idModals).addClass('slds-fade-in-open');
+	   	 }	   	 
 
 	   },
+
+	   addIntoElement:function(event){
+	   	 if (event) {event.preventDefault();}
+	   	 var elem=$(this);
+	   	 var idget=elem.attr('data-load-element-idget');
+	   	 var idset=elem.attr('data-load-element-idset');
+
+	   	 if (!idget ){
+	   	 	App.utils.ShowNotification("snackbar",2000,mv_arr.missingtheidgetValue);
+	   	 }
+		if (!idget )
+		{
+			App.utils.ShowNotification("snackbar",2000,mv_arr.missingIdtoSetValue);
+		}
+
+		idget=idget.split(',');
+		var valuetoshow='';
+		for (var i = 0; i <=idget.length - 1; i++) {
+			valuetoshow+="     "+App.utils.IsSelectORDropDownGetText(idget[i]).length>0?App.utils.IsSelectORDropDownGetText(idget[i]):"";
+		}
+		App.utils.SetValueTohtmlComponents(idset,valuetoshow);
+	   },
+
+	   ShowHelpMessage:function(event){
+
+	   	var elem=$(this);
+
+	   	var idtoshow=elem.attr('data-message-show-id');
+	   	if (idtoshow)
+	   	{
+	   		$('#'+idtoshow).css('display', 'inline-block');
+	   	}
+
+	   },
+	hideHelpMessage:function(event){
+
+		   	var elem=$(this);
+
+		   	var idtoshow=elem.attr('data-message-show-id');
+		   	if (idtoshow)
+		   	{
+		   		$('#'+idtoshow).css('display', 'none');
+		   	}
+
+		   },
 	};
 
 	App.SelectModule = {
@@ -735,124 +1013,146 @@
 			var keephitory=elem.attr('data-save-history');
 			var keephitoryidtoshow=elem.attr('data-save-history-show-id');
 			var keephitoryidtoshowidrelation=elem.attr('data-save-history-show-id-relation');
-			if(dataid != "undefined"){
-				inputsplit=dataid.split(",");
+			var executefunction=elem.attr('data-send-savehistory-functionname');
+			var loadingflag=elem.attr('data-loading');
+			var dataloadingiddiv=elem.attr('data-loading-divid');
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,true);
 			}
-			
-			if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
-				alert(mv_arr.Buttonsendajax);
-				return false;
-			}
-			
-			if(inputsplit.length>0){
-				for(index=0; index <= inputsplit.length-1; index++){
-					if(inputsplit[index].toUpperCase()=="LISTDATA"){
-						if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
-							var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
-							datatusend +=`ListData=${JSON.stringify(datasend)}`;
-						}else{
-							alert(mv_arr.MappingFiledValid);
-						}
-					}else{
-						datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
-					}
-						
+				
+
+				if(dataid != "undefined"){
+					inputsplit=dataid.split(",");
 				}
 				
-			}
-			
-			
-            
-             if (savehistory!="undefined" && savehistory=="true")
-             {
-             	if (App.savehistoryar)
-             	{
-             	 	datatusend+="&savehistory="+App.savehistoryar;
-             	}else
-             	{
-             		datatusend+="&savehistory";
-             	}
-             }
+				if (urlcheck[0] == "undefined" && urlcheck[1] == "undefined") {
+					// alert(mv_arr.Buttonsendajax);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.Buttonsendajax);
+					return false;
+				}
+				
+				if(inputsplit.length>0){
+					for(index=0; index <= inputsplit.length-1; index++){
+						if(inputsplit[index].toUpperCase()=="LISTDATA"){
+							if(App.JSONForCOndition.length > 0 || App.popupJson.length>0){
+								var datasend=App.JSONForCOndition.length>0 ? App.JSONForCOndition:App.popupJson;
+								datatusend +=`ListData=${JSON.stringify(datasend)}`;
+							}else{
+								// alert(mv_arr.MappingFiledValid);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
+							}
+						}else{
+							datatusend+= `&${inputsplit[index]}=${App.utils.IsSelectORDropDown(inputsplit[index])}`;
+						}
+							
+					}
+					
+				}
+				
+				
+	            
+	             if (savehistory!="undefined" && savehistory=="true")
+	             {
+	             		if (App.savehistoryar)
+		             	{
+		             	 	datatusend+="&savehistory="+App.savehistoryar;
+		             	}else
+		             	{
+		             		datatusend+="&savehistory";
+		             	}
+	             	
+	             }
 
-             App.utils.PostDataGeneric(event,urlcheck,datatusend);
-			if(VauefromPost){
-				 var returndt=VauefromPost.split(",");
-				 if(returndt[1]>0)
-				 {
-				 	if ((keephitory && keephitory==="true") && App.savehistoryar!==null)
-				 	{
+	             App.utils.PostDataGeneric(event,urlcheck,datatusend);
+				if(VauefromPost){
+					 var returndt=VauefromPost.split(",");
+					 if(returndt[1]>0)
+					 {
+					 	if ((keephitory && keephitory==="true") && returndt[1]!==null)
+					 	{
 
-				 		if (App.savehistoryar.split(',')[1]===returndt[1])
-				 		{
-				 			if (App.JSONForCOndition.length>0)
-				 			{
-				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-				 			}else
-				 			{
-				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-				 			}
-				 			
-				 			App.savehistoryar=VauefromPost;
-							alert(mv_arr.ReturnSucessFromMap);
+					 		if (App.savehistoryar===VauefromPost.replace(/\s+/g, ''))
+					 		{
+					 			if (App.JSONForCOndition.length>0)
+					 			{
+					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+					 			}else
+					 			{
+					 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					 			}
+					 			
+					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+								// alert(mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								VauefromPost=null;
+					 		}else
+					 		{
+					 			App.SaveHistoryPop.length=0;
+					 			if (App.JSONForCOndition.length>0)
+					 			{
+					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
+					 			}else
+					 			{
+					 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					 			}
+					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
+								// alert(mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								VauefromPost=null;
+					 		}
+					 	}else
+					 	{
+					 		App.savehistoryar=VauefromPost;
+							// alert(mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
 							VauefromPost=null;
-				 		}else
-				 		{
-				 			if (App.JSONForCOndition.length>0)
-				 			{
-				 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-				 			}else
-				 			{
-				 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-				 			}
-				 			App.savehistoryar=VauefromPost;
-							alert(mv_arr.ReturnSucessFromMap);
-							VauefromPost=null;
-				 		}
-				 	}else
-				 	{
-				 		if (App.JSONForCOndition.length>0)
-			 			{
-			 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
-			 			}else
-			 			{
-			 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-			 			}
-				 		App.savehistoryar=VauefromPost;
-						alert(mv_arr.ReturnSucessFromMap);
-						VauefromPost=null;
-				 	}
-	 				
-				 }else
-				 {
-				 	alert(mv_arr.ReturnErrorFromMap);
-				 }
-			}
-			if (sendSaveAs && sendSaveAs==="true")
-			{
-				var ulrsaveas=[urlcheck[0],"SavenewMap"];
-				dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}`;
-				App.utils.PostDataGeneric(event,ulrsaveas,dat);
-				if (VauefromPost)
+					 	}
+		 				
+					 }else
+					 {
+					 	// alert(mv_arr.ReturnErrorFromMap);
+					 	App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
+					 }
+				}
+				if (sendSaveAs && sendSaveAs==="true")
 				{
-					 //document.body.innerHTML +=VauefromPost;
-					 $('body').append(VauefromPost);
-					 VauefromPost=null;
-					 $('#'+idbutton).removeAttr('disabled')
-				} else
+					var ulrsaveas=[urlcheck[0],"SavenewMap"];
+					dat=`data=${urlcheck}&dataid=${dataid}&savehistory=${savehistory}&anotherfunction=${executefunction}`;
+					App.utils.PostDataGeneric(event,ulrsaveas,dat);
+					if (VauefromPost)
+					{
+						 //document.body.innerHTML +=VauefromPost;
+						 $('body').append(VauefromPost);
+						 VauefromPost=null;
+						 $('#'+idbutton).removeAttr('disabled')
+					} else
+					{
+
+					}
+	              
+				}
+				if (keephitoryidtoshow)
+				{
+					if (executefunction && executefunction!=="undefined")
+					{
+						var funcCall =`${executefunction}("${keephitoryidtoshow}","${keephitoryidtoshowidrelation}")`;
+						eval(funcCall);
+					} else
+					{
+						App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
+					}
+				}else
 				{
 
 				}
-              
-			}
-			if (keephitoryidtoshow)
-			{
-				App.utils.AddtoHistory(keephitoryidtoshow,keephitoryidtoshowidrelation);
-			}else
-			{
+				App.UniversalPopup.CloseModalWithoutCheck();
 
+			if (loadingflag && loadingflag==="true")
+			{
+				App.utils.ShowLoading(dataloadingiddiv,false);
 			}
-			App.UniversalPopup.CloseModalWithoutCheck();
-			},
+		},
 		
 		/**
 		 * function to remove the history popup 
@@ -869,7 +1169,8 @@
 			 	App.SaveHistoryPop.splice(parseInt(idtoremove),1);
 			 }else
 			 {
-			 	alert(mv_arr.RemovedivHistory);
+			 	// alert(mv_arr.RemovedivHistory);
+			 	App.utils.ShowNotification("snackbar",2000,mv_arr.RemovedivHistory);
 			 }
 			 if (keephitoryidtoshow)
 			 {
@@ -887,12 +1188,14 @@
 			var idtoshow=elem.attr('data-history-show-modal-id');
 			var diwtoshow=elem.attr('data-history-show-modal-divname');
 			var iddivrelation=elem.attr('data-history-show-modal-divname-relation');
+			var functionToCall=elem.attr('data-history-show-modal-function');
 			if (!diwtoshow)
 			{
-				alert(mv_arr.MissingDivID);
+				// alert(mv_arr.MissingDivID);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 			}
 
-			if (!iddivrelation) {alert(mv_arr.MissingIDtoShow);}
+			if (!iddivrelation) {/*alert(mv_arr.MissingIDtoShow);*/App.utils.ShowNotification("snackbar",2000,mv_arr.MissingIDtoShow);}
 			else
 			{
 				var historydata=App.SaveHistoryPop[parseInt(idtoshow)];
@@ -902,12 +1205,17 @@
 					for (var i=0;i<=historydata.JSONCondition.length-1;i++){
 						App.JSONForCOndition.push(historydata.JSONCondition[i]);
 					}
-					if (iddivrelation)
+					if (functionToCall && functionToCall!=="none")
+					{
+						var funcCall =functionToCall + "();";
+						eval(funcCall);
+					}else if (iddivrelation)
 					{
 						App.utils.ReturnAllDataHistory(iddivrelation);
 					}else
 					{
-						alert(mv_arr.MissingDivID);
+						// alert(mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 					}
 
 				}else
@@ -917,12 +1225,17 @@
 						App.popupJson.push(historydata.PopupJSON[i]);
 					}
 
-					if (iddivrelation)
+					if (functionToCall && functionToCall!=="none")
 					{
-						App.utils.ReturnAllDataHistory2(iddivrelation);
+						var funcCall =functionToCall + "();";
+						eval(funcCall);
+					}else if (iddivrelation)
+					{
+						App.utils.ReturnDataSaveHistory(iddivrelation);
 					}else
 					{
-						alert(mv_arr.MissingDivID);
+						// alert(mv_arr.MissingDivID);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.MissingDivID);
 					}
 
 				}
@@ -987,7 +1300,7 @@
 		 * @param {[type]} Urlsend the URL
 		 * @param {[type]} dat     data to send 
 		 */
-		PostDataGeneric : function(event=null,Urlsend, dat) {
+		PostDataGeneric : function(event=null,Urlsend, dat,idloading="") {
 			if (event) {event.preventDefault();}
 			jQuery.ajax({
 				type : "POST",
@@ -996,7 +1309,17 @@
 				dataType : "html",
 				async : false,
 				data : dat,
+				beforeSend: function() {
+			        if (idloading){
+			        	var x = document.getElementById(idloading);
+			        	x.className = "loading";
+					}
+			    },
 				success : function(msg) {
+					if (idloading){
+			        	var x = document.getElementById(idloading);
+			        	x.className = x.className.replace("loading", "");
+					}
 					VauefromPost = msg;
 				},
 				error : function() {
@@ -1089,7 +1412,7 @@
 		 * @param {Array} params   All of html element id to get the values 
 		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
 		 */
-		Add_to_universal_popup:function(params,jsonType){
+		Add_to_universal_popup:function(params,jsonType,selectvalues,modulShow){
 			var temparray={};
 			var check =false;
 			for (var i =0; i <= params.length - 1; i++) {
@@ -1097,8 +1420,26 @@
 				{
 					temparray['JsonType']=jsonType;
 					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
-					temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
-					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);		
+					if (selectvalues && selectvalues!=="")
+					{
+						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(selectvalues);
+					}else
+					{
+						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
+					}
+					if (modulShow && modulShow!=="")
+					{
+						var modultoshow=App.utils.GetSelectParent(modulShow);
+						if (modultoshow &&modultoshow!=='')
+						{
+							temparray["Moduli"]=modultoshow;
+						}else{
+							temparray["Moduli"]=App.utils.IsSelectORDropDownGetText(modulShow);
+						}
+					}else{
+						temparray["Moduli"]="";
+					}
+					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);
 					check=true;
 				}else
 				{
@@ -1111,7 +1452,18 @@
 			}
 			if (check)
 			{
-				App.popupJson.push({temparray});	
+				var checkvalue={temparray};
+				if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+				{
+					App.popupJson.push({temparray});
+				}else
+				{
+					App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
+				}
+				
+			}else
+			{
+				App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
 			}
 			
 		},
@@ -1125,7 +1477,7 @@
 		 * @param  {string} namediv      dhe id of div you want to insert the popup
 		 * @return {string}              [description]
 		 */
-		alertsdiv : function(Idd, Firstmodulee, secondmodule, last_check,
+		alertsdiv : function(Idd, Firstmodulee, secondmodule,FirstField,SecondField,last_check,
 				namediv) {
 				var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
 						+ '">';
@@ -1134,8 +1486,9 @@
 				// INSertAlerstJOIN += '<span class="closebtns"
 				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
 				// class="icono-eye"></</span>';
-				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> '
-						+ Firstmodulee + '=>' + secondmodule;
+				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> ';
+				INSertAlerstJOIN += '<br/> '+Firstmodulee + '=>' + FirstField;
+				INSertAlerstJOIN += '<br/> '+secondmodule + '=>' + SecondField;
 				// if (last_check==true) {//icono-plusCircle
 				// INSertAlerstJOIN +='<span title="You are here "
 				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
@@ -1157,7 +1510,7 @@
 		},
 
 
-		AddtoHistory:function(divName,dividrelation='') {
+		AddtoHistory:function(divName,dividrelation='',callfunction='') {
 			if (App.SaveHistoryPop.length>0)
 			{	
 				$('#'+divName+' div').remove();
@@ -1165,19 +1518,19 @@
 					if(App.SaveHistoryPop[i].JSONCondition.length>0){
 						if (i==(App.SaveHistoryPop.length-1))
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,true,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,true,divName,dividrelation,callfunction));
 						} else
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,false,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].FirstModuletxt,App.SaveHistoryPop[i].JSONCondition[App.SaveHistoryPop[i].JSONCondition.length-1].SecondModuletxt,false,divName,dividrelation,callfunction));
 						}
         				
         			}else{
         				if (i==(App.SaveHistoryPop.length-1))
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,true,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,true,divName,dividrelation,callfunction));
 						} else
 						{
-							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,false,divName,dividrelation));
+							$('#'+divName).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.FirstModule,App.SaveHistoryPop[i].PopupJSON[App.SaveHistoryPop[i].PopupJSON.length-1].temparray.secmodule,false,divName,dividrelation,callfunction));
 						}
         				
         			}
@@ -1196,17 +1549,25 @@
 		 * @param {[String]} FirstModuleLoad  the name of first module
 		 * @param {[String]} SecondModuleLoad  the name of second module 
 		 */
-		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation=''){
+		LoadHistoryHtml:function(IdLoad,FirstModuleLoad,SecondModuleLoad,avtive=false,divanameLoad,dividrelation='',callfunction='none'){
 			var htmldat='<div class="Message Message"  >';
 				htmldat+='<div class="Message-icon">';
 				// if (avtive===false)
 				// {
-					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
+					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" data-history-show-modal-function="'+callfunction+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
 				// }
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';
 				htmldat+='<p>@HISTORY : '+(IdLoad+1)+'<br/></p>';
-				htmldat+='<p><bold>'+FirstModuleLoad+'</bold>--<bold>'+SecondModuleLoad+'</bold></p>';
+				if (FirstModuleLoad && FirstModuleLoad!=="")
+				{
+					htmldat+='<p><bold>'+FirstModuleLoad+'</bold>';
+				}
+				
+				if (SecondModuleLoad && SecondModuleLoad!=="")
+				{
+					htmldat+='--<bold>'+SecondModuleLoad+'</bold></p>';
+				}
 				htmldat+='</div>';
 				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
 				htmldat+='</div>';
@@ -1226,8 +1587,15 @@
 			// alert(length_history-1);
 			for (var ii = 0; ii < App.JSONForCOndition.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
-				var firmod = App.JSONForCOndition[ii].FirstFieldtxt;
-				var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+				var firmod = App.JSONForCOndition[ii].FirstModuletxt;
+				var secmod = App.JSONForCOndition[ii].SecondFieldOptionGrup;
+				if (!secmod && secmod==='')
+				{
+					secmod = App.JSONForCOndition[ii].SecondModuletxt;
+				}
+				// var secmod = App.JSONForCOndition[ii].SecondFieldtext;
+				var firfields = App.JSONForCOndition[ii].FirstFieldtxt;
+				var secfields = App.JSONForCOndition[ii].SecondFieldtext;
 				// valuehistoryquery = App.JSONForCOndition[ii].ValuesParagraf;
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
@@ -1237,7 +1605,7 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod, check,
+				var alerstdiv = App.utils.alertsdiv(idd, firmod, secmod,firfields,secfields, check,
 						namediv);
 				$('#' + namediv).append(alerstdiv);
 
@@ -1257,6 +1625,7 @@
 			for (var ii = 0; ii < App.popupJson.length; ii++) {
 				var idd = ii// JSONForCOndition[ii].idJSON;
 				var firmod = App.popupJson[ii].temparray["DefaultText"];
+				var moduli = App.popupJson[ii].temparray["Moduli"];
 				var JsonType = App.popupJson[ii].temparray["JsonType"];
 				// console.log(idd+firmod+secmod);
 				// console.log(selectedfields);
@@ -1266,19 +1635,51 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.DivPopup(idd, firmod,'',JsonType);
+				var alerstdiv = App.utils.DivPopup(idd,moduli,firmod,'',JsonType);
 				$('#' + namediv).append(alerstdiv);
 
 			}
 		},
 
+		ReturnDataSaveHistory : function(namediv) {
+			$('#' + namediv + ' div').remove();
+			var check = false;
+			var valuehistoryquery;
+			var length_history = App.popupJson.length;
+			// alert(length_history-1);
+			for (var ii = 0; ii < App.popupJson.length; ii++) {
+				var idd = ii// JSONForCOndition[ii].idJSON;
+				var firmod = App.popupJson[ii].temparray["DefaultText"];
+				// var moduli = App.popupJson[ii].temparray["Moduli"];
+				var JsonType = App.popupJson[ii].temparray["JsonType"];
+				// console.log(idd+firmod+secmod);
+				// console.log(selectedfields);
+				if (ii == (length_history - 1)) {
+					check = true;
 
-		DivPopup : function(Idd,firstmodule,divid,typepopup) {
+				} else {
+					check = false;
+				}
+				var alerstdiv = App.utils.DivPopup(idd,"",firmod,'',JsonType);
+				$('#' + namediv).append(alerstdiv);
+
+			}
+		},
+
+		DivPopup : function(Idd,moduli,fields,divid,typepopup) {
 			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
 					+ '">';
 			INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
-			INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+firstmodule;
+			if (moduli && moduli!=='')
+			{
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli;
+				INSertAlerstJOIN += '<br/> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields;
+
+			} else
+			{
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+			}
 			
 			INSertAlerstJOIN += '</div';
 			return INSertAlerstJOIN;
@@ -1289,19 +1690,20 @@
 		 * @param {String} IdType Id of html element
 		 */
 		IsSelectORDropDown:function(IdType){
-			    
+			    if (!IdType || IdType==="") {return "";}
 			    var element = document.getElementById(IdType);
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	if ($("#" +IdType+ " option:selected").val())
-			    	{
-			    		return $("#" +IdType+ " option:selected").val();//+"##"+$("#" +IdType+ " option:selected").text();
-			    	}else
-			    	{
-			    		return "";	
-			    	}
-			    	
+			    	var alldata=[];
+		    		if($("#" +IdType+ "[multiple] option:selected").length){
+					    $("#" +IdType+ " option:selected").each(function() {
+					    	alldata.push($(this).val());
+					    });
+					    return alldata;
+					}else{
+					 return $("#" +IdType+ " option:selected").val();//+"##"+$("#" +IdType+ " option:selected").text();
+					}
 			    	
 			    }else if(element.tagName === 'INPUT' && element.type === 'text')
 			    {
@@ -1339,20 +1741,19 @@
 		 * @param {String} IdType Id of html element
 		 */
 		IsSelectORDropDownGetText:function(IdType){
+
+			if (!IdType || IdType==="") {return "";}
 			    
 			    var element = document.getElementById(IdType);
 			    
 			    if(element.tagName === 'SELECT')
 			    {
-			    	if ($("#" +IdType+ " option:selected").val())
-			    	{
-			    		return $("#" +IdType+ " option:selected").text();
-			    	}else
-			    	{
-			    		return "";	
-			    	}
-			    	
-			    	
+			    	var alldata=[];
+					if($("#" +IdType+ "[multiple] option:selected").length){
+					   return "<b>"+$("#" +IdType+ "[multiple] option:selected").size()+"  items Selected</b>";
+					}else{
+					 return $("#" +IdType+ " option:selected").text();
+					}
 			    }else if(element.tagName === 'INPUT' && element.type === 'text')
 			    {
 			    	return $("#" +IdType).val();//+"##"+$("#" +IdType).text();
@@ -1379,9 +1780,13 @@
 			    {
 			    	return document.getElementById(IdType).value;
 			    	
+			    }else if($('#'+IdType).is('textarea')){
+			    	
+			    	return $('#'+IdType).val();
+
 			    }
 
-			    return "";			
+			    return "";
 		},
 
 		/**
@@ -1389,7 +1794,7 @@
 		 * @param {String} IdType Id of html element
 		 */
 		GetSelectParent:function(IdType){
-			    
+			    if (!IdType || IdType==="") {return "";}
 			    var element = document.getElementById(IdType);
 			    
 			    if(element.tagName === 'SELECT')
@@ -1512,6 +1917,57 @@
 				context = context[namespaces[i]];
 			}
 			return context[func].apply(context, args);
+		},
+
+
+		/**
+		 * function to see if exist a data in array
+		 * @param  {Array}  array  the array you want to check 
+		 * @param  {Object} object the object you want to check 
+		 * @return {[type]}        return boolean if find return true if not find return false
+		 */
+		checkinArray:function(array=[],object={}) {
+			returnvalues=false;
+			array.forEach(function (temparray,index) {
+				//console.log('Propertis='+temparray);
+				if (JSON.stringify(temparray)===JSON.stringify(object))
+				{
+					returnvalues=true;
+				}
+				
+			});
+			return returnvalues;
+		},
+
+
+
+		/**
+		 * function to show the notification 
+		 * @param {String} idnotification the id of notification 
+		 * @param {Number} timetohide     the time to stay the notification after show
+		 * @param {String} message        the meessage of notification
+		 */
+		ShowNotification:function(idnotification="snackbar",timetohide=2000,message="Put a messsage to show") {
+			var x = document.getElementById(idnotification);
+			x.innerHTML=message;
+			x.className = "show";
+			setTimeout(function(){ x.className = x.className.replace("show", ""); }, timetohide);
+		},
+		ShowLoading:function(idnotification="",closeopen=true,message="Loading") {
+			if (idnotification){
+				if (closeopen===true)
+				{
+					var x = document.getElementById(idnotification);
+						// x.innerHTML=message;
+						x.className = "loading";
+				} else
+				{
+					var x = document.getElementById(idnotification);
+						// x.innerHTML=message;
+						x.className = x.className.replace("loading", "");
+					
+				}
+			}
 		}
 
 	};
