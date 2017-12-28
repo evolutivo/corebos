@@ -3,43 +3,55 @@
     <div id="LoadingImage" style="display: none">
         <img src="" />
     </div>
-    {if $HistoryMap neq ''}
+{if $HistoryMap neq ''}
     <script type="text/javascript">
-    App.savehistoryar = '{$HistoryMap}';
+       App.savehistoryar = '{$HistoryMap}';
     </script>
-    {/if} {if $PopupJS neq ''}
-    <script type="text/javascript">
-    { foreach from = $PopupJS item = allitems key = key name = name } { foreach name = outer item = popi from = $allitems }
-    var temparray = {}; { foreach key = key item = item from = $popi }
-    temparray['{$key}'] = '{$item}'; {
-        /foreach}
-        App.popupJson.push({ '{' } temparray { '}' });
-        // console.log(temparray);
-        {
-            /foreach}
-            HistoryPopup.addtoarray(App.popupJson, "PopupJSON");
-            App.popupJson.length = 0; {
-                /foreach}
+{/if} 
 
-                if (App.SaveHistoryPop.length > 0) {
-                    App.utils.AddtoHistory('LoadHistoryPopup', 'LoadShowPopup');
-                    App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryCorrect);
-                } else {
-                    App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryError);
-                }
+{if $PopupJS neq ''}
+  <script type="text/javascript">
+      {foreach from=$PopupJS item=allitems key=key name=name}
+           {foreach name=outer item=popi from=$allitems}  
+            var temparray = {};
+            {foreach key=key item=item from=$popi}
+                temparray['{$key}']='{$item}';
+            {/foreach}
+            App.popupJson.push({'{'}temparray{'}'});
+            // console.log(temparray);
+          {/foreach}
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
+      {/foreach}
+    
+     if (App.SaveHistoryPop.length>0)
+    { 
+        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+    }else{
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+     }
 
-                var historydata = App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length - 1)];
-                App.popupJson.length = 0;
-                for (var i = 0; i <= historydata.PopupJSON.length - 1; i++) {
-                    App.popupJson.push(historydata.PopupJSON[i]);
-                }
-                App.utils.ReturnDataSaveHistory('LoadShowPopup');
-    </script>
-    {/if} {if $Modali neq ''}
+    var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+    App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    App.utils.ReturnDataSaveHistory('LoadShowPopup');
+
+
+  </script>
+
+
+{/if}
+
+
+
+{if $Modali neq ''}
     <div>
-        {$Modali}
+      {$Modali}
     </div>
-    {/if}
+{/if}
     <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>
             <tr class="blockStyleCss" id="DivObjectID">
@@ -49,11 +61,18 @@
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                     <div class="slds-media__body">
-                                        <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.ListColumns}</b>
-                                </span>
-                            </h2>
+                                        <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.ListColumns}</b>
+                                          </span>
+                                        </h2>
+                                      {if $NameOFMap neq ''}
+                                       <h2 style="width: 50%;float: left;">
+                                              <span style="text-transform: capitalize;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                              <b>{$NameOFMap}</b>
+                                               </span>
+                                       </h2>
+                                      {/if}
                                     </div>
                                 </header>
                                 <div class="slds-section-title--divider">
@@ -104,7 +123,7 @@
                                             </div> *}
                                             <br>
                                         </div>
-                                        <div style="float:left; overflow: hidden;width:10%; margin-top: 30px;" id="centerJoin"> =</div>
+                                        <div style="float:left; overflow: hidden;width:10%; margin-top: 30px;" id="centerJoin"> </div>
                                         <div style="float:left; overflow: hidden;width:45%" id="sel2">
                                             {*
                                             <div class="testoDiv">

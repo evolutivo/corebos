@@ -73,25 +73,7 @@
                                                                     <td class="dvtCellInfo" align="left" width="50%">
                                                                         <div class="slds-select_container">
                                                                             <select data-load-Map="true" data-type-select="TypeMap" data-type-select-module="MapGenerator,ChoseeObject" id="TypeMaps" class="slds-select" disabled>
-                                                                                <option value="">{$MOD.TypeMapNone}</option>
-                                                                                <option value="SQL">{$MOD.ConditionQuery}</option>
-                                                                                <option value="Mapping">{$MOD.TypeMapMapping}</option>
-                                                                                <option value="IOMap">{$MOD.TypeMapIOMap}</option>
-                                                                                <option value="FieldDependency">{$MOD.TypeMapFieldDependency}</option>
-                                                                                <option value="FieldDependencyPortal">{$MOD.FieldDependencyPortal}</option>
-                                                                                <option value="WS">{$MOD.TypeMapWS}</option>
-                                                                                <option value="MasterDetail">{$MOD.MasterDetail}</option>
-                                                                                <option value="ListColumns">{$MOD.ListColumns}</option>
-                                                                                <option value="Module_Set">{$MOD.module_set}</option>
-                                                                                <option value="GlobalSearchAutocomplete">{$MOD.GlobalSearchAutocompleteMapping}</option>
-                                                                                <option value="CREATEVIEWPORTAL">{$MOD.CREATEVIEWPORTAL}</option>
-                                                                                <option value="ConditionExpression">{$MOD.ConditionExpression}</option>
-                                                                                <option value="DETAILVIEWBLOCKPORTAL">{$MOD.DETAILVIEWBLOCKPORTAL}</option>
-                                                                                <option value="MENUSTRUCTURE">{$MOD.MENUSTRUCTURE}</option>
-                                                                                <option value="RecordAccessControl">{$MOD.RecordAccessControl}</option>
-                                                                                <option value="DuplicateRecords">{$MOD.DuplicateRecords}</option>
-                                                                                {*
-                                                                                <!-- <option value="ConditionQuery">{$MOD.ConditionQuery}</option> -->*}
+                                                                                {$Allmaps}
                                                                             </select>
                                                                         </div>
                                                                     </td>

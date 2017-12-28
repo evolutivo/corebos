@@ -64,11 +64,18 @@
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                     <div class="slds-media__body">
-                                        <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.ChoseResponsabile}</b>
-                                </span>
-                            </h2>
+                                       <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.FieldDependency}</b>
+                                          </span>
+                                        </h2>
+                                      {if $NameOFMap neq ''}
+                                       <h2 style="width: 50%;float: left;">
+                                              <span style="text-transform: capitalize;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                              <b>{$NameOFMap}</b>
+                                               </span>
+                                       </h2>
+                                      {/if}
                                     </div>
                                 </header>
                                 <div class="slds-no-flex" data-aura-rendered-by="1224:0">
@@ -119,7 +126,7 @@
 	          </div>
 	 		</div>
 	 		<div style="display: inline-block; margin: 24px 290px 13px 0px;">
-	 			<select  id="Conditionalfield" name="mod" class="slds-select">
+	 			<select  id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
 	 				
 	                        <option value="equal">{$MOD.equals}</option>
 	                        <option value="not equal">{$MOD.not_equals}</option>
@@ -137,7 +144,7 @@
                               </div>
                               </div>
                           <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px; position: absolute; right: 0px;">
-                              <button data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                              <button onclick="clearInput();" id="AddbuttonFDP" data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                   <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;" >
                               </button>
                           </div>
@@ -378,7 +385,7 @@
                     </div>
                     <div class="slds-modal__footer">
                         {* <label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label> *}
-                        <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup"  class="slds-button slds-button--neutral slds-button--brand">
+                        <button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="removedataafterclick();"  class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.Add}
                         </button>  <!-- data-send-savehistory="{$savehistory}" -->
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}

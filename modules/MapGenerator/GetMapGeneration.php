@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-20 17:15:37
+ * @Last Modified time: 2017-12-22 19:08:52
  */
 
 
@@ -339,6 +339,27 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="RendicontaConfig") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			RendicontaConfig($QueryHistory,$MapID);		
+			
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -354,6 +375,80 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+function RendicontaConfig($QueryHistory,$MapID)
+{
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	include_once('modfields.php');
+
+	try{
+		if (!empty($QueryHistory))
+		{
+			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+			 $allfields=getModFields(get_The_history($QueryHistory,"firstmodule"));
+
+			$Allhistory=get_All_History($QueryHistory);
+			$Alldatas=array();
+
+			foreach ($Allhistory as $value) {
+				$xml=new SimpleXMLElement($value['query']);
+									
+					$temparray=[
+							'FirstModule'=>(string)$xml->respmodule,
+							'FirstModuleText'=>explode("#", Get_First_Moduls_TextVal((string)$xml->respmodule))[1],
+							'JsonType'=>"RendicontaConfig",
+							'causalefield'=>(!empty(explode(",",CheckAllFirstForAllModules($xml->causalefield))[0])?explode(",",CheckAllFirstForAllModules($xml->causalefield))[0]:$xml->causalefield),
+							'causalefieldText'=>(!empty(explode(",",CheckAllFirstForAllModules($xml->causalefield))[1])?explode(",",CheckAllFirstForAllModules($xml->causalefield))[1]:$xml->causalefield),
+							'processtemp'=>explode(",",CheckAllFirstForAllModules($xml->processtemp))[0],
+							'processtempText'=>explode(",",CheckAllFirstForAllModules($xml->processtemp))[1],
+							'statusfield'=>explode(",",CheckAllFirstForAllModules($xml->statusfield))[0],
+							'statusfieldText'=>explode(",",CheckAllFirstForAllModules($xml->statusfield))[1],
+							
+						];
+									
+				array_push($Alldatas,$temparray);
+			}
+
+			//this is for save as 
+			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+			//this is for save as map
+			 $data="MapGenerator,saveRecordAccessControl";
+			 $dataid="ListData,MapName";
+			 $savehistory="true";
+			 $saveasfunction="ShowLocalHistoryRecordAccessControll";
+			//  //assign tpl
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("allfields",$allfields);
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/RendicontaConfig.tpl');
+			echo $output;
+
+		}else{
+			//TODO:: this is if not find the idquery to load map by Id of map 
+		}
+	}catch(Exception $ex){
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+}
+
+
+
+
 function DuplicateRecords($QueryHistory,$MapID)
 {
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
@@ -406,7 +501,8 @@ function DuplicateRecords($QueryHistory,$MapID)
 			$smarty->assign("APP", $app_strings);
 			
 			$smarty->assign("MapName", $MapName);
-
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -503,7 +599,8 @@ function RecordAccessControl($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -568,7 +665,8 @@ function MENUSTRUCTURE($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -660,7 +758,8 @@ function DETAILVIEWBLOCKPORTAL($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -755,7 +854,8 @@ function CREATEVIEWPORTAL($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -872,7 +972,8 @@ function ConditionExpression($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -961,7 +1062,8 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		$smarty->assign("APP", $app_strings);
 		
 		$smarty->assign("MapName", $MapName);
-
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
 		$smarty->assign("HistoryMap",$HistoryMap);
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -1087,6 +1189,7 @@ function FieldDependency($QueryHistory,$MapID)
 		 //this is for save as 
 		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		 $NameOFMap=get_form_MapQueryID($QueryHistory,"mapname");
 		 // $smarty=new vtigerCRM_Smarty();
 		 $data="MapGenerator,saveFieldDependency";
 		 $dataid="ListData,MapName";
@@ -1104,6 +1207,7 @@ function FieldDependency($QueryHistory,$MapID)
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 			$smarty->assign("Picklistdropdown",$Picklistdropdown);
+			$smarty->assign("NameOFMap",$NameOFMap);
 			//put the smarty modal
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
@@ -1224,6 +1328,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 		 //this is for save as 
 		 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 		 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+		 $NameOFMap=get_form_MapQueryID($QueryHistory,"mapname");
 		 // $smarty=new vtigerCRM_Smarty();
 		 $data="MapGenerator,saveFieldDependencyPortal";
 		 $dataid="ListData,MapName";
@@ -1245,7 +1350,8 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 
 			$smarty->assign("PopupJS",$Alldatas);
-			$output = $smarty->fetch('modules/MapGenerator/FieldDependency.tpl');
+			$smarty->assign("NameOFMap",$NameOFMap);
+			$output = $smarty->fetch('modules/MapGenerator/FieldDependencyPortal.tpl');
 			echo $output;
 
 	} else {
@@ -1314,6 +1420,7 @@ function Module_IOMap($QueryHistory,$MapID)
 				array_push($Alldatas,$MyArray);
 			}
 			$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+
 			$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 			$smarty=new vtigerCRM_Smarty();
 			$data="MapGenerator,saveTypeIOMap";
@@ -1328,6 +1435,8 @@ function Module_IOMap($QueryHistory,$MapID)
 			// $smarty->assign("Allfilds", $MapName);
 
 			$smarty->assign("HistoryMap",$HistoryMap);
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 
 			$smarty->assign("allfields",$allfields);
 			//put the smarty modal
@@ -1410,7 +1519,8 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 			$smarty->assign("APP", $app_strings);
 			
 			$smarty->assign("MapName", $MapName);
-
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("HistoryMap",$HistoryMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
@@ -1520,6 +1630,10 @@ function ConditionQuery($QueryHistory,$MapID)
 		$smarty->assign("valueli",putThecondition($QueryHistory,(string)$xml->sql,$ArrayLabels));
 		// $smarty->assign("texticombo", $texticombo);
 		$smarty->assign("FOPTION", '');
+
+		$NameOFMap=$MapName;
+		$smarty->assign("NameOFMap",$NameOFMap);
+
 		// $smarty->assign("FIELDLABELS", $campiSelezionatiLabels);
 		$smarty->assign("JS_DATEFORMAT", parse_calendardate($app_strings['NTC_DATE_FORMAT'])); 
 		
@@ -1654,6 +1768,8 @@ function List_Clomns($QueryHistory,$MapID)
 			$smarty->assign("FmoduleID",$FmoduleID);
 			$smarty->assign("SmoduleID",$SmoduleID);
 
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("SecondModulerelation",$SecondModulerelation);
@@ -1875,6 +1991,8 @@ function Master_detail($QueryHistory,$MapID)
 			$smarty->assign("FmoduleID",$FmoduleID);
 			$smarty->assign("SmoduleID",$SmoduleID);
 
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("SecondModulerelation",$SecondModulerelation);
@@ -2025,6 +2143,7 @@ function Mapping_View($QueryHistory,$MapID)
 			$SecondModuleFields=$showfields;
 			$MapName=get_form_Map($MapID,"mapname");
 			$HistoryMap=$QueryHistory.",".$MapID;
+			$NameOFMap=get_form_Map($MapID,"mapname");
 			// value for Save As 
 			$data="MapGenerator,SaveTypeMaps";
 			$dataid="ListData,MapName";
@@ -2087,7 +2206,7 @@ function Mapping_View($QueryHistory,$MapID)
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 
 			$smarty->assign("PopupJson",$Alldatas);
-
+			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("SecondModuleFields",$SecondModuleFields);
 
 			$output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');

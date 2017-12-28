@@ -73,5 +73,6 @@ $mod_strings = Array(
     'conditions'=>'Conditions',
     'exit'=>'Exit',
     'addjoin'=>'Add Join Smownerid'
+    
 );
 ?>

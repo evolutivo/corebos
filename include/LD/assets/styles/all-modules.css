@@ -490,6 +490,8 @@ article.container::after {
     margin-bottom: 3rem;
 }
 
+.blockStyleCss>td span,
+.blockStyleCss>td div,
 .blockStyleCss>td {
     white-space: normal!important;
 }

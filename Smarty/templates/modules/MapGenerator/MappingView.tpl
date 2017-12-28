@@ -42,11 +42,19 @@
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                     <div class="slds-media__body">
-                                        <h2>
-                                <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="Organization Information">
-                                    <b>{$MOD.TypeMapMapping}</b>
-                                </span>
-                            </h2>
+                                        <h2 style="width: 50%;float: left;">
+                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
+                                             <b>{$MOD.TypeMapMapping}</b>
+                                          </span>
+                                        </h2>
+                                    {if $NameOFMap neq ''}
+                                     <h2 style="width: 50%;float: left;">
+                                            <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                            <b>{$NameOFMap}</b>
+                                             </span>
+                                     </h2>
+                                    {/if}
+                            
                                     </div>
                                 </header>
                                 <div class="slds-no-flex" data-aura-rendered-by="1224:0">
@@ -97,7 +105,7 @@
                                     </div>
                                     {/if}
                                     <div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
-                                        <div style="float:left; overflow: hidden;width:45%" id="sel1">
+                                        <div style="float:left; overflow: hidden;width:45%;margin-right: 64px;" id="sel1">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <center>
@@ -121,7 +129,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div>
+                                        {* <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div> *}
                                         <div style="float:left; overflow: hidden;width:45%" id="sel2">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">

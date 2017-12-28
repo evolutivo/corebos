@@ -2811,8 +2811,8 @@ function split_popups(event){
  * @param      {<type>}  Idload      The idload
  * @param      {string}  divHistory  The div history
  */
- function ShowHistoryDataLocal(Idload,divHistory)
- {
+function ShowHistoryDataLocal(Idload,divHistory)
+{
   var historydata=App.SaveHistoryPop[parseInt(Idload)];
   App.popupJson.length=0;
   App.ModulLabel='Module';
@@ -3010,6 +3010,299 @@ function ClickToshowSelectedFileds(Idload,divHistory)
         var typeofppopup=App.popupJson[i].temparray['JsonType'];
         var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
         $('#'+divHistory).append(divinsert);
+      } 
+    }
+}
+
+
+
+/////////// Field Dependency ///////////////
+
+
+function removedataafterclick()
+{
+  setTimeout(function(){
+    var selectid=$('#PickListFields');
+    var count=$('#ShowmoreInput input').size();
+    for (var i = 2; i<=count; i++) {
+      var idtoremove='#DefaultValueFirstModuleField_'+i;
+       $(idtoremove).parent().parent().parent().remove();
+    }
+    $('#DefaultValueFirstModuleField_1').val("");
+    $('#AddToArray').attr('data-add-relation-id','PickListFields,DefaultValueFirstModuleField_1');
+  },100);
+   
+}
+
+
+function clearInput()
+{
+  setTimeout(function(){
+    $('#DefaultValueResponsibel').val("");   
+  },100);
+   
+}
+
+
+function Checkifexist()
+{
+  var valuefromdropdown=$('#PickListFields  option:selected').val();
+
+  var found=App.popupJson.some(function(el){
+    return el.PickListFields===valuefromdropdown;
+  });
+
+  if (!found)
+  {
+    console.log("EdmondiKAcaj");
+  }
+  // for (var i = App.popupJson.length - 1; i >= 0; i--) {
+  //     if (valuefromdropdown==App.popupJson[i].temparray[]) {}
+
+  //   App.popupJson[i]
+  // }
+   
+}
+
+
+
+function CheckChoise(sel)
+{
+  var valueselected=sel.value;
+  if (valueselected==='empty' || valueselected==='not empty')
+  {
+    $('#DefaultValueResponsibel').hide('slow');
+    $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,Firstfield,Conditionalfield');
+  }else
+  {
+    $('#DefaultValueResponsibel').show('slow');
+    $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield');
+  }
+
+}
+
+
+
+///////////// RendicontaConfig  //////////////////////
+
+
+/**
+ * Generate html alertes only for RendicontaConfig
+ *
+ * @param      {(number|string)}  Idd        The idd
+ * @param      {string}           moduli     The moduli
+ * @param      {string}           fields     The fields
+ * @param      {string}           divid      The divid
+ * @param      {string}           typepopup  The typepopup
+ * @return     {string}           { description_of_the_return_value }
+ */
+function addToPopupRendicontaConfig(Idd,FirstModule,statusfield,processtemp,causalefield,divid,typepopup)
+ {
+   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+   + '">';
+   INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupDataRendicontaConfig('
+   + Idd + ',\'' + divid + '\');">&times;</span>';
+   if (FirstModule && FirstModule!=='')
+   {
+      INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
+      INSertAlerstJOIN += '<br/> status field  ==> '+statusfield;
+      INSertAlerstJOIN += '<br/> process templates  ==> '+processtemp;
+      if (causalefield && causalefield!=="none")
+      {
+        INSertAlerstJOIN += '<br/> causal field  ==> '+causalefield;
+      }
+    
+  } else
+  {
+    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+  }
+
+  INSertAlerstJOIN += '</div';
+
+  return INSertAlerstJOIN;
+}
+
+
+/**
+ * Closes a popup data rendiconta configuration.
+ *
+ * @param      {(number|string)}  remuveid  The remuveid
+ * @param      {string}           namediv   The namediv
+ */
+function closePopupDataRendicontaConfig(remuveid,namediv) {
+      var check = false;
+      for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+      {
+        if (ii == remuveid)
+        {
+           //JSONForCOndition.remove(remuveid);
+           App.popupJson.splice(remuveid,1);
+           check = true
+        
+        
+        }
+      }
+      if (check) {
+          var remuvediv="#alerts_"+remuveid;
+          $( remuvediv).remove( );
+          $('#' + namediv + ' div').remove();
+          if (App.popupJson.length>0)
+          { 
+             for (var i = 0; i <= App.popupJson.length-1; i++) {
+               var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+               var causalefield=App.popupJson[i].temparray[`causalefield`];
+               if (causalefield && causalefield!=="none")
+               {
+                 causalefield=App.popupJson[i].temparray[`causalefieldText`];
+               }else{causalefield="";}
+               var processtempText=App.popupJson[i].temparray['processtempText'];
+               var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
+               var JsonType=App.popupJson[i].temparray['JsonType'];
+               var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,namediv,typeofpopup);
+               $('#'+divid).append(divinsert);
+             }
+
+          }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+        // alert(mv_arr.ReturnFromPost);
+        App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
+}
+
+
+
+/**
+ * add popup when click add
+ *
+ * @class      AdDPOpupRendicontaConfig (name)
+ * @param      {<type>}  sel     The selected
+ */
+function AdDPOpupRendicontaConfig(sel) {
+    if (sel)
+    {
+      var idrelation=sel.dataset.addRelationId;
+      var typeofpopup=sel.dataset.addType;
+      var divid=sel.dataset.divShow; 
+       var temparray={};
+       var checkif=false;
+      if (idrelation)
+      {
+           $('#'+divid+' div').remove();
+           var optionalvalues=$("#"+idrelation.split(',')[3]+" option:selected").val();
+           if (!optionalvalues)
+           {
+             $("#"+idrelation.split(',')[3]+" option:selected").val("none");
+           }
+           var arrayfields=idrelation.split(',');
+           for (var i = arrayfields.length - 1; i >= 0; i--) {
+               if (App.utils.IsSelectORDropDown(arrayfields[i]).length>0)
+               {
+                  temparray[arrayfields[i]]=App.utils.IsSelectORDropDown(arrayfields[i]);
+                  temparray[arrayfields[i]+'Text']=App.utils.IsSelectORDropDownGetText(arrayfields[i]);
+                  checkif=true;
+               }else{
+                 checkif=false;
+                 break;
+               }
+           }
+            if (checkif===true)
+            {
+              temparray['JsonType']=typeofpopup;
+              var checkvalue={temparray};
+              if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+              {
+                App.popupJson.push({temparray});
+              }else
+              {
+                App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
+              }
+            }else
+            {
+              App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
+            }
+
+           if (App.popupJson.length>0)
+           { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+               var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+               var causalefield=App.popupJson[i].temparray[`causalefield`];
+               if (causalefield && causalefield!=="none")
+               {
+                 causalefield=App.popupJson[i].temparray[`causalefieldText`];
+               }else{causalefield="";}
+               var processtempText=App.popupJson[i].temparray['processtempText'];
+               var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
+               var JsonType=App.popupJson[i].temparray['JsonType'];
+               var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,divid,JsonType);
+               $('#'+divid).append(divinsert);
+             } 
+
+          }else{
+                    // alert(mv_arr.MappingFiledValid);
+            App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+    }
+  }
+}
+
+
+////// local history 
+
+function LocalHistoryRendicontaConfig(IdLoad,divanameLoad,dividrelation='')
+{
+   var htmldat='<div class="Message Message"  >';
+   htmldat+='<div class="Message-icon">';
+   htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowRendicontConfig(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+   htmldat+='</div>';
+   htmldat+='<div class="Message-body">';
+   htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='</div>';
+   htmldat+='</div>';
+   return htmldat;
+}
+
+
+function ShowLocalHistoryRecordAccessControll(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+       $('#'+keephitoryidtoshow+' div').remove();
+       for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
+        $('#'+keephitoryidtoshow).append(LocalHistoryRendicontaConfig(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+
+function ShowRendicontConfig(Idload,divHistory)
+{
+    var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    App.ModulLabel='Module';
+    App.FieldLabel='Related';
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+               var causalefield=App.popupJson[i].temparray[`causalefield`];
+               if (causalefield && causalefield!=="none")
+               {
+                 causalefield=App.popupJson[i].temparray[`causalefieldText`];
+               }else{causalefield="";}
+               var processtempText=App.popupJson[i].temparray['processtempText'];
+               var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
+               var JsonType=App.popupJson[i].temparray['JsonType'];
+               var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,divHistory,JsonType);
+               $('#'+divHistory).append(divinsert);
       } 
     }
 }

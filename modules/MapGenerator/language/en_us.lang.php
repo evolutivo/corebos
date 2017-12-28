@@ -155,5 +155,15 @@ $mod_strings = array(
 	'DuplicateDirectRelations'=>'Duplicate Direct Relations',
 	'TRUEE'=>'True',
 	'FALSEE'=>'False',
+	'FieldDependency'=>'Field Dependency',
+	'FieldDependencyPortal'=>'Field DependencyPortal',
+	'RendicontaConfig'=>'RendicontaConfig',
+	'PopupZone'=>'PopUp Zone',
+	'HistoryZone'=>'History Zone',
+	'ChosseMOdule'=>'Chosse Module',
+	'statusfield'=>' Choose the status field',
+	'processtemp'=>' Choose the process templates',
+	'causalefield'=>' Choose the causal field (optional)',
+
 );
 ?>

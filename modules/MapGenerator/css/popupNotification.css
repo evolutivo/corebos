@@ -13,115 +13,137 @@ $c-yellows: #F39C12, #FCA624, #F1C40F;
 $c-purples: #532E62, #8E44AD, #9B59B6;
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /*body {
-  background-color: #ddd;
-  font-family: 'Source Sans Pro';
-  font-weight: 300;
+	background-color: #ddd;
+	font-family: 'Source Sans Pro';
+	font-weight: 300;
 }*/
 
-.Message {
-  display: table;
-    position: relative;
-    margin: 0px auto 0;
-     width: 207px; 
-    background-color: red;
-    color: #fff;
-    transition: all 0.2s ease;
-    height: 0px;
-    margin: 7px;
-  
-  &.is-hidden {
-    opacity: 0;
-    height: 0;
-    font-size: 0;
-    padding: 0;
-    margin: 0 auto;
-    display: block;
-  }
+#contenitoreJoin{
+	overflow-y:  auto;
+	overflow-x:  hidden;
+/*	display: flex;
+	padding: .75rem 1.5rem;*/
 }
-  .Message--orange {
-    background-color: nth($c-yellows, 1);
-  }
 
-  .Message--red {
-    background-color: nth($c-reds, 2);
-  }
+#LoadHistoryPopup .Message {
+	padding: 5px;
+}
 
-  .Message--green {
-    background-color: nth($c-greens, 2);
-  }
+.history-title {
+	padding: 2px;
+	font-weight: bold;
+}
 
-  .Message-icon {
-    display: table-cell;
-    vertical-align: middle;
-    width: 36px;
-    padding: 0px;
-    text-align: center;
-    background-color: mediumvioletred;
-    
-    >i {
-      width: 20px;
-      font-size: 20px;
-    }
-  }
-  
-  .Message-body {
-    display: table-cell;
-    /* vertical-align: middle; */
-    padding: 0px 0px 0px 0px;
-    
-    > p {
-      line-height: 1.2;
-      margin-top: 6px;
-    }
-  }
+.history-container {
+	padding: 2px;
+}
 
-  .Message-button {
-    position: absolute;
-    background-color: black;
-    color: #fff;
-    border: none;
-    outline: none;
-    font-size: 20px;
-    right: 5px;
-    top: 5px;
-    opacity: 0;
-    cursor: pointer;
-    
-    &:hover {
-      background: black;
-    }
+.Message {
+	display: inline-table;
+	width: 100%;
+	background-color: #68D8FF;
+	color: #313131;
+	position: relative;
+	transition: all 0.2s ease;
+	margin-bottom: 5px;
+
+	&.is-hidden {
+		opacity: 0;
+		height: 0;
+		font-size: 0;
+		padding: 0;
+		margin: 0 auto;
+		display: block;
+	}
+}
+	.Message--orange {
+		background-color: nth($c-yellows, 1);
+	}
+
+	.Message--red {
+		background-color: nth($c-reds, 2);
+	}
+
+	.Message--green {
+		background-color: nth($c-greens, 2);
+	}
+
+	.Message-icon {
+		display: table-cell;
+		vertical-align: middle;
+		width: 36px;
+		padding: 0px;
+		text-align: center;
+		background-color: #0070D2;
+		
+		>i {
+			width: 20px;
+			font-size: 20px;
+		}
+	}
+
+	.Message-icon button {
+		color: #fff;
+	}
+	
+	.Message-body {
+		display: table-cell;
+		/* vertical-align: middle; */
+		padding: 5px;
+		
+		> p {
+			line-height: 1.2;
+			margin-top: 6px;
+		}
+	}
+
+	.Message-button {
+		position: absolute;
+		background-color: black;
+		color: #fff;
+		border: none;
+		outline: none;
+		font-size: 20px;
+		right: 5px;
+		top: 5px;
+		opacity: 0;
+		cursor: pointer;
+		
+		&:hover {
+			background: black;
+		}
  
-    &:active {
-      background: black;
-      box-shadow: 0 0px black;
-      top: 3px;
-    }
-  }
+		&:active {
+			background: black;
+			box-shadow: 0 0px black;
+			top: 3px;
+		}
+	}
 
-  .Message-close {
-    position: absolute;
-    background-color: black;
-    color: #fff;
-    border: none;
-    outline: none;
-    font-size: 20px;
-    right: 5px;
-    top: 5px;
-    opacity: 0;
-    cursor: pointer;
-    
-    }
-   .Message-close:hover{
-       background-color:black;
-       opacity: 1;
-    }
+	.Message-close {
+		position: absolute;
+		background-color: black;
+		color: #fff;
+		border: none;
+		outline: none;
+		font-size: 20px;
+		right: 5px;
+		top: 5px;
+		opacity: 0;
+		cursor: pointer;
+		
+		}
+	 .Message-close:hover{
+			 background-color:black;
+			 opacity: 1;
+		}
 
 .u-italic {
-  font-style: italic;
+	font-style: italic;
 }
 
 
@@ -129,45 +151,45 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 /*this is for snack bar */
 
 #snackbar {
-    visibility: hidden;
-    min-width: 250px;
-    margin-left: -125px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 2px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    font-size: 17px;
+		visibility: hidden;
+		min-width: 250px;
+		margin-left: -125px;
+		background-color: #333;
+		color: #fff;
+		text-align: center;
+		border-radius: 2px;
+		padding: 16px;
+		position: fixed;
+		z-index: 1;
+		left: 50%;
+		bottom: 30px;
+		font-size: 17px;
 }
 
 #snackbar.show {
-    visibility: visible;
-    -webkit-animation: fadein 0.8s;
-    animation: fadein 0.8s;
+		visibility: visible;
+		-webkit-animation: fadein 0.8s;
+		animation: fadein 0.8s;
 }
 
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;} 
-    to {bottom: 30px; opacity: 1;}
+		from {bottom: 0; opacity: 0;} 
+		to {bottom: 30px; opacity: 1;}
 }
 
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+		from {bottom: 0; opacity: 0;}
+		to {bottom: 30px; opacity: 1;}
 }
 
 @-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;} 
-    to {bottom: 0; opacity: 0;}
+		from {bottom: 30px; opacity: 1;} 
+		to {bottom: 0; opacity: 0;}
 }
 
 @keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+		from {bottom: 30px; opacity: 1;}
+		to {bottom: 0; opacity: 0;}
 }
 
 
@@ -176,25 +198,25 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 
 /*this is for popup */
 .alerts {
-  padding: 10px;
-  background-color: #808080;
-  margin: 4px;
-  color: white;
-  display: inline-block;
-            
+	padding: 10px;
+	background-color: #808080;
+	margin: 4px;
+	color: white;
+	display: inline-block;
+						
 }
 
 .closebtns {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 20px;
-    line-height: 15px;
-    cursor: pointer;
-    transition: 0.3s;
+		margin-left: 15px;
+		color: white;
+		font-weight: bold;
+		float: right;
+		font-size: 20px;
+		line-height: 15px;
+		cursor: pointer;
+		transition: 0.3s;
 }
 
 .closebtns:hover {
-    color: black;
+		color: black;
 }
