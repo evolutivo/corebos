@@ -205,13 +205,10 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				}
 			}
 
-			if ($pickcount == 0) { // current value not found so this role does not have permission to it > we force it
-				if (isset($_REQUEST['file']) && $_REQUEST['file'] == 'QuickCreate') {
-					$options[] = array(htmlentities(getTranslatedString($valueArr, $module), ENT_QUOTES, $default_charset), $valueArr, 'selected');
-				} else {
-					$options[] = array(getTranslatedString($valueArr, $module), $valueArr, 'selected');
-				}
-			}
+			if ($pickcount == 0 && !empty($value)) {
+				$options[] = array($app_strings['LBL_NOT_ACCESSIBLE'], $value, 'selected');
+ 				}
+			
 		}
 		$label_fld ["options"] = $options;                
 	} elseif ($uitype == 1024) {
