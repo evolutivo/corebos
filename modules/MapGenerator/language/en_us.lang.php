@@ -164,6 +164,7 @@ $mod_strings = array(
 	'statusfield'=>' Choose the status field',
 	'processtemp'=>' Choose the process templates',
 	'causalefield'=>' Choose the causal field (optional)',
+	'SelectFields'=>'Select Fields'
 
 );
 ?>

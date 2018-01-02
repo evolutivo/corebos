@@ -174,6 +174,9 @@
                                                 <br>
                                                 <div class="slds-form-element">
                                                     <div class="slds-form-element__control">
+                                                      <center>
+                                                          <label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
+                                                      </center>
                                                         <div class="slds-select_container">
                                                             <select id="Firstfield" name="mod" class="slds-select">
                                                                 {$FirstModuleFields}

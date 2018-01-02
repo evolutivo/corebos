@@ -121,6 +121,9 @@
                                             <br>
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
+                                                     <center>
+                                                        <label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
+                                                    </center>
                                                     <div class="slds-select_container">
                                                         <select id="Firstfield" name="mod" class="slds-select">
                                                             {$FirstModuleFields}
@@ -146,6 +149,9 @@
                                             <br>
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
+                                                    <center>
+                                                        <label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
+                                                    </center>
                                                     <div class="" id="SecondDiv" style="float: left;width: 90%; height: 33px;">
                                                         <select id="SecondField" name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup" class="slds-select">
                                                             {$SecondModuleFields}
@@ -176,7 +182,7 @@
                                             <div id="sectionField" style="width:100%;">
                                                 <div>
                                                     <div class="testoDiv">
-                                                        <center><b>{$MOD.SelectField}</b></center>
+                                                        {* <center><b>{$MOD.SelectField}</b></center> *}
                                                     </div>
                                                     <div class="slds-form-element">
                                                         <div class="slds-form-element__control">
