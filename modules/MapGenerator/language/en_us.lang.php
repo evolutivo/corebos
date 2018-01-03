@@ -114,9 +114,9 @@ $mod_strings = array(
 	'expression' => 'Expression ',
 	'function' => 'Function ',
 	'writetheexpresion' => 'Write the expression or select a field',
-	'writethefunctionname' => 'Write the function name and after click shift ',
+	'writethefunctionname' => 'Write the function name ',
 	'putParameter' => 'Write a parameter ',
-	'SelectModule' => 'Selected module',
+	'SelectModule' => 'Select a module',
 	'SelectFieldOrwritetheparameters' => 'Select the fields or write the parameters',
 	'Module' => 'Module',
 	'CREATEVIEWPORTAL' => 'CREATEVIEWPORTAL',
@@ -164,7 +164,7 @@ $mod_strings = array(
 	'statusfield'=>' Choose the status field',
 	'processtemp'=>' Choose the process templates',
 	'causalefield'=>' Choose the causal field (optional)',
-	'SelectFields'=>'Select Fields'
-
+	'SelectFields'=>'Select Fields',
+	'InfoFunctionName'=>'The function name must have at least 4 characters'
 );
 ?>

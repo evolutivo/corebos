@@ -2165,18 +2165,33 @@ function removearrayselectedall()
 
 function checkfunctionname(elem)
 {
-  if( !elem.value) {
-   $('#Firstmodule2').attr('disabled', 'disabled');
-   $('#Firstfield2').attr('disabled', 'disabled');
-   $('#DefaultValueFirstModuleField_1').attr('disabled', 'disabled');
- }else{
-   $('#Firstmodule2').removeAttr('disabled');
-   $('#Firstfield2').removeAttr('disabled');
-   $('#DefaultValueFirstModuleField_1').removeAttr('disabled');
- }
+    var valuesinput=elem.value;
+   if (valuesinput && valuesinput.length>=4)
+    {
+      $('#Firstmodule2').removeAttr('disabled');
+      $('#Firstfield2').removeAttr('disabled');
+      $('#DefaultValueFirstModuleField_1').removeAttr('disabled')
+    }else {
+      $('#Firstmodule2').attr('disabled', 'disabled');
+      $('#Firstfield2').attr('disabled', 'disabled');
+      $('#DefaultValueFirstModuleField_1').attr('disabled', 'disabled');
+    }
 }
 
-
+// $("#FunctionName").on('change', function () {
+//    var element = $(this);
+//    var valuesinput=element.val();
+//    if (valuesinput && valuesinput.length>=5)
+//     {
+//       $('#Firstmodule2').removeAttr('disabled');
+//       $('#Firstfield2').removeAttr('disabled');
+//       $('#DefaultValueFirstModuleField_1').removeAttr('disabled')
+//     }else {
+//       $('#Firstmodule2').attr('disabled', 'disabled');
+//       $('#Firstfield2').attr('disabled', 'disabled');
+//       $('#DefaultValueFirstModuleField_1').attr('disabled', 'disabled');
+//     }
+// });
 
 // function selectOnlyOne(elem) {
 //    f (elem.id==="Expression" && elem.checked) {

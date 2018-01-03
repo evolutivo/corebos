@@ -168,7 +168,22 @@
                                                                             <div class="slds-form-element">
                                                                               <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
                                                                               <div id="divfunctionname" class="slds-form-element__control">
-                                                                               <input style="width:100%;" type="text"  id="FunctionName" onblur="checkfunctionname(this);removearrayselectedall()" class="slds-input" placeholder="{$MOD.writethefunctionname}">
+                                                                              <div class="slds-form-element">
+                                                                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
+                                                                                  <input style="width:100%;" id="FunctionName" onblur="removearrayselectedall()" oninput="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}" />
+                                                                                  <button data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
+                                                                                    <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
+                                                                                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#info" />
+                                                                                    </svg>
+                                                                                    <span class="slds-assistive-text">Clear</span>
+                                                                                  </button>
+                                                                                </div>
+                                                                                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" id="help" role="tooltip" style="top: 0px;width: 20rem;margin-left: 38%;display: none;">
+                                                                                    <div class="slds-popover__body slds-text-longform">
+                                                                                      <p style="color:  black;padding:  0px;font-size:  12px;">{$MOD.InfoFunctionName}</p>
+                                                                                    </div>
+                                                                                  </div>
+                                                                              </div>
                                                                               </div>
                                                                             </div>
                                                                       </div>
