@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-02 17:05:48
+ * @Last Modified time: 2018-01-03 12:48:43
  */
 
 
@@ -1105,7 +1105,9 @@ function FieldDependency($QueryHistory,$MapID)
 
 		 //
 		 $arrayName = array();
-		 $Picklistdropdown=getModFields(get_The_history($QueryHistory,"firstmodule"),'',$arrayName,"15,33");
+		 $select="<option selected value=''>Select a Picklist</option>";
+		 $select.=getModFields(get_The_history($QueryHistory,"firstmodule"),'',$arrayName,"15,33");
+		 $Picklistdropdown=$select;
 		
 		 	 //all history 
 		 $Allhistory=get_All_History($QueryHistory);
@@ -1246,7 +1248,9 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 
 		 //
 		 $arrayName = array();
-		 $Picklistdropdown=getModFields(get_The_history($QueryHistory,"firstmodule"),'',$arrayName,"15,33");
+		$select="<option selected value=''>Select a Picklist</option>";
+		 $select.=getModFields(get_The_history($QueryHistory,"firstmodule"),'',$arrayName,"15,33");
+		 $Picklistdropdown=$select;
 		
 		 	 //all history 
 		 $Allhistory=get_All_History($QueryHistory);

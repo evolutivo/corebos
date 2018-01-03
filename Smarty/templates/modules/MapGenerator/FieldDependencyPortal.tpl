@@ -97,7 +97,7 @@
                                         <div>
                                             <div style="width: 100%;">
                                                 <div class="slds-form-element">
-                                                    <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
+                                                    <label class="slds-form-element__label" style="float: left;" for="inputSample3">Choose the Module</label>
                                                     <div class="slds-form-element__control">
                                                         <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields" data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator" id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
                                                             {$FirstModuleSelected}
@@ -108,7 +108,7 @@
                                             <div>
                                                 <div style="float: left;width: 40%;">
                                                     <div class="slds-form-element">
-                                                        <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
+                                                        <label class="slds-form-element__label" style="float: left;" for="inputSample3">Choose the field</label>
                                                         <div class="slds-form-element__control">
                                                             <select id="Firstfield" name="mod" class="slds-select">
                                                                 {$FirstModuleFields}
@@ -117,7 +117,7 @@
                                                     </div>
                                                 </div>
                                                 <div style="display: inline-block; margin: 24px 290px 13px 0px; ">
-                                                    <select id="Conditionalfield" name="mod" class="slds-select">
+                                                    <select id="Conditionalfield" onchange="CheckChoise(this);" name="mod" class="slds-select">
                                                         <option value="equal">{$MOD.equals}</option>
                                                         <option value="not equal">{$MOD.not_equals}</option>
                                                         <option value="empty">{$MOD.empty}</option>
@@ -126,7 +126,7 @@
                                                 </div>
                                                 <div style="float: right; width: 40%;margin-top:-67px;padding: 0px;">
                                                     <div class="slds-form-element">
-                                                        <label class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
+                                                        <label id="labelforinputDefaultValueResponsibel" style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
                                                         <div class="slds-form-element__control">
                                                             <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
                                                                 <div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
@@ -134,7 +134,7 @@
                                                                         <input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" style="width:230px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
                                                                     </div>
                                                                 </div>
-                                                                <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
+                                                                <div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
                                                                     <button id="AddbuttonFDP" onclick="clearInput();" data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                                                         <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                                                                     </button>
@@ -329,7 +329,7 @@
                                     <div class="slds-form-element">
                                         <label class="slds-form-element__label" for="inputSample3">Choose the field</label>
                                         <div class="slds-form-element__control">
-                                            <select id="PickListFields" name="mod" class="slds-select">
+                                            <select id="PickListFields" onchange="checkIfAdded(this);" name="mod" class="slds-select">
                                                 {$Picklistdropdown}
                                             </select>
                                         </div>

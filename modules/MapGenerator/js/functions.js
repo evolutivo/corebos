@@ -3071,17 +3071,47 @@ function CheckChoise(sel)
   var valueselected=sel.value;
   if (valueselected==='empty' || valueselected==='not empty')
   {
+     $('#divbutton').animate({
+      'margin-top': '26px',
+      'margin-right': '200px'
+    }, 'slow');
+    //  .css({
+    //   'margin-top': '26px',
+    //   'margin-right': '200px'
+    // });
     $('#DefaultValueResponsibel').hide('slow');
+    $('#labelforinputDefaultValueResponsibel').hide('slow');
+   
     $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,Firstfield,Conditionalfield');
   }else
   {
+    $('#divbutton').animate({
+      'margin-top': '0px',
+      'margin-right': '0px'
+    }, 'slow');
     $('#DefaultValueResponsibel').show('slow');
-    $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield');
+    $('#labelforinputDefaultValueResponsibel').show('slow');
+     $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield');
   }
 
 }
 
+function checkIfAdded(event){
+  var values=event.value;
+  if (values)
+  {
+    if(App.popupJson.length>0){
+       for (var i = App.popupJson.length - 1; i >= 0; i--) {
+           if (App.popupJson[i].temparray.PickListFields.replace(/\s+/g, '')===values)
+            {
+              alert(mv_arr.NotAllowedDopcicate);
+              $('option:selected', event).removeAttr('selected');
 
+            }
+       }
+    }
+  }
+}
 
 ///////////// RendicontaConfig  //////////////////////
 

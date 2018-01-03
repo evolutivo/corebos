@@ -6,5 +6,7 @@ include 'modfields.php';
 
 $mm =$_REQUEST['mod'];
 $arrayName = array();
-echo getModFields($mm,"",$arrayName,"15,33");
+$select="<option selected value=''>Select a Picklist</option>";
+$select.=getModFields($mm,"",$arrayName,"15,33");
+echo $select;
 ?>
