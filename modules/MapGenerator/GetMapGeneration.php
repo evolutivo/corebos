@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-03 12:48:43
+ * @Last Modified time: 2018-01-03 16:34:17
  */
 
 
@@ -1002,7 +1002,8 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 	if (!empty($QueryHistory)) {
 		//TODO:: check if exist the history
 		$firstmodulearray=explode(',',get_The_history($QueryHistory,"firstmodule"));
-		$FirstModuleSelected=Get_First_Moduls(end($firstmodulearray));
+		$firstmodule="<option value=''>Select a Module</option>".Get_First_Moduls(end($firstmodulearray));
+		$FirstModuleSelected=$firstmodule;
 		 //fields 
 		 $FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
 

@@ -94,7 +94,7 @@
                                                           <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
                                                       </center>  
                                                           <div class="slds-select_container">
-                                                             <select data-select-load="true" id="FirstModule" name="mod" class="slds-select">
+                                                             <select  id="FirstModule" name="mod" class="slds-select">
                                                               {$FirstModuleSelected}
                                                               </select>
                                                              </div>
