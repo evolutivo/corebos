@@ -49,7 +49,7 @@
                         <article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                    <div>
+                                    <div style="width:  100%;">
                                         <h2 style="width: 50%;float: left;">
                                           <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
                                              <b>{$MOD.TypeMapIOMap}</b>
@@ -57,7 +57,7 @@
                                         </h2>
                                       {if $NameOFMap neq ''}
                                        <h2 style="width: 50%;float: left;">
-                                              <span style="text-transform: capitalize;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
+                                              <span style="text-transform: capitalize;text-align: center;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
                                               <b>{$NameOFMap}</b>
                                                </span>
                                        </h2>
