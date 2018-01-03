@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2017-12-22 16:56:38
+* @Last Modified time: 2018-01-03 14:25:11
 */
 
 
@@ -143,6 +143,8 @@
 						urlsend, dat);
 			}else if (select == "Module_Set") {
 				// idfieldfill,urlsend,dat
+				 App.ModulLabel='Module';
+    			 App.FieldLabel='Related';
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
