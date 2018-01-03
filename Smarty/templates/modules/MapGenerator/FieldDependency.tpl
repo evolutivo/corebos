@@ -134,7 +134,7 @@
 	                        <option value="not empty">{$MOD.not_empty}</option>
 	            </select></div>
 	 		<div style="float: right; width: 40%; *//* margin: 0px; */padding: 0px;">
-		 		<div class="slds-form-element" style="width: 100%;margin-top:-67px;height: 34px; position: relative;">
+		 		<div class="slds-form-element" style="width: 100%;margin-top:-67px;height: 34px; position: relative;text-align: initial;">
 	            <label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
 	            <div class="slds-form-element__control">
 	              	<div class="slds-combobox_container slds-has-object-switcher" >

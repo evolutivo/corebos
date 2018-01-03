@@ -124,7 +124,7 @@
                                                         <option value="not empty">{$MOD.not_empty}</option>
                                                     </select>
                                                 </div>
-                                                <div style="float: right; width: 40%;margin-top:-67px;padding: 0px;">
+                                                <div style="float: right; width: 40%;margin-top:-67px;padding: 0px;text-align: initial;">
                                                     <div class="slds-form-element">
                                                         <label id="labelforinputDefaultValueResponsibel" style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
                                                         <div class="slds-form-element__control">
