@@ -102,11 +102,11 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <center>
-                                                        <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID</label>
+                                                <div style="margin-top: 10px;">
+                                                    <center style="float:  left;width: 10%;margin:  0px;">
+                                                        <label style="font-size: larger;font-size: 15px;float:left;margin-top: 18px;">ID</label>
                                                     </center>
-                                                    <input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID" style="padding: 0px;width: 100%;">
+                                                    <input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID" style="font-size: larger;/* margin: 0; */font-size: 15px;float:  left;margin-top:  10px;width: 90%;">
                                                 </div>
                                             </div>
                                             <br> {*
@@ -142,11 +142,11 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    <center>
-                                                        <label style="font-size: larger;vertical-align:bottom;margin: 0;">ID</label>
+                                                <div style="margin-top: 10px;">
+                                                    <center style="float:  left;width: 10%;margin:  0px;">
+                                                        <label style="font-size: larger;font-size: 15px;float:left;margin-top: 18px;">ID</label>
                                                     </center>
-                                                    <input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID" style="padding: 0px;width: 100%;">
+                                                    <input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID" style="font-size: larger;/* margin: 0; */font-size: 15px;float:  left;margin-top:  10px;width: 90%;">
                                                 </div>
                                             </div>
                                             <br> {*
@@ -173,9 +173,10 @@
                                         <br>
                                         <br>
                                         <div id="sectionField" style="width:100%; float: left;">
-                                            <div class="testoDiv">
+                                            <div class="testoDiv" style="margin: 20px 0px  5px 0px;">
                                                 <center><b>{$MOD.RelatedList}</b></center>
                                             </div>
+                                            <hr style="display: block;margin-top: 0.5em;margin-bottom: 0.5em;margin-left: auto;margin-right: auto;border-style: inset;border-width: 1px;">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">
@@ -216,9 +217,10 @@
                                         </div>
                                         <div id="contenitoreJoins">
                                             <div id="sectionField" style="width:100%; float: left; margin-top: 10px">
-                                                <div class="testoDiv">
+                                                <div class="testoDiv" style="margin: 20px 0px  5px 0px;">
                                                     <center><b>{$MOD.popupPlace}</b></center>
                                                 </div>
+                                                <hr style="display: block;margin-top: 0.5em;margin-bottom: 0.5em;margin-left: auto;margin-right: auto;border-style: inset;border-width: 1px;">
                                                 <div class="slds-form-element">
                                                     <div class="slds-form-element__control">
                                                         <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">
