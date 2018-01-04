@@ -8,23 +8,24 @@
                             </svg>
                             <span class="slds-assistive-text">{$MOD.close}</span>
                         </button>
-                        <h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
+                        <h2 class="slds-text-heading--medium">{$MOD.HeadOfModalSaveAs}</h2>
                     </div>
                     <div class="slds-modal__content slds-p-around--medium">
                         <div>
                             <div class="slds-form-element">
-                                <label class="slds-form-element__label" for="input-unique-id">
-                                    <abbr id="ErrorVAlues" class="slds-required" title="{$MOD.requiredstring}">*</abbr>{$MOD.required}</label>
+                                <label class="slds-form-element__label" for="input-unique-id">{$MOD.MapName}</label>
                                 <input style="width: 400px; " type="text" id="SaveasMapText" name="nameView" required=""
                                        class="slds-input" placeholder="{$MOD.mapname}" data-controll="true" data-controll-idlabel="ErrorLabelModal" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="SendDataButton" >
                                 <div class="slds-form-element__control">
 
                                 </div>
                             </div>
+                            <label title="This field is required!" class="slds-form-element__label slds-required" for="input-unique-id" style="width: 20%;margin-left: 15%;">*{$MOD.requiredstring}</label>
                         </div>
+                        <label id="ErrorLabelModal" style="margin-right: 60px;font-size: 13px;border-radius: 5px;padding: 5px;display: inline-block;word-wrap:break-word;"></label>
                     </div>
                     <div class="slds-modal__footer">
-                        <label id="ErrorLabelModal" style="margin-right: 60px;font-size: 13px;border-radius: 5px;padding: 5px;display: inline-block;word-wrap:break-word;"></label>
+                        
                          <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="{$anotherfunction}" disabled class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.save}
                         </button>                        
