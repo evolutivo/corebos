@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-03 16:34:17
+ * @Last Modified time: 2018-01-04 17:42:24
  */
 
 
@@ -901,7 +901,8 @@ function ConditionExpression($QueryHistory,$MapID)
 		// this is for get the history filter by id 
 		$Allhistory=get_All_History($QueryHistory);
 		   $Alldatas=array();
-		  
+		  $Expresionshow="";
+		  $FunctionNameshow="";
 		  foreach ($Allhistory as $key => $value) {
 			$xml=new SimpleXMLElement($value['query']);
 			$ConditionArray = array();
@@ -916,11 +917,12 @@ function ConditionExpression($QueryHistory,$MapID)
 					'expresion'=>(string)$xml->expression,
 					'expresionoptionGroup'=>"udentifined",
 				];
+				$Expresionshow=(string)$xml->expression;
 				array_push($ConditionArray,$temparray);
 				array_push($Alldatas,$ConditionArray);
 			}
 			 else {
-
+			 	$FunctionNameshow=(string)$xml->function->name;
 				foreach ($xml->function->parameters->parameter as $valuee) {
 					
 					if (!empty(explode(",",CheckAllFirstForAllModules($valuee))[0])) {
@@ -945,7 +947,7 @@ function ConditionExpression($QueryHistory,$MapID)
 							'FunctionName'=>(string)$xml->function->name,
 							'FunctionNameoptionGroup'=>"",
 							'JsonType'=>"Parameter"
-						];
+						];						
 						array_push($ConditionArray,$temparray);
 					}
 					
@@ -978,6 +980,8 @@ function ConditionExpression($QueryHistory,$MapID)
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 		$smarty->assign("FirstModuleFields",$FirstModuleFields);
+		$smarty->assign("Expresionshow",$Expresionshow);
+		$smarty->assign("FunctionNameshow",$FunctionNameshow);
 		//put the smarty modal
 		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
 

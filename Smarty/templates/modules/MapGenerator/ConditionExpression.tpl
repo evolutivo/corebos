@@ -34,6 +34,21 @@
       App.popupJson.push(historydata.PopupJSON[i]);
       }
       App.utils.ReturnDataSaveHistory('LoadShowPopup');
+
+
+
+    var valuesinput=document.getElementById('FunctionName').value;
+    if (valuesinput && valuesinput.length>=4)
+    {
+      $('#Firstmodule2').removeAttr('disabled');
+      $('#Firstfield2').removeAttr('disabled');
+      $('#DefaultValueFirstModuleField_1').removeAttr('disabled')
+    }else {
+      $('#Firstmodule2').attr('disabled', 'disabled');
+      $('#Firstfield2').attr('disabled', 'disabled');
+      $('#DefaultValueFirstModuleField_1').attr('disabled', 'disabled');
+    }
+
   </script>
 
 
@@ -93,7 +108,7 @@
     
                                               <div class="half" >
                                                 <div class="tab">
-                                                  <input id="tab-one" type="radio" checked="checked" name="tabs">
+                                                  <input id="tab-one" type="radio" {if $Expresionshow neq '' } checked="checked" {/if}  name="tabs">
                                                   <label for="tab-one">{$MOD.expression}</label>
                                                   <div class="tab-content">
                                                         <div class="slds-modal__container" style="width: 100%;">
@@ -132,7 +147,7 @@
                                                                             <div class="slds-form-element">
                                                                               <label style="float: left;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writetheexpresion}</label>
                                                                               <div class="slds-form-element__control">
-                                                                               <textarea id="expresion" class="slds-textarea" onfocus="removeselect('Firstfield')"  placeholder="{$MOD.writetheexpresion}"></textarea>
+                                                                               <textarea id="expresion" class="slds-textarea" onfocus="removeselect('Firstfield')"  placeholder="{$MOD.writetheexpresion}">{$Expresionshow}</textarea>
                                                                               </div>
                                                                             </div>
                                                                       </div>
@@ -153,7 +168,7 @@
                                                   </div>
                                                 </div>
                                                 <div class="tab">
-                                                  <input id="tab-two" type="radio" name="tabs">
+                                                  <input id="tab-two" type="radio" {if $FunctionNameshow neq '' } checked="checked" {/if} name="tabs">
                                                   <label for="tab-two">{$MOD.function}</label>
                                                   <div class="tab-content">
                                                        <div class="slds-modal__container" style="width: 100%;">
@@ -169,7 +184,7 @@
                                                                               <div id="divfunctionname" class="slds-form-element__control">
                                                                               <div class="slds-form-element">
                                                                                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
-                                                                                  <input style="width:100%;" id="FunctionName" onblur="removearrayselectedall()" oninput="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}" />
+                                                                                  <input style="width:100%;" id="FunctionName" onblur="removearrayselectedall()" oninput="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}" value="{$FunctionNameshow}" />
                                                                                   <button style="top: 70%;" data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
                                                                                     <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
                                                                                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#info" />
