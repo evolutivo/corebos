@@ -5,12 +5,13 @@
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.css" rel="stylesheet" />
 <link type="text/css" href="include/LD/assets/styles/salesforce-lightning-design-system.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/Loading.css" rel="stylesheet">
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/jquery/script.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/MapGenerator.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-<div class="small">
+<div class="small">    
     <table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz" style="background-color: #f7f9fb;">
         <tr class="slds-text-title--caps">
             <td style="padding: 0;">
@@ -29,6 +30,7 @@
             </td>
         </tr>
     </table>
+    <div id="LoadingDivId" class="bar"></div>
     <br/>
     <table border=0 cellspacing=0 cellpadding=0 width=90% align=center>
         <tr>
@@ -63,3 +65,10 @@
         </tr>
     </table>
 </div>
+{literal}
+<style type="text/css">
+    label{
+      background-color: transparent;
+    }
+</style></strong>
+{/literal}

@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-03 14:31:10
+* @Last Modified time: 2018-01-04 16:17:51
 */
 
 
@@ -1996,14 +1996,16 @@
 			if (idnotification){
 				if (closeopen===true)
 				{
-					var x = document.getElementById(idnotification);
-						// x.innerHTML=message;
-						x.className = "loading";
+					if (idnotification)
+					{
+						$('#'+idnotification).show(); 
+					}
 				} else
 				{
-					var x = document.getElementById(idnotification);
-						// x.innerHTML=message;
-						x.className = x.className.replace("loading", "");
+					if (idnotification)
+					{
+						$('#'+idnotification).hide('slow'); 
+					}
 					
 				}
 			}

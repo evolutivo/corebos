@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="include/print.css" type="text/css" media="print" />
 	<link rel="stylesheet" href="include/LD/assets/styles/salesforce-lightning-design-system.css" type="text/css" />
 	<link rel="stylesheet" href="include/LD/assets/styles/mainmenu.css" type="text/css" />
+	<link rel="stylesheet" href="include/LD/assets/styles/LoadingAll.css" type="text/css" />
 	<link rel="stylesheet" href="include/LD/assets/styles/settings.css" type="text/css" />
 	<link rel="stylesheet" href="include/LD/assets/styles/all-modules.css" type="text/css" />
 {* vtlib customization: Inclusion of custom javascript and css as registered *}
@@ -48,6 +49,7 @@
 <body leftmargin=0 topmargin=0 marginheight=0 marginwidth=0 class=small>
 	<a name="top"></a>
 	<!-- header -->
+	<div class=""></div> {* put the 'loader' inside the clas with javascript for show the loading  *}
 	<!-- header-vtiger crm name & RSS -->
 	<script type="text/javascript" src="include/sw-precache/service-worker-registration.js"></script>
 	<script type="text/javascript" src="include/jquery/jquery.js"></script>

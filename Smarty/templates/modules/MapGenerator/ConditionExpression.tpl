@@ -49,7 +49,6 @@
 
 
 
-
   <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>
             <tr class="blockStyleCss" id="DivObjectID">
@@ -78,7 +77,7 @@
                                             {if $HistoryMap neq ''}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {else}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if}
-                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName" data-loading="true" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +105,7 @@
                                                                         <div>
                                                                           <div style="float: left;width: 40%;">
                                                                             <div class="slds-form-element">
-                                                                                  <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
+                                                                                  <label style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
                                                                                   <div class="slds-form-element__control">
                                                                                       <select  data-select-load="true" id="FirstModule" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
                                                                                               {$FirstModuleSelected}
@@ -117,7 +116,7 @@
                                                                           </div>
                                                                           <div id="OickList" style="float: right; width: 40%; padding: 0px;">
                                                                             <div class="slds-form-element">
-                                                                                  <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
+                                                                                  <label  style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
                                                                                   <div class="slds-form-element__control">
                                                                                       <select  id="Firstfield" name="mod" class="slds-select" data-load-element="true" data-load-element-idget="Firstfield" data-load-element-idset="expresion">
                                                                                               {$FirstModuleFields}
@@ -131,7 +130,7 @@
                                                                        <br>
                                                                        <div style="float: left;width: 100%;margin-top: 10px;">
                                                                             <div class="slds-form-element">
-                                                                              <label class="slds-form-element__label" for="text-input-id-1">{$MOD.writetheexpresion}</label>
+                                                                              <label style="float: left;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writetheexpresion}</label>
                                                                               <div class="slds-form-element__control">
                                                                                <textarea id="expresion" class="slds-textarea" onfocus="removeselect('Firstfield')"  placeholder="{$MOD.writetheexpresion}"></textarea>
                                                                               </div>
@@ -166,12 +165,12 @@
                                                                     <div>
                                                                       <div style="float: left;width: 100%;">
                                                                             <div class="slds-form-element">
-                                                                              <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
+                                                                              <label style="float: left;" style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
                                                                               <div id="divfunctionname" class="slds-form-element__control">
                                                                               <div class="slds-form-element">
                                                                                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
                                                                                   <input style="width:100%;" id="FunctionName" onblur="removearrayselectedall()" oninput="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}" />
-                                                                                  <button data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
+                                                                                  <button style="top: 70%;" data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
                                                                                     <svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
                                                                                       <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#info" />
                                                                                     </svg>
@@ -190,7 +189,7 @@
                                                                       <br>
                                                                       <div style="float: left;width: 100%;margin-top: 10px;">
                                                                             <div class="slds-form-element">
-                                                                              <label style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
+                                                                              <label style="float: left;" class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
                                                                               <div class="slds-form-element__control">
                                                                               <select class="slds-select" id="Firstmodule2" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  disabled="disabled" data-select-load="true" data-select-relation-field-id="Firstfield2" data-module="MapGenerator" >
                                                                                 {$FirstModuleSelected}
@@ -203,7 +202,7 @@
                                                                       <br>>
                                                                       <div style="float: left;width: 40%;margin-top: 10px;">
                                                                         <div class="slds-form-element">
-                                                                              <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectFieldOrwritetheparameters}</label>
+                                                                              <label style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.SelectFieldOrwritetheparameters}</label>
                                                                               <div class="slds-form-element__control">
                                                                                   <select  id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="true" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('','Expression')">
                                                                                           {$FirstModuleFields}
@@ -212,12 +211,12 @@
                                                                               </div>
                                                                             </div>
                                                                       </div>
-                                                                      <div id="ShowmoreInput" style="float: right;/* width: 40%; */margin-top:15px;padding: 0px;">
-                                                                        <label class="slds-form-element__label" for="inputSample3">{$MOD.putParameter}</label>
+                                                                      <div id="ShowmoreInput" style="float: right; width: 50%;margin-top:15px;padding: 0px;">
+                                                                        <label style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.putParameter}</label>
                                                                         <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
                                                                                            <div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                                                             <div class="slds-combobox__form-element">
-                                                                                                <input type="text" disabled="disabled" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input"  onfocus="removearrayselected('','Expression')">
+                                                                                                <input type="text" disabled="disabled" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:270px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input"  onfocus="removearrayselected('','Expression')">
                                                                                             </div>
                                                                                             </div>
                                                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
@@ -350,6 +349,7 @@ label {
     background-color: #f4f6f9;
     font-size: 1.0rem;
     text-align: center;
+    background-color: transparent;
 }
 .blue label {
   background: #2980b9;

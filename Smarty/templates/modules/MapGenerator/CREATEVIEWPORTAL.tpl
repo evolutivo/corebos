@@ -1,4 +1,3 @@
- 
 {if $HistoryMap neq ''}
   <script type="text/javascript">
     App.savehistoryar='{$HistoryMap}';
@@ -66,6 +65,14 @@
         {$Modali}
       </div>
 {/if}
+
+{literal}
+<style type="text/css">
+  label{
+    float: left;
+  }
+</style>
+{/literal}
 
   <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>

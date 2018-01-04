@@ -71,7 +71,7 @@
                                     <div class="slds-media__body">
                                        <h2 style="width: 50%;float: left;">
                                           <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
-                                             <b>{$MOD.FieldDependency}</b>
+                                             <b>{$MOD.GlobalSearchAutocompleteMapping}</b>
                                           </span>
                                         </h2>
                                       {if $NameOFMap neq ''}
@@ -104,7 +104,7 @@
                                          <div>
                                             <div style="width: 100%;">
                                               <div class="slds-form-element">
-                                                    <label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
+                                                    <label style="float: left;" class="slds-form-element__label" for="inputSample3">Choose the Module</label>
                                                     <div class="slds-form-element__control">
                                                         <select data-select-load="true"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
                                                                 {$FirstModuleSelected}
