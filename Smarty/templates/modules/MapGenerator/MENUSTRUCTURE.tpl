@@ -85,7 +85,7 @@
                                           <div style="float:left; overflow: hidden;width:80%" id="sel1">
                                             
                                             <div class="slds-form-element">
-                                            <label style="margin-left: 40%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.labelName}</label>
+                                            <label style="margin-right:75%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.labelName}</label>
                                             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
                                               <input style="width:100%;" type="text" id="LabelName" class="slds-input" placeholder="{$MOD.labelName}" />
                                               <button data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
@@ -105,7 +105,7 @@
                                               <div class="slds-form-element">
                                                   <div class="slds-form-element__control">
                                                   <center>
-                                                      <label class="slds-form-element__label" for="input-id-01">{$MOD.MenustructureModule}</label>
+                                                      <label style="margin-right:75%;" class="slds-form-element__label" for="input-id-01">{$MOD.MenustructureModule}</label>
                                                   </center>  
                                                       <div class="slds-select_container">
                                                          <select data-select-load="true" id="FirstModule" name="mod" class="slds-select">

@@ -3050,13 +3050,7 @@ function removedataafterclick()
 }
 
 
-function clearInput()
-{
-  setTimeout(function(){
-    $('#DefaultValueResponsibel').val("");   
-  },100);
-   
-}
+
 
 
 function Checkifexist()
@@ -3350,4 +3344,12 @@ function ShowRendicontConfig(Idload,divHistory)
                $('#'+divHistory).append(divinsert);
       } 
     }
+}
+
+function Empydata(event)
+{
+  setTimeout(function(){
+    $('#DefaultValueFirstModuleField_1').val(""); 
+  },100);
+   
 }

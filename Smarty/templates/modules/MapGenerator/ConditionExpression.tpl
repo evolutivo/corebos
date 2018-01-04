@@ -77,7 +77,7 @@
                                             {if $HistoryMap neq ''}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {else}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if}
-                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName" data-loading="true" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName" data-loading="false" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
     
                                               <div class="half" >
                                                 <div class="tab">
-                                                  <input id="tab-one" type="radio" name="tabs">
+                                                  <input id="tab-one" type="radio" checked="checked" name="tabs">
                                                   <label for="tab-one">{$MOD.expression}</label>
                                                   <div class="tab-content">
                                                         <div class="slds-modal__container" style="width: 100%;">
@@ -220,7 +220,7 @@
                                                                                             </div>
                                                                                             </div>
                                                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                                                                                            <button class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Values" style="width:2.1rem;" data-add-button-popup="true" data-add-type="Parameter" data-add-relation-id="DefaultValueFirstModuleField_1,Firstmodule2,FunctionName" data-show-id="DefaultValueFirstModuleField_1" data-div-show="LoadShowPopup">
+                                                                                            <button  onclick="Empydata(this);" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Values" style="width:2.1rem;" data-add-button-popup="true" data-add-type="Parameter" data-add-relation-id="DefaultValueFirstModuleField_1,Firstmodule2,FunctionName" data-show-id="DefaultValueFirstModuleField_1" data-div-show="LoadShowPopup">
                                                                                                 <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                                                                                             </button>
                                                                                           
