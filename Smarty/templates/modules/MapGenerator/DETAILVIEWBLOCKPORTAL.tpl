@@ -101,8 +101,8 @@
                                         <div class="slds-section-title--divider">
                                             {if $HistoryMap neq ''}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {else}
-                                            <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if}
-                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveHIstoryDetailViewBlockPortal" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="SavehistoryCreateViewportal">{$MOD.CreateMap}</button>
+                                            <button class="slds-button slds-button--neutral" style="float: left;width: 80px;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if}
+                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;width: 80px;" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveHIstoryDetailViewBlockPortal" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="SavehistoryCreateViewportal">{$MOD.CreateMap}</button>
                                         </div>
                                     </div>
                                 </div>

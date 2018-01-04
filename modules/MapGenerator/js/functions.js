@@ -3311,7 +3311,7 @@ function LocalHistoryRendicontaConfig(IdLoad,divanameLoad,dividrelation='')
 }
 
 
-function ShowLocalHistoryRecordAccessControll(keephitoryidtoshow,keephitoryidtoshowidrelation)
+function ShowLocalHistoryRendiConfig(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
     if (App.SaveHistoryPop.length>0)
     { 
@@ -3337,7 +3337,7 @@ function ShowRendicontConfig(Idload,divHistory)
     { 
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
-        var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+               var FirstModule=App.popupJson[i].temparray[`FirstModule`];
                var causalefield=App.popupJson[i].temparray[`causalefield`];
                if (causalefield && causalefield!=="none")
                {
