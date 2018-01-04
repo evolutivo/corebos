@@ -20,9 +20,9 @@
 
                                 </div>
                             </div>
-                            <label title="This field is required!" class="slds-form-element__label slds-required" for="input-unique-id" style="width: 20%;margin-left: 15%;">*{$MOD.requiredstring}</label>
+                            {* <label title="This field is required!" class="slds-form-element__label slds-required" for="input-unique-id" style="width: 20%;margin-left: 15%;">*{$MOD.requiredstring}</label> *}
                         </div>
-                        <label id="ErrorLabelModal" style="margin-right: 60px;font-size: 13px;border-radius: 5px;padding: 5px;display: inline-block;word-wrap:break-word;"></label>
+                        <label id="ErrorLabelModal" title="This field is required!" style="margin-right: 60px;font-size: 13px;border-radius: 5px;padding: 5px;display: inline-block;word-wrap:break-word;">*{$MOD.requiredstring}</label>
                     </div>
                     <div class="slds-modal__footer">
                         
