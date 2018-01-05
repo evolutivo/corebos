@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-04 17:42:24
+ * @Last Modified time: 2018-01-05 09:43:01
  */
 
 
@@ -894,9 +894,10 @@ function ConditionExpression($QueryHistory,$MapID)
 
 	if (!empty($QueryHistory)) {
 		//TODO:: if exist the id of history goes here 
-		$FirstModuleSelected=GetTheresultByFile("firstModule.php");
+		$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 		 //fields 
-		$FirstModuleFields=getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+		$fields="<option value=''>Select a Field</option>".getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+		$FirstModuleFields=$fields;
 
 		// this is for get the history filter by id 
 		$Allhistory=get_All_History($QueryHistory);
