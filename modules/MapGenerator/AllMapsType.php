@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-20 16:48:22
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-22 14:42:45
+ * @Last Modified time: 2018-01-05 12:50:48
  */
 //this is for all maps, key is the name of map ,values is used for translate 
 	$AllMaps = array(
@@ -25,4 +25,6 @@
 	'RecordAccessControl'=>'RecordAccessControl',
 	'DuplicateRecords'=>'DuplicateRecords',
 	'RendicontaConfig'=>'RendicontaConfig',
+	'ImportBusinessMapping'=>'ImportBusinessMapping',
+
 	);

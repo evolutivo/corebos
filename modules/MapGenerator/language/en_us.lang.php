@@ -167,6 +167,13 @@ $mod_strings = array(
 	'processtemp'=>' Choose the process templates',
 	'causalefield'=>' Choose the causal field (optional)',
 	'SelectFields'=>'Select Fields',
-	'InfoFunctionName'=>'The function name must have at least 4 characters'
+	'InfoFunctionName'=>'The function name must have at least 4 characters',
+	'ImportBusinessMapping'=>'Import Business Mapping',
+	'UpdateInportBussines'=>'Update',
+	'ALL'=>'ALL',
+	'FIRST'=>'FIRST',
+	'LAST'=>'LAST',
+	'Maches'=>'matches',
+
 );
 ?>

@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-04 16:17:51
+* @Last Modified time: 2018-01-05 14:29:00
 */
 
 
@@ -216,6 +216,15 @@
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "RendicontaConfig") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				// App.ModulLabel='Module';
+    			 // App.FieldLabel='Related';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}
+		else if (select == "ImportBusinessMapping") {
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				// App.ModulLabel='Module';
