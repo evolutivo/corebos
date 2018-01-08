@@ -31,49 +31,50 @@ require_once('modules/com_vtiger_workflow/VTEntityMethodManager.inc');
 require_once('include/events/include.inc');
 global $current_user,$adb,$app_strings;
 set_time_limit(0);
-ini_set('memory_limit','1024M');
+ini_set('memory_limit', '1024M');
 
 if (empty($current_user) or !is_admin($current_user)) {
 	$current_user = Users::getActiveAdminUser();
 }
 if (empty($current_language)) {
-	if(isset($_SESSION['authenticated_user_language']) && $_SESSION['authenticated_user_language'] != '') {
+	if (isset($_SESSION['authenticated_user_language']) && $_SESSION['authenticated_user_language'] != '') {
 		$current_language = $_SESSION['authenticated_user_language'];
 	} else {
-		if(!empty($current_user->language)) {
+		if (!empty($current_user->language)) {
 			$current_language = $current_user->language;
 		} else {
 			$current_language = $default_language;
 		}
 	}
 }
-if (empty($app_strings)) $app_strings = return_application_language($current_language);
+if (empty($app_strings)) {
+	$app_strings = return_application_language($current_language);
+}
 
 class cbupdaterWorker {
-	var $cbupdid;
-	var $cbupd_no;
-	var $author = '';
-	var $filename;
-	var $classname;
-	var $execstate = false;
-	var $systemupdate = false;
-	var $perspective = false;
-	var $blocked = false;
-	var $execdate;
-	var $updError = false;
-	var $query_count=0;
-	var $success_query_count=0;
-	var $failure_query_count=0;
-	var $success_query_array=array();
-	var $failure_query_array=array();
+	public $cbupdid;
+	public $cbupd_no;
+	public $author = '';
+	public $filename;
+	public $classname;
+	public $execstate = false;
+	public $systemupdate = false;
+	public $perspective = false;
+	public $blocked = false;
+	public $execdate;
+	public $updError = false;
+	public $query_count=0;
+	public $success_query_count=0;
+	public $failure_query_count=0;
+	public $success_query_array=array();
+	public $failure_query_array=array();
 
-	function __construct() {
+	public function __construct() {
 		global $adb,$log,$current_user;
 		echo "<table width=80% align=center border=1>";
 		$reflector = new ReflectionClass(get_class($this));
-		$fname = basename($reflector->getFileName(),'.php');
-		$cburs = $adb->pquery('select * from vtiger_cbupdater where filename=? and classname=?',
-			array($fname,get_class($this)));
+		$fname = basename($reflector->getFileName(), '.php');
+		$cburs = $adb->pquery('select * from vtiger_cbupdater where filename=? and classname=?', array($fname, get_class($this)));
 		if ($cburs and $adb->num_rows($cburs)>0) {  // it exists, we load it
 			$cbu = $adb->fetch_array($cburs);
 			$this->cbupdid = $cbu['cbupdaterid'];
@@ -92,9 +93,13 @@ class cbupdaterWorker {
 		}
 	}
 
-	function applyChange() {
-		if ($this->isBlocked()) return true;
-		if ($this->hasError()) $this->sendError();
+	public function applyChange() {
+		if ($this->isBlocked()) {
+			return true;
+		}
+		if ($this->hasError()) {
+			$this->sendError();
+		}
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
@@ -105,9 +110,13 @@ class cbupdaterWorker {
 		$this->finishExecution();
 	}
 
-	function undoChange() {
-		if ($this->isBlocked()) return true;
-		if ($this->hasError()) $this->sendError();
+	public function undoChange() {
+		if ($this->isBlocked()) {
+			return true;
+		}
+		if ($this->hasError()) {
+			$this->sendError();
+		}
 		if ($this->isSystemUpdate()) {
 			$this->sendMsg('Changeset '.get_class($this).' is a system update, it cannot be undone!');
 		} else {
@@ -122,29 +131,33 @@ class cbupdaterWorker {
 		$this->finishExecution();
 	}
 
-	function isApplied() {
+	public function isApplied() {
 		return ($this->execstate=='Executed');
 	}
 
-	function isSystemUpdate() {
+	public function isSystemUpdate() {
 		return $this->systemupdate;
 	}
 
-	function isBlocked() {
+	public function isBlocked() {
 		return $this->blocked;
 	}
 
-	function isContinuous() {
+	public function isContinuous() {
 		return ($this->execstate=='Continuous');
 	}
 
-	function hasError() {
+	public function hasError() {
 		return ($this->updError or empty($this->cbupdid));
 	}
 
-	function markApplied($stoponerror=true) {
-		if ($this->isBlocked()) return true;
-		if ($this->hasError() and $stoponerror) $this->sendError();
+	public function markApplied($stoponerror = true) {
+		if ($this->isBlocked()) {
+			return true;
+		}
+		if ($this->hasError() and $stoponerror) {
+			$this->sendError();
+		}
 		global $adb,$log;
 		if ($this->isContinuous()) {
 			$adb->pquery('update vtiger_cbupdater set execdate=CURDATE() where cbupdaterid=?', array($this->cbupdid));
@@ -154,20 +167,24 @@ class cbupdaterWorker {
 		$this->execstate = 'Executed';
 	}
 
-	function markUndone($stoponerror=true) {
-		if ($this->isBlocked() or $this->isContinuous()) return true;
-		if ($this->hasError() and $stoponerror) $this->sendError();
+	public function markUndone($stoponerror = true) {
+		if ($this->isBlocked() or $this->isContinuous()) {
+			return true;
+		}
+		if ($this->hasError() and $stoponerror) {
+			$this->sendError();
+		}
 		global $adb,$log;
 		$adb->pquery('update vtiger_cbupdater set execstate=?,execdate=NULL where cbupdaterid=?', array('Pending',$this->cbupdid));
 		$this->execstate = 'Pending';
 	}
 
-	function ExecuteQuery($query,$params=array()) {
+	public function ExecuteQuery($query, $params = array()) {
 		global $adb,$log;
-		$paramstring = (count($params)>0 ? '&nbsp;&nbsp;'.print_r($params,true) : '');
-		$status = $adb->pquery($query,$params);
+		$paramstring = (count($params)>0 ? '&nbsp;&nbsp;'.print_r($params, true) : '');
+		$status = $adb->pquery($query, $params);
 		$this->query_count++;
-		if(is_object($status)) {
+		if (is_object($status)) {
 			echo '
 		<tr width="100%">
 		<td width="10%">'.get_class($status).'</td>
@@ -189,9 +206,9 @@ class cbupdaterWorker {
 		}
 	}
 
-	function deleteWorkflow($wfid) {
-		$this->ExecuteQuery("DELETE FROM com_vtiger_workflowtasks WHERE workflow_id=?",array($wfid));
-		$this->ExecuteQuery("DELETE FROM com_vtiger_workflows WHERE workflow_id=?", array($wfid));
+	public function deleteWorkflow($wfid) {
+		$this->ExecuteQuery('DELETE FROM com_vtiger_workflowtasks WHERE workflow_id=?', array($wfid));
+		$this->ExecuteQuery('DELETE FROM com_vtiger_workflows WHERE workflow_id=?', array($wfid));
 	}
 
 	/* Given an array of field definitions this method will create or activate the fields.
@@ -207,12 +224,12 @@ class cbupdaterWorker {
 						'label'=>'', // optional, if empty fieldname will be used
 						'massedit' => 0 | 1  // optional, if empty 0 will be set
 						'mods'=>array(module names), // used if uitype 10
-						'vals'=>array(picklist values), // used if uitype 15 or 16
+						'vals'=>array(picklist values), // used if uitype 15, 16 or 33
 					),
 				)),
 	* See changeset addLeadEmailOptOutAndConversionRelatedFields for an example
 	*/
-	function massCreateFields($fieldLayout) {
+	public function massCreateFields($fieldLayout) {
 		global $adb;
 		foreach ($fieldLayout as $mod => $blocks) {
 			$moduleInstance = Vtiger_Module::getInstance($mod);
@@ -225,9 +242,9 @@ class cbupdaterWorker {
 						$moduleInstance->addBlock($block);
 					}
 					foreach ($fields as $fieldname => $fieldinfo) {
-						$field = Vtiger_Field::getInstance($fieldname,$moduleInstance);
+						$field = Vtiger_Field::getInstance($fieldname, $moduleInstance);
 						if ($field) {
-							$adb->pquery('update vtiger_field set presence=2 where fieldid=?',array($field->id));
+							$adb->pquery('update vtiger_field set presence=2 where fieldid=?', array($field->id));
 						} else {
 							$fname = strtolower($fieldname);
 							$fname = str_replace(' ', '_', $fname);
@@ -244,7 +261,7 @@ class cbupdaterWorker {
 							if ($fieldinfo['uitype']=='10' and !empty($fieldinfo['mods'])) {
 								$newfield->setRelatedModules($fieldinfo['mods']);
 							}
-							if (($fieldinfo['uitype']=='15' or $fieldinfo['uitype']=='16') and !empty($fieldinfo['vals'])) {
+							if (($fieldinfo['uitype']=='15' || $fieldinfo['uitype']=='16' || $fieldinfo['uitype']=='33') and !empty($fieldinfo['vals'])) {
 								$newfield->setPicklistValues($fieldinfo['vals']);
 							}
 						}
@@ -266,15 +283,15 @@ class cbupdaterWorker {
 			)
 		),
 	*/
-	function massHideFields($fieldLayout) {
+	public function massHideFields($fieldLayout) {
 		global $adb;
-		foreach($fieldLayout as $module => $fields){
+		foreach ($fieldLayout as $module => $fields) {
 			$moduleInstance = Vtiger_Module::getInstance($module);
 			if ($moduleInstance) {
 				foreach ($fields as $field) {
-					$field = Vtiger_Field::getInstance($field,$moduleInstance);
-					if($field){
-						$this->ExecuteQuery('UPDATE vtiger_field SET presence = 1 WHERE fieldid=?',array($field->id));
+					$field = Vtiger_Field::getInstance($field, $moduleInstance);
+					if ($field) {
+						$this->ExecuteQuery('UPDATE vtiger_field SET presence = 1 WHERE fieldid=?', array($field->id));
 					}
 				}
 			} else {
@@ -293,14 +310,14 @@ class cbupdaterWorker {
 			)
 		),
 	*/
-	function massDeleteFields($fieldLayout) {
+	public function massDeleteFields($fieldLayout) {
 		global $adb;
-		foreach($fieldLayout as $module => $fields){
+		foreach ($fieldLayout as $module => $fields) {
 			$moduleInstance = Vtiger_Module::getInstance($module);
 			if ($moduleInstance) {
 				foreach ($fields as $field) {
-					$field = Vtiger_Field::getInstance($field,$moduleInstance);
-					if($field){
+					$field = Vtiger_Field::getInstance($field, $moduleInstance);
+					if ($field) {
 						$field->delete();
 					}
 				}
@@ -310,39 +327,113 @@ class cbupdaterWorker {
 		}
 	}
 
-	function installManifestModule($module) {
+	/* Given an array of field definitions this method will move the fields to specified Block.
+	 * The layout is an array of Module Name and Field Definition
+		array(
+			'{modulename}' => array(
+					'{fieldname1}',
+					'{fieldname2}',
+					'{fieldname3}',
+			)
+		),
+	*/
+	public function massMoveFieldsToBlock($fieldLayout, $newblock) {
+		global $adb;
+		foreach ($fieldLayout as $module => $fields) {
+			$moduleInstance = Vtiger_Module::getInstance($module);
+			$block = Vtiger_Block::getInstance($newblock, $moduleInstance);
+			if ($moduleInstance && $block) {
+				foreach ($fields as $field) {
+					$field = Vtiger_Field::getInstance($field, $moduleInstance);
+					if ($field) {
+						$this->ExecuteQuery('UPDATE vtiger_field SET block = ? WHERE fieldid=?', array($block->id, $field->id));
+					}
+				}
+			} else {
+				$this->sendMsg('Module not found: '.$module.'!');
+			}
+		}
+	}
+
+	/* convert a text field into a picklist
+	 * It will fill the picklist with the distinct values in the text field
+	 * @param fieldname
+	 * @param module
+	 * @param boolean multiple indicate if the new picklist with be multiple (true) or simple (false)
+	 */
+	public function convertTextFieldToPicklist($fieldname, $module, $multiple = false) {
+		global $adb,$log;
+		if (!empty($fieldname) && !empty($module)) {
+			$moduleInstance = Vtiger_Module::getInstance($module);
+			if ($moduleInstance) {
+				$field = Vtiger_Field::getInstance($fieldname, $moduleInstance);
+				if ($field) {
+					$data =$adb->pquery('SELECT uitype,tablename FROM vtiger_field WHERE fieldid = ? and tabid=?', array($field->id, $moduleInstance->id));
+					$uitype =$adb->query_result($data, 0, 'uitype');
+					if ($uitype==1) {
+						$table = $adb->query_result($data, 0, 'tablename');
+						$adb->query("update $table set $fieldname = '--None--' where $fieldname is null or trim($fieldname)=''");
+						$picklistvalues=$adb->query("Select distinct $fieldname from $table");
+						$list=array();
+						for ($i=0; $i<$adb->num_rows($picklistvalues); $i++) {
+							$list[]=$adb->query_result($picklistvalues, $i, $fieldname);
+						}
+						if ($multiple) {
+							$adb->pquery('update vtiger_field set uitype=33 where fieldid=? and tabid=?', array($field->id, $moduleInstance->id));
+						} else {
+							$adb->pquery('update vtiger_field set uitype=15 where fieldid=? and tabid=?', array($field->id, $moduleInstance->id));
+						}
+						$field->setPicklistValues($list);
+					} else {
+						$this->sendMsg("<b>The field $fieldname should be uitype 1.</b><br>");
+					}
+				} else {
+					$this->sendMsg("<b>Failed to find $fieldname field.</b><br>");
+				}
+			} else {
+				$this->sendMsg("<b>Failed to find $module module.</b><br>");
+			}
+		} else {
+			$this->sendMsg("<b>The fieldname and module parameters can't be empty</b><br>");
+		}
+	}
+
+	public function installManifestModule($module) {
 		$package = new Vtiger_Package();
 		ob_start();
 		$rdo = $package->importManifest("modules/$module/manifest.xml");
 		$out = ob_get_contents();
 		ob_end_clean();
 		$this->sendMsg($out);
-		if ($rdo) $this->sendMsg("$module installed!");
-		else $this->sendMsgError("ERROR installing $module!");
+		if ($rdo) {
+			$this->sendMsg("$module installed!");
+		} else {
+			$this->sendMsgError("ERROR installing $module!");
+		}
 	}
 
-	function isModuleInstalled($module) {
+	public function isModuleInstalled($module) {
 		global $adb;
-		$tabrs = $adb->pquery('select count(*) from vtiger_tab where name=?',array($module));
-		return ($tabrs and $adb->query_result($tabrs, 0,0)==1);
+		$tabrs = $adb->pquery('select count(*) from vtiger_tab where name=?', array($module));
+		return ($tabrs and $adb->query_result($tabrs, 0, 0)==1);
 	}
 
-	function sendMsg($msg) {
+	public function sendMsg($msg) {
 		echo '<tr width="100%"><td colspan=3>'.$msg.'</td></tr>';
 	}
 
-	function sendMsgError($msg) {
+	public function sendMsgError($msg) {
 		echo '<tr width="100%"><td colspan=3><span style="color:red">'.$msg.'</span></td></tr>';
 		$this->updError = true;
 	}
 
-	function sendError() {
+	public function sendError() {
 		$this->updError = true;
 		echo '<tr width="100%"><td colspan=3<span style="color:red">ERROR: Class called without update record in application!!</span></td></tr></table>';
 		die();
 	}
 
-	function finishExecution() {
+	public function finishExecution() {
 		echo '</table>';
 		if (count($this->failure_query_array)>0) {
 			echo <<<EOT
@@ -350,8 +441,9 @@ class cbupdaterWorker {
 <b style="color:#FF0000">Failed Queries Log</b>
 <div id="failedLog" style="border:1px solid #666666;width:90%;position:relative;height:200px;overflow:auto;left:5%;top:10px;">
 EOT;
-			foreach($this->failure_query_array as $failed_query)
+			foreach ($this->failure_query_array as $failed_query) {
 				echo '<br><span style="color:red">'.$failed_query.'</span>';
+			}
 			echo '</div>';
 		}
 		echo <<<EOT
