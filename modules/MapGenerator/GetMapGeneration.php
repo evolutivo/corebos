@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-05 09:43:01
+ * @Last Modified time: 2018-01-08 17:12:01
  */
 
 
@@ -360,6 +360,27 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="Import") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 Import($QueryHistory,$MapID);		
+			
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+		
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -376,6 +397,108 @@ if ($MypType=="Mapping") {
  * All Function Needet 
  */
 
+
+/**
+ * Function to load the map type Import Business Mapping
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
+function Import($QueryHistory,$MapID)
+{
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	include_once('modfields.php');
+
+	try{
+		if (!empty($QueryHistory))
+		{
+			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+			 $allfields="<option value=''>Select Field</option>".getModFields(get_The_history($QueryHistory,"firstmodule"));			
+
+			$Allhistory=get_All_History($QueryHistory);
+			$Alldatas=array();
+			$update="";
+			foreach ($Allhistory as $value) {
+			$xml=new SimpleXMLElement($value['query']);
+			$BlockArray=array();
+			// $children =(array) $xml->fields;//->children();
+				 $joinarray=[
+				 	'fields'=>$xml->fields,
+				 	'matches'=>$xml->matches
+				 ];
+				 
+				$Count=count($joinarray["fields"]->field);
+				for($i=0;$i<=$Count-1;$i++) {
+						$arratoinsert=[
+							'JsonType'=>"Match",
+							'FirstModule'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[0],
+							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[1],
+							'Moduli'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[1],
+							'DefaultText'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["fields"]->field[$i]->fieldname))[1],
+							'Firstfield'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["fields"]->field[$i]->fieldname))[0],
+							'FirstfieldText'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["fields"]->field[$i]->fieldname))[1],
+							'FirstfieldoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[1],
+
+							'SecondField'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["matches"]->match[$i]->fieldname))[0],
+							'SecondFieldText'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["matches"]->match[$i]->fieldname))[1],
+							'SecondFieldoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[1]
+						];				
+									
+		            array_push($BlockArray,$arratoinsert);
+					}
+					array_push($Alldatas,$BlockArray);
+		            $update=$xml->options->update;
+			}
+
+			//this is for save as 
+			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+			//this is for save as map
+			 $data="MapGenerator,saveImportBussinesMapping";
+			 $dataid="ListData,MapName,UpdateId";
+			 $savehistory="true";
+			 $saveasfunction="ShowLocalHistoryImportBussiness";
+			//  //assign tpl
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("allfields",$allfields);
+			$smarty->assign("update",$update);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/ImportBusinessMapping.tpl');
+			echo $output;
+			// print_r($Alldatas);
+
+		}else{
+			//TODO:: this is if not find the idquery to load map by Id of map 
+		}
+	}catch(Exception $ex){
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+}
+
+
+
+
+/**
+ * Function to load the map type Rendio Conta Config
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
 function RendicontaConfig($QueryHistory,$MapID)
 {
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
@@ -449,6 +572,12 @@ function RendicontaConfig($QueryHistory,$MapID)
 
 
 
+/**
+ * Function to load the map type Dupliacte records
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
 function DuplicateRecords($QueryHistory,$MapID)
 {
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
@@ -524,6 +653,12 @@ function DuplicateRecords($QueryHistory,$MapID)
 
 
 
+/**
+ * Function to load the map type Record Access Control
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
 function RecordAccessControl($QueryHistory,$MapID)
 {
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
@@ -617,6 +752,12 @@ function RecordAccessControl($QueryHistory,$MapID)
 	}
 }
 
+/**
+ * function to load the MENUSTRUCTURE
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
 function MENUSTRUCTURE($QueryHistory,$MapID)
 {
 	include_once('modfields.php');
@@ -996,6 +1137,12 @@ function ConditionExpression($QueryHistory,$MapID)
 }
 
 
+/**
+ * function to load the map type GlobalSearchAutocompleate 
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
 function GlobalSearchAutocomplete($QueryHistory,$MapID)
 {
 	include_once('modfields.php');

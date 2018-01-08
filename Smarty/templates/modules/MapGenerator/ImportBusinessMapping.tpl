@@ -1,4 +1,41 @@
 
+ <div id="LoadingImage" style="display: none">
+    <img src=""/>
+  </div>
+  {if $HistoryMap neq ''}
+  <script type="text/javascript">
+    App.savehistoryar='{$HistoryMap}';
+  </script>
+  {/if}
+
+  {if $PopupJS neq ''}
+   <script type="text/javascript">
+	    {foreach from=$PopupJS item=allitems key=key name=name}
+	      {foreach name=outer item=popi from=$allitems}  
+	          var temparray = {};
+	          {foreach key=key item=item from=$popi}
+	          temparray['{$key}']='{$item}';
+	      {/foreach}
+	       App.popupJson.push({'{'}temparray{'}'});
+	            // console.log(temparray);
+	            {/foreach}
+	            HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+	            App.popupJson.length=0;
+	    {/foreach}
+	    ShowLocalHistoryImportBussiness('LoadHistoryPopup','LoadShowPopup');
+	    ShowImportBussinesMapping(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+   </script>
+
+  {/if}
+
+{if $Modali neq ''}
+	<div>
+		{$Modali}
+	</div>
+{/if}
+
+
+
 <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>
             <tr class="blockStyleCss" id="DivObjectID">
@@ -76,7 +113,7 @@
                                                     </center>
                                                     <div class="slds-select_container">
                                                         <select id="Firstfield" name="mod" class="slds-select">
-                                                            {$FirstModuleFields}
+                                                            {$allfields}
                                                         </select>
                                                     </div>
                                                 </div>
@@ -89,8 +126,8 @@
                                                         <label style="margin-right: 70%;" class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
                                                     </center>
                                                     <div class="" id="SecondDiv" style="float: left;width: 100%; height: 33px;">
-                                                        <select id="SecondField" name="secmodule" data-add-button-popup="false" data-add-type="Related" data-add-relation-id="FirstModule,Firstfield,SecondField" data-show-id="Firstfield" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" class="slds-select" onchange="AQddImportBussinessMapping(this)">
-                                                            {$SecondModuleFields}
+                                                        <select id="SecondField" name="secmodule" data-add-button-popup="false" data-add-type="Match" data-add-relation-id="FirstModule,Firstfield,SecondField" data-show-id="Firstfield" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" class="slds-select" onchange="AQddImportBussinessMapping(this)">
+                                                            {$allfields}
                                                         </select>
                                                        
                                                     </div>
@@ -131,9 +168,25 @@
                                                     </center>
                                                     <div class="slds-select_container">
                                                         <select class="slds-select" id="UpdateId">
+                                                        	{if $update neq ''}
+																{if $update eq 'FIRST'}
+																    <option value="FIRST" selected="selected">{$MOD.FIRST}</option>
+		                                                            <option value="LAST">{$MOD.LAST}</option>
+		                                                            <option value="ALL">{$MOD.ALL}</option>
+																{elseif $update eq 'LAST'}
+																	<option value="FIRST" >{$MOD.FIRST}</option>
+		                                                            <option value="LAST" selected="selected">{$MOD.LAST}</option>
+		                                                            <option value="ALL">{$MOD.ALL}</option>
+																{elseif $update eq 'ALL'}
+																	<option value="FIRST">{$MOD.FIRST}</option>
+		                                                            <option value="LAST">{$MOD.LAST}</option>
+		                                                            <option value="ALL" selected="selected">{$MOD.ALL}</option>
+																{/if}
+															{else}
                                                             <option value="FIRST">{$MOD.FIRST}</option>
                                                             <option value="LAST">{$MOD.LAST}</option>
                                                             <option value="ALL">{$MOD.ALL}</option>
+                                                            {/if}
                                                         </select>
                                                     </div>
                                                 </div>
