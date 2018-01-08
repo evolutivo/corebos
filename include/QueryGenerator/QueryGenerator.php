@@ -54,7 +54,8 @@ class QueryGenerator {
 	public static $OR = 'OR';
 	private $customViewFields;
 	public $denormalized = false;
-
+	public $limit = '';
+	
 	public function __construct($module, $user) {
 		$db = PearDatabase::getInstance();
 		$this->module = $module;
@@ -421,7 +422,7 @@ class QueryGenerator {
 		return $this->getQuery();
 	}
 
-	public function getQuery($distinct=false) {
+	public function getQuery($distinct=false,$limit='') {
 		if(empty($this->query)) {
 			$conditionedReferenceFields = array();
 			$allFields = array_merge($this->whereFields,$this->fields);
@@ -444,9 +445,15 @@ class QueryGenerator {
 			$query .= $this->getWhereClause();
 			list($specialPermissionWithDuplicateRows,$cached) = VTCacheUtils::lookupCachedInformation('SpecialPermissionWithDuplicateRows');
 			$query = 'SELECT '.(($distinct or $specialPermissionWithDuplicateRows) ? 'DISTINCT ' : '') . $query;
+			if($limit!=''){
+			    $query .= ' limit 0, '.$limit;
+			}
 			$this->query = $query;
 			return $query;
 		} else {
+		    if($limit!=''){
+		        $this->query .= ' limit 0, '.$limit;
+		    }
 			return $this->query;
 		}
 	}

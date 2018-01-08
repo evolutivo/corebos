@@ -29,8 +29,9 @@
 								</div>
 							</div>
 						</td>
-						{if $ALL eq 'All'}
-							<td style="padding-left:5px;padding-right:5px" align="center">
+
+						{if isset($ALL) && $ALL eq 'All'}
+							<td align="center" style="padding-left:5px;padding-right:5px">
 								<a href="index.php?module={$MODULE}&action=CustomView&parenttab={$CATEGORY}">{$APP.LNK_CV_CREATEVIEW}</a>
 								<span class="small">|</span>
 								<span class="small" disabled>{$APP.LNK_CV_EDIT}</span>

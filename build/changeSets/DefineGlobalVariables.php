@@ -37,6 +37,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_Global_Search_Binary',
 				'Application_Global_Search_TopModules',
 				'Application_Global_Search_Active',
+			    'Application_Global_Search_Autocomplete_Limit',
 				'Application_Storage_Directory',
 				'Application_Storage_SaveStrategy',
 				'Application_OpenRecordInNewXOnRelatedList',
@@ -154,13 +155,16 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'HelpDesk_Support_Reply_EMail',
 				'HelpDesk_Notify_Owner_EMail',
 				'Document_Folder_View',
+                            	'Document_CreateSelectContactFolder',
+				'Document_CreateSelectAccountFolder',
+				'Document_CreateSelectAccountFolderForContact',
+                            
 				'User_AuthenticationType',
                                  
                                 'ContextIOKey',
                                 'ContextIOSecret',
-                                'ContextIOUserId',
+                                'ContextIOUserId',                     
                             
-
 				'HomePage_Widget_Group_Size',
 
 				'Report_Send_Scheduled_ifEmpty',
