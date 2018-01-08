@@ -177,6 +177,7 @@ aria-labelledby="tab-default-2__item">
 
 
     App.baseUrl = '{$URLAPP}'+'/';
+    App.disambleInspectelement=true;
     
 
 </script>

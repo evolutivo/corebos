@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-05 14:29:00
+* @Last Modified time: 2018-01-08 14:25:48
 */
 
 
@@ -20,6 +20,7 @@
 		MultiList:[],
 		ModulLabel: null,
 		FieldLabel: null,
+		disambleInspectelement:false,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -37,6 +38,7 @@
 			App.FunctionSend.init();
 			App.GetModuleForMapGenerator.init();
 			App.UniversalPopup.init();
+			App.removeinspectelement.init();
 			$.each(App.initMethods, function(i, initializer) {
 				initializer();
 			});
@@ -1468,6 +1470,7 @@
 				{
 					temparray['JsonType']=jsonType;
 					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
+					temparray[params[i]+'Text']=App.utils.IsSelectORDropDownGetText(params[i]);
 					if (selectvalues && selectvalues!=="")
 					{
 						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(selectvalues);
@@ -2022,6 +2025,26 @@
 
 	};
 
+	App.removeinspectelement={
+
+		init:function(argument) {
+			if (App.disambleInspectelement===true)
+			{
+				 window.oncontextmenu = function () {
+				return false;
+				}
+				$(document).keydown(function (event) {
+				if (event.keyCode == 123) {
+				    return false;
+				}
+				else if ((event.ctrlKey && event.shiftKey && event.keyCode == 73) || (event.ctrlKey && event.shiftKey && event.keyCode == 74)) {
+				    return false;
+				}
+			  });
+			}
+		 }
+
+	};
 
 	HistoryPopup={
 

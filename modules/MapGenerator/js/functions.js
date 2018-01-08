@@ -1,3 +1,18 @@
+document.onkeydown = function(e) {
+if(event.keyCode == 123) {
+return false;
+}
+if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+return false;
+}
+if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+return false;
+}
+if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+return false;
+}
+}
+
 /*
  * Questi tre array vengono passati al compositoreQuery ogni qual volta l'utente
  * aggiunge nuovi JOIN, in questo modo si può vedere la query che si stà creando
@@ -3351,5 +3366,171 @@ function Empydata(event)
   setTimeout(function(){
     $('#DefaultValueFirstModuleField_1').val(""); 
   },100);
-   
+}
+
+///////// Import bussines Mapping //////////////
+
+/**
+ * Generate html alertes only for Import bussines
+ *
+ * @param      {(number|string)}  Idd        The idd
+ * @param      {string}           moduli     The moduli
+ * @param      {string}           fields     The fields
+ * @param      {string}           divid      The divid
+ * @param      {string}           typepopup  The typepopup
+ * @return     {string}           { description_of_the_return_value }
+ */
+function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,divid,typepopup)
+{
+     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+     + '">';
+     INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupDataImportBussiness('
+     + Idd + ',\'' + divid + '\');">&times;</span>';
+     if (FirstModule && FirstModule!=='')
+     {
+        INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
+        INSertAlerstJOIN += '<br/> Field  ==> '+FirestFields;
+        INSertAlerstJOIN += '<br/> Mache  ==> '+SecondFields;
+        
+    }else
+    {
+      INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+    }
+
+    INSertAlerstJOIN += '</div';
+
+    return INSertAlerstJOIN;
+}
+
+
+function AQddImportBussinessMapping(argument) {
+    
+    var allids=argument.dataset.addRelationId;
+    var addtype=argument.dataset.addType;
+    var divshow=argument.dataset.divShow;
+    var shoid=argument.dataset.showId;
+    var showmodulid=argument.dataset.showModulId;
+
+     $('#'+divshow+' div').remove();
+
+    if (allids)
+    {
+        var allidarray=allids.split(",");
+        App.utils.Add_to_universal_popup(allidarray,addtype,shoid,showmodulid);
+    }
+     if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var FirstModule=App.popupJson[i].temparray[`Moduli`];
+          var FirstfieldText=App.popupJson[i].temparray[`FirstfieldText`];
+          var SecondFieldText=App.popupJson[i].temparray['SecondFieldText'];
+          var typeofpopup=App.popupJson[i].temparray['JsonType'];
+          var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,divshow,typeofpopup);
+          $('#'+divshow).append(divinsert);
+        } 
+
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
+    }
+}
+
+
+
+/**
+ * Closes a popup data rendiconta configuration.
+ *
+ * @param      {(number|string)}  remuveid  The remuveid
+ * @param      {string}           namediv   The namediv
+ */
+function closePopupDataImportBussiness(remuveid,namediv) {
+      var check = false;
+      for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+      {
+        if (ii == remuveid)
+        {
+           //JSONForCOndition.remove(remuveid);
+           App.popupJson.splice(remuveid,1);
+           check = true
+        
+        
+        }
+      }
+      if (check) {
+          var remuvediv="#alerts_"+remuveid;
+          $( remuvediv).remove( );
+          $('#' + namediv + ' div').remove();
+          if (App.popupJson.length>0)
+          { 
+             for (var i = 0; i <= App.popupJson.length-1; i++) {
+               var FirstModule=App.popupJson[i].temparray[`Moduli`];
+               var FirstfieldText=App.popupJson[i].temparray[`FirstfieldText`];
+               var SecondFieldText=App.popupJson[i].temparray['SecondFieldText'];
+               var typeofpopup=App.popupJson[i].temparray['JsonType'];
+               var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,namediv,typeofpopup);
+               $('#'+namediv).append(divinsert);
+             }
+
+          }else{
+          // alert(mv_arr.MappingFiledValid);
+          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+        }
+      }
+      else {
+        // alert(mv_arr.ReturnFromPost);
+        App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+      }
+}
+
+
+////// local history 
+
+function LocalHistoryImportBussiness(IdLoad,divanameLoad,dividrelation='')
+{
+   var htmldat='<div class="Message Message"  >';
+   htmldat+='<div class="Message-icon">';
+   htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowImportBussinesMapping(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+   htmldat+='</div>';
+   htmldat+='<div class="Message-body">';
+   htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='</div>';
+   htmldat+='</div>';
+   return htmldat;
+}
+
+
+function ShowLocalHistoryImportBussiness(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+       $('#'+keephitoryidtoshow+' div').remove();
+       for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
+        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+
+function ShowImportBussinesMapping(Idload,divHistory)
+{
+    var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    App.ModulLabel='Module';
+    App.FieldLabel='Related';
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var FirstModule=App.popupJson[i].temparray[`Moduli`];
+          var FirstfieldText=App.popupJson[i].temparray[`FirstfieldText`];
+          var SecondFieldText=App.popupJson[i].temparray['SecondFieldText'];
+          var typeofpopup=App.popupJson[i].temparray['JsonType'];
+          var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,divHistory,typeofpopup);
+          $('#'+divHistory).append(divinsert);
+      } 
+    }
 }

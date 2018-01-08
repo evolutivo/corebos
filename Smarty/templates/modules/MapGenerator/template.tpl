@@ -71,4 +71,22 @@
       background-color: transparent;
     }
 </style></strong>
+
+<script>
+
+    function  closeView() {
+        if (confirm('Are you sure you want to close this page')) {
+            location.reload();
+        } else {
+            // Do nothing!
+        }
+
+    }
+
+
+    App.baseUrl = '{$URLAPP}'+'/';
+    App.disambleInspectelement=false;
+
+</script>
+
 {/literal}

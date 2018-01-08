@@ -28,7 +28,7 @@
                                             {if $HistoryMap neq ''}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {else}
                                             <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if}
-                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName,UpdateId" data-send="true" data-loading="true" data-loading-divid="waitingIddiv" data-send-url="MapGenerator,saveImportBussinesMapping" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,MapName,UpdateId" data-send="true" data-loading="true" data-loading-divid="waitingIddiv" data-send-url="MapGenerator,saveImportBussinesMapping" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryImportBussiness">{$MOD.CreateMap}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <center>
-                                                        <label style="margin-right: 100%;" class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+                                                        <label style="margin-right: 75%;" class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
                                                     </center>
                                                     <div class="slds-select_container">
                                                         <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield,SecondField" id="FirstModule" name="mod" class="slds-select">
@@ -89,7 +89,7 @@
                                                         <label style="margin-right: 70%;" class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
                                                     </center>
                                                     <div class="" id="SecondDiv" style="float: left;width: 100%; height: 33px;">
-                                                        <select id="SecondField" name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield" data-div-show="LoadShowPopup" class="slds-select">
+                                                        <select id="SecondField" name="secmodule" data-add-button-popup="false" data-add-type="Related" data-add-relation-id="FirstModule,Firstfield,SecondField" data-show-id="Firstfield" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" class="slds-select" onchange="AQddImportBussinessMapping(this)">
                                                             {$SecondModuleFields}
                                                         </select>
                                                        
@@ -129,8 +129,8 @@
                                                     <center>
                                                         <label style="margin-right: 100%;" class="slds-form-element__label" for="input-id-01">{$MOD.UpdateInportBussines}</label>
                                                     </center>
-                                                    <div class="slds-select_container" id="UpdateId">
-                                                        <select class="slds-select">
+                                                    <div class="slds-select_container">
+                                                        <select class="slds-select" id="UpdateId">
                                                             <option value="FIRST">{$MOD.FIRST}</option>
                                                             <option value="LAST">{$MOD.LAST}</option>
                                                             <option value="ALL">{$MOD.ALL}</option>
