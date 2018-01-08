@@ -157,9 +157,9 @@
                                         </div>
                                          <div id="sectionField" style="width:100%;">
                                             <div class="testoDiv" style="margin: 50px 0px  5px 0px;">
-                                                <center><b>{$MOD.UpdateInportBussines}</b></center>
+                                                {* <center><b>{$MOD.UpdateInportBussines}</b></center> *}
                                             </div>
-                                            <hr style="display: block;margin-top: 0.5em;margin-bottom: 0.5em;margin-left: auto;margin-right: auto;border-style: inset;border-width: 1px;">
+                                            <hr style="display: block;margin-top: 0.5em;margin-bottom: 0.5em;margin-left: auto;margin-right: auto;border-style: inset;border-top: 2px solid #d8dde6;">
                                               <div style="float:left; overflow: hidden;width:45%;margin-right: 64px;" id="sel1">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">

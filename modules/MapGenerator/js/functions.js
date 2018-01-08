@@ -3390,7 +3390,7 @@ function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,divi
      {
         INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
         INSertAlerstJOIN += '<br/> Field  ==> '+FirestFields;
-        INSertAlerstJOIN += '<br/> Mach  ==> '+SecondFields;
+        INSertAlerstJOIN += '<br/> Match  ==> '+SecondFields;
         
     }else
     {
