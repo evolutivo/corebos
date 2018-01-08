@@ -2998,7 +2998,7 @@ function updateBaseCurrencyValue() {
 	}
 }
 function standarizeFormatCurrencyValue(val) {
-	if(val != undefined && val != null && val != 0) {
+	if (val != undefined && val != null && val != 0 && typeof val != "number") {
 		if(typeof userCurrencySeparator != 'undefined') {
 			while(val.indexOf(userCurrencySeparator) != -1) {
 				val = val.replace(userCurrencySeparator,'');
@@ -3110,12 +3110,15 @@ function ActivityReminderCallback() {
 		ActivityReminder_regcallback_timer = null;
 	}
 	jQuery.ajax({
-			method: 'POST',
-			url: "index.php?module=Calendar&action=CalendarAjax&file=ActivityReminderCallbackAjax&ajax=true"
+		method: 'POST',
+		url: "index.php?module=Calendar&action=CalendarAjax&file=ActivityReminderCallbackAjax&ajax=true"
 	}).done(function (response) {
+		if (response=='Login') {
+			document.location.href='index.php?module=Users&action=Login';
+		} else {
 			ActivityReminderCallbackProcess(response);
 		}
-	);
+	});
 }
 
 function ActivityReminderCallbackProcess(message) {
@@ -3147,7 +3150,7 @@ function ActivityReminderCallbackProcess(message) {
 		jQuery("#"+ActivityReminder_Newdelay_response_node).remove();
 	}
 	if(message == '' || trim(message).indexOf('<script') == 0) {
-		// We got only new dealay value but no popup information, let us remove the callback win created
+		// We got only new delay value but no popup information, let us remove the callback win created
 		jQuery("#"+ActivityReminder_callback_win.id).remove();
 		ActivityReminder_callback_win = false;
 		message = '';
@@ -5081,7 +5084,7 @@ AutocompleteRelation.prototype.get = function(e) {
 		var nr_opt=array.length;
 		term=array[nr_opt-1];
 	}
-	if (term.length > this.mincharstoSearch && (typeof(this.data.searchin) != 'undefined' || typeof(this.data.searchfields) != 'undefined') ) {
+	if (term.length >= this.mincharstoSearch && (typeof(this.data.searchin) != 'undefined' || typeof(this.data.searchfields) != 'undefined') ) {
 		this.data.term = term;
 		var acInstance = this;
 
@@ -5140,6 +5143,12 @@ AutocompleteRelation.prototype.set = function(items) {
 					});
 				}
 			});
+		}
+		if(acInstance.inputField.name==='query_string'){
+			var span = document.createElement("li");
+			span.className= "total_autocomplete";
+			span.innerHTML = getTranslatedString('SHOWING') + " "+ limit +" "+getTranslatedString('OF')+" "+items[0]['total'];
+			this.targetUL.appendChild(span);
 		}
 	}
 }

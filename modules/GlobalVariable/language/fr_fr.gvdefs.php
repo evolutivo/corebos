@@ -462,6 +462,27 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'Dans le module "Documents", les documents sont affichés sous forme de liste (0) ou par répertoire (1). La valeur par défaut est (1).',
 ),
+'Document_CreateSelectContactFolder' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'When creating a document from a Contact, create a new folder with the name of the contact and select it by default.',
+),
+'Document_CreateSelectAccountFolder' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'When creating a document from an Account, create a new folder with the name of the account and select it by default.',
+),
+'Document_CreateSelectAccountFolderForContact' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'When creating a document from a Contact, create a new folder with the name of the related account and select it by default. This variable overrides Document_CreateSelectContactFolder',
+),
 'Inventory_Tax_Type_Default' => array(
 	'status' => 'Implémenté',
 	'valuetype' => 'Chaîne',
@@ -489,6 +510,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Application',
 	'values' => 'CSV list of modules',
 	'definition' => 'Comma Separated List of modules that the global search will put first in the result list.',
+),
+'Application_Global_Search_Autocomplete_Limit' => array(
+	'status' => 'Implémenté',
+	'valuetype' => 'Entier',
+	'category' => 'Application',
+	'values' => '',
+	'definition' => 'Maximum númber of results to be shown in autocomplete global search.',
 ),
 'Product_Copy_Bundle_OnDuplicate' => array(
 	'status' => 'Implémenté',
