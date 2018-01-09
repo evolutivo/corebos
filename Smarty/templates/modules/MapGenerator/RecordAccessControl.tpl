@@ -86,7 +86,7 @@
                                                     <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
                                                   </center>
                                                   <div class="slds-select_container">
-                                                   <select  data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-load="true"  data-second-module-id="relatedModule"  data-second-module-file="RelatedModuleRecordAccess"  data-module="MapGenerator"   id="FirstModule" name="mod" class="slds-select">
+                                                   <select  data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-load="true"  data-second-module-id="relatedModule"  data-second-module-file="RelatedModuleRecordAccess"  data-module="MapGenerator"   id="FirstModule" name="mod" class="slds-select" onchange="allcheckbosChecked();">
                                                     {$FirstModuleSelected}
                                                   </select>
                                                 </div>
