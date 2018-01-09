@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-13 17:07:17
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 15:18:14
+ * @Last Modified time: 2018-01-09 17:31:56
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -134,19 +134,19 @@ function add_content($DataDecode)
 
      $listview=$xml->createElement("listview");
      $c=$xml->createElement("c");
-     $ctext=$xml->createTextNode($DataDecode[0]->temparray->AddcheckListview);
+     $ctext=$xml->createTextNode($_POST['AddcheckListview']);
      $c->appendChild($ctext);
 
      $r=$xml->createElement("r");
-     $rtext=$xml->createTextNode($DataDecode[0]->temparray->viewcheckListview);
+     $rtext=$xml->createTextNode($_POST['viewcheckListview']);
      $r->appendChild($rtext);
 
      $u=$xml->createElement("u");
-     $utext=$xml->createTextNode($DataDecode[0]->temparray->editcheckListview);
+     $utext=$xml->createTextNode($_POST['editcheckListview']);
      $u->appendChild($utext);
 
      $d=$xml->createElement("d");
-     $dtext=$xml->createTextNode($DataDecode[0]->temparray->deletecheckListview);
+     $dtext=$xml->createTextNode($_POST['deletecheckListview']);
      $d->appendChild($dtext);
 
      $listview->appendChild($c);
@@ -157,19 +157,19 @@ function add_content($DataDecode)
 
 	 $detailview=$xml->createElement("detailview");
      $c=$xml->createElement("c");
-     $ctext=$xml->createTextNode($DataDecode[0]->temparray->duplicatecheckDetailView);
+     $ctext=$xml->createTextNode($_POST['duplicatecheckDetailView']);
      $c->appendChild($ctext);
 
      $r=$xml->createElement("r");
-     $rtext=$xml->createTextNode($DataDecode[0]->temparray->viewcheckDetailView);
+     $rtext=$xml->createTextNode($_POST['viewcheckDetailView']);
      $r->appendChild($rtext);
 
      $u=$xml->createElement("u");
-     $utext=$xml->createTextNode($DataDecode[0]->temparray->editcheckDetailView);
+     $utext=$xml->createTextNode($_POST['editcheckDetailView']);
      $u->appendChild($utext);
 
      $d=$xml->createElement("d");
-     $dtext=$xml->createTextNode($DataDecode[0]->temparray->deletecheckDetailView);
+     $dtext=$xml->createTextNode($_POST['deletecheckDetailView']);
      $d->appendChild($dtext);
 
      $detailview->appendChild($c);
