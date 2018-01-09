@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-09 14:30:03
+ * @Last Modified time: 2018-01-09 15:42:03
  */
 
 
@@ -603,6 +603,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 							'DuplicateDirectRelationscheck'=>$xml->DuplicateDirectRelations,
 							'DuplicateDirectRelationscheckoptionGroup'=>"",
 							'FirstModule'=>(string)$xml->originmodule->originname,
+							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
 							'FirstModuleoptionGroup'=>"undefined",
 							'JsonType'=>"Related",
 							'Moduli'=>(string)$xml->originmodule->originname,
@@ -620,7 +621,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 			//this is for save as map
-			 $data="MapGenerator,saveRecordAccessControl";
+			 $data="MapGenerator,saveDuplicateRecords";
 			 $dataid="ListData,MapName";
 			 $savehistory="true";
 			 $saveasfunction="ShowLocalHistoryRecordAccessControll";
