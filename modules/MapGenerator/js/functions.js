@@ -3036,7 +3036,7 @@ function ClickToshowSelectedFileds(Idload,divHistory)
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
         var Field=App.popupJson[i].temparray[`DefaultText`];
-        var moduli=App.popupJson[i].temparray[`Moduli`];
+        var moduli=App.popupJson[i].temparray[`FirstModuleText`];
         var typeofppopup=App.popupJson[i].temparray['JsonType'];
         var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
         $('#'+divHistory).append(divinsert);

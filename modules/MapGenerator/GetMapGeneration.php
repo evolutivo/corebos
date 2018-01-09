@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-08 17:12:01
+ * @Last Modified time: 2018-01-09 11:29:39
  */
 
 
@@ -698,6 +698,7 @@ function RecordAccessControl($QueryHistory,$MapID)
 
 						'DefaultText'=>(!empty(explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[0])?explode("#", Get_First_Moduls_TextVal((string)$valuexml->modulename))[1]:(string)$valuexml->modulename) ,
 						'FirstModule'=>(string)$xml->originmodule->originname,
+						'FirstModuleText'=>explode("#", Get_First_Moduls_TextVal((string)$xml->originmodule->originname))[1],
 						'FirstModuleoptionGroup'=>'undefined',
 						'Moduli'=>(string)$xml->originmodule->originname,
 						'JsonType'=>"Related",
