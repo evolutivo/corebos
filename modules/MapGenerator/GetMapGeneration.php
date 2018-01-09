@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-09 11:29:39
+ * @Last Modified time: 2018-01-09 14:30:03
  */
 
 
@@ -672,10 +672,22 @@ function RecordAccessControl($QueryHistory,$MapID)
 
 		$Allhistory=get_All_History($QueryHistory);
 		$Alldatas=array();
-
+		$ListDetailFlag=array();
 		foreach ($Allhistory as $value) {
 			$xml=new SimpleXMLElement($value['query']);
 			$MyArray=array();
+			if ($value["active"]=="1") {
+				$viewcheckListview=(string)$xml->listview->r;
+				$AddcheckListview=(string)$xml->listview->c;
+				$editcheckListview=(string)$xml->listview->u;
+				$deletecheckListview=(string)$xml->listview->d;
+
+				$viewcheckDetailView=(string)$xml->detailview->r;
+				$duplicatecheckDetailView=(string)$xml->detailview->c;
+				$editcheckDetailView=(string)$xml->detailview->u;
+				$deletecheckDetailView=(string)$xml->detailview->d;
+				
+			}
 			foreach ($xml->relatedlists->relatedlist as  $valuexml) {
 				$temparray=[
 						'AddcheckListview'=>(string)$xml->listview->c,
@@ -741,6 +753,14 @@ function RecordAccessControl($QueryHistory,$MapID)
 
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 		$smarty->assign("AllModulerelated",$decondRelatedModule);
+		$smarty->assign("viewcheckListview",$viewcheckListview);
+		$smarty->assign("AddcheckListview",$AddcheckListview);
+		$smarty->assign("editcheckListview",$editcheckListview);
+		$smarty->assign("deletecheckListview",$deletecheckListview);
+		$smarty->assign("viewcheckDetailView",$viewcheckDetailView);
+		$smarty->assign("duplicatecheckDetailView",$duplicatecheckDetailView);
+		$smarty->assign("editcheckDetailView",$editcheckDetailView);
+		$smarty->assign("deletecheckDetailView",$deletecheckDetailView);
 		//put the smarty modal
 		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
@@ -2640,7 +2660,8 @@ function get_All_History($Id_Encrypt="",$field_take="query")
 					"$field_take"=>$adb->query_result($result,$i-1, $field_take),
 					"sequence"=>$adb->query_result($result,$i-1,"sequence"),
 					"FirstModule"=>$adb->query_result($result,$i-1,"firstmodule"),
-					"Secondmodule"=>$adb->query_result($result,$i-1,"secondmodule")
+					"Secondmodule"=>$adb->query_result($result,$i-1,"secondmodule"),
+					"active"=>$adb->query_result($result,$i-1,"active")
 				]);
 			}
 

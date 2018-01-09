@@ -104,7 +104,7 @@
                                                   <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.View}</label>
                                                   <div class="slds-form-element" style="display: inline-block;">
                                                     <label class="slds-checkbox--toggle slds-grid">
-                                                      <input onchange="Removechecked(this)" data-all-id="editcheckListview,deletecheckListview" id="viewcheckListview" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                                      <input onchange="Removechecked(this)" data-all-id="editcheckListview,deletecheckListview" id="viewcheckListview" name="checkbox"  type="checkbox" {if $viewcheckListview eq '1'} checked="checked" {else} {/if}  aria-describedby="toggle-desc" />
                                                      <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                       <span class="slds-checkbox--faux"></span>
                                                       <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -118,7 +118,7 @@
                                                     <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.Add}</label>
                                                     <div class="slds-form-element" style="display: inline-block;">
                                                       <label class="slds-checkbox--toggle slds-grid">
-                                                       <input id="AddcheckListview" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                                       <input id="AddcheckListview" name="checkbox"  type="checkbox" {if $AddcheckListview eq '1'} checked="checked" {else} {/if}  aria-describedby="toggle-desc" />
                                                        <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                         <span class="slds-checkbox--faux"></span>
                                                         <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -133,7 +133,7 @@
                                                 <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.Edit}</label>
                                                 <div class="slds-form-element" style="display: inline-block;">
                                                   <label class="slds-checkbox--toggle slds-grid">
-                                                   <input id="editcheckListview" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                                   <input id="editcheckListview" name="checkbox"  type="checkbox" {if $editcheckListview eq '1'} checked="checked" {else} {/if} aria-describedby="toggle-desc" />
                                                    <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                     <span class="slds-checkbox--faux"></span>
                                                     <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -147,7 +147,7 @@
                                               <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.Delete}</label>
                                               <div class="slds-form-element" style="display: inline-block;">
                                                 <label class="slds-checkbox--toggle slds-grid">
-                                                 <input id="deletecheckListview" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                                 <input id="deletecheckListview" name="checkbox"  type="checkbox" {if $deletecheckListview eq '1'} checked="checked" {else} {/if} aria-describedby="toggle-desc" />
                                                  <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                   <span class="slds-checkbox--faux"></span>
                                                   <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -166,7 +166,7 @@
                                               <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.View}</label>
                                               <div class="slds-form-element" style="display: inline-block; ">
                                                 <label class="slds-checkbox--toggle slds-grid">
-                                                 <input id="viewcheckDetailView" name="checkbox" onchange="Removechecked(this)" data-all-id="duplicatecheckDetailView,editcheckDetailView,deletecheckDetailView" type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                                 <input id="viewcheckDetailView" name="checkbox" onchange="Removechecked(this)" data-all-id="duplicatecheckDetailView,editcheckDetailView,deletecheckDetailView" type="checkbox" {if $viewcheckDetailView eq '1'} checked="checked" {else} {/if} aria-describedby="toggle-desc" />
                                                  <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                   <span class="slds-checkbox--faux"></span>
                                                   <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -180,7 +180,7 @@
                                             <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.Duplicate}</label>
                                             <div class="slds-form-element" style="display: inline-block; ">
                                               <label class="slds-checkbox--toggle slds-grid">
-                                               <input id="duplicatecheckDetailView" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                               <input id="duplicatecheckDetailView" name="checkbox"  type="checkbox" {if $duplicatecheckDetailView eq '1'} checked="checked" {else} {/if} aria-describedby="toggle-desc" />
                                                <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                 <span class="slds-checkbox--faux"></span>
                                                 <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -196,7 +196,7 @@
                                         <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.Edit}</label>
                                         <div class="slds-form-element" style="display: inline-block; ">
                                           <label class="slds-checkbox--toggle slds-grid">
-                                           <input id="editcheckDetailView" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                           <input id="editcheckDetailView" name="checkbox"  type="checkbox" {if $editcheckDetailView eq '1'} checked="checked" {else} {/if} aria-describedby="toggle-desc" />
                                            <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                             <span class="slds-checkbox--faux"></span>
                                             <span class="slds-checkbox--on">{$MOD.YES}</span>
@@ -210,7 +210,7 @@
                                         <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.Delete}</label>
                                         <div class="slds-form-element" style="display: inline-block; ">
                                           <label class="slds-checkbox--toggle slds-grid">
-                                           <input id="deletecheckDetailView" name="checkbox"  type="checkbox" checked="checked" aria-describedby="toggle-desc" />
+                                           <input id="deletecheckDetailView" name="checkbox"  type="checkbox"  {if $deletecheckDetailView eq '1'} checked="checked" {else} {/if} aria-describedby="toggle-desc" />
                                            <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                             <span class="slds-checkbox--faux"></span>
                                             <span class="slds-checkbox--on">{$MOD.YES}</span>
