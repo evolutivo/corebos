@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-10 12:09:13
+ * @Last Modified time: 2018-01-10 15:01:29
  */
 
 
@@ -2794,8 +2794,8 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
 
 
     $sql = "select * from  vtiger_field ";
-    $sql.= " where vtiger_field.tabid in(?) and";
-    $sql.= " vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2)";
+    $sql.= " where vtiger_field.tabid in(?) ";
+    //$sql.= " vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2)";
     if($tabid == 13 || $tabid == 15)
     {
         $sql.= " and vtiger_field.fieldlabel != 'Add Comment'";
