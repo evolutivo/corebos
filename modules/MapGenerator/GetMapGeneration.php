@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-10 15:59:58
+ * @Last Modified time: 2018-01-10 16:18:54
  */
 
 
@@ -2382,6 +2382,7 @@ function Mapping_View($QueryHistory,$MapID)
 
 					];
 					$secondfieldval=CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName);
+					LogFileSimple($secondfieldval);
 					if (!empty($secondfieldval)) {
 						$araymy["SecondFieldval"]=explode(",",$secondfieldval)[0];
 						$araymy["SecondFieldtext"]=explode(",",$secondfieldval)[1];
