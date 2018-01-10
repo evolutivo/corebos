@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-10 15:36:50
+ * @Last Modified time: 2018-01-10 15:47:49
  */
 
 
@@ -47,6 +47,7 @@ if ($MypType=="Mapping") {
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
          echo showError("An error has occurred","Something was wrong check the Exception in log file");
+         LogFile($ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 
@@ -65,6 +66,7 @@ if ($MypType=="Mapping") {
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 	}
 	
@@ -89,6 +91,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		 echo showError("Something was wrong",$ex->getMessage());
+		 LogFile($ex);
 	}
 	
 }else if ($MypType==="Condition Query") {
@@ -109,6 +112,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="Module Set Mapping") {
@@ -131,6 +135,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="IOMap") {
@@ -150,6 +155,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="FieldDependency") {
@@ -171,6 +177,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="FieldDependencyPortal") {
@@ -192,6 +199,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="GlobalSearchAutocomplete") {
@@ -213,6 +221,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="Condition Expression") {
@@ -233,6 +242,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="CREATEVIEWPORTAL") {
@@ -256,6 +266,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="DETAILVIEWBLOCKPORTAL") {
@@ -276,6 +287,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="MENUSTRUCTURE") {
@@ -297,6 +309,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="Record Access Control") {
@@ -317,6 +330,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="DuplicateRecords") {
@@ -337,6 +351,7 @@ if ($MypType=="Mapping") {
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 	
 }else if ($MypType==="RendicontaConfig") {
@@ -357,6 +372,7 @@ if ($MypType=="Mapping") {
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		LogFile($ex);
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
@@ -377,6 +393,7 @@ if ($MypType=="Mapping") {
 	}catch(Exception $ex)
 	{
 		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		LogFile($ex);
 		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
 		echo showError("Something was wrong",$ex->getMessage());
 	}
@@ -487,6 +504,7 @@ function Import($QueryHistory,$MapID)
 		}
 	}catch(Exception $ex){
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 }
 
@@ -566,6 +584,7 @@ function RendicontaConfig($QueryHistory,$MapID)
 		}
 	}catch(Exception $ex){
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 }
 
@@ -649,6 +668,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 		}
 	}catch(Exception $ex){
 		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
 	}
 }
 
@@ -2354,16 +2374,14 @@ function Mapping_View($QueryHistory,$MapID)
 
 						// 'SecondFieldval' =>explode("#",CheckAllFirstForAllModules($xml->originmodule[0]->originname))[0],
 						'idJSON'=>$nrindex++,
-						 'SecondFieldtext' =>(!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1]:"Default-Value"),
+						 'SecondFieldtext' =>!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1]:"Default-Value",
 
-						'SecondFieldval' =>(!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0]:$field->value),
+						'SecondFieldval' =>!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0]:$field->value,
 
 						'SecondFieldOptionGrup'=>!empty($field->Orgfields->Relfield->RelModule)?$field->Orgfields->Relfield->RelModule:explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[1]
 
 					];
-					foreach ($araymy as $key => $value) {
-						LogFileSimple(TypeOFErrors::ErrorLG.$key."#### ".$value);
-					}
+					
 
 					array_push($MyArray,$araymy);
 				}
