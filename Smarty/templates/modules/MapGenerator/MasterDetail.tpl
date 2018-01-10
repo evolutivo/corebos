@@ -60,11 +60,13 @@
    
 {/if}
 
-{if $Modali neq ''}
-  <div>
-    {$Modali}
-  </div>
-{/if}
+<div id="ModalDiv">
+    {if $Modali neq ''}
+        <div>
+         {$Modali}
+        </div>
+    {/if}
+</div>
     <div id="contentJoinButtons" style="width: 100%;height: 100%;float: left;">
         <!-- <div class="slds-grid slds-grid--vertical slds-navigation-list--vertical"
          style="float:left; overflow: hidden;width:20%" id="buttons">

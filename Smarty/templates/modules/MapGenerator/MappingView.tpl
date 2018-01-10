@@ -99,11 +99,13 @@
                                     <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
                                     <div data-div-load-automatic="true" id="ModalShow">
                                     </div>
-                                    {if $Modali neq ''}
-                                    <div>
-                                        {$Modali}
+                                    <div id="ModalDiv">
+                                        {if $Modali neq ''}
+                                            <div>
+                                             {$Modali}
+                                            </div>
+                                        {/if}
                                     </div>
-                                    {/if}
                                     <div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
                                         <div style="float:left; overflow: hidden;width:45%;margin-right: 64px;" id="sel1">
                                             <div class="slds-form-element">

@@ -39,11 +39,13 @@
    
 {/if}
 
-{if $Modali neq ''}
-      <div>
-        {$Modali}
-      </div>
-{/if}
+<div id="ModalDiv">
+    {if $Modali neq ''}
+        <div>
+         {$Modali}
+        </div>
+    {/if}
+</div>
 
 <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>

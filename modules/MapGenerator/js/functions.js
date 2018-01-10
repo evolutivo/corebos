@@ -3140,7 +3140,7 @@ function checkIfAdded(event){
 
 
 function allcheckbosChecked(argument) {
-   $('input:checkbox').prop('checked', this.checked);
+   $('input:checkbox').prop('checked','checked');
    $('input:checkbox').removeAttr('disabled');
 }
 
@@ -3540,4 +3540,16 @@ function ShowImportBussinesMapping(Idload,divHistory)
           $('#'+divHistory).append(divinsert);
       } 
     }
+}
+
+
+
+
+////// Modal remove after
+
+function removemodaleverytime() {
+
+  //if ($("#ModalDiv").length === 0){
+      $("#ModalDiv div").html('');
+  //}
 }

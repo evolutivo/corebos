@@ -156,7 +156,7 @@ function add_content($DataDecode)
                       $field = $xml->createElement("field");
 
                       $label = $xml->createElement("label");
-                      $labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultText);
+                      $labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValue);
                       $label->appendChild($labelText);
                       $field->appendChild($label);
 
@@ -258,7 +258,7 @@ function add_description($DataDecode){
 	               $field = $xml->createElement("field");
 
 				      	$label = $xml->createElement("label");
-				      	$labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValue);
+				      	$labelText=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValueText);
 				      	$label->appendChild($labelText);
 				      	$field->appendChild($label);
 

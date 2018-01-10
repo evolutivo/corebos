@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-08 14:25:48
+* @Last Modified time: 2018-01-10 12:45:56
 */
 
 
@@ -1173,7 +1173,8 @@
 					if (VauefromPost)
 					{
 						 //document.body.innerHTML +=VauefromPost;
-						 $('body').append(VauefromPost);
+
+						 $('#ModalDiv').append(VauefromPost);
 						 VauefromPost=null;
 						 $('#'+idbutton).removeAttr('disabled')
 					} else
