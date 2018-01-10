@@ -2044,6 +2044,20 @@ function LogFile($exepsion)
     fclose($updateMovedInToAssigned);
 }
 
+/**
+  * function to show the error only
+  *
+  * @param      string  $exepsion  The exepsion
+  */
+function LogFileSimple($exepsion="")
+{
+    global $root_directory;
+    $updateMovedInToAssigned = fopen($root_directory."logs/MapGeneratorLogs.txt", "a");
+    $str = "\n\n~~~~~~~~~~~~~~~~~~~~~ \n[".date("Y/m/d h:i:s " , mktime())."] \n~~~~~~~~~~~~~~~~~~~~~\n";
+     $str .= "\n\n~~~~~~~~~~~Message~~~~~~~~~~ ".$exepsion."\n";
+    fwrite($updateMovedInToAssigned, "\n".$str);
+    fclose($updateMovedInToAssigned);
+}
 
 /**
  * for all maps type

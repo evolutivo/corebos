@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-10 15:01:29
+ * @Last Modified time: 2018-01-10 15:36:50
  */
 
 
@@ -2361,6 +2361,9 @@ function Mapping_View($QueryHistory,$MapID)
 						'SecondFieldOptionGrup'=>!empty($field->Orgfields->Relfield->RelModule)?$field->Orgfields->Relfield->RelModule:explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[1]
 
 					];
+					foreach ($araymy as $key => $value) {
+						LogFileSimple(TypeOFErrors::ErrorLG.$key."#### ".$value);
+					}
 
 					array_push($MyArray,$araymy);
 				}
@@ -2794,8 +2797,8 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
 
 
     $sql = "select * from  vtiger_field ";
-    $sql.= " where vtiger_field.tabid in(?) ";
-    //$sql.= " vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2)";
+    $sql.= " where vtiger_field.tabid in(?) and";
+    $sql.= " vtiger_field.displaytype in (1,2,3) and vtiger_field.presence in (0,2)";
     if($tabid == 13 || $tabid == 15)
     {
         $sql.= " and vtiger_field.fieldlabel != 'Add Comment'";
@@ -2928,6 +2931,7 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
     $returncorrectdata=explode("#", $OPTION_SET);
 
     foreach ($returncorrectdata as $value) {
+    	$log->debug(TypeOFErrors::ErrorLG." Get_Modul_fields_check_from_load #### ".$value);
     	if (contains(explode(",", $value)[0],trim($checkname)) == true) {
     		return $value;
     	}
@@ -3245,6 +3249,7 @@ function CheckAllFirstForAllModules($checkname)
 	$allfields='';
 	foreach ($FirstModuleSelected as $value) {
 			$field.=Get_Modul_fields_check_from_load($value,$checkname);
+			// LogFileSimple(TypeOFErrors::ErrorLG."CheckAllFirstForAllModules #### ".$field);
 			if (!empty($field)) {
 				return $field;
 			}
