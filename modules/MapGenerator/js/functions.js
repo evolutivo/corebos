@@ -3542,9 +3542,6 @@ function ShowImportBussinesMapping(Idload,divHistory)
     }
 }
 
-
-
-
 ////// Modal remove after
 
 function removemodaleverytime() {
