@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-09 15:42:03
+ * @Last Modified time: 2018-01-10 12:09:13
  */
 
 
@@ -802,11 +802,12 @@ function MENUSTRUCTURE($QueryHistory,$MapID)
 					$temparray=[
 						'DefaultText'=>(string)$valuexml->label ,
 						'FirstModule'=> (string)$valuename,
+						'FirstModuleText'=> explode("#", Get_First_Moduls_TextVal((string)$valuename))[1],
 						'FirstModuleoptionGroup'=>"udentifined" ,
 						'JsonType'=>"Module",
 						'LabelName'=>(string)$valuexml->label,
 						'LabelNameoptionGroup'=>"",
-						'Moduli'=>(string)$valuename,
+						'Moduli'=>explode("#", Get_First_Moduls_TextVal((string)$valuename))[1],
 					];
 					array_push($MyArray,$temparray);
 				}
@@ -976,7 +977,7 @@ function CREATEVIEWPORTAL($QueryHistory,$MapID)
 					'BlockNameText'=>(string)$valueblock->name,
 					'BlockNameoptionGroup'=>"",
 					'FirstModule'=>explode(',',get_The_history($QueryHistory,"firstmodule"))[0],
-					'FirstModuleText'=>explode(',',get_The_history($QueryHistory,"firstmodule"))[0],
+					'FirstModuleText'=>explode("#", Get_First_Moduls_TextVal(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]))[1],
 					'FirstModuleoptionGroup'=>'udentifined',
 					'JsonType'=>"Block",
 					'rows'=>array(),
@@ -2133,7 +2134,7 @@ function Master_detail($QueryHistory,$MapID)
 							'editablechk'=>(string) $field->editable,
 							'editablechkoptionGroup'=>"",
 
-							'hiddenchk'=>(string) $field->editable,
+							'hiddenchk'=>(string) $field->hidden,
 							'hiddenchkoptionGroup'=>"",
 
 							'mandatorychk'=>(string)$field->mandatory,
@@ -2356,7 +2357,8 @@ function Mapping_View($QueryHistory,$MapID)
 						 'SecondFieldtext' =>(!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[1]:"Default-Value"),
 
 						'SecondFieldval' =>(!empty(explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0])?explode(",",CheckAllFirstForAllModules($field->Orgfields->Relfield->RelfieldName))[0]:$field->value),
-						'SecondFieldOptionGrup'=>explode("#", Get_First_Moduls_TextVal($field->Orgfields->Relfield->RelModule))[0]
+
+						'SecondFieldOptionGrup'=>!empty($field->Orgfields->Relfield->RelModule)?$field->Orgfields->Relfield->RelModule:explode("#", Get_First_Moduls_TextVal($xml->targetmodule[0]->targetname))[1]
 
 					];
 

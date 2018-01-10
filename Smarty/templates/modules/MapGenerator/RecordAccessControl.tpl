@@ -29,11 +29,13 @@
 
          {/if}
 
-{if $Modali neq ''}
-      <div>
-        {$Modali}
-      </div>
-{/if}
+<div id="ModalDiv">
+    {if $Modali neq ''}
+        <div>
+         {$Modali}
+        </div>
+    {/if}
+</div>
 
 
 

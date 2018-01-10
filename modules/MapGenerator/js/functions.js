@@ -3541,3 +3541,12 @@ function ShowImportBussinesMapping(Idload,divHistory)
       } 
     }
 }
+
+////// Modal remove after
+
+function removemodaleverytime() {
+
+  //if ($("#ModalDiv").length === 0){
+      $("#ModalDiv div").html('');
+  //}
+}

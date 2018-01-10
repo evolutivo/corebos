@@ -12,7 +12,7 @@
                     </div>
                     <div class="slds-modal__content slds-p-around--medium">
                         <div>
-                            <div class="slds-form-element">
+                            <div class="slds-form-element" style="float: left;">
                                 <label class="slds-form-element__label" for="input-unique-id">{$MOD.MapName}</label>
                                 <input style="width: 400px; " type="text" id="SaveasMapText" name="nameView" required=""
                                        class="slds-input" placeholder="{$MOD.mapname}" data-controll="true" data-controll-idlabel="ErrorLabelModal" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="SendDataButton" >
@@ -22,7 +22,7 @@
                             </div>
                             {* <label title="This field is required!" class="slds-form-element__label slds-required" for="input-unique-id" style="width: 20%;margin-left: 15%;">*{$MOD.requiredstring}</label> *}
                         </div>
-                        <label id="ErrorLabelModal" title="This field is required!" class="slds-form-element__label slds-required" style="margin-right: 60px;font-size: 13px;border-radius: 5px;padding: 5px;display: inline-block;word-wrap:break-word;">*{$MOD.requiredstring}</label>
+                        <label id="ErrorLabelModal" title="This field is required!" class="slds-form-element__label slds-required" style="margin-right: 60px;font-size: 13px;border-radius: 5px;padding: 5px;display: inline-block;word-wrap:break-word;float: left;">*{$MOD.requiredstring}</label>
                     </div>
                     <div class="slds-modal__footer">
                         

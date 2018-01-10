@@ -253,11 +253,13 @@
         <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
         <div data-div-load-automatic="true" id="ModalShow">
         </div>
-        {if $Modali neq ''}
-        <div>
-            {$Modali}
+        <div id="ModalDiv">
+            {if $Modali neq ''}
+                <div>
+                 {$Modali}
+                </div>
+            {/if}
         </div>
-        {/if}
         <div id="contenitoreJoin" style="width: 100%; display: inline-flex;">
             <div id="sectionField">
                 <div>
