@@ -2739,7 +2739,7 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
 
              if(typeofppopup==="Input"){
               var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopupInput",typeofppopup,"IS");
-              $('#'+"LoadShowPopupInput").append(divinsert);
+              $('#'+"LoadShowPopup").append(divinsert);
             }else if(typeofppopup==="Output"){
               var divinsert= addToPopupIoMap(i,moduli,Field,"LoadShowPopup",typeofppopup,"IS");
               $('#'+"LoadShowPopup").append(divinsert);
