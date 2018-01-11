@@ -246,14 +246,14 @@ function add_aray_for_history($decodedata)
      	if ($value->temparray->JsonType==="Input")
      	{
 		       if (!empty($value->temparray->AllFieldsInput)) {
-		        	$labels.=explode(":",$value->temparray->AllFieldsInput)[2].",";
+		        	$labels.=$value->temparray->Moduli."#".explode(":",$value->temparray->AllFieldsInput)[2].",";
 		        } else {
 		        	$labels.=$value->temparray->AllFieldsInputByhand.",";
 		        }
 		}else
 		{
 	        if (!empty($value->temparray->AllFieldsOutputselect)) {
-	        	$labels.=explode(":",$value->temparray->AllFieldsOutputselect)[2].",";
+	        	$labels.=$value->temparray->Moduli."#".explode(":",$value->temparray->AllFieldsOutputselect)[2].",";
 	        }else
 	        {
 	        	$labels.=$value->temparray->AllFieldsOutputbyHand.",";

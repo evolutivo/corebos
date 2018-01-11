@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-11 15:52:58
+ * @Last Modified time: 2018-01-11 17:01:46
  */
 
 
@@ -1575,7 +1575,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 function Module_IOMap($QueryHistory,$MapID)
  {
  	include_once('modfields.php');
-	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+ 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 	if (!empty($QueryHistory)) {
@@ -1591,9 +1591,9 @@ function Module_IOMap($QueryHistory,$MapID)
 			$Allhistory=get_All_History($QueryHistory);
 
 			$Alldatas=array();
-			foreach ($Allhistory as $value) {
+			foreach ($Allhistory as $valuehistory) {
 				
-				$xml= new SimpleXMLElement($value['query']);				
+				$xml= new SimpleXMLElement($valuehistory['query']);				
 				///for condition query
 				$MyArray=array();
 				foreach ($xml->input->fields->field as $value) {
@@ -1602,6 +1602,7 @@ function Module_IOMap($QueryHistory,$MapID)
 						"AllFieldsInput"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string) $value->fieldname,
 						"AllFieldsInputoptionGroup"=>" ",
 						"JsonType"=>"Input",
+						"Moduli"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[0]
 					];
 					array_push($MyArray,$arrayy);
 					// print_r($arrayy);
@@ -1613,6 +1614,7 @@ function Module_IOMap($QueryHistory,$MapID)
 						"AllFieldsOutputselect"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string)$value->fieldname,
 						"AllFieldsInputoptionGroup"=>"",
 						"JsonType"=>"Output",
+						"Moduli"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[0]
 					];
 					array_push($MyArray,$arrayy);
 					// print_r($arrayy);
@@ -2694,7 +2696,8 @@ function get_All_History($Id_Encrypt="",$field_take="query")
 					"sequence"=>$adb->query_result($result,$i-1,"sequence"),
 					"FirstModule"=>$adb->query_result($result,$i-1,"firstmodule"),
 					"Secondmodule"=>$adb->query_result($result,$i-1,"secondmodule"),
-					"active"=>$adb->query_result($result,$i-1,"active")
+					"active"=>$adb->query_result($result,$i-1,"active"),
+					"labels"=>$adb->query_result($result,$i-1,"labels")
 				]);
 			}
 
@@ -3392,4 +3395,24 @@ function GetAllrelationModules($module="")
 		return "";
 	}
 	 
+}
+
+/**
+ * function to check if exist in a array a word
+ *
+ * @param      <type>   $str    The string
+ * @param      array    $arr    The arr
+ *
+ * @return     string  ( the value )
+ */
+function containsArray($str, array $arr)
+{
+	$value="";
+    foreach($arr as $a) {
+        if (stripos($str,explode("#",$a)[1]) !== false)
+        {
+            $value=$a;
+        }
+    }
+    return $value;
 }
