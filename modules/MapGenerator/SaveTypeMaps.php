@@ -147,8 +147,11 @@ function add_content($DataDecode)
                  $fieldideText = $xml->createTextNode("");
                  $fieldID->appendChild($fieldideText);         
                  $field->appendChild($fieldID);
-                $secondmoduless=trim(preg_replace('/\s*\([^)]*\)/', '',preg_replace("(many)",'', preg_replace('/\s+/', '', explode(";",  $DataDecode[0]['SecondModuleval'])[0]))));
-                $relationModule=explode(":",$DataDecode[$i]['SecondFieldOptionGrup'])[0];
+                $secondmoduless=trim(preg_replace('/\s+/','',$DataDecode[$i]['SecondModuleval']));//SecondModuleval
+                LogFileSimple("secondmoduless var ----------".$DataDecode[$i]['SecondModuleval']);
+
+                $relationModule=$DataDecode[$i]['SecondFieldOptionGrup'];
+                LogFileSimple("relationModule var ----------".$DataDecode[$i]['SecondModuleval']);
                  if ($DataDecode[$i]['SecondFieldtext']=="Default-Value")
                      {
                          $value = $xml->createElement("value");
@@ -163,7 +166,7 @@ function add_content($DataDecode)
 
                      // $Orgfields = $xml->createElement("Orgfields");
                      // $field->appendChild($Orgfields);
-
+                    LogFileSimple("if is ok var ----------");
                      $Relfield= $xml->createElement("Relfield");
                          
                      $RelfieldName = $xml->createElement("RelfieldName");
