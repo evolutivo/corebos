@@ -116,7 +116,7 @@
           </div>
 	 	</div>
 	 	<div>
-	 		<div style="float: left;width: 40%;">
+	 		<div style="float: left;width: 40%;margin-right: 10px;">
 		 		<div class="slds-form-element">
 	            <label class="slds-form-element__label" style="float: left;" for="inputSample3">Choose the field</label>
 	            <div class="slds-form-element__control">
@@ -127,7 +127,7 @@
 	            </div>
 	          </div>
 	 		</div>
-	 		<div style="display: inline-block; margin: 24px 290px 13px 0px;">
+	 		<div style="display: inline-block;margin-top: 24px;float:  left;width:  15%;">
 	 			<select  id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
 	 				
 	                        <option value="equal">{$MOD.equals}</option>
@@ -135,7 +135,7 @@
 	                        <option value="empty">{$MOD.empty}</option>
 	                        <option value="not empty">{$MOD.not_empty}</option>
 	            </select></div>
-	 		<div style="float: right; width: 40%; *//* margin: 0px; */padding: 0px;">
+	 		<div style="float: right;width: 40%; *//* margin: 0px; */padding: 0px;margin-top:  70px;">
 		 		<div class="slds-form-element" style="width: 100%;margin-top:-67px;height: 34px; position: relative;text-align: initial;">
 	            <label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="inputSample3">{$MOD.AddAValues}</label>
 	            <div class="slds-form-element__control">
@@ -158,7 +158,7 @@
 	 	</div>
 	 	
 	 </div>
-	 <div class="add-fields-picklist-block" style="margin:5% 0% 0% 0% ">
+	 <div class="add-fields-picklist-block" style="/* margin:5% 0% 0% 0% */width:  100%;float:  left;">
    	 	<button class="slds-button slds-button--neutral slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop" style="float: left;">{$MOD.AddFields}</button>
    		<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.AddPickList}</button>
     	{* <h3 style="margin-left: 40%;" class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
