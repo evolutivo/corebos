@@ -73,7 +73,7 @@
                                              {else}
                                             <button class="slds-button slds-button--neutral" style="float: left;width: 80px;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
                                             {/if}
-                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;width: 80px;" data-send-data-id="ListData,MapName" data-send="true" data-loading="true" data-loading-divid="waitingIddiv" data-send-url="MapGenerator,saveRendicontaConfig" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordAccessControll" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;width: 80px;" data-send-data-id="ListData,MapName" data-send="true" data-loading="true" data-loading-divid="waitingIddiv" data-send-url="MapGenerator,saveRendicontaConfig" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRendiConfig" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
                                         </div>
                                     </div>
                                 </div>
