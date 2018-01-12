@@ -329,7 +329,7 @@ function selectHtml() {
    function closeAlertsAndremoveJoin(remuveid,namediv) {
 
     var check = false;
-    for (var ii = 1; ii <= App.popupJson.length-1; ii++) {
+    for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
       if (ii == remuveid) {
                //JSONForCOndition.remove(remuveid);
                App.popupJson.splice(remuveid,1);
@@ -3105,7 +3105,7 @@ function CheckChoise(sel)
     // });
     $('#DefaultValueResponsibel').hide('slow');
     $('#labelforinputDefaultValueResponsibel').hide('slow');
-   
+    $('#DefaultValueResponsibel').val(""); 
     $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,Firstfield,Conditionalfield');
   }else
   {
@@ -3549,4 +3549,11 @@ function removemodaleverytime() {
   //if ($("#ModalDiv").length === 0){
       $("#ModalDiv div").html('');
   //}
+}
+
+
+function clearInput(idtoremove){
+  setTimeout(function(){
+    $('#'+idtoremove).val(""); 
+  },100);
 }
