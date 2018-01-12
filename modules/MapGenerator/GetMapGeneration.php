@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-11 17:01:46
+ * @Last Modified time: 2018-01-12 12:32:11
  */
 
 
@@ -556,10 +556,10 @@ function RendicontaConfig($QueryHistory,$MapID)
 			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 			//this is for save as map
-			 $data="MapGenerator,saveRecordAccessControl";
+			 $data="MapGenerator,saveRendicontaConfig";
 			 $dataid="ListData,MapName";
 			 $savehistory="true";
-			 $saveasfunction="ShowLocalHistoryRecordAccessControll";
+			 $saveasfunction="ShowLocalHistoryRendiConfig";
 			//  //assign tpl
 			$smarty = new vtigerCRM_Smarty();
 			$smarty->assign("MOD", $mod_strings);
