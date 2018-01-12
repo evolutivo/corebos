@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-12 17:41:38
+ * @Last Modified time: 2018-01-12 17:49:49
  */
 
 
@@ -1581,7 +1581,7 @@ function Module_IOMap($QueryHistory,$MapID)
 	if (!empty($QueryHistory)) {
 		
 			$FirstModuleSelected=explode("#",GetAllModules());
-			$allfields="<option value=''>Select a field</option>";
+			$allfields="<option value=''>( Select a field )</option>";
 			foreach ($FirstModuleSelected as $value) {
 					$allfields.=getModFields($value, $acno.$dbname);
 				}	
