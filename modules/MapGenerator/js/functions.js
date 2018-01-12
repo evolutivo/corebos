@@ -329,7 +329,9 @@ function selectHtml() {
    function closeAlertsAndremoveJoin(remuveid,namediv) {
 
     var check = false;
-    for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if(App.popupJson.length==1) var leng=1; 
+    else leng=App.popupJson.length-1;
+    for (var ii = 0; ii <= leng; ii++) {
       if (ii == remuveid) {
                //JSONForCOndition.remove(remuveid);
                App.popupJson.splice(remuveid,1);
