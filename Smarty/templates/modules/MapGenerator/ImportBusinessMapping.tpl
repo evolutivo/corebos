@@ -24,6 +24,7 @@
 	    {/foreach}
 	    ShowLocalHistoryImportBussiness('LoadHistoryPopup','LoadShowPopup');
 	    ShowImportBussinesMapping(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+	    App.countsaveMap=2;
    </script>
 
   {/if}

@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-12 15:53:24
+* @Last Modified time: 2018-01-12 16:54:25
 */
 
 
@@ -21,6 +21,7 @@
 		ModulLabel: null,
 		FieldLabel: null,
 		disambleInspectelement:false,
+		countsaveMap:0,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -1134,11 +1135,12 @@
 					 			
 					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
 								// alert(mv_arr.ReturnSucessFromMap);
-								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
 								VauefromPost=null;
 					 		}else
 					 		{
 					 			App.SaveHistoryPop.length=0;
+					 			App.countsaveMap=0;
 					 			if (App.JSONForCOndition.length>0)
 					 			{
 					 				HistoryPopup.addtoarray(App.JSONForCOndition,"JSONCondition");
@@ -1148,14 +1150,14 @@
 					 			}
 					 			App.savehistoryar=VauefromPost.replace(/\s+/g, '');
 								// alert(mv_arr.ReturnSucessFromMap);
-								App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+								App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
 								VauefromPost=null;
 					 		}
 					 	}else
 					 	{
 					 		App.savehistoryar=VauefromPost;
 							// alert(mv_arr.ReturnSucessFromMap);
-							App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnSucessFromMap);
+							App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
 							VauefromPost=null;
 					 	}
 		 				
@@ -1198,6 +1200,7 @@
 
 				}
 				App.UniversalPopup.CloseModalWithoutCheck();
+				App.countsaveMap++;
 
 			if (loadingflag && loadingflag==="true")
 			{
@@ -1345,6 +1348,16 @@
 				}
 			});
 		},
+
+		Countsave:function() {
+			if (App.countsaveMap>0)
+			{
+				return mv_arr.ReturnSucessFromMapupdate;
+			}else{
+				return mv_arr.ReturnSucessFromMapInsert;
+			}
+		},
+
 
 		/**
 		 * PostDataGeneric is a function to post data from ajax 

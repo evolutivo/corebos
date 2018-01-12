@@ -48,7 +48,7 @@
       $('#Firstfield2').attr('disabled', 'disabled');
       $('#DefaultValueFirstModuleField_1').attr('disabled', 'disabled');
     }
-
+    App.countsaveMap=2;
   </script>
 
 

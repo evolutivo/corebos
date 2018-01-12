@@ -25,7 +25,7 @@
         App.JSONForCOndition.push(historydata.JSONCondition[i]);
       }
       App.utils.ReturnAllDataHistory('LoadShowPopup');
-
+      App.countsaveMap=2;
     </script>
    
 {/if}

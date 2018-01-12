@@ -55,6 +55,7 @@
      }
      //var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
       ShowHistoryData(App.SaveHistoryPop.length-1,'LoadShowPopup');
+      App.countsaveMap=2;
   </script>
 
 

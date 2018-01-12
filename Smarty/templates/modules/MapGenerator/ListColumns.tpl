@@ -38,7 +38,7 @@
     App.popupJson.push(historydata.PopupJSON[i]);
     }
     App.utils.ReturnDataSaveHistory('LoadShowPopup');
-
+    App.countsaveMap=2;
 
   </script>
 

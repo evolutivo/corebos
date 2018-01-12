@@ -55,6 +55,7 @@
       }
       // App.utils.ReturnDataSaveHistory('LoadShowPopup');
       showmodalformasterdetail();
+      App.countsaveMap=2;
 
     </script>
    
