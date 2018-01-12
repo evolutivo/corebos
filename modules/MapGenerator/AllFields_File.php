@@ -75,7 +75,8 @@ if (!empty($a)) {
 		//echo getModFields($modules);
 	}
 
-	echo $datareturn;
+    $selectedfiel="<option value='' >Select a Module</option>".$datareturn;
+	echo $selectedfiel;
 }
 
 ?>
