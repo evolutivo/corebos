@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
 * @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-10 12:45:56
+* @Last Modified time: 2018-01-12 15:53:24
 */
 
 
@@ -1687,7 +1687,7 @@
 				} else {
 					check = false;
 				}
-				var alerstdiv = App.utils.DivPopup(idd,moduli,firmod,'',JsonType);
+				var alerstdiv = App.utils.DivPopup(idd,moduli,firmod,namediv,JsonType);
 				$('#' + namediv).append(alerstdiv);
 
 			}

@@ -33,7 +33,7 @@
     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
     App.popupJson.push(historydata.PopupJSON[i]);
     }
-      App.utils.ReturnDataSaveHistory('LoadShowPopup');
+      App.utils.ReturnAllDataHistory2('LoadShowPopup');
 
     </script>
    
