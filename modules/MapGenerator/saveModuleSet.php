@@ -35,7 +35,7 @@ if (empty($MapType))
 if (!empty($Data)) {
 	
 	$jsondecodedata=json_decode($Data);
-
+  // print_r($jsondecodedata);
   // print_r(add_content($jsondecodedata));
   // exit();
 
@@ -106,10 +106,10 @@ function add_content($DataDecode)
 		$root = $xml->createElement("map");
 		$xml->appendChild($root);
 		$modules = $xml->createElement("modules");
-		for($i=0;$i<=$countarray;$i++)
+		foreach($DataDecode as $value)
 		{
 			$module = $xml->createElement("module");
-			$moduleText = $xml->createTextNode($DataDecode[$i]->temparray->FirstModule);
+			$moduleText = $xml->createTextNode($value->temparray->FirstModule);
 			$module->appendChild($moduleText);
 			
 			$modules->appendChild($module); 

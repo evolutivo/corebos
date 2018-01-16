@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-12 17:49:49
+ * @Last Modified time: 2018-01-16 17:53:36
  */
 
 
@@ -1693,11 +1693,14 @@ function Module_Set_Mapping($QueryHistory,$MapID)
 				foreach ($xml->modules->module as $value) {
 					$arrayy=[
 						"DefaultText"=>explode("#", Get_First_Moduls_TextVal($value))[1],
-						"firstModule"=>explode("#", Get_First_Moduls_TextVal($value))[0],
+						"FirstModule"=>explode("#", Get_First_Moduls_TextVal($value))[0],
+						"FirstModuleText"=>explode("#", Get_First_Moduls_TextVal($value))[1],
+						"firstModuleoptionGroup"=>"undefined",
 						"HistoryValueToShow"=>" ",
+						"HistoryValueToShowText"=>" ",
 						"HistoryValueToShowoptionGroup"=>" ",
 						"JsonType"=>"Module",
-						"firstModuleoptionGroup"=>"undefined",
+						"Moduli"=>"",
 					];
 					array_push($MyArray,$arrayy);
 					// print_r($arrayy);

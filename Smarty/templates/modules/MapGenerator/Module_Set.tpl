@@ -15,11 +15,14 @@
         {foreach key=profile_name item=popjs  from=$historys }
                var temparray = {};
               temparray['DefaultText'] ='{$popjs.DefaultText}' ;
-              temparray['HistoryValueToShow'] = '{$popjs.HistoryValueToShow}';
-              temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
-              temparray['JsonType'] ='{$popjs.JsonType}';
-              temparray['firstModule'] = '{$popjs.firstModule}';
+              temparray['FirstModule'] = '{$popjs.FirstModule}';
+              temparray['FirstModuleText'] = '{$popjs.FirstModuleText}';
               temparray['firstModuleoptionGroup'] = '{$popjs.firstModuleoptionGroup}';
+              temparray['HistoryValueToShow'] ='{$popjs.HistoryValueToShow}';
+              temparray['HistoryValueToShowText'] = '{$popjs.HistoryValueToShowText}';
+              temparray['HistoryValueToShowoptionGroup'] = '{$popjs.HistoryValueToShowoptionGroup}';
+              temparray['JsonType'] = '{$popjs.JsonType}';
+              temparray['Moduli'] = '{$popjs.Moduli}';
               App.popupJson.push({'{'}temparray{'}'});
         {/foreach}
         HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
