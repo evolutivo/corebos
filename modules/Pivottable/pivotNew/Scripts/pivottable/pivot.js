@@ -1184,7 +1184,7 @@
           }
           return recordsProcessed++;
         });
-        uiTable = $("<table>", {
+        uiTable = $("<table id='testTable'>", {
           "class": "pvtUi"
         }).attr("cellpadding", 5);
         rendererControl = $("<td>");
