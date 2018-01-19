@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-16 17:53:36
+ * @Last Modified time: 2018-01-19 10:51:43
  */
 
 
@@ -1892,11 +1892,11 @@ function List_Clomns($QueryHistory,$MapID)
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 
-			$SecondModulerelation=GetModulRelOneTomulti(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+			$SecondModulerelation="<option value=''>Select a module</option>".GetModulRelOneTomulti(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 
-			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
+			$FirstModuleFields="<option value=''>Select a Filed</option>".getModFields(get_The_history($QueryHistory,"firstmodule"));
 
-			$SecondModuleFields=getModFields(get_The_history($QueryHistory,"secondmodule"));
+			$SecondModuleFields="<option value=''>Select a Filed</option>".getModFields(get_The_history($QueryHistory,"secondmodule"));
 
 			$MapName=get_form_Map($MapID,"mapname");
 

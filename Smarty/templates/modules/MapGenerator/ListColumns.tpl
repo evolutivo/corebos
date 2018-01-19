@@ -99,7 +99,7 @@
                                                         <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
                                                     </center>
                                                     <div class="slds-select_container">
-                                                        <select data-select-load="true" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
+                                                        <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
                                                             {$FirstModuleSelected}
                                                         </select>
                                                     </div>
@@ -137,7 +137,7 @@
                                                         <label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label>
                                                     </center>
                                                     <div class="slds-select_container">
-                                                        <select id="secmodule" data-second-select-load="true" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" name="secmodule" class="slds-select">
+                                                        <select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" name="secmodule" class="slds-select">
                                                             {if $SecondModulerelation neq ''} {$SecondModulerelation} {else}
                                                             <option value="">Choose form Target</option>
                                                             {/if}
