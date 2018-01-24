@@ -106,7 +106,8 @@ function fieldExpressionPopup(moduleName, $){
 		var expression = $('#editpopup_expression').val();
 		expression = expression.replace(/<script(.|\s)*?\/script>/g, "");
 		expression = expression.replace(/\n/g, "<br>");  // convert \n to <br> for saving
-
+                if (expression == '' && $('#wfrelfield').val() != '')
+                expression = $('#wfrelfield').val();
 		var fieldElementId = $("#editpopup_field").val();
 		$("#"+fieldElementId).val(expression);
 
