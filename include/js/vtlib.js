@@ -24,6 +24,9 @@ function vtlib_setvalue_from_popup(recordid,value,target_fieldname,formname) {
     } else if(window.opener.document.QcEditView) {
         var wodform = window.opener.document.QcEditView;
         ret = true;
+    } else if(window.opener.document.getElementById(target_fieldname)) {
+        var wodform = window.opener.document.getElementById(target_fieldname);
+        ret = true;
     }
     if (ret) {
         var domnode_id = wodform[target_fieldname];

@@ -66,28 +66,12 @@
 												{else}
 													<p class="slds-text-heading--label slds-line-height--reset" style="opacity: 1;">{$APP.LBL_DUPLICATING} "{$NAME}" </p>
 												{/if}
-													<input title="{$APP.LBL_CANCEL_BUTTON_TITLE}" accessKey="{$APP.LBL_CANCEL_BUTTON_KEY}" class="slds-button slds-button--destructive slds-button--small" onclick="{if isset($smarty.request.Module_Popup_Edit)}window.close(){elseif isset($CANCELGO)}window.location.href='{$CANCELGO}'{else}window.history.back(){/if};" type="button" name="button" value="  {$APP.LBL_CANCEL_BUTTON_LABEL}  ">
-											</div>
+											{/if}</div>
 										</td>
 									   </tr>
 
-									   <!-- included to handle the edit fields based on ui types -->
-									   {foreach key=header item=data from=$BLOCKS}
-
-							<!-- This is added to display the existing comments -->
-							{if $header eq $APP.LBL_COMMENTS || (isset($MOD.LBL_COMMENT_INFORMATION) && $header eq $MOD.LBL_COMMENT_INFORMATION)}
-							   <tr><td>&nbsp;</td></tr>
-							   <tr>
-								<td colspan=4 class="dvInnerHeader">
-									<b>{if isset($MOD.LBL_COMMENT_INFORMATION)}{$MOD.LBL_COMMENT_INFORMATION}{else}{$APP.LBL_COMMENTS}{/if}</b>
-								</td>
-							   </tr>
-							   <tr>
-								<td colspan=4 class="dvtCellInfo">{$COMMENT_BLOCK}</td>
-							   </tr>
-							   <tr><td>&nbsp;</td></tr>
-							{/if}
-
+								
+                        {include file='EditViewHidden.tpl'}
 			{*<!-- Account details tabs -->*}
 			<table border=0 cellspacing=0 cellpadding=0 width=100% align=center>
 				<tr>
