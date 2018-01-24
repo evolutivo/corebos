@@ -1619,7 +1619,7 @@
 				htmldat+='<div class="Message-icon">';
 				// if (avtive===false)
 				// {
-					htmldat+='<button style="border: none;padding: 10px;background: transparent;" data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" data-history-show-modal-function="'+callfunction+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
+					htmldat+='<button data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" data-history-show-modal-function="'+callfunction+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
 				// }
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';
