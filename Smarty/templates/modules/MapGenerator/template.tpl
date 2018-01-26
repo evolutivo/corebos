@@ -3,7 +3,7 @@
 <script type="text/javascript" src="Smarty/templates/modules/MapGenerator/jquery-ui.js"></script>
 <link type="text/css" href="modules/MapGenerator/css/style.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css" rel="stylesheet">
-<!-- <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/main.css" rel="stylesheet"> -->
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/main.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/Loading.css" rel="stylesheet">
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>
@@ -15,7 +15,7 @@
         <tr class="slds-text-title--caps">
             <td style="padding: 0;">
                 {assign var="USE_ID_VALUE" value=$MOD_SEQ_ID} {if $USE_ID_VALUE eq ''} {assign var="USE_ID_VALUE" value=$ID} {/if}
-                <div class="slds-page-header s1FixedFullWidth s1FixedTop forceHighlightsStencilDesktop" style="height: 60px; margin-top: 15px;">
+                <div class="slds-page-header s1FixedFullWidth s1FixedTop forceHighlightsStencilDesktop" style="height: 60px; margin-top: 15px;width: 100%">
                     <div class="slds-grid primaryFieldRow" style="transform: translate3d(0, -8.65823px, 0);">
                         <div class="slds-grid slds-col slds-has-flexi-truncate slds-media--center">
                             <div class="slds-media__body">
