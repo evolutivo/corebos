@@ -54,7 +54,6 @@
         </div>
     {/if}
 </div>
-
     <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
         <tbody>
             <tr class="blockStyleCss" id="DivObjectID">
@@ -62,35 +61,29 @@
                     <div class="forceRelatedListSingleContainer">
                         <article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
                             <div class="slds-card__header slds-grid">
-                                <header class="slds-media slds-media--center slds-has-flexi-truncate">
-                                    <div class="slds-media__body">
-                                        <h2 style="width: 50%;float: left;">
-                                          <span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
-                                             <b>{$MOD.FieldDependencyPortal}</b>
-                                          </span>
-                                        </h2>
-                                      {if $NameOFMap neq ''}
-                                       <h2 style="width: 50%;float: left;">
-                                              <span style="text-transform: capitalize;" class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
-                                              <b>{$NameOFMap}</b>
-                                               </span>
-                                       </h2>
-                                      {/if}
-                                    </div>
-                                </header>
-                                <div class="slds-no-flex" data-aura-rendered-by="1224:0">
-                                    <div class="actionsContainer mapButton">
-                                        <div class="slds-section-title--divider">
-                                            {if $HistoryMap neq ''}
-                                            <button class="slds-button slds-button--neutral" style="float: left;width: 80px;" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {else}
-                                            <button class="slds-button slds-button--neutral" style="float: left;width: 80px;" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button> {* saveFieldDependency *} {/if}
-                                            <button class="slds-button slds-button--neutral slds-button--brand" style="float: right;width: 80px;" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveFieldDependencyPortal" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
-                                            
+                                    <header class="slds-media--center slds-has-flexi-truncate">
+                                        <h1 class="slds-page-header__title slds-m-right--small slds-truncate">
+                                            {if $NameOFMap neq ''} {$NameOFMap} {/if}
+                                        </h1>
+                                        <p class="slds-text-heading--label slds-line-height--reset">{$MOD.FieldDependencyPortal}</p>
+                                    </header>
+                                    <div class="slds-no-flex">
+                                        <div class="actionsContainer mapButton">
+                                            <div class="slds-section-title--divider">
+                                                {if $HistoryMap neq ''}
+                                                    {* saveFieldDependency *}
+                                                    <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
+                                                {else}
+                                                    {* saveFieldDependency *}
+                                                    <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
+                                                {/if}
+                                                &nbsp;
+                                                <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveTypeIOMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-send-savehistory-functionname="SavehistoryCreateViewportalIOMap" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
-                        </article>
+                    </article>
                     </div>
                     <div class="slds-truncate">
                         <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
@@ -158,9 +151,9 @@
                                     </div>
                                 </td>
                                 <td class="dvtCellInfo" align="left" width="40%">
-                                    <div class="">
+                                    
                                         <div class="flexipageComponent">
-                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
                                                 <div class="slds-card__header slds-grid">
                                                     <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                                         <div class="slds-media__body">
@@ -172,14 +165,17 @@
                                                         </div>
                                                     </header>
                                                 </div>
+                                            <div class="slds-card__body slds-card__body--inner">
                                                 <div id="contenitoreJoin">
-                                                    <div id="LoadShowPopup" style="height: 125px;display: grid;"></div>
+                                                    <div id="LoadShowPopup"></div>
                                                 </div>
+                                            </div>
                                                 {*End div contenitorejoin*}
-                                        </div>
                                         </article>
+                                        </div>
                                         <br/>
-                                        <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                        <div class="flexipageComponent">
+                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
                                             <div class="slds-card__header slds-grid">
                                                 <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                                     <div class="slds-media__body">
@@ -199,7 +195,12 @@
                                             </div>
                                         </article>
                                     </div>
+                                </td>
+                            </tr>
                         </table>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
     <div id="waitingIddiv"></div>
@@ -386,28 +387,7 @@
     <script>
     </script>
     <style>
-    .alerts {
-        padding: 10px;
-        background-color: #808080;
-        margin: 4px;
-        color: white;
-        display: inline-block;
-    }
-
-    .closebtns {
-        margin-left: 15px;
-        color: white;
-        font-weight: bold;
-        float: right;
-        font-size: 20px;
-        line-height: 15px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .closebtns:hover {
-        color: black;
-    }
+ 
 
     #LDSstyle {
         border: 1px solid black;

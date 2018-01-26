@@ -40,13 +40,13 @@ header h1 {
 /* Popup & History Zone */
 
 #contenitoreJoin {
-	overflow-y:  auto;
-	overflow-x:  hidden;
-	height: 150px;
+	height: 200px;
 }
 
 #contenitoreJoin > div {
-	height: 150px;
+	overflow-x:  hidden;
+	overflow-y:  auto;
+	height: 100%;
 }
 
 #LoadHistoryPopup,
@@ -98,10 +98,12 @@ header h1 {
 }
 
 .Message-icon {
-	display: table-cell;
-	vertical-align: middle;
+	display: inline-block;
+	vertical-align: top;
 	width: 36px;
-	padding: 0px;
+	height: 36px!important;
+	padding: 0;
+	margin: 5px;
 	text-align: center;
 	border-radius: 5px;
 	background-color: #0070D2;
@@ -123,12 +125,18 @@ header h1 {
 }
 
 .Message-body {
-	display: table-cell;
+	display: inline-block;
 	padding: 5px;
+	width: 83%;
 }
 
 .Message-body p {
+	word-wrap: break-word;
 	margin-bottom: 0;
+}
+
+.Message-body p:not(:first-child) {
+	font-size: 11px;
 }
 
 .history-title {
