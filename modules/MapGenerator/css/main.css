@@ -1,0 +1,376 @@
+/* Load Map Tab */
+.select2-container {
+	width: 75%!important;
+}
+
+#select2-GetALLMaps-results {
+	overflow-x: hidden;
+}
+
+/* End Load Map Tab */
+
+/* Condition Expression */
+
+.half {
+	width: 100%;
+}
+
+.tab {
+	position: relative;
+	margin-bottom: 1px;
+	width: 100%;
+	color: #fff;
+	overflow: hidden;
+}
+input[type=radio] {
+	position: absolute;
+	opacity: 0;
+	z-index: -1;
+}
+label {
+	position: relative;
+		display: block;
+		padding: 0 0 0 1em;
+		color: #54698d;
+		font-weight: bold;
+		line-height: 3;
+		cursor: pointer;
+		background-color: #f4f6f9;
+		font-size: 1.0rem;
+		text-align: center;
+		background-color: transparent;
+}
+.blue label {
+	background: #2980b9;
+}
+.tab-content {
+	max-height: 0;
+	overflow: hidden;
+	background: #f7f9fb;
+	-webkit-transition: max-height .35s;
+	-o-transition: max-height .35s;
+	transition: max-height .05s;
+}
+.blue .tab-content {
+	background: #3498db;
+}
+.tab-content p {
+	margin: 1em;
+}
+
+input:checked ~ .tab-content {
+	max-height: 100%;
+}
+
+label::after {
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: block;
+	width: 3em;
+	height: 3em;
+	line-height: 3;
+	text-align: center;
+	-webkit-transition: all .35s;
+	-o-transition: all .35s;
+	transition: all .35s;
+}
+input[type=checkbox] + label::after {
+	content: ">";
+	font-size: 20px;
+}
+input[type=radio] + label::after {
+	content: "\25BC";
+}
+input[type=checkbox]:checked + label::after {
+	transform: rotate(90deg);
+}
+input[type=radio]:checked + label::after {
+	transform: rotateX(180deg);
+}
+/* End Condition Expression */
+
+/* Condition Query */
+
+#LoadMAps {
+	position: relative;
+}
+
+#generatedquery {
+	position: absolute;
+	bottom: 0;
+}
+
+/* End Condition Query */
+
+
+/*	#LDSstyle {
+		border: 1px solid black;
+		margin-right: 0px;
+		margin-top: 0px;
+		width: 100%;
+		height: 100%;
+	}
+
+	#LDSstyle li {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#LDSstyle a:hover {
+		background: #c3cede;
+	}
+*/
+
+	.ajax_loader {
+		background: url("modules/MapGenerator/image/spinner_squares_circle.gif") no-repeat center center transparent;
+		width: 100%;
+		height: 100%;
+	}
+
+	.blue-loader .ajax_loader {
+		background: url("modules/MapGenerator/image/ajax-loader_blue.gif") no-repeat center center transparent;
+	}
+
+/*	#feedback {
+		font-size: 1.4em;
+	}
+
+	#selectable .ui-selecting {
+		background: #FECA40;
+	}
+
+	#selectable .ui-selected {
+		background: #F39814;
+		color: white;
+	}
+
+	#selectable {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		width: 60%;
+	}
+
+	#selectable li {
+		margin: 3px;
+		padding: 0.4em;
+		font-size: 1.4em;
+		height: 18px;
+	}
+*/
+
+/*The buttonset container needs a width so we can stack them vertically.*/
+
+/*#radio {
+	width: 85%;
+}
+*/
+
+/*Make each label stack on top of one another.*/
+/*	.ui-buttonset-vertical label {
+		display: block;
+	}*/
+
+/*
+ * Handle colliding borders. Here, we"re making the bottom border
+ * of every label transparent, except for labels with the
+ * ui-state-active or ui-state-hover class, or if it"s the last label.
+ *
+ */
+
+/*	.ui-buttonset-vertical label:not(:last-of-type):not(.ui-state-hover):not(.ui-state-active) {
+		border-bottom: transparent;
+	}
+*/
+
+/*
+ * For lables in the active state, we need to make the top border of the next
+ * label transparent.
+ *
+*/
+
+/*.ui-buttonset-vertical label.ui-state-active+input+label {
+	border-top: transparent;
+}*/
+
+
+/*
+ * Oddly enough, the above style approach doesn"t work for the
+ * hover state. So we define this class that"s used by our JavaScript
+ * hack.
+ *
+ */
+
+/*.ui-buttonset-vertical label.ui-transparent-border-top {
+	border-top: transparent;
+}
+
+select {
+	width: 300px;
+}
+
+.overflow {
+	height: 200px;
+}
+
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: -5px;
+	right: 105%;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+/*=============================*/
+/*
+	#LDSstyle {
+		border: 1px solid black;
+		margin-right: 0px;
+		margin-top: 0px;
+		width: 100%;
+		height: 100%;
+	}
+
+	#LDSstyle li {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#LDSstyle a:hover {
+		background: #c3cede;
+	}
+
+	.ajax_loader {
+		background: url("modules/MapGenerator/image/spinner_squares_circle.gif") no-repeat center center transparent;
+		width: 100%;
+		height: 100%;
+	}
+
+	.blue-loader .ajax_loader {
+		background: url("modules/MapGenerator/image/ajax-loader_blue.gif") no-repeat center center transparent;
+	}
+
+	#feedback {
+		font-size: 1.4em;
+	}
+
+	#selectable .ui-selecting {
+		background: #FECA40;
+	}
+
+	#selectable .ui-selected {
+		background: #F39814;
+		color: white;
+	}
+
+	#selectable {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		width: 60%;
+	}
+
+	#selectable li {
+		margin: 3px;
+		padding: 0.4em;
+		font-size: 1.4em;
+		height: 18px;
+	}*/
+	/*
+		 * The buttonset container needs a width so we can stack them vertically.
+		 *
+		 */
+
+	/*#radio {
+		width: 85%;
+	}*/
+	/*
+		 * Make each label stack on top of one another.
+		 *
+		 */
+
+/*	.ui-buttonset-vertical label {
+		display: block;
+	}*/
+	/*
+		 * Handle colliding borders. Here, we"re making the bottom border
+		 * of every label transparent, except for labels with the
+		 * ui-state-active or ui-state-hover class, or if it"s the last label.
+		 *
+		 */
+
+/*	.ui-buttonset-vertical label:not(:last-of-type):not(.ui-state-hover):not(.ui-state-active) {
+		border-bottom: transparent;
+	}*/
+	/*
+		 * For lables in the active state, we need to make the top border of the next
+		 * label transparent.
+		 *
+		 */
+
+/*	.ui-buttonset-vertical label.ui-state-active+input+label {
+		border-top: transparent;
+	}*/
+	/*
+		 * Oddly enough, the above style approach doesn"t work for the
+		 * hover state. So we define this class that"s used by our JavaScript
+		 * hack.
+		 *
+		 */
+
+/*	.ui-buttonset-vertical label.ui-transparent-border-top {
+		border-top: transparent;
+	}
+
+	select {
+		width: 300px;
+	}
+
+	.overflow {
+		height: 200px;
+	}
+
+	.tooltip {
+		position: relative;
+		display: inline-block;
+		border-bottom: 1px dotted black;
+	}
+
+	.tooltip .tooltiptext {
+		visibility: hidden;
+		width: 120px;
+		background-color: black;
+		color: #fff;
+		text-align: center;
+		border-radius: 6px;
+		padding: 5px 0;
+*/
+		/* Position the tooltip */
+	/*	position: absolute;
+		z-index: 1;
+		top: -5px;
+		right: 105%;
+	}*/
+/*
+	.tooltip:hover .tooltiptext {
+		visibility: visible;
+	}*/
+	/*========================*/
