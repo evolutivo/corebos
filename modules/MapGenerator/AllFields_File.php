@@ -59,24 +59,24 @@ if ($num_rows != 0) {
 
 if (!empty($a)) {
 
-	 $dataarray=explode("#",$a);
-	// echo getModFields($modules, $acno.$dbname);
+     $dataarray=explode("#",$a);
+    // echo getModFields($modules, $acno.$dbname);
 
-	if (!empty($dataarray))
-	{
-		foreach ( $dataarray as $key) 
-		{
-	 		// echo "value=".$key."<br>";
-	 		$datareturn.=getModFields($key, $acno.$dbname);
-	 	}
-	 	// $datareturn.=getModFields($modules);
-	}else
-	{
-		//echo getModFields($modules);
-	}
+    if (!empty($dataarray))
+    {
+        foreach ( $dataarray as $key) 
+        {
+            // echo "value=".$key."<br>";
+            $datareturn.=getModFields($key, $acno.$dbname);
+        }
+        // $datareturn.=getModFields($modules);
+    }else
+    {
+        //echo getModFields($modules);
+    }
 
     $selectedfiel="<option value='' >( Select a field )</option>".$datareturn;
-	echo $selectedfiel;
+    echo $selectedfiel;
 }
 
 ?>

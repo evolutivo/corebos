@@ -1597,25 +1597,51 @@ function Module_IOMap($QueryHistory,$MapID)
 				///for condition query
 				$MyArray=array();
 				foreach ($xml->input->fields->field as $value) {
-					$arrayy=[
-						"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] :  (string)$value->fieldname,
-						"AllFieldsInput"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string) $value->fieldname,
-						"AllFieldsInputoptionGroup"=>" ",
-						"JsonType"=>"Input",
-						"Moduli"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[0]
-					];
+					$arrayy=array();
+					if (!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) {
+					  	$arrayy=[
+						    "DefaultText"=>explode(",",CheckAllFirstForAllModules($value->fieldname))[1],
+						    "AllFieldsInput"=>explode(",",CheckAllFirstForAllModules($value->fieldname))[0],
+							"AllFieldsInputText"=>explode(",",CheckAllFirstForAllModules($value->fieldname))[1],
+							"AllFieldsInputoptionGroup"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[1],
+							"JsonType"=>"Input",
+							"Moduli"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[0]
+						];
+					  } else {
+					  	$arrayy=[
+						    "DefaultText"=>$value->fieldname,
+							"AllFieldsInputByhand"=>$value->fieldname,
+							"AllFieldsInputByhandText"=>$value->fieldname,
+							"AllFieldsInputByhandoptionGroup"=>"",
+							"JsonType"=>"Input",
+							"Moduli"=>""
+						];
+					  }
 					array_push($MyArray,$arrayy);
 					// print_r($arrayy);
 				}
 
 				foreach ($xml->output->fields->field as $value) {
-					$arrayy=[
-						"DefaultText"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[1] : (string)$value->fieldname,
-						"AllFieldsOutputselect"=>(!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($value->fieldname))[0] : (string)$value->fieldname,
-						"AllFieldsInputoptionGroup"=>"",
-						"JsonType"=>"Output",
-						"Moduli"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[0]
-					];
+					  if (!empty(explode(",",CheckAllFirstForAllModules($value->fieldname))[0])) {
+					  	$arrayy=[
+						    "DefaultText"=>explode(",",CheckAllFirstForAllModules($value->fieldname))[1],
+						    "AllFieldsOutputselect"=>explode(",",CheckAllFirstForAllModules($value->fieldname))[0],
+							"AllFieldsOutputselectText"=>explode(",",CheckAllFirstForAllModules($value->fieldname))[1],
+							"AllFieldsOutputselectoptionGroup"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[1],
+							"JsonType"=>"Output",
+							"Moduli"=>explode("#",containsArray($value->fieldname,explode(",",$valuehistory['labels'])))[0]
+						];
+					  } else {
+					  	$arrayy=[
+						    "DefaultText"=>$value->fieldname,
+							"AllFieldsOutputbyHand"=>$value->fieldname,
+							"AllFieldsOutputbyHandText"=>$value->fieldname,
+							"AllFieldsOutputbyHandoptionGroup"=>"",
+							"JsonType"=>"Output",
+							"Moduli"=>""
+						];
+					  }
+					  
 					array_push($MyArray,$arrayy);
 					// print_r($arrayy);
 				}	
@@ -1892,7 +1918,7 @@ function List_Clomns($QueryHistory,$MapID)
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 
-			$SecondModulerelation="<option value=''>Select a module</option>".GetModulRelOneTomulti(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+			$SecondModulerelation="<option value=''>Select a module</option>".GetModuleMultiToOne(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 
 			$FirstModuleFields="<option value=''>Select a Filed</option>".getModFields(get_The_history($QueryHistory,"firstmodule"));
 

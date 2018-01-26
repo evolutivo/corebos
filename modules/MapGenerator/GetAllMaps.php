@@ -26,6 +26,7 @@
 function GetMaps($value="")
 {
 	global $adb, $root_directory, $log;
+	$log->debug("Info!! GetMaps Start here ");
 	if (!empty($value))
 	{
 		$log->debug("Info!! Value is not ampty");
@@ -34,6 +35,7 @@ function GetMaps($value="")
 		} else {
 			$sql="SELECT cb.*,cr.* FROM vtiger_cbmap cb JOIN  vtiger_crmentity cr ON cb.cbmapid=cr.crmid WHERE cr.deleted=0 AND  maptype='$value' ORDER BY cb.maptype ";
 		}
+		$log->debug("Info!! This is the query ----- ".$sql);
 		$result = $adb->query($sql);
 	    $num_rows=$adb->num_rows($result);
 	    $historymap="";
@@ -53,7 +55,7 @@ function GetMaps($value="")
 	            } else {
 	            	$a.='<option value="'.$MapType.'#'.$MapID.'#'.$queryid.'">'.$MapName.'</option>';
 	            }
-	            
+	            $log->debug("Info!! This is output -------------".$a);
 	        }
     }else{$log->debug("Info!! The database ios empty or something was wrong");}
     return $a;

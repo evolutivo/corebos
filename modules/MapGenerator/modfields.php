@@ -16,6 +16,7 @@
 function getModFields($module, $dbname,$FieldsArrays=[],$uitype='')
 {
     global $log;
+    // LogFileSimple("Start here fuction getmModFields --".$module.$uitype);
     $log->debug("Entering getAdvSearchfields(".$module.") method ...");
     global $adb;
     global $current_user;
@@ -57,8 +58,9 @@ function getModFields($module, $dbname,$FieldsArrays=[],$uitype='')
 
     $params = array($tabid);
 
-
+    // LogFileSimple("This is Query --".$sql);
     $result = $adb->pquery($sql, $params);
+    // LogFileSimple("This is result --".$result);
     $noofrows = $adb->num_rows($result);
     $block = '';
     $select_flag = '';
@@ -72,6 +74,11 @@ function getModFields($module, $dbname,$FieldsArrays=[],$uitype='')
         $fieldtype = $adb->query_result($result,$i,"typeofdata");
         $fieldtype = explode("~",$fieldtype);
         $fieldtypeofdata = $fieldtype[0];
+        // LogFileSimple("Those are Fields----".$fieldtablename
+        //               ."----".$fieldcolname
+        //                 ."----".$fieldname
+        //                 ."----".$block
+        //                 ."----".$fieldtype);
         if($fieldcolname == 'account_id' || $fieldcolname == 'accountid' || $fieldcolname == 'product_id' || $fieldcolname == 'vendor_id' || $fieldcolname == 'contact_id' || $fieldcolname == 'contactid' || $fieldcolname == 'vendorid' || $fieldcolname == 'potentialid' || $fieldcolname == 'salesorderid' || $fieldcolname == 'quoteid' || $fieldcolname == 'parentid' || $fieldcolname == "recurringtype" || $fieldcolname == "campaignid" || $fieldcolname == "inventorymanager" ||  $fieldcolname == "currency_id")
             $fieldtypeofdata = "V";
         if($fieldcolname == "discontinued" || $fieldcolname == "active")

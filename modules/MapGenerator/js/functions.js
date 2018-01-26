@@ -2644,7 +2644,7 @@ function ShowHistoryDataIOMap(id,divshow)
    $('#LoadShowPopup div').remove();
 
    for (var i = 0; i <= App.popupJson.length-1; i++) {
-    var Field=App.popupJson[i].temparray[`DefaultText`];
+    var Field=App.popupJson[i].temparray[`DefaultText`].replace(/\s+/g, '');
     var moduli=App.popupJson[i].temparray[`Moduli`];
     var typeofppopup=App.popupJson[i].temparray['JsonType'];
 
@@ -2805,14 +2805,22 @@ function split_popups(event){
    var replace=elem.dataset.addReplace;
    var modulShow=elem.dataset.showModulId;
    var divid=elem.dataset.divShow;
-
+   var validate=elem.dataset.addButtonValidate;
 
    var allidarray = allid.split(",");
+
+   if (validate)
+       {
+         if (validate.length>0)
+         {
+          validatearray=validate.split(',');
+         }else{validatearray.length=0;}
+       }else{validatearray.length=0;}
 
    $('#LoadShowPopupInput div').remove();
    $('#'+divid+' div').remove();
 
-   App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow);
+   App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
 
    if (App.popupJson.length>0)
    { 
