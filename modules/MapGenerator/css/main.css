@@ -1,4 +1,8 @@
-/* Load Map Tab */
+ /*Load Map Tab */
+#LoadMAps {
+	position: relative;
+}
+
 .select2-container {
 	width: 75%!important;
 }
@@ -7,7 +11,29 @@
 	overflow-x: hidden;
 }
 
+.forceRelatedListSingleContainer {
+	position: relative;
+}
 /* End Load Map Tab */
+
+
+/* Create Join Condition */
+
+#userorgroup {
+	position: absolute;
+	width: 300px;
+	height:110px;
+	z-index: 90000;
+	display: none;
+	height: 165px;
+}
+
+#contentJoinButtons #userorgroup {
+	top: 0!important;
+	left: 700px!important;
+}
+
+/* End Create Join Condition */
 
 /* Condition Expression */
 
@@ -90,15 +116,141 @@ input[type=radio]:checked + label::after {
 }
 /* End Condition Expression */
 
+
+
 /* Condition Query */
 
-#LoadMAps {
-	position: relative;
+#selJoin {
+	width: 100%;
+	display: inline-flex;
 }
 
-#generatedquery {
+#sel1,
+#sel2 {
+	width: 45%;
+}
+
+#sel1 .slds-select_container,
+#sel2 .slds-select_container{
+	margin-bottom: 5px;
+}
+
+#centerJoin {
+	width: 10%;
+	padding: 0.75rem;
+}
+
+#centerJoin span {
+	font-size: 40px;
+	margin: 0;
+}
+
+#conditionQuery #contenitoreJoin {
+	height: auto!important;
+}
+
+#conditionQuery #contenitoreJoin > div {
+	overflow-x: initial;
+	overflow-y: initial;
+	height: auto!important;
+}
+
+/** Section Field **/
+#sectionField .slds-form-element__control {
+	display: inline-flex;
+	width: 100%;
+}
+
+#sectionField input,
+#sectionField select {
+	width: 50%;
+}
+
+#sectionField select {
+	margin-right: 1rem;
+	height: 150px;
+}
+
+#sectionField input {
+	height: 20px;
+	margin-top: 0;
+}
+
+#sectionField .slds-select[multiple] optgroup[label],
+#sectionField .slds-select[multiple] option {
+	padding: 2px .5rem;
+}
+
+/** Query zone **/
+#generatedquery #results {
+	text-align: left;
+}
+
+#where-condition-title span {
+	vertical-align: middle;
+}
+
+.condition-groups {
+	padding: 0 .5rem;
+}
+
+/** Aside zone **/
+#condition-query-aside {
+	padding: 0 .5rem!important;
+	height: 200px;
+}
+
+#AlertsAddDiv {
+	margin-top: 10px;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#AlertsAddDiv .alerts {
+	text-align: left;
+	margin: 0 0 5px 0;
+	width: 90%;
+	position: relative;
+	background-color: #54698D;
+	color: #fff;
+}
+
+#AlertsAddDiv .alerts .closebtns {
+	margin-bottom: 5px;
+}
+
+#AlertsAddDiv .alerts strong {
+	line-height: 1.1;
+}
+
+#AlertsAddDiv .alerts i {
+	color: #54698D;
+	font-size: 13px;
+}
+
+.query-icons {
 	position: absolute;
-	bottom: 0;
+}
+
+.query-icons:hover {
+	opacity: .7;
+	cursor: pointer;
+}
+
+.plus-icon {
+	top: 5px;
+	right: -18px;
+}
+
+.check-icon {
+	bottom: 25px;
+	right: -20px;
+}
+
+.desktop-icon {
+	bottom: 5px;
+	right: -20px;
 }
 
 /* End Condition Query */
@@ -373,4 +525,4 @@ select {
 	.tooltip:hover .tooltiptext {
 		visibility: visible;
 	}*/
-	/*========================*/
+	/*========================

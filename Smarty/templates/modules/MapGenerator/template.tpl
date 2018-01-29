@@ -2,8 +2,8 @@
 <script type="text/javascript" src="Smarty/templates/modules/MapGenerator/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="Smarty/templates/modules/MapGenerator/jquery-ui.js"></script>
 <link type="text/css" href="modules/MapGenerator/css/style.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/main.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css">
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/main.css" >
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/Loading.css" rel="stylesheet">
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>

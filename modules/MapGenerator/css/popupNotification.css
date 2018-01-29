@@ -17,23 +17,15 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 }
 
 /* Header */
-.slds-card__header {
+/*.slds-card__header {
 	padding-top: .3rem;
 	margin-bottom: .3rem;
-}
+}*/
 
 header h1 {
 	margin-top: 15px;
 	text-transform: uppercase;
 }
-
-/*.map-type {
-	width: 300px;
-}
-
-.map-name {
-	width: 70%;
-}*/
 
 /* End Header */
 
@@ -127,7 +119,7 @@ header h1 {
 .Message-body {
 	display: inline-block;
 	padding: 5px;
-	width: 83%;
+	width: 80%;
 }
 
 .Message-body p {
