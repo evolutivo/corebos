@@ -164,11 +164,11 @@ function add_content($DataDecode)
                      //target module fields
                      $Orgfields = $xml->createElement("Orgfields");
                      $field->appendChild($Orgfields);                                    
-                 if ((!empty($secondmoduless) && !empty($relationModule))&& $secondmoduless !=$relationModule ) {
+                 if ((!empty($secondmoduless) && !empty($relationModule))&& $secondmoduless !=$relationModule && $DataDecode[$i]['SecondFieldtext']!="Default-Value" ) {
 
                      // $Orgfields = $xml->createElement("Orgfields");
                      // $field->appendChild($Orgfields);
-                    LogFileSimple("if is ok var ----------");
+                      LogFileSimple("if is ok var ----------");
                      $Relfield= $xml->createElement("Relfield");
                          
                      $RelfieldName = $xml->createElement("RelfieldName");
