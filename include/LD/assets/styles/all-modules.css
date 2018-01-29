@@ -1038,7 +1038,7 @@ select:-moz-focusring {
 }
 
 #no_entries_found {
-    z-index: 999;
+    z-index: 77;
 }
 
 #no_entries_found img {
@@ -1513,6 +1513,16 @@ tr td.action-block-mailManager {
 #modmgr_custom tbody tr,
 #modmgr_custom tbody tr th {
     border-top: 0!important;
+}
+
+#modmgr_standard img:hover,
+#modmgr_custom img:hover {
+    opacity: .7;
+}
+
+.no-hover-icon:hover {
+    opacity: 1!important;
+    cursor: default;
 }
 
 /* ===== AssignPicklistValues ===== */
