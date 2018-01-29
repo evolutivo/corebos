@@ -279,11 +279,11 @@ function selectHtml() {
     // INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');"><i class="icono-eye"></</span>';
     INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> ' + Firstmodulee + '=>' + secondmodule;
     if (last_check==true) {//icono-plusCircle
-      INSertAlerstJOIN +='<span title="You are here " style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-checkCircle"></i></span>';
-      INSertAlerstJOIN +='<span  title="run the query to show the result" style="float:right;margin-top:-10px;margin-right:-86px;"><i class="icono-display" onclick="openmodalrezultquery('+Idd+');"></i></span>';
+      INSertAlerstJOIN +='<span class="query-icons check-icon" title="You are here "><i class="fa fa-check"></i></span>';
+      INSertAlerstJOIN +='<span class="query-icons desktop-icon" title="run the query to show the result"><i class="fa fa-desktop" onclick="openmodalrezultquery('+Idd+');"></i></span>';
     }
     else{
-      INSertAlerstJOIN +='<span onclick="show_query_History('+Idd +');" title="click here to show the Query" style="float:right;margin-top:-10px;margin-right:-46px;"><i class="icono-plusCircle"></i></span>';
+      INSertAlerstJOIN +='<span class="query-icons plus-icon" onclick="show_query_History('+Idd +');" title="click here to show the Query"><i class="fa fa-plus"></i></span>';
     }
     INSertAlerstJOIN += '</div';
     return INSertAlerstJOIN;
