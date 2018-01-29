@@ -41,7 +41,8 @@ if (empty($MapType))
 if (!empty($Data))
 {
      $decodedata = json_decode($Data, true);
-     
+     // print_r($decodedata);
+     // exit();
 
     if (strlen($MapID[1])==0) {
          include_once('modules/cbMap/cbMap.php');
@@ -148,6 +149,7 @@ function add_content($DataDecode)
                  $fieldID->appendChild($fieldideText);         
                  $field->appendChild($fieldID);
                 $secondmoduless=trim(preg_replace('/\s+/','',$DataDecode[$i]['SecondModuleval']));//SecondModuleval
+
                 LogFileSimple("secondmoduless var ----------".$DataDecode[$i]['SecondModuleval']);
 
                 $relationModule=$DataDecode[$i]['SecondFieldOptionGrup'];
@@ -175,6 +177,11 @@ function add_content($DataDecode)
                      $Relfield->appendChild($RelfieldName);
                      
                      $RelModule = $xml->createElement("RelModule");
+                     if ($DataDecode[$i]['SecondFieldtext']=="Default-Value") {
+                          $RelModuleText= $xml->createTextNode($relationModule);
+                     }else{
+                         $RelModuleText= $xml->createTextNode($relationModule);
+                     }
                      $RelModuleText= $xml->createTextNode($relationModule);
                      $RelModule->appendChild($RelModuleText);
                      $Relfield->appendChild($RelModule);
