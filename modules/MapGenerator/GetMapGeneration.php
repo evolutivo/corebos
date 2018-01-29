@@ -1920,9 +1920,9 @@ function List_Clomns($QueryHistory,$MapID)
 
 			$SecondModulerelation="<option value=''>Select a module</option>".GetModuleMultiToOne(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
 
-			$FirstModuleFields="<option value=''>Select a Filed</option>".getModFields(get_The_history($QueryHistory,"firstmodule"));
+			$FirstModuleFields="<option value=''>Select a Field</option>".getModFields(get_The_history($QueryHistory,"firstmodule"));
 
-			$SecondModuleFields="<option value=''>Select a Filed</option>".getModFields(get_The_history($QueryHistory,"secondmodule"));
+			$SecondModuleFields="<option value=''>Select a Field</option>".getModFields(get_The_history($QueryHistory,"secondmodule"));
 
 			$MapName=get_form_Map($MapID,"mapname");
 
