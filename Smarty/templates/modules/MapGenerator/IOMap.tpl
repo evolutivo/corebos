@@ -54,18 +54,6 @@
 										{if $NameOFMap neq ''} {$NameOFMap} {/if}
 									</h1>
 									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.TypeMapIOMap}</p>
-									<!-- <div class="map-type">
-										<h2>
-											<span class="slds-text-title--caps slds-truncate slds-m-right--xx-small">
-											</span>
-										</h2>
-									</div> -->
-									<!-- <div class="map-name">
-										<h2>
-											<span class="slds-text-title--caps slds-truncate slds-m-right--xx-small" title="">
-											</span>
-										</h2>
-									</div> -->
 								</header>
 								<div class="slds-no-flex">
 									<div class="slds-section-title--divider">
