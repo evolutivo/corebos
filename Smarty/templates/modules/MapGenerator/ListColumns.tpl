@@ -94,8 +94,8 @@
                                     <div id="selJoin">
                                         <div id="sel1">
                                             <div class="slds-form-element">
-                                                <div class="slds-form-element__control">
-                                                    <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+                                                <div class="slds-form-element__control slds-text-align--center"">
+                                                    <label class="slds-form-element__label">{$MOD.TargetModule}</label>
                                                     <div class="slds-select_container">
                                                         <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
                                                             {$FirstModuleSelected}
@@ -130,10 +130,8 @@
                                                 <center><b>{$MOD.popupPlace}</b></center>
                                             </div> *}
                                             <div class="slds-form-element">
-                                                <div class="slds-form-element__control">
-                                                    <center>
-                                                        <label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label>
-                                                    </center>
+                                                <div class="slds-form-element__control slds-text-align--center">
+                                                    <label class="slds-form-element__label">{$MOD.OriginModule}</label>
                                                     <div class="slds-select_container">
                                                         <select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" name="secmodule" class="slds-select">
                                                             {if $SecondModulerelation neq ''} {$SecondModulerelation} {else}
@@ -150,16 +148,16 @@
                                             <br> {*
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
-                                                    <div class="" id="SecondDiv" style="float: left;width: 100%;">
-                                                        <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 32px;margin-bottom: 10px;">
+                                                    <div class="" id="SecondDiv">
+                                                        <div class="slds-combobox_container slds-has-object-switcher">
                                                             <div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                                 <div class="slds-combobox__form-element">
-                                                                    <input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" style="width:250px;height: 30px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">
+                                                                    <input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
                                                                 </div>
                                                             </div>
-                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                                                                <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                                                    <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
+                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                                <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+                                                                    <img src="themes/images/btnL3Add.gif">
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -169,20 +167,20 @@
                                             <br>
                                         </div>
                                     </div>
-                                    <hr>
-                                        <div id="sectionField">
-                                            <div class="testoDiv">
-                                                <center><b>{$MOD.RelatedList}</b></center>
-                                            </div>
-                                            <hr style="border-style: inset;border-top: 2px solid #d8dde6;">
-                                            <div class="slds-form-element">
-                                                <div class="slds-form-element__control">
-                                                    <div id="AlertsAddDiv">
-                                                    </div>
+                                    <div id="sectionField" class="related-list-content">
+                                        <div class="testoDiv">
+                                            <center><b>{$MOD.RelatedList}</b></center>
+                                        </div>
+                                        <hr class="related-list-line">
+
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <div id="AlertsAddDiv">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div>
+
+                                        <div class="related-list-container">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <div class="slds-select_container">
@@ -194,18 +192,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
-                                                    <div class="" id="SecondDiv">
-                                                        <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 32px;margin-bottom: 10px;">
+                                                    <div id="SecondDiv">
+                                                        <div class="slds-combobox_container slds-has-object-switcher">
                                                             <div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                                 <div class="slds-combobox__form-element">
-                                                                    <input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" style="width:200px;height: 30px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;margin-right: 30px;" class="slds-input slds-combobox__input">
+                                                                    <input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
                                                                 </div>
                                                             </div>
-                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                                                                <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                                                    <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
+                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                                <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+                                                                    <img src="themes/images/btnL3Add.gif">
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -213,62 +212,66 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="contenitoreJoins">
-                                            <div id="sectionField" style="width:100%; float: left; margin-top: 10px">
-                                                <div class="testoDiv" style="margin: 20px 0px  5px 0px;">
-                                                    <center><b>{$MOD.popupPlace}</b></center>
+                                    </div>
+
+                                    <div id="contenitoreJoins" class="popup-screen-content">
+                                        <div id="sectionField">
+                                            <div class="testoDiv">
+                                                <center><b>{$MOD.popupPlace}</b></center>
+                                            </div>
+                                            <hr class="popup-screen-line">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <div id="AlertsAddDiv">
+                                                    </div>
                                                 </div>
-                                                <hr style="display: block;margin-top: 0.5em;margin-bottom: 0.5em;margin-left: auto;margin-right: auto;border-style: inset;border-top: 2px solid #d8dde6;">
+                                                <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+                                                <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+                                                <input type="hidden" name="querysequence" id="querysequence" value="">
+                                                <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+                                            </div>
+                                        </div>
+                                        <div class="popup-screen-container">
+                                            <div id="sel1" class="popup-screen-select">
                                                 <div class="slds-form-element">
                                                     <div class="slds-form-element__control">
-                                                        <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">
+                                                        <div class="slds-select_container">
+                                                            <select id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
+                                                                {if $FirstModuleFields neq ''} {$FirstModuleFields} {else}
+                                                                <option value="">Choose from Target</option>
+                                                                {/if}
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-                                                    <input type="hidden" name="queryid" value="{$queryid}" id="queryid">
-                                                    <input type="hidden" name="querysequence" id="querysequence" value="">
-                                                    <input type="hidden" name="MapName" id="MapName" value="{$MapName}">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div style="float:left; overflow: hidden;width:45%; margin-top: 10px;" id="sel1">
-                                            <div class="slds-form-element">
-                                                <div class="slds-form-element__control">
-                                                    <div class="slds-select_container">
-                                                        <select style="height: 35px;" id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
-                                                            {if $FirstModuleFields neq ''} {$FirstModuleFields} {else}
-                                                            <option value="">Choose from Target</option>
-                                                            {/if}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="float:left; overflow: hidden;width:10%; margin-top: 30px;" id="centerJoin"></div>
-                                        <div style="float:left; overflow: hidden;width:45%" id="sel2">
-                                            <div class="slds-form-element">
-                                                <div class="slds-form-element__control">
-                                                    <div class="" id="SecondDiv" style="float: left;width: 100%;height: 33px;margin-top:12px;">
-                                                        <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 32px">
-                                                            <div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                                                                <div class="slds-combobox__form-element">
-                                                                    <input type="text" id="DefaultValueFirstModuleField" placeholder="Change label if you want and after click button" id="defaultvalue" style="width:200px;height: 30px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;    margin-right: 30px;" class="slds-input slds-combobox__input">
+                                            <!-- <div id="centerJoin"></div> -->
+                                            <div id="sel2" class="popup-screen-field">
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control">
+                                                        <div id="SecondDiv">
+                                                            <div class="slds-combobox_container slds-has-object-switcher">
+                                                                <div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                                                    <div class="slds-combobox__form-element">
+                                                                        <input type="text" id="DefaultValueFirstModuleField" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                                    <button data-add-button-popup="true" data-add-type="Popup" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+                                                                        <img src="themes/images/btnL3Add.gif">
+                                                                    </button>
                                                                 </div>
                                                             </div>
-                                                            <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                                                                <button data-add-button-popup="true" data-add-type="Popup" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-                                                                    <img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
-                                                                </button>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </td>
                                 <td class="dvtCellInfo" align="left" width="30%">
                                         <div class="flexipageComponent">
-                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
                                                 <div class="slds-card__header slds-grid">
                                                     <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                                         <div class="slds-media__body">
@@ -282,7 +285,7 @@
                                                 </div>
                                                 <div class="slds-card__body slds-card__body--inner">
                                                     <div id="contenitoreJoin">
-                                                        <div id="LoadShowPopup" style="height: 125px;display: grid;"></div>
+                                                        <div id="LoadShowPopup"></div>
                                                     </div>
                                                 </div>
                                                 {*End div contenitorejoin*}
@@ -290,7 +293,7 @@
                                         </div>
                                         <br/>
                                         <div class="flexipageComponent">
-                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
+                                            <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
                                                 <div class="slds-card__header slds-grid">
                                                     <header class="slds-media slds-media--center slds-has-flexi-truncate">
                                                         <div class="slds-media__body">

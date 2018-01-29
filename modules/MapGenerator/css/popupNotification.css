@@ -164,6 +164,7 @@ header h1 {
 }
 
 .Message-close {
+	display: none;
 	position: absolute;
 	top: 10px;
 	cursor: pointer;

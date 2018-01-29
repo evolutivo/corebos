@@ -129,7 +129,7 @@ input[type=radio]:checked + label::after {
 	font-size: 15px;
 	margin-bottom: 0;
 	height: 36px;
-	padding: 0 5px 0 0px;
+	padding: 0 5px;
 }
 
 .target-module input,
@@ -138,8 +138,68 @@ input[type=radio]:checked + label::after {
 	width: 100%;
 	margin-top: 5px;
 }
-/* End List Columns */
 
+.related-list-content {
+	margin-bottom: 2rem;
+}
+
+.related-list-line,
+.popup-screen-line {
+	border-style: inset;
+	border-top: 2px solid #d8dde6;
+	margin-top: .5rem;
+	margin-bottom: .5rem;
+}
+
+.related-list-container,
+.popup-screen-container {
+	display: flex;
+	width: 100%;
+}
+
+.popup-screen-container .popup-screen-select,
+.popup-screen-container .popup-screen-field,
+.related-list-container .slds-form-element {
+	width: 50%!important;
+	padding: 0 .5rem;
+}
+
+.related-list-container .slds-select_container,
+.related-list-container #SecondField,
+.related-list-container #SecondDiv,
+.popup-screen-container .slds-select_container,
+.popup-screen-container .slds-form-element,
+.popup-screen-container #SecondField,
+.popup-screen-container #SecondDiv {
+	width: 100%;
+}
+
+.related-list-container #SecondField,
+.popup-screen-container #Firstfield {
+	height: 28px;
+}
+
+.related-list-container #SecondDiv input,
+.popup-screen-container #SecondDiv input {
+	height: 26px;
+	margin: 0;
+	padding: 0 .5rem;
+	width: 100%;
+}
+
+.slds-button_icon {
+	margin-top: 2px;
+}
+
+.slds-button_icon img {
+	width: 16px;
+}
+
+.slds-button_icon img:hover {
+	opacity: .7;
+}
+
+/* End List Columns */
 /* Condition Query */
 
 #selJoin {
@@ -188,7 +248,7 @@ input[type=radio]:checked + label::after {
 	width: 50%;
 }
 
-#sectionField select {
+#sectionField #selectableFields {
 	margin-right: 1rem;
 	height: 150px;
 }
