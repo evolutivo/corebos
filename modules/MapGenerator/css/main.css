@@ -117,6 +117,28 @@ input[type=radio]:checked + label::after {
 /* End Condition Expression */
 
 
+/* List Columns */
+
+.target-module,
+.origin-module {
+	display: flex;
+}
+
+.target-module label,
+.origin-module label {
+	font-size: 15px;
+	margin-bottom: 0;
+	height: 36px;
+	padding: 0 5px 0 0px;
+}
+
+.target-module input,
+.origin-module input {
+	height: 36px;
+	width: 100%;
+	margin-top: 5px;
+}
+/* End List Columns */
 
 /* Condition Query */
 

@@ -89,26 +89,22 @@
                     <div class="slds-truncate">
                         <table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
                             <tr class="slds-line-height--reset">
-                                <td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+                                <td class="dvtCellLabel" width="70%" valign="top">
                                     <!-- THE MODULE Zone -->
-                                    <div id="selJoin" style="float:left; overflow: hidden;width:100%;height: 100%;">
-                                        <div style="float:left; overflow: hidden;width:45%" id="sel1">
+                                    <div id="selJoin">
+                                        <div id="sel1">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
-                                                    <center>
-                                                        <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
-                                                    </center>
+                                                    <label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
                                                     <div class="slds-select_container">
                                                         <select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
                                                             {$FirstModuleSelected}
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div style="margin-top: 10px;">
-                                                    <center style="float:  left;width: 10%;margin:  0px;">
-                                                        <label style="font-size: larger;font-size: 15px;float:left;margin-top: 18px;">ID</label>
-                                                    </center>
-                                                    <input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID" style="font-size: larger;/* margin: 0; */font-size: 15px;float:  left;margin-top:  10px;width: 90%;">
+                                                <div class="target-module">
+                                                    <label>ID</label>
+                                                    <input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID">
                                                 </div>
                                             </div>
                                             <br> {*
@@ -125,8 +121,10 @@
                                             </div> *}
                                             <br>
                                         </div>
-                                        <div style="float:left; overflow: hidden;width:10%; margin-top: 30px;" id="centerJoin"> </div>
-                                        <div style="float:left; overflow: hidden;width:45%" id="sel2">
+
+                                        <div id="centerJoin"> </div>
+
+                                        <div id="sel2">
                                             {*
                                             <div class="testoDiv">
                                                 <center><b>{$MOD.popupPlace}</b></center>
@@ -144,11 +142,9 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div style="margin-top: 10px;">
-                                                    <center style="float:  left;width: 10%;margin:  0px;">
-                                                        <label style="font-size: larger;font-size: 15px;float:left;margin-top: 18px;">ID</label>
-                                                    </center>
-                                                    <input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID" style="font-size: larger;/* margin: 0; */font-size: 15px;float:  left;margin-top:  10px;width: 90%;">
+                                                <div class="origin-module">
+                                                    <label>ID</label>
+                                                    <input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID">
                                                 </div>
                                             </div>
                                             <br> {*
@@ -172,22 +168,22 @@
                                             </div> *}
                                             <br>
                                         </div>
-                                        <br>
-                                        <br>
-                                        <div id="sectionField" style="width:100%; float: left;">
-                                            <div class="testoDiv" style="margin: 20px 0px  5px 0px;">
+                                    </div>
+                                    <hr>
+                                        <div id="sectionField">
+                                            <div class="testoDiv">
                                                 <center><b>{$MOD.RelatedList}</b></center>
                                             </div>
-                                            <hr style="display: block;margin-top: 0.5em;margin-bottom: 0.5em;margin-left: auto;margin-right: auto;border-style: inset;border-top: 2px solid #d8dde6;">
+                                            <hr style="border-style: inset;border-top: 2px solid #d8dde6;">
                                             <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
-                                                    <div id="AlertsAddDiv" style="margin-top: 10px;width: 50%;">
+                                                    <div id="AlertsAddDiv">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="width: 100%;">
-                                            <div style="width: 45%;float: left;" class="slds-form-element">
+                                        <div>
+                                            <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
                                                     <div class="slds-select_container">
                                                         <select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
@@ -198,9 +194,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div style="width: 45%;float: right;" class="slds-form-element">
+                                            <div class="slds-form-element">
                                                 <div class="slds-form-element__control">
-                                                    <div class="" id="SecondDiv" style="float: left;width: 100%;">
+                                                    <div class="" id="SecondDiv">
                                                         <div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 32px;margin-bottom: 10px;">
                                                             <div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
                                                                 <div class="slds-combobox__form-element">
@@ -270,7 +266,7 @@
                                             </div>
                                         </div>
                                 </td>
-                                <td class="dvtCellInfo" align="left" width="40%">
+                                <td class="dvtCellInfo" align="left" width="30%">
                                         <div class="flexipageComponent">
                                             <article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
                                                 <div class="slds-card__header slds-grid">
