@@ -10,6 +10,7 @@
 //LoadAllMaps
 
 require_once("GetAllMaps.php");
+include 'All_Funstion.php';
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";

@@ -817,6 +817,7 @@
 			 if (event) {event.preventDefault();}
 			 var elem=$(this);
 			 var allids=elem.attr("data-add-relation-id");
+			 var validate=elem.attr("data-add-button-validate");
 			 var showtext=elem.attr("data-show-id");
 			 var Typeofpopup=elem.attr('data-add-type');
 			 var replace=elem.attr('data-add-replace');
@@ -831,15 +832,24 @@
 			 {
 			 	App.popupJson.length=0;
 			 }
+			 if (validate)
+			 {
+			 	 if (validate.length>0)
+				 {
+				 	validatearray=validate.split(',');
+				 }else{validatearray.length=0;}
+			 }else{validatearray=[];}
+
+
 			 if (allids)
 			 {
 			 	var allidarray=allids.split(",");
 			 	if (Typeofpopup)
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext,modulShow);
+			 		App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext,modulShow,validatearray);
 			 	} else
 			 	{
-			 		App.utils.Add_to_universal_popup(allidarray,"Default",showtext,modulShow);
+			 		App.utils.Add_to_universal_popup(allidarray,"Default",showtext,modulShow,validatearray);
 			 	}
 			 	 
 			 	 if (App.popupJson.length>0)
@@ -1476,7 +1486,7 @@
 		 * @param {Array} params   All of html element id to get the values 
 		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
 		 */
-		Add_to_universal_popup:function(params,jsonType,selectvalues,modulShow){
+		Add_to_universal_popup:function(params,jsonType,selectvalues,modulShow,validatearray=[]){
 			var temparray={};
 			var check =false;
 			for (var i =0; i <= params.length - 1; i++) {
@@ -1518,7 +1528,7 @@
 			if (check)
 			{
 				var checkvalue={temparray};
-				if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+				if (App.utils.checkinArray(App.popupJson,checkvalue,validatearray)===false)
 				{
 					App.popupJson.push({temparray});
 				}else
@@ -1991,16 +2001,35 @@
 		 * @param  {Object} object the object you want to check 
 		 * @return {[type]}        return boolean if find return true if not find return false
 		 */
-		checkinArray:function(array=[],object={}) {
+		checkinArray:function(array=[],object={},validatearray=[]) {
 			returnvalues=false;
-			array.forEach(function (temparray,index) {
-				//console.log('Propertis='+temparray);
-				if (JSON.stringify(temparray)===JSON.stringify(object))
-				{
-					returnvalues=true;
-				}
-				
-			});
+			if (validatearray.length>0)
+			{
+				for (var i = 0; i <= array.length-1; i++) {
+		       	  validatearray.forEach(function (values,index) {
+					var temparrayvaluecheck=array[i].temparray[values.replace(/\s+/g, '')];
+					var getvaluefrom=object.temparray[values];
+					if (temparrayvaluecheck && getvaluefrom)
+					{
+						if (getvaluefrom.replace(/\s+/g, '')===temparrayvaluecheck.replace(/\s+/g, '') )
+						{
+							returnvalues=true;
+						}
+					}
+				  });
+		        }				
+			} else
+			{
+				array.forEach(function (temparray,index) {
+					//console.log('Propertis='+temparray);
+					if (JSON.stringify(temparray)===JSON.stringify(object))
+					{
+						returnvalues=true;
+					}
+					
+				});
+			} 
+			
 			return returnvalues;
 		},
 
