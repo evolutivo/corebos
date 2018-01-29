@@ -63,7 +63,7 @@
         newNode.appendChild(openbackets);
         jQuery('#fcol' + columnIndex).selectedIndex = -1;
 
-        openbackets.innerHTML = '<div ><select name="openbackets' + columnIndex + '" id="openbackets' + columnIndex + '" title="Yes if you want to open the backets" class="slds-select repBox" style="width:40px;" onchange="addRequiredElements(' + columnIndex + ');">' +
+        openbackets.innerHTML = '<div ><select name="openbackets' + columnIndex + '" id="openbackets' + columnIndex + '" title="Yes if you want to open the backets" class="slds-select" style="width:50px;" onchange="addRequiredElements(' + columnIndex + ');">' +
             '<option value="1">&#123;</option><option value="0">None</option>' +
             '{$FOPTION}' +
             '</select></div>';
@@ -85,7 +85,7 @@
         node2.setAttribute('width', '25%');
         newNode.appendChild(node2);
         jQuery('#fcol' + columnIndex).selectedIndex = -1;
-        node2.innerHTML = '<div ><select name="fop' + columnIndex + '" id="fop' + columnIndex + '" class="slds-select repBox" style="width:100px;" onchange="addRequiredElements(' + columnIndex + ');">' +
+        node2.innerHTML = '<div ><select name="fop' + columnIndex + '" id="fop' + columnIndex + '" class="slds-select" onchange="addRequiredElements(' + columnIndex + ');">' +
             '<option value="">{'LBL_NONE'|@getTranslatedString:$MODULE}</option>' +
             '{$FOPTION}' +
             '</select></div>';
@@ -146,8 +146,8 @@
         '</table>' +
         '</div>';
         {else}
-        node3.innerHTML = '<div ><input name="fval' + columnIndex + '" id="fval' + columnIndex + '" class="slds-select repBox" type="text" value="">' +
-            '<input type="image" align="absmiddle" style="cursor: pointer;" onclick="document.getElementById(\'fval' + columnIndex + '\').value=\'\';return false;" language="javascript" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/></div>';
+        node3.innerHTML = '<div ><input name="fval' + columnIndex + '" id="fval' + columnIndex + '" class="slds-input" style="width:90%;" type="text" value="">' +
+            '&nbsp;<input type="image" align="absmiddle" style="cursor: pointer;width:16px;" onclick="document.getElementById(\'fval' + columnIndex + '\').value=\'\';return false;" language="javascript" title="{$APP.LBL_CLEAR}" alt="{$APP.LBL_CLEAR}" src="themes/images/clear_field.gif"/></div>';
         {/if}
 
         node4 = document.createElement('td');
@@ -160,10 +160,10 @@
         node5.setAttribute('class', 'dvtCellLabel');
         node5.setAttribute('width', '30px');
         newNode.appendChild(node5);
-        node5.innerHTML = '<span class="slds-avatar slds-avatar--medium">' +
+        node5.innerHTML = 
             '<a onclick="deleteColumnRow(' + groupIndex + ',' + columnIndex + ');" href="javascript:;">' +
-            '<img src="themes/images/delete.gif" align="absmiddle" title="{$MOD.LBL_DELETE}..." border="0">' +
-            '</a></span>';
+            '<img src="themes/images/delete.gif" align="absmiddle" title="{$MOD.LBL_DELETE}..." border="0" width="16">' +
+            '</a>';
 
         closeBackets = document.createElement('td');
         closeBackets.setAttribute('class', 'dvtCellLabel');
@@ -171,7 +171,7 @@
         newNode.appendChild(closeBackets);
         jQuery('#fcol' + columnIndex).selectedIndex = -1;
 
-        closeBackets.innerHTML = '<div ><select name="closeBackets' + columnIndex + '" id="closeBackets' + columnIndex + '" class="slds-select repBox" style="width:40px;" onchange="addRequiredElements(' + columnIndex + ');">' +
+        closeBackets.innerHTML = '<div ><select name="closeBackets' + columnIndex + '" id="closeBackets' + columnIndex + '" class="slds-select" style="width:50px;" onchange="addRequiredElements(' + columnIndex + ');">' +
             '<option value="0">none</option><option value="1">&#125;</option>' +
             '{$FOPTION}' +
             '</select></div>';
@@ -214,12 +214,12 @@
 
         newNode.innerHTML = "<table class='small crmTable' border='0' cellpadding='5' cellspacing='1' width='100%' valign='top' id='conditiongrouptable_" + groupIndex + "'>" +
             "<tr id='groupheader_" + groupIndex + "'>" +
-            "<td colspan='5' align='right'>" +
+            "<td colspan='8' align='right'>" +
             "<a href='javascript:void(0);' onclick='deleteGroup(\"" + groupIndex + "\");'><img border=0 src={'close.gif'|@vtiger_imageurl:$THEME} alt='{$MOD.LBL_DELETE_GROUP}' title='{$MOD.LBL_DELETE_GROUP}'/></a>" +
             "</td>" +
             "</tr>" +
             "<tr id='groupfooter_" + groupIndex + "'>" +
-            "<td colspan='5' align='left'>" +
+            "<td colspan='8' align='left'>" +
             "<button class='slds-button slds-button--neutral' onclick='addConditionRow(\"" + groupIndex + "\")'>{$MOD.LBL_NEW_CONDITION}</button>"
             +
             "</td>" +
@@ -250,38 +250,17 @@
             <article class="slds-card">
                 <div class="slds-card__header slds-grid">
                     <header class="slds-media slds-media--center slds-has-flexi-truncate">
-
-                        <div class="slds-media__body">
-                            <h2>
-                                <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
-                                    <span class="slds-text-heading--small">{'LBL_ADVANCED_FILTER'|@getTranslatedString:$MODULE}</span>
-                                </a>
-                            </h2>
-                        </div>
+                        <h2 style="margin: 0;">
+                            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                                <span class="slds-text-heading--small">{'LBL_ADVANCED_FILTER'|@getTranslatedString:$MODULE}</span>
+                            </a>
+                        </h2>
                     </header>
                     <div class="slds-no-flex">
-                        <button class="slds-button slds-button--neutral"
-                                onclick="addNewConditionGroup('where_filter_div');">{'LBL_NEW_GROUP'|@getTranslatedString:$MODULE}</button>
-                    </div>
-                    <div class="slds-no-flex">
-                        <button class="slds-button slds-button--neutral" name="addwhereconditions"
-                                onClick="return validateCV();">{$MOD.generate}
-                        </button>
+                        <button class="slds-button slds-button--neutral" onclick="addNewConditionGroup('where_filter_div');">{'LBL_NEW_GROUP'|@getTranslatedString:$MODULE}</button>
+                        <button class="slds-button slds-button--neutral" name="addwhereconditions" onClick="return validateCV();">{$MOD.generate}</button>
                     </div>
                 </div>
-                <div class="slds-card__body">
-                    <table class="slds-table slds-table--bordered slds-no-row-hover slds-table--cell-buffer"
-                           cellpadding="5" cellspacing="0" width="100%">
-                        <tr>
-                            {*<td class="detailedViewHeader" align="left"><b>{'LBL_ADVANCED_FILTER'|@getTranslatedString:$MODULE}</b></td>*}
-                        </tr>
-                        <tr>
-
-                        </tr>
-
-                    </table>
-                </div>
-                <!-- <div class="slds-card__footer"><a href="javascript:void(0);">View All <span class="slds-assistive-text">entity type</span></a></div> -->
             </article>
 
             {*
