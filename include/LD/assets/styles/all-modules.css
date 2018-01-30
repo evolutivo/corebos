@@ -272,6 +272,10 @@ li.active,
     position: relative;
 }
 
+.primaryFieldRow td {
+    white-space: normal;
+}
+
 .forceHighlightsStencilSettings.profilePicWrapper,
 .forceHighlightsStencilDesktop.profilePicWrapper {
     -webkit-box-flex: 0;
