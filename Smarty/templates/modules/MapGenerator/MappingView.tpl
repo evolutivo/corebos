@@ -44,7 +44,7 @@
 								<h1 class="slds-page-header__title slds-m-right--small slds-truncate">
 									{if $NameOFMap neq ''} {$NameOFMap} {/if}
 								</h1>
-								<p class="slds-text-heading--label slds-line-height--reset">{$MOD.TypeMapIOMap}</p>
+								<p class="slds-text-heading--label slds-line-height--reset">{$MOD.TypeMapMapping}</p>
 							</header>
 							<div class="slds-no-flex">
 								<div class="actionsContainer mapButton">
@@ -67,23 +67,20 @@
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
 						<tr class="slds-line-height--reset">
-							<td class="dvtCellLabel" width="70%" style="vertical-align: top;">
-								<div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
+							<td class="dvtCellLabel mapping-map" width="70%" valign="top">
+								<div class="mailClient mailClientBg" id="userorgroup" name="userorgroup">
 									<center><b>{$MOD.addjoin}</b>:
-										<select name="usergroup" id="usergroup" style="width:30%">
+										<select name="usergroup" id="usergroup">
 											<option value="none">None</option>
 											<option value="user">User</option>
 											<option value="group">Group</option>
 										</select>
 										<br>
 										<br><b>{$MOD.addCF}</b>:
-										<select name="CFtables" id="cf" style="width:30%">
+										<select name="CFtables" id="cf">
 											<option value="none">None</option>
 											<option value="cf">CF</option>
 										</select>
-										<br>
-										<br>
-										<br>
 										<input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();">
 									</center>
 								</div>
@@ -91,89 +88,88 @@
 								<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
 								<input type="hidden" name="querysequence" id="querysequence" value="">
 								<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-								<div data-div-load-automatic="true" id="ModalShow">
-								</div>
-								<div id="ModalDiv">
-									{if $Modali neq ''}
-										<div>
-										 {$Modali}
-										</div>
-									{/if}
-								</div>
-								<div id="selJoin" style="float:left; overflow: hidden;width:100%; height: 100%;">
-									<div style="float:left; overflow: hidden;width:45%;margin-right: 64px;" id="sel1">
-										<div class="slds-form-element">
-											<div class="slds-form-element__control">
-												<center>
-													<label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
-												</center>
-												<div class="slds-select_container">
-													<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
-														{$FirstModuleSelected}
-													</select>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="slds-form-element">
-											<div class="slds-form-element__control">
-												<center>
-													<label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
-												</center>
-												<div class="slds-select_container">
-													<select id="Firstfield" name="mod" class="slds-select">
-														{$FirstModuleFields}
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									{* <div style="float:left; overflow: hidden;width:10%;" id="centerJoin"> =</div> *}
-									<div style="float:left; overflow: hidden;width:45%" id="sel2">
-										<div class="slds-form-element">
-											<div class="slds-form-element__control">
-												<center>
-													<label class="slds-form-element__label" for="input-id-01">{$MOD.OriginModule}</label>
-												</center>
-												<div class="slds-select_container">
-													<select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="mappingFieldRelation" name="secmodule" class="slds-select">
-														{$SecondModulerelation}
-													</select>
-												</div>
-											</div>
-										</div>
-										<br>
-										<div class="slds-form-element">
-											<div class="slds-form-element__control">
-												<center>
-													<label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
-												</center>
-												<div class="" id="SecondDiv" style="float: left;width: 90%; height: 33px;">
-													<select id="SecondField" name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup" class="slds-select">
-														{$SecondModuleFields}
-													</select>
-													<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;height: 32px ;margin-top:0px;">
-														<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-															<div class="slds-combobox__form-element">
-																<input type="text" id="DefaultValue" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 29px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
-															</div>
-														</div>
-														<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-															<button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-																<img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
-															</button>
-														</div>
+								<div data-div-load-automatic="true" id="ModalShow"></div>
+								<div id="ModalDiv">{if $Modali neq ''} <div> {$Modali} </div> {/if} </div>
+
+								<div id="selJoin">
+									<div class="target-origin-container">
+										<div id="sel1" class="mapping-target-module">
+											<div class="slds-form-element">
+												<div class="slds-form-element__control">
+													<center>
+														<label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+													</center>
+													<div class="slds-select_container">
+														<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+															{$FirstModuleSelected}
+														</select>
 													</div>
 												</div>
-												<div style="float:right;">
-													<a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput" style="margin-top: 6px;"><i style="margin-top: 7px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>
+											</div>
+
+											<div class="slds-form-element">
+												<div class="slds-form-element__control">
+													<center>
+														<label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
+													</center>
+													<div class="slds-select_container">
+														<select id="Firstfield" name="mod" class="slds-select">
+															{$FirstModuleFields}
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										{* <div id="centerJoin"> =</div> *}
+
+										<div id="sel2" class="mapping-origin-module">
+											<div class="slds-form-element">
+												<div class="slds-form-element__control">
+													<center>
+														<label class="slds-form-element__label">{$MOD.OriginModule}</label>
+													</center>
+													<div class="slds-select_container">
+														<select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="mappingFieldRelation" name="secmodule" class="slds-select">
+															{$SecondModulerelation}
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="slds-form-element">
+												<div class="slds-form-element__control">
+													<center>
+														<label class="slds-form-element__label">{$MOD.SelectFields}</label>
+													</center>
+													<div id="SecondDiv">
+														<select id="SecondField" name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup" class="slds-select">
+															{$SecondModuleFields}
+														</select>
+														<div class="slds-combobox_container slds-has-object-switcher">
+															<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+																<div class="slds-combobox__form-element">
+																	<input type="text" id="DefaultValue" placeholder="Insert a default value" id="defaultvalue" class="slds-input slds-combobox__input">
+																</div>
+															</div>
+															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																<button data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																	<img src="themes/images/btnL3Add.gif" width="16">
+																</button>
+															</div>
+														</div>
+													</div>
+													<div class="toggle-field">
+														<a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput">
+															<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+														</a>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<br>
-									<br>
-									<div id="contenitoreJoin" style="display: inline-flex;">
+
+									<hr>
+									<div id="contenitoreJoin">
 										<div id="sectionField" style="width:100%;">
 											<div>
 												<div class="testoDiv">
@@ -192,6 +188,7 @@
 											</div>
 										</div>
 									</div>
+
 								</div>
 							</td>
 							<td class="dvtCellInfo" align="left" width="40%">

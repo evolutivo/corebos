@@ -17,6 +17,82 @@
 /* End Load Map Tab */
 
 
+/* Mapping */
+.mapping-map #selJoin {
+	display: block!important;
+}
+
+.target-origin-container {
+	width: 100%;
+	display: inline-flex;
+	margin-top: .1rem;
+}
+
+.target-origin-container select {
+	height: 28px;
+}
+
+.mapping-target-module,
+.mapping-origin-module {
+	display: block;
+	width: 50%!important;
+	padding: .5rem;
+	margin: 0 .5rem;
+	border: 1px solid #d4d4d4;
+}
+
+.mapping-target-module > .slds-form-element:first-child,
+.mapping-origin-module > .slds-form-element:first-child {
+	margin-bottom: 1rem;
+}
+
+.mapping-origin-module > .slds-form-element:last-child > .slds-form-element__control > div {
+	display: inline-flex;
+}
+
+.mapping-origin-module > .slds-form-element:last-child > .slds-form-element__control {
+	text-align: left;
+}
+
+.mapping-origin-module #SecondDiv {
+	width: 90%;
+	vertical-align: top;
+	position: relative;
+}
+
+.mapping-origin-module #SecondDiv .slds-combobox_container {
+	position: absolute;
+	width: 100%;
+	z-index: 2;
+	top: 0;
+}
+
+.mapping-origin-module #SecondField {
+	z-index: 9;
+}
+
+.mapping-origin-module #SecondDiv #SecondInput input {
+	width: 100%;
+	margin: 0;
+	padding: 0 .5rem;
+}
+
+.toggle-field {
+	margin-left: .4rem;
+}
+
+.toggle-field a {
+	margin-top: .4rem;
+}
+
+.toggle-field a .fa-2x {
+	font-size: 1.5em;
+}
+
+
+
+/* End Mapping */
+
 /* Create Join Condition */
 
 #userorgroup {
