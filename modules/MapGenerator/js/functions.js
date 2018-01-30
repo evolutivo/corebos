@@ -1468,7 +1468,7 @@ function getFirstModule(selTab2, Mapid, queryid) {
         async: false,
         success: function (msg) {
           if (msg != '') {
-            jQuery('#FirstModul').html('<option value="None">None</option>' + msg);
+            jQuery('#FirstModul').html('' + msg);
             var SelectPicker = $("#FirstModul").val();
             if (Mapid != undefined) {
               getSecModule(SelectPicker, Mapid,queryid);
@@ -1541,7 +1541,7 @@ function getSecModule(obj, Mapid, queryid) {
       url: url,
       dataType: "html",
       success: function (str) {
-        jQuery('#secmodule').html('<option value="None">None</option>' + str);
+        jQuery('#secmodule').html('<option value="None">(Select a module)</option>' + str);
         var SelectPicker = $("#secmodule").val();
         if (Mapid != undefined) {
           getSecModuleFields(SelectPicker,Mapid,queryid);

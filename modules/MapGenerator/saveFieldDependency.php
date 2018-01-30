@@ -158,19 +158,19 @@ function add_content($DataDecode,$mapname)
 		     $fieldname = $xml->createElement("fieldname");
 		     $fieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield)[2]);
 		     $fieldname->appendChild($fieldnameText);
+		     $Responsiblefield->appendChild($fieldname);
 
              if (!empty($value->temparray->DefaultValueResponsibel)) {
                  $fieldvalue = $xml->createElement("fieldvalue");
                  $fieldvalueText = $xml->createTextNode($value->temparray->DefaultValueResponsibel);
                  $fieldvalue->appendChild($fieldvalueText);
                  $Responsiblefield->appendChild($fieldvalue);
-             }		     
+             }           
 
-		     $comparison = $xml->createElement("comparison");
-		     $comparisonText = $xml->createTextNode($value->temparray->Conditionalfield);
-		     $comparison->appendChild($comparisonText);
+             $comparison = $xml->createElement("comparison");
+             $comparisonText = $xml->createTextNode($value->temparray->Conditionalfield);
+             $comparison->appendChild($comparisonText);
 
-		     $Responsiblefield->appendChild($fieldname);		     
 			 $Responsiblefield->appendChild($comparison);
 
 			 $field->appendChild($Responsiblefield);
