@@ -1981,7 +1981,12 @@ function GenearteMasterDetail() {
     temparray['hiddenchk'] = AppUtils.IsSelectORDropDown("hiddenchk");
     temparray['hiddenchkoptionGroup'] = "";
 
-    App.popupJson.push({temparray});
+    if (App.utils.checkinArray(App.popupJson,{temparray},['Firstfield'])===true)
+    {
+      App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+    }else{
+      App.popupJson.push({temparray});
+    }
     $('#LoadShowPopup').html('');
     if(App.popupJson.length>0){
       for (var i=0; i<= App.popupJson.length - 1; i++) {
