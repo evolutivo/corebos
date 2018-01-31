@@ -1683,12 +1683,14 @@ function SaveMap() {
           success: function (msg) {
             jQuery("#MapID").val(msg);
             if (!$.trim(msg)) {
-              alert(mv_arr.mapgensucc);
+              App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
+              App.countsaveMap=2;
               if (box) box.remove();
 
             }
             else {
-              alert(mv_arr.mapgensucc);
+             App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
+             App.countsaveMap=2;
               if (box) box.remove();
             }
                 //jQuery("#MapID").val(msg);if (box) box.remove();
@@ -1749,11 +1751,15 @@ function SaveasMap() {
                 {
                   jQuery("#MapID").val(msg);
                   if (!$.trim(msg)) {
-                    alert(mv_arr.mapgensucc);
+                    App.countsaveMap=0;
+                   App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
+                   App.countsaveMap=2;
                     if (box) box.remove();
                   }
                   else {
-                    alert(mv_arr.mapgensucc);
+                    App.countsaveMap=0;
+                    App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
+                    App.countsaveMap=2;
                     if (box) box.remove();
                   }
                 }else
