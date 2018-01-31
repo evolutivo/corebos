@@ -189,7 +189,7 @@
 											<input type="button" class="slds-button slds-button--neutral sel" id="selField2" value="{$SmoduleID}" name="selField2" style="padding:0px; width: 100%;"> {*{/if}*}
 									</div>
 								</div>
-								<hr>
+								<hr class="line-sep">
 								<div id="contenitoreJoin">
 									<div id="sectionField">
 										<!-- <div class="testoDiv">

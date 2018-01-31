@@ -277,7 +277,7 @@ function selectHtml() {
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');">&times;</span>';
     // INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');"><i class="icono-eye"></</span>';
-    INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> ' + Firstmodulee + '=>' + secondmodule;
+    INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> <p>' + Firstmodulee + '=>' + secondmodule + '</p>';
     if (last_check==true) {//icono-plusCircle
       INSertAlerstJOIN +='<span class="query-icons check-icon" title="You are here "><i class="fa fa-check"></i></span>';
       INSertAlerstJOIN +='<span class="query-icons desktop-icon" title="run the query to show the result"><i class="fa fa-desktop" onclick="openmodalrezultquery('+Idd+');"></i></span>';
@@ -2005,7 +2005,7 @@ function GenearteMasterDetail() {
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
     + Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+firstfield;
+    INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+' <p> ' +firstfield + '</p>';
     INSertAlerstJOIN += '<br><strong>#Sort!  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
     INSertAlerstJOIN += '<br><strong>#Editable!  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
     INSertAlerstJOIN += '<br><strong>#Mandatory!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
@@ -2453,7 +2453,7 @@ function addrows(event)
   + '">';
   INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
   + Idd + ',\'' + divid + '\');">&times;</span>';
-  INSertAlerstJOIN += ' <strong>'+BlockName+'</strong><br/>';
+  INSertAlerstJOIN += ' <p class="block-name"><strong>'+BlockName+'</strong></p>';
   // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
   if (alldat && alldat.texts.length>0)
   {
@@ -2784,11 +2784,11 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
    + Idd + ',\'' + divid + '\');">&times;</span>';
    if (moduli && moduli!=='')
    {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+moduli;
-    INSertAlerstJOIN += '<br/> '+mv_arr.field+'  ==> '+fields;
+    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
+    INSertAlerstJOIN += '<p> '+mv_arr.field+'  ==> '+fields + '</p>';
   } else
   {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+ '<p>' +fields + '</p>';
   }
 
   INSertAlerstJOIN += '</div';
