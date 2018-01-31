@@ -192,9 +192,9 @@
 								<hr>
 								<div id="contenitoreJoin">
 									<div id="sectionField">
-										<div class="testoDiv">
+										<!-- <div class="testoDiv">
 											<center><b>{$MOD.SelectField}</b></center>
-										</div>
+										</div> -->
 										<div class="slds-form-element slds-text-align--center">
 											<label class="slds-form-element__label" for="select-01">
 												<b>{$MOD.selectlabel}</b>
@@ -877,7 +877,7 @@
 						</div>
 					</div>
 					<div class="slds-modal__footer">
-						<label id="ErrorLabelModal" style="margin-right: 100px;background-color: red;font-size: 14px;border-radius: 5px;padding: 6px;"></label>
+						<label id="ErrorLabelModal" style="margin-right: 100px;/*background-color: red;*/font-size: 14px;border-radius: 5px;padding: 6px;"></label>
 						<button  class="slds-button slds-button--neutral" onclick="closeModalwithoutcheck();">{$MOD.cancel}
 						</button>
 						<button onclick="closeModal();" id="SendDataButton" disabled class="slds-button slds-button--neutral slds-button--brand">
