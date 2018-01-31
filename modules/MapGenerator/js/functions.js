@@ -1474,7 +1474,7 @@ function getFirstModule(selTab2, Mapid, queryid) {
               getSecModule(SelectPicker, Mapid,queryid);
               getFirstModuleFields(SelectPicker, Mapid,queryid);
             }
-            jQuery("#FirstModul").selectmenu("refresh");
+            //jQuery("#FirstModul").selectmenu("refresh");
           }
 
         },
@@ -1546,7 +1546,7 @@ function getSecModule(obj, Mapid, queryid) {
         if (Mapid != undefined) {
           getSecModuleFields(SelectPicker,Mapid,queryid);
         }
-        jQuery("#secmodule").selectmenu("refresh");
+        //jQuery("#secmodule").selectmenu("refresh");
       },
       error: function () {
         alert(mv_arr.error);

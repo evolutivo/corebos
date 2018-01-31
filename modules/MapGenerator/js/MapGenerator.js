@@ -1,8 +1,8 @@
 /*
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
-* @Last Modified by:   edmondi kacaj
-* @Last Modified time: 2018-01-12 16:54:25
+* @Last Modified by:   Edmond Kacaj
+* @Last Modified time: 2018-01-31 17:05:38
 */
 
 
@@ -729,7 +729,7 @@
 			var dataloadingiddiv=elem.attr('data-loading-divid');
 			if (loadingflag && loadingflag==="true")
 			{
-				App.utils.ShowLoading(dataloadingiddiv,true);
+				var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
 			}
 		 	if (!urltosend)
 		 	{
@@ -781,7 +781,7 @@
 	        	
 			if (loadingflag && loadingflag==="true")
 			{
-				App.utils.ShowLoading(dataloadingiddiv,false);
+				if (box) box.remove();
 			}
 
 
@@ -1079,7 +1079,7 @@
 			var dataloadingiddiv=elem.attr('data-loading-divid');
 			if (loadingflag && loadingflag==="true")
 			{
-				App.utils.ShowLoading(dataloadingiddiv,true);
+				var box = new ajaxLoader(document.body, {classOveride: 'blue-loader'});
 			}
 				
 
@@ -1214,7 +1214,7 @@
 
 			if (loadingflag && loadingflag==="true")
 			{
-				App.utils.ShowLoading(dataloadingiddiv,false);
+				if (box) box.remove();
 			}
 		},
 		
