@@ -17,6 +17,62 @@
 /* End Load Map Tab */
 
 
+/* IOMap */
+.iomap-container {
+	height: 28px;
+}
+
+.iomap-input-fields,
+.iomap-output-fields {
+	margin-top: .1rem;
+	width: 50%!important;
+	padding: 0 .5rem;
+}
+
+
+.iomap-input-fields #SecondDiv #firstInp input,
+.iomap-output-fields #SecondDiv #secondOutput input {
+	width: 100%;
+	margin: 0;
+	padding: 0 .5rem;
+}
+
+.iomap-input-fields .slds-form-element__control > div,
+.iomap-output-fields .slds-form-element__control > div{
+	display: inline-flex;
+}
+
+.iomap-container #SecondDiv {
+	width: 90%;
+	vertical-align: top;
+	position: relative;
+}
+
+.iomap-container .slds-combobox_container {
+	position: absolute;
+	width: 100%;
+	z-index: 2;
+	top: 0;
+}
+
+.iomap-container #SecondDiv select {
+	z-index: 9;
+}
+
+.iomap-container .toggle-field {
+	margin-left: .1rem;
+	width: 6%;
+}
+
+.iomap-container .toggle-field a {
+	margin-top: .4rem;
+}
+
+.iomap-container .toggle-field a .fa-2x {
+	font-size: 1.5em;
+}
+/* End IOMap */
+
 /* Mapping */
 .mapping-map #selJoin {
 	display: block!important;
@@ -77,8 +133,14 @@
 	padding: 0 .5rem;
 }
 
+.target-origin-container .slds-dropdown-trigger {
+	position: relative!important;
+	display: inline-block!important;
+}
+
 .toggle-field {
-	margin-left: .4rem;
+	margin-left: .1rem;
+	width: 6%;
 }
 
 .toggle-field a {
@@ -89,12 +151,14 @@
 	font-size: 1.5em;
 }
 
-
-
+@media screen and (min-width: 550px) {
+	.mapping-origin-module #SecondDiv #SecondInput input {
+		font-size: 12px!important;
+	}
+}
 /* End Mapping */
 
 /* Create Join Condition */
-
 #userorgroup {
 	position: absolute;
 	width: 300px;
@@ -107,6 +171,15 @@
 #contentJoinButtons #userorgroup {
 	top: 0!important;
 	left: 700px!important;
+}
+
+#conditionQuery .slds-form-element__label {
+	display: block!important;
+}
+
+.line-sep {
+	margin-top: 20px!important;
+	margin-bottom: 20px!important;
 }
 
 /* End Create Join Condition */

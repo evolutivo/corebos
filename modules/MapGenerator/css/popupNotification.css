@@ -59,6 +59,19 @@ header h1 {
 	border-radius: 5px;
 }
 
+.alerts p {
+	margin: 5px 0 0 0;
+}
+
+.alerts .block-name {
+	margin: 5px 0 10px 0;
+}
+
+.alerts .block-name strong {
+	border-bottom: 1px solid;
+}
+
+
 .closebtns {
 	margin-left: 15px;
 	color: white;
@@ -124,6 +137,7 @@ header h1 {
 
 .Message-body p {
 	word-wrap: break-word;
+	margin-top: 5px;
 	margin-bottom: 0;
 }
 

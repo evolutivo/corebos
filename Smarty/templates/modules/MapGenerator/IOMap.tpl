@@ -74,73 +74,75 @@
 					<div class="slds-truncate">
 						<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
 							<tr class="slds-line-height--reset">
-								<td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+								<td class="dvtCellLabel" width="70%" valign="top">
 									<!-- THE MODULE Zone -->
-									<div id="selJoin" style="float:left; overflow: hidden;width:100%;height: 50px">
-										<div style="float:left; overflow: hidden;width:45%;margin-right: 45px;" id="sel1">
-											<br>
+									<div id="selJoin" class="iomap-container">
+										<div id="sel1" class="iomap-input-fields">
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
-													<div class="" id="SecondDiv" style="float: left;width: 90%;">
-														<center>
-															<label style="margin-top: -14px;" class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label>
-														</center>
-														<select style="margin-top: -5px; margin-bottom: 10px" id="AllFieldsInput" name="AllFieldsInput" data-select-load="false" onchange="split_popups(this);" data-module="MapGenerator" data-second-module-id="AllFieldsOutputselect" data-second-module-file="AllFields_File" data-add-button-popup="false" data-add-button-validate="AllFieldsInput" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="AllFieldsInput" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
+													<center>
+														<label class="slds-form-element__label" for="input-id-01">{$MOD.inputFileds}</label>
+													</center>
+													<div class="" id="SecondDiv">
+														<select id="AllFieldsInput" name="AllFieldsInput" data-select-load="false" onchange="split_popups(this);" data-module="MapGenerator" data-second-module-id="AllFieldsOutputselect" data-second-module-file="AllFields_File" data-add-button-popup="false" data-add-button-validate="AllFieldsInput" class="slds-select" data-add-type="Input" data-add-relation-id="AllFieldsInput,AllFieldsInput,AllFieldsInput" data-show-id="AllFieldsInput" data-show-modul-id="AllFieldsInput" data-div-show="LoadShowPopup">
 															{$allfields}
 														</select>
-														<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px; height: 35px;">
+														<div class="slds-combobox_container slds-has-object-switcher">
 															<div id="firstInp" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
 																<div class="slds-combobox__form-element">
-																	<input type="text" id="AllFieldsInputByhand" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+																	<input type="text" id="AllFieldsInputByhand" placeholder="Insert a default value" id="defaultvalue" class="slds-input slds-combobox__input">
 																</div>
 															</div>
-															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-																<button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="AllFieldsInputByhand" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="false"  data-add-button-validate="AllFieldsInputByhand" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " onclick="split_popups(this);clearInput('AllFieldsInputByhand');" style="width:2.1rem;">
-																	<img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29px;">
+															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																<button data-add-type="Input" data-add-relation-id="AllFieldsInputByhand,AllFieldsInputByhand,AllFieldsInputByhand" data-show-id="AllFieldsInputByhand" data-div-show="LoadShowPopup" data-show-modul-id="" data-add-button-popup="false"  data-add-button-validate="AllFieldsInputByhand" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " onclick="split_popups(this);clearInput('AllFieldsInputByhand');">
+																	<img src="themes/images/btnL3Add.gif" width="16">
 																</button>
 															</div>
 														</div>
 													</div>
-													<div style="float:right;">
-														<a href="#" data-showhide-load="true" data-tools-id="AllFieldsInput,firstInp" style="margin-top: 6px;"><i style="margin-top: 10px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>
+													<div class="toggle-field">
+														<a href="#" data-showhide-load="true" data-tools-id="AllFieldsInput,firstInp">
+															<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+														</a>
 													</div>
 												</div>
 											</div>
 										</div>
-										{* <div style="float:left;overflow: hidden;w;/* width:10%; */margin: 0 39px 0 8px;" id="centerJoin"> </div> *}
-										<div style="float:left; overflow: hidden;width:45%" id="sel2">
-											<br>
+
+										{* <div id="centerJoin"> </div> *}
+
+										<div id="sel2" class="iomap-output-fields">
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
-													<div class="" id="SecondDiv" style="float: left;width: 90%;">
-														<center>
-															<label style="margin-top: -14px;" class="slds-form-element__label" for="input-id-01">{$MOD.outputFields}</label>
-														</center>
-														<select style="margin-top: -5px;  margin-bottom: 10px;" id="AllFieldsOutputselect" name="AllFieldsOutput" data-add-button-popup="false" data-add-button-validate="AllFieldsOutputselect" onchange="split_popups(this);" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="AllFieldsOutputselect" data-show-modul-id="AllFieldsOutputselect"  data-div-show="LoadShowPopup" class="slds-select">
+													<center>
+														<label class="slds-form-element__label">{$MOD.outputFields}</label>
+													</center>
+													<div id="SecondDiv">
+														<select id="AllFieldsOutputselect" name="AllFieldsOutput" data-add-button-popup="false" data-add-button-validate="AllFieldsOutputselect" onchange="split_popups(this);" class="slds-select" data-add-type="Output" data-add-relation-id="AllFieldsOutputselect,AllFieldsOutputselect,AllFieldsOutputselect" data-show-id="AllFieldsOutputselect" data-show-modul-id="AllFieldsOutputselect"  data-div-show="LoadShowPopup" class="slds-select">
 															{$allfields}
 														</select>
-														<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:-5px;height: 35px;">
+														<div class="slds-combobox_container slds-has-object-switcher">
 															<div id="secondOutput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
 																<div class="slds-combobox__form-element">
-																	<input type="text" id="AllFieldsOutputbyHand" placeholder="Insert a default value" id="defaultvalue" style="width:80%;height: 33px;padding: 0px;margin: 0px;" class="slds-input slds-combobox__input">
+																	<input type="text" id="AllFieldsOutputbyHand" placeholder="Insert a default value" id="defaultvalue" class="slds-input slds-combobox__input">
 																</div>
 															</div>
-															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 40px;height: 40px;">
-																<button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="AllFieldsOutputbyHand" data-div-show="LoadShowPopup" data-add-button-validate="AllFieldsOutputbyHand" data-add-button-popup="false" data-add-type="Output" class="slds-button slds-button_icon" onclick="split_popups(this);clearInput('AllFieldsOutputbyHand')" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-																	<img src="themes/images/btnL3Add.gif" style="width: 100%;height: 29px;">
+															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																<button data-add-relation-id="AllFieldsOutputbyHand,AllFieldsOutputbyHand,AllFieldsOutputbyHand" data-show-id="AllFieldsOutputbyHand" data-div-show="LoadShowPopup" data-add-button-validate="AllFieldsOutputbyHand" data-add-button-popup="false" data-add-type="Output" class="slds-button slds-button_icon" onclick="split_popups(this);clearInput('AllFieldsOutputbyHand')" aria-haspopup="true" title="Click to add">
+																	<img src="themes/images/btnL3Add.gif" width="16">
 																</button>
 															</div>
 														</div>
 													</div>
-													<div style="float:right;">
-														<a href="#" data-showhide-load="true" data-tools-id="AllFieldsOutputselect,secondOutput" style="margin-top: 6px;"><i style="margin-top: 10px;" class="fa fa-refresh fa-2x" aria-hidden="true"></i></a>
+													<div class="toggle-field">
+														<a href="#" data-showhide-load="true" data-tools-id="AllFieldsOutputselect,secondOutput">
+															<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+														</a>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-									<br>
-									<br>
 								</td>
 								<td class="dvtCellInfo" align="left" width="40%">
 									<div class="flexipageComponent">

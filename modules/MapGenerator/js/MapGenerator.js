@@ -1562,8 +1562,8 @@
 				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
 				// class="icono-eye"></</span>';
 				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> ';
-				INSertAlerstJOIN += '<br/> '+Firstmodulee + '=>' + FirstField;
-				INSertAlerstJOIN += '<br/> '+secondmodule + '=>' + SecondField;
+				INSertAlerstJOIN += '<p> '+Firstmodulee + '=>' + FirstField + '</p>';
+				INSertAlerstJOIN += '<p> '+secondmodule + '=>' + SecondField + '</p>';
 				// if (last_check==true) {//icono-plusCircle
 				// INSertAlerstJOIN +='<span title="You are here "
 				// style="float:right;margin-top:-10px;margin-right:-46px;"><i
@@ -1748,12 +1748,12 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli;
-				INSertAlerstJOIN += '<br/> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields;
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
+				INSertAlerstJOIN += '<p> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields+ '</p>';
 
 			} else
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+fields+ '</p>';
 			}
 			
 			INSertAlerstJOIN += '</div';
