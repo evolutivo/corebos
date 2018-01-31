@@ -7,8 +7,8 @@ $module=$_POST['mod'];
 if (!empty($module)) {
 	
 	if (!empty(MappingRelationFields($module))) {
-		$a='<option value="" >(Select a module)</option>';
-	   $showfields="<option values=''>Select one</option>";
+		$showfields='<option value="" >(Select a module)</option>';
+	   // $showfields="<option values=''>Select one</option>";
 	   	  foreach (MappingRelationFields($module) as $value) {
 	          if ($value!==$module) {
 	               $showfields.='<option value="'.$value.'">'.str_replace("'", "", getTranslatedString($value)).'</option>'; 
