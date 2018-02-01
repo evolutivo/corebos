@@ -3116,24 +3116,26 @@ function CheckChoise(sel)
   var valueselected=sel.value;
   if (valueselected==='empty' || valueselected==='not empty')
   {
-     $('#divbutton').animate({
-      'margin-top': '26px',
-      'margin-right': '200px'
-    }, 'slow');
-    //  .css({
-    //   'margin-top': '26px',
-    //   'margin-right': '200px'
-    // });
+    $('.field-dependency-insert-value .slds-form-element__control').animate({
+      'margin-top': '1.3rem'
+      }, 'slow');
+    $('.field-dependency-insert-value .slds-combobox_container').css({
+      'border': 'none'
+      }, 'slow');
+    $('.field-dependency-insert-value #SecondInput').hide('slow');
     $('#DefaultValueResponsibel').hide('slow');
     $('#labelforinputDefaultValueResponsibel').hide('slow');
     $('#DefaultValueResponsibel').val(""); 
     $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,Firstfield,Conditionalfield');
   }else
   {
-    $('#divbutton').animate({
-      'margin-top': '0px',
-      'margin-right': '0px'
-    }, 'slow');
+    $('.field-dependency-insert-value .slds-form-element__control').animate({
+      'margin-top': '0'
+      }, 'slow');
+    $('.field-dependency-insert-value .slds-combobox_container').css({
+      'border': '1px solid #d8dde6'
+      }, 'slow');
+    $('.field-dependency-insert-value #SecondInput').show('slow');
     $('#DefaultValueResponsibel').show('slow');
     $('#labelforinputDefaultValueResponsibel').show('slow');
      $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield');

@@ -514,7 +514,9 @@
 		padding: 0 .5rem;
 		width: 100%;
 	}
-
+	.field-dependency-insert-value #SecondInput {
+		transition: .5s ease-in-out;
+	}
 	.field-dependency-insert-value button {
 		opacity: 1;
 		-webkit-transition: all .25s ease-in-out;
@@ -660,7 +662,12 @@
 	/* End Add Picklist Modal */
 /* End Field Dependency */
 
+/* Create View Portal */
+	
 
+
+
+/* End Create View Portal */
 
 
 
