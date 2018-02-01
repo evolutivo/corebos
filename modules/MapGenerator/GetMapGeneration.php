@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
- * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2018-01-19 10:51:43
+ * @Last Modified by:   Edmond Kacaj
+ * @Last Modified time: 2018-02-01 16:49:24
  */
 
 
@@ -609,7 +609,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 		{
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
 			 $decondRelatedModule=GetAllRelationDuplicaterecords(get_The_history($QueryHistory,"firstmodule"));
-
+			 $dupliactererds="";
 			$Allhistory=get_All_History($QueryHistory);
 			$Alldatas=array();
 
@@ -633,6 +633,12 @@ function DuplicateRecords($QueryHistory,$MapID)
 						array_push($MyArray,$temparray);
 					
 				}
+				if ((string)$xml->DuplicateDirectRelations === "1") {
+					$dupliactererds="checked='checked'";
+				}
+				else{
+					$dupliactererds="";
+				}				
 				array_push($Alldatas,$MyArray);
 			}
 
@@ -653,6 +659,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 			$NameOFMap=$MapName;
 			$smarty->assign("NameOFMap",$NameOFMap);
 			$smarty->assign("HistoryMap",$HistoryMap);
+			$smarty->assign("dupliactererds",$dupliactererds);
 
 			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 			$smarty->assign("AllModulerelated",$decondRelatedModule);

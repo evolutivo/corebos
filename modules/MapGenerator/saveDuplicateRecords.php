@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-12-19 14:34:17
- * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 16:55:21
+ * @Last Modified by:   Edmond Kacaj
+ * @Last Modified time: 2018-02-01 16:40:01
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -19,6 +19,7 @@ $Data = array();
 $MapName = $_POST['MapName']; // stringa con tutti i campi scelti in selField1
 $MapType = "DuplicateRecords"; // stringa con tutti i campi scelti in selField1
 $SaveasMapText = $_POST['SaveasMapText'];
+$DuplicateDirect = $_POST['DuplicateDirectRelationscheck'];
 $Data = $_POST['ListData'];
 $MapID=explode(',', $_REQUEST['savehistory']); 
 $mapname=(!empty($SaveasMapText)? $SaveasMapText:$MapName);
@@ -46,16 +47,16 @@ if (!empty($Data)) {
 	   $focust = new cbMap();
      $focust->column_fields['assigned_user_id'] = 1;
      $focust->column_fields['mapname']=$mapname;
-     $focust->column_fields['content']=add_content($jsondecodedata);
+     $focust->column_fields['content']=add_content($jsondecodedata,$DuplicateDirect);
      $focust->column_fields['maptype'] =$MapType;
-     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['description']= add_content($jsondecodedata,$DuplicateDirect);
      $focust->column_fields['mvqueryid']=$idquery2;
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
       {
       		
           if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
-                 echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$focust->id;
+                 echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata,$DuplicateDirect)).",".$focust->id;
              } 
              else{
                 echo "0,0";
@@ -79,15 +80,15 @@ if (!empty($Data)) {
      $focust->retrieve_entity_info($MapID[1],"cbMap");
      $focust->column_fields['assigned_user_id'] = 1;
      // $focust->column_fields['mapname'] = $MapName;
-     $focust->column_fields['content']=add_content($jsondecodedata);
+     $focust->column_fields['content']=add_content($jsondecodedata,$DuplicateDirect);
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
-     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['description']= add_content($jsondecodedata,$DuplicateDirect);
      $focust->mode = "edit";
      $focust->save("cbMap");
 
           if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
-                 echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$MapID[1];
+                 echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata,$DuplicateDirect)).",".$MapID[1];
              } 
              else{
                 echo "0,0";
@@ -106,7 +107,7 @@ if (!empty($Data)) {
  *
  * @return     <type>  ( description_of_the_return_value )
  */
-function add_content($DataDecode)
+function add_content($DataDecode,$DuplicateDirect="0")
 {
 	$xml = new DOMDocument("1.0");
      $root = $xml->createElement("map");
@@ -140,7 +141,7 @@ function add_content($DataDecode)
 
 	}
      $DuplicateDirectRelations = $xml->createElement("DuplicateDirectRelations");
-    $DuplicateDirectRelationsText = $xml->createTextNode($DataDecode[0]->temparray->DuplicateDirectRelationscheck);
+     $DuplicateDirectRelationsText = $xml->createTextNode($DuplicateDirect);
      $DuplicateDirectRelations->appendChild($DuplicateDirectRelationsText);
      
      $root->appendChild($relatedmodules); 
