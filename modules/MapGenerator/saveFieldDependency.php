@@ -36,7 +36,9 @@ if (!empty($Data)) {
 	
 	$jsondecodedata=json_decode($Data);	
     $myDetails=array();
-	
+	// print_r($jsondecodedata);
+ //    echo add_content($jsondecodedata);
+ //    exit();
 
   if(strlen($MapID[1]==0)){
 
@@ -212,7 +214,7 @@ function add_content($DataDecode,$mapname)
                   $mandatoryText = $xml->createTextNode("mandatory");
                   $mandatory->appendChild($mandatoryText);
                   $Orgfield->appendChild($mandatory);
-             }			 
+             }
 
 			 $field->appendChild($Orgfield);
 
@@ -232,13 +234,15 @@ function add_content($DataDecode,$mapname)
 			 $i=1;
 		     foreach ($value->temparray as $key => $valua) {
 			       if (!empty($valua)) {
-		       			 if (strpos($key,'DefaultValueFirstModuleField')!== false) {
+                        preg_match_all('!\d+!', $key, $matches);
+                        $stringtocheck="DefaultValueFirstModuleField_".$matches[0][0];
+                        if ($key===$stringtocheck) {
 		       			 	 $values = $xml->createElement("values");
 						     $valuesText = $xml->createTextNode($valua);
 						     $values->appendChild($valuesText);
 							 $Picklist->appendChild($values);
-		       			  }				
-					}								
+		       			}
+					}
 		        }
 
 		     		     
@@ -251,7 +255,7 @@ function add_content($DataDecode,$mapname)
 
 
      $fields->appendChild($field);
-     $root->appendChild($fields);        
+     $root->appendChild($fields);
      $xml->formatOutput = true;
      return $xml->saveXML();
 }
