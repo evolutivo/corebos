@@ -235,7 +235,7 @@ function add_content($DataDecode)
                  
                  
                  $del = $xml->createElement("delimiter");
-                 $delText= $xml->createTextNode("");
+                 $delText= $xml->createTextNode("--None--");
                  $del->appendChild($delText);
                  $Orgfields->appendChild($del);
                  $fields->appendChild($field);
