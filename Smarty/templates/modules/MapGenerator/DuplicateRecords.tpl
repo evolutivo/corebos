@@ -48,7 +48,7 @@
                                   <h1 class="slds-page-header__title slds-m-right--small slds-truncate">
                                     {if $NameOFMap neq ''} {$NameOFMap} {/if}
                                   </h1>
-                                  <p class="slds-text-heading--label slds-line-height--reset">{$MOD.FieldDependency}</p>
+                                  <p class="slds-text-heading--label slds-line-height--reset">{$MOD.DuplicateRecords}</p>
                                 </header>
                                 <div class="slds-no-flex">
                                   <div class="actionsContainer mapButton">
@@ -61,7 +61,7 @@
                                         <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
                                       {/if}
                                       &nbsp;
-                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveDuplicateRecords" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordAccessControll" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName,DuplicateDirectRelationscheck"   data-send="true"  data-send-url="MapGenerator,saveDuplicateRecords" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordAccessControll" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
                                     </div>
                                   </div>
                                 </div>
@@ -98,7 +98,7 @@
                                                   <label style="font-size:  17px;color: slateblue;font-family: sans-serif;float: left;">{$MOD.DuplicateDirectRelations}</label>
                                                   <div class="slds-form-element" style="display: inline-block;float: left;margin-left:  20%;">
                                                     <label class="slds-checkbox--toggle slds-grid">
-                                                     <input id="DuplicateDirectRelationscheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+                                                     <input id="DuplicateDirectRelationscheck" name="checkbox" {$dupliactererds} type="checkbox" aria-describedby="toggle-desc" />
                                                      <span  id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
                                                       <span class="slds-checkbox--faux"></span>
                                                       <span class="slds-checkbox--on">{$MOD.TRUEE}</span>

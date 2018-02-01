@@ -231,14 +231,16 @@ function add_content($DataDecode,$mapname)
              $Picklist->appendChild($Picklistname);
              $i=1;
              foreach ($value->temparray as $key => $valua) {
-                   if (!empty($valua)) {
-                         if (strpos($key,'DefaultValueFirstModuleField')!== false) {
+                    if (!empty($valua)) {
+                        preg_match_all('!\d+!', $key, $matches);
+                        $stringtocheck="DefaultValueFirstModuleField_".$matches[0][0];
+                        if ($key===$stringtocheck) {
                              $values = $xml->createElement("values");
                              $valuesText = $xml->createTextNode($valua);
                              $values->appendChild($valuesText);
                              $Picklist->appendChild($values);
-                          }             
-                    }                               
+                        }
+                    }
                 }
 
                          
