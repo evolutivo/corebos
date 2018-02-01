@@ -113,11 +113,12 @@
 						<tr class="slds-line-height--reset">
 							<td class="dvtCellLabel" width="70%" valign="top">
 								<!-- THE MODULE Zone -->
-								<div style="width: 100%;height: 100%;float: left;">
-									<div style="width: 100%;">
+								<div class="create-view-portal-container">
+									<div class="view-portal-choose-module">
+										<!-- Choose Module -->
 										<div class="slds-form-element">
-											<label class="slds-form-element__label" for="inputSample3">Choose the Module</label>
 											<div class="slds-form-element__control">
+												<label class="slds-form-element__label" for="FirstModule">Choose the Module</label>
 												<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator" id="FirstModule" name="mod" class="slds-select">
 													{$FirstModuleSelected}
 												</select>
@@ -125,45 +126,45 @@
 										</div>
 									</div>
 
-									<div style="width: 100%;margin: 2% 0 0 0;">
+									<div class="view-portal-write-block-name">
+										<!-- Write block Name -->
 										<div class="slds-form-element">
-											<label class="slds-form-element__label" for="inputSample3">{$MOD.writeBlockName}</label>
 											<div class="slds-form-element__control">
-												<input id="BlockName" type="text" minlength="5" style="width: 100%;height: 30px;font-family: verdana;font-size: 12px;color: #333333;text-align: center;margin-bottom: 2%;"  placeholder="{$MOD.writeBlockName}" />
+												<label class="slds-form-element__label" for="BlockName">{$MOD.writeBlockName}</label>
+												<input id="BlockName" class="slds-input" type="text" minlength="5" placeholder="{$MOD.writeBlockName}" />
 											</div>
 										</div>
 									</div>
 
 									<div id="divForAddRows">
-										<div style="float: left;width: 60%;">
+										<div class="view-portal-select-container">
 											<div class="slds-form-element">
-												<label class="slds-form-element__label" for="inputSample3">{$MOD.chooseanotherfieldsforthisrow}</label>
 												<div class="slds-form-element__control">
-													<select  id="FieldsForRow" name="mod" class="slds-select" multiple="multiple" style="height:400px;">
+													<label class="slds-form-element__label slds-text-align--left" for="FieldsForRow">{$MOD.chooseanotherfieldsforthisrow}</label>
+													<select  id="FieldsForRow" name="mod" class="slds-select" multiple="multiple">
 													{$FirstModuleFields}
 													</select>
 												</div>
 											</div>
 										</div>
 
-										<div style="float: right;width: 40%;margin: 0px;padding: 0px;">
+										<div class="view-portal-buttons-container">
 											<div class="slds-form-element">
 												{* <label class="slds-form-element__label" for="inputSample3">{$MOD.SelectShowFields}</label> *}
 												<div class="slds-form-element__control">
-													<div class="" style="width: 100%;margin-top:0px;height: 40px">
-														<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="float: left;width: 35px;height: 40px;margin-left: 10%;">
-															<button data-add-type="Rows" data-add-relation-id="FieldsForRow"  data-div-show="LoadShowPopup"  onclick="addrows(this)" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Rows" style="width:2.1rem;">
-																<img src="themes/images/btnL3Add.gif" style="width: 100%;">
-															</button>
-														</div>
-														<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="float: right;">
-															<button data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this);resetFieldCreateViewPortal();" class="slds-button slds-button--neutral slds-button--brand" style="float: right;">{$MOD.Addsection}</button>
-														</div>
+													<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+														<button data-add-type="Rows" data-add-relation-id="FieldsForRow" data-div-show="LoadShowPopup"  onclick="addrows(this)" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Rows">
+															<img src="themes/images/btnL3Add.gif">
+														</button>
+													</div>
+													<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+														<button data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this);resetFieldCreateViewPortal();" class="slds-button slds-button--small slds-button--brand">{$MOD.Addsection}</button>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+
 								</div>
 							</td>
 							<td class="dvtCellInfo" align="left" width="40%" valign="top">

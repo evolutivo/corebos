@@ -663,7 +663,56 @@
 /* End Field Dependency */
 
 /* Create View Portal */
-	
+	.create-view-portal-container {
+		margin-top: 1rem;
+		padding: 0 .5rem;
+	}
+	.create-view-portal-container #divForAddRows {
+		display: flex;
+		width: 100%;
+	}
+	.create-view-portal-container #divForAddRows > div:first-child {
+		width: 75%;
+	}
+	.create-view-portal-container #divForAddRows > div:last-child {
+		width: 25%;
+	}
+	.view-portal-write-block-name {
+		margin: 1rem 0;
+		text-align: left;
+	}
+	.view-portal-write-block-name input {
+		width: 100%;
+		margin: 0;
+	}
+	.view-portal-select-container {
+		padding-right: .5rem;
+	}
+	.view-portal-buttons-container {
+		padding-left: .5rem;
+	}
+	.view-portal-buttons-container img {
+		height: 28px;
+		width: 28px;
+		transition: .23s ease-in-out;
+	}
+	.view-portal-buttons-container .slds-button_icon:hover {
+		transition: .23s ease-in-out;
+		opacity: .5;
+	}
+	#FieldsForRow {
+		height: 180px;
+	}
+	#FieldsForRow optgroup[label] {
+		padding: .5rem;
+	}
+	#FieldsForRow optgroup option {
+		padding: .2rem .3rem;
+	}
+	#divForAddRows label {
+		margin-top: .7rem;
+		margin-bottom: .5rem;
+	}
 
 
 

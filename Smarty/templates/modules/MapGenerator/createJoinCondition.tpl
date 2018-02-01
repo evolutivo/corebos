@@ -80,8 +80,8 @@
 							<div id="contentJoinButtons" class="slds-no-flex">
 								<div class="actionsContainer mapButton">
 									<div class="slds-section-title--divider" >
-										<button class="slds-button slds-button--small slds-button--neutral" aria-describedby="entity-header" id="saveasmap" name="radio" onclick="App.UniversalPopup.OpeModalsaveAsMap()">{$MOD.SaveAsMap} </button>
 										<button class="slds-button slds-button--small slds-button--neutral" aria-describedby="entity-header" id="addJoin"   name="radio" onclick="showform(this);">{$MOD.AddJoin}</button>
+										<button class="slds-button slds-button--small slds-button--neutral" aria-describedby="entity-header" id="saveasmap" name="radio" onclick="App.UniversalPopup.OpeModalsaveAsMap()">{$MOD.SaveAsMap} </button>
 										<button class="slds-button slds-button--small slds-button--brand"   aria-describedby="entity-header"  id="createmap" name="radio" onclick="SaveMap();">{$MOD.CreateMap}</button>
 									</div>
 									<div class="mailClient mailClientBg addJoinPopup" id="userorgroup" name="userorgroup">
