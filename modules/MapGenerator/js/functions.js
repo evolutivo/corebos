@@ -2083,15 +2083,15 @@ function RemoveThis(argument,idinput) {
   }
 
   function Addinput(idinput) {
-    return '<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">'
+    return '<div class="slds-combobox_container slds-has-object-switcher">'
     +'<div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">'
     +'<div class="slds-combobox__form-element">'
-    +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a values " id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">'
+    +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a values " id="defaultvalue" class="slds-input slds-combobox__input">'
     +'</div>'
     +'</div>'
-    +'<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">'
-    +'<button class="slds-button slds-button_icon" onclick="RemoveThis(this,'+idinput+')" aria-haspopup="true" title="Remove" style="width:2.1rem;">'
-    +'<img src="themes/images/clear_field.gif" style="width: 100%;">'
+    +'<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">'
+    +'<button class="slds-button slds-button_icon" onclick="RemoveThis(this,'+idinput+')" aria-haspopup="true" title="Remove">'
+    +'<img src="themes/images/clear_field.gif" width="16">'
     +'</button>'
     +'</div>'
     +'</div>';

@@ -1,490 +1,668 @@
- /*Load Map Tab */
-#LoadMAps {
-	position: relative;
-}
+/* Load Map Tab */
+	#LoadMAps {
+		position: relative;
+	}
 
-.select2-container {
-	width: 75%!important;
-}
+	.select2-container {
+		width: 75%!important;
+	}
 
-#select2-GetALLMaps-results {
-	overflow-x: hidden;
-}
+	#select2-GetALLMaps-results {
+		overflow-x: hidden;
+	}
 
-.forceRelatedListSingleContainer {
-	position: relative;
-}
+	.forceRelatedListSingleContainer {
+		position: relative;
+	}
 /* End Load Map Tab */
 
-
 /* IOMap */
-.iomap-container {
-	height: 28px;
-}
+	.iomap-container {
+		height: 28px;
+	}
 
-.iomap-input-fields,
-.iomap-output-fields {
-	margin-top: .1rem;
-	width: 50%!important;
-	padding: 0 .5rem;
-}
+	.iomap-input-fields,
+	.iomap-output-fields {
+		margin-top: .1rem;
+		width: 50%!important;
+		padding: 0 .5rem;
+	}
 
 
-.iomap-input-fields #SecondDiv #firstInp input,
-.iomap-output-fields #SecondDiv #secondOutput input {
-	width: 100%;
-	margin: 0;
-	padding: 0 .5rem;
-}
+	.iomap-input-fields #SecondDiv #firstInp input,
+	.iomap-output-fields #SecondDiv #secondOutput input {
+		width: 100%;
+		margin: 0;
+		padding: 0 .5rem;
+	}
 
-.iomap-input-fields .slds-form-element__control > div,
-.iomap-output-fields .slds-form-element__control > div{
-	display: inline-flex;
-}
+	.iomap-input-fields .slds-form-element__control > div,
+	.iomap-output-fields .slds-form-element__control > div{
+		display: inline-flex;
+	}
 
-.iomap-container #SecondDiv {
-	width: 90%;
-	vertical-align: top;
-	position: relative;
-}
+	.iomap-container #SecondDiv {
+		width: 90%;
+		vertical-align: top;
+		position: relative;
+	}
 
-.iomap-container .slds-combobox_container {
-	position: absolute;
-	width: 100%;
-	z-index: 2;
-	top: 0;
-}
+	.iomap-container .slds-combobox_container {
+		position: absolute;
+		width: 100%;
+		z-index: 2;
+		top: 0;
+	}
 
-.iomap-container #SecondDiv select {
-	z-index: 9;
-}
+	.iomap-container #SecondDiv select {
+		z-index: 9;
+	}
 
-.iomap-container .toggle-field {
-	margin-left: .1rem;
-	width: 6%;
-}
+	.iomap-container .toggle-field {
+		margin-left: .1rem;
+		width: 6%;
+	}
 
-.iomap-container .toggle-field a {
-	margin-top: .4rem;
-}
+	.iomap-container .toggle-field a {
+		margin-top: .4rem;
+	}
 
-.iomap-container .toggle-field a .fa-2x {
-	font-size: 1.5em;
-}
+	.iomap-container .toggle-field a .fa-2x {
+		font-size: 1.5em;
+	}
 /* End IOMap */
 
 /* Mapping */
-.mapping-map #selJoin {
-	display: block!important;
-}
-
-.target-origin-container {
-	width: 100%;
-	display: inline-flex;
-	margin-top: .1rem;
-}
-
-.target-origin-container select {
-	height: 28px;
-}
-
-.mapping-target-module,
-.mapping-origin-module {
-	display: block;
-	width: 50%!important;
-	padding: .5rem;
-	margin: 0 .5rem;
-	border: 1px solid #d4d4d4;
-}
-
-.mapping-target-module > .slds-form-element:first-child,
-.mapping-origin-module > .slds-form-element:first-child {
-	margin-bottom: 1rem;
-}
-
-.mapping-origin-module > .slds-form-element:last-child > .slds-form-element__control > div {
-	display: inline-flex;
-}
-
-.mapping-origin-module > .slds-form-element:last-child > .slds-form-element__control {
-	text-align: left;
-}
-
-.mapping-origin-module #SecondDiv {
-	width: 90%;
-	vertical-align: top;
-	position: relative;
-}
-
-.mapping-origin-module #SecondDiv .slds-combobox_container {
-	position: absolute;
-	width: 100%;
-	z-index: 2;
-	top: 0;
-}
-
-.mapping-origin-module #SecondField {
-	z-index: 9;
-}
-
-.mapping-origin-module #SecondDiv #SecondInput input {
-	width: 100%;
-	margin: 0;
-	padding: 0 .5rem;
-}
-
-.target-origin-container .slds-dropdown-trigger {
-	position: relative!important;
-	display: inline-block!important;
-}
-
-.toggle-field {
-	margin-left: .1rem;
-	width: 6%;
-}
-
-.toggle-field a {
-	margin-top: .4rem;
-}
-
-.toggle-field a .fa-2x {
-	font-size: 1.5em;
-}
-
-@media screen and (min-width: 550px) {
-	.mapping-origin-module #SecondDiv #SecondInput input {
-		font-size: 12px!important;
+	.mapping-map #selJoin {
+		display: block!important;
 	}
-}
+
+	.target-origin-container {
+		width: 100%;
+		display: inline-flex;
+		margin-top: .1rem;
+	}
+
+	.target-origin-container select {
+		height: 28px;
+	}
+
+	.mapping-target-module,
+	.mapping-origin-module {
+		display: block;
+		width: 50%!important;
+		padding: .5rem;
+		margin: 0 .5rem;
+		border: 1px solid #d4d4d4;
+	}
+
+	.mapping-target-module > .slds-form-element:first-child,
+	.mapping-origin-module > .slds-form-element:first-child {
+		margin-bottom: 1rem;
+	}
+
+	.mapping-origin-module > .slds-form-element:last-child > .slds-form-element__control > div {
+		display: inline-flex;
+	}
+
+	.mapping-origin-module > .slds-form-element:last-child > .slds-form-element__control {
+		text-align: left;
+	}
+
+	.mapping-origin-module #SecondDiv {
+		width: 90%;
+		vertical-align: top;
+		position: relative;
+	}
+
+	.mapping-origin-module #SecondDiv .slds-combobox_container {
+		position: absolute;
+		width: 100%;
+		z-index: 2;
+		top: 0;
+	}
+
+	.mapping-origin-module #SecondField {
+		z-index: 9;
+	}
+
+	.mapping-origin-module #SecondDiv #SecondInput input {
+		width: 100%;
+		margin: 0;
+		padding: 0 .5rem;
+	}
+
+	.target-origin-container .slds-dropdown-trigger {
+		position: relative!important;
+		display: inline-block!important;
+	}
+
+	.toggle-field {
+		margin-left: .1rem;
+		width: 6%;
+	}
+
+	.toggle-field a {
+		margin-top: .4rem;
+	}
+
+	.toggle-field a .fa-2x {
+		font-size: 1.5em;
+	}
+
+	@media screen and (min-width: 550px) {
+		.mapping-origin-module #SecondDiv #SecondInput input {
+			font-size: 12px!important;
+		}
+	}
 /* End Mapping */
 
 /* Create Join Condition */
-#userorgroup {
-	position: absolute;
-	width: 300px;
-	height:110px;
-	z-index: 90000;
-	display: none;
-	height: 165px;
-}
+	#userorgroup {
+		position: absolute;
+		width: 300px;
+		height:110px;
+		z-index: 90000;
+		display: none;
+		height: 165px;
+	}
 
-#contentJoinButtons #userorgroup {
-	top: 0!important;
-	left: 700px!important;
-}
+	#contentJoinButtons #userorgroup {
+		top: 0!important;
+		left: 700px!important;
+	}
 
-#conditionQuery .slds-form-element__label {
-	display: block!important;
-}
+	#conditionQuery .slds-form-element__label {
+		display: block!important;
+	}
 
-.line-sep {
-	margin-top: 20px!important;
-	margin-bottom: 20px!important;
-}
-
+	.line-sep {
+		margin-top: 20px!important;
+		margin-bottom: 20px!important;
+	}
 /* End Create Join Condition */
 
 /* Condition Expression */
+	.half {
+		width: 100%;
+	}
 
-.half {
-	width: 100%;
-}
+	.tab {
+		position: relative;
+		margin-bottom: 1px;
+		width: 100%;
+		color: #fff;
+		overflow: hidden;
+	}
+	input[type=radio] {
+		position: absolute;
+		opacity: 0;
+		z-index: -1;
+	}
+	label {
+		position: relative;
+			display: block;
+			padding: 0 0 0 1em;
+			color: #54698d;
+			font-weight: bold;
+			line-height: 3;
+			cursor: pointer;
+			background-color: #f4f6f9;
+			font-size: 1.0rem;
+			text-align: center;
+			background-color: transparent;
+	}
+	.blue label {
+		background: #2980b9;
+	}
+	.tab-content {
+		max-height: 0;
+		overflow: hidden;
+		background: #f7f9fb;
+		-webkit-transition: max-height .35s;
+		-o-transition: max-height .35s;
+		transition: max-height .05s;
+	}
+	.blue .tab-content {
+		background: #3498db;
+	}
+	.tab-content p {
+		margin: 1em;
+	}
 
-.tab {
-	position: relative;
-	margin-bottom: 1px;
-	width: 100%;
-	color: #fff;
-	overflow: hidden;
-}
-input[type=radio] {
-	position: absolute;
-	opacity: 0;
-	z-index: -1;
-}
-label {
-	position: relative;
+	input:checked ~ .tab-content {
+		max-height: 100%;
+	}
+
+	label::after {
+		position: absolute;
+		right: 0;
+		top: 0;
 		display: block;
-		padding: 0 0 0 1em;
-		color: #54698d;
-		font-weight: bold;
+		width: 3em;
+		height: 3em;
 		line-height: 3;
-		cursor: pointer;
-		background-color: #f4f6f9;
-		font-size: 1.0rem;
 		text-align: center;
-		background-color: transparent;
-}
-.blue label {
-	background: #2980b9;
-}
-.tab-content {
-	max-height: 0;
-	overflow: hidden;
-	background: #f7f9fb;
-	-webkit-transition: max-height .35s;
-	-o-transition: max-height .35s;
-	transition: max-height .05s;
-}
-.blue .tab-content {
-	background: #3498db;
-}
-.tab-content p {
-	margin: 1em;
-}
-
-input:checked ~ .tab-content {
-	max-height: 100%;
-}
-
-label::after {
-	position: absolute;
-	right: 0;
-	top: 0;
-	display: block;
-	width: 3em;
-	height: 3em;
-	line-height: 3;
-	text-align: center;
-	-webkit-transition: all .35s;
-	-o-transition: all .35s;
-	transition: all .35s;
-}
-input[type=checkbox] + label::after {
-	content: ">";
-	font-size: 20px;
-}
-input[type=radio] + label::after {
-	content: "\25BC";
-}
-input[type=checkbox]:checked + label::after {
-	transform: rotate(90deg);
-}
-input[type=radio]:checked + label::after {
-	transform: rotateX(180deg);
-}
+		-webkit-transition: all .35s;
+		-o-transition: all .35s;
+		transition: all .35s;
+	}
+	input[type=checkbox] + label::after {
+		content: ">";
+		font-size: 20px;
+	}
+	input[type=radio] + label::after {
+		content: "\25BC";
+	}
+	input[type=checkbox]:checked + label::after {
+		transform: rotate(90deg);
+	}
+	input[type=radio]:checked + label::after {
+		transform: rotateX(180deg);
+	}
 /* End Condition Expression */
 
-
 /* List Columns */
+	.target-module,
+	.origin-module {
+		display: flex;
+	}
 
-.target-module,
-.origin-module {
-	display: flex;
-}
+	.target-module label,
+	.origin-module label {
+		font-size: 15px;
+		margin-bottom: 0;
+		height: 36px;
+		padding: 0 5px;
+	}
 
-.target-module label,
-.origin-module label {
-	font-size: 15px;
-	margin-bottom: 0;
-	height: 36px;
-	padding: 0 5px;
-}
+	.target-module input,
+	.origin-module input {
+		height: 36px;
+		width: 100%;
+		margin-top: 5px;
+	}
 
-.target-module input,
-.origin-module input {
-	height: 36px;
-	width: 100%;
-	margin-top: 5px;
-}
+	.related-list-content {
+		margin-bottom: 2rem;
+	}
 
-.related-list-content {
-	margin-bottom: 2rem;
-}
+	.related-list-line,
+	.popup-screen-line {
+		border-style: inset;
+		border-top: 2px solid #d8dde6;
+		margin-top: .5rem;
+		margin-bottom: .5rem;
+	}
 
-.related-list-line,
-.popup-screen-line {
-	border-style: inset;
-	border-top: 2px solid #d8dde6;
-	margin-top: .5rem;
-	margin-bottom: .5rem;
-}
+	.related-list-container,
+	.popup-screen-container {
+		display: flex;
+		width: 100%;
+	}
 
-.related-list-container,
-.popup-screen-container {
-	display: flex;
-	width: 100%;
-}
+	.popup-screen-container .popup-screen-select,
+	.popup-screen-container .popup-screen-field,
+	.related-list-container .slds-form-element {
+		width: 50%!important;
+		padding: 0 .5rem;
+	}
 
-.popup-screen-container .popup-screen-select,
-.popup-screen-container .popup-screen-field,
-.related-list-container .slds-form-element {
-	width: 50%!important;
-	padding: 0 .5rem;
-}
+	.related-list-container .slds-select_container,
+	.related-list-container #SecondField,
+	.related-list-container #SecondDiv,
+	.popup-screen-container .slds-select_container,
+	.popup-screen-container .slds-form-element,
+	.popup-screen-container #SecondField,
+	.popup-screen-container #SecondDiv {
+		width: 100%;
+	}
 
-.related-list-container .slds-select_container,
-.related-list-container #SecondField,
-.related-list-container #SecondDiv,
-.popup-screen-container .slds-select_container,
-.popup-screen-container .slds-form-element,
-.popup-screen-container #SecondField,
-.popup-screen-container #SecondDiv {
-	width: 100%;
-}
+	.related-list-container #SecondField,
+	.popup-screen-container #Firstfield {
+		height: 28px;
+	}
 
-.related-list-container #SecondField,
-.popup-screen-container #Firstfield {
-	height: 28px;
-}
+	.related-list-container #SecondDiv input,
+	.popup-screen-container #SecondDiv input {
+		height: 26px;
+		margin: 0;
+		padding: 0 .5rem;
+		width: 100%;
+	}
 
-.related-list-container #SecondDiv input,
-.popup-screen-container #SecondDiv input {
-	height: 26px;
-	margin: 0;
-	padding: 0 .5rem;
-	width: 100%;
-}
+	.slds-button_icon {
+		margin-top: 2px;
+	}
 
-.slds-button_icon {
-	margin-top: 2px;
-}
+	.slds-button_icon img {
+		width: 16px;
+	}
 
-.slds-button_icon img {
-	width: 16px;
-}
-
-.slds-button_icon img:hover {
-	opacity: .7;
-}
-
+	.slds-button_icon img:hover {
+		opacity: .7;
+	}
 /* End List Columns */
+
 /* Condition Query */
+	#selJoin {
+		width: 100%;
+		display: inline-flex;
+	}
 
-#selJoin {
-	width: 100%;
-	display: inline-flex;
-}
+	#sel1,
+	#sel2 {
+		width: 45%;
+	}
 
-#sel1,
-#sel2 {
-	width: 45%;
-}
+	#sel1 .slds-select_container,
+	#sel2 .slds-select_container{
+		margin-bottom: 5px;
+	}
 
-#sel1 .slds-select_container,
-#sel2 .slds-select_container{
-	margin-bottom: 5px;
-}
+	#centerJoin {
+		width: 10%;
+		padding: 0.75rem;
+	}
 
-#centerJoin {
-	width: 10%;
-	padding: 0.75rem;
-}
+	#centerJoin span {
+		font-size: 40px;
+		margin: 0;
+	}
 
-#centerJoin span {
-	font-size: 40px;
-	margin: 0;
-}
+	#conditionQuery #contenitoreJoin {
+		height: auto!important;
+	}
 
-#conditionQuery #contenitoreJoin {
-	height: auto!important;
-}
+	#conditionQuery #contenitoreJoin > div {
+		overflow-x: initial;
+		overflow-y: initial;
+		height: auto!important;
+	}
 
-#conditionQuery #contenitoreJoin > div {
-	overflow-x: initial;
-	overflow-y: initial;
-	height: auto!important;
-}
+	/** Section Field **/
+		#sectionField .slds-form-element__control {
+			display: inline-flex;
+			width: 100%;
+		}
+		#sectionField input,
+		#sectionField select {
+			width: 50%;
+		}
+		#sectionField #selectableFields {
+			margin-right: 1rem;
+			height: 150px;
+		}
+		#sectionField input {
+			height: 20px;
+			margin-top: 0;
+		}
+		#sectionField .slds-select[multiple] optgroup[label],
+		#sectionField .slds-select[multiple] option {
+			padding: 2px .5rem;
+		}
+	/** End Section Field **/
 
-/** Section Field **/
-#sectionField .slds-form-element__control {
-	display: inline-flex;
-	width: 100%;
-}
+	/** Query zone **/
+		#generatedquery #results {
+			text-align: left;
+		}
+		#where-condition-title span {
+			vertical-align: middle;
+		}
+		.condition-groups {
+			padding: 0 .5rem;
+		}
+	/** End Query zone **/
 
-#sectionField input,
-#sectionField select {
-	width: 50%;
-}
+	/** Aside zone **/
+		#condition-query-aside {
+			padding: 0 .5rem!important;
+			height: 200px;
+		}
 
-#sectionField #selectableFields {
-	margin-right: 1rem;
-	height: 150px;
-}
+		#AlertsAddDiv {
+			margin-top: 10px;
+			height: 100%;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
 
-#sectionField input {
-	height: 20px;
-	margin-top: 0;
-}
+		#AlertsAddDiv .alerts {
+			text-align: left;
+			margin: 0 0 5px 0;
+			width: 90%;
+			position: relative;
+			background-color: #54698D;
+			color: #fff;
+		}
 
-#sectionField .slds-select[multiple] optgroup[label],
-#sectionField .slds-select[multiple] option {
-	padding: 2px .5rem;
-}
+		#AlertsAddDiv .alerts .closebtns {
+			margin-bottom: 5px;
+		}
 
-/** Query zone **/
-#generatedquery #results {
-	text-align: left;
-}
+		#AlertsAddDiv .alerts strong {
+			line-height: 1.1;
+		}
 
-#where-condition-title span {
-	vertical-align: middle;
-}
+		#AlertsAddDiv .alerts i {
+			color: #54698D;
+			font-size: 13px;
+		}
 
-.condition-groups {
-	padding: 0 .5rem;
-}
+		.query-icons {
+			position: absolute;
+		}
 
-/** Aside zone **/
-#condition-query-aside {
-	padding: 0 .5rem!important;
-	height: 200px;
-}
+		.query-icons:hover {
+			opacity: .7;
+			cursor: pointer;
+		}
 
-#AlertsAddDiv {
-	margin-top: 10px;
-	height: 100%;
-	overflow-y: auto;
-	overflow-x: hidden;
-}
+		.plus-icon {
+			top: 5px;
+			right: -18px;
+		}
 
-#AlertsAddDiv .alerts {
-	text-align: left;
-	margin: 0 0 5px 0;
-	width: 90%;
-	position: relative;
-	background-color: #54698D;
-	color: #fff;
-}
+		.check-icon {
+			bottom: 25px;
+			right: -20px;
+		}
 
-#AlertsAddDiv .alerts .closebtns {
-	margin-bottom: 5px;
-}
-
-#AlertsAddDiv .alerts strong {
-	line-height: 1.1;
-}
-
-#AlertsAddDiv .alerts i {
-	color: #54698D;
-	font-size: 13px;
-}
-
-.query-icons {
-	position: absolute;
-}
-
-.query-icons:hover {
-	opacity: .7;
-	cursor: pointer;
-}
-
-.plus-icon {
-	top: 5px;
-	right: -18px;
-}
-
-.check-icon {
-	bottom: 25px;
-	right: -20px;
-}
-
-.desktop-icon {
-	bottom: 5px;
-	right: -20px;
-}
-
+		.desktop-icon {
+			bottom: 5px;
+			right: -20px;
+		}
+	/* End Aside Zone */
 /* End Condition Query */
+
+/* Field Dependency */
+
+	.field-dependency-container {
+		display: block;
+		margin-top: .5rem;
+	}
+
+	.field-dependency-module {
+		margin-bottom: 1rem;
+	}
+
+	.field-dependency-module > div {
+		padding: 0 .5rem;
+	}
+
+	.field-dependency-field {
+		display: flex;
+		width: 100%;
+		margin-bottom: 1rem;
+	}
+
+	.field-dependency-field > div {
+		width: 40%;
+		padding: 0 .5rem;
+	}
+
+	.field-dependency-field > select {
+		width: 20%;
+		margin-top: 1.3rem;
+		height: 28px;
+	}
+
+	.field-dependency-insert-value input {
+		height: 26px;
+		margin: 0;
+		padding: 0 .5rem;
+		width: 100%;
+	}
+
+	.field-dependency-insert-value button {
+		opacity: 1;
+		-webkit-transition: all .25s ease-in-out;
+		   -moz-transition: all .25s ease-in-out;
+		    -ms-transition: all .25s ease-in-out;
+		     -o-transition: all .25s ease-in-out;
+		        transition: all .25s ease-in-out;
+	}
+
+	.field-dependency-insert-value button:hover {
+		opacity: .7;
+		-webkit-transition: all .25s ease-in-out;
+		   -moz-transition: all .25s ease-in-out;
+		    -ms-transition: all .25s ease-in-out;
+		     -o-transition: all .25s ease-in-out;
+		        transition: all .25s ease-in-out;
+	}
+
+	.add-fields-picklist-block {
+		padding: 0 .5rem;
+	}
+
+	.add-fields-picklist-block button:first-child {
+		float: left!important;
+	}
+
+	/* Add fields Modal */
+		#fields h2 {
+			margin: 0;
+		}
+		#fields h3 {
+			margin-top: 0;
+		}
+		#fields .slds-modal__close {
+			top: 1rem!important;
+			right: 1rem!important;
+			color: #313131;
+			transition: .25s ease-in-out;
+		}
+		#fields .slds-modal__close:hover {
+			color: #7B7B7B!important;
+			opacity: .7;
+			transition: .25s ease-in-out;
+		}
+		.choose-field-content {
+			margin-bottom: 2rem;
+			padding: 0 .5rem;
+		}
+		.radio-buttons-content {
+			padding: 0 .5rem;
+		}
+		.radio-buttons-content #SecondDiv {
+			width: 100%;
+			display: inline-flex;
+		}
+		.radio-buttons-content #SecondDiv > div {
+			width: 20%;
+			margin-left: 4rem;
+		}
+		.radio-buttons-content #SecondDiv > div input {
+			width: 50px!important;
+			height: 26px!important;
+			left: 0;
+		}
+		.radio-buttons-content #SecondDiv > div .slds-checkbox--off,
+		.radio-buttons-content #SecondDiv > div .slds-checkbox--on {
+			font-size: 12px;
+		}
+		.radio-buttons-content label {
+			padding: 0;
+			margin-bottom: 0;
+			border-radius: 5px;
+			border: 1px solid transparent;
+		}
+		.radio-buttons-content .toggle-hidden {
+			width: 58%;
+		}
+		.radio-buttons-content .toggle-hidden .slds-checkbox--faux {
+			margin-left: 5px;
+		}
+		.radio-buttons-content .toggle-readonly {
+			width: 65%;
+		}
+		.radio-buttons-content .toggle-readonly .slds-checkbox--faux {
+			margin-left: 15px;
+		}
+		.radio-buttons-content .toggle-mandatory {
+			width: 75%;
+		}
+		.radio-buttons-content .toggle-mandatory .slds-checkbox--faux {
+			margin-left: 20px;
+		}
+	/* End Add fields Modal */
+
+	/* Add Picklist Modal */
+		#Picklist h2 {
+			margin: 0;
+		}
+		#Picklist .slds-modal__close {
+			top: 1rem!important;
+			right: 1rem!important;
+			color: #313131;
+			transition: .25s ease-in-out;
+		}
+		#Picklist .slds-modal__close:hover {
+			color: #7B7B7B!important;
+			opacity: .7;
+			transition: .25s ease-in-out;
+		}
+		.picklist-modal-content h3 {
+			margin-top: 0;
+		}
+		.picklist-modal-fields-content {
+			display: flex;
+		}
+		.picklist-modal-fields-content select {
+			height: 28px;
+		}
+		.picklist-modal-fields-content > div {
+			width: 50%;
+			padding: 0 .5rem;
+		}
+		.picklist-modal-fields-content #ShowmoreInput > div {
+			margin-top: 1.3rem;
+		}
+		.picklist-modal-fields-content #ShowmoreInput > div .slds-button_icon {
+			opacity: 1;
+			transition: opacity .25s ease-in-out;
+		}
+		.picklist-modal-fields-content #ShowmoreInput > div .slds-button_icon:hover {
+			opacity: .5;
+			transition: opacity .25s ease-in-out;
+		}
+		.picklist-modal-fields-content #ShowmoreInput > div:not(:first-child) {
+			margin-top: .5rem;
+		}
+		.picklist-modal-fields-content #ShowmoreInput input {
+			width: 100%;
+			margin: 0;
+			height: 26px;
+			padding: 0 .5rem;
+		}
+	/* End Add Picklist Modal */
+/* End Field Dependency */
+
+
+
+
 
 
 /*	#LDSstyle {

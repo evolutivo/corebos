@@ -116,7 +116,7 @@ header h1 {
 }
 
 .Message-icon button {
-	cursor: default;
+	cursor: pointer;
 	color: #fff;
 	background: transparent;
 	padding: 10px;
