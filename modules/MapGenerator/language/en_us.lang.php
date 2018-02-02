@@ -174,6 +174,6 @@ $mod_strings = array(
 	'FIRST'=>'FIRST',
 	'LAST'=>'LAST',
 	'Maches'=>'matches',
-
+	'RecordSetMapping'=>'Record Set Mapping',
 );
 ?>
