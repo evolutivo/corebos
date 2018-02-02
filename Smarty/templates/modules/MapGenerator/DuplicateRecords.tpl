@@ -151,7 +151,7 @@
                                                   <div class="" id="SecondDiv" style="float: left;width: 40%;">
                                                               <div class="slds-form-element" style="display: inline-block;margin-left:  20px;">
                                                                 <label class="slds-checkbox--toggle slds-grid">
-                                                                <button  data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,DuplicateDirectRelationscheck,relatedModule" data-show-id="relatedModule" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}" style="width:2.1rem;">
+                                                                <button  data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,DuplicateDirectRelationscheck,relatedModule" data-show-id="relatedModule" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" data-add-button-validate="relatedModule" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}" style="width:2.1rem;">
                                                                           <img src="themes/images/btnL3Add.gif" style="width: 100%;vertical-align:bottom;">
                                                                       </button>
                                                                 </label>
