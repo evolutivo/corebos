@@ -28,7 +28,7 @@
 				'{$item.SecondModuleJSONvalue}',
 				'{$item.SecondModuleJSONfield}',
 				'{$item.Labels}',
-				'{$item.ValuesParagraf}',
+				"{$item.ValuesParagraf}",
 				'{$item.returnvaluesval}',
 				'',
 				'{$item.returnvaluestetx}'

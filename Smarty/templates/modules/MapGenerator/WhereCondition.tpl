@@ -490,6 +490,7 @@
                 },
                 error: function () {
                     alert("{/literal}{$MOD.failedcall}{literal}");
+                    if (box) box.remove();
                 }
             });
             return true;
