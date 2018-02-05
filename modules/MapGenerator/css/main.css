@@ -13,7 +13,6 @@
 	.map-generator-table select {
 		margin: 0;
 	}
-
 /* End General Fixes*/
 
 /* Template.tpl */
@@ -733,7 +732,6 @@
 		}
 	/* End Add Picklist Modal */
 /* End Field Dependency & Field Dependency Portal */
-
 
 /* Create View Portal */
 	.create-view-portal-container {
