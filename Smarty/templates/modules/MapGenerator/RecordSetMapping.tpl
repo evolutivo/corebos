@@ -110,7 +110,7 @@
 								<!-- Choose the value -->
 								<div id="DivModule" style="display:none;" class="slds-form-element">
 									<label class="slds-form-element__label" for="record-set-mapping-choose-module">
-									       {$MOD.ChosseMOdule}
+									       {$MOD.Module}
 									</label>
 									<div class="slds-form-element__control">
 										<div class="slds-select_container">
