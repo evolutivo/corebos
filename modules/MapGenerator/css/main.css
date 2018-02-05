@@ -1,3 +1,7 @@
+.slds-select_container .slds-select {
+	height: 28px;
+}
+
 /* Load Map Tab */
 	#LoadMAps {
 		position: relative;
@@ -715,54 +719,62 @@
 	}
 /* End Create View Portal */
 
-/* Import Bussines Mapping */
-	.import-bussines-mapping-container {
+/* Import Business Mapping */
+	.import-business-mapping-container {
 		display: block!important;
 		width: 100%;
 	}
-/*	.import-bussines-target-module {
-		width: 100%;
-		display: block;
-	}*/
-	.import-bussines-target-module #sel1 {
-		width: 100%;
-		padding: 0 .5rem;
-	}
 
-	.import-bussines-target-module #sel1 .slds-select_container::before {
-		display: none;
-	}
+	/* Target-Module */
+		.import-business-target-module {
+			margin-bottom: 1rem;
+		}
+		.import-business-target-module #sel1 {
+			width: 100%;
+			padding: 0 .5rem;
+		}
+	/* End Target-Module */
 
-	.import-bussines-select-fields,
-	.import-bussines-select-fields #sel2 {
-		display: flex;
-		width: 100%;
-	}
+	/* Select Fields */
+		.import-business-select-fields #sel2 {
+			display: flex;
+			width: 100%;
+			padding: 0 .5rem;
+		}
+		.import-business-select-fields #sel2 .slds-form-element {
+			width: 43%;
+		}
+		.import-business-select-fields #sel2 #sel1 {
+			width: 14%;
+			margin-top: 1.7rem;
+			text-align: center;
+		}
+		.import-business-select-fields #sel2 #sel1 label {
+			cursor: default;
+		}
+	/* End Select Fields */
 
-	.import-bussines-select-fields #sel2 .slds-form-element {
-		width: 40%;
-	}
+	/* contenitoreJoin content */
+		.import-business-mapping-container #contenitoreJoin {
+			display: none;
+		}
+	/* End contenitoreJoin content */
 
-	.import-bussines-select-fields #sel2 #sel1 {
-		width: 20%;
-	}
-
-
-
-/*	.import-bussines-mapping-container {
-		display: flex;
-		width: 100%;
-	}
-	.import-bussines-mapping-container > div {
-		width: 50%!important;
-		padding: 0 .5rem;
-	}*/
-
-
+	/* Update Import Business */
+		.update-import-business #sel1 {
+			width: 100%;
+			padding: 0 .5rem;
+		}
+		.update-import-business .slds-form-element__control {
+			display: block!important;
+		}
+		.update-import-business .slds-form-element__control select{
+			width: 100%!important;
+		}
+	/* End Update Import Business */
 /* End Import Bussines Mapping */
 
 /* Record Set Mapping */
-
 	.record-set-map {
 		border-collapse:separate!important;
 		border-spacing: 1rem!important;
@@ -809,7 +821,6 @@
 			}
 
 		/* End Action select */
-
 /* End Record Set Mapping */
 
 
