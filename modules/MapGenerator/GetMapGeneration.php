@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
- * @Last Modified by:   Edmond Kacaj
- * @Last Modified time: 2018-02-01 16:49:24
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-05 16:52:02
  */
 
 
@@ -398,6 +398,28 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="Record Set Mapping") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			RecordSetMapping($QueryHistory,$MapID);		
+			
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+		
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		LogFile($ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -413,6 +435,110 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+
+/**
+ * Function to load the map type RecordSetMapping
+ *
+ * @param      string  $QueryHistory  The query history
+ * @param      <type>  $MapID         The map id
+ */
+function RecordSetMapping($QueryHistory,$MapID)
+{
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	include_once('modfields.php');
+
+	try{
+		if (!empty($QueryHistory))
+		{
+			$FirstModuleSelected="<option value=''>Select module</option>".Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+			
+			$Allhistory=get_All_History($QueryHistory);
+			$Alldatas=array();
+
+			foreach ($Allhistory as $value) {
+				$xml=new SimpleXMLElement($value['query']);
+				$MyArray=array();
+				foreach ($xml->records->record as  $valuexml) {
+					if (!empty($valuexml->id) ) {
+						 $temparray=[
+							'ActionId'=>(string)$valuexml->action,
+							'ActionIdText'=>$valuexml->action,
+							'ActionIdoptionGroup'=>"undefined",
+							'DefaultText'=>(string)$valuexml->id,
+							'JsonType'=>"ID",
+							'Moduli'=>"",
+							'inputforId'=>(string)$valuexml->id,
+							'inputforIdText'=>(string)$valuexml->id,
+							'inputforIdoptionGroup'=>"",
+						];
+						array_push($MyArray,$temparray);
+					} else {
+						$temparray=[
+							'ActionId'=>(string)$valuexml->action,
+							'ActionIdText'=>$valuexml->action,
+							'ActionIdoptionGroup'=>"undefined",
+							'DefaultText'=>(string)$valuexml->value,
+							'EntityValueId'=>(string)$valuexml->value,
+							'EntityValueIdText'=>(string)$valuexml->value,
+							'EntityValueIdoptionGroup'=>"",
+							'FirstModule'=>(string)$valuexml->module,  //explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1]
+							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($valuexml->module))[1],
+							'FirstModuleoptionGroup'=>"undefined",
+							'JsonType'=>"Entity",
+							'Moduli'=>(string)$valuexml->module,
+						];
+						array_push($MyArray,$temparray);
+					}
+					
+					
+				}
+								
+				array_push($Alldatas,$MyArray);
+			}
+
+
+			//this is for save as 
+			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+			//this is for save as map
+			 $data="MapGenerator,saveRecordSetMapping";
+			 $dataid="ListData,MapName";
+			 $savehistory="true";
+			 $saveasfunction="ShowLocalHistoryRecordSetMapping";
+			//  //assign tpl
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("update",$update);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/RecordSetMapping.tpl');
+			echo $output;
+			// print_r($Alldatas);
+
+		}else{
+			//TODO:: this is if not find the idquery to load map by Id of map 
+		}
+	}catch(Exception $ex){
+		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
+	}
+}
+
 
 
 /**

@@ -4,15 +4,16 @@
     * @Author: Edmond Kacaj 
     * @Date: 2018-02-05 14:37:36 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-05 15:27:20
+ * @Last Modified time: 2018-02-05 16:24:25
     */
 
 
+    include_once 'All_functions.php';
     include_once ("modules/cbMap/cbMap.php");
     require_once ('data/CRMEntity.php');
     require_once ('include/utils/utils.php');
-    include_once 'Staticc.php';
-    require_once('All_functions.php');
+    include_once ('Staticc.php');
+   
 
     global $root_directory, $log; 
     $Data = array();

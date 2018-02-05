@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-05 15:59:59
+ * @Last Modified time: 2018-02-05 17:03:27
  */
 
 document.onkeydown = function(e) {
@@ -3678,10 +3678,9 @@ function ClickToshowSelectedFiledsRecordSetMapping(Idload,divHistory)
 {
     App.ModulLabel='Module';
     App.FieldLabel='Value';
+    App.DefaultValue='Value';
     var historydata=App.SaveHistoryPop[parseInt(Idload)];
     App.popupJson.length=0;
-    App.ModulLabel='Module';
-    App.FieldLabel='Related';
     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
       App.popupJson.push(historydata.PopupJSON[i]);
     }

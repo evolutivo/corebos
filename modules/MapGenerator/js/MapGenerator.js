@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-05 14:24:25
+ * @Last Modified time: 2018-02-05 16:59:06
 */
 
 
@@ -20,6 +20,7 @@
 		MultiList:[],
 		ModulLabel: null,
 		FieldLabel: null,
+		DefaultValue: null,
 		disambleInspectelement:false,
 		countsaveMap:0,
 
@@ -238,7 +239,8 @@
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				 App.ModulLabel='Module';
-    			  App.FieldLabel='Value';
+				  App.FieldLabel='Value';
+				  App.DefaultValue='Value';
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
@@ -1760,7 +1762,7 @@
 
 			} else
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+fields+ '</p>';
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue)+'  ==> '+fields+ '</p>';
 			}
 			
 			INSertAlerstJOIN += '</div';

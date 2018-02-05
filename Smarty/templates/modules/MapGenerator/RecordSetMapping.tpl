@@ -1,5 +1,40 @@
 
 
+ <div id="LoadingImage" style="display: none">
+    <img src=""/>
+  </div>
+  {if $HistoryMap neq ''}
+  <script type="text/javascript">
+    App.savehistoryar='{$HistoryMap}';
+  </script>
+  {/if}
+
+  {if $PopupJS neq ''}
+  <script type="text/javascript">
+    {foreach from=$PopupJS item=allitems key=key name=name}
+      {foreach name=outer item=popi from=$allitems}  
+          var temparray = {};
+          {foreach key=key item=item from=$popi}
+          temparray['{$key}']='{$item}';
+      {/foreach}
+       App.popupJson.push({'{'}temparray{'}'});
+            // console.log(temparray);
+            {/foreach}
+            HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+            App.popupJson.length=0;
+    {/foreach}
+
+            App.ModulLabel='Module';
+			App.FieldLabel='Value';
+			App.DefaultValue='Value';
+            ShowLocalHistoryRecordSetMapping('LoadHistoryPopup','LoadShowPopup')
+            ClickToshowSelectedFiledsRecordSetMapping(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+         App.countsaveMap=2;
+         </script>
+
+         {/if}
+
+
 
 
 <div id="ModalDiv">
@@ -21,7 +56,7 @@
 								<h1 class="slds-page-header__title slds-m-right--small slds-truncate">
 									 {if $NameOFMap neq ''} {$NameOFMap} {/if}
 								</h1>
-								<p class="slds-text-heading--label slds-line-height--reset"> Maptype </p>
+								<p class="slds-text-heading--label slds-line-height--reset"> {$MOD.RecordSetMapping} </p>
 							</header>
 							<div class="slds-no-flex">
 								<div class="actionsContainer mapButton">
@@ -66,7 +101,7 @@
 									<div id="DivId" class="slds-form-element" style="width:  100%;margin-top: 20px;">
 										<!--<label class="slds-form-element__label" for="record-set-mapping-insert-value">Input Label</label>-->
 										<div class="slds-form-element__control input-value-with-icon">
-											<input id="inputforId" class="slds-input" placeholder="Placeholder Text" type="text" />
+											<input id="inputforId" class="slds-input" placeholder="ID" type="text" />
 										</div>
 									</div>
 
@@ -80,7 +115,7 @@
 									<div class="slds-form-element__control">
 										<div class="slds-select_container">
 											<select class="slds-select" id="FirstModule">
-												
+												{$FirstModuleSelected}
 											</select>
 										</div>
 									</div>
@@ -92,7 +127,7 @@
 									    {$MOD.EndtityLabel}
 									</label>
 									<div class="slds-form-element__control">
-										<input id="EntityValueId" class="slds-input" placeholder="Placeholder Text" type="text" />
+										<input id="EntityValueId" class="slds-input" placeholder="Entity Value" type="text" />
 									</div>
 								</div>
 
