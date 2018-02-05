@@ -536,48 +536,58 @@
 	/* End Aside Zone */
 /* End Condition Query */
 
-/* Field Dependency */
+/* Field Dependency & Field Dependency Portal */
 
-	.field-dependency-container {
-		display: block;
+	.field-dependency-container,
+	.field-dependency-portal-container {
 		margin-top: .5rem;
 	}
 
-	.field-dependency-module {
+	.field-dependency-module,
+	.field-dependency-portal-module {
 		margin-bottom: 1rem;
 	}
 
-	.field-dependency-module > div {
+	.field-dependency-module > div,
+	.field-dependency-portal-module > div {
 		padding: 0 .5rem;
 	}
 
-	.field-dependency-field {
+	.field-dependency-field,
+	.field-dependency-portal-field {
 		display: flex;
 		width: 100%;
 		margin-bottom: 1rem;
 	}
 
-	.field-dependency-field > div {
+	.field-dependency-field > div:first-child,
+	.field-dependency-field > div:last-child,
+	.field-dependency-portal-field > :first-child,
+	.field-dependency-portal-field > :last-child {
 		width: 40%;
 		padding: 0 .5rem;
 	}
 
-	.field-dependency-field > select {
+	.field-dependency-field > .operators-select,
+	.field-dependency-portal-field > .operators-select {
 		width: 20%;
 		margin-top: 1.3rem;
 		height: 28px;
 	}
 
-	.field-dependency-insert-value input {
+	.field-dependency-insert-value input,
+	.field-dependency-portal-insert-value input {
 		height: 26px;
 		margin: 0;
 		padding: 0 .5rem;
 		width: 100%;
 	}
-	.field-dependency-insert-value #SecondInput {
+	.field-dependency-insert-value #SecondInput,
+	.field-dependency-portal-insert-value #SecondInput {
 		transition: .5s ease-in-out;
 	}
-	.field-dependency-insert-value button {
+	.field-dependency-insert-value button,
+	.field-dependency-portal-insert-value button {
 		opacity: 1;
 		-webkit-transition: all .25s ease-in-out;
 		   -moz-transition: all .25s ease-in-out;
@@ -586,7 +596,8 @@
 		        transition: all .25s ease-in-out;
 	}
 
-	.field-dependency-insert-value button:hover {
+	.field-dependency-insert-value button:hover,
+	.field-dependency-portal-insert-value button:hover {
 		opacity: .7;
 		-webkit-transition: all .25s ease-in-out;
 		   -moz-transition: all .25s ease-in-out;
@@ -627,6 +638,7 @@
 		}
 		.radio-buttons-content {
 			padding: 0 .5rem;
+			margin-top: 1rem;
 		}
 		.radio-buttons-content #SecondDiv {
 			width: 100%;
@@ -720,7 +732,8 @@
 			padding: 0 .5rem;
 		}
 	/* End Add Picklist Modal */
-/* End Field Dependency */
+/* End Field Dependency & Field Dependency Portal */
+
 
 /* Create View Portal */
 	.create-view-portal-container {

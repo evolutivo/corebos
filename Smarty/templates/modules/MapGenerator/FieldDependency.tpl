@@ -1,50 +1,46 @@
 {*ListColumns.tpl*}
 
-<div style="width: 100%;height: 100%">
-  
-  <div id="LoadingImage" style="display: none">
-	<img src=""/>
-</div>
+<div id="LoadingImage" style="display: none"><img src=""/></div>
+
 {if $HistoryMap neq ''}
-  <script type="text/javascript">
-	App.savehistoryar='{$HistoryMap}';
-  </script>
+	<script type="text/javascript">
+		App.savehistoryar='{$HistoryMap}';
+	</script>
 {/if}
 
 {if $PopupJS neq ''}
-  <script type="text/javascript">
-	  {foreach from=$PopupJS item=allitems key=key name=name}
-		   {foreach name=outer item=popi from=$allitems}  
-			var temparray = {};
-			{foreach key=key item=item from=$popi}
-				temparray['{$key}']='{$item}';
+	<script type="text/javascript">
+		{foreach from=$PopupJS item=allitems key=key name=name}
+			{foreach name=outer item=popi from=$allitems}  
+				var temparray = {};
+				{foreach key=key item=item from=$popi}
+					temparray['{$key}']='{$item}';
+				{/foreach}
+				App.popupJson.push({'{'}temparray{'}'});
+				// console.log(temparray);
 			{/foreach}
-			App.popupJson.push({'{'}temparray{'}'});
-			// console.log(temparray);
-		  {/foreach}
-		   HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-		  App.popupJson.length=0;
-	  {/foreach}
-	
-	 if (App.SaveHistoryPop.length>0)
-	{ 
-		App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
-	   App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-	}else{
-	   App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-	 }
+			HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+			App.popupJson.length=0;
+		{/foreach}
 
+		if (App.SaveHistoryPop.length>0)
+		{
+			App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+			App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+		}
+		else
+		{
+			App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+		}
 
-	  var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
-	  App.popupJson.length=0;
-	  for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-		App.popupJson.push(historydata.PopupJSON[i]);
-	  }
-	  App.utils.ReturnDataSaveHistory('LoadShowPopup');
-	  App.countsaveMap=2;
-  </script>
-
-
+		var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+		App.popupJson.length=0;
+		for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+			App.popupJson.push(historydata.PopupJSON[i]);
+		}
+		App.utils.ReturnDataSaveHistory('LoadShowPopup');
+		App.countsaveMap=2;
+	</script>
 {/if}
 
 
@@ -56,7 +52,7 @@
 	{/if}
 </div>
 
-	<table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+	<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 		<tbody>
 			<tr class="blockStyleCss" id="DivObjectID">
 				<td class="detailViewContainer" valign="top">
@@ -95,36 +91,44 @@
 											<div class="slds-form-element slds-text-align--left">
 												<label class="slds-form-element__label">Choose the Module</label>
 												<div class="slds-form-element__control">
-													<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
-															{$FirstModuleSelected}
-													</select>
+													<div class="slds-select_container">
+														<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
+																{$FirstModuleSelected}
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
 										<!-- Choose field and insert value -->
 										<div class="field-dependency-field">
 											<div class="slds-form-element slds-text-align--left">
-												<label class="slds-form-element__label ">Choose the field</label>
+												<label class="slds-form-element__label" for="Firstfield">Choose the field</label>
 												<div class="slds-form-element__control">
-													<select  id="Firstfield" name="mod" class="slds-select">
-														{$FirstModuleFields}
+													<div class="slds-select_container">
+														<select  id="Firstfield" name="mod" class="slds-select">
+															{$FirstModuleFields}
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="slds-form-element__control operators-select">
+												<div class="slds-select_container">
+													<select id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
+														<option value="equal">{$MOD.equals}</option>
+														<option value="not equal">{$MOD.not_equals}</option>
+														<option value="empty">{$MOD.empty}</option>
+														<option value="not empty">{$MOD.not_empty}</option>
 													</select>
 												</div>
 											</div>
-											<select id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
-												<option value="equal">{$MOD.equals}</option>
-												<option value="not equal">{$MOD.not_equals}</option>
-												<option value="empty">{$MOD.empty}</option>
-												<option value="not empty">{$MOD.not_empty}</option>
-											</select>
 											<div class="field-dependency-insert-value">
 												<div class="slds-form-element slds-text-align--left">
-													<label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label">{$MOD.AddAValues}</label>
+													<label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="DefaultValueResponsibel">{$MOD.AddAValues}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-combobox_container slds-has-object-switcher" >
-															<div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
+															<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
 																<div class="slds-combobox__form-element">
-																	<input type="text" id="DefaultValueResponsibel"  placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
+																	<input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
 																</div>
 															</div>
 															<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
@@ -140,7 +144,7 @@
 										<!-- Buttons -->
 										<div class="add-fields-picklist-block">
 											<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop">{$MOD.AddFields}</button>
-											<button data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop" class="slds-button slds-button--small slds-button--brand">{$MOD.AddPickList}</button>
+											<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop">{$MOD.AddPickList}</button>
 											{* <h3 class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
 										</div>
 									</div>
@@ -209,6 +213,7 @@
 		<div id="queryfrommap"></div>
 	</div>
 
+	<!-- Add field Modal -->
 	<div class="slds">
 		<div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
 			<div class="slds-modal__container">
@@ -223,10 +228,10 @@
 				</div>
 				<div class="slds-modal__content slds-p-around--medium" >
 					<h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3>
-					<div class="choose-field-content">
-						<div class="slds-form-element">
-							<label class="slds-form-element__label" for="inputSample3">Choose the field</label>
-							<div class="slds-form-element__control">
+					<div class="slds-form-element">
+						<label class="slds-form-element__label" for="Firstfield2">Choose the field</label>
+						<div class="slds-form-element__control">
+							<div class="slds-select_container">
 								<select  id="Firstfield2" name="mod" class="slds-select">
 										{$FirstModuleFields}
 								</select>
@@ -277,7 +282,7 @@
 									</div>
 
 									{*
-										<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 31px;height: 40px;vertical-align: bottom;">
+										<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
 											<!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,secmodule,SecondfieldID,sortt6ablechk,editablechk,mandatorychk,hiddenchk" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
 												<img src="themes/images/btnL3Add.gif" style="width: 100%;">
 											</button> -->
@@ -293,7 +298,7 @@
 				</div>
 				<div class="slds-modal__footer">
 					{* <label id="ErrorLabelModal"></label> *}
-					<button data-add-button-popup="true" data-add-type="Field" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup" class="slds-button slds-button--small slds-button--brand">
+					<button class="slds-button slds-button--small slds-button--brand" data-add-button-popup="true" data-add-type="Field" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup">
 						{$MOD.Add}
 					</button>
 					<!-- data-send-savehistory="{$savehistory}" -->
@@ -308,79 +313,85 @@
 		{*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
 	</div>
 
-<div class="slds">
-	<div class="slds-modal" aria-hidden="false" role="dialog" id="Picklist">
-		<div class="slds-modal__container">
-			<div class="slds-modal__header">
-				<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist">
-					<svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-						<use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-					</svg>
-					<span class="slds-assistive-text">{$MOD.close}</span>
-				</button>
-				<h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
-			</div>
-
-			<div class="slds-modal__content slds-p-around--medium picklist-modal-content">
-				<h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3>
-				<div class="picklist-modal-fields-content">
-					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="inputSample3">Choose the field</label>
-						<div class="slds-form-element__control">
-							<select  id="PickListFields" onchange="checkIfAdded(this);" name="mod" class="slds-select">
-									{$Picklistdropdown}
-							</select>
-						</div>
+	<!-- Picklist Modal -->
+	<div class="slds">
+		<div class="slds-modal" aria-hidden="false" role="dialog" id="Picklist">
+			<div class="slds-modal__container">
+				<!-- Modal Header -->
+					<div class="slds-modal__header">
+						<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist">
+							<svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+								<use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+							</svg>
+							<span class="slds-assistive-text">{$MOD.close}</span>
+						</button>
+						<h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
 					</div>
-					<div id="ShowmoreInput">
-						<div class="slds-combobox_container slds-has-object-switcher">
-							<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
-								<div class="slds-combobox__form-element">
-									<input type="text" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" class="slds-input slds-combobox__input">
+				<!-- End Modal Header -->
+
+				<!-- Modal Body -->
+					<div class="slds-modal__content slds-p-around--medium picklist-modal-content">
+						<h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3>
+						<div class="picklist-modal-fields-content">
+							<div class="slds-form-element">
+								<label class="slds-form-element__label" for="PickListFields">Choose the field</label>
+								<div class="slds-form-element__control">
+									<div class="slds-select_container">
+										<select  id="PickListFields" onchange="checkIfAdded(this);" name="mod" class="slds-select">
+												{$Picklistdropdown}
+										</select>
+									</div>
 								</div>
 							</div>
-							<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-								<button class="slds-button slds-button_icon" onclick="Addmorevalues(this)" aria-haspopup="true" title="Add more Values">
-									<img src="themes/images/btnL3Add.gif" width="16">
-								</button>
+							<div id="ShowmoreInput">
+								<div class="slds-combobox_container slds-has-object-switcher">
+									<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
+										<div class="slds-combobox__form-element">
+											<input type="text" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" class="slds-input slds-combobox__input">
+										</div>
+									</div>
+									<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+										<button class="slds-button slds-button_icon" onclick="Addmorevalues(this)" aria-haspopup="true" title="Add more Values">
+											<img src="themes/images/btnL3Add.gif" width="16">
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
+						<div id="showpopupmodal"></div>
 					</div>
-				</div>
-				<div id="showpopupmodal"></div>
-			</div>
+				<!-- End Modal Body -->
 
-			<div class="slds-modal__footer">
-				{* <label id="ErrorLabelModal"></label> *}
-				<button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="removedataafterclick();"  class="slds-button slds-button--small slds-button--brand">
-					{$MOD.Add}
-				</button>  <!-- data-send-savehistory="{$savehistory}" -->
-				<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}</button>
+				<!-- Modal Footer -->
+					<div class="slds-modal__footer">
+						{* <label id="ErrorLabelModal"></label> *}
+						<button id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="removedataafterclick();"  class="slds-button slds-button--small slds-button--brand">
+							{$MOD.Add}
+						</button>  <!-- data-send-savehistory="{$savehistory}" -->
+						<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}</button>
+					</div>
+				<!-- End Modal Footer -->
 			</div>
 		</div>
+		<div class="slds-backdrop" id="Picklistbackdrop"></div>
+
+		<!-- Button To Open Modal -->
+		{*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
 	</div>
-	<div class="slds-backdrop" id="Picklistbackdrop"></div>
 
-	<!-- Button To Open Modal -->
-	{*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
-</div>
+	<div>
+		<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+		<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+		<input type="hidden" name="querysequence" id="querysequence" value="">
+		<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+	</div>
 
-<div>
-	<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-	<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
-	<input type="hidden" name="querysequence" id="querysequence" value="">
-	<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-</div>
-
-
-		
-</div>
 <div style="float: right;width: 25%;margin-left: 20px;">
 	<div id="LoadShowPopup"></div>
 </div>
-<div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 71%;">
-</div>
-</div>
+
+<div id="LoadHistoryPopup"  style="/* position: absolute; */margin-top: 6%;float: left;width: 71%;"></div>
+
 
 
 {literal}
