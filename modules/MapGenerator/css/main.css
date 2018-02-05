@@ -1,24 +1,62 @@
-.slds-select_container .slds-select {
-	height: 28px;
-}
-
-/* Load Map Tab */
-	#LoadMAps {
-		position: relative;
+/* Template.tpl */
+	.slds-tabs--scoped__nav li.active {
+		border-bottom: 1px solid #fff;
 	}
 
-	.select2-container {
-		width: 75%!important;
+	#secondTab.active {
+		border-left: 1px solid #d8dde6;
+	}
+/* Template.tpl */
+
+/* Create and Load Maps */
+	.load-map-table,
+	.create-map-table {
+		border-collapse:separate;
+		border-spacing: 1rem;
 	}
 
-	#select2-GetALLMaps-results {
-		overflow-x: hidden;
+	/* Create Map Tab */
+	.choose-object-type .dvtCellLabel {
+		text-transform: uppercase;
+		font-weight: bold;
+		color: #54698d;
 	}
+	.choose-object-type select {
+		height: 28px;
+		margin: 0;
+	}
+	/* End Create Map Tab */
 
-	.forceRelatedListSingleContainer {
-		position: relative;
+	/* Load Map Tab */
+		.load-all-maps-select-container {
+
+		}
+		#LoadMAps {
+			position: relative;
+		}
+
+		.select2-container {
+			width: 100%!important;
+		}
+
+		#select2-GetALLMaps-results {
+			overflow-x: hidden;
+		}
+
+		.forceRelatedListSingleContainer {
+			position: relative;
+		}
+	/* End Load Map Tab */
+
+/* End Create and Load Maps */
+
+
+
+/* Select height on all maps */
+	.slds-select_container .slds-select {
+		height: 28px;
 	}
-/* End Load Map Tab */
+/* End Select height on all maps */
 
 /* IOMap */
 	.iomap-container {
