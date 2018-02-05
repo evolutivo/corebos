@@ -1,26 +1,40 @@
 
+
+
+
+<div id="ModalDiv">
+    {if $Modali neq ''}
+        <div>
+         {$Modali}
+        </div>
+    {/if}
+</div>
+
+
 <table class="slds-table slds-no-row-hover slds-table-moz record-set-map">
 	<tbody>
 		<tr class="blockStyleCss">
-			<td class="detailViewContainer" valign="top">
+			<td class="detailViewContainer" valign="top"> 
 				<div class="forceRelatedListSingleContainer">
 					<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
 						<div class="slds-card__header slds-grid">
 							<header class="slds-media--center slds-has-flexi-truncate">
 								<h1 class="slds-page-header__title slds-m-right--small slds-truncate">
-									Name of map
+									 {if $NameOFMap neq ''} {$NameOFMap} {/if}
 								</h1>
 								<p class="slds-text-heading--label slds-line-height--reset"> Maptype </p>
 							</header>
 							<div class="slds-no-flex">
 								<div class="actionsContainer mapButton">
 									<div class="slds-section-title--divider">
-
-										<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
-
-										<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
-
-										<button class="slds-button slds-button--small slds-button--brand">{$MOD.CreateMap}</button>
+										{if $HistoryMap neq ''}
+                                        {* saveFieldDependency *}
+                                        <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
+                                      {else}
+                                        {* saveFieldDependency *}
+                                        <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
+                                      {/if}
+										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveRecordSetMapping" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordSetMapping" data-save-history-show-id-relation="LoadShowPopup" >{$MOD.CreateMap}</button>
 
 									</div>
 								</div>
@@ -31,48 +45,55 @@
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
 						<tr class="slds-line-height--reset">
+						
 							<td class="dvtCellLabel record-set-mapping-container" width="70%" valign="top">
+								<label class="slds-form-element__label" for="record-set-mapping-insert-value" style="width100%;margin-top: 5px;text-align: left;">
+									{$MOD.RecordSetMappingLabelPutID}
+								</label>
 								<div class="inset-value-container">
-									<!-- Input value -->
-									<div class="slds-form-element">
-										<label class="slds-form-element__label" for="record-set-mapping-insert-value">Input Label</label>
-										<div class="slds-form-element__control input-value-with-icon">
-											<input id="record-set-mapping-insert-value" class="slds-input" placeholder="Placeholder Text" type="text" />
-										</div>
-									</div>
+									
 									<!-- Enable/Disable below fields -->
-									<div class="slds-form-element toggle-field-below">
+									<div class="slds-form-element toggle-field-below" style="width:20%;">
 										<label class="slds-checkbox--toggle slds-grid toggle-readonly" for="checkbox-4">
-											<input id="checkbox-4" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
+											<input id="checkbox-4" name="checkbox" checked="checked" type="checkbox" onchange="showHide(this);" aria-describedby="toggle-desc" />
 											<span id="checkbox-check" class="slds-checkbox--faux_container" aria-live="assertive">
-												<span class="slds-checkbox--faux"></span>
+												 <span class="slds-checkbox--faux"></span>
+                                                  <span class="slds-checkbox--on">{$MOD.YES}</span>
+                                                  <span class="slds-checkbox--off">{$MOD.NO}</span>
 											</span>
-											<span class="slds-form-element__label">Checkbox</span>
 										</label>
+									</div>
+									<!-- Input value -->
+									<div id="DivId" class="slds-form-element" style="width:  100%;margin-top: 20px;">
+										<!--<label class="slds-form-element__label" for="record-set-mapping-insert-value">Input Label</label>-->
+										<div class="slds-form-element__control input-value-with-icon">
+											<input id="inputforId" class="slds-input" placeholder="Placeholder Text" type="text" />
+										</div>
 									</div>
 
 								</div>
 
 								<!-- Choose the value -->
-								<div class="slds-form-element">
-									<label class="slds-form-element__label" for="record-set-mapping-choose-module">Choose the module</label>
+								<div id="DivModule" style="display:none;" class="slds-form-element">
+									<label class="slds-form-element__label" for="record-set-mapping-choose-module">
+									       {$MOD.ChosseMOdule}
+									</label>
 									<div class="slds-form-element__control">
 										<div class="slds-select_container">
-											<select class="slds-select" id="record-set-mapping-choose-module">
-												<option value="">Please select</option>
-												<option>Option One</option>
-												<option>Option Two</option>
-												<option>Option Three</option>
+											<select class="slds-select" id="FirstModule">
+												
 											</select>
 										</div>
 									</div>
 								</div>
 
 								<!-- Entity value -->
-								<div class="slds-form-element">
-									<label class="slds-form-element__label" for="record-set-mapping-entity-value">Entity Value</label>
+								<div id="DivEntity" style="display:none;" class="slds-form-element">
+									<label class="slds-form-element__label" for="record-set-mapping-entity-value">
+									    {$MOD.EndtityLabel}
+									</label>
 									<div class="slds-form-element__control">
-										<input id="record-set-mapping-entity-value" class="slds-input" placeholder="Placeholder Text" type="text" />
+										<input id="EntityValueId" class="slds-input" placeholder="Placeholder Text" type="text" />
 									</div>
 								</div>
 
@@ -83,10 +104,10 @@
 										<label class="slds-form-element__label" for="record-set-mapping-action">Action</label>
 										<div class="slds-form-element__control">
 											<div class="slds-select_container">
-												<select class="slds-select" id="record-set-mapping-action">
+												<select class="slds-select" id="ActionId">
 													<option value="">Please select</option>
 													<option>Include</option>
-													<option>Exclude</option>
+													<option selected>Exclude</option>
 													<option>Group</option>
 												</select>
 											</div>
@@ -94,12 +115,22 @@
 									</div>
 									<!-- Add button content -->
 									<div class="add-button-content slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-										<button class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+										<button class="slds-button slds-button_icon" id="addPopupButton" data-add-button-popup="true" 
+										         data-add-type="ID" 
+												 data-add-relation-id="inputforId,ActionId" 
+												 data-show-id="inputforId" 
+												 data-show-modul-id="" 
+												 data-add-button-validate="inputforId" 
+												 onclick="RestoreData(this)" 
+												 data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}">
 											<img src="themes/images/btnL3Add.gif" width="18">
 										</button>
 									</div>
 								</div>
-
+								 <input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+								<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+								<input type="hidden" name="querysequence" id="querysequence" value="">
+								<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
 
 							</td>
 							<td class="dvtCellInfo" align="left" width="30%">
