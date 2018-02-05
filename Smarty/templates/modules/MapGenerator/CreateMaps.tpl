@@ -1,4 +1,4 @@
-<table class="slds-table slds-no-row-hover slds-table-moz create-map-table">
+<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 	<tbody>
 		<tr class="blockStyleCss" id="DivObjectID">
 			<td class="detailViewContainer" valign="top">
@@ -39,7 +39,7 @@
 	</tbody>
 </table>
 
-<table id="MapDivID" class="slds-table slds-no-row-hover slds-table-moz create-map-table" style="display: none;">
+<table id="MapDivID" class="slds-table slds-no-row-hover slds-table-moz map-generator-table" style="display: none;">
 	<tbody>
 		<tr class="blockStyleCss">
 			<td class="detailViewContainer" valign="top">
@@ -61,10 +61,10 @@
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
 						<tr class="slds-line-height--reset">
-							<td class="dvtCellLabel" width="50%">{$MOD.InsertNameQuery}:</td>
-							<td class="dvtCellInfo" align="left" width="50%">
-								<span id="ShowErorrNameMap" class="error" style="padding: 5px;background-color: red;width: 50%;font;font-size: 12px;border-radius: 9px;color: white;float: none;display: none;"> </span>
-								<div style="margin-top: 5px;">
+							<td class="dvtCellLabel" width="30%">{$MOD.InsertNameQuery}:</td>
+							<td class="dvtCellInfo input-query-container" align="left" width="70%">
+								<span id="ShowErorrNameMap" class="error"></span>
+								<div class="query-name-input">
 									<input type="text" minlength="5" id="nameView" name="nameView" data-controll="true" data-controll-idlabel="ShowErorrNameMap" data-controll-file="MapGenerator,CheckNameOfMap" data-controll-id-relation="TypeMaps" class="slds-input" name='nameView' placeholder="{$MOD.addviewname}" />
 								</div>
 							</td>

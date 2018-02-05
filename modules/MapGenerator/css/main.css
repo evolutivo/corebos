@@ -1,3 +1,21 @@
+/* General fixes */
+	.map-generator-table {
+		border-collapse:separate;
+		border-spacing: 1rem;
+	}
+
+	/* Select height on all maps */
+	.slds-select_container .slds-select {
+		height: 28px;
+	}
+
+	.map-generator-table input,
+	.map-generator-table select {
+		margin: 0;
+	}
+
+/* End General Fixes*/
+
 /* Template.tpl */
 	.slds-tabs--scoped__nav li.active {
 		border-bottom: 1px solid #fff;
@@ -9,12 +27,6 @@
 /* Template.tpl */
 
 /* Create and Load Maps */
-	.load-map-table,
-	.create-map-table {
-		border-collapse:separate;
-		border-spacing: 1rem;
-	}
-
 	/* Create Map Tab */
 	.choose-object-type .dvtCellLabel {
 		text-transform: uppercase;
@@ -24,6 +36,21 @@
 	.choose-object-type select {
 		height: 28px;
 		margin: 0;
+	}
+	.input-query-container {
+		position: relative!important;
+	}
+	.input-query-container span {
+		position: absolute;
+		padding: 5px;
+		font-size: 12px;
+		border-radius: 9px;
+		color: red;
+		right: 1rem;
+		top: .8rem;
+	}
+	.query-name-input input {
+		width: 100%;
 	}
 	/* End Create Map Tab */
 
@@ -47,16 +74,7 @@
 			position: relative;
 		}
 	/* End Load Map Tab */
-
 /* End Create and Load Maps */
-
-
-
-/* Select height on all maps */
-	.slds-select_container .slds-select {
-		height: 28px;
-	}
-/* End Select height on all maps */
 
 /* IOMap */
 	.iomap-container {
@@ -813,10 +831,6 @@
 /* End Import Bussines Mapping */
 
 /* Record Set Mapping */
-	.record-set-map {
-		border-collapse:separate!important;
-		border-spacing: 1rem!important;
-	}
 	.record-set-mapping-container {
 		margin-top: 1rem;
 		text-align: left!important;
