@@ -3116,26 +3116,30 @@ function CheckChoise(sel)
   var valueselected=sel.value;
   if (valueselected==='empty' || valueselected==='not empty')
   {
-    $('.field-dependency-insert-value .slds-form-element__control').animate({
+    $('.field-dependency-insert-value .slds-form-element__control, .field-dependency-portal-insert-value .slds-form-element__control').animate({
       'margin-top': '1.3rem'
       }, 'slow');
-    $('.field-dependency-insert-value .slds-combobox_container').css({
+
+    $('.field-dependency-insert-value .slds-combobox_container, .field-dependency-portal-insert-value .slds-combobox_container').css({
       'border': 'none'
       }, 'slow');
-    $('.field-dependency-insert-value #SecondInput').hide('slow');
+
+    $('.field-dependency-insert-value #SecondInput, .field-dependency-portal-insert-value #SecondInput').hide('slow');
     $('#DefaultValueResponsibel').hide('slow');
     $('#labelforinputDefaultValueResponsibel').hide('slow');
     $('#DefaultValueResponsibel').val(""); 
     $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,Firstfield,Conditionalfield');
   }else
   {
-    $('.field-dependency-insert-value .slds-form-element__control').animate({
+    $('.field-dependency-insert-value .slds-form-element__control, .field-dependency-portal-insert-value .slds-form-element__control').animate({
       'margin-top': '0'
       }, 'slow');
-    $('.field-dependency-insert-value .slds-combobox_container').css({
+
+    $('.field-dependency-insert-value .slds-combobox_container, .field-dependency-portal-insert-value .slds-combobox_container').css({
       'border': '1px solid #d8dde6'
       }, 'slow');
-    $('.field-dependency-insert-value #SecondInput').show('slow');
+
+    $('.field-dependency-insert-value #SecondInput, .field-dependency-portal-insert-value #SecondInput').show('slow');
     $('#DefaultValueResponsibel').show('slow');
     $('#labelforinputDefaultValueResponsibel').show('slow');
      $('#AddbuttonFDP').attr('data-add-relation-id', 'FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield');
