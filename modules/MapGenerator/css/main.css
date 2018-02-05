@@ -713,11 +713,97 @@
 		margin-top: .7rem;
 		margin-bottom: .5rem;
 	}
-
-
-
 /* End Create View Portal */
 
+/* Import Bussines Mapping */
+	.import-bussines-mapping-container {
+		display: block!important;
+		width: 100%;
+	}
+/*	.import-bussines-target-module {
+		width: 100%;
+		display: block;
+	}*/
+	.import-bussines-target-module #sel1 {
+		width: 100%;
+		padding: 0 .5rem;
+	}
+
+	.import-bussines-target-module #sel1 .slds-select_container::before {
+		display: none;
+	}
+
+	.import-bussines-select-fields,
+	.import-bussines-select-fields #sel2 {
+		display: flex;
+		width: 100%;
+	}
+
+	.import-bussines-select-fields #sel2 .slds-form-element {
+		width: 40%;
+	}
+
+	.import-bussines-select-fields #sel2 #sel1 {
+		width: 20%;
+	}
+
+
+
+/*	.import-bussines-mapping-container {
+		display: flex;
+		width: 100%;
+	}
+	.import-bussines-mapping-container > div {
+		width: 50%!important;
+		padding: 0 .5rem;
+	}*/
+
+
+/* End Import Bussines Mapping */
+
+/* Record Set Mapping */
+
+	.record-set-map {
+		border-collapse:separate!important;
+		border-spacing: 1rem!important;
+	}
+	.record-set-mapping-container {
+		margin-top: 1rem;
+		text-align: left!important;
+		padding: 0 .5rem;
+	}
+	.record-set-mapping-container > div {
+		margin-bottom: .5rem;
+	}
+
+		/* First input */
+			.input-value-with-icon {
+				display: flex;
+			}
+			#record-set-mapping-entity-value {
+				width: 94%;
+			}
+			#record-set-mapping-entity-value {
+				width: 100%;
+			}
+		/* End First input */
+
+		/* Action select */
+			.action-add-button-container {
+				display: flex;
+				width: 100%;
+			}
+			.record-set-mapping-action-select {
+				width: 75%;
+			}
+			.add-button-content {
+				margin-top: 1.3rem;
+				width: 25%;
+			}
+
+		/* End Action select */
+
+/* End Record Set Mapping */
 
 
 

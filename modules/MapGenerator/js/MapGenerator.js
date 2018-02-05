@@ -88,7 +88,7 @@
 						$('#DivObjectID').hide('slow', function() {
 							$('#DivObjectID').remove();
 						});
-						$('#MapDivID').css("display", "block");
+						$('#MapDivID').css("display", "inline-table");
 					}
 
 				} else {
