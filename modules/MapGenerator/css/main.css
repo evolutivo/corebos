@@ -777,7 +777,14 @@
 	}
 
 		/* First input */
-			.input-value-with-icon {
+			.inset-value-container {
+				display: flex;
+			}
+			.inset-value-container > div:first-child {
+				width: 75%;
+			}
+			.toggle-field-below {
+				margin-top: 1.6rem;
 				display: flex;
 			}
 			#record-set-mapping-entity-value {

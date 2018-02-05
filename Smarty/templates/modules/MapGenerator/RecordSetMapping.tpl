@@ -38,14 +38,19 @@
 										<label class="slds-form-element__label" for="record-set-mapping-insert-value">Input Label</label>
 										<div class="slds-form-element__control input-value-with-icon">
 											<input id="record-set-mapping-insert-value" class="slds-input" placeholder="Placeholder Text" type="text" />
-											<!-- Enable/Disable below fields -->
-											<div class="toggle-field">
-												<a href="#">
-													<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
-												</a>
-											</div>
 										</div>
 									</div>
+									<!-- Enable/Disable below fields -->
+									<div class="slds-form-element toggle-field-below">
+										<label class="slds-checkbox--toggle slds-grid toggle-readonly" for="checkbox-4">
+											<input id="checkbox-4" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
+											<span id="checkbox-check" class="slds-checkbox--faux_container" aria-live="assertive">
+												<span class="slds-checkbox--faux"></span>
+											</span>
+											<span class="slds-form-element__label">Checkbox</span>
+										</label>
+									</div>
+
 								</div>
 
 								<!-- Choose the value -->
