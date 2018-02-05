@@ -175,5 +175,8 @@ $mod_strings = array(
 	'LAST'=>'LAST',
 	'Maches'=>'matches',
 	'RecordSetMapping'=>'Record Set Mapping',
+	'RecordSetMappingLabelPutID'=>'Do you want to put the id ?',
+	'EndtityLabel'=>'Entity Value',
+	
 );
 ?>

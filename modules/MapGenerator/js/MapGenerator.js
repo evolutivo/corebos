@@ -1,8 +1,8 @@
 /*
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
-* @Last Modified by:   Edmond Kacaj
-* @Last Modified time: 2018-01-31 17:05:38
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-05 14:24:25
 */
 
 
@@ -226,12 +226,19 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
-			}
-		else if (select == "ImportBusinessMapping") {
+			}else if (select == "ImportBusinessMapping") {
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				// App.ModulLabel='Module';
     			 // App.FieldLabel='Related';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "RecordSetMapping") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				 App.ModulLabel='Module';
+    			  App.FieldLabel='Value';
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);

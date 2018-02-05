@@ -1,3 +1,10 @@
+/*
+ * @Author: Edmond Kacaj 
+ * @Date: 2018-02-05 15:16:28 
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-05 15:48:06
+ */
+
 document.onkeydown = function(e) {
 if(event.keyCode == 123) {
 return false;
@@ -3583,4 +3590,108 @@ function clearInput(idtoremove){
   setTimeout(function(){
     $('#'+idtoremove).val(""); 
   },100);
+}
+
+
+
+
+/////////////Record Set Mapping
+/**
+ * Function to show or hide 
+ *
+ * @param     event
+ */
+function showHide(event) {
+  var elem=event;
+  if(elem.checked){
+     $("#DivModule").css('display','none');
+     $("#DivEntity").css('display','none');
+     $("#DivId").css('display','block');
+     $("#addPopupButton").attr('data-add-relation-id','inputforId,ActionId');
+     $("#addPopupButton").attr('data-show-modul-id','');
+     $("#addPopupButton").attr('data-add-button-validate','inputforId');
+     $("#addPopupButton").attr('data-add-type','ID');
+     $("#addPopupButton").attr('data-show-id','inputforId');
+  }else{
+    $("#DivModule").css('display','block');
+     $("#DivEntity").css('display','block');
+     $("#DivId").css('display','none');
+     $("#addPopupButton").attr('data-add-relation-id','FirstModule,EntityValueId,ActionId');
+     $("#addPopupButton").attr('data-show-id','EntityValueId');
+     $("#addPopupButton").attr('data-show-modul-id','FirstModule');
+     $("#addPopupButton").attr('data-add-button-validate','FirstModule,EntityValueId');
+     $("#addPopupButton").attr('data-add-type','Entity');
+  }
+ 
+}
+
+
+
+function RestoreData(sel) {
+  if (sel) {
+      var idrelation = sel.dataset.addRelationId;
+      var arrofId=idrelation.split(",");
+      setTimeout(function() {
+        arrofId.forEach(element => {
+          if (document.getElementById(element).tagName==='INPUT') {
+            $('#'+element).val("");
+          } else {
+            
+          }
+      });
+    }, 100);
+  }
+}
+
+
+
+
+
+function RecordSetMapping(IdLoad,divanameLoad,dividrelation='')
+{
+   var htmldat='<div class="Message Message"  >';
+   htmldat+='<div class="Message-icon">';
+   htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFiledsRecordSetMapping(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+   htmldat+='</div>';
+   htmldat+='<div class="Message-body">';
+   htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='</div>';
+   htmldat+='</div>';
+   return htmldat;
+}
+
+
+function ShowLocalHistoryRecordSetMapping(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+       $('#'+keephitoryidtoshow+' div').remove();
+       for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+        $('#'+keephitoryidtoshow).append(RecordSetMapping(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+
+function ClickToshowSelectedFiledsRecordSetMapping(Idload,divHistory)
+{
+    var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    App.ModulLabel='Module';
+    App.FieldLabel='Related';
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var Field=App.popupJson[i].temparray[`DefaultText`];
+        var moduli=App.popupJson[i].temparray[`Moduli`];
+        var typeofppopup=App.popupJson[i].temparray['JsonType'];
+        var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
+       $('#'+divHistory).append(divinsert);
+      } 
+    }
 }
