@@ -1,20 +1,80 @@
-/* Load Map Tab */
-	#LoadMAps {
-		position: relative;
+/* General fixes */
+	.map-generator-table {
+		border-collapse:separate;
+		border-spacing: 1rem;
 	}
 
-	.select2-container {
-		width: 75%!important;
+	/* Select height on all maps */
+	.slds-select_container .slds-select {
+		height: 28px;
 	}
 
-	#select2-GetALLMaps-results {
-		overflow-x: hidden;
+	.map-generator-table input,
+	.map-generator-table select {
+		margin: 0;
 	}
 
-	.forceRelatedListSingleContainer {
-		position: relative;
+/* End General Fixes*/
+
+/* Template.tpl */
+	.slds-tabs--scoped__nav li.active {
+		border-bottom: 1px solid #fff;
 	}
-/* End Load Map Tab */
+
+	#secondTab.active {
+		border-left: 1px solid #d8dde6;
+	}
+/* Template.tpl */
+
+/* Create and Load Maps */
+	/* Create Map Tab */
+	.choose-object-type .dvtCellLabel {
+		text-transform: uppercase;
+		font-weight: bold;
+		color: #54698d;
+	}
+	.choose-object-type select {
+		height: 28px;
+		margin: 0;
+	}
+	.input-query-container {
+		position: relative!important;
+	}
+	.input-query-container span {
+		position: absolute;
+		padding: 5px;
+		font-size: 12px;
+		border-radius: 9px;
+		color: red;
+		right: 1rem;
+		top: .8rem;
+	}
+	.query-name-input input {
+		width: 100%;
+	}
+	/* End Create Map Tab */
+
+	/* Load Map Tab */
+		.load-all-maps-select-container {
+
+		}
+		#LoadMAps {
+			position: relative;
+		}
+
+		.select2-container {
+			width: 100%!important;
+		}
+
+		#select2-GetALLMaps-results {
+			overflow-x: hidden;
+		}
+
+		.forceRelatedListSingleContainer {
+			position: relative;
+		}
+	/* End Load Map Tab */
+/* End Create and Load Maps */
 
 /* IOMap */
 	.iomap-container {
@@ -476,48 +536,58 @@
 	/* End Aside Zone */
 /* End Condition Query */
 
-/* Field Dependency */
+/* Field Dependency & Field Dependency Portal */
 
-	.field-dependency-container {
-		display: block;
+	.field-dependency-container,
+	.field-dependency-portal-container {
 		margin-top: .5rem;
 	}
 
-	.field-dependency-module {
+	.field-dependency-module,
+	.field-dependency-portal-module {
 		margin-bottom: 1rem;
 	}
 
-	.field-dependency-module > div {
+	.field-dependency-module > div,
+	.field-dependency-portal-module > div {
 		padding: 0 .5rem;
 	}
 
-	.field-dependency-field {
+	.field-dependency-field,
+	.field-dependency-portal-field {
 		display: flex;
 		width: 100%;
 		margin-bottom: 1rem;
 	}
 
-	.field-dependency-field > div {
+	.field-dependency-field > div:first-child,
+	.field-dependency-field > div:last-child,
+	.field-dependency-portal-field > :first-child,
+	.field-dependency-portal-field > :last-child {
 		width: 40%;
 		padding: 0 .5rem;
 	}
 
-	.field-dependency-field > select {
+	.field-dependency-field > .operators-select,
+	.field-dependency-portal-field > .operators-select {
 		width: 20%;
 		margin-top: 1.3rem;
 		height: 28px;
 	}
 
-	.field-dependency-insert-value input {
+	.field-dependency-insert-value input,
+	.field-dependency-portal-insert-value input {
 		height: 26px;
 		margin: 0;
 		padding: 0 .5rem;
 		width: 100%;
 	}
-	.field-dependency-insert-value #SecondInput {
+	.field-dependency-insert-value #SecondInput,
+	.field-dependency-portal-insert-value #SecondInput {
 		transition: .5s ease-in-out;
 	}
-	.field-dependency-insert-value button {
+	.field-dependency-insert-value button,
+	.field-dependency-portal-insert-value button {
 		opacity: 1;
 		-webkit-transition: all .25s ease-in-out;
 		   -moz-transition: all .25s ease-in-out;
@@ -526,7 +596,8 @@
 		        transition: all .25s ease-in-out;
 	}
 
-	.field-dependency-insert-value button:hover {
+	.field-dependency-insert-value button:hover,
+	.field-dependency-portal-insert-value button:hover {
 		opacity: .7;
 		-webkit-transition: all .25s ease-in-out;
 		   -moz-transition: all .25s ease-in-out;
@@ -567,6 +638,7 @@
 		}
 		.radio-buttons-content {
 			padding: 0 .5rem;
+			margin-top: 1rem;
 		}
 		.radio-buttons-content #SecondDiv {
 			width: 100%;
@@ -660,7 +732,8 @@
 			padding: 0 .5rem;
 		}
 	/* End Add Picklist Modal */
-/* End Field Dependency */
+/* End Field Dependency & Field Dependency Portal */
+
 
 /* Create View Portal */
 	.create-view-portal-container {
@@ -715,58 +788,62 @@
 	}
 /* End Create View Portal */
 
-/* Import Bussines Mapping */
-	.import-bussines-mapping-container {
+/* Import Business Mapping */
+	.import-business-mapping-container {
 		display: block!important;
 		width: 100%;
 	}
-/*	.import-bussines-target-module {
-		width: 100%;
-		display: block;
-	}*/
-	.import-bussines-target-module #sel1 {
-		width: 100%;
-		padding: 0 .5rem;
-	}
 
-	.import-bussines-target-module #sel1 .slds-select_container::before {
-		display: none;
-	}
+	/* Target-Module */
+		.import-business-target-module {
+			margin-bottom: 1rem;
+		}
+		.import-business-target-module #sel1 {
+			width: 100%;
+			padding: 0 .5rem;
+		}
+	/* End Target-Module */
 
-	.import-bussines-select-fields,
-	.import-bussines-select-fields #sel2 {
-		display: flex;
-		width: 100%;
-	}
+	/* Select Fields */
+		.import-business-select-fields #sel2 {
+			display: flex;
+			width: 100%;
+			padding: 0 .5rem;
+		}
+		.import-business-select-fields #sel2 .slds-form-element {
+			width: 43%;
+		}
+		.import-business-select-fields #sel2 #sel1 {
+			width: 14%;
+			margin-top: 1.7rem;
+			text-align: center;
+		}
+		.import-business-select-fields #sel2 #sel1 label {
+			cursor: default;
+		}
+	/* End Select Fields */
 
-	.import-bussines-select-fields #sel2 .slds-form-element {
-		width: 40%;
-	}
+	/* contenitoreJoin content */
+		.import-business-mapping-container #contenitoreJoin {
+			display: none;
+		}
+	/* End contenitoreJoin content */
 
-	.import-bussines-select-fields #sel2 #sel1 {
-		width: 20%;
-	}
-
-
-
-/*	.import-bussines-mapping-container {
-		display: flex;
-		width: 100%;
-	}
-	.import-bussines-mapping-container > div {
-		width: 50%!important;
-		padding: 0 .5rem;
-	}*/
-
-
+	/* Update Import Business */
+		.update-import-business #sel1 {
+			width: 100%;
+			padding: 0 .5rem;
+		}
+		.update-import-business .slds-form-element__control {
+			display: block!important;
+		}
+		.update-import-business .slds-form-element__control select{
+			width: 100%!important;
+		}
+	/* End Update Import Business */
 /* End Import Bussines Mapping */
 
 /* Record Set Mapping */
-
-	.record-set-map {
-		border-collapse:separate!important;
-		border-spacing: 1rem!important;
-	}
 	.record-set-mapping-container {
 		margin-top: 1rem;
 		text-align: left!important;
@@ -809,7 +886,6 @@
 			}
 
 		/* End Action select */
-
 /* End Record Set Mapping */
 
 

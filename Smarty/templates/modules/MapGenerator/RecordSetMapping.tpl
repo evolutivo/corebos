@@ -10,8 +10,7 @@
     {/if}
 </div>
 
-
-<table class="slds-table slds-no-row-hover slds-table-moz record-set-map">
+<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 	<tbody>
 		<tr class="blockStyleCss">
 			<td class="detailViewContainer" valign="top"> 
