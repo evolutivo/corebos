@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 17:28:51
+ * @Last Modified time: 2018-02-06 18:15:58
 */
 
 
@@ -121,6 +121,7 @@
 			}
 			if (select == "Mapping") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
@@ -1227,6 +1228,7 @@
 				{
 
 				}
+				App.utils.UpdateMapNAme();
 				App.UniversalPopup.CloseModalWithoutCheck();
 				App.countsaveMap++;
 
@@ -1785,7 +1787,7 @@
 		IsSelectORDropDown:function(IdType){
 			    if (!IdType || IdType==="") {return "";}
 			    var element = document.getElementById(IdType);
-			    
+			    if (!element) {return "";}
 			    if(element.tagName === 'SELECT')
 			    {
 			    	var alldata=[];
@@ -2082,7 +2084,19 @@
 					
 				}
 			}
-		}
+		},
+
+		UpdateMapNAme:function() {
+					if ($('#mapNameLabel').length>0){
+						if (App.utils.IsSelectORDropDown('SaveasMapText').length>0)
+						{
+							$('#mapNameLabel').html(App.utils.IsSelectORDropDown('SaveasMapText'));
+						} else
+						{
+							$('#mapNameLabel').html(App.utils.IsSelectORDropDown('MapName'));
+						}
+					}
+				}
 
 	};
 
