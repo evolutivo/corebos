@@ -843,23 +843,32 @@
 
 /* Record Set Mapping */
 	/* First input */
+		.enable-disable-id {
+			margin-bottom: .5rem;
+		}
+		.enable-disable-id > label {
+			margin-top: 4px;
+			margin-bottom: 0;
+		}
+		.enable-disable-id > div > label {
+			margin-bottom: 0;
+			padding-left: 0;
+		}
 		.record-set-mapping-container {
 			margin-top: 1rem;
 			text-align: left!important;
 			padding: 0 .5rem;
 		}
-		.insert-id-container {
-			margin-top: 1rem;
+		.enable-disable-id {
 			display: flex;
 		}
-		.insert-id-container > div:first-child {
-			width: 15%;
+		.insert-id-container > div {
+			width: 25%;
 		}
-		.insert-id-container > div:last-child {
-			width: 85%;
-		}
-		.insert-id-container > div:last-child input {
+		.insert-id-container > div input {
 			width: 100%;
+			height: 28px;
+			min-height: 28px;
 		}
 		.toggle-field-below {
 			margin-top: 1.6rem;
@@ -892,8 +901,6 @@
 			min-height: 28px !important;
 			height: 28px;
 		}
-
-
 	/* End Module & Entity */
 
 	/* Action select */
@@ -902,10 +909,10 @@
 			width: 100%;
 		}
 		.record-set-mapping-action-select {
-			width: 90%;
+			width: 25%;
 		}
 		.add-button-content {
-			text-align: right;
+			text-align: center;
 			margin-top: 1rem;
 			width: 10%;
 		}

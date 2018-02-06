@@ -76,21 +76,22 @@
 						<tr class="slds-line-height--reset">
 							<td class="dvtCellLabel" width="70%" valign="top">
 								<div class="record-set-mapping-container">
-									<label class="slds-form-element__label" for="inputforId">
-										{$MOD.RecordSetMappingLabelPutID}
-									</label>
-									<div class="insert-id-container">
+									<div class="enable-disable-id">
 										<!-- Enable/Disable ID Input -->
+										<label class="slds-form-element__label" for="inputforId">
+											{$MOD.RecordSetMappingLabelPutID}
+										</label>
 										<div class="slds-form-element">
 											<label class="slds-checkbox--toggle slds-grid" for="id-input">
 												<input id="id-input" name="checkbox" checked="checked" type="checkbox" onchange="showHide(this);" aria-describedby="toggle-desc" />
 												<span id="checkbox-check" class="slds-checkbox--faux_container" aria-live="assertive">
 													<span class="slds-checkbox--faux"></span>
-													<span class="slds-checkbox--on">{$MOD.YES}</span>
-													<span class="slds-checkbox--off">{$MOD.NO}</span>
 												</span>
 											</label>
 										</div>
+									</div>
+
+									<div class="insert-id-container">
 										<!-- ID Input value -->
 										<div id="DivId" class="slds-form-element">
 											<div class="slds-form-element__control">
