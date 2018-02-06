@@ -182,6 +182,8 @@ $mod_strings = array(
 	'ExtendedFieldInformationMappingField'=>'Select a Field',
 	'ExtendedFieldInformationMappingname'=>' Name',
 	'ExtendedFieldInformationMappingvalue'=>' Value',
+	'ExtendedFieldInformationMappingInsertname'=>'Insert a  Name',
+	'ExtendedFieldInformationMappingInsertvalue'=>'Insert a  Value',
 	
 );
 ?>

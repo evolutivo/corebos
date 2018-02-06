@@ -33,6 +33,7 @@ class cbMapAddMapTypes extends cbupdaterWorker {
 				'IOMap',
 				'FieldDependency',
 				'Validations',
+				'Extended Field Information',
 				'Import',
 				'RelatedPanes',
                                 'RendicontaConfig',

@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 14:34:41
+ * @Last Modified time: 2018-02-06 15:07:02
  */
 
 document.onkeydown = function(e) {
@@ -3716,3 +3716,196 @@ function RestoreDataEXFIM(sel) {
     }, 100);
   }
 }
+
+
+
+/**
+ * Generate html alertes only for Extendet Field Information Mapping
+ *
+ * @param      {(number|string)}  Idd        The idd
+ * @param      {string}           Fields     The Fields
+ * @param      {string}           Name     The Name
+ * @param      {string}           Value     The Value
+ * @param      {string}           divid      The divid
+ * @param      {string}           typepopup  The typepopup
+ * @return     {string}           { description_of_the_return_value }
+ */
+function addToPopupExtendetFieldMap(Idd,Fields,Name,Value,divid,typepopup)
+{
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+  + '">';
+  INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupDataExtendetFieldMap('
+  + Idd + ',\'' + divid + '\');">&times;</span>';
+  if (Fields && Fields!=='')
+  {
+   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Filed ==>'+Fields + '</p>';
+   INSertAlerstJOIN += '<p> Name  ==> '+Name + '</p>';
+   INSertAlerstJOIN += '<p> Value  ==> '+Value + '</p>';
+ } else
+ {
+   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+ '<p>' +Fields + '</p>';
+ }
+
+ INSertAlerstJOIN += '</div';
+
+ return INSertAlerstJOIN;
+}
+
+
+
+/**
+ *  Create get datata from inputs, to create popups only for Extendet Field Information Mapping
+ *
+ * @param      {<type>}  event   The event
+ */
+function addExtendetFieldMap(event){
+  var elem=event;
+
+  var allid=elem.dataset.addRelationId;
+  var showtext=elem.dataset.showId;
+  var Typeofpopup=elem.dataset.addType;
+  var replace=elem.dataset.addReplace;
+  var modulShow=elem.dataset.showModulId;
+  var divid=elem.dataset.divShow;
+  var validate=elem.dataset.addButtonValidate;
+
+  var allidarray = allid.split(",");
+
+  if (validate)
+      {
+        if (validate.length>0)
+        {
+         validatearray=validate.split(',');
+        }else{validatearray.length=0;}
+      }else{validatearray.length=0;}
+
+   $('#'+divid+' div').remove();
+
+  App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+
+  if (App.popupJson.length>0)
+  { 
+   for (var i = 0; i <= App.popupJson.length-1; i++) {
+     var Field=App.popupJson[i].temparray[`DefaultText`];
+     var NameInput=App.popupJson[i].temparray[`NameInput`];
+     var ValueInput=App.popupJson[i].temparray[`ValueInput`];
+     var typeofppopup=App.popupJson[i].temparray['JsonType'];
+         
+       var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,divid,typeofppopup);
+       $('#'+divid).append(divinsert);
+     
+   } 
+
+ }else{
+    // alert(mv_arr.MappingFiledValid);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+  }
+}
+
+
+
+ /**
+ * Closes a popup  Remove alerts when user click close, only for ExtendetFieldMap
+ *
+ * @param      {(number|string)}  remuveid  The remuveid
+ * @param      {string}           namediv   The namediv
+ */
+ function closePopupDataExtendetFieldMap(remuveid,namediv) {
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
+
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+           for (var i = 0; i <= App.popupJson.length-1; i++) {
+             var Field=App.popupJson[i].temparray[`DefaultText`];
+             var NameInput=App.popupJson[i].temparray[`NameInput`];
+             var ValueInput=App.popupJson[i].temparray[`ValueInput`];
+             var typeofppopup=App.popupJson[i].temparray['JsonType'];
+                 
+               var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,namediv,typeofppopup);
+               $('#'+namediv).append(divinsert);
+             
+           } 
+        
+         }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+ }
+
+
+  function ExtendetFieldMap(IdLoad,divanameLoad,dividrelation='')
+  {
+      var htmldat='<div class="Message Message"  >';
+      htmldat+='<div class="Message-icon">';
+      htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFiledsExtendetFieldMap(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+      htmldat+='</div>';
+      htmldat+='<div class="Message-body">';
+      htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+      htmldat+='</div>';
+      htmldat+='</div>';
+      return htmldat;
+  }
+      
+      
+      function ShowLocalHistoryExtendetFieldMap(keephitoryidtoshow,keephitoryidtoshowidrelation)
+      {
+          if (App.SaveHistoryPop.length>0)
+          { 
+             $('#'+keephitoryidtoshow+' div').remove();
+             for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+              $('#'+keephitoryidtoshow).append(ExtendetFieldMap(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+      
+            }
+          }
+      }
+      
+      
+      function ClickToshowSelectedFiledsExtendetFieldMap(Idload,divHistory)
+      {
+          App.ModulLabel='Module';
+          App.FieldLabel='Value';
+          App.DefaultValue='Value';
+          var historydata=App.SaveHistoryPop[parseInt(Idload)];
+          App.popupJson.length=0;
+          for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+            App.popupJson.push(historydata.PopupJSON[i]);
+          }
+          if (App.popupJson.length>0)
+          { 
+            $('#' + divHistory + ' div').remove();
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var Field=App.popupJson[i].temparray[`DefaultText`];
+              var NameInput=App.popupJson[i].temparray[`NameInput`];
+              var ValueInput=App.popupJson[i].temparray[`ValueInput`];
+              var typeofppopup=App.popupJson[i].temparray['JsonType'];
+                  
+                var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,divid,typeofppopup);
+                $('#'+divid).append(divinsert);
+            
+            } 
+
+        }else{
+            // alert(mv_arr.MappingFiledValid);
+            App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      
+
+

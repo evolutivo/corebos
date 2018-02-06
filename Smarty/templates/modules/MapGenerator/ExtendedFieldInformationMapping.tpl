@@ -64,7 +64,7 @@
 											{* saveFieldDependency *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 										{/if}
-											<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveRecordSetMapping" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordSetMapping" data-save-history-show-id-relation="LoadShowPopup" >{$MOD.CreateMap}</button>
+											<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveExtendetFieldInformation" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryExtendetFieldMap" data-save-history-show-id-relation="LoadShowPopup" >{$MOD.CreateMap}</button>
 									</div>
 								</div>
 							</div>
@@ -111,27 +111,28 @@
 										<div id="" class="slds-form-element slds-text-align--left first-input">
 											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingname}</label>
 											<div class="slds-form-element__control">
-												<input id="NameInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingname}" type="text" />
+												<input id="NameInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingInsertname}" type="text" />
 											</div>
 										</div>
 										<!-- Second input -->
 										<div id="" class="slds-form-element slds-text-align--left second-input">
 											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingvalue}</label>
 											<div class="slds-form-element__control">
-												<input id="ValueInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingvalue}" type="text" />
+												<input id="ValueInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingInsertvalue}" type="text" />
 											</div>
 										</div>
 									</div>
 
 									<!-- Add button content -->
 									<div class="add-button-content slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-										<button class="slds-button slds-button--small slds-button_icon" id="addPopupButton" data-add-button-popup="true" 
+										<button class="slds-button slds-button--small slds-button_icon" id="addPopupButton"
+                                                data-add-button-popup="false" 
 												data-add-type="field" 
 												data-add-relation-id="FirstModule,FirstFields,NameInput,ValueInput" 
 												data-show-id="FirstFields" 
 												data-show-modul-id="FirstModule" 
 												data-add-button-validate="FirstFields" 
-												onclick="RestoreDataEXFIM(this)"
+												onclick="addExtendetFieldMap(this);RestoreDataEXFIM(this)"
 												data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}">
 											<img src="themes/images/btnL3Add.gif">
 										</button>
