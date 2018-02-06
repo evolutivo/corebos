@@ -842,49 +842,79 @@
 /* End Import Bussines Mapping */
 
 /* Record Set Mapping */
-	.record-set-mapping-container {
-		margin-top: 1rem;
-		text-align: left!important;
-		padding: 0 .5rem;
-	}
-	.record-set-mapping-container > div {
-		margin-bottom: .5rem;
-	}
+	/* First input */
+		.record-set-mapping-container {
+			margin-top: 1rem;
+			text-align: left!important;
+			padding: 0 .5rem;
+		}
+		.insert-id-container {
+			margin-top: 1rem;
+			display: flex;
+		}
+		.insert-id-container > div:first-child {
+			width: 15%;
+		}
+		.insert-id-container > div:last-child {
+			width: 85%;
+		}
+		.insert-id-container > div:last-child input {
+			width: 100%;
+		}
+		.toggle-field-below {
+			margin-top: 1.6rem;
+			display: flex;
+		}
+		#record-set-mapping-entity-value {
+			width: 94%;
+		}
+		#record-set-mapping-entity-value {
+			width: 100%;
+		}
+	/* End First input */
 
-		/* First input */
-			.inset-value-container {
-				display: flex;
-			}
-			.inset-value-container > div:first-child {
-				width: 75%;
-			}
-			.toggle-field-below {
-				margin-top: 1.6rem;
-				display: flex;
-			}
-			#record-set-mapping-entity-value {
-				width: 94%;
-			}
-			#record-set-mapping-entity-value {
-				width: 100%;
-			}
-		/* End First input */
+	/* Module & Entity */
+		.record-set-module-entity-container {
+			display: flex;
+			width: 100%;
+			margin-bottom: 1rem;
+		}
+		.record-set-module-entity-container > div:first-child {
+			width: 50%;
+			padding-right: .5rem;
+		}
+		.record-set-module-entity-container > div:last-child {
+			width: 50%;
+			padding-left: .5rem;
+		}
+		.record-set-module-entity-container > div:last-child input {
+			width: 100%;
+			min-height: 28px !important;
+			height: 28px;
+		}
 
-		/* Action select */
-			.action-add-button-container {
-				display: flex;
-				width: 100%;
-			}
-			.record-set-mapping-action-select {
-				width: 75%;
-			}
-			.add-button-content {
-				margin-top: 1.3rem;
-				width: 25%;
-			}
 
-		/* End Action select */
+	/* End Module & Entity */
+
+	/* Action select */
+		.action-add-button-container {
+			display: flex;
+			width: 100%;
+		}
+		.record-set-mapping-action-select {
+			width: 90%;
+		}
+		.add-button-content {
+			text-align: right;
+			margin-top: 1rem;
+			width: 10%;
+		}
+		.add-button-content img {
+			width: 20px!important;
+		}
+	/* End Action select */
 /* End Record Set Mapping */
+
 
 
 
