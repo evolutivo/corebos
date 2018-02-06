@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 14:32:32
+ * @Last Modified time: 2018-02-06 17:28:51
 */
 
 
@@ -338,7 +338,7 @@
 			}else if(elem[0].nodeName === "BUTTON"){
 				if (FirstFieldval) {
 				   var SecondFieldval = $("#" + idrelation[3]).val();// $('#mod').value;
-		           var SecondFieldtext = "Default-Value";
+		           var SecondFieldtext =$("#" + idrelation[3]).val()+ " ( Default value )";
 		            $("#" + idrelation[3]).val("");	
 		            var SecondFieldOptionGrup = $("#" +  idrelation[2] + " option:selected")
 					.text();

@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-05 16:52:02
+ * @Last Modified time: 2018-02-06 17:52:53
  */
 
 
@@ -2552,7 +2552,7 @@ function Mapping_View($QueryHistory,$MapID)
 						$araymy["SecondFieldOptionGrup"]=$xml->originmodule[0]->originname;
 					}else{
 						$araymy["SecondFieldval"]=$field->value;
-						$araymy["SecondFieldtext"]="default-Value";
+						$araymy["SecondFieldtext"]= $field->value."  (default value)";
 						$araymy["SecondFieldOptionGrup"]=$xml->originmodule[0]->originname;
 					}	
 
