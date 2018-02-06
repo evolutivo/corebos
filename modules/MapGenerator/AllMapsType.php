@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-20 16:48:22
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-02 17:56:52
+ * @Last Modified time: 2018-02-06 11:32:27
  */
 //this is for all maps, key is the name of map ,values is used for translate 
 	$AllMaps = array(
@@ -27,4 +27,5 @@
 	'RendicontaConfig'=>'RendicontaConfig',
 	'ImportBusinessMapping'=>'ImportBusinessMapping',
 	'RecordSetMapping'=>'RecordSetMapping',
+	'ExtendedFieldInformationMapping'=>'ExtendedFieldInformationMapping',
 	);

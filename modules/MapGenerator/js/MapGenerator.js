@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-05 16:59:06
+ * @Last Modified time: 2018-02-06 11:32:54
 */
 
 
@@ -236,6 +236,15 @@
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "RecordSetMapping") {
+				// idfieldfill,urlsend,dat
+				var urlsend = [ urlpost[0], "firstModule" ];
+				 App.ModulLabel='Module';
+				  App.FieldLabel='Value';
+				  App.DefaultValue='Value';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "ExtendedFieldInformationMapping") {
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				 App.ModulLabel='Module';
