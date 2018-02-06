@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-05 17:03:27
+ * @Last Modified time: 2018-02-06 14:34:41
  */
 
 document.onkeydown = function(e) {
@@ -3695,4 +3695,24 @@ function ClickToshowSelectedFiledsRecordSetMapping(Idload,divHistory)
        $('#'+divHistory).append(divinsert);
       } 
     }
+}
+
+
+///////////  Extendet Field Information Mapping ////////////////////////
+
+
+function RestoreDataEXFIM(sel) {
+  if (sel) {
+      var idrelation = sel.dataset.addRelationId;
+      var arrofId=idrelation.split(",");
+      setTimeout(function() {
+        arrofId.forEach(element => {
+          if (document.getElementById(element).tagName==='INPUT') {
+            $('#'+element).val("");
+          } else {
+            
+          }
+      });
+    }, 100);
+  }
 }

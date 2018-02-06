@@ -178,7 +178,10 @@ $mod_strings = array(
 	'RecordSetMappingLabelPutID'=>'Do you want to put the id ?',
 	'EndtityLabel'=>'Entity Value',
 	'ExtendedFieldInformationMapping'=>'Extended Field Information Mapping',
-	
+	'ExtendedFieldInformationMappingModule'=>'Choose a Module',
+	'ExtendedFieldInformationMappingField'=>'Select a Field',
+	'ExtendedFieldInformationMappingname'=>' Name',
+	'ExtendedFieldInformationMappingvalue'=>' Value',
 	
 );
 ?>

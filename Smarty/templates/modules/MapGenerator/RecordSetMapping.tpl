@@ -133,7 +133,7 @@
 											<div class="slds-form-element__control">
 												<div class="slds-select_container">
 													<select class="slds-select" id="ActionId">
-														<option value="">Please select</option>
+														<!--<option value="">Please select</option>-->
 														<option>Include</option>
 														<option selected>Exclude</option>
 														<option>Group</option>

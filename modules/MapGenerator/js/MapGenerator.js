@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 11:32:54
+ * @Last Modified time: 2018-02-06 14:32:32
 */
 
 
@@ -248,8 +248,8 @@
 				// idfieldfill,urlsend,dat
 				var urlsend = [ urlpost[0], "firstModule" ];
 				 App.ModulLabel='Module';
-				  App.FieldLabel='Value';
-				  App.DefaultValue='Value';
+				  App.FieldLabel='Field';
+				  App.DefaultValue='';
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);

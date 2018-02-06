@@ -52,7 +52,7 @@
 								<h1 class="slds-page-header__title slds-m-right--small slds-truncate">
 									{if $NameOFMap neq ''} {$NameOFMap} {/if}
 								</h1>
-								<p class="slds-text-heading--label slds-line-height--reset"> type of map </p>
+								<p class="slds-text-heading--label slds-line-height--reset"> {$MOD.ExtendedFieldInformationMapping}  </p>
 							</header>
 							<div class="slds-no-flex">
 								<div class="actionsContainer mapButton">
@@ -80,14 +80,11 @@
 									<!-- First select -->
 									<div class="extended-field-info-select1-content">
 										<div class="slds-form-element slds-text-align--left">
-											<label class="slds-form-element__label" for="">label here</label>
+											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingModule}</label>
 											<div class="slds-form-element__control">
 												<div class="slds-select_container">
-													<select class="slds-select" id="ActionId">
-														<option value="">Please select</option>
-														<option>opt1</option>
-														<option selected>opt2</option>
-														<option>opt3</option>
+													<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" >
+														
 													</select>
 												</div>
 											</div>
@@ -97,14 +94,11 @@
 									<!-- Second select -->
 									<div class="extended-field-info-select2-content">
 										<div class="slds-form-element slds-text-align--left">
-											<label class="slds-form-element__label" for="">label here</label>
+											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingField}</label>
 											<div class="slds-form-element__control">
 												<div class="slds-select_container">
-													<select class="slds-select" id="">
-														<option value="">Please select</option>
-														<option>opt2</option>
-														<option selected>opt2</option>
-														<option>opt3</option>
+													<select class="slds-select" id="FirstFields">
+														
 													</select>
 												</div>
 											</div>
@@ -115,16 +109,16 @@
 									<div class="extended-field-info-input-content">
 										<!-- First input -->
 										<div id="" class="slds-form-element slds-text-align--left first-input">
-											<label class="slds-form-element__label" for="">label here</label>
+											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingname}</label>
 											<div class="slds-form-element__control">
-												<input id="" class="slds-input" placeholder="ID" type="text" />
+												<input id="NameInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingname}" type="text" />
 											</div>
 										</div>
 										<!-- Second input -->
 										<div id="" class="slds-form-element slds-text-align--left second-input">
-											<label class="slds-form-element__label" for="">label here</label>
+											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingvalue}</label>
 											<div class="slds-form-element__control">
-												<input id="" class="slds-input" placeholder="ID" type="text" />
+												<input id="ValueInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingvalue}" type="text" />
 											</div>
 										</div>
 									</div>
@@ -132,12 +126,12 @@
 									<!-- Add button content -->
 									<div class="add-button-content slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
 										<button class="slds-button slds-button--small slds-button_icon" id="addPopupButton" data-add-button-popup="true" 
-												data-add-type="ID" 
-												data-add-relation-id="inputforId,ActionId" 
-												data-show-id="inputforId" 
-												data-show-modul-id="" 
-												data-add-button-validate="inputforId" 
-												onclick="RestoreData(this)" 
+												data-add-type="field" 
+												data-add-relation-id="FirstModule,FirstFields,NameInput,ValueInput" 
+												data-show-id="FirstFields" 
+												data-show-modul-id="FirstModule" 
+												data-add-button-validate="FirstFields" 
+												onclick="RestoreDataEXFIM(this)"
 												data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}">
 											<img src="themes/images/btnL3Add.gif">
 										</button>
