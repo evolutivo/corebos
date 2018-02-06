@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 15:07:02
+ * @Last Modified time: 2018-02-06 16:51:28
  */
 
 document.onkeydown = function(e) {
@@ -3738,7 +3738,7 @@ function addToPopupExtendetFieldMap(Idd,Fields,Name,Value,divid,typepopup)
   + Idd + ',\'' + divid + '\');">&times;</span>';
   if (Fields && Fields!=='')
   {
-   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Filed ==>'+Fields + '</p>';
+   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Field ==>'+Fields + '</p>';
    INSertAlerstJOIN += '<p> Name  ==> '+Name + '</p>';
    INSertAlerstJOIN += '<p> Value  ==> '+Value + '</p>';
  } else
@@ -3896,8 +3896,8 @@ function addExtendetFieldMap(event){
               var ValueInput=App.popupJson[i].temparray[`ValueInput`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
                   
-                var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,divid,typeofppopup);
-                $('#'+divid).append(divinsert);
+                var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,divHistory,typeofppopup);
+                $('#'+divHistory).append(divinsert);
             
             } 
 
