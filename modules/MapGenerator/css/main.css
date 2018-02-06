@@ -915,6 +915,34 @@
 	/* End Action select */
 /* End Record Set Mapping */
 
+/* Extended Field Information */
+	.extended-field-info-container {
+		margin: 1rem 0;
+		padding: 0 .5rem;
+	}
+	.extended-field-info-select2-content {
+		margin: 1rem 0;
+	}
+	.extended-field-info-input-content {
+		display: flex;
+		width: 100%;
+	}
+	.extended-field-info-input-content input {
+		width: 100%;
+	}
+	.first-input {
+		width: 50%;
+		padding-right: .5rem;
+	}
+	.second-input {
+		width: 50%;
+		padding-left: .5rem;
+	}
+
+/* Extended Field Information */
+
+
+
 
 
 
