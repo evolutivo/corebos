@@ -89,6 +89,7 @@
 												</div>
 											</div>
 										</div>
+									</div>
 
 										<!-- Second select -->
 										<div class="exim-choose-field">
@@ -96,7 +97,7 @@
 												<label class="slds-form-element__label" for="FirstFields">{$MOD.ExtendedFieldInformationMappingField}</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select class="slds-select" id="FirstFields"></select>
+														<select class="slds-select" id="FirstFields">{$FirstModuleSelected}</select>
 													</div>
 												</div>
 											</div>
@@ -150,7 +151,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>PopUp</b>
+															<b>PopUp Zone</b>
 														</span>
 													</h2>
 												</div>
@@ -172,7 +173,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>History</b>
+															<b>History Zone</b>
 														</span>
 													</h2>
 												</div>
