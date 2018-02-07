@@ -54,7 +54,7 @@ if(strlen($MapID[1])==0){
     $focust->column_fields['mapname']=$mapname;
     $focust->column_fields['content']=add_content($jsondecodedata);
     $focust->column_fields['maptype'] =$MapType;
-    // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+    $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
     $focust->column_fields['description']=add_content($jsondecodedata);
     $focust->column_fields['mvqueryid']=$idquery2;
     $log->debug(" we inicialize value for insert in database ");
@@ -89,7 +89,7 @@ if(strlen($MapID[1])==0){
     $focust->column_fields['content']=add_content($jsondecodedata);
     $focust->column_fields['maptype'] =$MapType;
     $focust->column_fields['mvqueryid']=$idquery2;
-    // $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+    $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
     $focust->column_fields['description']=add_content($jsondecodedata);
     $focust->mode = "edit";
     $focust->save("cbMap");
@@ -160,8 +160,8 @@ function add_aray_for_history($decodedata)
     return array
     (
         'Labels'=>$labels,
-        'FirstModuleval'=>$DataDecode[0]->temparray->FirstModule,
-        'FirstModuletxt'=>$DataDecode[0]->temparray->FirstModuleText,
+        'FirstModuleval'=>$decodedata[0]->temparray->FirstModule,
+        'FirstModuletxt'=>$decodedata[0]->temparray->FirstModuleText,
         'SecondModuleval'=>" ",
         'SecondModuletxt'=>" ",
         'firstmodulelabel'=>" ",

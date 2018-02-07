@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-07 10:57:52
+ * @Last Modified time: 2018-02-07 15:14:02
  */
 
 
@@ -420,6 +420,28 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="Extended Field Information") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			ExtendedFieldInformation($QueryHistory,$MapID);		
+			
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+		
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		LogFile($ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -435,6 +457,104 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+
+ /**
+  * function to generate the map type Extended Field Information
+  *
+  * @param [type] $QueryHistory
+  * @param [type] $MapID
+  * @return void
+  */
+ function ExtendedFieldInformation($QueryHistory,$MapID)
+ {
+	include_once('modfields.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	
+
+	try{
+		if (!empty($QueryHistory))
+		{
+			$FirstModuleSelected="<option value=''>Select module</option>".Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+			 //fields 
+			$fields="<option value=''>Select a Field</option>".getModFields(explode(',',get_The_history($QueryHistory,"firstmodule"))[0]);
+			$FirstModuleFields=$fields;
+			$Allhistory=get_All_History($QueryHistory);
+			$Alldatas=array();
+
+			foreach ($Allhistory as $value) {
+				$xml=new SimpleXMLElement($value['query']);
+				$MyArray=array();
+				foreach ($xml->fields->field  as  $valuexml) {
+					   $temparray=[
+							'DefaultText'=>(string) explode(",",CheckAllFirstForAllModules((string)$valuexml->fieldname))[1],
+							'FirstFields'=>(string) explode(",",CheckAllFirstForAllModules((string)$valuexml->fieldname))[0],
+							'FirstFieldsText'=>(string) explode(",",CheckAllFirstForAllModules((string)$valuexml->fieldname))[1],
+							'FirstFieldsoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+							'FirstModule'=>(string)$xml->originmodule->originname,
+							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+							'FirstModuleoptionGroup'=>"undefined",
+							'JsonType'=>"field",
+							'Moduli'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],							
+						];
+						foreach ($valuexml->features->feature as $valuefeature) {
+							$temparray['NameInput'][]=(string)$valuefeature->name;
+							$temparray['NameInputText'][]=(string)$valuefeature->name;
+							$temparray['NameInputoptionGroup'][]="";
+
+							$temparray['ValueInput'][]=(string)$valuefeature->value;
+							$temparray['ValueInputText'][]=(string)$valuefeature->value;
+							$temparray['ValueInputoptionGroup'][]="";
+						}
+
+						array_push($MyArray,$temparray);
+					}
+								
+				array_push($Alldatas,$MyArray);
+			}
+
+
+			//this is for save as 
+			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
+			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+			//this is for save as map
+			 $data="MapGenerator,saveRecordSetMapping";
+			 $dataid="ListData,MapName";
+			 $savehistory="true";
+			 $saveasfunction="ShowLocalHistoryRecordSetMapping";
+			//  //assign tpl
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+			$smarty->assign("update",$update);
+
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/ExtendedFieldInformationMapping.tpl');
+			echo $output;
+			// print_r($Alldatas);
+
+		}else{
+			//TODO:: this is if not find the idquery to load map by Id of map 
+		}
+	}catch(Exception $ex){
+		echo showError("Something was wrong",$ex->getMessage());
+		LogFile($ex);
+	}
+ }
 
 
 
