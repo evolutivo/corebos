@@ -9,8 +9,10 @@
 	}
 
 	/* Select height on all maps */
-	.slds-select_container .slds-select {
+	.slds-select_container .slds-select,
+	.slds-input {
 		height: 28px;
+		min-height: 28px;
 	}
 
 	.map-generator-table input,
@@ -83,15 +85,12 @@
 	.iomap-container {
 		height: 28px;
 	}
-
 	.iomap-input-fields,
 	.iomap-output-fields {
 		margin-top: .1rem;
 		width: 50%!important;
 		padding: 0 .5rem;
 	}
-
-
 	.iomap-input-fields #SecondDiv #firstInp input,
 	.iomap-output-fields #SecondDiv #secondOutput input {
 		width: 100%;
@@ -120,7 +119,6 @@
 	.iomap-container #SecondDiv select {
 		z-index: 9;
 	}
-
 	.iomap-container .toggle-field {
 		margin-left: .1rem;
 		width: 6%;
@@ -754,7 +752,6 @@
 	}
 	.view-portal-write-block-name {
 		margin: 1rem 0;
-		text-align: left;
 	}
 	.view-portal-write-block-name input {
 		width: 100%;
@@ -974,8 +971,50 @@
 	.module-set-container .add-button-content {
 		margin-top: 1.2rem;
 	}
-
 /* End Module Set */
+
+/* Menu Structure */
+	.menu-structure-container {
+		display: block!important;
+	}
+	.menu-structure-container #sel1 {
+		width: 100%;
+		margin: 1rem 0;
+		padding: 0 .5rem;
+	}
+	.menu-structure-container input {
+		width: 100%;
+	}
+	.menu-structure-container .popover-icon {
+		position: absolute;
+		top: .4rem;
+		right: .5rem;
+	}
+	.menu-structure-container #help {
+		position: absolute;
+		top: -1rem;
+		right: 2rem;
+	}
+
+	.menu-structure-module-add {
+		padding: 0 .5rem;
+		display: flex;
+		width: 100%;
+	}
+	.menu-structure-module-add > div:first-child {
+		width: 90%;
+	}
+	.menu-structure-module-add > div:last-child {
+		width: 10%;
+		text-align: right;
+	}
+	.menu-structure-module-add > div:last-child button {
+		margin-top: 1.5rem;
+	}
+	.menu-structure-module-add > div:last-child img {
+		width: 20px;
+	}
+/* End Menu Structure */
 
 
 
