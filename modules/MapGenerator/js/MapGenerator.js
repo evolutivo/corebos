@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 18:15:58
+ * @Last Modified time: 2018-02-07 10:01:00
 */
 
 
@@ -128,26 +128,31 @@
 						urlsend, dat);
 			} else if (select == "SQL") {
 				getFirstModule();
+				App.utils.UpdateMapNAme();
 			}else if (select == "MasterDetail") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ListColumns") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ConditionQuery") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "Module_Set") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				 App.ModulLabel='Module';
     			 App.FieldLabel='Related';
 				var urlsend = [ urlpost[0], "firstModule" ];
@@ -156,48 +161,56 @@
 						urlsend, dat);
 			}else if (select == "IOMap") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "AllFields_File" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("AllFieldsInput,AllFieldsOutputselect",
 						urlsend, dat);
 			}else if (select == "FieldDependency") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "FieldDependencyPortal") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "GlobalSearchAutocomplete") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "ConditionExpression") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule,Firstmodule2",
 						urlsend, dat);
 			}else if (select == "CREATEVIEWPORTAL") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "DETAILVIEWBLOCKPORTAL") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "MENUSTRUCTURE") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				 App.ModulLabel='Module';
     			 App.FieldLabel='Label';
 				var urlsend = [ urlpost[0], "firstModule" ];
@@ -206,6 +219,7 @@
 						urlsend, dat);
 			}else if (select == "RecordAccessControl") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				App.ModulLabel='Module';
     			 App.FieldLabel='Related';
@@ -214,6 +228,7 @@
 						urlsend, dat);
 			}else if (select == "DuplicateRecords") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				App.ModulLabel='Module';
     			 App.FieldLabel='Related';
@@ -222,6 +237,7 @@
 						urlsend, dat);
 			}else if (select == "RendicontaConfig") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				// App.ModulLabel='Module';
     			 // App.FieldLabel='Related';
@@ -230,6 +246,7 @@
 						urlsend, dat);
 			}else if (select == "ImportBusinessMapping") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				// App.ModulLabel='Module';
     			 // App.FieldLabel='Related';
@@ -238,6 +255,7 @@
 						urlsend, dat);
 			}else if (select == "RecordSetMapping") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				 App.ModulLabel='Module';
 				  App.FieldLabel='Value';
@@ -247,6 +265,7 @@
 						urlsend, dat);
 			}else if (select == "ExtendedFieldInformationMapping") {
 				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				 App.ModulLabel='Module';
 				  App.FieldLabel='Field';
