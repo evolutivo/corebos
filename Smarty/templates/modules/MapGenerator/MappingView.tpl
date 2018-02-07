@@ -26,6 +26,7 @@
 	  }
 	  App.utils.ReturnAllDataHistory('LoadShowPopup');
 	  App.countsaveMap=2;
+	  App.utils.UpdateMapNAme();
 	</script>
    
 {/if}

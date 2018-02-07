@@ -62,6 +62,7 @@
 				// generateJoin();
 				// emptycombo();
 			}
+			App.utils.UpdateMapNAme();
 	</script>
 
 

@@ -56,6 +56,7 @@
       // App.utils.ReturnDataSaveHistory('LoadShowPopup');
       showmodalformasterdetail();
       App.countsaveMap=2;
+      App.utils.UpdateMapNAme();
 
     </script>
    
@@ -124,7 +125,7 @@
                             <article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
                             <div class="slds-card__header slds-grid">
                                 <header class="slds-media--center slds-has-flexi-truncate">
-                                  <h1 class="slds-page-header__title slds-m-right--small slds-truncate">
+                                  <h1 id="mapNameLabel"  class="slds-page-header__title slds-m-right--small slds-truncate">
                                     {if $NameOFMap neq ''} {$NameOFMap} {/if}
                                   </h1>
                                   <p class="slds-text-heading--label slds-line-height--reset">{$MOD.MasterDetail}</p>
