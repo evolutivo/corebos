@@ -41,8 +41,9 @@ if (empty($MapType))
 if (!empty($Data))
 {
      $decodedata = json_decode($Data, true);
-     // print_r($decodedata);
-     // exit();
+    //   print_r($decodedata);
+    //   echo add_content($decodedata);
+    //  exit();
 
     if (strlen($MapID[1])==0) {
          include_once('modules/cbMap/cbMap.php');
@@ -154,7 +155,7 @@ function add_content($DataDecode)
 
                 $relationModule=$DataDecode[$i]['SecondFieldOptionGrup'];
                 LogFileSimple("relationModule var ----------".$DataDecode[$i]['SecondModuleval']);
-                 if ($DataDecode[$i]['SecondFieldtext']=="Default-Value")
+                 if (strpos($DataDecode[$i]['SecondFieldtext'], 'Default value') !== false)
                      {
                          $value = $xml->createElement("value");
                          $valueText = $xml->createTextNode($DataDecode[$i]['SecondFieldval']);
@@ -196,7 +197,7 @@ function add_content($DataDecode)
                      
                  } else {
                     
-                     if ($DataDecode[$i]['SecondFieldtext']=="Default-Value")
+                     if (strpos($DataDecode[$i]['SecondFieldtext'], 'Default value') !== false)
                      {
                          $OrgRelfield= $xml->createElement("Orgfield");
                          

@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-12-20 10:43:55
- * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-20 17:13:40
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-07 10:44:48
  */
 include 'All_functions.php';
 require_once("modfields.php");
@@ -14,7 +14,7 @@ $module=$_POST['mod'];
 
 if (!empty($module)) {
 	if (!empty(MappingRelationFields($module))) {
-	  	 $showfields="<option values=''>Select one</option>";
+	  	 $showfields="<option values=''>Select field</option>";
 		  foreach (MappingRelationFields($module) as $value) {
 	          $showfields.=getModFields($value);          
 	      }
