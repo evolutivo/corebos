@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-06 16:51:28
+ * @Last Modified time: 2018-02-07 12:51:36
  */
 
 document.onkeydown = function(e) {
@@ -282,7 +282,7 @@ function selectHtml() {
    function alertsdiv(Idd, Firstmodulee, secondmodule,last_check) {
 
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
-    INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');">&times;</span>';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin1('+Idd+');">&times;</span>';
     // INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');"><i class="icono-eye"></</span>';
     INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> <p>' + Firstmodulee + '=>' + secondmodule + '</p>';
     if (last_check==true) {//icono-plusCircle
@@ -332,13 +332,13 @@ function selectHtml() {
 
      }
 
-   }
-   function closeAlertsAndremoveJoin(remuveid,namediv) {
+  }
+  function closeAlertsAndremoveJoin(remuveid,namediv) {
 
     var check = false;
-    if(App.popupJson.length==1) var leng=1; 
-    else leng=App.popupJson.length-1;
-    for (var ii = 0; ii <= leng; ii++) {
+    // if(App.popupJson.length==1) var leng=1; 
+    // else leng=App.popupJson.length-1;
+    for (var ii = 0; ii <=App.popupJson.length; ii++) {
       if (ii == remuveid) {
                //JSONForCOndition.remove(remuveid);
                App.popupJson.splice(remuveid,1);
@@ -359,7 +359,69 @@ function selectHtml() {
       }
 
 
+  }
+
+
+  
+function ReturnAllDataHistory(){
+
+    $('#AlertsAddDiv div').remove();
+    $( "#generatedjoin" ).html("");
+   var check=false;
+   var valuehistoryquery;
+  var length_history=JSONForCOndition.length;
+  //alert(length_history-1);
+  for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+      var idd =ii// JSONForCOndition[ii].idJSON;
+      var firmod = JSONForCOndition[ii].FirstModuleJSONtext;
+      var secmod = JSONForCOndition[ii].SecondModuleJSONtext;
+      valuehistoryquery=JSONForCOndition[ii].ValuesParagraf;
+      // console.log(idd+firmod+secmod);
+      // console.log(selectedfields);
+      if (ii==(length_history-1))
+      {
+          check=true;
+
+      }
+      else{
+         check=false;
+      }
+      var alerstdiv = alertsdiv(idd, firmod, secmod,check);
+      $('#AlertsAddDiv').append(alerstdiv);
+
+      $( "#generatedjoin" ).html(valuehistoryquery);
+
+  }
+
+}
+
+    function closeAlertsAndremoveJoin1(remuveid) {
+
+      var check = false;
+
+        for (var ii = 0; ii <= JSONForCOndition.length; ii++) {
+            if (ii == remuveid) {
+                //JSONForCOndition.remove(remuveid);
+                JSONForCOndition.splice(remuveid,1);
+                check = true
+          //console.log(remuveid);
+              // console.log(ReturnAllDataHistory());
+            }
+        }
+        if (check) {
+          var remuvediv="#alerts_"+remuveid;
+          $( "div" ).remove( remuvediv);
+          ReturnAllDataHistory();
+
+          // $('#selectableFields option:selected').attr("selected", null);
+        }
+        else {
+            alert("{/literal}{$MOD.conditionwrong}{literal}");
+        }
+
+
     }
+
 
 
     function closeAlertsAndremoveJoins(remuveid,namediv){
