@@ -12,23 +12,10 @@ $c-reds: #C0392B, #FF4136, #E74C3C;
 $c-yellows: #F39C12, #FCA624, #F1C40F;
 $c-purples: #532E62, #8E44AD, #9B59B6;
 
-* {
-	box-sizing: border-box;
-}
-
-/* Header */
+/* Popup & History */
 .dvtCellInfo .slds-media__body {
 	text-align: center;
 }
-
-header h1 {
-	margin-top: 15px;
-	text-transform: uppercase;
-}
-
-/* End Header */
-
-/* Popup & History */
 
 #contenitoreJoin {
 	height: 200px;

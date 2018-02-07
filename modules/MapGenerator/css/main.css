@@ -4,6 +4,10 @@
 		border-spacing: 1rem;
 	}
 
+	header h1 {
+		margin-top: 15px;
+	}
+
 	/* Select height on all maps */
 	.slds-select_container .slds-select {
 		height: 28px;
@@ -957,13 +961,21 @@
 	.second-input input {
 		width: 100%;
 	}
-
-
-
-
 /* Extended Field Information */
 
+/* Module Set */
+	.module-set-container {
+		margin-top: 1rem;
+		padding: 0 .5rem;
+	}
+	.module-set-container #sel1 {
+		width: 90%;
+	}
+	.module-set-container .add-button-content {
+		margin-top: 1.2rem;
+	}
 
+/* End Module Set */
 
 
 
