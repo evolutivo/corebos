@@ -121,7 +121,7 @@
 												{$MOD.EndtityLabel}
 											</label>
 											<div class="slds-form-element__control">
-												<input id="EntityValueId" class="slds-input" placeholder="Entity Value" type="text" />
+												<input id="EntityValueId" class="slds-input" placeholder="Enter an entity value" type="text" />
 											</div>
 										</div>
 									</div>
@@ -170,7 +170,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>PopUp Zone</b>
+															<b>Popup</b>
 														</span>
 													</h2>
 												</div>
@@ -192,7 +192,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>History Zone</b>
+															<b>History</b>
 														</span>
 													</h2>
 												</div>

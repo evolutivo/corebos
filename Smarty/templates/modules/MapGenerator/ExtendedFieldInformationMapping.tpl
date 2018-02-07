@@ -76,30 +76,27 @@
 						<tr class="slds-line-height--reset">
 							<td class="dvtCellLabel" width="70%" valign="top">
 								<div class="extended-field-info-container">
-
-									<!-- First select -->
-									<div class="extended-field-info-select1-content">
-										<div class="slds-form-element slds-text-align--left">
-											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingModule}</label>
-											<div class="slds-form-element__control">
-												<div class="slds-select_container">
-													<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" >
-														
-													</select>
+									<!-- Extended Field Information Choose module & field -->
+									<div class="exim-choose-module-module">
+										<div class="exim-choose-moduel">
+											<div class="slds-form-element slds-text-align--left">
+												<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingModule}</label>
+												<div class="slds-form-element__control">
+													<div class="slds-select_container">
+														<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" ></select>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
 
-									<!-- Second select -->
-									<div class="extended-field-info-select2-content">
-										<div class="slds-form-element slds-text-align--left">
-											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingField}</label>
-											<div class="slds-form-element__control">
-												<div class="slds-select_container">
-													<select class="slds-select" id="FirstFields">
-														
-													</select>
+										<!-- Second select -->
+										<div class="exim-choose-field">
+											<div class="slds-form-element slds-text-align--left">
+												<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingField}</label>
+												<div class="slds-form-element__control">
+													<div class="slds-select_container">
+														<select class="slds-select" id="FirstFields"></select>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -152,7 +149,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>PopUp Zone</b>
+															<b>PopUp</b>
 														</span>
 													</h2>
 												</div>
@@ -174,7 +171,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>History Zone</b>
+															<b>History</b>
 														</span>
 													</h2>
 												</div>

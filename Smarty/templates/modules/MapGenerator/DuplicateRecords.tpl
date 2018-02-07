@@ -183,7 +183,7 @@
                                                     <div class="slds-media__body">
                                                         <h2 class="header-title-container"> 
                                                             <span class="slds-text-heading--small slds-truncate actionLabel">
-                                                              <b>PopUp Zone</b>
+                                                              <b>Popup</b>
                                                             </span> 
                                                           </h2>
                                                         </div>
@@ -205,7 +205,7 @@
                                                     <div class="slds-media__body">
                                                         <h2 class="header-title-container"> 
                                                               <span class="slds-text-heading--small slds-truncate actionLabel">
-                                                                <b>History Zone</b>
+                                                                <b>History</b>
                                                               </span> 
                                                             </h2>
                                                     </div>
