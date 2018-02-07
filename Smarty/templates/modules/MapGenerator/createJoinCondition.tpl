@@ -570,7 +570,7 @@
 				<div id="accordion">
 					<h3>{$MOD.Query}</h3>
 					<div id="joinquery">
-						<p id="generatedjoin">
+						<p id="generatedjoin" style="white-space:normal;">
 							{$QUERY}
 						</p>
 						<p id="generatedConditions"></p>
