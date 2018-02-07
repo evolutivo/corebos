@@ -84,7 +84,7 @@
 												<label class="slds-form-element__label" for="FirstModule">{$MOD.ExtendedFieldInformationMappingModule}</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" ></select>
+														<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" >{$FirstModuleSelected}</select>
 													</div>
 												</div>
 											</div>
@@ -97,7 +97,7 @@
 												<label class="slds-form-element__label" for="FirstFields">{$MOD.ExtendedFieldInformationMappingField}</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select class="slds-select" id="FirstFields">{$FirstModuleSelected}</select>
+														<select class="slds-select" id="FirstFields">{$FirstModuleFields}</select>
 													</div>
 												</div>
 											</div>
