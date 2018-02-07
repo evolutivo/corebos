@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-07 12:51:36
+ * @Last Modified time: 2018-02-07 16:59:10
  */
 
 document.onkeydown = function(e) {
@@ -1830,6 +1830,15 @@ function SaveasMap() {
                     App.utils.ShowNotification("snackbar",2000,App.utils.Countsave());
                     App.countsaveMap=2;
                     if (box) box.remove();
+                  }
+                  if ($('#mapNameLabel').length>0){
+                    if (App.utils.IsSelectORDropDown('SaveasMapTextImput').length>0)
+                    {
+                      $('#mapNameLabel').html(App.utils.IsSelectORDropDown('SaveasMapTextImput'));
+                    } else
+                    {
+                      $('#mapNameLabel').html(App.utils.IsSelectORDropDown('MapName'));
+                    }
                   }
                 }else
                 {
