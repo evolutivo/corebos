@@ -77,67 +77,65 @@
 						<tr class="slds-line-height--reset">
 							<td class="dvtCellLabel" width="70%" valign="top">
 								<div class="extended-field-info-container">
-
-									<!-- First select -->
-									<div class="extended-field-info-select1-content">
-										<div class="slds-form-element slds-text-align--left">
-											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingModule}</label>
-											<div class="slds-form-element__control">
-												<div class="slds-select_container">
-													<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" >
-														{$FirstModuleSelected}
-													</select>
+									<!-- Extended Field Information Choose module & field -->
+									<div class="exim-choose-module-field-content">
+										<div class="exim-choose-module">
+											<div class="slds-form-element slds-text-align--left">
+												<label class="slds-form-element__label" for="FirstModule">{$MOD.ExtendedFieldInformationMappingModule}</label>
+												<div class="slds-form-element__control">
+													<div class="slds-select_container">
+														<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-select-relation-field-id="FirstFields" ></select>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 
-									<!-- Second select -->
-									<div class="extended-field-info-select2-content">
-										<div class="slds-form-element slds-text-align--left">
-											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingField}</label>
-											<div class="slds-form-element__control">
-												<div class="slds-select_container">
-													<select class="slds-select" id="FirstFields">
-														{$FirstModuleFields}
-													</select>
+										<!-- Second select -->
+										<div class="exim-choose-field">
+											<div class="slds-form-element slds-text-align--left">
+												<label class="slds-form-element__label" for="FirstFields">{$MOD.ExtendedFieldInformationMappingField}</label>
+												<div class="slds-form-element__control">
+													<div class="slds-select_container">
+														<select class="slds-select" id="FirstFields">{$FirstModuleSelected}</select>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 
-									<!-- Inputs container -->
-									<div class="extended-field-info-input-content">
-										<!-- First input -->
-										<div id="" class="slds-form-element slds-text-align--left first-input">
-											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingname}</label>
+									<!-- Extended Field Information Insert name & value -->
+									<div class="exim-insert-name-value-content">
+										<!-- Name input -->
+										<div class="slds-form-element slds-text-align--left first-input">
+											<label class="slds-form-element__label" for="NameInput">{$MOD.ExtendedFieldInformationMappingname}</label>
 											<div class="slds-form-element__control">
 												<input id="NameInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingInsertname}" type="text" />
 											</div>
 										</div>
-										<!-- Second input -->
-										<div id="" class="slds-form-element slds-text-align--left second-input">
-											<label class="slds-form-element__label" for="">{$MOD.ExtendedFieldInformationMappingvalue}</label>
+										<!-- Field input -->
+										<div class="slds-form-element slds-text-align--left second-input">
+											<label class="slds-form-element__label" for="ValueInput">{$MOD.ExtendedFieldInformationMappingvalue}</label>
 											<div class="slds-form-element__control">
 												<input id="ValueInput" class="slds-input" placeholder="{$MOD.ExtendedFieldInformationMappingInsertvalue}" type="text" />
 											</div>
 										</div>
+										<!-- Add button content -->
+										<div class="add-button-content slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+											<button class="slds-button slds-button--small slds-button_icon" id="addPopupButton"
+													data-add-button-popup="false" 
+													data-add-type="field" 
+													data-add-relation-id="FirstModule,FirstFields,NameInput,ValueInput" 
+													data-show-id="FirstFields" 
+													data-show-modul-id="FirstModule" 
+													data-add-button-validate="FirstFields" 
+													onclick="addExtendetFieldMap(this);RestoreDataEXFIM(this)"
+													data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}">
+												<img src="themes/images/btnL3Add.gif">
+											</button>
+										</div>
 									</div>
 
-									<!-- Add button content -->
-									<div class="add-button-content slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-										<button class="slds-button slds-button--small slds-button_icon" id="addPopupButton"
-                                                data-add-button-popup="false" 
-												data-add-type="field" 
-												data-add-relation-id="FirstModule,FirstFields,NameInput,ValueInput" 
-												data-show-id="FirstFields" 
-												data-show-modul-id="FirstModule" 
-												data-add-button-validate="FirstFields" 
-												onclick="addExtendetFieldMap(this);RestoreDataEXFIM(this)"
-												data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}">
-											<img src="themes/images/btnL3Add.gif">
-										</button>
-									</div>
 
 									<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
 									<input type="hidden" name="queryid" value="{$queryid}" id="queryid">

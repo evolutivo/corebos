@@ -864,6 +864,7 @@
 		}
 		.insert-id-container > div {
 			width: 25%;
+			margin-top: 30px;
 		}
 		.insert-id-container > div input {
 			width: 100%;
@@ -925,26 +926,40 @@
 /* Extended Field Information */
 	.extended-field-info-container {
 		margin: 1rem 0;
-		padding: 0 .5rem;
 	}
-	.extended-field-info-select2-content {
-		margin: 1rem 0;
-	}
-	.extended-field-info-input-content {
+	.exim-choose-module-field-content,
+	.exim-insert-name-value-content {
 		display: flex;
 		width: 100%;
+		margin: 1rem 0;
 	}
-	.extended-field-info-input-content input {
-		width: 100%;
-	}
+	.exim-choose-module-field-content > div,
 	.first-input {
 		width: 50%;
-		padding-right: .5rem;
 	}
 	.second-input {
-		width: 50%;
+		width: 45%;
+	}
+	.exim-insert-name-value-content .add-button-content {
+		width: 5%;
+		text-align: right;
+	}
+	.first-input,
+	.exim-choose-module {
+		padding-right: .5rem;
+	}
+	.second-input,
+	.exim-choose-field {
 		padding-left: .5rem;
 	}
+
+	.first-input input,
+	.second-input input {
+		width: 100%;
+	}
+
+
+
 
 /* Extended Field Information */
 
