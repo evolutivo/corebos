@@ -17,10 +17,9 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 }
 
 /* Header */
-/*.slds-card__header {
-	padding-top: .3rem;
-	margin-bottom: .3rem;
-}*/
+.dvtCellInfo .slds-media__body {
+	text-align: center;
+}
 
 header h1 {
 	margin-top: 15px;
