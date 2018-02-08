@@ -323,6 +323,93 @@
 	}
 /* End Condition Expression */
 
+/* Master Detail */
+	.master-detail-content {
+		display: block!important;
+	}
+	.master-detail-container {
+		margin-top: 1rem;
+		display: flex;
+	}
+	.master-detail-container input {
+		max-height: 28px;
+	}
+
+	.master-detail-container #sel1,
+	.master-detail-container #sel2 {
+		padding: 0 .5rem;
+		width: 50%;
+	}
+	.master-detail-target-module-container > div:last-child,
+	.master-detail-origin-module-container > div:last-child {
+		margin-top: 1rem;
+		text-align: right;
+	}
+	.master-detail-target-module-container > div:last-child > div,
+	.master-detail-origin-module-container > div:last-child > div {
+		height: 28px;
+	}
+	.master-detail-target-module-container > div:last-child label,
+	.master-detail-origin-module-container > div:last-child label {
+		padding: 0;
+	}
+	.master-detail-target-module-container > div:last-child input,
+	.master-detail-origin-module-container > div:last-child input {
+		width: 86%;
+	}
+
+	.master-detail-fields-checkbox {
+		display: flex;
+	}
+	.master-detail-fields-checkbox > div {
+		width: 50%;
+		padding: 0.5rem;
+	}
+
+	.master-detail-checkbox-container {
+		display: flex;
+	}
+	.master-detail-checkbox-container > div {
+		width: 22%;
+	}
+	.master-detail-checkbox-container > div:nth-last-child(2) {
+		width: 24%;
+	}
+	.master-detail-checkbox-container > div:last-child {
+		width: 10%;
+	}
+	.master-detail-checkbox-container .slds-checkbox--on,
+	.master-detail-checkbox-container .slds-checkbox--off {
+		height: 24px;
+	}
+	.master-detail-checkbox-container label {
+		padding-left: 12px;
+	}
+	.master-detail-checkbox-container > div:nth-last-child(2) label {
+		padding-left: 5px;
+	}
+	#mandatory-checkbox .slds-checkbox--faux {
+		margin: 0 0 0 11px !important;
+	}
+	#master-detail-add-button label {
+		margin-top: 1.4rem;
+	}
+	#master-detail-add-button button {
+		margin-top: 0;
+	}
+	#master-detail-add-button button:hover {
+		opacity: 0.7;
+	}
+	#master-detail-add-button img {
+		width: 22px;
+	}
+
+
+
+	/* End Target Module */
+
+/* End Master Detail */
+
 /* List Columns */
 	.target-module,
 	.origin-module {
@@ -538,7 +625,6 @@
 /* End Condition Query */
 
 /* Field Dependency & Field Dependency Portal */
-
 	.field-dependency-container,
 	.field-dependency-portal-container {
 		margin-top: .5rem;
