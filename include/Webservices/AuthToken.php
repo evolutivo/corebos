@@ -21,6 +21,7 @@ function vtws_getchallenge($username){
 		throw new WebServiceException(WebServiceErrorCode::$AUTHREQUIRED,'Given user cannot be found');
 	}
 
+	$adb->query("LOCK TABLE vtiger_ws_userauthtoken WRITE");
 	$get_token = $adb->pquery("SELECT * FROM vtiger_ws_userauthtoken WHERE userid = ?", array($userid) );
 
 	if($adb->num_rows($get_token) == 1) {
@@ -48,5 +49,6 @@ function vtws_getchallenge($username){
 		$adb->pquery($sql,array($userid,$authToken,$expireTime));	
 	}
 
+	$adb->query("UNLOCK TABLES");
 	return array("token"=>$authToken,"serverTime"=>$servertime,"expireTime"=>$expireTime);
 }
