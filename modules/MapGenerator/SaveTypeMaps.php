@@ -83,6 +83,7 @@ if (!empty($Data))
          $focust->column_fields['assigned_user_id'] = 1;
          // $focust->column_fields['mapname'] = $MapName;
          $focust->column_fields['content']=add_content($decodedata);
+         $focust->column_fields['targetname'] =preg_replace('/\s+/', '',$decodedata[0]['FirstModuleval']);
          // $focust->column_fields['maptype'] ="MasterDetailLayout";
          $focust->column_fields['mvqueryid']=$idquery;
          $focust->column_fields['description']= add_description($decodedata);

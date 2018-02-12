@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-07 16:59:10
+ * @Last Modified time: 2018-02-12 12:47:17
  */
 
 document.onkeydown = function(e) {
@@ -816,7 +816,8 @@ function generateJoin(SelectedValue="",History=0) {
       var returnvalues=$('#ReturnValuesTxt').attr('name');
       if (!returnvalues && returnvalues.length==0)
       {
-        alert(mv_arr.ReturnValueCheck);
+        // alert(mv_arr.ReturnValueCheck);
+        App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
         returnfromgeanratejoin= false;
         return false;
       }
@@ -863,13 +864,17 @@ function generateJoin(SelectedValue="",History=0) {
              returnfromgeanratejoin= true;
            },
            error: function () {
-            alert(mv_arr.failedcall);
+            // alert(mv_arr.failedcall);
+            App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnErrorFromMap);
             returnfromgeanratejoin= false;
           }
         });
 
-    // getFirstModule();
-    emptycombo(); }
+        $('#selectableFields').html('');
+        $('#ReturnValuesTxt').removeAttr('name');
+        $('#ReturnValuesTxt').val('');
+
+    }else {App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);}
   }
 
 

@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-07 10:01:00
+ * @Last Modified time: 2018-02-12 14:27:49
 */
 
 
@@ -2110,6 +2110,7 @@
 						if (App.utils.IsSelectORDropDown('SaveasMapText').length>0)
 						{
 							$('#mapNameLabel').html(App.utils.IsSelectORDropDown('SaveasMapText'));
+							$("#MapName").val(App.utils.IsSelectORDropDown('SaveasMapText'));
 						} else
 						{
 							$('#mapNameLabel').html(App.utils.IsSelectORDropDown('MapName'));

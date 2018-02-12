@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-12-19 14:34:17
- * @Last Modified by:   Edmond Kacaj
- * @Last Modified time: 2018-02-01 16:40:01
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-12 16:54:57
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -50,6 +50,7 @@ if (!empty($Data)) {
      $focust->column_fields['content']=add_content($jsondecodedata,$DuplicateDirect);
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['description']= add_content($jsondecodedata,$DuplicateDirect);
+    //  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['mvqueryid']=$idquery2;
      $log->debug(" we inicialize value for insert in database ");
      if (!$focust->saveentity("cbMap"))//
@@ -81,6 +82,7 @@ if (!empty($Data)) {
      $focust->column_fields['assigned_user_id'] = 1;
      // $focust->column_fields['mapname'] = $MapName;
      $focust->column_fields['content']=add_content($jsondecodedata,$DuplicateDirect);
+    //  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
      $focust->column_fields['maptype'] =$MapType;
      $focust->column_fields['mvqueryid']=$idquery2;
      $focust->column_fields['description']= add_content($jsondecodedata,$DuplicateDirect);
