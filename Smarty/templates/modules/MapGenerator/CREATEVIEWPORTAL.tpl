@@ -6,68 +6,66 @@
 
 {if $PopupJS neq ''}
 	<script type="text/javascript">
-			{foreach from=$PopupJS item=allitems key=key name=name}
-					 {foreach name=outer item=popi from=$allitems}  
-						var temparray = {};
-						{foreach key=key item=item from=$popi}            
-								{if $key eq 'rows'}
-									rows=new Array();
-									allfieldsval=[];
-									allfieldstetx=[];
-										{foreach from=$item item=itemi key=keyes}
-											checkifexist={};                    
-											fieldsval=[];
-											fieldstetx=[];
-												{foreach from=$itemi.fields item=items key=key name=name}
-												 fieldsval.push('{$items}');
-											{/foreach}
-											{foreach from=$itemi.texts item=items key=key name=name}
-												 fieldstetx.push('{$items}');
-											{/foreach}                    
-											{literal}
-												allfieldsval.push(fieldsval);
-												allfieldstetx.push(fieldstetx);
-											{/literal}
-									{/foreach}
-									{literal}
-										temparray["rows"]={fields:allfieldsval,texts:allfieldstetx};
-									{/literal}
-								{else}
-								 temparray['{$key}']='{$item}';
-								{/if}
-						{/foreach}
+		{foreach from=$PopupJS item=allitems key=key name=name}
+			{foreach name=outer item=popi from=$allitems}
+				var temparray = {};
+				{foreach key=key item=item from=$popi}
+					{if $key eq 'rows'}
+						rows=new Array();
+						allfieldsval=[];
+						allfieldstetx=[];
+						{foreach from=$item item=itemi key=keyes}
+							checkifexist={};
+							fieldsval=[];
+							fieldstetx=[];
+								{foreach from=$itemi.fields item=items key=key name=name}
+									fieldsval.push('{$items}');
+								{/foreach}
+								{foreach from=$itemi.texts item=items key=key name=name}
+									fieldstetx.push('{$items}');
+								{/foreach}
+								{literal}
+									allfieldsval.push(fieldsval);
+									allfieldstetx.push(fieldstetx);
+								{/literal}
+							{/foreach}
+							{literal}
+								temparray["rows"]={fields:allfieldsval,texts:allfieldstetx};
+							{/literal}
+						{else}
+							 temparray['{$key}']='{$item}';
+						{/if}
+					{/foreach}
 						App.popupJson.push({'{'}temparray{'}'});
 						// console.log(temparray);
-					{/foreach}
-					 HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-					App.popupJson.length=0;
+				{/foreach}
+				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+				App.popupJson.length=0;
 			{/foreach}
-		
-		 if (App.SaveHistoryPop.length>0)
-		{ 
-			 $('#LoadHistoryPopup div').remove();
-				for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-							$('#LoadHistoryPopup').append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,'LoadHistoryPopup','LoadShowPopup'));
-				}      
-			 App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-		}else{
-			 App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-		 }
-		 //var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
-			ShowHistoryData(App.SaveHistoryPop.length-1,'LoadShowPopup');
-			App.countsaveMap=2;
-			App.utils.UpdateMapNAme();
+		if (App.SaveHistoryPop.length>0)
+		{
+			$('#LoadHistoryPopup div').remove();
+			for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++)
+			{
+				$('#LoadHistoryPopup').append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,'LoadHistoryPopup','LoadShowPopup'));
+			}
+			App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+		} else {
+			App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+		}
+		//var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+		ShowHistoryData(App.SaveHistoryPop.length-1,'LoadShowPopup');
+		App.countsaveMap=2;
+		App.utils.UpdateMapNAme();
 	</script>
-
-
 {/if}
 
 <div id="ModalDiv">
-		{if $Modali neq ''}
-				<div>
-				 {$Modali}
-				</div>
-		{/if}
+	{if $Modali neq ''}
+		<div>
+			{$Modali}
+		</div>
+	{/if}
 </div>
 
 {literal}
@@ -78,7 +76,7 @@
 </style>
 {/literal}
 
-<table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 	<tbody>
 		<tr class="blockStyleCss" id="DivObjectID">
 			<td class="detailViewContainer" valign="top">
@@ -117,21 +115,23 @@
 								<div class="create-view-portal-container">
 									<div class="view-portal-choose-module">
 										<!-- Choose Module -->
-										<div class="slds-form-element">
+										<div class="slds-form-element slds-text-align--left">
+											<label class="slds-form-element__label" for="FirstModule">Choose the Module</label>
 											<div class="slds-form-element__control">
-												<label class="slds-form-element__label" for="FirstModule">Choose the Module</label>
-												<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator" id="FirstModule" name="mod" class="slds-select">
-													{$FirstModuleSelected}
-												</select>
+												<!-- <div class="slds-select_container"> -->
+													<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator" id="FirstModule" name="mod" class="slds-select">
+														{$FirstModuleSelected}
+													</select>
+												<!-- </div> -->
 											</div>
 										</div>
 									</div>
 
 									<div class="view-portal-write-block-name">
 										<!-- Write block Name -->
-										<div class="slds-form-element">
+										<div class="slds-form-element slds-text-align--left">
+											<label class="slds-form-element__label" for="BlockName">{$MOD.writeBlockName}</label>
 											<div class="slds-form-element__control">
-												<label class="slds-form-element__label" for="BlockName">{$MOD.writeBlockName}</label>
 												<input id="BlockName" class="slds-input" type="text" minlength="5" placeholder="{$MOD.writeBlockName}" />
 											</div>
 										</div>
@@ -139,9 +139,9 @@
 
 									<div id="divForAddRows">
 										<div class="view-portal-select-container">
-											<div class="slds-form-element">
+											<div class="slds-form-element slds-text-align--left">
+												<label class="slds-form-element__label" for="FieldsForRow">{$MOD.chooseanotherfieldsforthisrow}</label>
 												<div class="slds-form-element__control">
-													<label class="slds-form-element__label slds-text-align--left" for="FieldsForRow">{$MOD.chooseanotherfieldsforthisrow}</label>
 													<select  id="FieldsForRow" name="mod" class="slds-select" multiple="multiple">
 													{$FirstModuleFields}
 													</select>
