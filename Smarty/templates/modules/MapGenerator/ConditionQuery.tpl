@@ -39,7 +39,7 @@
 										<div class="slds-section-title--divider">
 											<!-- <ul id="LDSstyle"> -->
 											<!-- <li> -->
-											<button class="slds-button slds-button--small slds-button--brand"  data-send-data-id="ListData,MapName" data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true">{$MOD.CreateMap}</button>
+											<button class="slds-button slds-button--small slds-button--brand"  data-send-data-id="ListData,MapName" data-send="true"  data-loading="true" data-loading-divid="LoadingDivId"   data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true">{$MOD.CreateMap}</button>
 											<!-- </li> -->
 											{if $HistoryMap neq ''}
 											<!-- <li> -->

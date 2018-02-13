@@ -546,6 +546,7 @@ if ($MypType=="Mapping") {
 			$output = $smarty->fetch('modules/MapGenerator/ExtendedFieldInformationMapping.tpl');
 			echo $output;
 			// print_r($Alldatas);
+			exit();
 
 		}else{
 			//TODO:: this is if not find the idquery to load map by Id of map 
@@ -2706,6 +2707,7 @@ function Mapping_View($QueryHistory,$MapID)
 
 			$output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');
 			echo $output;
+			exit();
 
 		}elseif(!empty($MapID)){
 
@@ -3259,7 +3261,7 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
  * @param [type] $CheckNAme  The name of modul you want to check
  */
 function GetModuleMultiToOneForLOadListColumns($m,$CheckNAme)
-   {
+{
     global $log, $mod_strings,$adb;
     $j = 0;
    $query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 

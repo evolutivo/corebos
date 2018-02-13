@@ -26,7 +26,7 @@
                     </div>
                     <div class="slds-modal__footer">
                         
-                         <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="{$anotherfunction}" disabled class="slds-button slds-button--neutral slds-button--brand">
+                         <button data-send="true" data-send-url="{$Datas}" data-send-data-id="{$dataid},SaveasMapText" id="SendDataButton" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="{$anotherfunction}"  data-loading="true" data-loading-divid="LoadingDivId"  disabled class="slds-button slds-button--neutral slds-button--brand">
                             {$MOD.save}
                         </button>                        
                         <button class="slds-button slds-button--neutral" data-modal-saveas-close="true" >{$MOD.cancel}

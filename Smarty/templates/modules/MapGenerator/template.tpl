@@ -28,7 +28,8 @@
 			</td>
 		</tr>
 	</table>
-	<div id="LoadingDivId" class="bar"></div>
+	{* <div id="LoadingDivId" class="bar"></div> *}
+	<div id="LoadingDivId" class="loading"></div>
 	<br/>
 	<table border=0 cellspacing=0 cellpadding=0 width=90% align=center>
 		<tr>
