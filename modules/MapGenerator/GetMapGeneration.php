@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-07 15:14:02
+ * @Last Modified time: 2018-02-13 18:08:29
  */
 
 
@@ -501,13 +501,13 @@ if ($MypType=="Mapping") {
 							'Moduli'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],							
 						];
 						foreach ($valuexml->features->feature as $valuefeature) {
-							$temparray['NameInput'][]=(string)$valuefeature->name;
-							$temparray['NameInputText'][]=(string)$valuefeature->name;
-							$temparray['NameInputoptionGroup'][]="";
+							$temparray['NameInput']=(string)$valuefeature->name;
+							$temparray['NameInputText']=(string)$valuefeature->name;
+							$temparray['NameInputoptionGroup']="";
 
-							$temparray['ValueInput'][]=(string)$valuefeature->value;
-							$temparray['ValueInputText'][]=(string)$valuefeature->value;
-							$temparray['ValueInputoptionGroup'][]="";
+							$temparray['ValueInput']=(string)$valuefeature->value;
+							$temparray['ValueInputText']=(string)$valuefeature->value;
+							$temparray['ValueInputoptionGroup']="";
 						}
 
 						array_push($MyArray,$temparray);

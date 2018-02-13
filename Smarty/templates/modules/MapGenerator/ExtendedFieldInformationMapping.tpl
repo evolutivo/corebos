@@ -26,8 +26,8 @@
 		App.ModulLabel='Module';
 		App.FieldLabel='Value';
 		App.DefaultValue='Value';
-		ShowLocalHistoryRecordSetMapping('LoadHistoryPopup','LoadShowPopup')
-		ClickToshowSelectedFiledsRecordSetMapping(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+		ShowLocalHistoryExtendetFieldMap('LoadHistoryPopup','LoadShowPopup');
+		ClickToshowSelectedFiledsExtendetFieldMap(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 		App.countsaveMap=2;
 		App.utils.UpdateMapNAme();
 	</script>
