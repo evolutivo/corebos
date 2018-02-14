@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-13 17:35:01
+ * @Last Modified time: 2018-02-14 15:51:48
  */
 
 document.onkeydown = function(e) {
@@ -2672,10 +2672,10 @@ if (App.popupJson.length>0)
         htmldat+='</div>';
         htmldat+='<div class="Message-body">';
         htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-        for (var i = dataarr.length - 1; i >= 0; i--) {
+        for (var i = 0; i <=dataarr.length - 1; i++) {
           htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
           
-        }        
+        }       
         htmldat+='</div>';
         // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
         htmldat+='</div>';
