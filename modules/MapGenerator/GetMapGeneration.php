@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 12:02:26
+ * @Last Modified time: 2018-02-14 12:31:36
  */
 
 
@@ -868,6 +868,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 							'DefaultText'=>(string)$valuexml->module,
 							'DuplicateDirectRelationscheck'=>$xml->DuplicateDirectRelations,
 							'DuplicateDirectRelationscheckoptionGroup'=>"",
+							'DuplicateDirectRelationscheckText'=>$xml->DuplicateDirectRelations,
 							'FirstModule'=>(string)$xml->originmodule->originname,
 							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
 							'FirstModuleoptionGroup'=>"undefined",

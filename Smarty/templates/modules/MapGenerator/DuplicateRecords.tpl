@@ -62,7 +62,7 @@
                                         <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
                                       {/if}
                                       &nbsp;
-                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName,DuplicateDirectRelationscheck"  data-loading="true" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveDuplicateRecords" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordAccessControll" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"  data-loading="true" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveDuplicateRecords" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRecordAccessControll" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
                                     </div>
                                   </div>
                                 </div>
@@ -152,7 +152,7 @@
                                                   <div class="" id="SecondDiv" style="float: left;width: 40%;">
                                                               <div class="slds-form-element" style="display: inline-block;margin-left:  20px;">
                                                                 <label class="slds-checkbox--toggle slds-grid">
-                                                                <button  data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,DuplicateDirectRelationscheck,relatedModule" data-show-id="relatedModule" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" data-add-button-validate="relatedModule" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}" style="width:2.1rem;">
+                                                                <button  data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,DuplicateDirectRelationscheck,relatedModule,DuplicateDirectRelationscheck" data-show-id="relatedModule" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" data-add-button-validate="relatedModule" class="slds-button slds-button_icon" aria-haspopup="true" title="{$MOD.ClickAdd}" style="width:2.1rem;">
                                                                           <img src="themes/images/btnL3Add.gif" style="width: 100%;vertical-align:bottom;">
                                                                       </button>
                                                                 </label>
