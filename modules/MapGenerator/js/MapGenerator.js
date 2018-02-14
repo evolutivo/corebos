@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-13 15:22:29
+ * @Last Modified time: 2018-02-14 11:27:06
 */
 
 
@@ -1429,7 +1429,8 @@
 						VauefromPost = msg;
 					},
 					error : function() {
-						alert(mv_arr.ReturnFromPost);
+						// alert(mv_arr.ReturnFromPost);
+						App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnFromPost);
 					}
 		 	   });
 		},
@@ -1452,7 +1453,7 @@
 					VauefromPost = msg;
 				},
 				error : function() {
-					alert(mv_arr.ReturnFromPost);
+					App.utils.ShowNotification("snackbar",2000,mv_arr.ReturnFromPost);
 				}
 			});
 		},
@@ -1785,7 +1786,7 @@
 
 			} else
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue)+'  ==> '+fields+ '</p>';
+				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
 			}
 			
 			INSertAlerstJOIN += '</div';

@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-12-18 11:32:21
- * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-18 11:46:32
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-14 11:42:23
  */
 
 //LoadAllMaps
@@ -32,14 +32,14 @@ try
 			$smarty->assign("APP", $app_strings);
 			$smarty->assign("AllMaps",GetMaps("ALL"));
 			$output = $smarty->fetch('modules/MapGenerator/LoadAllMaps.tpl');
-			echo $output;
+		 	echo $output;
 		} else {
 		 echo showError("Something was wrong","Missing the List of Maps ");
 		}
 		
 
 	} else {
-		 
+		echo showError("Information!!","Not exist any map ");
 	}
 }catch(Exception $ex)
 {
