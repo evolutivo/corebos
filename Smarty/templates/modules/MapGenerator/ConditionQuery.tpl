@@ -23,7 +23,7 @@
 {/if}
 
 
-  <table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+  <table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 		<tbody>
 			<tr class="blockStyleCss" id="DivObjectID">
 				<td class="detailViewContainer" valign="top">
@@ -37,20 +37,12 @@
 								<div class="slds-no-flex">
 									<div class="actionsContainer mapButton">
 										<div class="slds-section-title--divider">
-											<!-- <ul id="LDSstyle"> -->
-											<!-- <li> -->
 											<button class="slds-button slds-button--small slds-button--brand"  data-send-data-id="ListData,MapName" data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true">{$MOD.CreateMap}</button>
-											<!-- </li> -->
 											{if $HistoryMap neq ''}
-											<!-- <li> -->
-											<button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--small slds-button--brand">{$MOD.SaveAsMap}</button>
-											<!-- </li> -->
+												<button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--small slds-button--brand">{$MOD.SaveAsMap}</button>
 											{else}
-											<!-- <li> -->
-											<button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--small slds-button--brand" disabled>{$MOD.SaveAsMap}</button>
-											<!-- </li> -->
+												<button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--small slds-button--brand" disabled>{$MOD.SaveAsMap}</button>
 											{/if}
-											<!-- </ul> -->
 										</div>
 									<div class="mailClient mailClientBg" style="position: absolute; width: 350px; height:110px;z-index: 90000; display: none;" id="userorgroup" name="userorgroup">
 										<center><b>{$MOD.addjoin}</b>:
@@ -80,7 +72,7 @@
 					<div class="slds-truncate">
 						<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
 							<tr class="slds-line-height--reset">
-								<td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+								<td class="dvtCellLabel" width="70%" valign="top">
 									<!-- THE MODULE Zone -->
 									<div id="selJoin" style="float:left; overflow: hidden;width:80%">
 										<div style="float:left; overflow: hidden;width:45%" id="sel1">

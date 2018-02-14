@@ -1,4 +1,4 @@
-	
+
 {if $HistoryMap neq ''}
 	<script type="text/javascript">
 		App.savehistoryar='{$HistoryMap}';
@@ -66,7 +66,7 @@
 
 
 
-<table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 	<tbody>
 		<tr class="blockStyleCss" id="DivObjectID">
 			<td class="detailViewContainer" valign="top">
@@ -95,7 +95,7 @@
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
 						<tr class="slds-line-height--reset">
-							<td class="dvtCellLabel" width="70%" style="vertical-align: top;">
+							<td class="dvtCellLabel" width="70%" valign="top">
 								<!-- THE MODULE Zone -->
 								<div class="wrapper">
 									<div class="half" >
@@ -103,15 +103,15 @@
 											<input id="tab-one" type="radio" {if $Expresionshow neq '' } checked="checked" {/if}  name="tabs">
 											<label for="tab-one">{$MOD.expression}</label>
 											<div class="tab-content">
-												<div class="slds-modal__container" style="width: 100%;">
+												<div class="slds-modal__container">
 													<input type="hidden" id="TypeExpresion" value="Expression" name="">
-													<div class="slds-modal__content slds-p-around--medium" style="height: 100%;">
-														<div style="width: 100%;height: 100%;">
+													<div class="slds-modal__content slds-p-around--medium">
+														<div >
 															<div>
 																<div>
-																	<div style="float: left;width: 40%;">
+																	<div>
 																		<div class="slds-form-element">
-																			<label style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
+																			<label class="slds-form-element__label" for="inputSample3">{$MOD.SelectModule}</label>
 																			<div class="slds-form-element__control">
 																				<select  data-select-load="true" id="FirstModule" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
 																					{$FirstModuleSelected}
@@ -119,9 +119,9 @@
 																			</div>
 																		</div>
 																	</div>
-																	<div id="OickList" style="float: right; width: 40%; padding: 0px;">
+																	<div id="OickList">
 																		<div class="slds-form-element">
-																			<label  style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
+																			<label  class="slds-form-element__label" for="inputSample3">{$MOD.SelectField}</label>
 																			<div class="slds-form-element__control">
 																				<select  id="Firstfield" name="mod" class="slds-select" data-load-element="true" data-load-element-idget="Firstfield" data-load-element-idset="expresion">
 																					{$FirstModuleFields}
@@ -132,9 +132,9 @@
 																</div>
 															</div>
 															<br>
-															<div style="float: left;width: 100%;margin-top: 10px;">
+															<div>
 																<div class="slds-form-element">
-																	<label style="float: left;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writetheexpresion}</label>
+																	<label class="slds-form-element__label" for="text-input-id-1">{$MOD.writetheexpresion}</label>
 																	<div class="slds-form-element__control">
 																	 <textarea id="expresion" class="slds-textarea" onfocus="removeselect('Firstfield')"  placeholder="{$MOD.writetheexpresion}">{$Expresionshow}</textarea>
 																	</div>
@@ -144,11 +144,11 @@
 													</div>
 													<div class="slds-modal__footer">
 														 {* {if $HistoryMap neq ''}
-																 <button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButtonExpresion" >{$MOD.SaveAsMap}</button> 
+																 <button class="slds-button slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButtonExpresion" >{$MOD.SaveAsMap}</button> 
 															{else}
-																<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButtonExpresion" disabled >{$MOD.SaveAsMap}</button>
+																<button class="slds-button slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButtonExpresion" disabled >{$MOD.SaveAsMap}</button>
 															{/if} *}                        
-															<button class="slds-button slds-button--neutral slds-button--brand" style="float: right;"  data-add-button-popup="true" data-add-type="Expression" data-add-relation-id="FirstModule,Firstfield,expresion" data-add-replace="true" data-show-id="expresion" data-div-show="LoadShowPopup" onclick="removearrayselected('Function','Parameter')">{$MOD.Add}</button>
+															<button class="slds-button slds-button--neutral slds-button--brand"  data-add-button-popup="true" data-add-type="Expression" data-add-relation-id="FirstModule,Firstfield,expresion" data-add-replace="true" data-show-id="expresion" data-div-show="LoadShowPopup" onclick="removearrayselected('Function','Parameter')">{$MOD.Add}</button>
 													</div>
 												</div>
 											</div>
@@ -157,29 +157,29 @@
 											<input id="tab-two" type="radio" {if $FunctionNameshow neq '' } checked="checked" {/if} name="tabs">
 											<label for="tab-two">{$MOD.function}</label>
 											<div class="tab-content">
-												<div class="slds-modal__container" style="width: 100%;">
+												<div class="slds-modal__container" >
 													<input type="hidden" id="TypeFunction" value="Function" name="">
-													<div class="slds-modal__content slds-p-around--medium" style="height: 100%;">
-														<div style="width: 100%;height: 100%;">
+													<div class="slds-modal__content slds-p-around--medium">
+														<div >
 															<div>
 																<div>
-																	<div style="float: left;width: 100%;">
+																	<div >
 																		<div class="slds-form-element">
-																			<label style="float: left;" style="width:100%;" class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
+																			<label class="slds-form-element__label" for="text-input-id-1">{$MOD.writethefunctionname}</label>
 																			<div id="divfunctionname" class="slds-form-element__control">
 																				<div class="slds-form-element">
 																					<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left-right">
-																						<input style="width:100%;" id="FunctionName" onblur="removearrayselectedall()" oninput="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}" value="{$FunctionNameshow}" />
-																						<button style="top: 70%;" data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
+																						<input id="FunctionName" onblur="removearrayselectedall()" oninput="checkfunctionname(this)" class="slds-input" placeholder="{$MOD.writethefunctionname}" value="{$FunctionNameshow}" />
+																						<button data-message-show="true" data-message-show-id="help" class="slds-input__icon slds-input__icon_right slds-button slds-button_icon">
 																							<svg class="slds-button__icon slds-icon-text-light" aria-hidden="true">
 																								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#info" /></use>
 																							</svg>
 																							<span class="slds-assistive-text">Clear</span>
 																						</button>
 																					</div>
-																					<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" id="help" role="tooltip" style="top: 0px;width: 20rem;margin-left: 38%;display: none;">
+																					<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" id="help" role="tooltip" style="display: none;">
 																						<div class="slds-popover__body slds-text-longform">
-																							<p style="color:  black;padding:  0px;font-size:  12px;">{$MOD.InfoFunctionName}</p>
+																							<p>{$MOD.InfoFunctionName}</p>
 																						</div>
 																					</div>
 																				</div>
@@ -187,9 +187,9 @@
 																		</div>
 																	</div>
 																	<br>
-																	<div style="float: left;width: 100%;margin-top: 10px;">
+																	<div >
 																		<div class="slds-form-element">
-																			<label style="float: left;" class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
+																			<label class="slds-form-element__label" for="text-input-id-1">{$MOD.SelectModule}</label>
 																			<div class="slds-form-element__control">
 																				<select class="slds-select" id="Firstmodule2" data-reset-all="true" data-reset-id-popup="LoadShowPopup" disabled="disabled" data-select-load="true" data-select-relation-field-id="Firstfield2" data-module="MapGenerator">
 																					{$FirstModuleSelected}
@@ -199,9 +199,9 @@
 																		</div>
 																	</div>
 																	<br>
-																	<div style="float: left;width: 40%;margin-top: 10px;">
+																	<div >
 																		<div class="slds-form-element">
-																			<label style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.SelectFieldOrwritetheparameters}</label>
+																			<label class="slds-form-element__label" for="inputSample3">{$MOD.SelectFieldOrwritetheparameters}</label>
 																			<div class="slds-form-element__control">
 																				<select id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="true" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('','Expression')">
 																					{$FirstModuleFields}
@@ -209,17 +209,17 @@
 																			</div>
 																		</div>
 																	</div>
-																	<div id="ShowmoreInput" style="float: right; width: 50%;margin-top:15px;padding: 0px;">
-																		<label style="float: left;" class="slds-form-element__label" for="inputSample3">{$MOD.putParameter}</label>
-																		<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">
+																	<div id="ShowmoreInput">
+																		<label class="slds-form-element__label" for="inputSample3">{$MOD.putParameter}</label>
+																		<div class="slds-combobox_container slds-has-object-switcher">
 																			<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
 																				<div class="slds-combobox__form-element">
-																					<input type="text" disabled="disabled" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" style="width:270px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input" onfocus="removearrayselected('','Expression')">
+																					<input type="text" disabled="disabled" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" class="slds-input slds-combobox__input" onfocus="removearrayselected('','Expression')">
 																				</div>
 																			</div>
-																			<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-																				<button onclick="Empydata(this);" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Values" style="width:2.1rem;" data-add-button-popup="true" data-add-type="Parameter" data-add-relation-id="DefaultValueFirstModuleField_1,Firstmodule2,FunctionName" data-show-id="DefaultValueFirstModuleField_1" data-div-show="LoadShowPopup">
-																					<img src="themes/images/btnL3Add.gif" style="width: 100%;">
+																			<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																				<button onclick="Empydata(this);" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Values" data-add-button-popup="true" data-add-type="Parameter" data-add-relation-id="DefaultValueFirstModuleField_1,Firstmodule2,FunctionName" data-show-id="DefaultValueFirstModuleField_1" data-div-show="LoadShowPopup">
+																					<img src="themes/images/btnL3Add.gif" >
 																				</button>
 																			</div>
 																		</div>
@@ -232,11 +232,11 @@
 													{*   <div class="slds-modal__footer">
 														div class="slds-modal__footer">
 														{if $HistoryMap neq ''}
-															<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButtonFunction" >{$MOD.SaveAsMap}</button> 
+															<button class="slds-button slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButtonFunction" >{$MOD.SaveAsMap}</button> 
 														{else}
-															<button class="slds-button slds-button--neutral" style="float: left;" data-modal-saveas-open="true" id="SaveAsButtonFunction" disabled >{$MOD.SaveAsMap}</button>
+															<button class="slds-button slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButtonFunction" disabled >{$MOD.SaveAsMap}</button>
 														{/if}                        
-														<button id="AddToArray" class="slds-button slds-button--neutral slds-button--brand" style="float: right;" data-send-data-id="ListData,FunctionName,Firstmodule2,MapName,Firstfield2,DefaultValueFirstModuleField_1,TypeFunction"   data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButtonFunction" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+														<button id="AddToArray" class="slds-button slds-button--neutral slds-button--brand" data-send-data-id="ListData,FunctionName,Firstmodule2,MapName,Firstfield2,DefaultValueFirstModuleField_1,TypeFunction"   data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButtonFunction" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
 													</div> *}
 												</div>
 											</div>
@@ -245,7 +245,7 @@
 								</div>
 							</td>
 
-							<td class="dvtCellInfo" align="left" width="40%" valign="top">
+							<td class="dvtCellInfo" align="left" width="30%" valign="top">
 								<div class="flexipageComponent">
 									<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
 										<div class="slds-card__header slds-grid">

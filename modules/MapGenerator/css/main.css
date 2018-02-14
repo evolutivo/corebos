@@ -1020,26 +1020,25 @@
 		width: 100%;
 		margin: 1rem 0;
 	}
-	.exim-choose-module-field-content > div,
-	.first-input {
-		width: 50%;
-	}
+	.exim-choose-field,
+	.first-input,
 	.second-input {
-		width: 45%;
+		width: 33%;
 	}
 	.exim-insert-name-value-content .add-button-content {
 		width: 5%;
 		text-align: right;
 	}
-	.first-input,
-	.exim-choose-module {
-		padding-right: .5rem;
+	.exim-insert-name-value-content .add-button-content button {
+		transition: .35s ease-in-out;
 	}
-	.second-input,
-	.exim-choose-field {
-		padding-left: .5rem;
+	.exim-insert-name-value-content .add-button-content button:hover {
+		opacity: .7;
 	}
-
+	.first-input {
+		padding: 0 .5rem;
+	}
+	.exim-choose-module,
 	.first-input input,
 	.second-input input {
 		width: 100%;
@@ -1102,6 +1101,10 @@
 	}
 /* End Menu Structure */
 
+/* Condition Expression */
+	
+
+/* End Condition Expression */
 
 
 

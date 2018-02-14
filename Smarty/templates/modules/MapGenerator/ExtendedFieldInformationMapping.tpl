@@ -91,6 +91,8 @@
 										</div>
 									</div>
 
+									<!-- Extended Field Information Insert name & value -->
+									<div class="exim-insert-name-value-content">
 										<!-- Second select -->
 										<div class="exim-choose-field">
 											<div class="slds-form-element slds-text-align--left">
@@ -102,10 +104,6 @@
 												</div>
 											</div>
 										</div>
-									</div>
-
-									<!-- Extended Field Information Insert name & value -->
-									<div class="exim-insert-name-value-content">
 										<!-- Name input -->
 										<div class="slds-form-element slds-text-align--left first-input">
 											<label class="slds-form-element__label" for="NameInput">{$MOD.ExtendedFieldInformationMappingname}</label>
@@ -136,7 +134,6 @@
 										</div>
 									</div>
 
-
 									<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
 									<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
 									<input type="hidden" name="querysequence" id="querysequence" value="">
@@ -151,7 +148,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>PopUp Zone</b>
+															<b>PopUp</b>
 														</span>
 													</h2>
 												</div>
@@ -173,7 +170,7 @@
 												<div class="slds-media__body">
 													<h2 class="header-title-container"> 
 														<span class="slds-text-heading--small slds-truncate actionLabel">
-															<b>History Zone</b>
+															<b>History</b>
 														</span>
 													</h2>
 												</div>

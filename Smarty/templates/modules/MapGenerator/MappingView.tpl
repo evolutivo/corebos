@@ -34,7 +34,7 @@
 	<left style="margin-left: 45%"><b>{$MOD.TargetModule}</b></left>
 	<right style="margin-left: 10%">{$MOD.OriginModule}</b></right>
 </div> -->
-<table class="slds-table slds-no-row-hover slds-table-moz ng-scope" style="border-collapse:separate; border-spacing: 1rem;">
+<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 	<tbody>
 		<tr class="blockStyleCss" id="DivObjectID">
 			<td class="detailViewContainer" valign="top">
