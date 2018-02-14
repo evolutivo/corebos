@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-07 15:14:02
+ * @Last Modified time: 2018-02-14 12:31:36
  */
 
 
@@ -501,13 +501,13 @@ if ($MypType=="Mapping") {
 							'Moduli'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],							
 						];
 						foreach ($valuexml->features->feature as $valuefeature) {
-							$temparray['NameInput'][]=(string)$valuefeature->name;
-							$temparray['NameInputText'][]=(string)$valuefeature->name;
-							$temparray['NameInputoptionGroup'][]="";
+							$temparray['NameInput']=(string)$valuefeature->name;
+							$temparray['NameInputText']=(string)$valuefeature->name;
+							$temparray['NameInputoptionGroup']="";
 
-							$temparray['ValueInput'][]=(string)$valuefeature->value;
-							$temparray['ValueInputText'][]=(string)$valuefeature->value;
-							$temparray['ValueInputoptionGroup'][]="";
+							$temparray['ValueInput']=(string)$valuefeature->value;
+							$temparray['ValueInputText']=(string)$valuefeature->value;
+							$temparray['ValueInputoptionGroup']="";
 						}
 
 						array_push($MyArray,$temparray);
@@ -546,6 +546,7 @@ if ($MypType=="Mapping") {
 			$output = $smarty->fetch('modules/MapGenerator/ExtendedFieldInformationMapping.tpl');
 			echo $output;
 			// print_r($Alldatas);
+			exit();
 
 		}else{
 			//TODO:: this is if not find the idquery to load map by Id of map 
@@ -867,6 +868,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 							'DefaultText'=>(string)$valuexml->module,
 							'DuplicateDirectRelationscheck'=>$xml->DuplicateDirectRelations,
 							'DuplicateDirectRelationscheckoptionGroup'=>"",
+							'DuplicateDirectRelationscheckText'=>$xml->DuplicateDirectRelations,
 							'FirstModule'=>(string)$xml->originmodule->originname,
 							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
 							'FirstModuleoptionGroup'=>"undefined",
@@ -2706,6 +2708,7 @@ function Mapping_View($QueryHistory,$MapID)
 
 			$output = $smarty->fetch('modules/MapGenerator/MappingView.tpl');
 			echo $output;
+			exit();
 
 		}elseif(!empty($MapID)){
 
@@ -3259,7 +3262,7 @@ function Get_Modul_fields_check_from_load($module,$checkname,$dbname)
  * @param [type] $CheckNAme  The name of modul you want to check
  */
 function GetModuleMultiToOneForLOadListColumns($m,$CheckNAme)
-   {
+{
     global $log, $mod_strings,$adb;
     $j = 0;
    $query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 

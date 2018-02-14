@@ -68,7 +68,7 @@
                                         <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
                                       {/if}
                                       &nbsp;
-                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-loading="true" data-loading-divid="waitingIddiv" data-send-url="MapGenerator,saveRendicontaConfig" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRendiConfig" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-url="MapGenerator,saveRendicontaConfig" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryRendiConfig" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
                                     </div>
                                   </div>
                                 </div>

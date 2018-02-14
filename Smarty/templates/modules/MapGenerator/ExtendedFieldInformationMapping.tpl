@@ -26,8 +26,8 @@
 		App.ModulLabel='Module';
 		App.FieldLabel='Value';
 		App.DefaultValue='Value';
-		ShowLocalHistoryRecordSetMapping('LoadHistoryPopup','LoadShowPopup')
-		ClickToshowSelectedFiledsRecordSetMapping(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+		ShowLocalHistoryExtendetFieldMap('LoadHistoryPopup','LoadShowPopup');
+		ClickToshowSelectedFiledsExtendetFieldMap(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 		App.countsaveMap=2;
 		App.utils.UpdateMapNAme();
 	</script>
@@ -65,7 +65,7 @@
 											{* saveFieldDependency *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 										{/if}
-											<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveExtendetFieldInformation" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryExtendetFieldMap" data-save-history-show-id-relation="LoadShowPopup" >{$MOD.CreateMap}</button>
+											<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-loading="true" data-loading-divid="LoadingDivId"   data-send-url="MapGenerator,saveExtendetFieldInformation" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-send-savehistory-functionname="ShowLocalHistoryExtendetFieldMap" data-save-history-show-id-relation="LoadShowPopup" >{$MOD.CreateMap}</button>
 									</div>
 								</div>
 							</div>

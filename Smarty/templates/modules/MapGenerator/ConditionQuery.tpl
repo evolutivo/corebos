@@ -37,7 +37,7 @@
 								<div class="slds-no-flex">
 									<div class="actionsContainer mapButton">
 										<div class="slds-section-title--divider">
-											<button class="slds-button slds-button--small slds-button--brand"  data-send-data-id="ListData,MapName" data-send="true"  data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true">{$MOD.CreateMap}</button>
+											<button class="slds-button slds-button--small slds-button--brand"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,SaveTypeMaps" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-loading="true" data-loading-divid="LoadingDivId" data-send-savehistory="true">{$MOD.CreateMap}</button>
 											{if $HistoryMap neq ''}
 												<button data-modal-saveas-open="true" id="SaveAsButton" class="slds-button slds-button--small slds-button--brand">{$MOD.SaveAsMap}</button>
 											{else}

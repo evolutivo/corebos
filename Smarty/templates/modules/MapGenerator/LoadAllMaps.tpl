@@ -59,7 +59,7 @@
 					</div>
 					<div style="text-align: right;">
 						<div style="padding: .5rem;">
-							<input id="set" data-select-map-load="true" data-loading="true" data-loading-divid="LoadingDivId" data-select-map-load-id-relation="GetALLMaps" data-select-map-load-id-to-show="LoadfromMapSecondStep" data-select-map-load-url="MapGenerator,GetMapGeneration" data-showhide-load="true" data-tools-id="LoadfromMapFirstStep,LoadfromMapSecondStep" name="mapbutton" value="Next" class="slds-button slds-button--small slds-button--brand" title="Locate Map" type="button">
+							<input id="set" data-select-map-load="true"  data-loading="true" data-loading-divid="LoadingDivId"  data-select-map-load-id-relation="GetALLMaps" data-select-map-load-id-to-show="LoadfromMapSecondStep" data-select-map-load-url="MapGenerator,GetMapGeneration" data-showhide-load="true" data-tools-id="LoadfromMapFirstStep,LoadfromMapSecondStep" name="mapbutton" value="Next" class="slds-button slds-button--small slds-button--brand" title="Locate Map" type="button">
 						</div>
 					</div>
 				</td>
