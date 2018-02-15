@@ -1148,6 +1148,33 @@
 	}
 /* End Menu Structure */
 
+/* Rendiconda Config */
+	.rc-module-fields,
+	.rc-template-fields {
+		display: flex;
+	}
+	.rc-template-fields {
+		margin: 1rem  0;
+	}
+	.rc-module-fields > div,
+	.rc-template-fields > div {
+		width: 50%;
+		padding: 0 .5rem;
+	}
+	.rc-add-button {
+		padding: 0 .5rem;
+	}
+/* End Rendiconda Config */
+
+
+
+
+
+
+
+
+
+
 /*	#LDSstyle {
 		border: 1px solid black;
 		margin-right: 0px;
