@@ -102,7 +102,6 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 }
 
 .Message-icon button {
-	cursor: pointer;
 	color: #fff;
 	background: transparent;
 	padding: 10px;
@@ -118,7 +117,7 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 .Message-body {
 	display: inline-block;
 	padding: 5px;
-	width: 80%;
+	width: 75%;
 }
 
 .Message-body p {
