@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-15 17:12:01
+ * @Last Modified time: 2018-02-15 18:09:08
  */
 
 document.onkeydown = function(e) {
@@ -2516,7 +2516,8 @@ function addrows(event)
         var BlockName=App.popupJson[i].temparray[`BlockName`];
         alldat=App.popupJson[i].temparray[`rows`];
         var typeofppopup=App.popupJson[i].temparray['JsonType'];
-        var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
+        var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
+        var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,dataDivtoShowe,typeofppopup);
         $('#'+dataDivtoShowe).append(divinsert);
       } 
     }else{
@@ -2536,14 +2537,14 @@ function addrows(event)
  * @param      {<type>}  typeofppopup  The typeofppopup
  * @return     {string}  { description_of_the_return_value }
  */
- function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
+ function addToPopup(Idd,ModuleName,BlockName,alldat,divid,typeofppopup)
  {
   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
   + '">';
   INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
   + Idd + ',\'' + divid + '\');">&times;</span>';
-  INSertAlerstJOIN += ' <p class="block-name"><strong>'+BlockName+'</strong></p>';
-  // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
+  INSertAlerstJOIN += ' <p class="block-name"><strong># Block '+(Idd+1)+' ==> '+BlockName+'</strong></p>';
+  // INSertAlerstJOIN += '<p><strong># Module ==> '+ ModuleName+'</strong></p><br/>';
   if (alldat && alldat.texts.length>0)
   {
     for (var i = 0; i <=alldat.texts.length - 1; i++) {
@@ -2592,7 +2593,8 @@ function addrows(event)
               var BlockName=App.popupJson[i].temparray[`BlockName`];
               alldat=App.popupJson[i].temparray[`rows`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
-              var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
+              var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
+              var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,namediv,typeofppopup);
               $('#'+namediv).append(divinsert);
             } 
 
@@ -2625,7 +2627,7 @@ function addrows(event)
    { 
      $('#'+keephitoryidtoshow+' div').remove();
      for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-      $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,keephitoryidtoshow,keephitoryidtoshowidrelation));
+      $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
     }
   }
 }
@@ -2645,7 +2647,8 @@ if (App.popupJson.length>0)
     var BlockName=App.popupJson[i].temparray[`BlockName`];
     alldat=App.popupJson[i].temparray[`rows`];
     var typeofppopup=App.popupJson[i].temparray['JsonType'];
-    var divinsert= addToPopup(i,BlockName,alldat,divshow,typeofppopup);
+    var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
+    var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,divshow,typeofppopup);
     $('#'+divshow).append(divinsert);
   } 
 }
@@ -2662,7 +2665,7 @@ if (App.popupJson.length>0)
  * @param      {string}  dividrelation  The dividrelation
  * @return     {string}  { description_of_the_return_value }
  */
- function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
+ function showLocalHistory(IdLoad,dataarr='',divanameLoad,dividrelation=''){
   var htmldat='<div class="Message Message"  >';
   htmldat+='<div class="Message-icon">';
         // if (avtive===false)
@@ -2672,10 +2675,11 @@ if (App.popupJson.length>0)
         htmldat+='</div>';
         htmldat+='<div class="Message-body">';
         htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-         for (var i = 0; i <=dataarr.length - 1; i++) {
-          htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
+        htmldat+='<p>Module ==>'+dataarr+'</p>';
+        //  for (var i = 0; i <=dataarr.length - 1; i++) {
+        //   htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
           
-        }       
+        // }       
         htmldat+='</div>';
         // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
         htmldat+='</div>';

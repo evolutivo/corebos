@@ -53,7 +53,7 @@
 		{ 
 			 $('#LoadHistoryPopup div').remove();
 				for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-							$('#LoadHistoryPopup').append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,'LoadHistoryPopup','LoadShowPopup'));
+							$('#LoadHistoryPopup').append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],'LoadHistoryPopup','LoadShowPopup'));
 				}      
 			 App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
 		}else{
