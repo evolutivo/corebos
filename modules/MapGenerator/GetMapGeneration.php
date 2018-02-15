@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 12:31:36
+ * @Last Modified time: 2018-02-15 16:54:36
  */
 
 
@@ -524,7 +524,7 @@ if ($MypType=="Mapping") {
 			 $data="MapGenerator,saveRecordSetMapping";
 			 $dataid="ListData,MapName";
 			 $savehistory="true";
-			 $saveasfunction="ShowLocalHistoryRecordSetMapping";
+			 $saveasfunction="ShowLocalHistoryExtendetFieldMap";
 			//  //assign tpl
 			$smarty = new vtigerCRM_Smarty();
 			$smarty->assign("MOD", $mod_strings);
@@ -1647,6 +1647,7 @@ function FieldDependency($QueryHistory,$MapID)
 		 $data="MapGenerator,saveFieldDependency";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="ShowLocalHistoryFD";
 
 		 //assign the tpl
 		    $smarty = new vtigerCRM_Smarty();
@@ -1788,6 +1789,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 		 $data="MapGenerator,saveFieldDependencyPortal";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="ShowLocalHistoryFD";
 
 		 //assign the tpl
 		    $smarty = new vtigerCRM_Smarty();

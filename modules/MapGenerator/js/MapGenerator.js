@@ -2,7 +2,7 @@
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 11:27:06
+ * @Last Modified time: 2018-02-15 12:01:37
 */
 
 
@@ -1781,7 +1781,7 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
+				INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
 				INSertAlerstJOIN += '<p> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields+ '</p>';
 
 			} else

@@ -122,7 +122,7 @@
 										<div class="add-button-content slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
 											<button class="slds-button slds-button--small slds-button_icon" id="addPopupButton"
 													data-add-button-popup="false" 
-													data-add-type="field" 
+													data-add-type="Field" 
 													data-add-relation-id="FirstModule,FirstFields,NameInput,ValueInput" 
 													data-show-id="FirstFields" 
 													data-show-modul-id="FirstModule" 
