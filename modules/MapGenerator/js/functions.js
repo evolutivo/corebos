@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 15:51:48
+ * @Last Modified time: 2018-02-15 11:29:13
  */
 
 document.onkeydown = function(e) {
@@ -2672,7 +2672,7 @@ if (App.popupJson.length>0)
         htmldat+='</div>';
         htmldat+='<div class="Message-body">';
         htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-        for (var i = 0; i <=dataarr.length - 1; i++) {
+         for (var i = 0; i <=dataarr.length - 1; i++) {
           htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
           
         }       
@@ -3806,7 +3806,7 @@ function RestoreDataEXFIM(sel) {
  * @param      {string}           typepopup  The typepopup
  * @return     {string}           { description_of_the_return_value }
  */
-function addToPopupExtendetFieldMap(Idd,Fields,Name,Value,divid,typepopup)
+function addToPopupExtendetFieldMap(Idd,module,Fields,Name,Value,divid,typepopup)
 {
   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
   + '">';
@@ -3814,7 +3814,8 @@ function addToPopupExtendetFieldMap(Idd,Fields,Name,Value,divid,typepopup)
   + Idd + ',\'' + divid + '\');">&times;</span>';
   if (Fields && Fields!=='')
   {
-   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Field ==>'+Fields + '</p>';
+   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Module ==>'+module + '</p>';
+   INSertAlerstJOIN += '<p> Field  ==> '+Fields + '</p>';
    INSertAlerstJOIN += '<p> Name  ==> '+Name + '</p>';
    INSertAlerstJOIN += '<p> Value  ==> '+Value + '</p>';
  } else
@@ -3863,11 +3864,12 @@ function addExtendetFieldMap(event){
   { 
    for (var i = 0; i <= App.popupJson.length-1; i++) {
      var Field=App.popupJson[i].temparray[`DefaultText`];
+     var Moduli=App.popupJson[i].temparray[`Moduli`];
      var NameInput=App.popupJson[i].temparray[`NameInput`];
      var ValueInput=App.popupJson[i].temparray[`ValueInput`];
      var typeofppopup=App.popupJson[i].temparray['JsonType'];
          
-       var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,divid,typeofppopup);
+       var divinsert= addToPopupExtendetFieldMap(i,Moduli,Field,NameInput,ValueInput,divid,typeofppopup);
        $('#'+divid).append(divinsert);
      
    } 
@@ -3908,8 +3910,9 @@ function addExtendetFieldMap(event){
              var NameInput=App.popupJson[i].temparray[`NameInput`];
              var ValueInput=App.popupJson[i].temparray[`ValueInput`];
              var typeofppopup=App.popupJson[i].temparray['JsonType'];
+             var Moduli=App.popupJson[i].temparray[`Moduli`];
                  
-               var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,namediv,typeofppopup);
+               var divinsert= addToPopupExtendetFieldMap(i,Moduli,Field,NameInput,ValueInput,namediv,typeofppopup);
                $('#'+namediv).append(divinsert);
              
            } 
@@ -3971,8 +3974,9 @@ function addExtendetFieldMap(event){
               var NameInput=App.popupJson[i].temparray[`NameInput`];
               var ValueInput=App.popupJson[i].temparray[`ValueInput`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
+              var Moduli=App.popupJson[i].temparray[`Moduli`];
                   
-                var divinsert= addToPopupExtendetFieldMap(i,Field,NameInput,ValueInput,divHistory,typeofppopup);
+                var divinsert= addToPopupExtendetFieldMap(i,Moduli,Field,NameInput,ValueInput,divHistory,typeofppopup);
                 $('#'+divHistory).append(divinsert);
             
             } 
