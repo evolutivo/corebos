@@ -4,6 +4,14 @@
 		border-spacing: 1rem;
 	}
 
+	.map-generator-cell-container > td:first-child {
+		width: 65%;
+	}
+	.map-generator-cell-container > td:last-child {
+		width: 35%;
+	}
+
+
 	header h1 {
 		margin-top: 15px;
 	}
@@ -242,60 +250,63 @@
 		margin-bottom: 20px!important;
 	}
 /* End Create Join Condition */
+	/*.condition-expression-container .tab input[type=checkbox] + label::after {
+		content: ">";
+		font-size: 20px;
+	}*/
 
 /* Condition Expression */
-	.half {
-		width: 100%;
+	.condition-expression-container .tab-content {
+		-webkit-transition: max-height .35s;
+		-o-transition: max-height .35s;
+		transition: max-height .05s;
+		max-height: 0;
+		overflow: hidden;
 	}
-
-	.tab {
+	.condition-expression-container .tab {
+		border: 1px solid #d4d4d4;
+		border-radius: 5px;
 		position: relative;
 		margin-bottom: 1px;
 		width: 100%;
 		color: #fff;
 		overflow: hidden;
+		margin-bottom: .5rem;
 	}
-	input[type=radio] {
-		position: absolute;
-		opacity: 0;
-		z-index: -1;
-	}
-	label {
-		position: relative;
-			display: block;
-			padding: 0 0 0 1em;
-			color: #54698d;
-			font-weight: bold;
-			line-height: 3;
-			cursor: pointer;
-			background-color: #f4f6f9;
-			font-size: 1.0rem;
-			text-align: center;
-			background-color: transparent;
-	}
-	.blue label {
-		background: #2980b9;
-	}
-	.tab-content {
-		max-height: 0;
-		overflow: hidden;
-		background: #f7f9fb;
-		-webkit-transition: max-height .35s;
-		-o-transition: max-height .35s;
-		transition: max-height .05s;
-	}
-	.blue .tab-content {
-		background: #3498db;
-	}
-	.tab-content p {
-		margin: 1em;
-	}
-
-	input:checked ~ .tab-content {
+	.condition-expression-container .tab input:checked ~ .tab-content {
 		max-height: 100%;
 	}
+	.condition-expression-container .tab input[type=radio] {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		opacity: 0;
+	}
+	.condition-expression-container .tab input[type=radio] + label::after {
+		content: "\25B6";
+	}
+	.condition-expression-container .tab input[type=radio]:checked + label::after {
+		transform: rotate(90deg);
+	}
 
-	label::after {
+	.expression-label,
+	.function-label {
+		border-bottom: 1px solid #d4d4d4;
+		position: relative;
+		display: block;
+		padding: 0 0 0 1em;
+		margin-bottom: 0;
+		color: #54698d;
+		font-weight: bold;
+		line-height: 3;
+		cursor: pointer;
+		background-color: #f4f6f9;
+		font-size: 1.0rem;
+		text-align: center;
+		background-color: transparent;
+	}
+	.expression-label::after,
+	.function-label::after {
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -308,18 +319,54 @@
 		-o-transition: all .35s;
 		transition: all .35s;
 	}
-	input[type=checkbox] + label::after {
-		content: ">";
-		font-size: 20px;
+
+	.exp-module-fields,
+	.func-name-module,
+	.func-select-or-write-params {
+		display: flex;
+		width: 100%;
+		margin-top: .5rem;
 	}
-	input[type=radio] + label::after {
-		content: "\25BC";
+	.exp-select-module,
+	.exp-select-fields,
+	.func-name-module > div,
+	.func-select-or-write-params > div {
+		width: 50%;
+		padding: 0 .5rem;
 	}
-	input[type=checkbox]:checked + label::after {
-		transform: rotate(90deg);
+	.exp-textarea-container {
+		margin: 1rem 0;
+		padding: 0 .5rem;
 	}
-	input[type=radio]:checked + label::after {
-		transform: rotateX(180deg);
+	.exp-textarea-container textarea {
+		min-height: 32px;
+	}
+	.exp-add-button {
+		padding: 0 .5rem;
+		margin: .5rem 0;
+	}
+	.func-name-module input {
+		width: 100%;
+	}
+	.func-name-module button {
+		position: absolute;
+		top: 5px;
+	}
+	.func-name-module #help {
+		position: absolute;
+		top: 30px;
+		right: 0;
+		min-height: 1rem;
+		width: 100%;
+	}
+	.func-select-or-write-params {
+		margin-top: 1rem;
+		margin-bottom: .5rem;
+	}
+	.func-select-or-write-params input {
+		width: 100%;
+		min-height: 26px;
+		height: 26px;
 	}
 /* End Condition Expression */
 
@@ -1101,10 +1148,30 @@
 	}
 /* End Menu Structure */
 
-/* Condition Expression */
-	
+/* Rendiconda Config */
+	.rc-module-fields,
+	.rc-template-fields {
+		display: flex;
+	}
+	.rc-template-fields {
+		margin: 1rem  0;
+	}
+	.rc-module-fields > div,
+	.rc-template-fields > div {
+		width: 50%;
+		padding: 0 .5rem;
+	}
+	.rc-add-button {
+		padding: 0 .5rem;
+	}
+/* End Rendiconda Config */
 
-/* End Condition Expression */
+
+
+
+
+
+
 
 
 
