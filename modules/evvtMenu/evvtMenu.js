@@ -22,8 +22,12 @@ function getMenuInfo(info){
 	document.getElementById('mtype').value = (info['mtype']);
 	document.getElementById('mlabel').value = (info['mlabel']);
 	document.getElementById("mvisible").checked = (info['mvisible']=='1');
-	if(info.mtype==='module') document.getElementById('modname').value = (info['mvalue']);
-	if(info.mtype==='url') document.getElementById('mvalue').value = (info['mvalue']);
+	if (info.mtype==='module') {
+		document.getElementById('modname').value = (info['mvalue'])
+	}
+	if (info.mtype==='url') {
+		document.getElementById('mvalue').value = (info['mvalue']);
+	}
 	document.getElementById('mpermission').value = (info['mpermission'].split(','));
 	showFormParts(info['mtype']);
 }
@@ -43,7 +47,7 @@ function clearForm(){
 
 function showFormParts(mtype){
 	var element;
-	switch (mtype){
+	switch (mtype) {
 		case 'module':
 			element = document.getElementById('moduleForm');
 			element.classList.remove("hide");

@@ -17,7 +17,3 @@ function getData(fieldname, modulename, divid){
 	});
 }
 
-function OnScrollDiv (div) {
-	var info = document.getElementById ('info');
-	info.innerHTML = 'Horizontal: ' + div.scrollLeft + 'px<br/>Vertical: ' + div.scrollTop + 'px';
-}
