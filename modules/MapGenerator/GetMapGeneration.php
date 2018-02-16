@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-15 16:54:36
+ * @Last Modified time: 2018-02-16 10:54:41
  */
 
 
@@ -1481,7 +1481,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		 			'Firstfield2'=>array(),
 		 			'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
 		 			'FirstfieldoptionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
-		 			'JsonType'=>"Module",
+		 			'JsonType'=>"Search",
 		 			'startwithchck'=>($value->searchcondition=="startswith")?1:0,
 		 			'startwithchckoptionGroup'=>"",
 		 		];
@@ -1506,6 +1506,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		 $data="MapGenerator,saveGlobalSearchAutocomplete";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="LoaclHistoryGSA";
 
 		 //assign tpl
 		$smarty = new vtigerCRM_Smarty();
@@ -1520,7 +1521,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 		$smarty->assign("FirstModuleFields",$FirstModuleFields);
 		//put the smarty modal
-		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
 		$smarty->assign("PopupJS",$Alldatas);
 		$output = $smarty->fetch('modules/MapGenerator/GlobalSearchAutocomplete.tpl');
@@ -1663,7 +1664,7 @@ function FieldDependency($QueryHistory,$MapID)
 			$smarty->assign("Picklistdropdown",$Picklistdropdown);
 			$smarty->assign("NameOFMap",$NameOFMap);
 			//put the smarty modal
-			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
 			$smarty->assign("PopupJS",$Alldatas);
 			$output = $smarty->fetch('modules/MapGenerator/FieldDependency.tpl');
@@ -1804,7 +1805,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 			$smarty->assign("Picklistdropdown",$Picklistdropdown);
 			//put the smarty modal
-			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,saveasfunction));
 
 			$smarty->assign("PopupJS",$Alldatas);
 			$smarty->assign("NameOFMap",$NameOFMap);

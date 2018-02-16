@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-15 18:09:08
+ * @Last Modified time: 2018-02-16 10:34:21
  */
 
 document.onkeydown = function(e) {
@@ -4154,5 +4154,33 @@ function ClickToshowSelectedFD(Idload,divHistory)
 }
 
 
+///////////////// Globa search Autocompleate //////////////////////////////////////////
 
 
+function LocalHistoryHtmlGSA(IdLoad,divanameLoad,dividrelation='',callfunction='')
+{
+  var htmldat='<div class="Message"  >';
+				htmldat+='<div class="Message-icon">';
+				htmldat+='<button data-history-show-modal="true" data-history-show-modal-id="'+IdLoad+'" data-history-show-modal-divname="'+divanameLoad+'" data-history-show-modal-divname-relation="'+dividrelation+'" data-history-show-modal-function="'+callfunction+'" ><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>';
+				htmldat+='</div>';
+				htmldat+='<div class="Message-body">';
+				htmldat+='<p class="history-title">@HISTORY : '+(IdLoad+1)+'<br/></p>';
+			  htmldat+='</div>';
+				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
+				htmldat+='</div>';
+				return htmldat;
+}
+
+
+
+function LoaclHistoryGSA(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+         $('#'+keephitoryidtoshow).append(LocalHistoryHtmlGSA(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}

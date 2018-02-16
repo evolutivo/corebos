@@ -1,8 +1,20 @@
 /*
+ * @Author: Edmond Kacaj 
+ * @Date: 2018-02-16 10:24:21 
+ * @Last Modified by:   programim95@gmail.com 
+ * @Last Modified time: 2018-02-16 10:24:21 
+ */
+/*
+ * @Author: Edmond Kacaj 
+ * @Date: 2018-02-16 10:24:20 
+ * @Last Modified by:   programim95@gmail.com 
+ * @Last Modified time: 2018-02-16 10:24:20 
+ */
+/*
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-15 12:01:37
+ * @Last Modified time: 2018-02-16 10:01:49
 */
 
 
@@ -182,6 +194,9 @@
 						urlsend, dat);
 			}else if (select == "GlobalSearchAutocomplete") {
 				// idfieldfill,urlsend,dat
+				//  App.ModulLabel='Module';
+				//  App.FieldLabel='Module';
+				 App.DefaultValue='Module';
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
@@ -1786,7 +1801,7 @@
 
 			} else
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
+				INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
 			}
 			
 			INSertAlerstJOIN += '</div';
