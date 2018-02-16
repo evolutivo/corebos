@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 13:25:27
+ * @Last Modified time: 2018-02-16 18:14:06
  */
 
 document.onkeydown = function(e) {
@@ -39,6 +39,7 @@ return false;
  var returnfromgeanratejoin=false;
  var rowsInViewPosrtal=new Array();
  var LocalHistoryPopup=new Array();
+ var index=1;
 
  $( function() {
   $( document ).tooltip();
@@ -2953,8 +2954,8 @@ function ShowHistoryDataLocal(Idload,divHistory)
 {
   var historydata=App.SaveHistoryPop[parseInt(Idload)];
   App.popupJson.length=0;
-  App.ModulLabel='Module';
-  App.FieldLabel='Label';
+  App.ModulLabel='Module 1';
+  App.FieldLabel='Module 2';
   for (var i=0;i<=historydata.PopupJSON.length-1;i++){
     App.popupJson.push(historydata.PopupJSON[i]);
   }
@@ -4185,4 +4186,136 @@ function LoaclHistoryGSA(keephitoryidtoshow,keephitoryidtoshowidrelation)
 
       }
     }
+}
+
+
+
+
+////////////////// MENUSTRUCTURE /////////////////////////////////////////
+
+
+function PopupMenustructure(Idd,Popuparray=[],divid)
+{
+  
+    if ($("#" + Popuparray.temparray['LabelName']).length == 0) {
+        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+        INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
+        INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName']+'">';
+        INSertAlerstJOIN += '<strong># Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
+        INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '<i >&times;</i></p>';
+        INSertAlerstJOIN +='<div>';
+        INSertAlerstJOIN += '</div';
+        return INSertAlerstJOIN;
+    } else {
+      var count = $('#'+Popuparray.temparray['LabelName']+' p').length;
+      var InsertModule= '<p id="deleteModul" style="margin-top:3px;" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+(count+1)+' ==> '+Popuparray.temparray['FirstModuleText']+ '<i >&times;</i></p>';
+      $("#" + Popuparray.temparray['LabelName']).append(InsertModule);
+    }
+     
+}
+
+function AddPopupMenustrusture(event)
+{
+    var elem=event;
+
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+      validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    $('#'+divid+' div').remove();
+
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+            var divinsert= PopupMenustructure(i,App.popupJson[i],divid);
+            $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}
+
+
+function DeleteModuleMenustructure(remuveid,namediv) {
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
+
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var divinsert= PopupMenustructure(i,App.popupJson[i],namediv);
+              $('#'+namediv).append(divinsert);
+            }     
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+}
+
+function DeleteBlockMenustructure(LabelName,namediv)
+{
+  var check = false;
+  var nutmodelete=[];
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (App.popupJson[ii].temparray['LabelName'].replace('/\s+/g', '') == LabelName.replace('/\s+/g', '')) {
+               nutmodelete.push(ii);
+           }
+         }
+         nutmodelete.forEach(function(el){
+          App.popupJson.splice(el,1);
+          check = true;
+         })
+         
+         if (check) {
+          
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var divinsert= PopupMenustructure(i,App.popupJson[i],namediv);
+              $('#'+namediv).append(divinsert);
+            }     
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
 }
