@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 11:49:49
+ * @Last Modified time: 2018-02-16 13:25:27
  */
 
 document.onkeydown = function(e) {
@@ -2094,11 +2094,11 @@ function GenearteMasterDetail() {
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
     + Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+' <p> ' +firstfield + '</p>';
-    INSertAlerstJOIN += '<br><strong>#Sort!  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Editable!  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Mandatory!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Hidden!  '+(Idd+1)+'</strong> '+(hiddenchk==1?"True":"False");
+    INSertAlerstJOIN += '<strong>#Field'+(Idd+1)+' ==> </strong> ' +firstfield;
+    INSertAlerstJOIN += '<p><strong>Sort:  </strong> '+(sortt6ablechk==1?"True":"False")+'</p>';
+    INSertAlerstJOIN += '<p><strong>Editable: </strong> '+(editablechk==1?"True":"False")+'</p>';
+    INSertAlerstJOIN += '<p><strong>Mandatory: </strong> '+(mandatorychk==1?"True":"False")+'</p>';
+    INSertAlerstJOIN += '<p><strong>Hidden: </strong> '+(hiddenchk==1?"True":"False")+'</p>';
 
     INSertAlerstJOIN += '</div';
 
