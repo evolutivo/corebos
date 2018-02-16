@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 12:31:21
+ * @Last Modified time: 2018-02-16 13:16:22
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1610,7 +1610,7 @@
 				// INSertAlerstJOIN += '<span class="closebtns"
 				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
 				// class="icono-eye"></</span>';
-				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> ';
+				INSertAlerstJOIN += '<strong># Mapping  ' + Idd + '</strong> ';
 				INSertAlerstJOIN += '<p> '+Firstmodulee + '=>' + FirstField + '</p>';
 				INSertAlerstJOIN += '<p> '+secondmodule + '=>' + SecondField + '</p>';
 				// if (last_check==true) {//icono-plusCircle
