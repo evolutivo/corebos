@@ -1,8 +1,8 @@
 /*
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
- * @Last Modified by:   programim95@gmail.com 
- * @Last Modified time: 2018-02-16 10:24:21 
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-16 12:31:21
  */
 /*
  * @Author: Edmond Kacaj 
@@ -150,6 +150,7 @@
 						urlsend, dat);
 			}else if (select == "ListColumns") {
 				// idfieldfill,urlsend,dat
+				App.DefaultValue='Field';
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"

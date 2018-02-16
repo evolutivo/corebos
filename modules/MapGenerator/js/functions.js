@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 11:40:20
+ * @Last Modified time: 2018-02-16 11:49:49
  */
 
 document.onkeydown = function(e) {
@@ -2877,11 +2877,11 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
    + Idd + ',\'' + divid + '\');">&times;</span>';
    if (moduli && moduli!=='')
    {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
+    INSertAlerstJOIN += '<strong># '+typepopup+'  '+(Idd+1)+'</strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
     INSertAlerstJOIN += '<p> '+mv_arr.field+'  ==> '+fields + '</p>';
   } else
   {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+ '<p>' +fields + '</p>';
+    INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong> '+ '<p>' +fields + '</p>';
   }
 
   INSertAlerstJOIN += '</div';

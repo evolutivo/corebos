@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 10:54:41
+ * @Last Modified time: 2018-02-16 12:54:28
  */
 
 
@@ -2208,7 +2208,7 @@ function List_Clomns($QueryHistory,$MapID)
 						 'FirstModuleoptionGroup' =>"undefined",
 						'FirstfieldID'=>(string)$xml->popup->linkfield,
 						'FirstfieldIDoptionGroup'=>"",
-						'JsonType'=>"Related",
+						'JsonType'=>"Related List",
 						'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
 						'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
 						'SecondfieldID'=>(string)$field->linkfield,
@@ -2232,7 +2232,7 @@ function List_Clomns($QueryHistory,$MapID)
 						'FirstfieldID'=>(string)$xml->popup->linkfield,
 						'FirstfieldIDoptionGroup'=>"",
 						'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
-						'JsonType'=>"Popup",
+						'JsonType'=>"Popup Screen",
 						
 					];
 					array_push($MyArray,$Arraypopup);

@@ -11,35 +11,35 @@
 
 {if $PopupJS neq ''}
   <script type="text/javascript">
-      {foreach from=$PopupJS item=allitems key=key name=name}
-           {foreach name=outer item=popi from=$allitems}  
-            var temparray = {};
-            {foreach key=key item=item from=$popi}
-                temparray['{$key}']='{$item}';
+        {foreach from=$PopupJS item=allitems key=key name=name}
+            {foreach name=outer item=popi from=$allitems}  
+                var temparray = {};
+                {foreach key=key item=item from=$popi}
+                    temparray['{$key}']='{$item}';
+                {/foreach}
+                App.popupJson.push({'{'}temparray{'}'});
+                // console.log(temparray);
             {/foreach}
-            App.popupJson.push({'{'}temparray{'}'});
-            // console.log(temparray);
-          {/foreach}
-           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-          App.popupJson.length=0;
-      {/foreach}
+            HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+            App.popupJson.length=0;
+        {/foreach}
     
-     if (App.SaveHistoryPop.length>0)
-    { 
-        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
-       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-    }else{
-       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-     }
-
-    var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
-    App.popupJson.length=0;
-    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-    App.popupJson.push(historydata.PopupJSON[i]);
-    }
-    App.utils.ReturnDataSaveHistory('LoadShowPopup');
-    App.countsaveMap=2;
-    App.utils.UpdateMapNAme();
+        if (App.SaveHistoryPop.length>0)
+        { 
+            App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+        }else{
+        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+        }
+        App.DefaultValue='Field';
+        var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+        App.popupJson.length=0;
+        for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+        App.popupJson.push(historydata.PopupJSON[i]);
+        }
+        App.utils.ReturnDataSaveHistory('LoadShowPopup');
+        App.countsaveMap=2;
+        App.utils.UpdateMapNAme();
 
   </script>
 
@@ -204,7 +204,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-                                                                <button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+                                                                <button data-add-button-popup="true" data-add-type="Related List" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
                                                                     <img src="themes/images/btnL3Add.gif">
                                                                 </button>
                                                             </div>
@@ -258,7 +258,7 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-                                                                    <button data-add-button-popup="true" data-add-type="Popup" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+                                                                    <button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
                                                                         <img src="themes/images/btnL3Add.gif">
                                                                     </button>
                                                                 </div>
