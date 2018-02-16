@@ -117,9 +117,22 @@ if(isset($_REQUEST['record']) && !is_numeric($_REQUEST['record']) && $_REQUEST['
 
 // Check to see if there is an authenticated user in the session.
 $use_current_login = false;
-if(isset($_SESSION["authenticated_user_id"]) && (isset($_SESSION["app_unique_key"]) && $_SESSION["app_unique_key"] == $application_unique_key))
-{
-	$use_current_login = true;
+if (isset($_SESSION['authenticated_user_id']) && (isset($_SESSION['app_unique_key']) && $_SESSION['app_unique_key'] == $application_unique_key)) {
+	if ($cbodUniqueUserConnection) {
+		$connection_id = coreBOS_Settings::getSetting('cbodUserConnection'.$_SESSION['authenticated_user_id'], -1);
+		if (isset($_SESSION['conn_unique_key']) && $_SESSION['conn_unique_key'] == $connection_id) {
+			$use_current_login = true;
+		} else {
+			//To prevent showing checkbox if user is forced to log out
+			coreBOS_Session::delete('authenticated_user_id');
+			coreBOS_Session::delete('can_unblock');
+		}
+	} else {
+		$use_current_login = true;
+	}
+	if ($use_current_login) {
+		coreBOS_Settings::setSetting('cbodLastLoginTime'.$_SESSION['authenticated_user_id'], time());
+	}
 }
 
 // Prevent loading Login again if there is an authenticated user in the session.
@@ -172,7 +185,6 @@ if (isset($action) && isset($module)) {
 		preg_match("/^Authenticate/", $action) ||
 		preg_match("/^Logout/", $action) ||
 		preg_match("/^LeadConvertToEntities/", $action) ||
-		preg_match("/^downloadfile/", $action) ||
 		preg_match("/^massdelete/", $action) ||
 		preg_match("/^updateRole/",$action) ||
 		preg_match("/^UserInfoUtil/",$action) ||
@@ -233,7 +245,6 @@ if (isset($action) && isset($module)) {
 			preg_match("/^".$module."Ajax/",$action) ||
 			preg_match("/^MassEditSave/", $action) ||
 			preg_match("/^ChangePassword/", $action) ||
-			preg_match("/^downloadfile/", $action) ||
 			preg_match("/^lookupemailtemplate/",$action) ||
 			preg_match("/^home_rss/",$action) ||
 			preg_match("/^massdelete/", $action) ||
@@ -248,8 +259,7 @@ if (isset($action) && isset($module)) {
 			)
 			$skipFooters=true;
 		//skip footers for all these invocations as they are mostly popups
-		if(preg_match("/^downloadfile/", $action)
-		|| preg_match("/^mailmergedownloadfile/",$action)
+		if (preg_match("/^mailmergedownloadfile/",$action)
 		|| preg_match("/^get_img/",$action)
 		|| preg_match("/^dlAttachments/", $action )
 		|| preg_match("/^iCalExport/", $action)
@@ -269,7 +279,7 @@ if (isset($action) && isset($module)) {
 		header( "Pragma: no-cache" );
 	}
 
-	if (($module == 'Users' || $module == 'Home' || $module == 'uploads') && (empty($_REQUEST['parenttab']) || $_REQUEST['parenttab'] != 'Settings')) {
+	if (($module == 'Users' || $module == 'Home') && (empty($_REQUEST['parenttab']) || $_REQUEST['parenttab'] != 'Settings')) {
 		$skipSecurityCheck=true;
 	}
 
@@ -487,7 +497,7 @@ else if(!vtlib_isModuleActive($currentModule)
 		require_once('Smarty_setup.php');
 		$smarty = new vtigerCRM_Smarty();
 		$smarty->assign('APP', $app_strings);
-		$smarty->assign('OPERATION_MESSAGE', $currentModule . $app_strings['VTLIB_MOD_NOT_ACTIVE']);
+		$smarty->assign('OPERATION_MESSAGE', getTranslatedString($currentModule, $currentModule) . $app_strings['VTLIB_MOD_NOT_ACTIVE']);
 		$smarty->display('modules/Vtiger/OperationNotPermitted.tpl');
 }
 else

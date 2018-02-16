@@ -2133,7 +2133,7 @@ function generateQuestionMarks($items_list) {
 function is_uitype($uitype, $reqtype) {
 	$ui_type_arr = array(
 		'_date_' => array(5, 6, 23, 70),
-		'_picklist_' => array(15, 16, 52, 53, 54, 55, 59, 62, 63, 66, 76, 77, 78, 80, 98, 101, 115, 357),
+		'_picklist_' => array(15, 16, 52, 53, 54, 55, 62, 63, 66, 76, 77, 78, 80, 98, 101, 115, 357),
 		'_users_list_' => array(52),
 	);
 
@@ -2200,7 +2200,7 @@ function getCurrentModule($perform_set=false) {
 		$is_module = false;
 		$module = vtlib_purify($_REQUEST['module']);
 		$dir = @scandir($root_directory.'modules', SCANDIR_SORT_NONE);
-		$temp_arr = Array('.','..','Vtiger','uploads');
+		$temp_arr = array('.','..','Vtiger');
 		$res_arr = @array_diff($dir,$temp_arr);
 		if (!preg_match("/[\/.]/",$module)) {
 			$is_module = @in_array($module,$res_arr);
@@ -2463,11 +2463,6 @@ function getRecordValues($id_array,$module) {
 					$user_id = $field_values[$j][$fld_name];
 					$user_name=getUserFullName($user_id);
 					$value_pair['disp_value']=$user_name;
-				} elseif($ui_type ==59) {
-					$product_name=getProductName($field_values[$j][$fld_name]);
-					if($product_name != '')
-						$value_pair['disp_value']=$product_name;
-					else $value_pair['disp_value']='';
 				} elseif($ui_type == 10) {
 					$value_pair['disp_value'] = getRecordInfoFromID($field_values[$j][$fld_name]);
 				}elseif($ui_type == 5 || $ui_type == 6 || $ui_type == 23){
@@ -2852,13 +2847,6 @@ function getDuplicateRecordsArr($module)
 				} else {
 					$result[$col_arr[$k]]='';
 				}
-			}
-			if($ui_type[$fld_arr[$k]] == 59)
-			{
-				$product_name=getProductName($result[$col_arr[$k]]);
-				if($product_name != '')
-					$result[$col_arr[$k]]=$product_name;
-				else $result[$col_arr[$k]]='';
 			}
 			/*uitype 10 handling*/
 			if($ui_type[$fld_arr[$k]] == 10){

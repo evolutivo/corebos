@@ -536,17 +536,6 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		$label_fld[] = $contact_name;
 		$label_fld["secid"] = $contact_id;
 		$label_fld["link"] = "index.php?module=Contacts&action=DetailView&record=" . $contact_id;
-	} elseif ($uitype == 59) {
-		$label_fld[] = getTranslatedString($fieldlabel, $module);
-		$product_id = $col_fields[$fieldname];
-		$product_name = '';
-		if ($product_id != '') {
-			$product_name = getProductName($product_id);
-		}
-		//Account Name View
-		$label_fld[] = $product_name;
-		$label_fld["secid"] = $product_id;
-		$label_fld["link"] = "index.php?module=Products&action=DetailView&record=" . $product_id;
 	} elseif ($uitype == 61) {
 		global $adb;
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
@@ -560,7 +549,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 					$rs = $adb->pquery($attachquery, array($attachmentid));
 					$attachmentsname = $adb->query_result($rs, 0, 'name');
 					if ($attachmentsname != '') {
-						$custfldval = '<a href = "index.php?module=uploads&action=downloadfile&return_module=' . $col_fields['record_module'] . '&fileid=' . $attachmentid . '&entityid=' . $col_fields['record_id'] . '">' . $attachmentsname . '</a>';
+						$custfldval = '<a href = "index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=downloadfile&return_module=' . $col_fields['record_module'] . '&fileid=' . $attachmentid . '&entityid=' . $col_fields['record_id'] . '">' . $attachmentsname . '</a>';
 					}
 				}
 				$label_fld['options'][] = $custfldval;
@@ -592,7 +581,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 					}
 				} elseif ($col_fields['filelocationtype'] == 'I') {
 					if ($col_fields['filestatus'] == 1) {
-						$custfldval = '<a href = "index.php?module=uploads&action=downloadfile&return_module=' . $col_fields['record_module'] . '&fileid=' . $attachmentid . '&entityid=' . $col_fields['record_id'] . '" onclick=\'javascript:dldCntIncrease(' . $col_fields['record_id'] . ');\'>' . $col_fields[$fieldname] . '</a>';
+						$custfldval = '<a href = "index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=downloadfile&return_module=' . $col_fields['record_module'] . '&fileid=' . $attachmentid . '&entityid=' . $col_fields['record_id'] . '" onclick=\'javascript:dldCntIncrease(' . $col_fields['record_id'] . ');\'>' . $col_fields[$fieldname] . '</a>';
 					} else {
 						$custfldval = $col_fields[$fieldname];
 					}
@@ -626,7 +615,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				}
 			} elseif ($col_fields['filelocationtype'] == 'I') {
 				if ($col_fields['filestatus'] == 1) {
-					$custfldval = '<a href = "index.php?module=uploads&action=downloadfile&return_module=' . $col_fields['record_module'] . '&fileid=' . $attachmentid . '&entityid=' . $col_fields['record_id'] . '" onclick=\'javascript:dldCntIncrease(' . $col_fields['record_id'] . ');\'>' . $col_fields[$fieldname] . '</a>';
+					$custfldval = '<a href = "index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=downloadfile&return_module=' . $col_fields['record_module'] . '&fileid=' . $attachmentid . '&entityid=' . $col_fields['record_id'] . '" onclick=\'javascript:dldCntIncrease(' . $col_fields['record_id'] . ');\'>' . $col_fields[$fieldname] . '</a>';
 				} else {
 					$custfldval = $col_fields[$fieldname];
 				}
@@ -1816,6 +1805,9 @@ function getDetailBlockInformation($module, $result, $col_fields, $tabid, $block
 				$parent_id = $col_fields[$fieldname];
 				for ($index = 0; $index < $adb->num_rows($fldmod_result); ++$index) {
 					$entityTypes[] = $adb->query_result($fldmod_result, $index, 'relmodule');
+				}
+				if (count($entityTypes)==0) {
+					continue;
 				}
 				if (!empty($parent_id)) {
 					if ($adb->num_rows($fldmod_result)==1) {

@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 18:14:06
+ * @Last Modified time: 2018-02-16 18:32:21
  */
 
 document.onkeydown = function(e) {
@@ -2095,11 +2095,11 @@ function GenearteMasterDetail() {
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
     + Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>#Field'+(Idd+1)+' ==> </strong> ' +firstfield;
-    INSertAlerstJOIN += '<p><strong>Sort:  </strong> '+(sortt6ablechk==1?"True":"False")+'</p>';
-    INSertAlerstJOIN += '<p><strong>Editable: </strong> '+(editablechk==1?"True":"False")+'</p>';
-    INSertAlerstJOIN += '<p><strong>Mandatory: </strong> '+(mandatorychk==1?"True":"False")+'</p>';
-    INSertAlerstJOIN += '<p><strong>Hidden: </strong> '+(hiddenchk==1?"True":"False")+'</p>';
+    INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+' <p> ' +firstfield + '</p>';
+    INSertAlerstJOIN += '<br><strong>#Sort!  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>#Editable!  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>#Mandatory!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>#Hidden!  '+(Idd+1)+'</strong> '+(hiddenchk==1?"True":"False");
 
     INSertAlerstJOIN += '</div';
 
@@ -2271,6 +2271,23 @@ function removearrayselectedall()
   }
 }
 
+
+/*
+ *Condition Expression -> Expression Tab
+ *Enable/Disable Fields on module select
+ */
+function enableExpressionFields(elem)
+{
+    var selectedValue = elem.value;
+    if (selectedValue != '' )
+    {
+      $('#Firstfield').removeAttr('disabled');
+      $('#expresion').removeAttr('disabled');
+    }else {
+      $('#Firstfield').attr('disabled', 'disabled');
+      $('#expresion').attr('disabled', 'disabled');
+    }
+}
 
 
 //check if function name is empty or not 
@@ -2517,8 +2534,7 @@ function addrows(event)
         var BlockName=App.popupJson[i].temparray[`BlockName`];
         alldat=App.popupJson[i].temparray[`rows`];
         var typeofppopup=App.popupJson[i].temparray['JsonType'];
-        var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
-        var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,dataDivtoShowe,typeofppopup);
+        var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
         $('#'+dataDivtoShowe).append(divinsert);
       } 
     }else{
@@ -2538,14 +2554,14 @@ function addrows(event)
  * @param      {<type>}  typeofppopup  The typeofppopup
  * @return     {string}  { description_of_the_return_value }
  */
- function addToPopup(Idd,ModuleName,BlockName,alldat,divid,typeofppopup)
+ function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
  {
   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
   + '">';
   INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
   + Idd + ',\'' + divid + '\');">&times;</span>';
-  INSertAlerstJOIN += ' <p class="block-name"><strong># Block '+(Idd+1)+' ==> '+BlockName+'</strong></p>';
-  // INSertAlerstJOIN += '<p><strong># Module ==> '+ ModuleName+'</strong></p><br/>';
+  INSertAlerstJOIN += ' <p class="block-name"><strong>'+BlockName+'</strong></p>';
+  // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
   if (alldat && alldat.texts.length>0)
   {
     for (var i = 0; i <=alldat.texts.length - 1; i++) {
@@ -2594,8 +2610,7 @@ function addrows(event)
               var BlockName=App.popupJson[i].temparray[`BlockName`];
               alldat=App.popupJson[i].temparray[`rows`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
-              var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
-              var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,namediv,typeofppopup);
+              var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
               $('#'+namediv).append(divinsert);
             } 
 
@@ -2628,7 +2643,7 @@ function addrows(event)
    { 
      $('#'+keephitoryidtoshow+' div').remove();
      for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-      $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
+      $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,keephitoryidtoshow,keephitoryidtoshowidrelation));
     }
   }
 }
@@ -2648,8 +2663,7 @@ if (App.popupJson.length>0)
     var BlockName=App.popupJson[i].temparray[`BlockName`];
     alldat=App.popupJson[i].temparray[`rows`];
     var typeofppopup=App.popupJson[i].temparray['JsonType'];
-    var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
-    var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,divshow,typeofppopup);
+    var divinsert= addToPopup(i,BlockName,alldat,divshow,typeofppopup);
     $('#'+divshow).append(divinsert);
   } 
 }
@@ -2666,7 +2680,7 @@ if (App.popupJson.length>0)
  * @param      {string}  dividrelation  The dividrelation
  * @return     {string}  { description_of_the_return_value }
  */
- function showLocalHistory(IdLoad,dataarr='',divanameLoad,dividrelation=''){
+ function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
   var htmldat='<div class="Message Message"  >';
   htmldat+='<div class="Message-icon">';
         // if (avtive===false)
@@ -2676,11 +2690,10 @@ if (App.popupJson.length>0)
         htmldat+='</div>';
         htmldat+='<div class="Message-body">';
         htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-        htmldat+='<p>Module ==>'+dataarr+'</p>';
-        //  for (var i = 0; i <=dataarr.length - 1; i++) {
-        //   htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
+         for (var i = 0; i <=dataarr.length - 1; i++) {
+          htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
           
-        // }       
+        }       
         htmldat+='</div>';
         // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
         htmldat+='</div>';
@@ -2878,11 +2891,11 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
    + Idd + ',\'' + divid + '\');">&times;</span>';
    if (moduli && moduli!=='')
    {
-    INSertAlerstJOIN += '<strong># '+typepopup+'  '+(Idd+1)+'</strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
+    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
     INSertAlerstJOIN += '<p> '+mv_arr.field+'  ==> '+fields + '</p>';
   } else
   {
-    INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong> '+ '<p>' +fields + '</p>';
+    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+ '<p>' +fields + '</p>';
   }
 
   INSertAlerstJOIN += '</div';
@@ -3241,10 +3254,9 @@ function checkIfAdded(event){
   {
     if(App.popupJson.length>0){
        for (var i = App.popupJson.length - 1; i >= 0; i--) {
-           if (App.popupJson[i].temparray.PickListFields.replace('/\s+/g', '')===values)
+           if (App.popupJson[i].temparray.PickListFields.replace(/\s+/g, '')===values)
             {
-              // alert(mv_arr.NotAllowedDopcicate);
-              App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+              alert(mv_arr.NotAllowedDopcicate);
               $('option:selected', event).removeAttr('selected');
 
             }
@@ -3511,10 +3523,9 @@ function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,divi
      + Idd + ',\'' + divid + '\');">&times;</span>';
      if (FirstModule && FirstModule!=='')
      {
-        INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><br/>';
-        // INSertAlerstJOIN += '<p> '+mv_arr.module+'  ==> '+FirstModule+'</b>';
-        INSertAlerstJOIN += '<p> Field  ==> '+FirestFields+'</b>';
-        INSertAlerstJOIN += '<p> Match Field  ==> '+SecondFields+'</b>';
+        INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
+        INSertAlerstJOIN += '<br/> Field  ==> '+FirestFields;
+        INSertAlerstJOIN += '<br/> Match  ==> '+SecondFields;
         
     }else
     {
@@ -3609,7 +3620,7 @@ function closePopupDataImportBussiness(remuveid,namediv) {
 
 ////// local history 
 
-function LocalHistoryImportBussiness(IdLoad,Modulee,divanameLoad,dividrelation='')
+function LocalHistoryImportBussiness(IdLoad,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
    htmldat+='<div class="Message-icon">';
@@ -3617,7 +3628,6 @@ function LocalHistoryImportBussiness(IdLoad,Modulee,divanameLoad,dividrelation='
    htmldat+='</div>';
    htmldat+='<div class="Message-body">';
    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-   htmldat+='<p> Module ==> '+Modulee+'</p>';
    htmldat+='</div>';
    htmldat+='</div>';
    return htmldat;
@@ -3630,7 +3640,7 @@ function ShowLocalHistoryImportBussiness(keephitoryidtoshow,keephitoryidtoshowid
     { 
        $('#'+keephitoryidtoshow+' div').remove();
        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
-        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
+        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
@@ -3822,7 +3832,7 @@ function addToPopupExtendetFieldMap(Idd,module,Fields,Name,Value,divid,typepopup
   + Idd + ',\'' + divid + '\');">&times;</span>';
   if (Fields && Fields!=='')
   {
-   INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p> Module ==>'+module + '</p>';
+   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Module ==>'+module + '</p>';
    INSertAlerstJOIN += '<p> Field  ==> '+Fields + '</p>';
    INSertAlerstJOIN += '<p> Name  ==> '+Name + '</p>';
    INSertAlerstJOIN += '<p> Value  ==> '+Value + '</p>';
@@ -3995,166 +4005,6 @@ function addExtendetFieldMap(event){
           }
       }
       
-
-////////  FieldDependency 
-
-function AddResponsabileFieldsFD(event)
-{
-    var elem=event;
-
-    var allid=elem.dataset.addRelationId;
-    var showtext=elem.dataset.showId;
-    var Typeofpopup=elem.dataset.addType;
-    var replace=elem.dataset.addReplace;
-    var modulShow=elem.dataset.showModulId;
-    var divid=elem.dataset.divShow;
-    var validate=elem.dataset.addButtonValidate;
-    var validatearray=[];
-
-    var allidarray = allid.split(",");
-
-    if (validate)
-    {
-      if (validate.length>0)
-      {
-      validatearray=validate.split(',');
-      }else{validatearray.length=0;}
-    }else{validatearray.length=0;}
-
-    $('#'+divid+' div').remove();
-
-    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
-
-    if (App.popupJson.length>0)
-    { 
-      for (var i = 0; i <= App.popupJson.length-1; i++) {
-          var divinsert= addToPopupExtendetFD(i,App.popupJson[i],divid);
-           $('#'+divid).append(divinsert);
-      }
-    }else{
-      // alert(mv_arr.MappingFiledValid);
-      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-    }
-}
-
-
-function addToPopupExtendetFD(Idd,tpa,divid)
-{
-      var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-      + '">';
-      INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupFD('
-      + Idd + ',\'' + divid + '\');">&times;</span>';
-      if (tpa.temparray['JsonType']==='Responsible')
-      {
-          INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+'  Field </strong>';
-          INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
-          if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
-            INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
-          }else{INSertAlerstJOIN +='  </p>';}
-      } else if( tpa.temparray['JsonType']==='Field' )
-      {
-        INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
-        INSertAlerstJOIN += '<p> Hidden ==> '+(tpa.temparray['ShowHidecheck']==="1"?"true":"false")+' </p>  ';
-        INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"true":"false")+' </p>  ';
-        INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"true":"false")+' </p>  ';
-      }else if( tpa.temparray['JsonType']==='Picklist' )
-      {
-          INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
-          for (var property1 in  tpa.temparray) {
-            var matches = property1.match(/DefaultValueFirstModuleField\_(\d+)$/);
-            if(matches!==null)
-            {
-              INSertAlerstJOIN += '<p> Value ==> '+tpa.temparray[matches[0]]+'</p>';
-            }
-          }
-      }
-    
-    INSertAlerstJOIN += '</div';
-
-    return INSertAlerstJOIN;
-}
-
-function closePopupFD(remuveid,namediv) {
-  var check = false;
-  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
-    if (ii == remuveid) {
-               //JSONForCOndition.remove(remuveid);
-               App.popupJson.splice(remuveid,1);
-               check = true
-        //console.log(remuveid);
-             // console.log(ReturnAllDataHistory());
-           }
-         }
-         if (check) {
-          var remuvediv="#alerts_"+remuveid;
-
-          $('#'+namediv+' div').remove();
-          if (App.popupJson.length>0)
-          { 
-            for (var i = 0; i <= App.popupJson.length-1; i++) {
-                var divinsert= addToPopupExtendetFD(i,App.popupJson[i],namediv);
-                $('#'+namediv).append(divinsert);
-            }     
-          }else{
-            // alert(mv_arr.MappingFiledValid);
-           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-          }
-      }
-      else {
-          // alert(mv_arr.ReturnFromPost);
-          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
-        }
-}
-
-
-function FDLocalHistory(IdLoad,Modulee,divanameLoad,dividrelation='')
-{
-    var htmldat='<div class="Message Message"  >';
-    htmldat+='<div class="Message-icon">';
-    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFD(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
-    htmldat+='</div>';
-    htmldat+='<div class="Message-body">';
-    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-    htmldat+='<p>Module ==> '+Modulee+'</p>';
-    htmldat+='</div>';
-    htmldat+='</div>';
-    return htmldat;
-}
-    
-
-function ShowLocalHistoryFD(keephitoryidtoshow,keephitoryidtoshowidrelation)
-{
-    if (App.SaveHistoryPop.length>0)
-    { 
-        $('#'+keephitoryidtoshow+' div').remove();
-        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-         $('#'+keephitoryidtoshow).append(FDLocalHistory(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
-
-      }
-    }
-}
-
- 
-function ClickToshowSelectedFD(Idload,divHistory)
-{
-   var historydata=App.SaveHistoryPop[parseInt(Idload)];
-    App.popupJson.length=0;
-    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-      App.popupJson.push(historydata.PopupJSON[i]);
-    }
-    if (App.popupJson.length>0)
-    { 
-      $('#' + divHistory + ' div').remove();
-      for (var i = 0; i <= App.popupJson.length-1; i++) {
-        var divinsert= addToPopupExtendetFD(i,App.popupJson[i],divHistory);
-         $('#'+divHistory).append(divinsert);
-    } 
-
-  }else{
-      // alert(mv_arr.MappingFiledValid);
-      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-    }
-}
 
 
 ///////////////// Globa search Autocompleate //////////////////////////////////////////
