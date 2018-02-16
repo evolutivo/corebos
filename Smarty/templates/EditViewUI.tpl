@@ -460,7 +460,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 						<table width="100%" height="100%" class="small" cellpadding="5">
 						<tr class="detailedViewHeader">
 							<th colspan="4">
-								<b>{$MOD.LBL_PRODUCT_PRICES}</b>
+								<b>{'LBL_PRODUCT_PRICES'|@getTranslatedString:'Products'}</b>
 							</th>
 							<th align="right">
 								<img border="0" style="cursor: pointer;" onclick="toggleShowHide('multiple_currencies','currency_class');" src="{'close.gif'|@vtiger_imageurl:$THEME}"/>
@@ -700,7 +700,6 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 				<input name="{$fldname}" type="hidden" value="{$secondvalue}">
 				<input name="product_name" readonly class="slds-input" type="text" value="{$fldvalue}">&nbsp;<img tabindex="{$vt_tab}" src="{'btnL3Add.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_SELECT}" title="{$APP.LBL_SELECT}" onclick='return window.open("index.php?module=Products&action=Popup&html=Popup_picker&form=HelpDeskEditView&popuptype=specific&fromlink={$fromlink}","test","width=640,height=602,resizable=0,scrollbars=0,top=150,left=200");' align="absmiddle" style='width:18px;cursor:pointer'>&nbsp;<input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}" alt="{$APP.LBL_CLEAR}" title="{$APP.LBL_CLEAR}" onClick="this.form.product_id.value=''; this.form.product_name.value=''; return false;" align="absmiddle" style='width:18px;cursor:pointer'>
 			</td>
-
 		{elseif $uitype eq 55 || $uitype eq 255}
 			<td width="20%" class="dvtCellLabel{if $mandatory_field == '*'} mandatory_field_label{/if}" align=right>
 			{if $MASS_EDIT eq '1' && $fldvalue neq ''}

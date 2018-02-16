@@ -8,26 +8,24 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$mod_strings = Array(
-	'cbMap' => 'Maps',
-	'SINGLE_cbMap' => 'Map',
-	'cbMap ID' => 'Map ID',
+$mod_strings = array(
+	'cbMap' => 'Business Maps',
+	'SINGLE_cbMap' => 'Business Map',
+	'cbMap ID' => 'Business Map ID',
 
 	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
-	'LBL_MAP_INFORMATION' => 'Map Information',
+	'LBL_MAP_INFORMATION' => 'Business Map Information',
 	'LBL_DESCRIPTION_INFORMATION' => 'Description',
 
 	'Map Name' => 'Map Name',
 	'Map Number' => 'Map Number',
 	'Map Type' => 'Map Type',
+	'Target Module' => 'Target Module',
 	'Content' => 'Content',
-	'Blocks' => 'Blocks',
-	'Actions' => 'Actions',
-	'StockSettings' => 'Stock Settings',
 	'Generate Map' => 'Generate Map',
-	'Condition' => 'Condition',
+	'Condition Expression' => 'Condition Expression',
+	'Condition Query' => 'Condition Query',
 	'Mapping' => 'Mapping',
-	'SendMail' => 'Send Mail',
 	'Block Access' => 'Block Access',
 	'Import' => 'Import',
 	'Map Fields' => 'Map Fields',
@@ -41,7 +39,5 @@ $mod_strings = Array(
 	'DuplicateRelations' => 'Duplicate Relations',
 	'MasterDetailLayout' => 'Master Detail Layout',
 	'Validations' => 'Validations',
-	'FieldDependencyPortal' => 'Field Dependency Portal',
-	'DuplicateRecords' => 'Duplicate Records',
 );
 ?>

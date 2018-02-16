@@ -26,6 +26,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Debug_Record_Not_Found',
 				'Debug_Report_Query',
 				'Debug_ListView_Query',
+				'Debug_RelatedList_Query',
 				'Debug_Popup_Query',
 				'Debug_Email_Sending',
 				'Debug_Send_VtigerCron_Error',
@@ -64,6 +65,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_ListView_Record_Change_Indicator',
 				'Application_ListView_Default_Sorting',
 				'Application_ListView_Compute_Page_Count',
+				'Application_ListView_Sum_Currency',
 				'Application_Upload_MaxSize',
 				'Application_Single_Pane_View',
 				'Application_Minimum_Cron_Frequency',
@@ -176,6 +178,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'GContacts_Max_Results',
                                 'crm_protocol',
 
+				'CustomerPortal_PDF_Modules',
 				'CustomerPortal_PDF',
 				'CustomerPortal_PDFTemplate_Quote',
 				'CustomerPortal_PDFTemplate_SalesOrder',
