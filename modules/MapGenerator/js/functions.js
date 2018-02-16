@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 10:34:21
+ * @Last Modified time: 2018-02-16 11:40:20
  */
 
 document.onkeydown = function(e) {
@@ -3510,9 +3510,10 @@ function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,divi
      + Idd + ',\'' + divid + '\');">&times;</span>';
      if (FirstModule && FirstModule!=='')
      {
-        INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
-        INSertAlerstJOIN += '<br/> Field  ==> '+FirestFields;
-        INSertAlerstJOIN += '<br/> Match  ==> '+SecondFields;
+        INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><br/>';
+        // INSertAlerstJOIN += '<p> '+mv_arr.module+'  ==> '+FirstModule+'</b>';
+        INSertAlerstJOIN += '<p> Field  ==> '+FirestFields+'</b>';
+        INSertAlerstJOIN += '<p> Match Field  ==> '+SecondFields+'</b>';
         
     }else
     {
@@ -3607,7 +3608,7 @@ function closePopupDataImportBussiness(remuveid,namediv) {
 
 ////// local history 
 
-function LocalHistoryImportBussiness(IdLoad,divanameLoad,dividrelation='')
+function LocalHistoryImportBussiness(IdLoad,Modulee,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
    htmldat+='<div class="Message-icon">';
@@ -3615,6 +3616,7 @@ function LocalHistoryImportBussiness(IdLoad,divanameLoad,dividrelation='')
    htmldat+='</div>';
    htmldat+='<div class="Message-body">';
    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='<p> Module ==> '+Modulee+'</p>';
    htmldat+='</div>';
    htmldat+='</div>';
    return htmldat;
@@ -3627,7 +3629,7 @@ function ShowLocalHistoryImportBussiness(keephitoryidtoshow,keephitoryidtoshowid
     { 
        $('#'+keephitoryidtoshow+' div').remove();
        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
-        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
