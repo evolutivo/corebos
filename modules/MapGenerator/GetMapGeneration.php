@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 12:31:36
+ * @Last Modified time: 2018-02-16 12:54:28
  */
 
 
@@ -524,7 +524,7 @@ if ($MypType=="Mapping") {
 			 $data="MapGenerator,saveRecordSetMapping";
 			 $dataid="ListData,MapName";
 			 $savehistory="true";
-			 $saveasfunction="ShowLocalHistoryRecordSetMapping";
+			 $saveasfunction="ShowLocalHistoryExtendetFieldMap";
 			//  //assign tpl
 			$smarty = new vtigerCRM_Smarty();
 			$smarty->assign("MOD", $mod_strings);
@@ -1481,7 +1481,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		 			'Firstfield2'=>array(),
 		 			'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
 		 			'FirstfieldoptionGroup'=>explode("#", Get_First_Moduls_TextVal($value->name))[1],
-		 			'JsonType'=>"Module",
+		 			'JsonType'=>"Search",
 		 			'startwithchck'=>($value->searchcondition=="startswith")?1:0,
 		 			'startwithchckoptionGroup'=>"",
 		 		];
@@ -1506,6 +1506,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		 $data="MapGenerator,saveGlobalSearchAutocomplete";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="LoaclHistoryGSA";
 
 		 //assign tpl
 		$smarty = new vtigerCRM_Smarty();
@@ -1520,7 +1521,7 @@ function GlobalSearchAutocomplete($QueryHistory,$MapID)
 		$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
 		$smarty->assign("FirstModuleFields",$FirstModuleFields);
 		//put the smarty modal
-		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+		$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
 		$smarty->assign("PopupJS",$Alldatas);
 		$output = $smarty->fetch('modules/MapGenerator/GlobalSearchAutocomplete.tpl');
@@ -1647,6 +1648,7 @@ function FieldDependency($QueryHistory,$MapID)
 		 $data="MapGenerator,saveFieldDependency";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="ShowLocalHistoryFD";
 
 		 //assign the tpl
 		    $smarty = new vtigerCRM_Smarty();
@@ -1662,7 +1664,7 @@ function FieldDependency($QueryHistory,$MapID)
 			$smarty->assign("Picklistdropdown",$Picklistdropdown);
 			$smarty->assign("NameOFMap",$NameOFMap);
 			//put the smarty modal
-			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
 
 			$smarty->assign("PopupJS",$Alldatas);
 			$output = $smarty->fetch('modules/MapGenerator/FieldDependency.tpl');
@@ -1788,6 +1790,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 		 $data="MapGenerator,saveFieldDependencyPortal";
 		 $dataid="ListData,MapName";
 		 $savehistory="true";
+		 $saveasfunction="ShowLocalHistoryFD";
 
 		 //assign the tpl
 		    $smarty = new vtigerCRM_Smarty();
@@ -1802,7 +1805,7 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			$smarty->assign("FirstModuleFields",$FirstModuleFields);
 			$smarty->assign("Picklistdropdown",$Picklistdropdown);
 			//put the smarty modal
-			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings));
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,saveasfunction));
 
 			$smarty->assign("PopupJS",$Alldatas);
 			$smarty->assign("NameOFMap",$NameOFMap);
@@ -2205,7 +2208,7 @@ function List_Clomns($QueryHistory,$MapID)
 						 'FirstModuleoptionGroup' =>"undefined",
 						'FirstfieldID'=>(string)$xml->popup->linkfield,
 						'FirstfieldIDoptionGroup'=>"",
-						'JsonType'=>"Related",
+						'JsonType'=>"Related List",
 						'SecondField'=>(string)explode(",",Get_Modul_fields_check_from_load($xml->originmodule->originname,$field->columns->field->name))[0],
 						'SecondFieldoptionGroup'=>(string)$xml->originmodule->originname,
 						'SecondfieldID'=>(string)$field->linkfield,
@@ -2229,7 +2232,7 @@ function List_Clomns($QueryHistory,$MapID)
 						'FirstfieldID'=>(string)$xml->popup->linkfield,
 						'FirstfieldIDoptionGroup'=>"",
 						'FirstfieldoptionGroup'=>(string)get_The_history($QueryHistory,"firstmoduletext"),
-						'JsonType'=>"Popup",
+						'JsonType'=>"Popup Screen",
 						
 					];
 					array_push($MyArray,$Arraypopup);

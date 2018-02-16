@@ -32,21 +32,22 @@
            HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
           App.popupJson.length=0;
       {/foreach}
-    
-     if (App.SaveHistoryPop.length>0)
-    { 
-        App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
-       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-    }else{
-       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-     }
-     
-      var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
-      App.popupJson.length=0;
-    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-    App.popupJson.push(historydata.PopupJSON[i]);
-    }
-      App.utils.ReturnDataSaveHistory('LoadShowPopup');
+        
+         App.DefaultValue='Module';
+        if (App.SaveHistoryPop.length>0)
+        { 
+            {* App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup'); *}
+        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+        }else{
+        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+        }
+        LoaclHistoryGSA('LoadHistoryPopup','LoadShowPopup');
+        var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+        App.popupJson.length=0;
+        for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+        App.popupJson.push(historydata.PopupJSON[i]);
+        }
+       App.utils.ReturnDataSaveHistory('LoadShowPopup');
       App.countsaveMap=2;
       App.utils.UpdateMapNAme();
   </script>
@@ -87,7 +88,7 @@
                                         <button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
                                       {/if}
                                       &nbsp;
-                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveGlobalSearchAutocomplete" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId" >{$MOD.CreateMap}</button>
+                                      <button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName"   data-send="true"  data-send-url="MapGenerator,saveGlobalSearchAutocomplete" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId" data-send-savehistory-functionname="LoaclHistoryGSA" >{$MOD.CreateMap}</button> 
                                     </div>
                                   </div>
                                 </div>
@@ -148,7 +149,7 @@
                                                                       </div>
                                                                       </div>
                                                                   <div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">
-                                                                      <button data-add-button-popup="true" data-add-type="Module" data-add-relation-id="FirstModule,Firstfield,Firstfield2,startwithchck" onclick="resetFieldGlobalSearchAuto();" data-show-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
+                                                                      <button data-add-button-popup="true" data-add-type="Search" data-add-relation-id="FirstModule,Firstfield,Firstfield2,startwithchck" onclick="resetFieldGlobalSearchAuto();" data-show-id="FirstModule" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" style="width:2.1rem;">
                                                                           <img src="themes/images/btnL3Add.gif" style="width: 100%;">
                                                                       </button>
                                                                   </div>

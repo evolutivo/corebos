@@ -109,7 +109,7 @@
 													<label class="slds-form-element__label" for="FirstModule">{$MOD.SelectModule}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
-															<select  data-select-load="true" id="FirstModule" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
+															<select  data-select-load="true" id="FirstModule" onchange="enableExpressionFields(this)" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  data-select-relation-field-id="Firstfield" data-module="MapGenerator" name="mod" class="slds-select">
 																{$FirstModuleSelected}
 															</select>
 														</div>
@@ -120,7 +120,7 @@
 														<label  class="slds-form-element__label" for="Firstfield">{$MOD.SelectField}</label>
 														<div class="slds-form-element__control">
 															<div class="slds-select_container">
-																<select id="Firstfield" name="mod" class="slds-select" data-load-element="true" data-load-element-idget="Firstfield" data-load-element-idset="expresion">
+																<select id="Firstfield" name="mod" class="slds-select" disabled="disabled" data-load-element="true" data-load-element-idget="Firstfield" data-load-element-idset="expresion">
 																	{$FirstModuleFields}
 																</select>
 															</div>
@@ -131,7 +131,7 @@
 											<div class="slds-form-element slds-text-align--left exp-textarea-container">
 												<label class="slds-form-element__label" for="expresion">{$MOD.writetheexpresion}</label>
 												<div class="slds-form-element__control">
-													<textarea id="expresion" class="slds-textarea" onfocus="removeselect('Firstfield')"  placeholder="{$MOD.writetheexpresion}">{$Expresionshow}</textarea>
+													<textarea id="expresion" class="slds-textarea" disabled="disabled" onfocus="removeselect('Firstfield')"  placeholder="{$MOD.writetheexpresion}">{$Expresionshow}</textarea>
 												</div>
 											</div>
 											{*

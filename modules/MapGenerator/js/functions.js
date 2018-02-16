@@ -2271,6 +2271,23 @@ function removearrayselectedall()
 }
 
 
+/*
+ *Condition Expression -> Expression Tab
+ *Enable/Disable Fields on module select
+ */
+function enableExpressionFields(elem)
+{
+    var selectedValue = elem.value;
+    if (selectedValue != '' )
+    {
+      $('#Firstfield').removeAttr('disabled');
+      $('#expresion').removeAttr('disabled');
+    }else {
+      $('#Firstfield').attr('disabled', 'disabled');
+      $('#expresion').attr('disabled', 'disabled');
+    }
+}
+
 
 //check if function name is empty or not 
 

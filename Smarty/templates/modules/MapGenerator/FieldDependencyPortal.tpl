@@ -36,10 +36,8 @@
 
 		var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
 		App.popupJson.length=0;
-		for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-			App.popupJson.push(historydata.PopupJSON[i]);
-		}
-		App.utils.ReturnDataSaveHistory('LoadShowPopup');
+		ShowLocalHistoryFD('LoadHistoryPopup','LoadShowPopup');
+		ClickToshowSelectedFD(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 		App.countsaveMap=2;
 		App.utils.UpdateMapNAme();
 	</script>
@@ -77,7 +75,7 @@
 												<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if}
 											&nbsp;
-											<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveFieldDependencyPortal" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId" >{$MOD.CreateMap}</button>
+											<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveFieldDependencyPortal" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId" data-send-savehistory-functionname="ShowLocalHistoryFD"  >{$MOD.CreateMap}</button>
 										</div>
 									</div>
 								</div>
@@ -136,7 +134,7 @@
 															</div>
 														</div>
 														<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-															<button id="AddbuttonFDP" onclick="clearInput('DefaultValueResponsibel');" data-add-button-popup="true" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+															<button id="AddbuttonFDP" onclick=" AddResponsabileFieldsFD(this);clearInput('DefaultValueResponsibel');" data-add-button-popup="false" data-add-button-validate="Firstfield" data-add-type="Responsible" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
 																<img src="themes/images/btnL3Add.gif" width="16">
 															</button>
 														</div>
@@ -298,7 +296,7 @@
 				</div>
 				<div class="slds-modal__footer">
 					{* <label id="ErrorLabelModal"></label> *}
-					<button class="slds-button slds-button--small slds-button--brand" data-add-button-popup="true" data-add-type="Field" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup">
+					<button class="slds-button slds-button--small slds-button--brand" onclick="AddResponsabileFieldsFD(this);"  data-add-button-popup="false" data-add-button-validate="Firstfield2" data-add-type="Field" data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup">
 						{$MOD.Add}
 					</button>
 					<!-- data-send-savehistory="{$savehistory}" -->
@@ -366,7 +364,7 @@
 				<!-- Modal Footer -->
 					<div class="slds-modal__footer">
 						{*<label id="ErrorLabelModal"></label> *}
-						<button class="slds-button slds-button--small slds-button--brand" id="AddToArray" data-add-button-popup="true" data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="Checkifexist();removedataafterclick();">
+						<button class="slds-button slds-button--small slds-button--brand" id="AddToArray" data-add-button-popup="false"  onclick="AddResponsabileFieldsFD(this);RestoreDataEXFIM(this);" data-add-button-validate="PickListFields"  data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="Checkifexist();removedataafterclick();">
 							{$MOD.Add}
 						</button>
 						<!-- data-send-savehistory="{$savehistory}" -->

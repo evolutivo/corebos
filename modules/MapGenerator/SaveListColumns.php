@@ -137,7 +137,7 @@ function add_content($DataDecode)
        {          
         //  
             
-          if ($DataDecode[$i]->temparray->JsonType=="Related")
+          if ($DataDecode[$i]->temparray->JsonType=="Related List")
           {                  
               
                  $relatedlist = $xml->createElement("relatedlist");
@@ -178,7 +178,7 @@ function add_content($DataDecode)
                      $columns->appendChild($field);
                 $relatedlist->appendChild($columns);
                     $fields->appendChild($relatedlist);                                      
-          }else if ($DataDecode[$i]->temparray->JsonType=="Popup") {
+          }else if ($DataDecode[$i]->temparray->JsonType=="Popup Screen") {
                 $field2 = $xml->createElement("field");
                 $label2 = $xml->createElement("label");
                 $labelText2=$xml->createTextNode($DataDecode[$i]->temparray->DefaultValueFirstModuleField);

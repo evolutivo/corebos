@@ -1,8 +1,20 @@
 /*
+ * @Author: Edmond Kacaj 
+ * @Date: 2018-02-16 10:24:21 
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-02-16 13:16:22
+ */
+/*
+ * @Author: Edmond Kacaj 
+ * @Date: 2018-02-16 10:24:20 
+ * @Last Modified by:   programim95@gmail.com 
+ * @Last Modified time: 2018-02-16 10:24:20 
+ */
+/*
 * @Author: edmondi kacaj
 * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 11:27:06
+ * @Last Modified time: 2018-02-16 10:01:49
 */
 
 
@@ -138,6 +150,7 @@
 						urlsend, dat);
 			}else if (select == "ListColumns") {
 				// idfieldfill,urlsend,dat
+				App.DefaultValue='Field';
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
@@ -182,6 +195,9 @@
 						urlsend, dat);
 			}else if (select == "GlobalSearchAutocomplete") {
 				// idfieldfill,urlsend,dat
+				//  App.ModulLabel='Module';
+				//  App.FieldLabel='Module';
+				 App.DefaultValue='Module';
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
@@ -1594,7 +1610,7 @@
 				// INSertAlerstJOIN += '<span class="closebtns"
 				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
 				// class="icono-eye"></</span>';
-				INSertAlerstJOIN += '<strong># ' + Idd + ' JOIN!</strong> ';
+				INSertAlerstJOIN += '<strong># Mapping  ' + Idd + '</strong> ';
 				INSertAlerstJOIN += '<p> '+Firstmodulee + '=>' + FirstField + '</p>';
 				INSertAlerstJOIN += '<p> '+secondmodule + '=>' + SecondField + '</p>';
 				// if (last_check==true) {//icono-plusCircle
@@ -1781,12 +1797,12 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
+				INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
 				INSertAlerstJOIN += '<p> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields+ '</p>';
 
 			} else
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
+				INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
 			}
 			
 			INSertAlerstJOIN += '</div';
