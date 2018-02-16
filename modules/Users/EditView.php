@@ -17,6 +17,11 @@ require_once('modules/Leads/ListViewTop.php');
 
 global $app_strings, $mod_strings, $currentModule, $default_charset;
 
+function showLicense() {
+	include 'modules/Users/showLicense.php';
+	die();
+}
+
 $smarty=new vtigerCRM_Smarty;
 $focus = new Users();
 
@@ -29,6 +34,10 @@ if(isset($_REQUEST['record']) && isset($_REQUEST['record'])) {
 }else
 {
 	$mode='create';
+	// ODController user creation acceptance
+	if ($coreBOSOnDemandActive && $cbodShowLicenseOnUserCreation && empty($_REQUEST['creation_accepted'])) {
+		showLicense();
+	}
 }
 
 $smarty->assign("is_superadm_or_admin", (is_superadmin($current_user->id) || is_admin($current_user) ));
@@ -36,6 +45,10 @@ if(isset($_REQUEST['isDuplicate']) && $_REQUEST['isDuplicate'] == 'true') {
 	$focus->id = "";
 	$focus->user_name = "";
 	$mode='create';
+	// ODController user creation acceptance
+	if ($coreBOSOnDemandActive && $cbodShowLicenseOnUserCreation && empty($_REQUEST['creation_accepted'])) {
+		showLicense();
+	}
 
 	//When duplicating the user the password fields should be empty
 	$focus->column_fields['user_password']='';

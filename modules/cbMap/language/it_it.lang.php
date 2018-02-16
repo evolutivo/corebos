@@ -8,7 +8,7 @@
  * All Rights Reserved.
  ************************************************************************************/
 
-$mod_strings = Array(
+$mod_strings = array(
 	'cbMap' => 'Mappe',
 	'SINGLE_cbMap' => 'Mappa',
 	'cbMap ID' => 'ID Mappa',
@@ -26,7 +26,7 @@ $mod_strings = Array(
         'LBL_SELECT_MODULE'=>'Seleziona Modulo',
         'LBL_SELECT_BLOCK'=>'Seleziona Blocco',
 	'LBL_CREATE_BUTTON_KEY'=>'Genera Mappa',
-        'LBL_DESCRIPTION_INFORMATION'=>'Descrizione',
+	'LBL_DESCRIPTION_INFORMATION'=>'Descrizione',
 	'Map Name' => 'Nome Mappa',
 	'Map Number' => 'Numero Mappa',
 	'Map Type' => 'Tipo Mappa',
