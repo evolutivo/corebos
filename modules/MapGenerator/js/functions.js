@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 18:32:21
+ * @Last Modified time: 2018-02-19 11:31:47
  */
 
 document.onkeydown = function(e) {
@@ -4047,17 +4047,17 @@ function LoaclHistoryGSA(keephitoryidtoshow,keephitoryidtoshowidrelation)
 function PopupMenustructure(Idd,Popuparray=[],divid)
 {
   
-    if ($("#" + Popuparray.temparray['LabelName']).length == 0) {
+    if ($("#" +Popuparray.temparray['LabelName'].replace(/\s+/g, '')).length == 0) {
         var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
-        INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
-        INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName']+'">';
+        // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
+        INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+'">';
         INSertAlerstJOIN += '<strong># Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
         INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '<i >&times;</i></p>';
         INSertAlerstJOIN +='<div>';
         INSertAlerstJOIN += '</div';
         return INSertAlerstJOIN;
     } else {
-      var count = $('#'+Popuparray.temparray['LabelName']+' p').length;
+      var count = $('#'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+' p').length;
       var InsertModule= '<p id="deleteModul" style="margin-top:3px;" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+(count+1)+' ==> '+Popuparray.temparray['FirstModuleText']+ '<i >&times;</i></p>';
       $("#" + Popuparray.temparray['LabelName']).append(InsertModule);
     }
@@ -4168,4 +4168,55 @@ function DeleteBlockMenustructure(LabelName,namediv)
           // alert(mv_arr.ReturnFromPost);
           App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
         }
+}
+
+
+function historyHtmlMenuStructure(IdLoad,divanameLoad,dividrelation='')
+{
+    var htmldat='<div class="Message Message"  >';
+    htmldat+='<div class="Message-icon">';
+    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFiledsMenustructure(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+    htmldat+='</div>';
+    htmldat+='<div class="Message-body">';
+    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+    htmldat+='</div>';
+    htmldat+='</div>';
+    return htmldat;
+}
+    
+    
+    function ShowLocalHistoryMenustructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
+    {
+        if (App.SaveHistoryPop.length>0)
+        { 
+           $('#'+keephitoryidtoshow+' div').remove();
+           for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+            $('#'+keephitoryidtoshow).append(historyHtmlMenuStructure(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+    
+          }
+        }
+    }
+    
+
+function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
+{
+    App.ModulLabel='Module';
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= PopupMenustructure(i,App.popupJson[i],divHistory);
+        $('#'+divHistory).append(divinsert);
+      
+      } 
+
+  }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
 }

@@ -14,6 +14,7 @@
 							 var temparray = {};
 							temparray['DefaultText'] ='{$popjs.DefaultText}' ;
 							temparray['FirstModule'] = '{$popjs.FirstModule}';
+							temparray['FirstModuleText'] = '{$popjs.FirstModuleText}';
 							temparray['FirstModuleoptionGroup'] = '{$popjs.FirstModuleoptionGroup}';
 							temparray['JsonType'] ='{$popjs.JsonType}';
 							temparray['LabelName'] = '{$popjs.LabelName}';
@@ -24,8 +25,8 @@
 				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 					App.popupJson.length=0;
 			{/foreach}
-		 ShowLocalHistoryMenuStructure('LoadHistoryPopup','LoadShowPopup');
-		 ShowHistoryDataLocal(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+		 ShowLocalHistoryMenustructure('LoadHistoryPopup','LoadShowPopup');
+		 ClickToshowSelectedFiledsMenustructure(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 		 App.countsaveMap=2;
 		 App.utils.UpdateMapNAme();
 		</script>
@@ -43,7 +44,7 @@
 <style>
  #deleteModul:hover {
   cursor: url("https://png.icons8.com/ios/20/000000/waste-filled.png"), auto;
-  font-size:110%;
+  font-size:120%;
 }
 </style
 
@@ -68,7 +69,7 @@
 										{else} {* saveFieldDependency *}
 										<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 										{/if} &nbsp;
-										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveMenuStructure" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryMenuStructure">{$MOD.CreateMap}</button>
+										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveMenuStructure" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryMenustructure">{$MOD.CreateMap}</button>
 									</div>
 								</div>
 							</div>
@@ -122,7 +123,7 @@
 									</div>
 								</div>
 							</td>
-							<td class="dvtCellInfo"  width="30%" align="left">
+							<td class="dvtCellInfo"  width="35%" align="left">
 								<div class="flexipageComponent">
 									<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
 										<div class="slds-card__header slds-grid">
