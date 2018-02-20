@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-20 12:45:49
+ * @Last Modified time: 2018-02-20 17:29:19
  */
 
 document.onkeydown = function(e) {
@@ -3372,12 +3372,13 @@ function addToPopupRendicontaConfig(Idd,FirstModule,statusfield,processtemp,caus
    + Idd + ',\'' + divid + '\');">&times;</span>';
    if (FirstModule && FirstModule!=='')
    {
-      INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
-      INSertAlerstJOIN += '<br/> status field  ==> '+statusfield;
-      INSertAlerstJOIN += '<br/> process templates  ==> '+processtemp;
+      INSertAlerstJOIN += '<p><strong># '+typepopup+'</strong></p>';
+      INSertAlerstJOIN += '<p>Module    ==>  '+FirstModule+'</p>';
+      INSertAlerstJOIN += '<p>Status Field  ==>  '+statusfield+'</p>';
+      INSertAlerstJOIN += '<p>Process Template  ==>  '+processtemp+'</p>';
       if (causalefield && causalefield!=="none")
       {
-        INSertAlerstJOIN += '<br/> causal field  ==> '+causalefield;
+        INSertAlerstJOIN += '<p>Causal Field  ==>  '+causalefield+'</p>';
       }
     
   } else
@@ -3560,7 +3561,7 @@ function ShowRendicontConfig(Idload,divHistory)
     { 
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
-               var FirstModule=App.popupJson[i].temparray[`FirstModule`];
+               var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
                var causalefield=App.popupJson[i].temparray[`causalefield`];
                if (causalefield && causalefield!=="none")
                {
