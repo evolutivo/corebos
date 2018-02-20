@@ -24,7 +24,7 @@
 		{/foreach}
 
 		App.ModulLabel='Module';
-		App.FieldLabel='Value';
+		App.FieldLabel='Entity Value';
 		App.DefaultValue='Value';
 		ShowLocalHistoryRecordSetMapping('LoadHistoryPopup','LoadShowPopup')
 		ClickToshowSelectedFiledsRecordSetMapping(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');

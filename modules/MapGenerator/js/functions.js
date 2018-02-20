@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-20 11:25:01
+ * @Last Modified time: 2018-02-20 12:45:49
  */
 
 document.onkeydown = function(e) {
@@ -3850,7 +3850,7 @@ function ShowLocalHistoryRecordSetMapping(keephitoryidtoshow,keephitoryidtoshowi
 function ClickToshowSelectedFiledsRecordSetMapping(Idload,divHistory)
 {
     App.ModulLabel='Module';
-    App.FieldLabel='Value';
+    App.FieldLabel='Entity Value';
     App.DefaultValue='Value';
     var historydata=App.SaveHistoryPop[parseInt(Idload)];
     App.popupJson.length=0;
