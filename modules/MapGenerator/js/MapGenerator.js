@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 13:16:22
+ * @Last Modified time: 2018-02-20 09:47:33
  */
 /*
  * @Author: Edmond Kacaj 
@@ -35,6 +35,7 @@
 		DefaultValue: null,
 		disambleInspectelement:false,
 		countsaveMap:0,
+		ShowModulInHistory:true,
 
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
@@ -165,9 +166,11 @@
 						urlsend, dat);
 			}else if (select == "Module_Set") {
 				// idfieldfill,urlsend,dat
+				App.ShowModulInHistory=false;
 				App.utils.UpdateMapNAme();
 				 App.ModulLabel='Module';
-    			 App.FieldLabel='Related';
+				 App.FieldLabel='Related';
+				 App.DefaultValue='Module';
 				var urlsend = [ urlpost[0], "firstModule" ];
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
@@ -1683,14 +1686,17 @@
 				htmldat+='</div>';
 				htmldat+='<div class="Message-body">';
 				htmldat+='<p class="history-title">@HISTORY : '+(IdLoad+1)+'<br/></p>';
-				if (FirstModuleLoad && FirstModuleLoad!=="")
+				if(App.ShowModulInHistory===true)
 				{
-					htmldat+='<p class="history-container"><bold>'+FirstModuleLoad+'</bold>';
-				}
-				
-				if (SecondModuleLoad && SecondModuleLoad!=="")
-				{
-					htmldat+='--<bold>'+SecondModuleLoad+'</bold></p>';
+					if (FirstModuleLoad && FirstModuleLoad!=="")
+					{
+						htmldat+='<p class="history-container"><bold>'+FirstModuleLoad+'</bold>';
+					}
+					
+					if (SecondModuleLoad && SecondModuleLoad!=="")
+					{
+						htmldat+='--<bold>'+SecondModuleLoad+'</bold></p>';
+					}
 				}
 				htmldat+='</div>';
 				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';

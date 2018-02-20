@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-19 11:31:47
+ * @Last Modified time: 2018-02-20 11:25:01
  */
 
 document.onkeydown = function(e) {
@@ -3117,6 +3117,36 @@ function selectTab(isactive=true) {
 
 ////////////// Record Access Controll ////////////////////////////
 
+
+function RecordsAccesControlHtmlPopup(Idd,Module,RModule,view,add,edit,delette,select,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+ Idd + ',\'' + divid + '\');">&times;</span>';
+
+    INSertAlerstJOIN += '<strong>#Relation '+(Idd+1)+'</strong> ';
+    INSertAlerstJOIN += '<p>Module ==>  '+Module+'</p> ';
+    INSertAlerstJOIN += '<p>Related Module ==>  '+RModule+'</p>';
+    INSertAlerstJOIN += '<div style="display:  flex;margin:5px;"> ';
+    INSertAlerstJOIN += '<div class="grup1" style="width:  50%;display:  block;"> ';
+      INSertAlerstJOIN += '<span><strong>View :</strong> '+(view==1?"Yes":"No")+'</span><br/>';
+      INSertAlerstJOIN += '<span><strong>Add  :</strong> '+(add==1?"Yes":"No")+'</span><br/>';
+      INSertAlerstJOIN += '<span><strong>Edit :</strong> '+(edit==1?"Yes":"No")+'</span><br/>';
+    INSertAlerstJOIN += '</div> ';
+
+    INSertAlerstJOIN += '<div class="grup2" style="width:  50%;"> ';
+      INSertAlerstJOIN += '<span><strong>Delete :</strong> '+(delette==1?"Yes":"No")+'</span><br/>';
+      INSertAlerstJOIN += '<span><strong>Select :</strong> '+(select==1?"Yes":"No")+'</span><br/>';
+    INSertAlerstJOIN += '</div> ';
+
+    INSertAlerstJOIN += '</div> ';
+
+    INSertAlerstJOIN += '</div';
+
+    return INSertAlerstJOIN;
+} 
+
+
+
 function RecordAccesLocalHistroty(IdLoad,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
@@ -3130,6 +3160,51 @@ function RecordAccesLocalHistroty(IdLoad,divanameLoad,dividrelation='')
    return htmldat;
 }
 
+function AddPopupRecordAccessControl(event)
+{
+    var elem=event;
+
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+      validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    $('#'+divid+' div').remove();
+
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var Module=App.popupJson[i].temparray[`FirstModuleText`];
+        var RModule=App.popupJson[i].temparray[`relatedModuleText`];
+        var view=App.popupJson[i].temparray['viewcheckRelatedlist'];
+        var add=App.popupJson[i].temparray['addcheckRelatetlist'];
+        var edit=App.popupJson[i].temparray['editcheckrelatetlist'];
+        var delette=App.popupJson[i].temparray['deletecheckrelatedlist'];
+        var select=App.popupJson[i].temparray['selectcheckrelatedlist'];
+        var divinsert= RecordsAccesControlHtmlPopup(i,Module,RModule,view,add,edit,delette,select,divid);
+        $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}
 
 function ShowLocalHistoryRecordAccessControll(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
@@ -3157,10 +3232,14 @@ function ClickToshowSelectedFileds(Idload,divHistory)
     { 
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
-        var Field=App.popupJson[i].temparray[`DefaultText`];
-        var moduli=App.popupJson[i].temparray[`FirstModuleText`];
-        var typeofppopup=App.popupJson[i].temparray['JsonType'];
-        var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
+        var Module=App.popupJson[i].temparray[`FirstModuleText`];
+        var RModule=App.popupJson[i].temparray[`relatedModuleText`];
+        var view=App.popupJson[i].temparray['viewcheckRelatedlist'];
+        var add=App.popupJson[i].temparray['addcheckRelatetlist'];
+        var edit=App.popupJson[i].temparray['editcheckrelatetlist'];
+        var delette=App.popupJson[i].temparray['deletecheckrelatedlist'];
+        var select=App.popupJson[i].temparray['selectcheckrelatedlist'];
+        var divinsert= RecordsAccesControlHtmlPopup(i,Module,RModule,view,add,edit,delette,select,divHistory);
         $('#'+divHistory).append(divinsert);
       } 
     }
@@ -4220,3 +4299,10 @@ function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
       App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
     }
 }
+
+
+
+///////////////////// Module Set  ////////////////////////////////////////////////////////////////
+
+
+

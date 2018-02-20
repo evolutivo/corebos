@@ -26,6 +26,8 @@
 			HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 			App.popupJson.length=0;
 		{/foreach}
+		App.ShowModulInHistory=false;
+		App.DefaultValue='Module';
 		App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
 		var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
 		App.popupJson.length=0;
