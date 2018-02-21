@@ -124,7 +124,7 @@
 												<div class="slds-form-element__control slds-text-align--left">
 													<label class="slds-form-element__label" for="SecondField">{$MOD.SelectFields}</label>
 													<div class="slds-select_container" id="SecondDiv">
-														<select id="SecondField" name="secmodule" data-add-button-popup="false" data-add-type="Match" data-add-relation-id="FirstModule,Firstfield,SecondField" data-show-id="Firstfield" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" class="slds-select" onchange="AQddImportBussinessMapping(this)">
+														<select id="SecondField" name="secmodule" data-add-button-popup="false" data-add-type="Match" data-add-relation-id="FirstModule,Firstfield,SecondField,UpdateId" data-show-id="Firstfield" data-show-modul-id="FirstModule" data-div-show="LoadShowPopup" class="slds-select" onchange="AQddImportBussinessMapping(this)">
 															{$allfields}
 														</select>
 													</div>

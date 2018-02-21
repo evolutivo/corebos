@@ -38,14 +38,13 @@
 		{/foreach}
 
 		if (App.SaveHistoryPop.length>0)
-			{
-				App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup','showmodalformasterdetail');
-				App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-			}
-		else
-			{
-				App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-			}
+		{
+			App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup','showmodalformasterdetail');
+			App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+		}else
+		{
+			App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+		}
 
 		var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
 		App.popupJson.length=0;

@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-20 10:51:51
+ * @Last Modified time: 2018-02-21 14:44:26
  */
 
 
@@ -704,7 +704,7 @@ function Import($QueryHistory,$MapID)
 							'Firstfield'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["fields"]->field[$i]->fieldname))[0],
 							'FirstfieldText'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["fields"]->field[$i]->fieldname))[1],
 							'FirstfieldoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[1],
-
+							'UpdateId'=>$xml->options->update,
 							'SecondField'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["matches"]->match[$i]->fieldname))[0],
 							'SecondFieldText'=>explode(",",CheckAllFirstForAllModules((string)$joinarray["matches"]->match[$i]->fieldname))[1],
 							'SecondFieldoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($xml->targetmodule->targetname))[1]
@@ -872,7 +872,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 							'FirstModule'=>(string)$xml->originmodule->originname,
 							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
 							'FirstModuleoptionGroup'=>"undefined",
-							'JsonType'=>"Related",
+							'JsonType'=>"Relation",
 							'Moduli'=>(string)$xml->originmodule->originname,
 							'relatedModule'=>(string)$valuexml->module."#".(string)$valuexml->relation,
 							'relatedModuleoptionGroup'=>"undefined",
@@ -897,7 +897,7 @@ function DuplicateRecords($QueryHistory,$MapID)
 			 $data="MapGenerator,saveDuplicateRecords";
 			 $dataid="ListData,MapName";
 			 $savehistory="true";
-			 $saveasfunction="ShowLocalHistoryRecordAccessControll";
+			 $saveasfunction="ShowLocalHistoryDuplicateRecords";
 			//  //assign tpl
 			$smarty = new vtigerCRM_Smarty();
 			$smarty->assign("MOD", $mod_strings);

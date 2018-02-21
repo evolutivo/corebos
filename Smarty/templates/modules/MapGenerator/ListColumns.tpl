@@ -10,38 +10,38 @@
 {/if} 
 
 {if $PopupJS neq ''}
-	<script type="text/javascript">
-				{foreach from=$PopupJS item=allitems key=key name=name}
-						{foreach name=outer item=popi from=$allitems}  
-								var temparray = {};
-								{foreach key=key item=item from=$popi}
-										temparray['{$key}']='{$item}';
-								{/foreach}
-								App.popupJson.push({'{'}temparray{'}'});
-								// console.log(temparray);
-						{/foreach}
-						HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-						App.popupJson.length=0;
-				{/foreach}
-		
-				if (App.SaveHistoryPop.length>0)
-				{ 
-						App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
-				App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
-				}else{
-				App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-				}
-				App.DefaultValue='Field';
-				var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
-				App.popupJson.length=0;
-				for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-				App.popupJson.push(historydata.PopupJSON[i]);
-				}
-				App.utils.ReturnDataSaveHistory('LoadShowPopup');
-				App.countsaveMap=2;
-				App.utils.UpdateMapNAme();
+  <script type="text/javascript">
+        {foreach from=$PopupJS item=allitems key=key name=name}
+            {foreach name=outer item=popi from=$allitems}  
+                var temparray = {};
+                {foreach key=key item=item from=$popi}
+                    temparray['{$key}']='{$item}';
+                {/foreach}
+                App.popupJson.push({'{'}temparray{'}'});
+                // console.log(temparray);
+            {/foreach}
+            HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+            App.popupJson.length=0;
+        {/foreach}
+    
+        if (App.SaveHistoryPop.length>0)
+        { 
+            App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+        }else{
+        App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+        }
+        App.DefaultValue='Field';
+        var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
+        App.popupJson.length=0;
+        for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+        App.popupJson.push(historydata.PopupJSON[i]);
+        }
+        App.utils.ReturnDataSaveHistory('LoadShowPopup');
+        App.countsaveMap=2;
+        App.utils.UpdateMapNAme();
 
-	</script>
+  </script>
 
 
 {/if}
