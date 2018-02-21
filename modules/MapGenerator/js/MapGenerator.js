@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 14:53:13
+ * @Last Modified time: 2018-02-21 15:50:19
  */
 /*
  * @Author: Edmond Kacaj 
@@ -252,8 +252,8 @@
 				// idfieldfill,urlsend,dat
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];
-				App.ModulLabel='Module';
-    			 App.FieldLabel='Related';
+				App.ModulLabel='Target module';
+    			App.FieldLabel='Related module';
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);

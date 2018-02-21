@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 15:30:25
+ * @Last Modified time: 2018-02-21 15:49:44
  */
 
 document.onkeydown = function(e) {
@@ -4371,7 +4371,7 @@ function ShowLocalHistoryDuplicateRecords(keephitoryidtoshow,keephitoryidtoshowi
     { 
        $('#'+keephitoryidtoshow+' div').remove();
        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-        $('#'+keephitoryidtoshow).append(RecordAccesLocalHistroty(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        $('#'+keephitoryidtoshow).append(DuplicateRecordsLocalHistroty(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
@@ -4382,8 +4382,8 @@ function ClickToshowSelectedFiledsDuplicateRecords(Idload,divHistory)
 {
     var historydata=App.SaveHistoryPop[parseInt(Idload)];
     App.popupJson.length=0;
-    App.ModulLabel='Module';
-    App.FieldLabel='Related';
+    App.ModulLabel='Target module';
+    App.FieldLabel='Related module';
     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
       App.popupJson.push(historydata.PopupJSON[i]);
     }
