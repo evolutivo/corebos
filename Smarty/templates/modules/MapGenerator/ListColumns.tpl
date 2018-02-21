@@ -112,7 +112,7 @@
 															<div class="slds-select_container">
 																	<select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
 																			{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
-																			<option value="">Choose from origin</option>
+																			<option value="">(Select fields)</option>
 																			{/if}
 																	</select>
 															</div>
@@ -136,7 +136,7 @@
 												<div class="slds-select_container">
 													<select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" name="secmodule" class="slds-select">
 														{if $SecondModulerelation neq ''} {$SecondModulerelation} {else}
-															<option value="">Choose form Target</option>
+															<option value="">(Select a module)</option>
 														{/if}
 													</select>
 												</div>
@@ -191,7 +191,7 @@
 															<div class="slds-select_container">
 																	<select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
 																			{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
-																			<option value="">Choose from origin</option>
+																			<option value="">(Select fields)</option>
 																			{/if}
 																	</select>
 															</div>
@@ -243,7 +243,7 @@
 																		<div class="slds-select_container">
 																				<select id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
 																						{if $FirstModuleFields neq ''} {$FirstModuleFields} {else}
-																						<option value="">Choose from Target</option>
+																						<option value="">(Select fields)</option>
 																						{/if}
 																				</select>
 																		</div>
