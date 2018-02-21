@@ -82,10 +82,10 @@
 				</div>
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
-						<tr class="slds-line-height--reset">
-							<td class="dvtCellLabel" width="70%" valign="top">
+						<tr class="slds-line-height--reset map-generator-cell-container">
+							<td class="dvtCellLabel" valign="top">
 								<!-- THE MODULE Zone -->
-								<div id="selJoin" class="module-set-container">
+									<div id="selJoin" class="module-set-container">
 									<div id="sel1">
 										<div class="slds-form-element">
 											<div class="slds-form-element__control slds-text-align--left">
@@ -104,58 +104,58 @@
 											</button>
 										</div>
 									</div>
-								</td>
-								<td class="dvtCellInfo" align="left" width="30%">
-									<div class="flexipageComponent">
-										<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
-											<div class="slds-card__header slds-grid">
-												<header class="slds-media slds-media--center slds-has-flexi-truncate">
-													<div class="slds-media__body">
-														<h2 class="header-title-container"> 
-															<span class="slds-text-heading--small slds-truncate actionLabel">
-																<b>Popup</b>
-															</span>
-														</h2>
-													</div>
-												</header>
-											</div>
-											<div class="slds-card__body slds-card__body--inner">
-												<div id="contenitoreJoin">
-													<div id="LoadShowPopup"></div>
+							</td>
+							<td class="dvtCellInfo" align="left">
+								<div class="flexipageComponent">
+									<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
+										<div class="slds-card__header slds-grid">
+											<header class="slds-media slds-media--center slds-has-flexi-truncate">
+												<div class="slds-media__body">
+													<h2 class="header-title-container"> 
+														<span class="slds-text-heading--small slds-truncate actionLabel">
+															<b>Popup</b>
+														</span>
+													</h2>
 												</div>
+											</header>
+										</div>
+										<div class="slds-card__body slds-card__body--inner">
+											<div id="contenitoreJoin">
+												<div id="LoadShowPopup"></div>
 											</div>
-											{*End div contenitorejoin*}
-										</article>
-									</div>
-									<br/>
-									<div class="flexipageComponent">
-										<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
-											<div class="slds-card__header slds-grid">
-												<header class="slds-media slds-media--center slds-has-flexi-truncate">
-													<div class="slds-media__body">
-														<h2 class="header-title-container"> 
-															<span class="slds-text-heading--small slds-truncate actionLabel">
-																<b>History</b>
-															</span>
-														</h2>
-													</div>
-												</header>
-											</div>
-											<div class="slds-card__body slds-card__body--inner">
-												<div id="contenitoreJoin">
-													<div id="LoadHistoryPopup"></div>
-												</div>{*End div contenitorejoin*}
-											</div>
-										</article>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+										</div>
+										{*End div contenitorejoin*}
+									</article>
+								</div>
+								<br/>
+								<div class="flexipageComponent">
+									<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
+										<div class="slds-card__header slds-grid">
+											<header class="slds-media slds-media--center slds-has-flexi-truncate">
+												<div class="slds-media__body">
+													<h2 class="header-title-container"> 
+														<span class="slds-text-heading--small slds-truncate actionLabel">
+															<b>History</b>
+														</span>
+													</h2>
+												</div>
+											</header>
+										</div>
+										<div class="slds-card__body slds-card__body--inner">
+											<div id="contenitoreJoin">
+												<div id="LoadHistoryPopup"></div>
+											</div>{*End div contenitorejoin*}
+										</div>
+									</article>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
 	<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
 	<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
 	<input type="hidden" name="querysequence" id="querysequence" value="">

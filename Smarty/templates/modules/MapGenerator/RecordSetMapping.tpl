@@ -74,8 +74,8 @@
 				</div>
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
-						<tr class="slds-line-height--reset">
-							<td class="dvtCellLabel" width="70%" valign="top">
+						<tr class="slds-line-height--reset map-generator-cell-container">
+							<td class="dvtCellLabel" valign="top">
 								<div class="record-set-mapping-container">
 									<div class="enable-disable-id">
 										<!-- Enable/Disable ID Input -->
@@ -163,7 +163,7 @@
 									<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
 								</div>
 							</td>
-							<td class="dvtCellInfo" align="left" width="30%">
+							<td class="dvtCellInfo" align="left">
 								<div class="flexipageComponent">
 									<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
 										<div class="slds-card__header slds-grid">

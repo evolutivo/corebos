@@ -71,8 +71,8 @@
 
 					<div class="slds-truncate">
 						<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
-							<tr class="slds-line-height--reset">
-								<td class="dvtCellLabel" width="70%" valign="top">
+							<tr class="slds-line-height--reset map-generator-cell-container">
+								<td class="dvtCellLabel" valign="top">
 									<!-- THE MODULE Zone -->
 									<div id="selJoin" style="float:left; overflow: hidden;width:80%">
 										<div style="float:left; overflow: hidden;width:45%" id="sel1">
@@ -136,7 +136,7 @@
 									</div>
 								</td>
 
-								<td class="dvtCellInfo" align="left" width="40%">
+								<td class="dvtCellInfo" align="left">
 									<div class="flexipageComponent">
 										<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header" style="margin: 0;">
 											<div class="slds-card__header slds-grid">
