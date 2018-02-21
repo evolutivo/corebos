@@ -93,26 +93,26 @@
 									<div id="sel1" class="list-columns-container">
 										<div class="slds-form-element">
 											<div class="slds-form-element__control slds-text-align--center">
-												<label class="slds-form-element__label ">{$MOD.TargetModule}</label>
-												<div class="slds-select_container ">
-													<select data-select-load="true " data-reset-all="true " data-reset-id-popup="LoadShowPopup " data-second-module-id="secmodule " data-select-relation-field-id="Firstfield " data-select-fieldid="FirstfieldID " data-module="MapGenerator " data-second-module-file="ListColumnsRelationData " id="FirstModule " name="mod " class="slds-select ">
+												<label class="slds-form-element__label">{$MOD.TargetModule}</label>
+												<div class="slds-select_container">
+													<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
 														{$FirstModuleSelected}
 													</select>
 												</div>
 											</div>
-											<div class="lc-target-module ">
+											<div class="lc-target-module">
 												<label>ID</label>
-												<input type="button " value="{$FmoduleID} " class="slds-button slds-button--neutral sel " id="FirstfieldID " name="FirstfieldID ">
+												<input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID">
 											</div>
 										</div>
 										<br>
 											{*
-											<div class="slds-form-element ">
-													<div class="slds-form-element__control ">
-															<div class="slds-select_container ">
-																	<select id="SecondField " data-label-change-load="true " data-module="MapGenerator " data-select-filename="GetLabelName " data-set-value-to="DefaultValue " name="mod " class="slds-select ">
+											<div class="slds-form-element">
+													<div class="slds-form-element__control">
+															<div class="slds-select_container">
+																	<select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
 																			{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
-																			<option value=" ">Choose from origin</option>
+																			<option value="">Choose from origin</option>
 																			{/if}
 																	</select>
 															</div>

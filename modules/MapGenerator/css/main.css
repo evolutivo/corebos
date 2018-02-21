@@ -1220,6 +1220,50 @@
 	}
 /* End Global Search Autocomplete */
 
+/* Record Access Control */
+	.rac-container {
+		display: block!important;
+		padding: 0 .5rem;
+	}
+	.rac-target_module {
+		margin: 1rem 0;
+	}
+
+	.rac-lv-dv-container {
+		display: flex;
+	}
+	.rac-lv-dv-container h5 {
+		text-align: center;
+		border-bottom: 1px solid #d4d4d4;
+		margin-left: .5rem;
+		margin-right: .5rem;
+	}
+
+	.rac-lv-container,
+	.rac-dv-container {
+		width: 50%;
+	}
+	.rac-lv-container .rac-lv-checkboxes,
+	.rac-dv-container .rac-dv-checkboxes {
+		display: flex;
+	}
+	.rac-lv-checkboxes > div,
+	.rac-dv-checkboxes > div {
+		width: 22%;
+	}
+	.rac-lv-container label,
+	.rac-dv-container label {
+		display: block;
+		text-align: center;
+	}
+	.rac-lv-container label .slds-checkbox--faux,
+	.rac-dv-container label .slds-checkbox--faux {
+		margin-left: 5px;
+	}
+
+
+
+/* End Record Access Control */
 
 
 
