@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-20 17:29:19
+ * @Last Modified time: 2018-02-21 15:30:25
  */
 
 document.onkeydown = function(e) {
@@ -285,7 +285,7 @@ function selectHtml() {
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_'+Idd+'">';
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin1('+Idd+');">&times;</span>';
     // INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+Idd+');"><i class="icono-eye"></</span>';
-    INSertAlerstJOIN += '<strong>#' + Idd + 'JOIN!</strong> <p>' + Firstmodulee + '=>' + secondmodule + '</p>';
+    INSertAlerstJOIN += '<strong>' + (Idd+1) + '# JOIN!</strong> <p>' + Firstmodulee + '=>' + secondmodule + '</p>';
     if (last_check==true) {//icono-plusCircle
       INSertAlerstJOIN +='<span class="query-icons check-icon" title="You are here "><i class="fa fa-check"></i></span>';
       INSertAlerstJOIN +='<span class="query-icons desktop-icon" title="run the query to show the result"><i class="fa fa-desktop" onclick="openmodalrezultquery('+Idd+');"></i></span>';
@@ -2095,11 +2095,11 @@ function GenearteMasterDetail() {
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('
     + Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>#'+(Idd+1)+'</strong> '+' <p> ' +firstfield + '</p>';
-    INSertAlerstJOIN += '<br><strong>#Sort!  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Editable!  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Mandatory!  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
-    INSertAlerstJOIN += '<br><strong>#Hidden!  '+(Idd+1)+'</strong> '+(hiddenchk==1?"True":"False");
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#</strong> Field ==>'+firstfield;
+    INSertAlerstJOIN += '<br><strong>Sort :  '+(Idd+1)+'</strong> '+(sortt6ablechk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>Editable :  '+(Idd+1)+'</strong> '+(editablechk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>Mandatory :  '+(Idd+1)+'</strong> '+(mandatorychk==1?"True":"False");
+    INSertAlerstJOIN += '<br><strong>Hidden :  '+(Idd+1)+'</strong> '+(hiddenchk==1?"True":"False");
 
     INSertAlerstJOIN += '</div';
 
@@ -2405,7 +2405,7 @@ function addrows(event)
   + '">';
   INSertAlerstJOIN += '<span class="closebtns" onclick="closeRowpopup('
   + Idd + ',\'' + divid + '\');">&times;</span>';
-  INSertAlerstJOIN += ' <strong># Row  '+(Idd+1)+'</strong>';
+  INSertAlerstJOIN += ' <strong>'+(Idd+1)+'#Row  </strong>';
   if (alldat && alldat['fields'].length>0)
   {
     for (var i =0; i <= alldat['fields'].length - 1 ; i++) {      
@@ -2534,7 +2534,8 @@ function addrows(event)
         var BlockName=App.popupJson[i].temparray[`BlockName`];
         alldat=App.popupJson[i].temparray[`rows`];
         var typeofppopup=App.popupJson[i].temparray['JsonType'];
-        var divinsert= addToPopup(i,BlockName,alldat,dataDivtoShowe,typeofppopup);
+        var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
+        var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,dataDivtoShowe,typeofppopup);
         $('#'+dataDivtoShowe).append(divinsert);
       } 
     }else{
@@ -2554,31 +2555,31 @@ function addrows(event)
  * @param      {<type>}  typeofppopup  The typeofppopup
  * @return     {string}  { description_of_the_return_value }
  */
- function addToPopup(Idd,BlockName,alldat,divid,typeofppopup)
+function addToPopup(Idd,ModuleName,BlockName,alldat,divid,typeofppopup)
+{
+ var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+ + '">';
+ INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
+ + Idd + ',\'' + divid + '\');">&times;</span>';
+ INSertAlerstJOIN += ' <p class="block-name"><strong>'+(Idd+1)+'#Block  ==> '+BlockName+'</strong></p>';
+ // INSertAlerstJOIN += '<p><strong># Module ==> '+ ModuleName+'</strong></p><br/>';
+ if (alldat && alldat.texts.length>0)
  {
-  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-  + '">';
-  INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
-  + Idd + ',\'' + divid + '\');">&times;</span>';
-  INSertAlerstJOIN += ' <p class="block-name"><strong>'+BlockName+'</strong></p>';
-  // INSertAlerstJOIN += '<br/><strong># Block Name! ==></strong>'+BlockName;
-  if (alldat && alldat.texts.length>0)
-  {
-    for (var i = 0; i <=alldat.texts.length - 1; i++) {
-      INSertAlerstJOIN += '<strong># Row  '+(i+1)+'</strong>';
-      INSertAlerstJOIN += ' <ul>';
-      if (alldat && alldat.texts[i].length>0)
-      {
-        alldat.texts[i].forEach(function(element) {
-          INSertAlerstJOIN += '<li> Field ==>'+element+'</li>';
-        });
-      }
-      INSertAlerstJOIN += '</ul>';
-    }
-  }
-  
-  INSertAlerstJOIN += '</div';
-  return INSertAlerstJOIN;
+   for (var i = 0; i <=alldat.texts.length - 1; i++) {
+     INSertAlerstJOIN += '<strong> '+(i+1)+'#Row</strong>';
+     INSertAlerstJOIN += ' <ul>';
+     if (alldat && alldat.texts[i].length>0)
+     {
+       alldat.texts[i].forEach(function(element) {
+         INSertAlerstJOIN += '<li> Field ==>'+element+'</li>';
+       });
+     }
+     INSertAlerstJOIN += '</ul>';
+   }
+ }
+ 
+ INSertAlerstJOIN += '</div';
+ return INSertAlerstJOIN;
 }
 
 /**
@@ -2610,7 +2611,8 @@ function addrows(event)
               var BlockName=App.popupJson[i].temparray[`BlockName`];
               alldat=App.popupJson[i].temparray[`rows`];
               var typeofppopup=App.popupJson[i].temparray['JsonType'];
-              var divinsert= addToPopup(i,BlockName,alldat,namediv,typeofppopup);
+              var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
+              var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,namediv,typeofppopup);
               $('#'+namediv).append(divinsert);
             } 
 
@@ -2643,7 +2645,7 @@ function addrows(event)
    { 
      $('#'+keephitoryidtoshow+' div').remove();
      for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-      $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON,keephitoryidtoshow,keephitoryidtoshowidrelation));
+      $('#'+keephitoryidtoshow).append(showLocalHistory(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
     }
   }
 }
@@ -2663,7 +2665,8 @@ if (App.popupJson.length>0)
     var BlockName=App.popupJson[i].temparray[`BlockName`];
     alldat=App.popupJson[i].temparray[`rows`];
     var typeofppopup=App.popupJson[i].temparray['JsonType'];
-    var divinsert= addToPopup(i,BlockName,alldat,divshow,typeofppopup);
+    var FirstModuleText=App.popupJson[i].temparray['FirstModuleText'];
+    var divinsert= addToPopup(i,FirstModuleText,BlockName,alldat,divshow,typeofppopup);
     $('#'+divshow).append(divinsert);
   } 
 }
@@ -2680,7 +2683,7 @@ if (App.popupJson.length>0)
  * @param      {string}  dividrelation  The dividrelation
  * @return     {string}  { description_of_the_return_value }
  */
- function showLocalHistory(IdLoad,dataarr,divanameLoad,dividrelation=''){
+ function showLocalHistory(IdLoad,dataarr='',divanameLoad,dividrelation=''){
   var htmldat='<div class="Message Message"  >';
   htmldat+='<div class="Message-icon">';
         // if (avtive===false)
@@ -2690,10 +2693,11 @@ if (App.popupJson.length>0)
         htmldat+='</div>';
         htmldat+='<div class="Message-body">';
         htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-         for (var i = 0; i <=dataarr.length - 1; i++) {
-          htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
+        htmldat+='<p>Module ==>'+dataarr+'</p>';
+        //for (var i = 0; i <=dataarr.length - 1; i++) {
+          //htmldat+='<p>BlockName ==>'+dataarr[i].temparray.BlockName+'</p>';
           
-        }       
+        //}       
         htmldat+='</div>';
         // htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';
         htmldat+='</div>';
@@ -2891,11 +2895,11 @@ function showLocalHistoryIOMap(IdLoad,divanameLoad,dividrelation=''){
    + Idd + ',\'' + divid + '\');">&times;</span>';
    if (moduli && moduli!=='')
    {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#'+typepopup+' </strong><p> '+mv_arr.module+' ==>'+moduli + '</p>';
     INSertAlerstJOIN += '<p> '+mv_arr.field+'  ==> '+fields + '</p>';
   } else
   {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong> '+ '<p>' +fields + '</p>';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+typepopup+' </strong> '+ '<p>Value ==> ' +fields + '</p>';
   }
 
   INSertAlerstJOIN += '</div';
@@ -3121,9 +3125,9 @@ function selectTab(isactive=true) {
 function RecordsAccesControlHtmlPopup(Idd,Module,RModule,view,add,edit,delette,select,divid)
 {
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
-    INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsAndremoveJoin('+ Idd + ',\'' + divid + '\');">&times;</span>';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsRecordAccesControol('+ Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>#Relation '+(Idd+1)+'</strong> ';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#Relation </strong> ';
     INSertAlerstJOIN += '<p>Module ==>  '+Module+'</p> ';
     INSertAlerstJOIN += '<p>Related Module ==>  '+RModule+'</p>';
     INSertAlerstJOIN += '<div style="display:  flex;margin:5px;"> ';
@@ -3245,6 +3249,43 @@ function ClickToshowSelectedFileds(Idload,divHistory)
     }
 }
 
+
+function closeAlertsRecordAccesControol(remuveid,namediv) {
+
+  var check = false;
+  // if(App.popupJson.length==1) var leng=1; 
+  // else leng=App.popupJson.length-1;
+  for (var ii = 0; ii <=App.popupJson.length; ii++) {
+    if (ii == remuveid) {
+             //JSONForCOndition.remove(remuveid);
+             App.popupJson.splice(remuveid,1);
+             check = true
+      //console.log(remuveid);
+           // console.log(ReturnAllDataHistory());
+         }
+       }
+       if (check) {
+        var remuvediv="#alerts_"+remuveid;
+        $( remuvediv).remove( );
+        $('#' + namediv + ' div').remove();
+        for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var Module=App.popupJson[i].temparray[`FirstModuleText`];
+          var RModule=App.popupJson[i].temparray[`relatedModuleText`];
+          var view=App.popupJson[i].temparray['viewcheckRelatedlist'];
+          var add=App.popupJson[i].temparray['addcheckRelatetlist'];
+          var edit=App.popupJson[i].temparray['editcheckrelatetlist'];
+          var delette=App.popupJson[i].temparray['deletecheckrelatedlist'];
+          var select=App.popupJson[i].temparray['selectcheckrelatedlist'];
+          var divinsert= RecordsAccesControlHtmlPopup(i,Module,RModule,view,add,edit,delette,select,namediv);
+          $('#'+namediv).append(divinsert);
+        } 
+     }
+     else {
+      alert(mv_arr.ReturnFromPost);
+    }
+
+
+}
 
 
 /////////// Field Dependency ///////////////
@@ -3595,7 +3636,7 @@ function Empydata(event)
  * @param      {string}           typepopup  The typepopup
  * @return     {string}           { description_of_the_return_value }
  */
-function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,divid,typepopup)
+function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,Update,divid,typepopup)
 {
      var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
      + '">';
@@ -3603,20 +3644,21 @@ function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,divi
      + Idd + ',\'' + divid + '\');">&times;</span>';
      if (FirstModule && FirstModule!=='')
      {
-        INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+mv_arr.module+' ==>'+FirstModule;
-        INSertAlerstJOIN += '<br/> Field  ==> '+FirestFields;
-        INSertAlerstJOIN += '<br/> Match  ==> '+SecondFields;
+        INSertAlerstJOIN += '<strong> '+(Idd+1)+'#'+typepopup+'  </strong><br/>';
+        INSertAlerstJOIN += '<p>Module  ==> '+FirstModule+'</b>';
+        INSertAlerstJOIN += '<p>Field  ==> '+FirestFields+'</b>';
+        INSertAlerstJOIN += '<p>Match Field  ==> '+SecondFields+'</b>';
+        INSertAlerstJOIN += '<p>Update  ==> '+Update+'</b>';
         
     }else
     {
-      INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+      INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+typepopup+' </strong><br/> '+fields;
     }
 
     INSertAlerstJOIN += '</div';
 
     return INSertAlerstJOIN;
 }
-
 
 function AQddImportBussinessMapping(argument) {
     
@@ -3639,8 +3681,9 @@ function AQddImportBussinessMapping(argument) {
           var FirstModule=App.popupJson[i].temparray[`Moduli`];
           var FirstfieldText=App.popupJson[i].temparray[`FirstfieldText`];
           var SecondFieldText=App.popupJson[i].temparray['SecondFieldText'];
+          var Update=App.popupJson[i].temparray['UpdateId'];
           var typeofpopup=App.popupJson[i].temparray['JsonType'];
-          var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,divshow,typeofpopup);
+          var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,Update,divshow,typeofpopup);
           $('#'+divshow).append(divinsert);
         } 
 
@@ -3700,7 +3743,7 @@ function closePopupDataImportBussiness(remuveid,namediv) {
 
 ////// local history 
 
-function LocalHistoryImportBussiness(IdLoad,divanameLoad,dividrelation='')
+function LocalHistoryImportBussiness(IdLoad,Modulee,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
    htmldat+='<div class="Message-icon">';
@@ -3708,6 +3751,7 @@ function LocalHistoryImportBussiness(IdLoad,divanameLoad,dividrelation='')
    htmldat+='</div>';
    htmldat+='<div class="Message-body">';
    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='<p> Module ==> '+Modulee+'</p>';
    htmldat+='</div>';
    htmldat+='</div>';
    return htmldat;
@@ -3720,7 +3764,7 @@ function ShowLocalHistoryImportBussiness(keephitoryidtoshow,keephitoryidtoshowid
     { 
        $('#'+keephitoryidtoshow+' div').remove();
        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
-        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        $('#'+keephitoryidtoshow).append(LocalHistoryImportBussiness(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
@@ -3743,8 +3787,9 @@ function ShowImportBussinesMapping(Idload,divHistory)
           var FirstModule=App.popupJson[i].temparray[`Moduli`];
           var FirstfieldText=App.popupJson[i].temparray[`FirstfieldText`];
           var SecondFieldText=App.popupJson[i].temparray['SecondFieldText'];
+          var Update=App.popupJson[i].temparray['UpdateId'];
           var typeofpopup=App.popupJson[i].temparray['JsonType'];
-          var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,divHistory,typeofpopup);
+          var divinsert= addToPopupImportBusiness(i,FirstModule,FirstfieldText,SecondFieldText,Update,divHistory,typeofpopup);
           $('#'+divHistory).append(divinsert);
       } 
     }
@@ -3912,7 +3957,7 @@ function addToPopupExtendetFieldMap(Idd,module,Fields,Name,Value,divid,typepopup
   + Idd + ',\'' + divid + '\');">&times;</span>';
   if (Fields && Fields!=='')
   {
-   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><p> Module ==>'+module + '</p>';
+   INSertAlerstJOIN += '<strong>'+(Idd+1)+'#'+typepopup+' </strong><p> Module ==>'+module + '</p>';
    INSertAlerstJOIN += '<p> Field  ==> '+Fields + '</p>';
    INSertAlerstJOIN += '<p> Name  ==> '+Name + '</p>';
    INSertAlerstJOIN += '<p> Value  ==> '+Value + '</p>';
@@ -4303,7 +4348,214 @@ function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
 
 
 
-///////////////////// Module Set  ////////////////////////////////////////////////////////////////
+///////////////////// Duplicate Records  ////////////////////////////////////////////////////////////////
+
+function DuplicateRecordsLocalHistroty(IdLoad,Module,divanameLoad,dividrelation='')
+{
+   var htmldat='<div class="Message Message"  >';
+   htmldat+='<div class="Message-icon">';
+   htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFiledsDuplicateRecords(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+   htmldat+='</div>';
+   htmldat+='<div class="Message-body">';
+   htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='<p>Module ==> '+Module+'</p>';
+   htmldat+='</div>';
+   htmldat+='</div>';
+   return htmldat;
+}
 
 
+function ShowLocalHistoryDuplicateRecords(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+       $('#'+keephitoryidtoshow+' div').remove();
+       for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+        $('#'+keephitoryidtoshow).append(RecordAccesLocalHistroty(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
 
+      }
+    }
+}
+
+
+function ClickToshowSelectedFiledsDuplicateRecords(Idload,divHistory)
+{
+    var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    App.ModulLabel='Module';
+    App.FieldLabel='Related';
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var Field=App.popupJson[i].temparray[`DefaultText`];
+        var moduli=App.popupJson[i].temparray[`FirstModuleText`];
+        var typeofppopup=App.popupJson[i].temparray['JsonType'];
+        var divinsert= App.utils.DivPopup(i,moduli,Field,divHistory,typeofppopup);
+        $('#'+divHistory).append(divinsert);
+      } 
+    }
+}
+
+////////  FieldDependency 
+
+function AddResponsabileFieldsFD(event)
+{
+    var elem=event;
+
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+      validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    $('#'+divid+' div').remove();
+
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var divinsert= addToPopupExtendetFD(i,App.popupJson[i],divid);
+           $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}
+
+
+function addToPopupExtendetFD(Idd,tpa,divid)
+{
+      var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+      + '">';
+      INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupFD('
+      + Idd + ',\'' + divid + '\');">&times;</span>';
+      if (tpa.temparray['JsonType']==='Responsible')
+      {
+          INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+'  Field </strong>';
+          INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
+          if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
+            INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
+          }else{INSertAlerstJOIN +='  </p>';}
+      } else if( tpa.temparray['JsonType']==='Field' )
+      {
+        INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
+        INSertAlerstJOIN += '<p> Hidden ==> '+(tpa.temparray['ShowHidecheck']==="1"?"true":"false")+' </p>  ';
+        INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"true":"false")+' </p>  ';
+        INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"true":"false")+' </p>  ';
+      }else if( tpa.temparray['JsonType']==='Picklist' )
+      {
+          INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
+          for (var property1 in  tpa.temparray) {
+            var matches = property1.match(/DefaultValueFirstModuleField\_(\d+)$/);
+            if(matches!==null)
+            {
+              INSertAlerstJOIN += '<p> Value ==> '+tpa.temparray[matches[0]]+'</p>';
+            }
+          }
+      }
+    
+    INSertAlerstJOIN += '</div';
+
+    return INSertAlerstJOIN;
+}
+
+function closePopupFD(remuveid,namediv) {
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
+
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+                var divinsert= addToPopupExtendetFD(i,App.popupJson[i],namediv);
+                $('#'+namediv).append(divinsert);
+            }     
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+}
+
+
+function FDLocalHistory(IdLoad,Modulee,divanameLoad,dividrelation='')
+{
+    var htmldat='<div class="Message Message"  >';
+    htmldat+='<div class="Message-icon">';
+    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedFD(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+    htmldat+='</div>';
+    htmldat+='<div class="Message-body">';
+    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+    htmldat+='<p>Module ==> '+Modulee+'</p>';
+    htmldat+='</div>';
+    htmldat+='</div>';
+    return htmldat;
+}
+    
+
+function ShowLocalHistoryFD(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+         $('#'+keephitoryidtoshow).append(FDLocalHistory(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+ 
+function ClickToshowSelectedFD(Idload,divHistory)
+{
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= addToPopupExtendetFD(i,App.popupJson[i],divHistory);
+         $('#'+divHistory).append(divinsert);
+    } 
+
+  }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}

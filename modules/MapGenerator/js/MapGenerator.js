@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-20 15:20:45
+ * @Last Modified time: 2018-02-21 14:53:13
  */
 /*
  * @Author: Edmond Kacaj 
@@ -177,6 +177,9 @@
 						urlsend, dat);
 			}else if (select == "IOMap") {
 				// idfieldfill,urlsend,dat
+				App.ModulLabel='Module';
+				App.FieldLabel='Field';
+				App.DefaultValue='Value';
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "AllFields_File" ];
 				var dat = "FirstModul"
@@ -417,7 +420,8 @@
 				}
             }else{
             	// alert(mv_arr.addJoinValidation);
-            	App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
+				App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
+				App.utils.ReturnAllDataHistory(divshowmodal);
             }
 
 		},		
@@ -1613,7 +1617,7 @@
 				// INSertAlerstJOIN += '<span class="closebtns"
 				// onclick="closeAlertsAndremoveJoin('+Idd+');"><i
 				// class="icono-eye"></</span>';
-				INSertAlerstJOIN += '<strong># Mapping  ' + Idd + '</strong> ';
+				INSertAlerstJOIN += '<strong>' + (Idd+1) + '# Mapping  </strong> ';
 				INSertAlerstJOIN += '<p> '+Firstmodulee + '=>' + FirstField + '</p>';
 				INSertAlerstJOIN += '<p> '+secondmodule + '=>' + SecondField + '</p>';
 				// if (last_check==true) {//icono-plusCircle
