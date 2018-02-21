@@ -869,39 +869,52 @@
 	/* End Add Picklist Modal */
 /* End Field Dependency & Field Dependency Portal */
 
-/* Create View Portal */
-	.create-view-portal-container {
+/* Create View Portal & Detail View Block Portal */
+	.dvbp-container,
+	.cvp-container {
 		margin-top: 1rem;
 		padding: 0 .5rem;
 	}
-	.create-view-portal-container #divForAddRows {
+	.dvbp-choose_fields-add_button,
+	.cvp-container #divForAddRows {
 		display: flex;
 		width: 100%;
 	}
-	.create-view-portal-container #divForAddRows > div:first-child {
+	.dvbp-choose-fields,
+	.cvp-container #divForAddRows > div:first-child {
 		width: 75%;
 	}
-	.create-view-portal-container #divForAddRows > div:last-child {
+	.dvbp-add-button,
+	.cvp-container #divForAddRows > div:last-child {
 		width: 25%;
 	}
+	.view-portal-choose-module .slds-select_container::before {
+		top:30px!important;
+	}
+	.dvbp-block_name,
 	.view-portal-write-block-name {
 		margin: 1rem 0;
 	}
+	.dvbp-block_name input,
 	.view-portal-write-block-name input {
 		width: 100%;
 		margin: 0;
 	}
+	.dvbp-choose-fields,
 	.view-portal-select-container {
 		padding-right: .5rem;
 	}
+	.dvbp-add-button,
 	.view-portal-buttons-container {
 		padding-left: .5rem;
 	}
+	.dvbp-add-button img,
 	.view-portal-buttons-container img {
 		height: 28px;
 		width: 28px;
 		transition: .23s ease-in-out;
 	}
+	.dvbp-add-button .slds-button_icon:hover,
 	.view-portal-buttons-container .slds-button_icon:hover {
 		transition: .23s ease-in-out;
 		opacity: .5;
@@ -919,7 +932,7 @@
 		margin-top: .7rem;
 		margin-bottom: .5rem;
 	}
-/* End Create View Portal */
+/* End Create View Portal & Detail View Block Portal */
 
 /* Import Business Mapping */
 	.import-business-mapping-container {
@@ -953,6 +966,7 @@
 		}
 		.import-business-select-fields #sel2 #sel1 label {
 			cursor: default;
+			margin: 0;
 		}
 	/* End Select Fields */
 
@@ -1167,7 +1181,44 @@
 	}
 /* End Rendiconda Config */
 
-
+/* Global Search Autocomplete */
+	.gsa-container {
+		margin-top: 1rem;
+		padding: 0 .5rem;
+	}
+	.gsa-fields-container {
+		display: flex;
+		margin-top: 1rem;
+	}
+	.gsa-fields-container .gsa-first-select,
+	.gsa-fields-container .gsa-second-select {
+		width: 42%;
+	}
+	.gsa-fields-container .gsa-checkbox {
+		width: 11%;
+	}
+	.gsa-fields-container .gsa-add-button {
+		width: 5%;
+	}
+	.gsa-first-select select,
+	.gsa-second-select select {
+		min-height: 180px!important;
+	}
+	.gsa-checkbox label,
+	.gsa-add-button button {
+		margin-top: 100px;
+	}
+	.gsa-checkbox label > span {
+		margin-left: 10px;
+		text-align: center;
+	}
+	.gsa-add-button button:hover {
+		opacity: .7;
+	}
+	.gsa-add-button button img {
+		width: 30px;
+	}
+/* End Global Search Autocomplete */
 
 
 

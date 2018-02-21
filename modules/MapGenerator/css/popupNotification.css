@@ -38,7 +38,7 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 /* Popup Zone */
 .alerts {
 	padding: 10px;
-	background-color: #808080;
+	background-color: #54698D;
 	margin: 4px;
 	color: white;
 	display: block;
@@ -78,7 +78,7 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 /* History */
 .Message {
 	padding: 3px;
-	background-color: #68D8FF;
+	background-color: #A6BBDC;
 	margin: 4px;
 	display: block;
 	border-radius: 5px;
@@ -97,7 +97,7 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 	margin: 5px 0 5px 5px;
 	text-align: center;
 	border-radius: 5px;
-	background-color: #0070D2;
+	background-color: #54698D;
 	font-size: 20px;
 }
 

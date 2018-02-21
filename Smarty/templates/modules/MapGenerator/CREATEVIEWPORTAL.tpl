@@ -109,20 +109,20 @@
 				</div>
 				<div class="slds-truncate">
 					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
-						<tr class="slds-line-height--reset">
-							<td class="dvtCellLabel" width="70%" valign="top">
+						<tr class="slds-line-height--reset map-generator-cell-container">
+							<td class="dvtCellLabel" valign="top">
 								<!-- THE MODULE Zone -->
-								<div class="create-view-portal-container">
+								<div class="cvp-container">
 									<div class="view-portal-choose-module">
 										<!-- Choose Module -->
 										<div class="slds-form-element slds-text-align--left">
 											<label class="slds-form-element__label" for="FirstModule">Choose the Module</label>
 											<div class="slds-form-element__control">
-												<!-- <div class="slds-select_container"> -->
+												<div class="slds-select_container">
 													<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-select-relation-field-id="FieldsForRow" data-module="MapGenerator" id="FirstModule" name="mod" class="slds-select">
 														{$FirstModuleSelected}
 													</select>
-												<!-- </div> -->
+												</div>
 											</div>
 										</div>
 									</div>
@@ -168,7 +168,7 @@
 
 								</div>
 							</td>
-							<td class="dvtCellInfo" align="left" width="40%" valign="top">
+							<td class="dvtCellInfo" align="left">
 								<div class="flexipageComponent">
 									<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
 										<div class="slds-card__header slds-grid">

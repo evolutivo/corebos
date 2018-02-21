@@ -56,272 +56,276 @@
 		{/if}
 </div>
 
-		<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
-				<tbody>
-						<tr class="blockStyleCss" id="DivObjectID">
-								<td class="detailViewContainer" valign="top">
-										<div class="forceRelatedListSingleContainer">
-												<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
-																<div class="slds-card__header slds-grid">
-																				<header class="slds-media--center slds-has-flexi-truncate">
-																						<h1 id="mapNameLabel"  class="slds-page-header__title slds-m-right--small slds-truncate">
-																								{if $NameOFMap neq ''} {$NameOFMap} {/if}
-																						</h1>
-																						<p class="slds-text-heading--label slds-line-height--reset">{$MOD.ListColumns}</p>
-																				</header>
-																				<div class="slds-no-flex">
-																						<div class="actionsContainer mapButton">
-																								<div class="slds-section-title--divider">
-																										{if $HistoryMap neq ''}
-																												{* saveFieldDependency *}
-																												<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
-																										{else}
-																												{* saveFieldDependency *}
-																												<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
-																										{/if}
-																										&nbsp;
-																										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId" >{$MOD.CreateMap}</button>
-																								</div>
-																						</div>
-																				</div>
+<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
+	<tbody>
+		<tr class="blockStyleCss" id="DivObjectID">
+			<td class="detailViewContainer" valign="top">
+				<div class="forceRelatedListSingleContainer">
+					<article class="slds-card forceRelatedListCardDesktop" aria-describedby="header">
+						<div class="slds-card__header slds-grid">
+							<header class="slds-media--center slds-has-flexi-truncate">
+								<h1 id="mapNameLabel" class="slds-page-header__title slds-m-right--small slds-truncate">
+									{if $NameOFMap neq ''} {$NameOFMap} {/if}
+								</h1>
+								<p class="slds-text-heading--label slds-line-height--reset">{$MOD.ListColumns}</p>
+							</header>
+							<div class="slds-no-flex">
+								<div class="actionsContainer mapButton">
+									<div class="slds-section-title--divider">
+										{if $HistoryMap neq ''} {* saveFieldDependency *}
+										<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
+										{else} {* saveFieldDependency *}
+										<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
+										{/if} &nbsp;
+										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId">{$MOD.CreateMap}</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</article>
+				</div>
+				<div class="slds-truncate">
+					<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
+						<tr class="slds-line-height--reset map-generator-cell-container">
+							<td class="dvtCellLabel" valign="top">
+								<!-- THE MODULE Zone -->
+								<div id="selJoin">
+									<div id="sel1" class="list-columns-container">
+										<div class="slds-form-element">
+											<div class="slds-form-element__control slds-text-align--center">
+												<label class="slds-form-element__label ">{$MOD.TargetModule}</label>
+												<div class="slds-select_container ">
+													<select data-select-load="true " data-reset-all="true " data-reset-id-popup="LoadShowPopup " data-second-module-id="secmodule " data-select-relation-field-id="Firstfield " data-select-fieldid="FirstfieldID " data-module="MapGenerator " data-second-module-file="ListColumnsRelationData " id="FirstModule " name="mod " class="slds-select ">
+														{$FirstModuleSelected}
+													</select>
+												</div>
+											</div>
+											<div class="lc-target-module ">
+												<label>ID</label>
+												<input type="button " value="{$FmoduleID} " class="slds-button slds-button--neutral sel " id="FirstfieldID " name="FirstfieldID ">
+											</div>
+										</div>
+										<br>
+											{*
+											<div class="slds-form-element ">
+													<div class="slds-form-element__control ">
+															<div class="slds-select_container ">
+																	<select id="SecondField " data-label-change-load="true " data-module="MapGenerator " data-select-filename="GetLabelName " data-set-value-to="DefaultValue " name="mod " class="slds-select ">
+																			{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
+																			<option value=" ">Choose from origin</option>
+																			{/if}
+																	</select>
+															</div>
+													</div>
+											</div>
+											*}
+										<br>
+									</div>
+
+									<div id="centerJoin"> </div>
+
+									<div id="sel2">
+										{*
+											<div class="testoDiv">
+													<center><b>{$MOD.popupPlace}</b></center>
+											</div>
+										*}
+										<div class="slds-form-element">
+											<div class="slds-form-element__control slds-text-align--center">
+												<label class="slds-form-element__label">{$MOD.OriginModule}</label>
+												<div class="slds-select_container">
+													<select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" name="secmodule" class="slds-select">
+														{if $SecondModulerelation neq ''} {$SecondModulerelation} {else}
+															<option value="">Choose form Target</option>
+														{/if}
+													</select>
+												</div>
+											</div>
+											<div class="lc-origin-module">
+												<label>ID</label>
+												<input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID">
+											</div>
+										</div>
+
+										<br>
+											{*
+											<div class="slds-form-element">
+												<div class="slds-form-element__control">
+													<div class="" id="SecondDiv">
+														<div class="slds-combobox_container slds-has-object-switcher">
+															<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+																<div class="slds-combobox__form-element">
+																		<input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
 																</div>
-												</article>
+															</div>
+															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																<button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																	<img src="themes/images/btnL3Add.gif">
+																</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											*}
+										<br>
+									</div>
+								</div>
+
+								<div id="sectionField" class="related-list-content">
+									<div class="testoDiv">
+										<center><b>{$MOD.RelatedList}</b></center>
+									</div>
+									<hr class="related-list-line">
+
+									<div class="slds-form-element">
+											<div class="slds-form-element__control">
+													<div id="AlertsAddDiv">
+													</div>
+											</div>
+									</div>
+
+									<div class="related-list-container">
+											<div class="slds-form-element">
+													<div class="slds-form-element__control">
+															<div class="slds-select_container">
+																	<select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
+																			{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
+																			<option value="">Choose from origin</option>
+																			{/if}
+																	</select>
+															</div>
+													</div>
+											</div>
+
+											<div class="slds-form-element">
+													<div class="slds-form-element__control">
+															<div id="SecondDiv">
+																	<div class="slds-combobox_container slds-has-object-switcher">
+																			<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+																					<div class="slds-combobox__form-element">
+																							<input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
+																					</div>
+																			</div>
+																			<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																					<button data-add-button-popup="true" data-add-type="Related List" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																							<img src="themes/images/btnL3Add.gif">
+																					</button>
+																			</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+								</div>
+
+								<div id="contenitoreJoins" class="popup-screen-content">
+										<div id="sectionField">
+												<div class="testoDiv">
+														<center><b>{$MOD.popupPlace}</b></center>
+												</div>
+												<hr class="popup-screen-line">
+												<div class="slds-form-element">
+														<div class="slds-form-element__control">
+																<div id="AlertsAddDiv">
+																</div>
+														</div>
+														<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+														<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+														<input type="hidden" name="querysequence" id="querysequence" value="">
+														<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
+												</div>
 										</div>
-										<div class="slds-truncate">
-												<table class="slds-table slds-table--cell-buffer slds-no-row-hover slds-table--bordered slds-table--fixed-layout small detailview_table">
-														<tr class="slds-line-height--reset map-generator-cell-container">
-																<td class="dvtCellLabel" valign="top">
-																		<!-- THE MODULE Zone -->
-																		<div id="selJoin">
-																				<div id="sel1" class="list-columns-container">
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control slds-text-align--center"">
-																										<label class="slds-form-element__label">{$MOD.TargetModule}</label>
-																										<div class="slds-select_container">
-																												<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="secmodule" data-select-relation-field-id="Firstfield" data-select-fieldid="FirstfieldID" data-module="MapGenerator" data-second-module-file="ListColumnsRelationData" id="FirstModule" name="mod" class="slds-select">
-																														{$FirstModuleSelected}
-																												</select>
-																										</div>
-																								</div>
-																								<div class="lc-target-module">
-																										<label>ID</label>
-																										<input type="button" value="{$FmoduleID}" class="slds-button slds-button--neutral sel" id="FirstfieldID" name="FirstfieldID">
-																								</div>
-																						</div>
-																						<br> {*
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control">
-																										<div class="slds-select_container">
-																												<select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
-																														{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
-																														<option value="">Choose from origin</option>
-																														{/if}
-																												</select>
-																										</div>
-																								</div>
-																						</div> *}
-																						<br>
-																				</div>
-
-																				<div id="centerJoin"> </div>
-
-																				<div id="sel2">
-																						{*
-																						<div class="testoDiv">
-																								<center><b>{$MOD.popupPlace}</b></center>
-																						</div> *}
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control slds-text-align--center">
-																										<label class="slds-form-element__label">{$MOD.OriginModule}</label>
-																										<div class="slds-select_container">
-																												<select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-select-fieldid="SecondfieldID" name="secmodule" class="slds-select">
-																														{if $SecondModulerelation neq ''} {$SecondModulerelation} {else}
-																														<option value="">Choose form Target</option>
-																														{/if}
-																												</select>
-																										</div>
-																								</div>
-																								<div class="lc-origin-module">
-																										<label>ID</label>
-																										<input type="button" class="slds-button slds-button--neutral sel" value="{$SmoduleID}" id="SecondfieldID" name="SecondfieldID">
-																								</div>
-																						</div>
-																						<br> {*
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control">
-																										<div class="" id="SecondDiv">
-																												<div class="slds-combobox_container slds-has-object-switcher">
-																														<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																																<div class="slds-combobox__form-element">
-																																		<input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
-																																</div>
-																														</div>
-																														<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																																<button data-add-button-popup="true" data-add-type="Related" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																																		<img src="themes/images/btnL3Add.gif">
-																																</button>
-																														</div>
-																												</div>
-																										</div>
-																								</div>
-																						</div> *}
-																						<br>
-																				</div>
+										<div class="popup-screen-container">
+												<div id="sel1" class="popup-screen-select">
+														<div class="slds-form-element">
+																<div class="slds-form-element__control">
+																		<div class="slds-select_container">
+																				<select id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
+																						{if $FirstModuleFields neq ''} {$FirstModuleFields} {else}
+																						<option value="">Choose from Target</option>
+																						{/if}
+																				</select>
 																		</div>
-																		<div id="sectionField" class="related-list-content">
-																				<div class="testoDiv">
-																						<center><b>{$MOD.RelatedList}</b></center>
-																				</div>
-																				<hr class="related-list-line">
-
-																				<div class="slds-form-element">
-																						<div class="slds-form-element__control">
-																								<div id="AlertsAddDiv">
+																</div>
+														</div>
+												</div>
+												<!-- <div id="centerJoin"></div> -->
+												<div id="sel2" class="popup-screen-field">
+														<div class="slds-form-element">
+																<div class="slds-form-element__control">
+																		<div id="SecondDiv">
+																				<div class="slds-combobox_container slds-has-object-switcher">
+																						<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+																								<div class="slds-combobox__form-element">
+																										<input type="text" id="DefaultValueFirstModuleField" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
 																								</div>
 																						</div>
-																				</div>
-
-																				<div class="related-list-container">
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control">
-																										<div class="slds-select_container">
-																												<select id="SecondField" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValue" name="mod" class="slds-select">
-																														{if $SecondModuleFields neq ''} {$SecondModuleFields} {else}
-																														<option value="">Choose from origin</option>
-																														{/if}
-																												</select>
-																										</div>
-																								</div>
-																						</div>
-
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control">
-																										<div id="SecondDiv">
-																												<div class="slds-combobox_container slds-has-object-switcher">
-																														<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																																<div class="slds-combobox__form-element">
-																																		<input type="text" id="DefaultValue" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
-																																</div>
-																														</div>
-																														<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																																<button data-add-button-popup="true" data-add-type="Related List" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																																		<img src="themes/images/btnL3Add.gif">
-																																</button>
-																														</div>
-																												</div>
-																										</div>
-																								</div>
+																						<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
+																								<button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																										<img src="themes/images/btnL3Add.gif">
+																								</button>
 																						</div>
 																				</div>
 																		</div>
-
-																		<div id="contenitoreJoins" class="popup-screen-content">
-																				<div id="sectionField">
-																						<div class="testoDiv">
-																								<center><b>{$MOD.popupPlace}</b></center>
-																						</div>
-																						<hr class="popup-screen-line">
-																						<div class="slds-form-element">
-																								<div class="slds-form-element__control">
-																										<div id="AlertsAddDiv">
-																										</div>
-																								</div>
-																								<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-																								<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
-																								<input type="hidden" name="querysequence" id="querysequence" value="">
-																								<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-																						</div>
-																				</div>
-																				<div class="popup-screen-container">
-																						<div id="sel1" class="popup-screen-select">
-																								<div class="slds-form-element">
-																										<div class="slds-form-element__control">
-																												<div class="slds-select_container">
-																														<select id="Firstfield" data-label-change-load="true" data-module="MapGenerator" data-select-filename="GetLabelName" data-set-value-to="DefaultValueFirstModuleField" name="mod" class="slds-select">
-																																{if $FirstModuleFields neq ''} {$FirstModuleFields} {else}
-																																<option value="">Choose from Target</option>
-																																{/if}
-																														</select>
-																												</div>
-																										</div>
-																								</div>
-																						</div>
-																						<!-- <div id="centerJoin"></div> -->
-																						<div id="sel2" class="popup-screen-field">
-																								<div class="slds-form-element">
-																										<div class="slds-form-element__control">
-																												<div id="SecondDiv">
-																														<div class="slds-combobox_container slds-has-object-switcher">
-																																<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																																		<div class="slds-combobox__form-element">
-																																				<input type="text" id="DefaultValueFirstModuleField" placeholder="Change label if you want and after click button" id="defaultvalue" class="slds-input slds-combobox__input">
-																																		</div>
-																																</div>
-																																<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																																		<button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																																				<img src="themes/images/btnL3Add.gif">
-																																		</button>
-																																</div>
-																														</div>
-																												</div>
-																										</div>
-																								</div>
-																						</div>
-																				</div>
-																		</div>
-																</td>
-																<td class="dvtCellInfo" align="left">
-																				<div class="flexipageComponent">
-																						<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
-																								<div class="slds-card__header slds-grid">
-																										<header class="slds-media slds-media--center slds-has-flexi-truncate">
-																												<div class="slds-media__body">
-																														<h2 class="header-title-container"> 
-																															<span class="slds-text-heading--small slds-truncate actionLabel">
-																																<b>Popup</b>
-																															</span> 
-																														</h2>
-																												</div>
-																										</header>
-																								</div>
-																								<div class="slds-card__body slds-card__body--inner">
-																										<div id="contenitoreJoin">
-																												<div id="LoadShowPopup"></div>
-																										</div>
-																								</div>
-																								{*End div contenitorejoin*}
-																						</article>
-																				</div>
-																				<br/>
-																				<div class="flexipageComponent">
-																						<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
-																								<div class="slds-card__header slds-grid">
-																										<header class="slds-media slds-media--center slds-has-flexi-truncate">
-																												<div class="slds-media__body">
-																														<h2 class="header-title-container"> 
-																																	<span class="slds-text-heading--small slds-truncate actionLabel">
-																																		<b>History</b>
-																																	</span> 
-																																</h2>
-																												</div>
-																										</header>
-																								</div>
-																								<div class="slds-card__body slds-card__body--inner">
-																										<div id="contenitoreJoin">
-																												<div id="LoadHistoryPopup">
-																												</div>
-																										</div>{*End div contenitorejoin*}
-																								</div>
-																						</article>
-																				</div>
-																</td>
-														</tr>
-												</table>
+																</div>
+														</div>
+												</div>
 										</div>
-								</td>
+								</div>
+							</td>
+							<td class="dvtCellInfo" align="left">
+								<div class="flexipageComponent">
+										<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
+												<div class="slds-card__header slds-grid">
+														<header class="slds-media slds-media--center slds-has-flexi-truncate">
+																<div class="slds-media__body">
+																		<h2 class="header-title-container"> 
+																			<span class="slds-text-heading--small slds-truncate actionLabel">
+																				<b>Popup</b>
+																			</span> 
+																		</h2>
+																</div>
+														</header>
+												</div>
+												<div class="slds-card__body slds-card__body--inner">
+														<div id="contenitoreJoin">
+																<div id="LoadShowPopup"></div>
+														</div>
+												</div>
+												{*End div contenitorejoin*}
+										</article>
+								</div>
+								<br/>
+								<div class="flexipageComponent">
+										<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">
+												<div class="slds-card__header slds-grid">
+														<header class="slds-media slds-media--center slds-has-flexi-truncate">
+																<div class="slds-media__body">
+																		<h2 class="header-title-container"> 
+																					<span class="slds-text-heading--small slds-truncate actionLabel">
+																						<b>History</b>
+																					</span> 
+																				</h2>
+																</div>
+														</header>
+												</div>
+												<div class="slds-card__body slds-card__body--inner">
+														<div id="contenitoreJoin">
+																<div id="LoadHistoryPopup">
+																</div>
+														</div>{*End div contenitorejoin*}
+												</div>
+										</article>
+								</div>
+							</td>
 						</tr>
-				</tbody>
-		</table>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
 		<div id="waitingIddiv"></div>
 		<div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;">
 		</div>
