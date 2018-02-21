@@ -26,7 +26,7 @@
     
         if (App.SaveHistoryPop.length>0)
         { 
-            App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+        ShowLocalHistoryListColumns('LoadHistoryPopup','LoadShowPopup');
         App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
         }else{
         App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
@@ -77,7 +77,7 @@
 										{else} {* saveFieldDependency *}
 										<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 										{/if} &nbsp;
-										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId">{$MOD.CreateMap}</button>
+										<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,SaveListColumns" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-loading="true" data-loading-divid="LoadingDivId" data-send-savehistory-functionname="ShowLocalHistoryListColumns">{$MOD.CreateMap}</button>
 									</div>
 								</div>
 							</div>
@@ -208,7 +208,7 @@
 																					</div>
 																			</div>
 																			<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																					<button data-add-button-popup="true" data-add-type="Related List" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="SecondField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																					<button data-add-button-popup="true" data-add-type="Related List" data-add-relation-id="FirstModule,secmodule,SecondField,FirstfieldID,SecondfieldID,DefaultValue" data-show-id="DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
 																							<img src="themes/images/btnL3Add.gif">
 																					</button>
 																			</div>
@@ -262,7 +262,7 @@
 																								</div>
 																						</div>
 																						<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																								<button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																								<button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="DefaultValueFirstModuleField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
 																										<img src="themes/images/btnL3Add.gif">
 																								</button>
 																						</div>

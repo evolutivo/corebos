@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 15:50:19
+ * @Last Modified time: 2018-02-21 18:12:45
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1705,7 +1705,7 @@
 					
 					if (SecondModuleLoad && SecondModuleLoad!=="")
 					{
-						htmldat+='--<bold>'+SecondModuleLoad+'</bold></p>';
+						htmldat+='  ==>  <bold>'+SecondModuleLoad+'</bold></p>';
 					}
 				}
 				htmldat+='</div>';
