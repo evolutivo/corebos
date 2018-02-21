@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-20 12:46:43
+ * @Last Modified time: 2018-02-20 15:20:45
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1636,7 +1636,13 @@
 				return INSertAlerstJOIN;
 		},
 
-
+		
+		/**
+		 * function to add the popup for history 
+		 * @param  {} divName
+		 * @param  {} dividrelation=''
+		 * @param  {} callfunction=''
+		 */
 		AddtoHistory:function(divName,dividrelation='',callfunction='') {
 			if (App.SaveHistoryPop.length>0)
 			{	
@@ -1796,6 +1802,15 @@
 			}
 		},
 
+		
+		/**
+		 * function to generate the html for popup 
+		 * @param  {} Idd
+		 * @param  {} moduli
+		 * @param  {} fields
+		 * @param  {} divid
+		 * @param  {} typepopup
+		 */
 		DivPopup : function(Idd,moduli,fields,divid,typepopup) {
 			var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
 					+ '">';
@@ -1803,12 +1818,12 @@
 					+ Idd + ',\'' + divid + '\');">&times;</span>';
 			if (moduli && moduli!=='')
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
+				INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+typepopup+' </strong><p>'+(App.ModulLabel==null?mv_arr.module:App.ModulLabel)+' ==>'+moduli+ '</p>';
 				INSertAlerstJOIN += '<p> '+(App.FieldLabel==null?mv_arr.field:App.FieldLabel)+'  ==> '+fields+ '</p>';
 
 			} else
 			{
-				INSertAlerstJOIN += '<strong># '+typepopup+'   '+(Idd+1)+'</strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
+				INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+typepopup+'   </strong><p> '+(App.DefaultValue==null?'':App.DefaultValue+"  ==> ")+fields+ '</p>';
 			}
 			
 			INSertAlerstJOIN += '</div';
@@ -2039,6 +2054,11 @@
 		},
 		
 		
+		/**
+		 * function to execute the function by name 
+		 * @param  {} functionName
+		 * @param  {} context
+		 */
 		executeFunctionByName : function(functionName, context /* , args */) {
 			var args = [].slice.call(arguments).splice(2);
 			var namespaces = functionName.split(".");
@@ -2055,6 +2075,11 @@
 		 * @param  {Array}  array  the array you want to check 
 		 * @param  {Object} object the object you want to check 
 		 * @return {[type]}        return boolean if find return true if not find return false
+		 */
+		/**function to check if exist the object (te remove the duplicate )
+		 * @param  {} array=[]
+		 * @param  {} object={}
+		 * @param  {} validatearray=[]
 		 */
 		checkinArray:function(array=[],object={},validatearray=[]) {
 			returnvalues=false;
@@ -2102,6 +2127,13 @@
 			x.className = "show";
 			setTimeout(function(){ x.className = x.className.replace("show", ""); }, timetohide);
 		},
+		
+		/**
+		 * function to show the loading page when you create or load the map 
+		 * @param  {} idnotification=""
+		 * @param  {} showloading=true
+		 * @param  {} closeopen=true
+		 */
 		ShowLoading:function(idnotification="",showloading=true,closeopen=true) {
 			var dfr = $.Deferred();
 			if (showloading===true) {
@@ -2129,7 +2161,9 @@
 				}else{return dfr.resolve();}
 			}else{return dfr.resolve();}
 		},
-
+		/**
+		 * function to update the map when you change the map name 
+		 */
 		UpdateMapNAme:function() {
 					if ($('#mapNameLabel').length>0){
 						if (App.utils.IsSelectORDropDown('SaveasMapText').length>0)
@@ -2146,7 +2180,10 @@
 	};
 
 	App.removeinspectelement={
-
+		/**
+		 * function to desamble the right click or F12
+		 * @param  {} argument
+		 */
 		init:function(argument) {
 			if (App.disambleInspectelement===true)
 			{

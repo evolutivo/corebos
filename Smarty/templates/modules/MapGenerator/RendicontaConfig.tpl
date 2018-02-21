@@ -4,40 +4,41 @@
 
 {if $HistoryMap neq ''}
 	<script type="text/javascript">
-	App.savehistoryar = '{$HistoryMap}';
+	  App.savehistoryar = '{$HistoryMap}';
 	</script>
 {/if}
 
 {if $PopupJS neq ''}
-	<script type="text/javascript">
-		{ foreach from = $PopupJS item = allitems key = key name = name }
-		var temparray = {}; { foreach key = key item = item from = $allitems }
-		temparray['{$key}'] = '{$item}'; {
-				/foreach}
-				App.popupJson.push({ '{' } temparray { '}' });
-				HistoryPopup.addtoarray(App.popupJson, "PopupJSON");
-				App.popupJson.length = 0; {
-						/foreach}
+  <script type="text/javascript">
+      {foreach from=$PopupJS item=allitems key=key name=name}
+           var temparray = {};
+            {foreach key=key item=item from=$allitems}
+                temparray['{$key}']='{$item}';
+            {/foreach}
+            App.popupJson.push({'{'}temparray{'}'});          
+           HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+          App.popupJson.length=0;
+      {/foreach}
+    
+     if (App.SaveHistoryPop.length>0)
+    { 
+       ShowLocalHistoryRendiConfig('LoadHistoryPopup','LoadShowPopup');
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
+    }else{
+       App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
+     }
 
-					if (App.SaveHistoryPop.length > 0) {
-							ShowLocalHistoryRendiConfig('LoadHistoryPopup', 'LoadShowPopup');
-							App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryCorrect);
-					} else {
-							App.utils.ShowNotification("snackbar", 4000, mv_arr.LoadHIstoryError);
-					}
+      ShowRendicontConfig(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+  </script>
 
-					ShowRendicontConfig(parseInt(App.SaveHistoryPop.length - 1), 'LoadShowPopup');
-					App.countsaveMap = 2;
-					App.utils.UpdateMapNAme();
-	</script>
+
 {/if}
-
 <div id="ModalDiv">
-		{if $Modali neq ''}
-			<div>
-					{$Modali}
-			</div>
-		{/if}
+	{if $Modali neq ''}
+		<div>
+				{$Modali}
+		</div>
+	{/if}
 </div>
 
 <table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
