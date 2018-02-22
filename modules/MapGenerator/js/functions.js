@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 15:31:07
+ * @Last Modified time: 2018-02-22 16:25:42
  */
 
 document.onkeydown = function(e) {
@@ -871,11 +871,16 @@ function generateJoin(SelectedValue="",History=0) {
           }
         });
 
-        $('#selectableFields').html('');
-        $('#ReturnValuesTxt').removeAttr('name');
-        $('#ReturnValuesTxt').val('');
+        // $('#selectableFields').html('');
+        // $('#ReturnValuesTxt').removeAttr('name');
+        // $('#ReturnValuesTxt').val('');
 
-    }else {App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);}
+    }else 
+    {
+      App.utils.ShowNotification("snackbar",2000,mv_arr.MappingFiledValid);
+        returnfromgeanratejoin= false;
+        return false;
+    }
   }
 
 
@@ -1776,6 +1781,9 @@ function SaveMap() {
               }
             });
         
+        $('#selectableFields').html('');
+        $('#ReturnValuesTxt').removeAttr('name');
+        $('#ReturnValuesTxt').val('');
         // getFirstModule(selTab2);
     //}
 
@@ -1860,6 +1868,9 @@ function SaveasMap() {
             });
         // $('#ReturnValuesTxt').attr('name','');
         // $('#ReturnValuesTxt').val('');
+        $('#selectableFields').html('');
+        $('#ReturnValuesTxt').removeAttr('name');
+        $('#ReturnValuesTxt').val('');
         getFirstModule(selTab2, MapID);
     //}
   }
@@ -1928,6 +1939,7 @@ var mapid=SelectPicker.split("##");
 
   }
 
+ 
 
   function GenerateMasterData()
   {
@@ -4575,15 +4587,15 @@ function addToPopupExtendetCE(Idd,tpa,divid)
       if ($("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).length == 0) {
         var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
         INSertAlerstJOIN +='<div id="'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+'">';
-        INSertAlerstJOIN += '<strong># Function Name ==> '+tpa.temparray['FunctionName']+'</strong>';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'# Function Name ==> '+tpa.temparray['FunctionName']+'</strong>';
         INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p> <br/>';
         if(tpa.temparray['JsonType']==='Function')
         {
-          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field '+1+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }
         else
         {
-          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter '+1+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }
         INSertAlerstJOIN +='<div>';
         INSertAlerstJOIN += '</div';
@@ -4592,11 +4604,11 @@ function addToPopupExtendetCE(Idd,tpa,divid)
         var count = $('#'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+' p').length;
         if(tpa.temparray['JsonType']==='Function')
         {
-          var InsertModule= '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field '+(count+1)+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+          var InsertModule= '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }
         else
         {
-          var InsertModule = '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter '+(count+1)+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+          var InsertModule = '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }        
         $("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).append(InsertModule);
       }

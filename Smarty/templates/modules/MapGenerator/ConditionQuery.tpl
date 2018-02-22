@@ -79,7 +79,7 @@
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select data-select-load="true" data-second-module-file="SecondModuleMasterDetail" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
+														<select data-select-load="true" data-second-module-file="SecondModuleMasterDetail" data-second-module-id="secmodule" data-module="MapGenerator" onchange="resetdata(this)" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
 															{$FirstModuleSelected}
 														</select>
 													</div>
