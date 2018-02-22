@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 16:49:26
+ * @Last Modified time: 2018-02-22 17:29:59
  */
 
 document.onkeydown = function(e) {
@@ -4559,7 +4559,7 @@ function ShowLocalHistoryListColumns(keephitoryidtoshow,keephitoryidtoshowidrela
     { 
         $('#'+keephitoryidtoshow+' div').remove();
         for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-         $('#'+keephitoryidtoshow).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],App.SaveHistoryPop[i].PopupJSON[0].temparray['secmoduleText'],keephitoryidtoshow,keephitoryidtoshowidrelation));
+         $('#'+keephitoryidtoshow).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],App.SaveHistoryPop[i].PopupJSON[0].temparray['secmoduleText'],false,keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
