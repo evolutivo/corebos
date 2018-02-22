@@ -262,7 +262,7 @@
 																								</div>
 																						</div>
 																						<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																								<button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,DefaultValueFirstModuleField" data-show-id="DefaultValueFirstModuleField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																								<button data-add-button-popup="true" data-add-type="Popup Screen" data-add-relation-id="FirstModule,FirstfieldID,secmodule,Firstfield,DefaultValueFirstModuleField" data-show-id="DefaultValueFirstModuleField" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
 																										<img src="themes/images/btnL3Add.gif">
 																								</button>
 																						</div>
