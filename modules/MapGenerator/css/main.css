@@ -453,9 +453,6 @@
 	#master-detail-add-button img {
 		width: 22px;
 	}
-
-
-
 	/* End Target Module */
 
 /* End Master Detail */
@@ -1352,10 +1349,28 @@
 	.dr-add-button label img {
 		width: 22px;
 	}
-
-
-
 /* End Duplicate Records */
+
+/* New Map Modal */
+	.new-map-modal h2,
+	.insert-map-name-modal h2 {
+		margin: 0;
+	}
+	.new-map-modal .slds-input,
+	.insert-map-name-modal .slds-input {
+		width: 80%;
+	}
+	.new-map-modal .slds-modal__content,
+	.insert-map-name-modal .slds-modal__content {
+		position: relative;
+	}
+	.new-map-modal #ErrorLabelModal,
+	.insert-map-name-modal #ErrorLabelModal {
+		position: absolute;
+		bottom: 0;
+		left: 6rem;
+	}
+/* End New Map Modal */
 
 
 
