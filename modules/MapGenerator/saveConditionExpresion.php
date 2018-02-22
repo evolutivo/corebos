@@ -36,7 +36,7 @@ if (!empty($Data)) {
 	
 
     $myobject=json_decode($Data);
-   
+    
   if(strlen($MapID[1]==0)){
 
 	 $focust = new cbMap();
@@ -215,8 +215,8 @@ function add_aray_for_history($DataDecode)
             return array
              (
                 'Labels'=>$Labels,
-                'FirstModuleval'=>$DataDecode[0]->temparray->Firstmodule,
-            'FirstModuletxt'=>$DataDecode[0]->temparray->Firstmodule,
+                'FirstModuleval'=>$DataDecode[0]->temparray->FirstModule,
+                'FirstModuletxt'=>$DataDecode[0]->temparray->FirstModuleText,
                 'SecondModuleval'=>"",
                 'SecondModuletxt'=>"",
                 'firstmodulelabel'=>"",

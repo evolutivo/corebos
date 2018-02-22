@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 18:08:36
+ * @Last Modified time: 2018-02-22 11:58:02
  */
 
 document.onkeydown = function(e) {
@@ -2234,29 +2234,6 @@ function RemoveThis(argument,idinput) {
   }
 
 
-function removearrayselected(typeremove,type2="")
-{
-
-  for (var i = App.popupJson.length - 1; i >= 0; i--) {
-   if (App.popupJson[i].temparray['JsonType']===typeremove || App.popupJson[i].temparray['JsonType']===type2)
-   {
-    App.popupJson.splice(i,1);
-  }
-
-  }
-
-  $('#LoadShowPopup').empty();
-  if (App.popupJson.length>0)
-  { 
-  for (var i = 0; i <= App.popupJson.length-1; i++) {
-    var module=App.popupJson[i].temparray[`DefaultText`];
-    var typeofppopup=App.popupJson[i].temparray['JsonType'];
-    var divinsert= App.utils.DivPopup(i,"",module,"LoadShowPopup",typeofppopup);
-    $('#LoadShowPopup').append(divinsert);
-  } 
-
-  }
-}
 
 
 /**
@@ -4444,38 +4421,38 @@ function AddResponsabileFieldsFD(event)
 
 function addToPopupExtendetFD(Idd,tpa,divid)
 {
-      var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-      + '">';
-      INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupFD('
-      + Idd + ',\'' + divid + '\');">&times;</span>';
-      if (tpa.temparray['JsonType']==='Responsible')
-      {
-          INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+'  Field </strong>';
-          INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
-          if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
-            INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
-          }else{INSertAlerstJOIN +='  </p>';}
-      } else if( tpa.temparray['JsonType']==='Field' )
-      {
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupFD('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+    if (tpa.temparray['JsonType']==='Responsible')
+    {
+        INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+'  Field </strong>';
+        INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
+        if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
+          INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
+        }else{INSertAlerstJOIN +='  </p>';}
+    } else if( tpa.temparray['JsonType']==='Field' )
+    {
+      INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
+      INSertAlerstJOIN += '<p> Hidden ==> '+(tpa.temparray['ShowHidecheck']==="1"?"true":"false")+' </p>  ';
+      INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"true":"false")+' </p>  ';
+      INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"true":"false")+' </p>  ';
+    }else if( tpa.temparray['JsonType']==='Picklist' )
+    {
         INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
-        INSertAlerstJOIN += '<p> Hidden ==> '+(tpa.temparray['ShowHidecheck']==="1"?"true":"false")+' </p>  ';
-        INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"true":"false")+' </p>  ';
-        INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"true":"false")+' </p>  ';
-      }else if( tpa.temparray['JsonType']==='Picklist' )
-      {
-          INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
-          for (var property1 in  tpa.temparray) {
-            var matches = property1.match(/DefaultValueFirstModuleField\_(\d+)$/);
-            if(matches!==null)
-            {
-              INSertAlerstJOIN += '<p> Value ==> '+tpa.temparray[matches[0]]+'</p>';
-            }
+        for (var property1 in  tpa.temparray) {
+          var matches = property1.match(/DefaultValueFirstModuleField\_(\d+)$/);
+          if(matches!==null)
+          {
+            INSertAlerstJOIN += '<p> Value ==> '+tpa.temparray[matches[0]]+'</p>';
           }
-      }
-    
-    INSertAlerstJOIN += '</div';
+        }
+    }
+  
+  INSertAlerstJOIN += '</div';
 
-    return INSertAlerstJOIN;
+  return INSertAlerstJOIN;
 }
 
 function closePopupFD(remuveid,namediv) {
@@ -4571,6 +4548,187 @@ function ShowLocalHistoryListColumns(keephitoryidtoshow,keephitoryidtoshowidrela
         $('#'+keephitoryidtoshow+' div').remove();
         for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
          $('#'+keephitoryidtoshow).append(App.utils.LoadHistoryHtml(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModule'],App.SaveHistoryPop[i].PopupJSON[0].temparray['secmoduleText'],keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+
+
+/////////////////////  ConditionExpresion ///////////////////////////////
+
+
+function addToPopupExtendetCE(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupCE('+ Idd + ',\'' + divid + '\');">&times;</span>';
+    if (tpa.temparray['JsonType']==='Expression')
+    {
+        INSertAlerstJOIN += '<strong>'+(Idd)+'#  '+tpa.temparray['JsonType']+' </strong>';
+        INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['FirstModuleText']+' </p>  ';
+        INSertAlerstJOIN += '<p> Expression ==> '+tpa.temparray['DefaultText']+' </p>  ';
+        
+    } else if( tpa.temparray['JsonType']==='Function' )
+    {
+      INSertAlerstJOIN += '<strong>'+(Idd)+'# Function</strong> ';
+      INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>  ';
+      INSertAlerstJOIN += '<p>Function Name ==> '+tpa.temparray['FunctionName']+' </p>  ';
+      INSertAlerstJOIN += '<p>Field ==> '+tpa.temparray['DefaultText']+' </p>  ';
+    }else if( tpa.temparray['JsonType']==='Parameter' )
+    {
+      INSertAlerstJOIN += '<strong>'+(Idd)+'# Function</strong> ';
+      INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>  ';
+      INSertAlerstJOIN += '<p>Function Name ==> '+tpa.temparray['FunctionName']+' </p>  ';
+      INSertAlerstJOIN += '<p>Parameter ==> '+tpa.temparray['DefaultText']+' </p>  ';
+    }
+  
+  INSertAlerstJOIN += '</div';
+
+  return INSertAlerstJOIN;
+}
+
+
+
+function AddResponsabileFieldsCE(event)
+{
+    var elem=event;
+
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+      validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var divinsert= addToPopupExtendetCE(i,App.popupJson[i],divid);
+           $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}
+
+
+function removearrayselected(typeremove,type2="")
+{
+
+  for (var i = App.popupJson.length - 1; i >= 0; i--) {
+   if (App.popupJson[i].temparray['JsonType']===typeremove || App.popupJson[i].temparray['JsonType']===type2)
+   {
+    App.popupJson.splice(i,1);
+  }
+
+  }
+
+  $('#LoadShowPopup').empty();
+  if (App.popupJson.length>0)
+  { 
+  for (var i = 0; i <= App.popupJson.length-1; i++) {
+    var divinsert= addToPopupExtendetCE(i,App.popupJson[i],'LoadShowPopup');
+    $('#LoadShowPopup').append(divinsert);
+  } 
+
+  }
+}
+
+function closePopupCE(remuveid,namediv) {
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
+
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var divinsert= addToPopupExtendetCE(i,App.popupJson[i],namediv);
+                $('#'+namediv).append(divinsert);
+            }     
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+}
+
+
+function ClickToshowSelectedCE(Idload,divHistory)
+{
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= addToPopupExtendetCE(i,App.popupJson[i],divHistory);
+         $('#'+divHistory).append(divinsert);
+    } 
+
+  }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}
+
+function LocalHistoryCE(IdLoad,Modulee,divanameLoad,dividrelation='')
+{
+    var htmldat='<div class="Message Message"  >';
+    htmldat+='<div class="Message-icon">';
+    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedCE(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+    htmldat+='</div>';
+    htmldat+='<div class="Message-body">';
+    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+    htmldat+='<p>Module ==> '+Modulee+'</p>';
+    htmldat+='</div>';
+    htmldat+='</div>';
+    return htmldat;
+}
+
+function ShowLocalHistoryCE(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) { 
+          if(App.SaveHistoryPop[i].PopupJSON[0].temparray['Firstmodule2Text']){var FirstModule=App.SaveHistoryPop[i].PopupJSON[0].temparray['Firstmodule2Text'];}
+          else{var FirstModule=App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'];}
+          $('#'+keephitoryidtoshow).append(LocalHistoryCE(i,FirstModule,keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }

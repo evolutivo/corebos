@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 18:00:23
+ * @Last Modified time: 2018-02-22 11:50:48
  */
 
 
@@ -1344,18 +1344,21 @@ function ConditionExpression($QueryHistory,$MapID)
 		   $Alldatas=array();
 		  $Expresionshow="";
 		  $FunctionNameshow="";
-		  foreach ($Allhistory as $key => $value) {
+		  foreach ($Allhistory as $value) {
 			$xml=new SimpleXMLElement($value['query']);
 			$ConditionArray = array();
 			if (isset($xml->expression)) {
 				$temparray=[
 					'DefaultText'=>(string)$xml->expression,
-					'FirstModule'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+					'Firstmodule'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+					'FirstModuleText'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[1],
 					'FirstModuleoptionGroup'=>"undefined",
 					'Firstfield'=>(!empty(explode(",",CheckAllFirstForAllModules((string)$xml->expression))[0]))?explode(",",CheckAllFirstForAllModules((string)$xml->expression))[0]:"0",
+					'FirstfieldText'=>(string)$xml->expression,
 					'FirstfieldoptionGroup'=>"udentifined",
 					'JsonType'=>"Expression",
 					'expresion'=>(string)$xml->expression,
+					'expresionText'=>(string)$xml->expression,
 					'expresionoptionGroup'=>"udentifined",
 				];
 				$Expresionshow=(string)$xml->expression;
@@ -1369,9 +1372,12 @@ function ConditionExpression($QueryHistory,$MapID)
 					if (!empty(explode(",",CheckAllFirstForAllModules($valuee))[0])) {
 						$temparray=[
 							'DefaultText'=>explode(",",CheckAllFirstForAllModules((string)$valuee))[1],
+							'Firstfield2Text'=>explode(",",CheckAllFirstForAllModules((string)$valuee))[1],
 							'Firstfield2'=>explode(",",CheckAllFirstForAllModules((string)$valuee))[0],
 							'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
 							'Firstmodule2'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+							'Firstmodule2Text'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[1],
+							'Firstfield2optionGroup'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
 							'Firstmodule2optionGroup'=>"undefined",
 							'FunctionName'=>(string)$xml->function->name,
 							'FunctionNameoptionGroup'=>"",
@@ -1382,10 +1388,13 @@ function ConditionExpression($QueryHistory,$MapID)
 						$temparray=[
 							'DefaultText'=>(string)$valuee,
 							'DefaultValueFirstModuleField_1'=>(string)$valuee,
+							'DefaultValueFirstModuleField_1Text'=>(string)$valuee,
 							'DefaultValueFirstModuleField_1optionGroup'=>"",
 							'Firstmodule2'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[0],
+							'Firstmodule2Text'=>explode("#", Get_First_Moduls_TextVal($value["FirstModule"]))[1],
 							'Firstmodule2optionGroup'=>"undefined",
 							'FunctionName'=>(string)$xml->function->name,
+							'FunctionNameText'=>(string)$xml->function->name,
 							'FunctionNameoptionGroup'=>"",
 							'JsonType'=>"Parameter"
 						];						
