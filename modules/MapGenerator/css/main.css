@@ -932,6 +932,11 @@
 		margin-top: .7rem;
 		margin-bottom: .5rem;
 	}
+	.slds-cvp--button,
+	.slds-dvbp--button {
+		background-color: #54698D!important;
+		border-color: #54698D!important;
+	}
 /* End Create View Portal & Detail View Block Portal */
 
 /* Import Business Mapping */
@@ -1252,6 +1257,10 @@
 	.rac-lv-checkboxes > div,
 	.rac-dv-checkboxes > div {
 		width: 22%;
+	}
+	.rac-lv-checkboxes > div:first-child,
+	.rac-dv-checkboxes > div:first-child {
+		margin-left: 21px;
 	}
 	.rac-lv-container label,
 	.rac-dv-container label {

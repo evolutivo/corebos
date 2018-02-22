@@ -159,7 +159,7 @@
 														</button>
 													</div>
 													<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-														<button data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this);resetFieldCreateViewPortal();" class="slds-button slds-button--small slds-button--brand">{$MOD.Addsection}</button>
+														<button data-add-type="Block" data-add-relation-id="FirstModule,BlockName"  data-div-show="LoadShowPopup" onclick="showpopupCreateViewPortal(this);resetFieldCreateViewPortal();" class="slds-button slds-button--small slds-button--brand slds-cvp--button">{$MOD.Addsection}</button>
 													</div>
 												</div>
 											</div>
