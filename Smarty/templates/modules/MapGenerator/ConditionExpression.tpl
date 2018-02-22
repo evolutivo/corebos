@@ -20,20 +20,15 @@
 					App.popupJson.length=0;
 			{/foreach}
 		
-		 if (App.SaveHistoryPop.length>0)
+		if (App.SaveHistoryPop.length>0)
 		{ 
-				App.utils.AddtoHistory('LoadHistoryPopup','LoadShowPopup');
+				ShowLocalHistoryCE('LoadHistoryPopup','LoadShowPopup');
 			 App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryCorrect);
 		}else{
 			 App.utils.ShowNotification("snackbar",4000,mv_arr.LoadHIstoryError);
-		 }
+		}
 
-		 var historydata=App.SaveHistoryPop[parseInt(App.SaveHistoryPop.length-1)];
-			App.popupJson.length=0;
-			for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-			App.popupJson.push(historydata.PopupJSON[i]);
-			}
-			App.utils.ReturnDataSaveHistory('LoadShowPopup');
+		   ClickToshowSelectedCE(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 			App.utils.UpdateMapNAme();
 
 
@@ -86,7 +81,7 @@
 									{else} {* saveFieldDependency *}
 									<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 									{/if} &nbsp;
-									<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-loading="true" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup">{$MOD.CreateMap}</button>
+									<button class="slds-button slds-button--small slds-button--brand" data-send-data-id="ListData,MapName" data-loading="true" data-loading-divid="LoadingDivId"  data-send="true"  data-send-url="MapGenerator,saveConditionExpresion" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryCE">{$MOD.CreateMap}</button>
 								</div>
 							</div>
 						</div>
@@ -142,7 +137,7 @@
 												{/if}
 											*}
 											<div class="exp-add-button">
-												<button class="slds-button slds-button--small slds-button--brand" data-add-button-popup="true" data-add-type="Expression" data-add-relation-id="FirstModule,Firstfield,expresion" data-add-replace="true" data-show-id="expresion" data-div-show="LoadShowPopup" onclick="removearrayselected('Function','Parameter')">{$MOD.Add}</button>
+												<button class="slds-button slds-button--small slds-button--brand" data-add-button-popup="false" data-add-type="Expression" data-add-relation-id="FirstModule,Firstfield,expresion" data-add-replace="true" data-show-id="expresion" data-div-show="LoadShowPopup" onclick="AddResponsabileFieldsCE(this);removearrayselected('Function','Parameter')">{$MOD.Add}</button>
 											</div>
 										</div>
 									</div>
@@ -193,7 +188,7 @@
 														<label class="slds-form-element__label" for="Firstfield2">{$MOD.SelectFieldOrwritetheparameters}</label>
 														<div class="slds-form-element__control">
 															<div class="slds-select_container">
-																<select id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="true" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('','Expression')">
+																<select id="Firstfield2" name="mod" class="slds-select" data-add-button-popup="false" onchange="AddResponsabileFieldsCE(this);" data-add-type="Function" disabled="disabled" data-add-relation-id="Firstfield2,Firstmodule2,FunctionName" data-show-id="Firstfield2" data-div-show="LoadShowPopup" onclick="removearrayselected('','Expression')">
 																	{$FirstModuleFields}
 																</select>
 															</div>
@@ -209,7 +204,7 @@
 																</div>
 															</div>
 															<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																<button onclick="Empydata(this);" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Values" data-add-button-popup="true" data-add-type="Parameter" data-add-relation-id="DefaultValueFirstModuleField_1,Firstmodule2,FunctionName" data-show-id="DefaultValueFirstModuleField_1" data-div-show="LoadShowPopup">
+																<button onclick="AddResponsabileFieldsCE(this);Empydata(this);" class="slds-button slds-button_icon" aria-haspopup="true" title="Add more Values" data-add-button-popup="false" data-add-type="Parameter" data-add-relation-id="DefaultValueFirstModuleField_1,Firstmodule2,FunctionName" data-show-id="DefaultValueFirstModuleField_1" data-div-show="LoadShowPopup">
 																	<img src="themes/images/btnL3Add.gif" >
 																</button>
 															</div>
