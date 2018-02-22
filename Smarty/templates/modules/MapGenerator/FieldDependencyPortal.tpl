@@ -364,7 +364,7 @@
 				<!-- Modal Footer -->
 					<div class="slds-modal__footer">
 						{*<label id="ErrorLabelModal"></label> *}
-						<button class="slds-button slds-button--small slds-button--brand" id="AddToArray" data-add-button-popup="false"  onclick="AddResponsabileFieldsFD(this);RestoreDataEXFIM(this);" data-add-button-validate="PickListFields"  data-add-type="Picklist" data-add-relation-id="PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="Checkifexist();removedataafterclick();">
+						<button class="slds-button slds-button--small slds-button--brand" id="AddToArray" data-add-button-popup="false"  onclick="AddResponsabileFieldsFD(this);RestoreDataEXFIM(this);" data-add-button-validate="PickListFields"  data-add-type="Picklist" data-add-relation-id="FirstModule,PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="Checkifexist();removedataafterclick();">
 							{$MOD.Add}
 						</button>
 						<!-- data-send-savehistory="{$savehistory}" -->

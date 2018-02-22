@@ -60,6 +60,12 @@
 </div>
 
 
+<style>
+ #deleteModul:hover {
+  cursor: url("https://png.icons8.com/ios/20/000000/waste-filled.png"), auto;
+  font-size:120%;
+}
+</style>
 
 <table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 	<tbody>
