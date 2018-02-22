@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 11:50:48
+ * @Last Modified time: 2018-02-22 14:47:52
  */
 
 
@@ -521,7 +521,7 @@ if ($MypType=="Mapping") {
 			 $MapName=get_form_MapQueryID($QueryHistory,"mapname");
 			 $HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
 			//this is for save as map
-			 $data="MapGenerator,saveRecordSetMapping";
+			 $data="MapGenerator,saveExtendetFieldInformation";
 			 $dataid="ListData,MapName";
 			 $savehistory="true";
 			 $saveasfunction="ShowLocalHistoryExtendetFieldMap";
@@ -1590,7 +1590,8 @@ function FieldDependency($QueryHistory,$MapID)
 			 		'DefaultText'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1] :  (string)$xmlval->fieldname,
 			 		'DefaultValueResponsibel'=>(string)$xmlval->fieldvalue,
 			 		'DefaultValueResponsibeloptionGroup'=>"",
-			 		'FirstModule'=>(string)$xml->targetmodule->targetname,
+					 'FirstModule'=>(string)$xml->targetmodule->targetname,
+					 'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal((string)$xml->targetmodule->targetname))[1],
 			 		'FirstModuleoptionGroup'=>'undefined',
 			 		'Firstfield'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			 		'FirstfieldoptionGroup'=>(string)$xml->targetmodule->targetname,
@@ -1609,7 +1610,8 @@ function FieldDependency($QueryHistory,$MapID)
 			  	
 			  	$FieldsArray=[
 			  		'DefaultText'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1] :  (string)$xmlval->fieldname,
-			  		'FirstModule'=>(string)$xml->targetmodule->targetname,
+					'FirstModule'=>(string)$xml->targetmodule->targetname,
+					'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal((string)$xml->targetmodule->targetname))[1],
 			  		'FirstModuleoptionGroup'=>'undefined',
 			  		'Firstfield2'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			  		'Firstfield2optionGroup'=>(string)$xml->targetmodule->targetname,
@@ -1633,10 +1635,13 @@ function FieldDependency($QueryHistory,$MapID)
 			  foreach ($xml->fields->field->Picklist as $picklistval) {
 			  	$PicklistArray=[
 			  		'DefaultText'=>(!empty(explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[1] :(string)$picklistval->fieldname,
-			  		'JsonType'=>'Picklist',
+					'JsonType'=>'Picklist',
+					'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal(get_The_history($QueryHistory,"firstmodule")))[1],
+					'FirstModule'=>(string)explode("#", Get_First_Moduls_TextVal(get_The_history($QueryHistory,"firstmodule")))[0],
 			  		'PickListFields'=>(!empty(explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[0] :(string)$picklistval->fieldname,
 			  		'PickListFieldsoptionGroup'=>'udentifined',
-			  		// 'length'=>$picklistval->values,
+					  // 'length'=>$picklistval->values,
+					  
 
 			  	];
 			  	$index=count($picklistval->values);
@@ -1734,7 +1739,8 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			 		'DefaultText'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1] :  (string)$xmlval->fieldname,
 			 		'DefaultValueResponsibel'=>(string)$xmlval->fieldvalue,
 			 		'DefaultValueResponsibeloptionGroup'=>"",
-			 		'FirstModule'=>(string)$xml->targetmodule->targetname,
+					'FirstModule'=>(string)$xml->targetmodule->targetname,
+					'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal((string)$xml->targetmodule->targetname))[1],
 			 		'FirstModuleoptionGroup'=>'undefined',
 			 		'Firstfield'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			 		'FirstfieldoptionGroup'=>(string)$xml->targetmodule->targetname,
@@ -1751,7 +1757,8 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			  	
 			  	$FieldsArray=[
 			  		'DefaultText'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[1] :  (string)$xmlval->fieldname,
-			  		'FirstModule'=>(string)$xml->targetmodule->targetname,
+					'FirstModule'=>(string)$xml->targetmodule->targetname,
+					'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal((string)$xml->targetmodule->targetname))[1],
 			  		'FirstModuleoptionGroup'=>'undefined',
 			  		'Firstfield2'=>(string)(!empty(explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($xmlval->fieldname))[0] :  (string)$xmlval->fieldname,
 			  		'Firstfield2optionGroup'=>(string)$xml->targetmodule->targetname,
@@ -1775,7 +1782,9 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			  foreach ($xml->fields->field->Picklist as $picklistval) {
 			  	$PicklistArray=[
 			  		'DefaultText'=>(!empty(explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[1])) ?explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[1] :(string)$picklistval->fieldname,
-			  		'JsonType'=>'Picklist',
+					'JsonType'=>'Picklist',
+					'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal(get_The_history($QueryHistory,"firstmodule")))[1],
+					'FirstModule'=>(string)explode("#", Get_First_Moduls_TextVal(get_The_history($QueryHistory,"firstmodule")))[0],
 			  		'PickListFields'=>(!empty(explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[0])) ?explode(",",CheckAllFirstForAllModules($picklistval->fieldname))[0] :(string)$picklistval->fieldname,
 			  		'PickListFieldsoptionGroup'=>'udentifined',
 			  		// 'length'=>$picklistval->values,

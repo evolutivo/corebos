@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 11:58:02
+ * @Last Modified time: 2018-02-22 15:31:07
  */
 
 document.onkeydown = function(e) {
@@ -2538,12 +2538,12 @@ function addToPopup(Idd,ModuleName,BlockName,alldat,divid,typeofppopup)
  + '">';
  INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupData('
  + Idd + ',\'' + divid + '\');">&times;</span>';
- INSertAlerstJOIN += ' <p class="block-name"><strong>'+(Idd+1)+'#Block  ==> '+BlockName+'</strong></p>';
+ INSertAlerstJOIN += ' <p class="block-name"><strong>'+(Idd+1)+'#  Block  ==> '+BlockName+'</strong></p>';
  // INSertAlerstJOIN += '<p><strong># Module ==> '+ ModuleName+'</strong></p><br/>';
  if (alldat && alldat.texts.length>0)
  {
    for (var i = 0; i <=alldat.texts.length - 1; i++) {
-     INSertAlerstJOIN += '<strong> '+(i+1)+'#Row</strong>';
+     INSertAlerstJOIN += '<strong> '+(i+1)+'#  Row</strong>';
      INSertAlerstJOIN += ' <ul>';
      if (alldat && alldat.texts[i].length>0)
      {
@@ -3934,7 +3934,7 @@ function addToPopupExtendetFieldMap(Idd,module,Fields,Name,Value,divid,typepopup
   + Idd + ',\'' + divid + '\');">&times;</span>';
   if (Fields && Fields!=='')
   {
-   INSertAlerstJOIN += '<strong>'+(Idd+1)+'#'+typepopup+' </strong><p> Module ==>'+module + '</p>';
+   INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+typepopup+' </strong><p> Module ==>'+module + '</p>';
    INSertAlerstJOIN += '<p> Field  ==> '+Fields + '</p>';
    INSertAlerstJOIN += '<p> Name  ==> '+Name + '</p>';
    INSertAlerstJOIN += '<p> Value  ==> '+Value + '</p>';
@@ -4427,20 +4427,20 @@ function addToPopupExtendetFD(Idd,tpa,divid)
     + Idd + ',\'' + divid + '\');">&times;</span>';
     if (tpa.temparray['JsonType']==='Responsible')
     {
-        INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+'  Field </strong>';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+' # '+tpa.temparray['JsonType']+'  Field </strong>';
         INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
         if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
           INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
         }else{INSertAlerstJOIN +='  </p>';}
     } else if( tpa.temparray['JsonType']==='Field' )
     {
-      INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
+      INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
       INSertAlerstJOIN += '<p> Hidden ==> '+(tpa.temparray['ShowHidecheck']==="1"?"true":"false")+' </p>  ';
       INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"true":"false")+' </p>  ';
       INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"true":"false")+' </p>  ';
     }else if( tpa.temparray['JsonType']==='Picklist' )
     {
-        INSertAlerstJOIN += '<strong># '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
         for (var property1 in  tpa.temparray) {
           var matches = property1.match(/DefaultValueFirstModuleField\_(\d+)$/);
           if(matches!==null)
@@ -4560,34 +4560,80 @@ function ShowLocalHistoryListColumns(keephitoryidtoshow,keephitoryidtoshowidrela
 
 function addToPopupExtendetCE(Idd,tpa,divid)
 {
-    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
-    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupCE('+ Idd + ',\'' + divid + '\');">&times;</span>';
+    
+    // INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupCE('+ Idd + ',\'' + divid + '\');">&times;</span>';
     if (tpa.temparray['JsonType']==='Expression')
-    {
-        INSertAlerstJOIN += '<strong>'+(Idd)+'#  '+tpa.temparray['JsonType']+' </strong>';
+    {   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
         INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['FirstModuleText']+' </p>  ';
         INSertAlerstJOIN += '<p> Expression ==> '+tpa.temparray['DefaultText']+' </p>  ';
-        
-    } else if( tpa.temparray['JsonType']==='Function' )
-    {
-      INSertAlerstJOIN += '<strong>'+(Idd)+'# Function</strong> ';
-      INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>  ';
-      INSertAlerstJOIN += '<p>Function Name ==> '+tpa.temparray['FunctionName']+' </p>  ';
-      INSertAlerstJOIN += '<p>Field ==> '+tpa.temparray['DefaultText']+' </p>  ';
-    }else if( tpa.temparray['JsonType']==='Parameter' )
-    {
-      INSertAlerstJOIN += '<strong>'+(Idd)+'# Function</strong> ';
-      INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>  ';
-      INSertAlerstJOIN += '<p>Function Name ==> '+tpa.temparray['FunctionName']+' </p>  ';
-      INSertAlerstJOIN += '<p>Parameter ==> '+tpa.temparray['DefaultText']+' </p>  ';
-    }
-  
-  INSertAlerstJOIN += '</div';
+        INSertAlerstJOIN += '</div';
 
-  return INSertAlerstJOIN;
+        return INSertAlerstJOIN;
+    } else if( tpa.temparray['JsonType']==='Function' || tpa.temparray['JsonType']==='Parameter' )
+    {
+      if ($("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).length == 0) {
+        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+        INSertAlerstJOIN +='<div id="'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+'">';
+        INSertAlerstJOIN += '<strong># Function Name ==> '+tpa.temparray['FunctionName']+'</strong>';
+        INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p> <br/>';
+        if(tpa.temparray['JsonType']==='Function')
+        {
+          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field '+1+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }
+        else
+        {
+          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter '+1+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }
+        INSertAlerstJOIN +='<div>';
+        INSertAlerstJOIN += '</div';
+        return INSertAlerstJOIN;
+      } else {
+        var count = $('#'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+' p').length;
+        if(tpa.temparray['JsonType']==='Function')
+        {
+          var InsertModule= '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field '+(count+1)+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }
+        else
+        {
+          var InsertModule = '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter '+(count+1)+' ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }        
+        $("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).append(InsertModule);
+      }
+    }
 }
 
+function DeleteFieldCE(remuveid,namediv) {
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
 
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var divinsert= addToPopupExtendetCE(i,App.popupJson[i],namediv);
+              $('#'+namediv).append(divinsert);
+            }     
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+}
 
 function AddResponsabileFieldsCE(event)
 {
