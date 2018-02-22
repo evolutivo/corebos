@@ -18,6 +18,16 @@ $c-purples: #532E62, #8E44AD, #9B59B6;
 	height: 200px;
 }
 
+.cvp-popup-zone,
+.cvp-popup-zone {
+	height: 300px!important;
+}
+
+.cvp-history-zone,
+.cvp-history-zone {
+	height: 100px!important;
+}
+
 #contenitoreJoin > div {
 	overflow-x:  hidden;
 	overflow-y:  auto;

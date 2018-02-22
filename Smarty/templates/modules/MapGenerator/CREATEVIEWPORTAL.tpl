@@ -183,7 +183,7 @@
 											</header>
 										</div>
 										<div class="slds-card__body slds-card__body--inner">
-											<div id="contenitoreJoin">
+											<div id="contenitoreJoin" class="cvp-popup-zone">
 												<div id="LoadShowPopup"></div>
 											</div>
 										</div>
@@ -205,7 +205,7 @@
 											</header>
 										</div>
 										<div class="slds-card__body slds-card__body--inner">
-											<div id="contenitoreJoin">
+											<div id="contenitoreJoin" class="cvp-history-zone">
 												<div id="LoadHistoryPopup"></div>
 											</div>{*End div contenitorejoin*}
 										</div>
@@ -219,17 +219,8 @@
 		</tr>
 	</tbody>
 </table>
-<div>
-	<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
-	<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
-	<input type="hidden" name="querysequence" id="querysequence" value="">
-	<input type="hidden" name="MapName" id="MapName" value="{$MapName}">
-</div>
 
-<div id="waitingIddiv"></div>
-<div id="contentJoinButtons" style="width: 70%;height: 100%;float: left;"></div>
-<div id="generatedquery">
-	<div id="results" style="margin-top: 1%;"></div>
-</div>
-<div id="null"></div>
-<div id="queryfrommap"></div>
+<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
+<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
+<input type="hidden" name="querysequence" id="querysequence" value="">
+<input type="hidden" name="MapName" id="MapName" value="{$MapName}">

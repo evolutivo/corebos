@@ -176,7 +176,7 @@
 											</header>
 										</div>
 										<div class="slds-card__body slds-card__body--inner">
-											<div id="contenitoreJoin">
+											<div id="contenitoreJoin" class="dvbp-popup-zone">
 												<div id="LoadShowPopup"></div>
 											</div>
 										</div>
@@ -198,7 +198,7 @@
 											</header>
 										</div>
 										<div class="slds-card__body slds-card__body--inner">
-											<div id="contenitoreJoin">
+											<div id="contenitoreJoin" class="dvbp-history-zone">
 												<div id="LoadHistoryPopup"></div>
 											</div>{*End div contenitorejoin*}
 										</div>
