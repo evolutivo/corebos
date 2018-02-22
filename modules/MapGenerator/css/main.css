@@ -153,7 +153,7 @@
 	}
 
 	.target-origin-container select {
-		height: 28px;
+		height: 30px;
 	}
 
 	.mapping-target-module,
@@ -182,6 +182,9 @@
 		width: 90%;
 		vertical-align: top;
 		position: relative;
+	}
+	.mapping-origin-module #SecondFieldContainer {
+		width: 100%;
 	}
 
 	.mapping-origin-module #SecondDiv .slds-combobox_container {

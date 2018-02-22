@@ -98,7 +98,7 @@
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
 													<center>
-														<label class="slds-form-element__label" for="input-id-01">{$MOD.TargetModule}</label>
+														<label class="slds-form-element__label" for="FirstModule">{$MOD.TargetModule}</label>
 													</center>
 													<div class="slds-select_container">
 														<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="SecondModuleMapping" data-second-module-id="secmodule" data-module="MapGenerator" data-select-relation-field-id="Firstfield" id="FirstModule" name="mod" class="slds-select">
@@ -111,7 +111,7 @@
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
 													<center>
-														<label class="slds-form-element__label" for="input-id-01">{$MOD.SelectFields}</label>
+														<label class="slds-form-element__label" for="Firstfield">{$MOD.SelectFields}</label>
 													</center>
 													<div class="slds-select_container">
 														<select id="Firstfield" name="mod" class="slds-select">
@@ -128,7 +128,7 @@
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
 													<center>
-														<label class="slds-form-element__label">{$MOD.OriginModule}</label>
+														<label class="slds-form-element__label" for="secmodule">{$MOD.OriginModule}</label>
 													</center>
 													<div class="slds-select_container">
 														<select id="secmodule" data-second-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="SecondField" data-second-select-file="mappingFieldRelation" name="secmodule" class="slds-select">
@@ -140,14 +140,16 @@
 											<div class="slds-form-element">
 												<div class="slds-form-element__control">
 													<center>
-														<label class="slds-form-element__label">{$MOD.SelectFields}</label>
+														<label class="slds-form-element__label" for="SecondField">{$MOD.SelectFields}</label>
 													</center>
 													<div id="SecondDiv">
-														<select id="SecondField" name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup" class="slds-select">
-															{$SecondModuleFields}
-														</select>
-														<div class="slds-combobox_container slds-has-object-switcher">
-															<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" style="display:none;" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+														<div id="SecondFieldContainer" class="slds-select_container" style="display: block;">
+															<select id="SecondField" name="secmodule" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule" data-div-show="LoadShowPopup" class="slds-select">
+																{$SecondModuleFields}
+															</select>
+														</div>
+														<div class="slds-combobox_container slds-has-object-switcher" id="SecondInputContainer" style="display: none;">
+															<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
 																<div class="slds-combobox__form-element">
 																	<input type="text" id="DefaultValue" placeholder="Insert a default value" id="defaultvalue" class="slds-input slds-combobox__input">
 																</div>
@@ -160,7 +162,7 @@
 														</div>
 													</div>
 													<div class="toggle-field">
-														<a href="#" data-showhide-load="true" data-tools-id="SecondField,SecondInput">
+														<a href="#" data-showhide-load="true" data-tools-id="SecondFieldContainer,SecondInputContainer">
 															<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
 														</a>
 													</div>
