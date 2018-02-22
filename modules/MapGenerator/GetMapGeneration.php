@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 14:44:26
+ * @Last Modified time: 2018-02-21 18:00:23
  */
 
 
@@ -2215,6 +2215,7 @@ function List_Clomns($QueryHistory,$MapID)
 						'SecondfieldID'=>(string)$field->linkfield,
 						'SecondfieldIDoptionGroup'=>"",
 						'secmodule'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[0],
+						'secmoduleText'=>(string)explode(",",GetModuleMultiToOneForLOadListColumns($field->module,$xml->originmodule->originname))[1],
 						'secmoduleoptionGroup'=>"undefined",
 					];
 					array_push($MyArray,$ArrayRelated);
