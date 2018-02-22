@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 14:47:52
+ * @Last Modified time: 2018-02-22 17:18:52
  */
 
 
@@ -2411,6 +2411,7 @@ function List_Clomns($QueryHistory,$MapID)
 function Master_detail($QueryHistory,$MapID)
 {
 	include_once('modfields.php');
+	include_once('All_functions.php');
 	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
@@ -2420,8 +2421,19 @@ function Master_detail($QueryHistory,$MapID)
 			//TODO: if have query history
 			
 			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
-
-			$SecondModulerelation=GetAllrelation1TOManyMaps(get_The_history($QueryHistory,"firstmodule"),get_The_history($QueryHistory,"secondmodule"));
+			$showfields='<option value="" >(Select a module)</option>';
+			$module=get_The_history($QueryHistory,"firstmodule");
+			if (!empty(MappingRelationFields($module))) {
+				foreach (MappingRelationFields($module) as $value) {
+					if ($value!==$module) {
+						$showfields.='<option value="'.$value.'">'.$value.'</option>'; 
+					}        
+				}
+				
+			} else {
+			  echo "<option value=''>None</option>";
+			}
+			$SecondModulerelation=$showfields;
 
 			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
 
@@ -2468,7 +2480,7 @@ function Master_detail($QueryHistory,$MapID)
 
 							'mandatorychk'=>(string)$field->mandatory,
 
-							'secmodule' =>(string)explode("#",GetModulRelOneTomultiTextVal($xml->targetmodule,$xml->originmodule))[0],
+							'secmodule' =>explode("#", Get_First_Moduls_TextVal($xml->originmodule))[0],
 							'secmoduleoptionGroup'=>"udentifined",
 
 							'sortt6ablechk'=>((string)$xml->sortfield===(string)$field->fieldname)?1:0,
