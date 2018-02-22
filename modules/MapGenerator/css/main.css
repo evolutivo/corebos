@@ -932,6 +932,11 @@
 		margin-top: .7rem;
 		margin-bottom: .5rem;
 	}
+	.slds-cvp--button,
+	.slds-dvbp--button {
+		background-color: #54698D!important;
+		border-color: #54698D!important;
+	}
 /* End Create View Portal & Detail View Block Portal */
 
 /* Import Business Mapping */
@@ -1253,6 +1258,10 @@
 	.rac-dv-checkboxes > div {
 		width: 22%;
 	}
+	.rac-lv-checkboxes > div:first-child,
+	.rac-dv-checkboxes > div:first-child {
+		margin-left: 21px;
+	}
 	.rac-lv-container label,
 	.rac-dv-container label {
 		display: block;
@@ -1298,12 +1307,52 @@
 	.rac-add-button button img {
 		width: 24px;
 	}
-
-
-
-
-
 /* End Record Access Control */
+
+/* Duplicate Records */
+	.dr-container {
+		display: block;
+		margin-top: 1rem;
+		padding: 0 .5rem;
+	}
+	.dr-target_module {
+		width: 100%;
+		margin-bottom: 1rem;
+	}
+	.dr-duplicate_relations label > span {
+		text-align: center;
+	}
+	.dr-related_module-container h5 {
+		text-align: center;
+		border-bottom: 1px solid #d4d4d4;
+	}
+	.dr-related_module-container > div {
+		display: flex;
+	}
+	.dr-related_module {
+		width: 90%;
+	}
+	.dr-add-button {
+		width: 10%;
+	}
+	.dr-add-button label {
+		margin-top: 24px;
+		margin-bottom: 0;
+		padding-left: 2.5rem;
+	}
+	.dr-add-button button:hover {
+		opacity: .7;
+	}
+	.dr-add-button .slds-button_icon {
+		margin-top: 0;
+	}
+	.dr-add-button label img {
+		width: 22px;
+	}
+
+
+
+/* End Duplicate Records */
 
 
 
