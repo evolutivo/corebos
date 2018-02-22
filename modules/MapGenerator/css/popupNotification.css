@@ -1,7 +1,4 @@
-/* @import "bourbon"; */
-
-/*@import url(https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);*/
-/*@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:700,400,300);*/
+@import url('font-awesome-4.7.0/css/font-awesome.min.css');
 
 $c-black: #111;
 $c-white: #fff;
