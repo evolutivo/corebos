@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 11:25:19
+ * @Last Modified time: 2018-02-23 12:03:55
  */
 
 document.onkeydown = function(e) {
@@ -3185,7 +3185,7 @@ function RecordsAccesControlHtmlPopup(Idd,Module,RModule,view,add,edit,delette,s
 
 
 
-function RecordAccesLocalHistroty(IdLoad,divanameLoad,dividrelation='')
+function RecordAccesLocalHistroty(IdLoad,Module,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
    htmldat+='<div class="Message-icon">';
@@ -3193,6 +3193,7 @@ function RecordAccesLocalHistroty(IdLoad,divanameLoad,dividrelation='')
    htmldat+='</div>';
    htmldat+='<div class="Message-body">';
    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='<p>Module ==>  '+Module+'</p>';
    htmldat+='</div>';
    htmldat+='</div>';
    return htmldat;
@@ -3250,7 +3251,7 @@ function ShowLocalHistoryRecordAccessControll(keephitoryidtoshow,keephitoryidtos
     { 
        $('#'+keephitoryidtoshow+' div').remove();
        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-        $('#'+keephitoryidtoshow).append(RecordAccesLocalHistroty(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        $('#'+keephitoryidtoshow).append(RecordAccesLocalHistroty(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'],keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
