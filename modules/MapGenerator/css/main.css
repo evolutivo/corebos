@@ -379,7 +379,7 @@
 		border: 1px solid #transparent;
 		border-radius: 5px;
 		outline: none;
-		cursor: url("LD/assets/icons/utility/delete_60.png"), auto;
+		cursor: url("https://png.icons8.com/ios/20/000000/waste-filled.png"), auto;
 	}
 	.deleteModule:hover {
 		background-color: #c23934;
