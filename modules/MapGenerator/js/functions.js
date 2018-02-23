@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 12:48:40
+ * @Last Modified time: 2018-02-23 15:01:13
  */
 
 document.onkeydown = function(e) {
@@ -4209,10 +4209,10 @@ function PopupMenustructure(Idd,Popuparray=[],divid)
 {
   
     if ($("#" +Popuparray.temparray['LabelName'].replace(/\s+/g, '')).length == 0) {
-        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+       var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
         // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
         INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+'">';
-        INSertAlerstJOIN += '<strong># Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
+        INSertAlerstJOIN += '<strong>'+(index++)+'# Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
         INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
         // INSertAlerstJOIN +='<div>';
         // INSertAlerstJOIN += '</div';
@@ -4253,7 +4253,8 @@ function AddPopupMenustrusture(event)
     App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
 
     if (App.popupJson.length>0)
-    { 
+    {
+      index=1;     
       for (var i = 0; i <= App.popupJson.length-1; i++) {
             var divinsert= PopupMenustructure(i,App.popupJson[i],divid);
             $('#'+divid).append(divinsert);
@@ -4282,6 +4283,7 @@ function DeleteModuleMenustructure(remuveid,namediv) {
           $('#'+namediv+' div').remove();
           if (App.popupJson.length>0)
           { 
+            index=1;
             for (var i = 0; i <= App.popupJson.length-1; i++) {
               var divinsert= PopupMenustructure(i,App.popupJson[i],namediv);
               $('#'+namediv).append(divinsert);
@@ -4369,6 +4371,7 @@ function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
     }
     if (App.popupJson.length>0)
     { 
+      index=1;
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
         var divinsert= PopupMenustructure(i,App.popupJson[i],divHistory);
