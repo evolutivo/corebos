@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 12:03:55
+ * @Last Modified time: 2018-02-23 12:48:40
  */
 
 document.onkeydown = function(e) {
@@ -3448,7 +3448,7 @@ function addToPopupRendicontaConfig(Idd,FirstModule,statusfield,processtemp,caus
    + Idd + ',\'' + divid + '\');">&times;</span>';
    if (FirstModule && FirstModule!=='')
    {
-      INSertAlerstJOIN += '<p><strong># '+typepopup+'</strong></p>';
+      INSertAlerstJOIN += '<p><strong>'+(Idd+1)+'# '+typepopup+'</strong></p>';
       INSertAlerstJOIN += '<p>Module    ==>  '+FirstModule+'</p>';
       INSertAlerstJOIN += '<p>Status Field  ==>  '+statusfield+'</p>';
       INSertAlerstJOIN += '<p>Process Template  ==>  '+processtemp+'</p>';
@@ -3597,7 +3597,7 @@ function AdDPOpupRendicontaConfig(sel) {
 
 ////// local history 
 
-function LocalHistoryRendicontaConfig(IdLoad,divanameLoad,dividrelation='')
+function LocalHistoryRendicontaConfig(IdLoad,Module,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
    htmldat+='<div class="Message-icon">';
@@ -3605,6 +3605,7 @@ function LocalHistoryRendicontaConfig(IdLoad,divanameLoad,dividrelation='')
    htmldat+='</div>';
    htmldat+='<div class="Message-body">';
    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+   htmldat+='<p>Module ==> '+Module+'</p>';
    htmldat+='</div>';
    htmldat+='</div>';
    return htmldat;
@@ -3617,7 +3618,7 @@ function ShowLocalHistoryRendiConfig(keephitoryidtoshow,keephitoryidtoshowidrela
     { 
        $('#'+keephitoryidtoshow+' div').remove();
        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
-        $('#'+keephitoryidtoshow).append(LocalHistoryRendicontaConfig(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+        $('#'+keephitoryidtoshow).append(LocalHistoryRendicontaConfig(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'],keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }
