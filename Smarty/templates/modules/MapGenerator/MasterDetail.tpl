@@ -19,7 +19,7 @@
 							temparray['FirstfieldID'] = '{$popjs.FirstfieldID}';
 							temparray['FirstfieldIDoptionGroup'] ='{$popjs.FirstfieldIDoptionGroup}';
 							temparray['Firstfield'] = '{$popjs.Firstfield}';
-							temparray['Firstfield_Text'] ='{$popjs.Firstfield_Text}';
+							temparray['FirstfieldText'] ='{$popjs.FirstfieldText}';
 							temparray['secmodule'] = '{$popjs.secmodule}';
 							temparray['secmoduleoptionGroup'] ='{$popjs.secmoduleoptionGroup}';
 							temparray['SecondfieldID'] ='{$popjs.SecondfieldID}';
@@ -267,7 +267,7 @@
 														<!--  Add Button -->
 														<div class="slds-form-element" id="master-detail-add-button">
 															<label class="slds-checkbox--toggle">
-																<button onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																<button onclick="GenearteMasterDetail(this)" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add" data-add-type="Field" data-add-relation-id="FirstModule,secmodule,Firstfield,FirstfieldID,SecondfieldID,sortt6ablechk,hiddenchk,editablechk,mandatorychk" data-add-button-validate="Firstfield" data-show-id="FirstModule" data-div-show="LoadShowPopup" data-show-modul-id="FirstModule" class="slds-button slds-button_icon"   >
 																	<img src="themes/images/btnL3Add.gif">
 																</button>
 															</label>

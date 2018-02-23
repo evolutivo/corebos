@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 17:29:59
+ * @Last Modified time: 2018-02-23 11:25:19
  */
 
 document.onkeydown = function(e) {
@@ -2045,60 +2045,105 @@ jQuery.ajax({
 }
 
 
-function GenearteMasterDetail() {
-  var temparray = {};
+// function GenearteMasterDetail() {
+//   var temparray = {};
 
-  var AppUtils=App.utils;
-  temparray['DefaultText'] = "Created By";
-  temparray['JsonType'] = "Default";
+//   var AppUtils=App.utils;
+//   temparray['DefaultText'] = "Created By";
+//   temparray['JsonType'] = "Default";
 
-  temparray['FirstfieldoptionGroup'] = AppUtils.IsSelectORDropDown("FirstModule");
+//   temparray['FirstfieldoptionGroup'] = AppUtils.IsSelectORDropDown("FirstModule");
 
 
-  temparray['FirstModule'] = AppUtils.IsSelectORDropDown("FirstModule");
-  temparray['FirstModuleoptionGroup'] = undefined;
+//   temparray['FirstModule'] = AppUtils.IsSelectORDropDown("FirstModule");
+//   temparray['FirstModuleoptionGroup'] = undefined;
 
-  temparray['FirstfieldID'] = AppUtils.IsSelectORDropDown("FirstfieldID");
-  temparray['FirstfieldIDoptionGroup'] = "";
+//   temparray['FirstfieldID'] = AppUtils.IsSelectORDropDown("FirstfieldID");
+//   temparray['FirstfieldIDoptionGroup'] = "";
 
-  temparray['Firstfield'] = AppUtils.IsSelectORDropDown("Firstfield");
-  temparray['Firstfield'] = AppUtils.IsSelectORDropDown("Firstfield");
-  temparray['Firstfield_Text'] = AppUtils.IsSelectORDropDownGetText("Firstfield");
+//   temparray['Firstfield'] = AppUtils.IsSelectORDropDown("Firstfield");
+//   temparray['Firstfield'] = AppUtils.IsSelectORDropDown("Firstfield");
+//   temparray['Firstfield_Text'] = AppUtils.IsSelectORDropDownGetText("Firstfield");
 
-  temparray['secmodule'] = AppUtils.IsSelectORDropDown("secmodule");
-  temparray['secmoduleoptionGroup'] =undefined;
+//   temparray['secmodule'] = AppUtils.IsSelectORDropDown("secmodule");
+//   temparray['secmoduleoptionGroup'] =undefined;
 
-  temparray['SecondfieldID'] = AppUtils.IsSelectORDropDown("SecondfieldID");
-    //temparray['SecondfieldID'] = "";
+//   temparray['SecondfieldID'] = AppUtils.IsSelectORDropDown("SecondfieldID");
+//     //temparray['SecondfieldID'] = "";
 
-    temparray['sortt6ablechk'] = AppUtils.IsSelectORDropDown("sortt6ablechk");
-    temparray['sortt6ablechkoptionGroup'] = "";
+//     temparray['sortt6ablechk'] = AppUtils.IsSelectORDropDown("sortt6ablechk");
+//     temparray['sortt6ablechkoptionGroup'] = "";
 
-    temparray['editablechk'] = AppUtils.IsSelectORDropDown("editablechk");
-    temparray['editablechkoptionGroup'] = "";
+//     temparray['editablechk'] = AppUtils.IsSelectORDropDown("editablechk");
+//     temparray['editablechkoptionGroup'] = "";
 
-    temparray['mandatorychk'] = AppUtils.IsSelectORDropDown("mandatorychk");
-    temparray['hiddenchkoptionGroup'] = "";
+//     temparray['mandatorychk'] = AppUtils.IsSelectORDropDown("mandatorychk");
+//     temparray['hiddenchkoptionGroup'] = "";
 
-    temparray['hiddenchk'] = AppUtils.IsSelectORDropDown("hiddenchk");
-    temparray['hiddenchkoptionGroup'] = "";
+//     temparray['hiddenchk'] = AppUtils.IsSelectORDropDown("hiddenchk");
+//     temparray['hiddenchkoptionGroup'] = "";
 
-    if (App.utils.checkinArray(App.popupJson,{temparray},['Firstfield'])===true)
+//     if (App.utils.checkinArray(App.popupJson,{temparray},['Firstfield'])===true)
+//     {
+//       App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
+//     }else{
+//       App.popupJson.push({temparray});
+//     }
+//     $('#LoadShowPopup').html('');
+//     if(App.popupJson.length>0){
+//       for (var i=0; i<= App.popupJson.length - 1; i++) {
+//         $('#LoadShowPopup').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
+//          App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
+//          App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
+
+//       }
+//     }
+//   }
+
+
+function GenearteMasterDetail(event)
+{
+    var elem=event;
+
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
     {
-      App.utils.ShowNotification("snackbar",4000,mv_arr.NotAllowedDopcicate);
-    }else{
-      App.popupJson.push({temparray});
-    }
-    $('#LoadShowPopup').html('');
-    if(App.popupJson.length>0){
-      for (var i=0; i<= App.popupJson.length - 1; i++) {
-        $('#LoadShowPopup').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
-         App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
-         App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
+      if (validate.length>0)
+      {
+      validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
 
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+         $('#'+divid).append(FillDivAlert(i, i, App.popupJson[i].temparray['FirstfieldText'], 
+                  App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
+                  App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
       }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
     }
-  }
+}
+
+
+
 
 
   function FillDivAlert( Idd, divid, firstfield, sortt6ablechk, editablechk, mandatorychk, hiddenchk){
@@ -2128,7 +2173,7 @@ function GenearteMasterDetail() {
    $('#LoadShowPopup').html('');
    if(App.popupJson.length>0){
     for (var i=0; i<= App.popupJson.length - 1; i++) {
-      $('#LoadShowPopup').append(FillDivAlert(i, i, App.popupJson[i].temparray['Firstfield_Text'], 
+      $('#LoadShowPopup').append(FillDivAlert(i, i, App.popupJson[i].temparray['FirstfieldText'], 
        App.popupJson[i].temparray['sortt6ablechk'], App.popupJson[i].temparray['editablechk'],
        App.popupJson[i].temparray['mandatorychk'], App.popupJson[i].temparray['hiddenchk']));
       

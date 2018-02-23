@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-22 17:18:52
+ * @Last Modified time: 2018-02-23 11:01:22
  */
 
 
@@ -2467,7 +2467,7 @@ function Master_detail($QueryHistory,$MapID)
 							'Firstfield' =>(string) explode(",",Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[0],
 							 'FirstfieldID' =>(string) $xml->linkfields[0]->targetfield,
 							'FirstfieldIDoptionGroup'=>"",
-							'Firstfield_Text'=>(string)explode(",",  Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[1],
+							'FirstfieldText'=>(string)explode(",",  Get_Modul_fields_check_from_load($xml->targetmodule[0],$field->fieldname))[1],
 							'FirstfieldoptionGroup'=>(string)$xml->targetmodule,
 							'JsonType'=>"Default",
 							'SecondfieldID'=>(string)$xml->linkfields->originfield,
