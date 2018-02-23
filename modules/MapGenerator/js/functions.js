@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 15:01:13
+ * @Last Modified time: 2018-02-23 15:10:20
  */
 
 document.onkeydown = function(e) {
@@ -4062,10 +4062,10 @@ function addExtendetFieldMap(event){
 
 
  /**
- * Closes a popup  Remove alerts when user click close, only for ExtendetFieldMap
- *
- * @param      {(number|string)}  remuveid  The remuveid
- * @param      {string}           namediv   The namediv
+   * Closes a popup  Remove alerts when user click close, only for ExtendetFieldMap
+   *
+   * @param      {(number|string)}  remuveid  The remuveid
+   * @param      {string}           namediv   The namediv
  */
  function closePopupDataExtendetFieldMap(remuveid,namediv) {
   var check = false;
@@ -4108,7 +4108,7 @@ function addExtendetFieldMap(event){
  }
 
 
-  function ExtendetFieldMap(IdLoad,divanameLoad,dividrelation='')
+  function ExtendetFieldMap(IdLoad,Module,divanameLoad,dividrelation='')
   {
       var htmldat='<div class="Message Message"  >';
       htmldat+='<div class="Message-icon">';
@@ -4116,6 +4116,7 @@ function addExtendetFieldMap(event){
       htmldat+='</div>';
       htmldat+='<div class="Message-body">';
       htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+      htmldat+='<p>Module ==> '+Module+'</p>';
       htmldat+='</div>';
       htmldat+='</div>';
       return htmldat;
@@ -4128,7 +4129,7 @@ function addExtendetFieldMap(event){
           { 
              $('#'+keephitoryidtoshow+' div').remove();
              for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-              $('#'+keephitoryidtoshow).append(ExtendetFieldMap(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+              $('#'+keephitoryidtoshow).append(ExtendetFieldMap(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['Moduli'],keephitoryidtoshow,keephitoryidtoshowidrelation));
       
             }
           }
