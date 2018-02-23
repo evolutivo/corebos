@@ -4211,13 +4211,13 @@ function PopupMenustructure(Idd,Popuparray=[],divid)
         // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
         INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+'">';
         INSertAlerstJOIN += '<strong># Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
-        INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '<i >&times;</i></p>';
-        INSertAlerstJOIN +='<div>';
-        INSertAlerstJOIN += '</div';
+        INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
+        // INSertAlerstJOIN +='<div>';
+        // INSertAlerstJOIN += '</div';
         return INSertAlerstJOIN;
     } else {
       var count = $('#'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+' p').length;
-      var InsertModule= '<p id="deleteModul" style="margin-top:3px;" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+(count+1)+' ==> '+Popuparray.temparray['FirstModuleText']+ '<i >&times;</i></p>';
+      var InsertModule= '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+(count+1)+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
       $("#" + Popuparray.temparray['LabelName']).append(InsertModule);
     }
      
@@ -4636,24 +4636,24 @@ function addToPopupExtendetCE(Idd,tpa,divid)
         INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p> <br/>';
         if(tpa.temparray['JsonType']==='Function')
         {
-          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
+          INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }
         else
         {
-          INSertAlerstJOIN += '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
+          INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }
-        INSertAlerstJOIN +='<div>';
-        INSertAlerstJOIN += '</div';
+        // INSertAlerstJOIN +='<div>';
+        // INSertAlerstJOIN += '</div';
         return INSertAlerstJOIN;
       } else {
         var count = $('#'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+' p').length;
         if(tpa.temparray['JsonType']==='Function')
         {
-          var InsertModule= '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
+          var InsertModule= '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }
         else
         {
-          var InsertModule = '<p id="deleteModul" style="margin-top:0px;" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
+          var InsertModule = '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
         }        
         $("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).append(InsertModule);
       }
