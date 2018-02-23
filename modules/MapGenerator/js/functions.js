@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 15:10:20
+ * @Last Modified time: 2018-02-23 15:45:05
  */
 
 document.onkeydown = function(e) {
@@ -3161,7 +3161,7 @@ function RecordsAccesControlHtmlPopup(Idd,Module,RModule,view,add,edit,delette,s
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsRecordAccesControol('+ Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#Relation </strong> ';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'# Relation </strong> ';
     INSertAlerstJOIN += '<p>Module ==>  '+Module+'</p> ';
     INSertAlerstJOIN += '<p>Related Module ==>  '+RModule+'</p>';
     INSertAlerstJOIN += '<div style="display:  flex;margin:5px;"> ';
@@ -4490,7 +4490,7 @@ function addToPopupExtendetFD(Idd,tpa,divid)
     + Idd + ',\'' + divid + '\');">&times;</span>';
     if (tpa.temparray['JsonType']==='Responsible')
     {
-        INSertAlerstJOIN += '<strong>'+(Idd+1)+' # '+tpa.temparray['JsonType']+'  Field </strong>';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+tpa.temparray['JsonType']+'  Field </strong>';
         INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
         if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
           INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
