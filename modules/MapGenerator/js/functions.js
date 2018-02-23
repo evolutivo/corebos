@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 12:48:40
+ * @Last Modified time: 2018-02-23 15:45:05
  */
 
 document.onkeydown = function(e) {
@@ -3161,7 +3161,7 @@ function RecordsAccesControlHtmlPopup(Idd,Module,RModule,view,add,edit,delette,s
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
     INSertAlerstJOIN += '<span class="closebtns" onclick="closeAlertsRecordAccesControol('+ Idd + ',\'' + divid + '\');">&times;</span>';
 
-    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#Relation </strong> ';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'# Relation </strong> ';
     INSertAlerstJOIN += '<p>Module ==>  '+Module+'</p> ';
     INSertAlerstJOIN += '<p>Related Module ==>  '+RModule+'</p>';
     INSertAlerstJOIN += '<div style="display:  flex;margin:5px;"> ';
@@ -4062,10 +4062,10 @@ function addExtendetFieldMap(event){
 
 
  /**
- * Closes a popup  Remove alerts when user click close, only for ExtendetFieldMap
- *
- * @param      {(number|string)}  remuveid  The remuveid
- * @param      {string}           namediv   The namediv
+   * Closes a popup  Remove alerts when user click close, only for ExtendetFieldMap
+   *
+   * @param      {(number|string)}  remuveid  The remuveid
+   * @param      {string}           namediv   The namediv
  */
  function closePopupDataExtendetFieldMap(remuveid,namediv) {
   var check = false;
@@ -4108,7 +4108,7 @@ function addExtendetFieldMap(event){
  }
 
 
-  function ExtendetFieldMap(IdLoad,divanameLoad,dividrelation='')
+  function ExtendetFieldMap(IdLoad,Module,divanameLoad,dividrelation='')
   {
       var htmldat='<div class="Message Message"  >';
       htmldat+='<div class="Message-icon">';
@@ -4116,6 +4116,7 @@ function addExtendetFieldMap(event){
       htmldat+='</div>';
       htmldat+='<div class="Message-body">';
       htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+      htmldat+='<p>Module ==> '+Module+'</p>';
       htmldat+='</div>';
       htmldat+='</div>';
       return htmldat;
@@ -4128,7 +4129,7 @@ function addExtendetFieldMap(event){
           { 
              $('#'+keephitoryidtoshow+' div').remove();
              for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-              $('#'+keephitoryidtoshow).append(ExtendetFieldMap(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+              $('#'+keephitoryidtoshow).append(ExtendetFieldMap(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['Moduli'],keephitoryidtoshow,keephitoryidtoshowidrelation));
       
             }
           }
@@ -4209,10 +4210,10 @@ function PopupMenustructure(Idd,Popuparray=[],divid)
 {
   
     if ($("#" +Popuparray.temparray['LabelName'].replace(/\s+/g, '')).length == 0) {
-        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+       var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
         // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
         INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+'">';
-        INSertAlerstJOIN += '<strong># Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
+        INSertAlerstJOIN += '<strong>'+(index++)+'# Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
         INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
         // INSertAlerstJOIN +='<div>';
         // INSertAlerstJOIN += '</div';
@@ -4253,7 +4254,8 @@ function AddPopupMenustrusture(event)
     App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
 
     if (App.popupJson.length>0)
-    { 
+    {
+      index=1;     
       for (var i = 0; i <= App.popupJson.length-1; i++) {
             var divinsert= PopupMenustructure(i,App.popupJson[i],divid);
             $('#'+divid).append(divinsert);
@@ -4282,6 +4284,7 @@ function DeleteModuleMenustructure(remuveid,namediv) {
           $('#'+namediv+' div').remove();
           if (App.popupJson.length>0)
           { 
+            index=1;
             for (var i = 0; i <= App.popupJson.length-1; i++) {
               var divinsert= PopupMenustructure(i,App.popupJson[i],namediv);
               $('#'+namediv).append(divinsert);
@@ -4369,6 +4372,7 @@ function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
     }
     if (App.popupJson.length>0)
     { 
+      index=1;
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
         var divinsert= PopupMenustructure(i,App.popupJson[i],divHistory);
@@ -4486,7 +4490,7 @@ function addToPopupExtendetFD(Idd,tpa,divid)
     + Idd + ',\'' + divid + '\');">&times;</span>';
     if (tpa.temparray['JsonType']==='Responsible')
     {
-        INSertAlerstJOIN += '<strong>'+(Idd+1)+' # '+tpa.temparray['JsonType']+'  Field </strong>';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+tpa.temparray['JsonType']+'  Field </strong>';
         INSertAlerstJOIN += '<p> '+tpa.temparray['DefaultText']+'  ( '+ tpa.temparray['Conditionalfield']+' )  ';
         if (tpa.temparray['Conditionalfield']==='equal' || tpa.temparray['Conditionalfield']==='not equal' ) {
           INSertAlerstJOIN +=tpa.temparray["DefaultValueResponsibel"]+'</p>';
