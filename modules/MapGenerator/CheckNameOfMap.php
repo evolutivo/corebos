@@ -22,7 +22,7 @@ if (!empty($dataget)) {
 
 	if (!empty($value)) {
 		
-		$sql="SELECT * FROM vtiger_cbmap WHERE mapname=? ";
+		$sql="SELECT * FROM vtiger_cbmap JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_cbmap.cbmapid WHERE mapname=? AND vtiger_crmentity.deleted=0 ";
 
 		$values=$adb->pquery($sql,array($value));
 		$noofrows = $adb->num_rows($values);
