@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-21 18:12:45
+ * @Last Modified time: 2018-02-26 14:55:34
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1700,13 +1700,21 @@
 				{
 					if (FirstModuleLoad && FirstModuleLoad!=="")
 					{
-						htmldat+='<p class="history-container"><bold>'+FirstModuleLoad+'</bold>';
+						if (SecondModuleLoad && SecondModuleLoad!=="")
+						{
+							htmldat+='<p class="history-container"><bold>'+FirstModuleLoad+'</bold>';
+							htmldat+=' ---  <bold>'+SecondModuleLoad+'</bold></p>';
+						}else
+						{
+							htmldat+='<p class="history-container">Module ==> <bold>'+FirstModuleLoad+'</bold>';
+						}
+						
 					}
 					
-					if (SecondModuleLoad && SecondModuleLoad!=="")
-					{
-						htmldat+='  ==>  <bold>'+SecondModuleLoad+'</bold></p>';
-					}
+					// if (SecondModuleLoad && SecondModuleLoad!=="")
+					// {
+					// 	htmldat+=' ---  <bold>'+SecondModuleLoad+'</bold></p>';
+					// }
 				}
 				htmldat+='</div>';
 				htmldat+='<button class="Message-close js-messageClose" data-history-close-modal="true" data-history-close-modal-id="'+IdLoad+'" data-history-close-modal-divname="'+divanameLoad+'"  data-history-show-modal-divname-relation="'+dividrelation+'" ><i class="fa fa-times"></i></button>';

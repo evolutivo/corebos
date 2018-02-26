@@ -1,6 +1,7 @@
 <link type="text/css" href="Smarty/templates/modules/MapGenerator/jquery-ui.css" rel="stylesheet" />
 <script type="text/javascript" src="Smarty/templates/modules/MapGenerator/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="Smarty/templates/modules/MapGenerator/jquery-ui.js"></script>
+{* <link rel="stylesheet" href="include/LD/assets/styles/all-modules.css" type="text/css" /> *}
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css">
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/main.css" >
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/Loading.css" rel="stylesheet">

@@ -4,13 +4,13 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-18 11:32:21
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 11:42:23
+ * @Last Modified time: 2018-02-26 12:27:49
  */
 
 //LoadAllMaps
 
 require_once("GetAllMaps.php");
-include 'All_Funstion.php';
+require_once ('All_functions.php');
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $adb, $root_directory, $current_user;
 $theme_path = "themes/" . $theme . "/";
 $image_path = $theme_path . "images/";
