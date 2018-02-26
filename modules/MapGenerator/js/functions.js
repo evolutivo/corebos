@@ -4639,7 +4639,7 @@ function addToPopupExtendetCE(Idd,tpa,divid)
         var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
         INSertAlerstJOIN +='<div id="'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+'">';
         INSertAlerstJOIN += '<strong>'+(Idd+1)+'# Function Name ==> '+tpa.temparray['FunctionName']+'</strong>';
-        INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p> <br/>';
+        INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>';
         if(tpa.temparray['JsonType']==='Function')
         {
           INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
