@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-23 11:01:22
+ * @Last Modified time: 2018-02-27 12:50:45
  */
 
 
@@ -497,7 +497,7 @@ if ($MypType=="Mapping") {
 							'FirstModule'=>(string)$xml->originmodule->originname,
 							'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
 							'FirstModuleoptionGroup'=>"undefined",
-							'JsonType'=>"field",
+							'JsonType'=>"Field",
 							'Moduli'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],							
 						];
 						foreach ($valuexml->features->feature as $valuefeature) {
