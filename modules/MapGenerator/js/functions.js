@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-26 09:54:46
+ * @Last Modified time: 2018-02-27 12:39:10
  */
 
 document.onkeydown = function(e) {
@@ -2227,7 +2227,7 @@ function RemoveThis(argument,idinput) {
     return '<div class="slds-combobox_container slds-has-object-switcher">'
     +'<div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">'
     +'<div class="slds-combobox__form-element">'
-    +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a values " id="defaultvalue" class="slds-input slds-combobox__input">'
+    +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a value " id="defaultvalue" class="slds-input slds-combobox__input">'
     +'</div>'
     +'</div>'
     +'<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">'
@@ -2272,7 +2272,7 @@ function RemoveThis(argument,idinput) {
     return '<div class="slds-combobox_container slds-has-object-switcher" style="width: 100%;margin-top:0px;height: 40px">'
     +'<div  id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">'
     +'<div class="slds-combobox__form-element">'
-    +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a values " onfocus="removearrayselected()" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">'
+    +'<input type="text" id="DefaultValueFirstModuleField_'+idinput+'" placeholder="Insert a value " onfocus="removearrayselected()" id="defaultvalue" style="width:250px;height: 38px;padding: 0px;margin: 0px;font-size: 15px;font-family: monospace;" class="slds-input slds-combobox__input">'
     +'</div>'
     +'</div>'
     +'<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click" style="margin: 0px;padding: 0px;width: 35px;height: 40px;">'
@@ -3680,7 +3680,7 @@ function addToPopupImportBusiness(Idd,FirstModule,FirestFields,SecondFields,Upda
      + Idd + ',\'' + divid + '\');">&times;</span>';
      if (FirstModule && FirstModule!=='')
      {
-        INSertAlerstJOIN += '<strong> '+(Idd+1)+'#'+typepopup+'  </strong><br/>';
+        INSertAlerstJOIN += '<strong> '+(Idd+1)+'# '+typepopup+'  </strong><br/>';
         INSertAlerstJOIN += '<p>Module  ==> '+FirstModule+'</b>';
         INSertAlerstJOIN += '<p>Field  ==> '+FirestFields+'</b>';
         INSertAlerstJOIN += '<p>Match Field  ==> '+SecondFields+'</b>';
