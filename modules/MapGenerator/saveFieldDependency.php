@@ -191,18 +191,32 @@ function add_content($DataDecode,$mapname)
 		     $Orgfieldfieldname->appendChild($OrgfieldfieldnameText);
              $Orgfield->appendChild($Orgfieldfieldname);
 
-		     $fieldactionShohide = $xml->createElement("fieldaction");
-		     $fieldactionShohideText = $xml->createTextNode(($value->temparray->fieldaction===0)?"hide":"show");
-		     $fieldactionShohide->appendChild($fieldactionShohideText);
-             $Orgfield->appendChild($fieldactionShohide);
+		    //  $fieldactionShohide = $xml->createElement("fieldaction");
+		    //  $fieldactionShohideText = $xml->createTextNode(($value->temparray->fieldaction===0)?"hide":"show");
+		    //  $fieldactionShohide->appendChild($fieldactionShohideText);
+            //  $Orgfield->appendChild($fieldactionShohide);
 
              if ($value->temparray->Readonlycheck!=0) {
                  $fieldactionreadonly  = $xml->createElement("fieldaction");
                  $fieldactionreadonlyText = $xml->createTextNode("readonly");
                  $fieldactionreadonly->appendChild($fieldactionreadonlyText);
                  $Orgfield->appendChild($fieldactionreadonly);
+             }else
+             {
+                if ($value->temparray->ShowHidecheck!=0)
+                {
+                   $fieldactionreadonly  = $xml->createElement("fieldaction");
+                    $fieldactionreadonlyText = $xml->createTextNode("hide");
+                    $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+                    $Orgfield->appendChild($fieldactionreadonly);
+                }else
+                {
+                   $fieldactionreadonly  = $xml->createElement("fieldaction");
+                    $fieldactionreadonlyText = $xml->createTextNode("show");
+                    $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+                    $Orgfield->appendChild($fieldactionreadonly);
+                }
              }
-		     
 
 		     $Orgfieldfieldvalue = $xml->createElement("fieldvalue");
 		     $OrgfieldfieldvalueText = $xml->createTextNode("");

@@ -223,10 +223,10 @@
 						</svg>
 						<span class="slds-assistive-text">{$MOD.close}</span>
 					</button>
-					<h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
+					<h2 class="slds-text-heading--medium">{$MOD.SectionOriginFileds}</h2>
 				</div>
 				<div class="slds-modal__content slds-p-around--medium" >
-					<h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3>
+					{* <h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3> *}
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="Firstfield2">Choose the field</label>
 						<div class="slds-form-element__control">
@@ -242,27 +242,27 @@
 							<div class="slds-form-element__control">
 								<div id="SecondDiv">
 									<!--SLDS Checkbox Toggle Element Start-->
-									<!-- Hidden -->
-									<div class="slds-form-element">
-										<label class="slds-checkbox--toggle slds-grid toggle-hidden">
-											<input  onchange="RemovecheckedMasterDetail(this)" data-all-id="Readonlycheck,mandatorychk" id="ShowHidecheck" name="checkbox" type="checkbox" aria-describedby="toggle-desc" />
-											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-												<span class="slds-checkbox--faux"></span>
-												<span class="slds-checkbox--on" >{$MOD.Hidden}-{$MOD.YES}</span>
-												<span class="slds-checkbox--off">{$MOD.Hidden}-{$MOD.NO}</span>
-											</span>
-										</label>
-									</div>
-
+									
 									<!-- Readonly -->
 									<div class="slds-form-element">
 										<label class="slds-checkbox--toggle slds-grid toggle-readonly">
-											<input id="Readonlycheck" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
+											<input id="Readonlycheck" onchange="fieldDependencyCheck(this);" data-all-id="ShowHidecheck,mandatorychk" name="checkbox" type="checkbox" aria-describedby="toggle-desc" />
 											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
 												<span class="slds-checkbox--faux"></span>
 												<span class="slds-checkbox--on" >{$MOD.Readonly}-{$MOD.YES}</span>
 												<span class="slds-checkbox--off">{$MOD.Readonly}-{$MOD.NO}</span>
 												<!-- <span class="slds-checkbox--of">editable-false</span> -->
+											</span>
+										</label>
+									</div>
+									<!-- Hidden -->
+									<div class="slds-form-element">
+										<label class="slds-checkbox--toggle slds-grid toggle-hidden">
+											<input  onchange="fieldDependencyCheck(this)" data-all-id="mandatorychk" id="ShowHidecheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
+											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+												<span class="slds-checkbox--faux"></span>
+												<span class="slds-checkbox--on" >{$MOD.Hidden}</span>
+												<span class="slds-checkbox--off">{$MOD.Show}</span>
 											</span>
 										</label>
 									</div>
@@ -324,13 +324,13 @@
 							</svg>
 							<span class="slds-assistive-text">{$MOD.close}</span>
 						</button>
-						<h2 class="slds-text-heading--medium">{$MOD.mapname}</h2>
+						<h2 class="slds-text-heading--medium">{$MOD.SectionOriginFileds}</h2>
 					</div>
 				<!-- End Modal Header -->
 
 				<!-- Modal Body -->
 					<div class="slds-modal__content slds-p-around--medium picklist-modal-content">
-						<h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3>
+						{* <h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3> *}
 						<div class="picklist-modal-fields-content">
 							<div class="slds-form-element">
 								<label class="slds-form-element__label" for="PickListFields">Choose the field</label>

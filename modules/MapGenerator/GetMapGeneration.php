@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-27 12:50:45
+ * @Last Modified time: 2018-02-28 16:51:20
  */
 
 
@@ -1620,8 +1620,8 @@ function FieldDependency($QueryHistory,$MapID)
 			  		'ShowHidecheckoptionGroup'=>'',
 			  		'mandatorychk'=>(string)(!empty($xmlval->mandatory))?1:0,
 			  		'mandatorychkoptionGroup'=>'',
-			  		'ShowHidecheck'=>($xmlval->fieldaction[0]=='show')?1:0,
-			  		'Readonlycheck'=>(!empty($xmlval->fieldaction[1]))?1:0,
+			  		'ShowHidecheck'=>($xmlval->fieldaction=='show')?0:1,
+			  		'Readonlycheck'=>($xmlval->fieldaction=='readonly')?1:0,
 			  	];
 			  	// foreach ($xmlval->fieldaction as  $value) {
 			  		
@@ -1767,8 +1767,8 @@ function FieldDependencyPortal($QueryHistory,$MapID)
 			  		'ShowHidecheckoptionGroup'=>'',
 			  		'mandatorychk'=>(string)(!empty($xmlval->mandatory))?1:0,
 			  		'mandatorychkoptionGroup'=>'',
-			  		'ShowHidecheck'=>($xmlval->fieldaction[0]=='show')?1:0,
-			  		'Readonlycheck'=>(!empty($xmlval->fieldaction[1]))?1:0,
+			  		'ShowHidecheck'=>($xmlval->fieldaction=='show')?0:1,
+			  		'Readonlycheck'=>($xmlval->fieldaction=='readonly')?1:0,
 			  	];
 			  	// foreach ($xmlval->fieldaction as  $value) {
 			  		

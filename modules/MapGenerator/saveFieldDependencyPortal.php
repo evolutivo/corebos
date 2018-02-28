@@ -178,46 +178,60 @@ function add_content($DataDecode,$mapname)
          }
         }
 
-     //  //put the Fields
-      foreach ($DataDecode as  $value) {
+       //  //put the Fields
+       foreach ($DataDecode as  $value) {
 
-         if ($value->temparray->JsonType==="Field") {
+        if ($value->temparray->JsonType==="Field") {
              $Orgfield = $xml->createElement("Orgfield");
 
-             $Orgfieldfieldname = $xml->createElement("fieldname");
-             $OrgfieldfieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield2)[2]);
-             $Orgfieldfieldname->appendChild($OrgfieldfieldnameText);
-             $Orgfield->appendChild($Orgfieldfieldname);
+           $Orgfieldfieldname = $xml->createElement("fieldname");
+           $OrgfieldfieldnameText = $xml->createTextNode(explode(":",$value->temparray->Firstfield2)[2]);
+           $Orgfieldfieldname->appendChild($OrgfieldfieldnameText);
+           $Orgfield->appendChild($Orgfieldfieldname);
 
-             $fieldactionShohide = $xml->createElement("fieldaction");
-             $fieldactionShohideText = $xml->createTextNode(($value->temparray->fieldaction===0)?"hide":"show");
-             $fieldactionShohide->appendChild($fieldactionShohideText);
-             $Orgfield->appendChild($fieldactionShohide);
+          //  $fieldactionShohide = $xml->createElement("fieldaction");
+          //  $fieldactionShohideText = $xml->createTextNode(($value->temparray->fieldaction===0)?"hide":"show");
+          //  $fieldactionShohide->appendChild($fieldactionShohideText);
+          //  $Orgfield->appendChild($fieldactionShohide);
 
-             if ($value->temparray->Readonlycheck!=0) {
+           if ($value->temparray->Readonlycheck!=0) {
+               $fieldactionreadonly  = $xml->createElement("fieldaction");
+               $fieldactionreadonlyText = $xml->createTextNode("readonly");
+               $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+               $Orgfield->appendChild($fieldactionreadonly);
+           }else
+           {
+              if ($value->temparray->ShowHidecheck!=0)
+              {
                  $fieldactionreadonly  = $xml->createElement("fieldaction");
-                 $fieldactionreadonlyText = $xml->createTextNode("readonly");
-                 $fieldactionreadonly->appendChild($fieldactionreadonlyText);
-                 $Orgfield->appendChild($fieldactionreadonly);
-             }
-             
+                  $fieldactionreadonlyText = $xml->createTextNode("hide");
+                  $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+                  $Orgfield->appendChild($fieldactionreadonly);
+              }else
+              {
+                 $fieldactionreadonly  = $xml->createElement("fieldaction");
+                  $fieldactionreadonlyText = $xml->createTextNode("show");
+                  $fieldactionreadonly->appendChild($fieldactionreadonlyText);
+                  $Orgfield->appendChild($fieldactionreadonly);
+              }
+           }
 
-             $Orgfieldfieldvalue = $xml->createElement("fieldvalue");
-             $OrgfieldfieldvalueText = $xml->createTextNode("");
-             $Orgfieldfieldvalue->appendChild($OrgfieldfieldvalueText);
-             $Orgfield->appendChild($Orgfieldfieldvalue);
+           $Orgfieldfieldvalue = $xml->createElement("fieldvalue");
+           $OrgfieldfieldvalueText = $xml->createTextNode("");
+           $Orgfieldfieldvalue->appendChild($OrgfieldfieldvalueText);
+           $Orgfield->appendChild($Orgfieldfieldvalue);
 
-             if ($value->temparray->mandatorychk!=0) {
-                  $mandatory = $xml->createElement("mandatory");
-                  $mandatoryText = $xml->createTextNode("mandatory");
-                  $mandatory->appendChild($mandatoryText);
-                  $Orgfield->appendChild($mandatory);
-             }           
+           if ($value->temparray->mandatorychk!=0) {
+                $mandatory = $xml->createElement("mandatory");
+                $mandatoryText = $xml->createTextNode("mandatory");
+                $mandatory->appendChild($mandatoryText);
+                $Orgfield->appendChild($mandatory);
+           }
 
-             $field->appendChild($Orgfield);
+           $field->appendChild($Orgfield);
 
-         }
-     }
+        }
+   }
 
      //  //put the Picklist
       foreach ($DataDecode as  $value) {

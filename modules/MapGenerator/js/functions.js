@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-05 15:16:28 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-27 12:39:10
+ * @Last Modified time: 2018-02-28 16:50:05
  */
 
 document.onkeydown = function(e) {
@@ -4498,9 +4498,11 @@ function addToPopupExtendetFD(Idd,tpa,divid)
     } else if( tpa.temparray['JsonType']==='Field' )
     {
       INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
-      INSertAlerstJOIN += '<p> Hidden ==> '+(tpa.temparray['ShowHidecheck']==="1"?"true":"false")+' </p>  ';
-      INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"true":"false")+' </p>  ';
-      INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"true":"false")+' </p>  ';
+      INSertAlerstJOIN += '<p> Readonly ==> '+(tpa.temparray['Readonlycheck']==="1"?"Yes":"No")+' </p>  ';
+      if (tpa.temparray['Readonlycheck']==="0") {
+        INSertAlerstJOIN += '<p> '+(tpa.temparray['ShowHidecheck']==="1"?"Hidden":"Show")+' ==> Yes </p>  ';
+      }
+      INSertAlerstJOIN += '<p> Mandatory ==> '+(tpa.temparray['mandatorychk']==="1"?"Yes":"No")+' </p>  ';
     }else if( tpa.temparray['JsonType']==='Picklist' )
     {
         INSertAlerstJOIN += '<strong>'+(Idd+1)+'# '+tpa.temparray['JsonType']+' ==> '+tpa.temparray['DefaultText']+'</strong> ';
@@ -4599,6 +4601,82 @@ function ClickToshowSelectedFD(Idload,divHistory)
       App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
     }
 }
+
+
+
+/**
+ * this function is only for FieldDependency and Dependency portal
+ *
+ * @class      RemovecheckedMasterDetail (name)
+ * @param      {<type>}  event   The event
+ */
+function fieldDependencyCheck(event)
+{
+  
+    var elem=event;
+    var allids=elem.dataset.allId;
+    if (elem.id==="Readonlycheck")
+    {
+      if (elem.checked)
+      {
+        if (allids)
+        {
+          allids=allids.split(',');
+          for (var i = allids.length - 1; i >= 0; i--) {         
+            if (allids[i]==='ShowHidecheck') {
+                $("#"+allids[i]).parent().parent().hide();
+                $("#"+allids[i]).removeAttr('checked');
+              }else{
+                $("#"+allids[i]).removeAttr('disabled');
+                $("#"+allids[i]).prop("checked", "checked");
+            }
+          }
+        }
+  
+      }else
+      {
+        if (allids)
+        {
+          allids=allids.split(',');
+          for (var i = allids.length - 1; i >= 0; i--) {         
+            if (allids[i]==='ShowHidecheck') {
+              $("#"+allids[i]).parent().parent().show();
+              $("#"+allids[i]).removeAttr('disabled');
+              $("#"+allids[i]).removeAttr('checked');
+              }else{  
+                $("#"+allids[i]).removeAttr('disabled');
+              $("#"+allids[i]).prop("checked", "checked");
+              }
+          }
+        }
+      }  
+    }else if (elem.id==="ShowHidecheck") {
+      if (elem.checked)
+      {
+        if (allids)
+        {
+          allids=allids.split(',');
+          for (var i = allids.length - 1; i >= 0; i--) {         
+                $("#"+allids[i]).attr("disabled", true);
+                $("#"+allids[i]).removeAttr('checked');
+          }
+        }
+  
+      }else
+      {
+        if (allids)
+        {
+          allids=allids.split(',');
+          for (var i = allids.length - 1; i >= 0; i--) {         
+            $("#"+allids[i]).attr("disabled", false);
+            $("#"+allids[i]).prop("checked", "checked");
+          }
+        }
+      }  
+    }  
+}
+
+
 
 
 ///////////////////////// List Columns LocalHIstory ///////////////////////////////////////
