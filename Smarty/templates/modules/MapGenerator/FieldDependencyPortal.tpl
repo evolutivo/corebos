@@ -325,7 +325,7 @@
 							</svg>
 							<span class="slds-assistive-text">{$MOD.close}</span>
 						</button>
-						<h2 class="slds-text-heading--medium">{$MOD.SectionOriginFileds}</h2>
+						<h2 class="slds-text-heading--medium">{$MOD.AddPickList}  (optional)</h2>
 					</div>
 				<!-- End Modal Header -->
 
