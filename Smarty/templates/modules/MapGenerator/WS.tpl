@@ -54,71 +54,106 @@
 							<tr class="slds-line-height--reset map-generator-cell-container">
 								<td class="dvtCellLabel" valign="top">
 									<!-- THE MODULE Zone -->
-									 <div class="accordion">
-										<section class="accordion-item   accordion-item--default">
-											<h3>{$MOD.WSConfirguration}</h3>
+									<div class="accordion">
+										<section class="accordion-item accordion-item--default">
+											<h3 class="ws-accordion-title">{$MOD.WSConfirguration}</h3>
 											<div class="accordion-item-content">
-											  <div class="field-dependency-container">
-													<!-- Choose module -->
-													<div class="field-dependency-module">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label">Choose the Module</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
-																			{$FirstModuleSelected}
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Choose field and insert value -->
-													<div class="field-dependency-field">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label" for="Firstfield">Choose the field</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select  id="Firstfield" name="mod" class="slds-select">
-																		{$FirstModuleFields}
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="slds-form-element__control operators-select">
-															<div class="slds-select_container">
-																<select id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
-																	<option value="equal">{$MOD.equals}</option>
-																	<option value="not equal">{$MOD.not_equals}</option>
-																	<option value="empty">{$MOD.empty}</option>
-																	<option value="not empty">{$MOD.not_empty}</option>
-																</select>
-															</div>
-														</div>
-														<div class="field-dependency-insert-value">
+												<div class="ws-configuration-container">
+													<!-- WS URL and method container -->
+													<div class="ws-url-container">
+														<!-- URL input-->
+														<div class="ws-url-input">
 															<div class="slds-form-element slds-text-align--left">
-																<label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="DefaultValueResponsibel">{$MOD.AddAValues}</label>
+																<label class="slds-form-element__label" for="url-input">URL</label>
+																<div class="slds-form-element__control slds-input-has-icon_left">
+																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">https://</span>
+																	<input id="url-input" class="slds-input" placeholder="Enter URL" type="text" aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
+																</div>
+															</div>
+														</div>
+														<!-- URL Method -->
+														<div class="ws-url-method">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="urlMethod">Method</label>
 																<div class="slds-form-element__control">
-																	<div class="slds-combobox_container slds-has-object-switcher" >
-																		<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																			<div class="slds-combobox__form-element">
-																				<input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
-																			</div>
-																		</div>
-																		<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																			<button onclick="AddResponsabileFieldsFD(this);clearInput('DefaultValueResponsibel');" id="AddbuttonFDP" data-add-button-popup="false" data-add-type="Responsible" data-add-button-validate="Firstfield" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																				<img src="themes/images/btnL3Add.gif" width="16">
-																			</button>
-																		</div>
+																	<div class="slds-select_container">
+																		<select id="urlMethod" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
+																				{$FirstModuleSelected}
+																		</select>
 																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
-													<!-- Buttons -->
-													<div class="add-fields-picklist-block">
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop">{$MOD.AddFields}</button>
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop">{$MOD.AddPickList}</button>
-														{* <h3 class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
+													<!-- WS Configuration options container-->
+													<div class="ws-config-options">
+														<div class="ws-response-user-password">
+															<div class="slds-form-element slds-text-align--left ws-response-time">
+																<label class="slds-form-element__label" for="ws-response-time">Response Time (Optional)</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-response-time" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+															<div class="slds-form-element slds-text-align--left ws-user">
+																<label class="slds-form-element__label" for="ws-user">User (Optional)</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-user" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+															<div class="slds-form-element slds-text-align--left ws-password">
+																<label class="slds-form-element__label" for="ws-password">Password (Optional)</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-password" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+														</div>
+														<div class="ws-host-port-tag">
+															<div class="slds-form-element slds-text-align--left ws-host">
+																<label class="slds-form-element__label" for="ws-proxy-host">Proxy Host</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-password" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+															<div class="slds-form-element slds-text-align--left ws-port">
+																<label class="slds-form-element__label" for="ws-proxy-port">Proxy Port</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-proxy-port" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+															<div class="slds-form-element slds-text-align--left ws-tag">
+																<label class="slds-form-element__label" for="ws-start-tag">Start Tag</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-start-tag" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- WS Input/Output type container -->
+													<div class="ws-input-output">
+														<div class="ws-input-type">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-type">Input Type</label>
+																<div class="slds-form-element__control">
+																	<div class="slds-select_container">
+																		<select id="ws-input-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
+																				{$FirstModuleSelected}
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="ws-output-type">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-output-type">Output Type</label>
+																<div class="slds-form-element__control">
+																	<div class="slds-select_container">
+																		<select id="ws-output-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
+																				{$FirstModuleSelected}
+																		</select>
+																	</div>
+																</div>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
@@ -126,211 +161,23 @@
 										<section class="accordion-item">
 											<h3>{$MOD.WSInputFields}</h3>
 											<div class="accordion-item-content">
-											  <div class="field-dependency-container">
-													<!-- Choose module -->
-													<div class="field-dependency-module">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label">Choose the Module</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
-																			{$FirstModuleSelected}
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Choose field and insert value -->
-													<div class="field-dependency-field">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label" for="Firstfield">Choose the field</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select  id="Firstfield" name="mod" class="slds-select">
-																		{$FirstModuleFields}
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="slds-form-element__control operators-select">
-															<div class="slds-select_container">
-																<select id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
-																	<option value="equal">{$MOD.equals}</option>
-																	<option value="not equal">{$MOD.not_equals}</option>
-																	<option value="empty">{$MOD.empty}</option>
-																	<option value="not empty">{$MOD.not_empty}</option>
-																</select>
-															</div>
-														</div>
-														<div class="field-dependency-insert-value">
-															<div class="slds-form-element slds-text-align--left">
-																<label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="DefaultValueResponsibel">{$MOD.AddAValues}</label>
-																<div class="slds-form-element__control">
-																	<div class="slds-combobox_container slds-has-object-switcher" >
-																		<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																			<div class="slds-combobox__form-element">
-																				<input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
-																			</div>
-																		</div>
-																		<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																			<button onclick="AddResponsabileFieldsFD(this);clearInput('DefaultValueResponsibel');" id="AddbuttonFDP" data-add-button-popup="false" data-add-type="Responsible" data-add-button-validate="Firstfield" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																				<img src="themes/images/btnL3Add.gif" width="16">
-																			</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Buttons -->
-													<div class="add-fields-picklist-block">
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop">{$MOD.AddFields}</button>
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop">{$MOD.AddPickList}</button>
-														{* <h3 class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
-													</div>
-												</div>
+												2
 											</div>
 										</section>
-										<section  class="accordion-item">
+										<section class="accordion-item">
 											<h3>{$MOD.WSOutputFields}</h3>
 											<div class="accordion-item-content">
-											<div class="accordion-item-content">
-											  <div class="field-dependency-container">
-													<!-- Choose module -->
-													<div class="field-dependency-module">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label">Choose the Module</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
-																			{$FirstModuleSelected}
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Choose field and insert value -->
-													<div class="field-dependency-field">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label" for="Firstfield">Choose the field</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select  id="Firstfield" name="mod" class="slds-select">
-																		{$FirstModuleFields}
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="slds-form-element__control operators-select">
-															<div class="slds-select_container">
-																<select id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
-																	<option value="equal">{$MOD.equals}</option>
-																	<option value="not equal">{$MOD.not_equals}</option>
-																	<option value="empty">{$MOD.empty}</option>
-																	<option value="not empty">{$MOD.not_empty}</option>
-																</select>
-															</div>
-														</div>
-														<div class="field-dependency-insert-value">
-															<div class="slds-form-element slds-text-align--left">
-																<label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="DefaultValueResponsibel">{$MOD.AddAValues}</label>
-																<div class="slds-form-element__control">
-																	<div class="slds-combobox_container slds-has-object-switcher" >
-																		<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																			<div class="slds-combobox__form-element">
-																				<input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
-																			</div>
-																		</div>
-																		<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																			<button onclick="AddResponsabileFieldsFD(this);clearInput('DefaultValueResponsibel');" id="AddbuttonFDP" data-add-button-popup="false" data-add-type="Responsible" data-add-button-validate="Firstfield" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																				<img src="themes/images/btnL3Add.gif" width="16">
-																			</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Buttons -->
-													<div class="add-fields-picklist-block">
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop">{$MOD.AddFields}</button>
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop">{$MOD.AddPickList}</button>
-														{* <h3 class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
-													</div>
-												</div>
+												3
 											</div>
 										</section>
 										<section class="accordion-item">
 											<h3>{$MOD.WSErrorHandler}</h3>
 											<div class="accordion-item-content">
-											  <div class="field-dependency-container">
-													<!-- Choose module -->
-													<div class="field-dependency-module">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label">Choose the Module</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"  id="FirstModule" data-second-module-file="getPickList" name="mod" class="slds-select">
-																			{$FirstModuleSelected}
-																	</select>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Choose field and insert value -->
-													<div class="field-dependency-field">
-														<div class="slds-form-element slds-text-align--left">
-															<label class="slds-form-element__label" for="Firstfield">Choose the field</label>
-															<div class="slds-form-element__control">
-																<div class="slds-select_container">
-																	<select  id="Firstfield" name="mod" class="slds-select">
-																		{$FirstModuleFields}
-																	</select>
-																</div>
-															</div>
-														</div>
-														<div class="slds-form-element__control operators-select">
-															<div class="slds-select_container">
-																<select id="Conditionalfield" name="mod" onchange="CheckChoise(this);" class="slds-select">
-																	<option value="equal">{$MOD.equals}</option>
-																	<option value="not equal">{$MOD.not_equals}</option>
-																	<option value="empty">{$MOD.empty}</option>
-																	<option value="not empty">{$MOD.not_empty}</option>
-																</select>
-															</div>
-														</div>
-														<div class="field-dependency-insert-value">
-															<div class="slds-form-element slds-text-align--left">
-																<label id="labelforinputDefaultValueResponsibel" class="slds-form-element__label" for="DefaultValueResponsibel">{$MOD.AddAValues}</label>
-																<div class="slds-form-element__control">
-																	<div class="slds-combobox_container slds-has-object-switcher" >
-																		<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-																			<div class="slds-combobox__form-element">
-																				<input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
-																			</div>
-																		</div>
-																		<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-																			<button onclick="AddResponsabileFieldsFD(this);clearInput('DefaultValueResponsibel');" id="AddbuttonFDP" data-add-button-popup="false" data-add-type="Responsible" data-add-button-validate="Firstfield" data-add-relation-id="FirstModule,DefaultValueResponsibel,Firstfield,Conditionalfield" data-show-id="Firstfield" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																				<img src="themes/images/btnL3Add.gif" width="16">
-																			</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<!-- Buttons -->
-													<div class="add-fields-picklist-block">
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="fields" data-modal-check-id="FirstModule" data-modal-backdrop-id="fieldsbackdrop">{$MOD.AddFields}</button>
-														<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="Picklist" data-modal-check-id="FirstModule" data-modal-backdrop-id="Picklistbackdrop">{$MOD.AddPickList}</button>
-														{* <h3 class="slds-section-title--divider">{$MOD.ChoseResponsabile}</h3> *}
-													</div>
-												</div>
+												4
 											</div>
 										</section>
 									</div>
 								</td>
-
 								<td class="dvtCellInfo" align="left">
 									<div class="flexipageComponent">
 										<article class="slds-card container MEDIUM forceBaseCard runtime_sales_mergeMergeCandidatesPreviewCard" aria-describedby="header">

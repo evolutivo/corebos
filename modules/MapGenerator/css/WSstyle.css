@@ -1,59 +1,101 @@
-/* The Magic */
 .accordion:hover .accordion-item:hover .accordion-item-content,
 .accordion .accordion-item--default .accordion-item-content {
-    height: 100%;
+		height: 100%;
 }
 
 .accordion-item-content,
 .accordion:hover .accordion-item-content {
-    height: 0;
-    overflow: hidden;
-    transition: height .25s;
+		height: 0;
+		overflow: hidden;
+		transition: height .25s;
 }
 
-/* Aesthetic */
-
-
 .accordion {
-    padding: 0;
-    margin: 0 auto;
-    width: 100%;
-    font-family: "PT Sans" sans-serif
+		padding: 0;
+		margin: 0 auto;
+		width: 100%;
+		font-family: "PT Sans" sans-serif
 }
 
 .accordion .accordion-item {
-  /* background-image: linear-gradient(90deg, #eee, #f5f5f5, #eee); */
-  border-bottom: 1px solid #666;
-  padding: 1em;
-  color: #5C5A90;
-  border-radius: 5px;
+		border-bottom: 1px solid #666;
+		padding: 1em;
+		color: #5C5A90;
+		border-radius: 5px;
 }
 
-.accordion h3 {
-  margin-right: 50%;
+.accordion .accordion-item {
+		margin-bottom: 7px;
 }
 
-.accordion .accordion-item:nth-child(1) {
-  background-color: #E5DAFF;
-  /* background-image: linear-gradient(-90deg, hsl(200, 80%, 60%), hsl(200, 80%, 45%) 2em, hsl(200, 80%, 60%)); */
-  margin-bottom: 7px;
-
+.ws-accordion-title {
+		text-align: center;
+		border-bottom: 1px solid #d4d4d4;
 }
 
-.accordion .accordion-item:nth-child(2) {
-  background-color: #E5DAFF;
-  /* background-image: linear-gradient(-90deg, hsl(280, 80%, 60%), hsl(280, 60%, 45%) 2em, hsl(280, 80%, 60%)); */
-  margin-bottom: 7px;
-}
+	.ws-configuration-container input {
+		width: 100%;
+	}
 
-.accordion .accordion-item:nth-child(3) {
-  background-color: #E5DAFF;
-  /* background-image: linear-gradient(-90deg, hsl(40, 80%, 60%), hsl(40, 80%, 45%) 2em, hsl(40, 80%, 60%)); */
-  margin-bottom: 7px;
-}
+	.ws-config-options,
+	.ws-url-container,
+	.ws-input-output {
+		display: flex;
+	}
+	.ws-config-options {
+		margin: 1rem 0;
+	}
 
-.accordion .accordion-item:nth-child(4) {
-  background-color: #E5DAFF;
-  /* background-image: linear-gradient(-90deg, hsl(80, 80%, 40%), hsl(80, 80%, 35%) 2em, hsl(80, 80%, 40%)); */
-  margin-bottom: 7px;
-}
+	.ws-url-input,
+	.ws-url-method,
+	.ws-response-user-password,
+	.ws-host-port-tag,
+	.ws-input-type,
+	.ws-output-type {
+		padding: 0 .5rem;
+		width: 50%;
+	}
+
+	.ws-url-input input {
+		padding-left: 3rem!important;
+	}
+
+	.ws-url-input .slds-input-has-icon_left {
+		position: relative;
+	}
+
+	.ws-url-input span {
+		position: absolute;
+		top: 8px;
+		left: 5px;
+	}
+
+	.ws-response-user-password > div:nth-child(2),
+	.ws-host-port-tag > div:nth-child(2) {
+		margin: .5rem 0;
+	}
+
+
+	/* End Configuration Options */
+
+/*
+.ws-response-user-password > div:nth-child(2),
+.ws-host-port-tag > div:nth-child(2) {
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
