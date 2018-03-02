@@ -4,6 +4,7 @@
 {* <link rel="stylesheet" href="include/LD/assets/styles/all-modules.css" type="text/css" /> *}
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/popupNotification.css">
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/main.css" >
+<link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/WSstyle.css" >
 <link rel="stylesheet" type="text/css" href="modules/MapGenerator/css/Loading.css" rel="stylesheet">
 <script type="text/javascript" src="modules/MapGenerator/language/{$currlang}.lang.js"></script>
 <script type="text/javascript" src="modules/MapGenerator/js/functions.js"></script>

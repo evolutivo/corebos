@@ -184,6 +184,14 @@ $mod_strings = array(
 	'ExtendedFieldInformationMappingvalue'=>' Value',
 	'ExtendedFieldInformationMappingInsertname'=>'Insert a  Name',
 	'ExtendedFieldInformationMappingInsertvalue'=>'Insert a  Value',
+
+	'WSConfirguration'=>'Configuration',
+	'WSInputFields'=>'Input Fields',
+	'WSOutputFields'=>'Output Fields',
+	'WSErrorHandler'=>'Error Handler',
+
+
+	
 	
 );
 ?>
