@@ -203,7 +203,7 @@ $mod_strings = array(
 	'wsAddHeaders'=>'Add Headers',
 	'wsKeyName'=>'Key Name',
 	'wsKeyValue'=>'Key Value',
-	'ws'=>' ',
+	'wsrequiredFields'=>'(*) all fields with this symbol are mandatory',
 	'ws'=>' ',
 	'ws'=>' ',
 	

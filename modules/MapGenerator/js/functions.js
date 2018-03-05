@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-05 14:44:59
+ * @Last Modified time: 2018-03-05 16:20:22
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4940,16 +4940,19 @@ function showhideblocks(elem)
 {
   var element=elem.id;
   $("section").removeClass("ws-active");
-  $("#ws-hide").css("display","block");
-  $("#ws-show").css("display","none");
+  $( elem+"span" ).each(function( index ) {
+    $("#ws-hide").css("display","block");
+    $("#ws-show").css("display","none");
+  });
+  
   $(".ws-accordion-item-content").css("display","none");
   
   if($(elem).length)
   {
-    $(elem).addClass("ws-active");
+    $(elem).parent().parent().addClass("ws-active");
     $(elem).find("#ws-hide").css("display","none");
     $(elem).find("#ws-show").css("display","block");
-    $(elem).find(".ws-accordion-item-content").css("display","block");
+    $(elem).parent().parent().find(".ws-accordion-item-content").css("display","block");
   }
   
 }

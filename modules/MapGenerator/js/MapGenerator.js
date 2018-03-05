@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-02 10:58:35
+ * @Last Modified time: 2018-03-05 16:25:14
  */
 /*
  * @Author: Edmond Kacaj 
@@ -660,8 +660,7 @@
 		},
 
 		ChangeTextDropDown : function() {
-			//			if (event)
-			//				event.preventDefault();
+						if (event) event.preventDefault();
 				var elem = $(this);
 				var IdChange = elem.attr("data-tools-id").split(",");
 			//			if (IdChange.length<1) {
