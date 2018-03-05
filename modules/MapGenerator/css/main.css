@@ -9,6 +9,7 @@
 	}
 	.map-generator-cell-container > td:last-child {
 		width: 35%;
+		vertical-align: top;
 	}
 
 
@@ -1362,6 +1363,12 @@
 		width: 22px;
 	}
 /* End Duplicate Records */
+
+/* WS Map */
+
+/* End WS Map */
+
+
 
 /* New Map Modal */
 	.new-map-modal h2,

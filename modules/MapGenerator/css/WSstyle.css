@@ -1,38 +1,57 @@
-.accordion:hover .accordion-item:hover .accordion-item-content,
-.accordion .accordion-item--default .accordion-item-content {
-		height: 100%;
+.accordion-item {
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    transition: 0.4s;
+    margin-bottom: 1rem;
+    border: 1px solid #d4d4d4;
 }
 
-.accordion-item-content,
-.accordion:hover .accordion-item-content {
-		height: 0;
-		overflow: hidden;
-		transition: height .25s;
+.active, .accordion-item:hover {
+    background-color: #c6c6c6; 
+    cursor: default;
 }
 
-.accordion {
-		padding: 0;
-		margin: 0 auto;
-		width: 100%;
-		font-family: "PT Sans" sans-serif
+.accordion-item-content {
+    padding: 0 10px;
+    display: none;
+    background-color: white;
+    overflow: hidden;
+		cursor: default;
 }
 
-.accordion .accordion-item {
-		border-bottom: 1px solid #666;
-		padding: 1em;
-		color: #5C5A90;
-		border-radius: 5px;
+.ws-accordion-header {
+	position: relative;
+	cursor: pointer;
 }
 
-.accordion .accordion-item {
-		margin-bottom: 7px;
+.ws-accordion-toggle {
+	position: absolute;
+	top: 0;
+}
+
+.ws-accordion-toggle i {
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.ws-accordion-toggle i:hover {
+	opacity: .7;
 }
 
 .ws-accordion-title {
 		text-align: center;
-		border-bottom: 1px solid #d4d4d4;
+		margin-top: 0;
 }
 
+	.ws-configuration-container {
+		margin-top: .5rem;
+		cursor: default;
+}
 	.ws-configuration-container input {
 		width: 100%;
 	}
@@ -41,6 +60,9 @@
 	.ws-url-container,
 	.ws-input-output {
 		display: flex;
+	}
+	.ws-input-output {
+		margin-bottom: 1rem;
 	}
 	.ws-config-options {
 		margin: 1rem 0;
