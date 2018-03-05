@@ -23,6 +23,9 @@
 		overflow: hidden;
 		cursor: default;
 	}
+	.ws-accordion-item-content input {
+		width: 100%;
+	}
 	.ws-accordion-header {
 		position: relative;
 		cursor: pointer;
@@ -129,45 +132,65 @@
 	/* End Configuration Modal */
 /* End WS Configuration Panel */
 
-/* Input Panel */
-	.ws-input-container {
+/* Input & Output & error Panel */
+	.ws-input-container,
+	.ws-output-container,
+	.ws-error-handler-container {
 		margin: 1rem 0;
 		padding: 0 .5rem;
 	}
-	.ws-input-container input {
-		width: 100%;
-	}
 	.ws-input-value-attribute-container,
-	.ws-input-organization-default-container {
+	.ws-input-organization-default-container,
+	.ws-output-label-name,
+	.ws-output-attribute-value,
+	.ws-error-name-value {
 		display: flex;
 		margin: 1rem 0;
 	}
+	.ws-input-value-attribute-container {
+		min-height: 55px;
+	}
 	.ws-input-value,
-	.ws-input-organization {
+	.ws-input-organization,
+	.ws-output-label,
+	.ws-output-attribute,
+	.ws-error-name {
 		padding-right: .5rem;
 		width: 50%;
 	}
 	.ws-input-attribute,
-	.ws-input-default {
+	.ws-input-default,
+	.ws-output-name,
+	.ws-output-value,
+	.ws-error-value {
 		width: 50%;
 		padding-left: .5rem;
 	}
-	.ws-input-value-switcher {
+	.ws-input-value {
 		display: flex;
 	}
-	#ws-input-value-input,
-	#ws-input-value-select {
+	.ws-input-value-switcher input {
+		width: 100%;
+	}
+	.ws-input-value > div:first-child {
 		width: 92%;
 	}
 	.ws-toggle-field {
 		width: 8%;
 		text-align: right;
-		margin-top: 2px;
+		margin-top: 1.5rem;
+	}
+	.ws-toggle-field a {
+		cursor: pointer;
 	}
 	#ws-input-value-btn {
 		position: absolute;
 		right: 5px;
 		top: 3px;
 	}
+	.ws-output-label,
+	.ws-output-attribute {
+		margin-bottom: .5rem;
+	}
+/* End Input & Output & error Panel */
 
-/* End Input Panel */

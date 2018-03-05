@@ -187,8 +187,8 @@
 											</div>
 										</section>
 										<!-- WS Input Panel -->
-										<section class="ws-accordion-item">
-											<div onclick="showhideblocks(this);" id="ws-section-input" >
+										<section class="ws-accordion-item ">
+											<div id="ws-section-input" >
 												<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-configuration">
 													<i class="fa fa-arrow-right" id="ws-hide" style="display: block;"></i>
@@ -196,7 +196,7 @@
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
 											</div>
-											<div class="ws-accordion-item-content" style="display: block;">
+											<div class="ws-accordion-item-content" style="display: none;">
 												<div class="ws-input-container">
 													<div class="ws-input-name-container">
 														<div class="ws-input-name">
@@ -210,25 +210,27 @@
 													</div>
 													<div class="ws-input-value-attribute-container">
 														<div class="slds-form-element ws-input-value">
-															<label class="slds-form-element__label">Value</label>
-															<div class="ws-input-value-switcher">
-																<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-input-value-input" style="display: block;">
-																	<input class="slds-input" placeholder="Placeholder Text" type="text" />
-																	<button id="ws-input-value-btn" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																		<img src="themes/images/btnL3Add.gif" width="16">
-																	</button>
-																</div>
-																<div class="slds-form-element__control" id="ws-input-value-select" style="display: none;">
-																	<div class="slds-select_container">
-																		<select class="slds-select">
-																		</select>
+															<div class="slds-form-element__control">
+																<label class="slds-form-element__label">Value</label>
+																<div class="ws-input-value-switcher">
+																	<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-input-value-input" style="display: block;">
+																		<input class="slds-input" placeholder="Placeholder Text" type="text" />
+																		<button id="ws-input-value-btn" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																			<img src="themes/images/btnL3Add.gif" width="16">
+																		</button>
+																	</div>
+																	<div id="ws-input-value-select" class="slds-form-element__control" style="display: none;">
+																		<div class="slds-select_container">
+																			<select class="slds-select">
+																			</select>
+																		</div>
 																	</div>
 																</div>
-																<div class="ws-toggle-field">
-																	<a href="#" data-showhide-load="true" data-tools-id="ws-input-value-input,ws-input-value-select">
-																		<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
-																	</a>
-																</div>
+															</div>
+															<div class="ws-toggle-field">
+																<a data-showhide-load="true" data-tools-id="ws-input-value-input,ws-input-value-select">
+																	<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+																</a>
 															</div>
 														</div>
 														<div class="ws-input-attribute">
@@ -263,7 +265,7 @@
 											</div>
 										</section>
 										<!-- WS Output Panel -->
-										<section onclick="showhideblocks(this);" id="ws-section-output" class="ws-accordion-item">
+										<section class="ws-accordion-item">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-output">
 													<i class="fa fa-arrow-right"></i>
@@ -271,12 +273,49 @@
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSOutputFields}</h4>
 											</div>
-											<div class="ws-accordion-item-content">
-												
+											<div class="ws-accordion-item-content" style="display: none;">
+												<div class="ws-output-container">
+													<div class="ws-output-label-name">
+														<div class="ws-output-label">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-output-label">Label</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-output-label" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+														</div>
+														<div class="ws-output-name">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-output-name">Name</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-output-name" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="ws-output-attribute-value">
+														<div class="ws-output-attribute">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-output-attribute">Attribute</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-output-attribute" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+														</div>
+														<div class="ws-output-value">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-output-value">Value</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-output-value" class="slds-input" placeholder="Placeholder Text" type="text" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</section>
 										<!-- WS Error Handler Panel -->
-										<section onclick="showhideblocks(this);" id="ws-section-errorhandler" class="ws-accordion-item">
+										<section class="ws-accordion-item ">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-error">
 													<i class="fa fa-arrow-right"></i>
@@ -284,8 +323,35 @@
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSErrorHandler}</h4>
 											</div>
-											<div class="accordion-item-content">
-												
+											<div class="ws-accordion-item-content" style="display: block;">
+												<div class="ws-error-handler-container">
+													<div class="ws-error-name-value">
+														<div class="ws-error-name">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-error-name">Name</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-error-name" class="slds-input" placeholder="Enter error name" type="text" />
+																</div>
+															</div>
+														</div>
+														<div class="ws-error-value">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-error-value">Value</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-error-value" class="slds-input" placeholder="Enter error value" type="text" />
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="ws-error-message">
+														<div class="slds-form-element">
+															<label class="slds-form-element__label" for="ws-error-mesage">Error Message</label>
+															<div class="slds-form-element__control">
+																<input id="ws-error-message" class="slds-input" placeholder="Enter error message" type="text" />
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
 										</section>
 									</div>
