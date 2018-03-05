@@ -57,13 +57,14 @@
 									<div class="ws-accordion">
 										<!-- WS Configuration Panel -->
 										<section  class="ws-accordion-item ws-active">
-											<div onclick="showhideblocks(this);" id="ws-section-configuration">
-												<div class="ws-accordion-header">
-												<div class="ws-accordion-toggle" id="ws-configuration">
-													<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
-													<i class="fa fa-arrow-down"  id="ws-show" ></i>
-												</div>
-												<h4 class="ws-accordion-title">{$MOD.WSConfirguration}</h4>
+											<div class="ws-accordion-header">
+												<a onclick="showhideblocks(this);" id="ws-section-configuration">
+													<span class="ws-accordion-toggle" id="ws-configuration">
+														<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
+														<i class="fa fa-arrow-down"  id="ws-show" ></i>
+													</span>
+													<h4 class="ws-accordion-title">{$MOD.WSConfirguration}</h4>
+												</a>
 											</div>
 											<div class="ws-accordion-item-content" style="display: block;">
 												<div class="ws-configuration-container">
@@ -184,7 +185,6 @@
 													</div>
 												</div>
 											</div>
-											</div>
 										</section>
 										<!-- WS Input Panel -->
 										<section class="ws-accordion-item">
@@ -196,7 +196,7 @@
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
 											</div>
-											<div class="ws-accordion-item-content" style="display: none;">
+											<div class="ws-accordion-item-content" style="display: block;">
 												<div class="ws-input-container">
 													<div class="ws-input-name-container">
 														<div class="ws-input-name">
@@ -209,11 +209,25 @@
 														</div>
 													</div>
 													<div class="ws-input-value-attribute-container">
-														<div class="ws-input-value">
-															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-value">Value</label>
-																<div class="slds-form-element__control">
-																	<input id="ws-input-value" class="slds-input" type="text" />
+														<div class="slds-form-element ws-input-value">
+															<label class="slds-form-element__label">Value</label>
+															<div class="ws-input-value-switcher">
+																<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-input-value-input" style="display: block;">
+																	<input class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<button id="ws-input-value-btn" data-load-show="true" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																		<img src="themes/images/btnL3Add.gif" width="16">
+																	</button>
+																</div>
+																<div class="slds-form-element__control" id="ws-input-value-select" style="display: none;">
+																	<div class="slds-select_container">
+																		<select class="slds-select">
+																		</select>
+																	</div>
+																</div>
+																<div class="ws-toggle-field">
+																	<a href="#" data-showhide-load="true" data-tools-id="ws-input-value-input,ws-input-value-select">
+																		<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+																	</a>
 																</div>
 															</div>
 														</div>

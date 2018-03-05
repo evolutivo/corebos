@@ -152,5 +152,22 @@
 		width: 50%;
 		padding-left: .5rem;
 	}
+	.ws-input-value-switcher {
+		display: flex;
+	}
+	#ws-input-value-input,
+	#ws-input-value-select {
+		width: 92%;
+	}
+	.ws-toggle-field {
+		width: 8%;
+		text-align: right;
+		margin-top: 2px;
+	}
+	#ws-input-value-btn {
+		position: absolute;
+		right: 5px;
+		top: 3px;
+	}
 
 /* End Input Panel */
