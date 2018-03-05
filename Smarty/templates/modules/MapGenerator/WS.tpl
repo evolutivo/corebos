@@ -56,8 +56,9 @@
 									<!-- THE MODULE Zone -->
 									<div class="ws-accordion">
 										<!-- WS Configuration Panel -->
-										<section onclick="showhideblocks(this);" id="ws-section-configuration" class="ws-accordion-item ws-active">
-											<div class="ws-accordion-header">
+										<section  class="ws-accordion-item ws-active">
+											<div onclick="showhideblocks(this);" id="ws-section-configuration">
+												<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-configuration">
 													<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
 													<i class="fa fa-arrow-down"  id="ws-show" ></i>
@@ -183,17 +184,19 @@
 													</div>
 												</div>
 											</div>
+											</div>
 										</section>
 										<!-- WS Input Panel -->
-										<section onclick="showhideblocks(this);" id="ws-section-input" class="ws-accordion-item ws-active">
-											<div class="ws-accordion-header">
-												<div class="ws-accordion-toggle">
-													<i class="fa fa-arrow-right" ></i>
-													<i class="fa fa-arrow-down" style="display: none;"></i>
+										<section class="ws-accordion-item">
+											<div onclick="showhideblocks(this);" id="ws-section-input" >
+												<div class="ws-accordion-header">
+												<div class="ws-accordion-toggle" id="ws-configuration">
+													<i class="fa fa-arrow-right" id="ws-hide" style="display: block;"></i>
+													<i class="fa fa-arrow-down"  id="ws-show" style="display: none;" ></i>
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
 											</div>
-											<div class="ws-accordion-item-content" style="display: block;">
+											<div class="ws-accordion-item-content" style="display: none;">
 												<div class="ws-input-container">
 													<div class="ws-input-name-container">
 														<div class="ws-input-name">
@@ -242,6 +245,7 @@
 														</div>
 													</div>
 												</div>
+											</div>
 											</div>
 										</section>
 										<!-- WS Output Panel -->
