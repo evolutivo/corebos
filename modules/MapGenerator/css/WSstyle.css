@@ -1,62 +1,57 @@
-.accordion-item {
-    color: #444;
-    cursor: pointer;
-    padding: 10px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    transition: 0.4s;
-    margin-bottom: 1rem;
-    border: 1px solid #d4d4d4;
-}
-
-.active, .accordion-item:hover {
-    background-color: #54698D; 
-    cursor: default;
-    color: #fff;
-}
-
-.accordion-item-content {
-    padding: 0 10px;
-    display: none;
-    background-color: white;
-    overflow: hidden;
+/* General WS Accordion */
+	.ws-accordion-item {
+		color: #444;
+		cursor: pointer;
+		padding: 10px;
+		width: 100%;
+		border: none;
+		text-align: left;
+		outline: none;
+		transition: 0.4s;
+		margin-bottom: 1rem;
+		border: 1px solid #d4d4d4;
+	}
+	.ws-active, .ws-accordion-item:hover {
+		background-color: #54698D; 
 		cursor: default;
-}
-
-.ws-accordion-header {
-	position: relative;
-	cursor: pointer;
-}
-
-.ws-accordion-toggle {
-	position: absolute;
-	top: 0;
-}
-
-.ws-accordion-toggle i {
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.ws-accordion-toggle i:hover {
-	opacity: .7;
-}
-
-.ws-accordion-title {
-		text-align: center;
-		margin-top: 0;
-}
-
-	.ws-configuration-container {
-		margin-top: .5rem;
+		color: #fff;
+	}
+	.ws-accordion-item-content {
+		padding: 0 10px;
+		display: none;
+		background-color: white;
+		overflow: hidden;
 		cursor: default;
-}
+	}
+	.ws-accordion-header {
+		position: relative;
+		cursor: pointer;
+	}
+	.ws-accordion-toggle {
+		position: absolute;
+		top: 0;
+	}
+	.ws-accordion-toggle i {
+		font-size: 16px;
+		cursor: pointer;
+	}
+	.ws-accordion-toggle i:hover {
+		opacity: .7;
+	}
+	.ws-accordion-title {
+			text-align: center;
+			margin-top: 0;
+	}
+/* End General WS Accordion */
+
+/* WS Configuration Panel */
+		.ws-configuration-container {
+			margin-top: .5rem;
+			cursor: default;
+	}
 	.ws-configuration-container input {
 		width: 100%;
 	}
-
 	.ws-config-options,
 	.ws-url-container,
 	.ws-input-output {
@@ -91,6 +86,7 @@
 		position: absolute;
 		top: 8px;
 		left: 5px;
+		color: #444;
 	}
 
 	.ws-response-user-password > div:nth-child(2),
@@ -98,35 +94,37 @@
 		margin: .5rem 0;
 	}
 
-	.ws-buttons {
+	.ws-config-buttons {
 		display: flex;
+		padding-top: .5rem
+		border-top: 1px solid #A6BBDC;
 	}
-
-	.ws-buttons > div {
+	.ws-config-buttons > div {
 		width: 50%;
 		padding: 0 .5rem;
 		margin-bottom: 1rem;
 	}
-
-	.ws-buttons button {
+	.ws-config-buttons button {
 		background-color: #54698D;
 		border-color: #54698D;
 	}
-
-	.ws-buttons button:hover,
-	.ws-buttons button:focus {
+	.ws-config-buttons button:hover,
+	.ws-config-buttons button:focus {
 		background-color: #8297B8;
 		border-color: #8297B8;
 		box-shadow: 0 0 3px #8297B8;
 	}
 
-	#ws-configuration-headers-modal h2 {
-		margin: 0;
-	}
-	.ws-modal-container .slds-form-element:first-child {
-		margin-bottom: 1rem;
-	}
-	.ws-modal-container input {
-		width: 100%;
-	}
-	/* End Configuration Options */
+	/* Configuration modal */
+		#ws-configuration-headers-modal h2 {
+			margin: 0;
+		}
+		.ws-modal-container .slds-form-element:first-child {
+			margin-bottom: 1rem;
+		}
+		.ws-modal-container input {
+			width: 100%;
+		}
+	/* End Configuration Modal */
+
+/* End Configuration Panel 

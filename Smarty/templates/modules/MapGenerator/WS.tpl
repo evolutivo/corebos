@@ -54,8 +54,9 @@
 							<tr class="slds-line-height--reset map-generator-cell-container">
 								<td class="dvtCellLabel" valign="top">
 									<!-- THE MODULE Zone -->
-									<div class="accordion">
-										<section class="accordion-item active">
+									<div class="ws-accordion">
+										<!-- WS Configuration Panel -->
+										<section class="ws-accordion-item ws-active">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-configuration">
 													<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
@@ -63,7 +64,7 @@
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSConfirguration}</h4>
 											</div>
-											<div class="accordion-item-content" style="display: block;">
+											<div class="ws-accordion-item-content" style="display: block;">
 												<div class="ws-configuration-container">
 													<!-- WS URL and method container -->
 													<div class="ws-url-container">
@@ -169,7 +170,8 @@
 															</div>
 														</div>
 													</div>
-													<div class="ws-buttons">
+													<!-- WS Add headers & Add button container -->
+													<div class="ws-config-buttons">
 														<!-- Add headers Modal -->
 														<div class="slds-form-element slds-text-align--left ws-add-headers">
 															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop">{$MOD.wsAddHeaders}</button>
@@ -182,19 +184,66 @@
 												</div>
 											</div>
 										</section>
-										<section class="accordion-item">
+										<!-- WS Input Panel -->
+										<section class="ws-accordion-item ws-active">
 											<div class="ws-accordion-header">
-												<div class="ws-accordion-toggle" id="ws-input">
+												<div class="ws-accordion-toggle">
 													<i class="fa fa-arrow-right" ></i>
 													<i class="fa fa-arrow-down" style="display: none;"></i>
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
 											</div>
-											<div class="accordion-item-content">
-												
+											<div class="ws-accordion-item-content" style="display: block;">
+												<div class="ws-input-name">
+													<div class="slds-form-element slds-text-align--left">
+														<label class="slds-form-element__label" for="ws-input-name">Name</label>
+														<div class="slds-form-element__control">
+															<input id="ws-input-name" class="slds-input" type="text" />
+														</div>
+													</div>
+												</div>
+												<div class="ws-input-value">
+													<div class="slds-form-element slds-text-align--left">
+														<label class="slds-form-element__label" for="ws-input-value">Value</label>
+														<div class="slds-form-element__control">
+															<input id="ws-input-value" class="slds-input" type="text" />
+														</div>
+													</div>
+												</div>
+												<div class="ws-input-attribute">
+													<div class="slds-form-element slds-text-align--left">
+														<label class="slds-form-element__label" for="ws-input-attribute">Attribute</label>
+														<div class="slds-form-element__control">
+															<input id="ws-input-attribute" class="slds-input" type="text" />
+														</div>
+													</div>
+												</div>
+												<div class="ws-input-organization">
+													<div class="slds-form-element slds-text-align--left">
+														<label class="slds-form-element__label" for="ws-input-organization">Organization</label>
+														<div class="slds-form-element__control">
+															<input id="ws-input-organization" class="slds-input" type="text" />
+														</div>
+													</div>
+												</div>
+												<div class="ws-input-default">
+													<div class="slds-form-element slds-text-align--left">
+														<label class="slds-form-element__label" for="ws-input-default">Default</label>
+														<div class="slds-form-element__control">
+															<input id="ws-input-default" class="slds-input" type="text" />
+														</div>
+													</div>
+												</div>
+												<div class="ws-buttons">
+													<!-- Add button -->
+													<div class="slds-form-element slds-text-align--right ws-add-button">
+														<button class="slds-button slds-button--small slds-button--brand">Add</button>
+													</div>
+												</div>
 											</div>
 										</section>
-										<section class="accordion-item">
+										<!-- WS Output Panel -->
+										<section class="ws-accordion-item">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-output">
 													<i class="fa fa-arrow-right"></i>
@@ -202,11 +251,12 @@
 												</div>
 												<h4 class="ws-accordion-title">{$MOD.WSOutputFields}</h4>
 											</div>
-											<div class="accordion-item-content">
+											<div class="ws-accordion-item-content">
 												
 											</div>
 										</section>
-										<section class="accordion-item">
+										<!-- WS Error Handler Panel -->
+										<section class="ws-accordion-item">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-error">
 													<i class="fa fa-arrow-right"></i>
