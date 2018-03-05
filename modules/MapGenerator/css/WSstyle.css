@@ -11,11 +11,19 @@
 		margin-bottom: 1rem;
 		border: 1px solid #d4d4d4;
 	}
-	.ws-active, .ws-accordion-item:hover {
+	.ws-active,
+	.ws-accordion-item:hover {
 		background-color: #54698D; 
 		cursor: default;
 		color: #fff;
 	}
+	.ws-active a,
+	.ws-accordion-item:hover a,
+	.ws-accordion-item:focus a {
+		color: #fff!important;
+		text-decoration: none;
+	}
+
 	.ws-accordion-item-content {
 		padding: 0 10px;
 		display: none;
@@ -29,6 +37,15 @@
 	.ws-accordion-header {
 		position: relative;
 		cursor: pointer;
+	}
+	.ws-accordion-header a {
+		color: #54698d;
+	}
+	.ws-accordion-header h4 {
+		margin-bottom: 0;
+	}
+	.ws-active h4 {
+		margin-bottom: 10px;
 	}
 	.ws-accordion-toggle {
 		position: absolute;

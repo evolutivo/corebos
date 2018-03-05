@@ -56,12 +56,12 @@
 									<!-- THE MODULE Zone -->
 									<div class="ws-accordion">
 										<!-- WS Configuration Panel -->
-										<section  class="ws-accordion-item ws-active">
+										<section  class="ws-accordion-item ws-active" id="ws-section-configuration">
 											<div class="ws-accordion-header">
-												<a onclick="showhideblocks(this);" id="ws-section-configuration">
+												<a onclick="showhideblocks(this);" >
 													<span class="ws-accordion-toggle" id="ws-configuration">
 														<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
-														<i class="fa fa-arrow-down"  id="ws-show" ></i>
+														<i class="fa fa-arrow-down"  id="ws-show" style="display: block;"></i>
 													</span>
 													<h4 class="ws-accordion-title">{$MOD.WSConfirguration}</h4>
 												</a>
@@ -73,7 +73,7 @@
 														<!-- URL input-->
 														<div class="ws-url-input">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="url-input">{$MOD.wsURL}</label>
+																<label class="slds-form-element__label" for="url-input"><font size="3" color="red">*</font> {$MOD.wsURL}</label>
 																<div class="slds-form-element__control slds-input-has-icon_left">
 																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">https://</span>
 																	<input id="url-input" class="slds-input" placeholder="Enter {$MOD.wsURL}" type="text" aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
@@ -83,7 +83,7 @@
 														<!-- URL Method -->
 														<div class="ws-url-method">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="urlMethod">{$MOD.wsMethod}</label>
+																<label class="slds-form-element__label" for="urlMethod"><font color="red" size="3" >*</font> {$MOD.wsMethod}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="urlMethod" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
@@ -106,19 +106,19 @@
 													<div class="ws-config-options">
 														<div class="ws-response-user-password">
 															<div class="slds-form-element slds-text-align--left ws-response-time">
-																<label class="slds-form-element__label" for="ws-response-time">{$MOD.wsResponseTime} (Optional)</label>
+																<label class="slds-form-element__label" for="ws-response-time">{$MOD.wsResponseTime}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-response-time" class="slds-input" placeholder="{$MOD.wsResponseTime}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-user">
-																<label class="slds-form-element__label" for="ws-user">{$MOD.wsUser} (Optional)</label>
+																<label class="slds-form-element__label" for="ws-user">{$MOD.wsUser} </label>
 																<div class="slds-form-element__control">
 																	<input id="ws-user" class="slds-input" placeholder="{$MOD.wsUser}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-password">
-																<label class="slds-form-element__label" for="ws-password">{$MOD.wsPassword} (Optional)</label>
+																<label class="slds-form-element__label" for="ws-password">{$MOD.wsPassword} </label>
 																<div class="slds-form-element__control">
 																	<input id="ws-password" class="slds-input" placeholder="{$MOD.wsPassword}" type="text" />
 																</div>
@@ -149,7 +149,7 @@
 													<div class="ws-input-output">
 														<div class="ws-input-type">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-type">{$MOD.wsInputType}</label>
+																<label class="slds-form-element__label" for="ws-input-type"><font size="3" color="red">*</font> {$MOD.wsInputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-input-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
@@ -161,7 +161,7 @@
 														</div>
 														<div class="ws-output-type">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-output-type">{$MOD.wsOutputType}</label>
+																<label class="slds-form-element__label" for="ws-output-type"><font size="3"  color="red">*</font> {$MOD.wsOutputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-output-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
@@ -172,29 +172,31 @@
 															</div>
 														</div>
 													</div>
+													<label class="slds-form-element__label" style="font-size:  11px;margin-left:  2%;margin-bottom:  2%;color:red;">{$MOD.wsrequiredFields}</label>
 													<!-- WS Add headers & Add button container -->
 													<div class="ws-config-buttons">
 														<!-- Add headers Modal -->
 														<div class="slds-form-element slds-text-align--left ws-add-headers">
-															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop">{$MOD.wsAddHeaders}</button>
+															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop" disabled>{$MOD.wsAddHeaders}</button>
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand">{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>
 											</div>
 										</section>
 										<!-- WS Input Panel -->
-										<section class="ws-accordion-item ">
-											<div id="ws-section-input" >
-												<div class="ws-accordion-header">
-												<div class="ws-accordion-toggle" id="ws-configuration">
-													<i class="fa fa-arrow-right" id="ws-hide" style="display: block;"></i>
-													<i class="fa fa-arrow-down"  id="ws-show" style="display: none;" ></i>
-												</div>
-												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
+										<section class="ws-accordion-item" id="ws-section-input">
+											<div class="ws-accordion-header">
+												<a onclick="showhideblocks(this);">
+													<span class="ws-accordion-toggle" id="ws-input">
+														<i class="fa fa-arrow-right" id="ws-hide" style="display: block;"></i>
+														<i class="fa fa-arrow-down"  id="ws-show" style="display: none;"></i>
+													</span>
+													<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
+												</a>
 											</div>
 											<div class="ws-accordion-item-content" style="display: none;">
 												<div class="ws-input-container">
@@ -262,16 +264,17 @@
 													</div>
 												</div>
 											</div>
-											</div>
 										</section>
 										<!-- WS Output Panel -->
-										<section class="ws-accordion-item">
+										<section class="ws-accordion-item" id="ws-section-output">
 											<div class="ws-accordion-header">
-												<div class="ws-accordion-toggle" id="ws-output">
-													<i class="fa fa-arrow-right"></i>
-													<i class="fa fa-arrow-down" style="display: none;"></i>
-												</div>
-												<h4 class="ws-accordion-title">{$MOD.WSOutputFields}</h4>
+												<a onclick="showhideblocks(this);">
+													<span class="ws-accordion-toggle" id="ws-output">
+														<i class="fa fa-arrow-right" style="display: block;" ></i>
+														<i class="fa fa-arrow-down" style="display: none;"></i>
+													</span>
+													<h4 class="ws-accordion-title">{$MOD.WSOutputFields}</h4>
+												</a>
 											</div>
 											<div class="ws-accordion-item-content" style="display: none;">
 												<div class="ws-output-container">
@@ -315,15 +318,17 @@
 											</div>
 										</section>
 										<!-- WS Error Handler Panel -->
-										<section class="ws-accordion-item ">
+										<section class="ws-accordion-item" id="ws-section-error">
 											<div class="ws-accordion-header">
-												<div class="ws-accordion-toggle" id="ws-error">
-													<i class="fa fa-arrow-right"></i>
-													<i class="fa fa-arrow-down" style="display: none;"></i>
-												</div>
-												<h4 class="ws-accordion-title">{$MOD.WSErrorHandler}</h4>
+												<a onclick="showhideblocks(this);">
+													<span class="ws-accordion-toggle" id="ws-error">
+														<i class="fa fa-arrow-right" style="display: block;" ></i>
+														<i class="fa fa-arrow-down" style="display: none;"></i>
+													</span>
+													<h4 class="ws-accordion-title">{$MOD.WSErrorHandler}</h4>
+												</a>
 											</div>
-											<div class="ws-accordion-item-content" style="display: block;">
+											<div class="ws-accordion-item-content" style="display: none;">
 												<div class="ws-error-handler-container">
 													<div class="ws-error-name-value">
 														<div class="ws-error-name">
