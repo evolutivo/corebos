@@ -21,7 +21,7 @@
             </div>
         {/if}
     </div>
-  <table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
+	<table class="slds-table slds-no-row-hover slds-table-moz map-generator-table">
 		<tbody>
 			<tr class="blockStyleCss" id="DivObjectID">
 				<td class="detailViewContainer" valign="top">
@@ -55,9 +55,15 @@
 								<td class="dvtCellLabel" valign="top">
 									<!-- THE MODULE Zone -->
 									<div class="accordion">
-										<section class="accordion-item accordion-item--default">
-											<h3 class="ws-accordion-title">{$MOD.WSConfirguration}</h3>
-											<div class="accordion-item-content">
+										<section class="accordion-item active">
+											<div class="ws-accordion-header">
+												<div class="ws-accordion-toggle" id="ws-configuration">
+													<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
+													<i class="fa fa-arrow-down"  id="ws-show" ></i>
+												</div>
+												<h4 class="ws-accordion-title">{$MOD.WSConfirguration}</h4>
+											</div>
+											<div class="accordion-item-content" style="display: block;">
 												<div class="ws-configuration-container">
 													<!-- WS URL and method container -->
 													<div class="ws-url-container">
@@ -155,25 +161,45 @@
 															</div>
 														</div>
 													</div>
+													<!-- Add button -->
+													
 												</div>
 											</div>
 										</section>
 										<section class="accordion-item">
-											<h3>{$MOD.WSInputFields}</h3>
+											<div class="ws-accordion-header">
+												<div class="ws-accordion-toggle" id="ws-input">
+													<i class="fa fa-arrow-right" ></i>
+													<i class="fa fa-arrow-down" style="display: none;"></i>
+												</div>
+												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
+											</div>
 											<div class="accordion-item-content">
-												2
+												
 											</div>
 										</section>
 										<section class="accordion-item">
-											<h3>{$MOD.WSOutputFields}</h3>
+											<div class="ws-accordion-header">
+												<div class="ws-accordion-toggle" id="ws-output">
+													<i class="fa fa-arrow-right"></i>
+													<i class="fa fa-arrow-down" style="display: none;"></i>
+												</div>
+												<h4 class="ws-accordion-title">{$MOD.WSOutputFields}</h4>
+											</div>
 											<div class="accordion-item-content">
-												3
+												
 											</div>
 										</section>
 										<section class="accordion-item">
-											<h3>{$MOD.WSErrorHandler}</h3>
+											<div class="ws-accordion-header">
+												<div class="ws-accordion-toggle" id="ws-error">
+													<i class="fa fa-arrow-right"></i>
+													<i class="fa fa-arrow-down" style="display: none;"></i>
+												</div>
+												<h4 class="ws-accordion-title">{$MOD.WSErrorHandler}</h4>
+											</div>
 											<div class="accordion-item-content">
-												4
+												
 											</div>
 										</section>
 									</div>
