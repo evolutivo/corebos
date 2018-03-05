@@ -184,3 +184,13 @@ VALUES ('text', 'text')
 ,('csv', 'csv')
 
 -----------------------------------------------------------------------------------------
+
+
+<option value="CONNECT">CONNECT</option>
+<option value="DELETE">DELETE</option>
+<option selected value="GET">GET</option>
+<option value="HEAD">HEAD</option>
+<option value="OPTIONS">OPTIONS</option>
+<option value="PATCH">PATCH</option>
+<option value="POST">POST</option>
+<option value="PUT">PUT</option>

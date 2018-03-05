@@ -189,8 +189,23 @@ $mod_strings = array(
 	'WSInputFields'=>'Input Fields',
 	'WSOutputFields'=>'Output Fields',
 	'WSErrorHandler'=>'Error Handler',
-
-
+	'wsURL'=>'URL',
+	'wsMethod'=>'Method',
+	'wsResponseTime'=>'Response Time ',
+	'wsUser'=>'User',
+	'wsPassword'=>'Password',
+	'wsProxyHost'=>'Proxy Host',
+	'wsProxyPort'=>'Proxy Port',
+	'wsStartTag'=>'Start Tag',
+	'wsInputType'=>'Input Type',
+	'wsOutputType'=>'Output Type',
+	'wsAdd'=>'Add',
+	'wsAddHeaders'=>'Add Headers',
+	'wsKeyName'=>'Key Name',
+	'wsKeyValue'=>'Key Value',
+	'ws'=>' ',
+	'ws'=>' ',
+	'ws'=>' ',
 	
 	
 );

@@ -70,17 +70,17 @@
 														<!-- URL input-->
 														<div class="ws-url-input">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="url-input">URL</label>
+																<label class="slds-form-element__label" for="url-input">{$MOD.wsURL}</label>
 																<div class="slds-form-element__control slds-input-has-icon_left">
 																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">https://</span>
-																	<input id="url-input" class="slds-input" placeholder="Enter URL" type="text" aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
+																	<input id="url-input" class="slds-input" placeholder="Enter {$MOD.wsURL}" type="text" aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
 																</div>
 															</div>
 														</div>
 														<!-- URL Method -->
 														<div class="ws-url-method">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="urlMethod">Method</label>
+																<label class="slds-form-element__label" for="urlMethod">{$MOD.wsMethod}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="urlMethod" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
@@ -92,6 +92,7 @@
 																				<option value="PATCH">PATCH</option>
 																				<option value="POST">POST</option>
 																				<option value="PUT">PUT</option>
+																				<option value="TRACE">TRACE</option>
 																		</select>
 																	</div>
 																</div>
@@ -102,41 +103,41 @@
 													<div class="ws-config-options">
 														<div class="ws-response-user-password">
 															<div class="slds-form-element slds-text-align--left ws-response-time">
-																<label class="slds-form-element__label" for="ws-response-time">Response Time (Optional)</label>
+																<label class="slds-form-element__label" for="ws-response-time">{$MOD.wsResponseTime} (Optional)</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-response-time" class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<input id="ws-response-time" class="slds-input" placeholder="{$MOD.wsResponseTime}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-user">
-																<label class="slds-form-element__label" for="ws-user">User (Optional)</label>
+																<label class="slds-form-element__label" for="ws-user">{$MOD.wsUser} (Optional)</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-user" class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<input id="ws-user" class="slds-input" placeholder="{$MOD.wsUser}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-password">
-																<label class="slds-form-element__label" for="ws-password">Password (Optional)</label>
+																<label class="slds-form-element__label" for="ws-password">{$MOD.wsPassword} (Optional)</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-password" class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<input id="ws-password" class="slds-input" placeholder="{$MOD.wsPassword}" type="text" />
 																</div>
 															</div>
 														</div>
 														<div class="ws-host-port-tag">
 															<div class="slds-form-element slds-text-align--left ws-host">
-																<label class="slds-form-element__label" for="ws-proxy-host">Proxy Host</label>
+																<label class="slds-form-element__label" for="ws-proxy-host">{$MOD.wsProxyHost}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-password" class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<input id="ws-password" class="slds-input" placeholder="{$MOD.wsProxyHost}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-port">
-																<label class="slds-form-element__label" for="ws-proxy-port">Proxy Port</label>
+																<label class="slds-form-element__label" for="ws-proxy-port">{$MOD.wsProxyPort}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-proxy-port" class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<input id="ws-proxy-port" class="slds-input" placeholder="{$MOD.wsProxyPort}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-tag">
-																<label class="slds-form-element__label" for="ws-start-tag">Start Tag</label>
+																<label class="slds-form-element__label" for="ws-start-tag">{$MOD.wsStartTag}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-start-tag" class="slds-input" placeholder="Placeholder Text" type="text" />
+																	<input id="ws-start-tag" class="slds-input" placeholder="{$MOD.wsStartTag}" type="text" />
 																</div>
 															</div>
 														</div>
@@ -145,7 +146,7 @@
 													<div class="ws-input-output">
 														<div class="ws-input-type">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-type">Input Type</label>
+																<label class="slds-form-element__label" for="ws-input-type">{$MOD.wsInputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-input-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
@@ -157,11 +158,11 @@
 														</div>
 														<div class="ws-output-type">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-output-type">Output Type</label>
+																<label class="slds-form-element__label" for="ws-output-type">{$MOD.wsOutputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-output-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
-																				{$listdtat}git 
+																				{$listdtat}
 																		</select>
 																	</div>
 																</div>
@@ -171,11 +172,11 @@
 													<div class="ws-buttons">
 														<!-- Add headers Modal -->
 														<div class="slds-form-element slds-text-align--left ws-add-headers">
-															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop">Add Headers</button>
+															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop">{$MOD.wsAddHeaders}</button>
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand">Add</button>
+															<button class="slds-button slds-button--small slds-button--brand">{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>
@@ -293,19 +294,19 @@
 						</svg>
 						<span class="slds-assistive-text">{$MOD.close}</span>
 					</button>
-					<h2 class="slds-text-heading--medium"> Add headers </h2>
+					<h2 class="slds-text-heading--medium">{$MOD.wsAddHeaders}</h2>
 				</div>
 				<div class="slds-modal__content slds-p-around--medium ws-modal-container">
 					<!-- Key Name -->
 					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="ws-key-name">Key Name</label>
+						<label class="slds-form-element__label" for="ws-key-name">{$MOD.wsKeyName}</label>
 						<div class="slds-form-element__control">
 							<input id="ws-key-name" name="mod" class="slds-input"/>
 						</div>
 					</div>
 					<!-- Key Value -->
 					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="ws-key-value">Key Value</label>
+						<label class="slds-form-element__label" for="ws-key-value">{$MOD.wsKeyValue}</label>
 						<div class="slds-form-element__control">
 							<input id="ws-key-value" name="mod" class="slds-input"/>
 						</div>
