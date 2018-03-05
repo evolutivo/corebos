@@ -56,7 +56,7 @@
 									<!-- THE MODULE Zone -->
 									<div class="ws-accordion">
 										<!-- WS Configuration Panel -->
-										<section class="ws-accordion-item ws-active">
+										<section onclick="showhideblocks(this);" id="ws-section-configuration" class="ws-accordion-item ws-active">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-configuration">
 													<i class="fa fa-arrow-right" id="ws-hide" style="display: none;"></i>
@@ -185,7 +185,7 @@
 											</div>
 										</section>
 										<!-- WS Input Panel -->
-										<section class="ws-accordion-item ws-active">
+										<section onclick="showhideblocks(this);" id="ws-section-input" class="ws-accordion-item ws-active">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle">
 													<i class="fa fa-arrow-right" ></i>
@@ -243,7 +243,7 @@
 											</div>
 										</section>
 										<!-- WS Output Panel -->
-										<section class="ws-accordion-item">
+										<section onclick="showhideblocks(this);" id="ws-section-output" class="ws-accordion-item">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-output">
 													<i class="fa fa-arrow-right"></i>
@@ -256,7 +256,7 @@
 											</div>
 										</section>
 										<!-- WS Error Handler Panel -->
-										<section class="ws-accordion-item">
+										<section onclick="showhideblocks(this);" id="ws-section-errorhandler" class="ws-accordion-item">
 											<div class="ws-accordion-header">
 												<div class="ws-accordion-toggle" id="ws-error">
 													<i class="fa fa-arrow-right"></i>
@@ -351,14 +351,14 @@
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="ws-key-name">{$MOD.wsKeyName}</label>
 						<div class="slds-form-element__control">
-							<input id="ws-key-name" name="mod" class="slds-input"/>
+							<input id="ws-key-name" name="mod" class="slds-input" placeholder="insert the {$MOD.wsKeyName}"/>
 						</div>
 					</div>
 					<!-- Key Value -->
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="ws-key-value">{$MOD.wsKeyValue}</label>
 						<div class="slds-form-element__control">
-							<input id="ws-key-value" name="mod" class="slds-input"/>
+							<input id="ws-key-value" name="mod" class="slds-input" placeholder="insert the {$MOD.wsKeyValue}"/>
 						</div>
 					</div>
 				</div>
