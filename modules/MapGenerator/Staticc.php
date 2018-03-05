@@ -14,4 +14,6 @@ abstract  class TypeOFErrors
 	 */
 	const Tabele_name="mapgeneration_queryhistory";	
 
+	const HttpresponseTypeTable="mapgeneration_httpresponsetype";	
+
 }

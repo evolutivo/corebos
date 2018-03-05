@@ -78,7 +78,14 @@
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="urlMethod" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
-																				{$FirstModuleSelected}
+																				<option value="CONNECT">CONNECT</option>
+																				<option value="DELETE">DELETE</option>
+																				<option selected value="GET">GET</option>
+																				<option value="HEAD">HEAD</option>
+																				<option value="OPTIONS">OPTIONS</option>
+																				<option value="PATCH">PATCH</option>
+																				<option value="POST">POST</option>
+																				<option value="PUT">PUT</option>
 																		</select>
 																	</div>
 																</div>
@@ -136,7 +143,7 @@
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-input-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
-																				{$FirstModuleSelected}
+																				{$listdtat}
 																		</select>
 																	</div>
 																</div>
@@ -148,7 +155,7 @@
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-output-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
-																				{$FirstModuleSelected}
+																				{$listdtat}git 
 																		</select>
 																	</div>
 																</div>

@@ -162,3 +162,25 @@ data-controll-id-relation="TypeMaps"   -----------TypeOFMaps is another html ele
 
 
 
+
+
+--------------------  query for create table for httpequest ------------------------------
+
+DROP TABLE IF EXISTS `mapgeneration_httpresponsetype`;
+
+CREATE TABLE `mapgeneration_httpresponsetype`
+(
+    `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+    `name` varchar(250) NOT NULL,
+    `text` varchar(250) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `mapgeneration_httpresponsetype` ( `name`, `text`)
+VALUES ('text', 'text') 
+,('xml', 'xml') 
+,('atom', 'atom') 
+,('rss', 'rss') 
+,('json', 'json') 
+,('csv', 'csv')
+
+-----------------------------------------------------------------------------------------

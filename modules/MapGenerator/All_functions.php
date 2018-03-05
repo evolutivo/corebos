@@ -1823,7 +1823,7 @@ function Check_table_if_exist($tableName,$primaryIds="")
 
         }else
         {
-        return strlen($exist);
+         return strlen($exist);
         }
 
 
@@ -1834,6 +1834,90 @@ function Check_table_if_exist($tableName,$primaryIds="")
         {
         return 0;
         }
+}
+
+
+/**
+    * function to check if exist or not the table for hht response type and if not exist create new one 
+    *DROP TABLE IF EXISTS `mapgeneration_httpresponsetype`;
+    * CREATE TABLE `mapgeneration_httpresponsetype` (
+    *      `id` int(11) NOT NULL DEFAULT '0',
+    *      `name` varchar(250) NOT NULL,
+    *      `text` varchar(250) NOT NULL             
+    * ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    * 
+    * INSERT INTO `mapgeneration_httpresponsetype` ( `name`, `text`)
+    * VALUES ('text', 'text')
+    * ,('xml', 'xml')
+    * ,('atom', 'atom')
+    * ,('rss', 'rss')
+    * ,('json', 'json')
+    * ,('csv', 'csv')
+    * 
+    * 
+    * @param string $tablename
+    * @return void
+*/
+function CheckIfExistResponseTypeTable($tablename)
+{
+    global $adb,$root_directory, $log;
+    $returvalues;
+    $exist=$adb->query_result($adb->query("SHOW TABLES LIKE '$tablename'"),0,0);
+    if (strlen($exist)==0)
+    {
+       try{
+        $createTable="
+            CREATE TABLE `$tablename` (
+            `id` INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            `name` varchar(250) NOT NULL,
+            `text` varchar(250) NOT NULL             
+            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+        ";        
+        //return $createTable;
+        LogFileSimple($createTable);
+        $adb->query("DROP TABLE IF EXISTS `$tablename`");
+        $adb->query($createTable);
+        $insertdefaultvalue="INSERT INTO `$tablename` (`name`, `text`) VALUES ";
+        $insertdefaultvalue.="('text', 'text')";
+        $insertdefaultvalue.=",('xml', 'xml')";
+        $insertdefaultvalue.=",('atom', 'atom')";
+        $insertdefaultvalue.=",('rss', 'rss')";
+        $insertdefaultvalue.=",('json', 'json')";
+        $insertdefaultvalue.=",('csv', 'csv')";
+        $adb->query($insertdefaultvalue);
+        LogFileSimple($update);
+        if( $adb->database->Affected_Rows($update)!=0)
+        $returvalues=2;
+        else
+        $returvalues= 0;
+       }catch(Exception $ex)
+       {
+            $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception (for more information check the MapGeneratorLogs.txt) ".$ex->getMessage());
+            LogFileSimple($ex);
+            return "";
+       }
+
+    }
+
+    try {
+        $returndata="";
+        $query ="Select * from  `$tablename` ";
+        $result2 = $adb->query($query);
+        $num_rows2 = $adb->num_rows($result2);
+        if ($num_rows2 != 0) {
+            for ($i = 1; $i <= $num_rows2; $i++) {
+                $name = $adb->query_result($result2, $i - 1, 'name');
+                $text = $adb->query_result($result2, $i - 1, 'text');
+                $a .= '<option selected="selected" value="' . $name .'">' . $text . '</option>';
+                   
+                }
+            }
+        return $a;
+    } catch (Exception $ex) {
+        $log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception (for more information check the MapGeneratorLogs.txt) ".$ex->getMessage());
+        LogFileSimple($ex);
+        return "";
+    }
 }
 
 
