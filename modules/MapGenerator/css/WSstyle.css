@@ -17,13 +17,12 @@
 		cursor: default;
 		color: #fff;
 	}
-	.ws-active a,
-	.ws-accordion-item:hover a,
-	.ws-accordion-item:focus a {
+	.ws-active .ws-accordion-header a,
+	.ws-accordion-item:hover .ws-accordion-header a,
+	.ws-accordion-item:focus .ws-accordion-header a {
 		color: #fff!important;
 		text-decoration: none;
 	}
-
 	.ws-accordion-item-content {
 		padding: 0 10px;
 		display: none;
@@ -134,6 +133,9 @@
 		background-color: #8297B8;
 		border-color: #8297B8;
 		box-shadow: 0 0 3px #8297B8;
+	}
+	.ws-configuration-help {
+		padding: 0 .5rem;
 	}
 
 	/* Configuration modal */

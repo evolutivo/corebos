@@ -172,7 +172,12 @@
 															</div>
 														</div>
 													</div>
-													<label class="slds-form-element__label" style="font-size:  11px;margin-left:  2%;margin-bottom:  2%;color:red;">{$MOD.wsrequiredFields}</label>
+													<!-- WS help text container -->
+													<div class="ws-configuration-help">
+														<label class="slds-form-element__label slds-text-color--error">
+															{$MOD.wsrequiredFields}
+														</label>
+													</div>
 													<!-- WS Add headers & Add button container -->
 													<div class="ws-config-buttons">
 														<!-- Add headers Modal -->
