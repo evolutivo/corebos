@@ -75,7 +75,7 @@
 															<div class="slds-form-element slds-text-align--left">
 																<label class="slds-form-element__label" for="url-input"><font size="3" color="red">*</font> {$MOD.wsURL}</label>
 																<div class="slds-form-element__control slds-input-has-icon_left">
-																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">https://</span>
+																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">{$MOD.wshttps}</span>
 																	<input id="url-input" class="slds-input" placeholder="Enter {$MOD.wsURL}" type="text" aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
 																</div>
 															</div>
@@ -86,7 +86,7 @@
 																<label class="slds-form-element__label" for="urlMethod"><font color="red" size="3" >*</font> {$MOD.wsMethod}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="urlMethod" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
+																		<select id="urlMethod"  name="mod" class="slds-select">
 																				<option value="CONNECT">CONNECT</option>
 																				<option value="DELETE">DELETE</option>
 																				<option selected value="GET">GET</option>
@@ -128,7 +128,7 @@
 															<div class="slds-form-element slds-text-align--left ws-host">
 																<label class="slds-form-element__label" for="ws-proxy-host">{$MOD.wsProxyHost}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-password" class="slds-input" placeholder="{$MOD.wsProxyHost}" type="text" />
+																	<input id="ws-proxy-host" class="slds-input" placeholder="{$MOD.wsProxyHost}" type="text" />
 																</div>
 															</div>
 															<div class="slds-form-element slds-text-align--left ws-port">
@@ -152,7 +152,7 @@
 																<label class="slds-form-element__label" for="ws-input-type"><font size="3" color="red">*</font> {$MOD.wsInputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="ws-input-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
+																		<select id="ws-input-type"  name="mod" class="slds-select">
 																				{$listdtat}
 																		</select>
 																	</div>
@@ -164,7 +164,7 @@
 																<label class="slds-form-element__label" for="ws-output-type"><font size="3"  color="red">*</font> {$MOD.wsOutputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="ws-output-type" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-id="PickListFields"  data-select-relation-field-id="Firstfield,Firstfield2" data-module="MapGenerator"   data-second-module-file="getPickList" name="mod" class="slds-select">
+																		<select id="ws-output-type"  name="mod" class="slds-select">
 																				{$listdtat}
 																		</select>
 																	</div>
@@ -177,11 +177,11 @@
 													<div class="ws-config-buttons">
 														<!-- Add headers Modal -->
 														<div class="slds-form-element slds-text-align--left ws-add-headers">
-															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop" disabled>{$MOD.wsAddHeaders}</button>
+															<button class="slds-button slds-button--small slds-button--brand" id='ws-addheaders' data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop" disabled>{$MOD.wsAddHeaders}</button>
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand" >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand"onclick="AddPopupForConfiguration(this);" data-add-button-popup="false" data-add-type="Configuration" data-add-button-validate="url-input,urlMethod,ws-input-type,ws-output-type"  data-add-relation-id="fixed-text-addon-pre,url-input,urlMethod,ws-response-time,ws-user,ws-password,ws-proxy-host,ws-proxy-port,ws-start-tag,ws-input-type,ws-output-type"  data-div-show="LoadShowPopup" data-add-replace="true" >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>

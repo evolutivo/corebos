@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-05 16:25:14
+ * @Last Modified time: 2018-03-05 17:54:24
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1897,8 +1897,11 @@
 			    {
 			    	return document.getElementById(IdType).value;
 			    	
+			    }else if(element.nodeName && element.nodeName === 'SPAN')
+			    {
+			    	return $("#"+IdType).text(); 
+			    	
 			    }
-
 			    return "";			
 		},
 
@@ -1950,6 +1953,10 @@
 			    	
 			    	return $('#'+IdType).val();
 
+			    }else if(element.nodeName && element.nodeName === 'SPAN')
+			    {
+			    	return $("#"+IdType).text(); 
+			    	
 			    }
 
 			    return "";

@@ -204,7 +204,7 @@ $mod_strings = array(
 	'wsKeyName'=>'Key Name',
 	'wsKeyValue'=>'Key Value',
 	'wsrequiredFields'=>'(*) all fields with this symbol are mandatory',
-	'ws'=>' ',
+	'wshttps'=>'https://',
 	'ws'=>' ',
 	
 	

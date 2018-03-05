@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-05 16:20:22
+ * @Last Modified time: 2018-03-05 18:38:27
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4957,4 +4957,119 @@ function showhideblocks(elem)
   
 }
 
-  
+function isBlank(str) {
+  return (!str || /^\s*$/.test(str));
+} 
+
+
+function addPopupHtmlWS(Idd,tpa,divid)
+{
+    
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupCE('+ Idd + ',\'' + divid + '\');">&times;</span>';
+    if (tpa.temparray['JsonType']==='Configuration')
+    {   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+        INSertAlerstJOIN += '<p>URL ==> '+tpa.temparray['fixed-text-addon-pre']+' '+tpa.temparray['url-inputText']+' </p>  ';
+        INSertAlerstJOIN += '<p>Method ==> '+(isBlank(tpa.temparray['urlMethodText'])===false?tpa.temparray['urlMethodText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Response Time ==> '+(isBlank(tpa.temparray['ws-response-timeText'])===false?tpa.temparray['ws-response-timeText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Proxy Host ==> '+(isBlank(tpa.temparray['ws-proxy-hostText'])===false?tpa.temparray['ws-proxy-hostText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Proxy Port ==> '+(isBlank(tpa.temparray['ws-proxy-portText'])===false?tpa.temparray['ws-proxy-portText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Start Tag ==> '+(isBlank(tpa.temparray['ws-start-tagText'])===false?tpa.temparray['ws-start-tagText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>User ==> '+(isBlank(tpa.temparray['ws-user'])===false?tpa.temparray['ws-user']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Password ==> '+(isBlank(tpa.temparray['ws-passwordText'])===false?tpa.temparray['ws-passwordText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Input Type ==> '+(isBlank(tpa.temparray['ws-input-typeText'])===false?tpa.temparray['ws-input-typeText']:"Empty")+' </p>  ';
+        INSertAlerstJOIN += '<p>Output Type ==> '+(isBlank(tpa.temparray['ws-output-typeText'])===false?tpa.temparray['ws-output-typeText']:"Empty")+' </p>  ';
+        
+        INSertAlerstJOIN += '</div';
+
+        return INSertAlerstJOIN;
+    } else if( tpa.temparray['JsonType']==='Function' || tpa.temparray['JsonType']==='Parameter' )
+    {
+      if ($("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).length == 0) {
+        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+        INSertAlerstJOIN +='<div id="'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+'">';
+        INSertAlerstJOIN += '<strong>'+(Idd+1)+'# Function Name ==> '+tpa.temparray['FunctionName']+'</strong>';
+        INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>';
+        if(tpa.temparray['JsonType']==='Function')
+        {
+          INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }
+        else
+        {
+          INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }
+        // INSertAlerstJOIN +='<div>';
+        // INSertAlerstJOIN += '</div';
+        return INSertAlerstJOIN;
+      } else {
+        var count = $('#'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+' p').length;
+        if(tpa.temparray['JsonType']==='Function')
+        {
+          var InsertModule= '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }
+        else
+        {
+          var InsertModule = '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
+        }        
+        $("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).append(InsertModule);
+      }
+    }
+}
+
+function AddPopupForConfiguration(event)
+{
+  var temparray = {};
+
+    var AppUtils=App.utils;
+
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+
+    for(var i=0;i<=allidarray.length-1;i++)
+    {
+      temparray[allidarray[i]] = AppUtils.IsSelectORDropDown(allidarray[i]);
+      temparray[allidarray[i]+'Text'] = AppUtils.IsSelectORDropDownGetText(allidarray[i]);
+    }
+    temparray['JsonType'] = Typeofpopup;
+    App.popupJson.push({temparray});
+
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
+           $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+    if(App.popupJson.length>0)
+    {
+      $('#ws-addheaders').removeAttr( "disabled" );
+    }else
+    {
+      // $('#ws-addheaders').attr( "disabled" );
+    }
+}
+
+
