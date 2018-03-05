@@ -186,50 +186,52 @@
 												<h4 class="ws-accordion-title">{$MOD.WSInputFields}</h4>
 											</div>
 											<div class="ws-accordion-item-content" style="display: block;">
-												<div class="ws-input-name">
-													<div class="slds-form-element slds-text-align--left">
-														<label class="slds-form-element__label" for="ws-input-name">Name</label>
-														<div class="slds-form-element__control">
-															<input id="ws-input-name" class="slds-input" type="text" />
+												<div class="ws-input-container">
+													<div class="ws-input-name-container">
+														<div class="ws-input-name">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-name">Name</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-name" class="slds-input" type="text" />
+																</div>
+															</div>
 														</div>
 													</div>
-												</div>
-												<div class="ws-input-value">
-													<div class="slds-form-element slds-text-align--left">
-														<label class="slds-form-element__label" for="ws-input-value">Value</label>
-														<div class="slds-form-element__control">
-															<input id="ws-input-value" class="slds-input" type="text" />
+													<div class="ws-input-value-attribute-container">
+														<div class="ws-input-value">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-value">Value</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-value" class="slds-input" type="text" />
+																</div>
+															</div>
+														</div>
+														<div class="ws-input-attribute">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-attribute">Attribute</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-attribute" class="slds-input" type="text" />
+																</div>
+															</div>
 														</div>
 													</div>
-												</div>
-												<div class="ws-input-attribute">
-													<div class="slds-form-element slds-text-align--left">
-														<label class="slds-form-element__label" for="ws-input-attribute">Attribute</label>
-														<div class="slds-form-element__control">
-															<input id="ws-input-attribute" class="slds-input" type="text" />
+													<div class="ws-input-organization-default-container">
+														<div class="ws-input-organization">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-organization">Organization</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-organization" class="slds-input" type="text" />
+																</div>
+															</div>
 														</div>
-													</div>
-												</div>
-												<div class="ws-input-organization">
-													<div class="slds-form-element slds-text-align--left">
-														<label class="slds-form-element__label" for="ws-input-organization">Organization</label>
-														<div class="slds-form-element__control">
-															<input id="ws-input-organization" class="slds-input" type="text" />
+														<div class="ws-input-default">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-default">Default</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-default" class="slds-input" type="text" />
+																</div>
+															</div>
 														</div>
-													</div>
-												</div>
-												<div class="ws-input-default">
-													<div class="slds-form-element slds-text-align--left">
-														<label class="slds-form-element__label" for="ws-input-default">Default</label>
-														<div class="slds-form-element__control">
-															<input id="ws-input-default" class="slds-input" type="text" />
-														</div>
-													</div>
-												</div>
-												<div class="ws-buttons">
-													<!-- Add button -->
-													<div class="slds-form-element slds-text-align--right ws-add-button">
-														<button class="slds-button slds-button--small slds-button--brand">Add</button>
 													</div>
 												</div>
 											</div>

@@ -30,6 +30,7 @@
 	.ws-accordion-toggle {
 		position: absolute;
 		top: 0;
+		left: 0;
 	}
 	.ws-accordion-toggle i {
 		font-size: 16px;
@@ -45,7 +46,7 @@
 /* End General WS Accordion */
 
 /* WS Configuration Panel */
-		.ws-configuration-container {
+	.ws-configuration-container {
 			margin-top: .5rem;
 			cursor: default;
 	}
@@ -126,5 +127,30 @@
 			width: 100%;
 		}
 	/* End Configuration Modal */
+/* End WS Configuration Panel */
 
-/* End Configuration Panel 
+/* Input Panel */
+	.ws-input-container {
+		margin: 1rem 0;
+		padding: 0 .5rem;
+	}
+	.ws-input-container input {
+		width: 100%;
+	}
+	.ws-input-value-attribute-container,
+	.ws-input-organization-default-container {
+		display: flex;
+		margin: 1rem 0;
+	}
+	.ws-input-value,
+	.ws-input-organization {
+		padding-right: .5rem;
+		width: 50%;
+	}
+	.ws-input-attribute,
+	.ws-input-default {
+		width: 50%;
+		padding-left: .5rem;
+	}
+
+/* End Input Panel */
