@@ -12,8 +12,9 @@
 }
 
 .active, .accordion-item:hover {
-    background-color: #c6c6c6; 
+    background-color: #54698D; 
     cursor: default;
+    color: #fff;
 }
 
 .accordion-item-content {
@@ -97,27 +98,35 @@
 		margin: .5rem 0;
 	}
 
+	.ws-buttons {
+		display: flex;
+	}
 
+	.ws-buttons > div {
+		width: 50%;
+		padding: 0 .5rem;
+		margin-bottom: 1rem;
+	}
+
+	.ws-buttons button {
+		background-color: #54698D;
+		border-color: #54698D;
+	}
+
+	.ws-buttons button:hover,
+	.ws-buttons button:focus {
+		background-color: #8297B8;
+		border-color: #8297B8;
+		box-shadow: 0 0 3px #8297B8;
+	}
+
+	#ws-configuration-headers-modal h2 {
+		margin: 0;
+	}
+	.ws-modal-container .slds-form-element:first-child {
+		margin-bottom: 1rem;
+	}
+	.ws-modal-container input {
+		width: 100%;
+	}
 	/* End Configuration Options */
-
-/*
-.ws-response-user-password > div:nth-child(2),
-.ws-host-port-tag > div:nth-child(2) {
-}*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

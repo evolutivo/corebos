@@ -161,8 +161,16 @@
 															</div>
 														</div>
 													</div>
-													<!-- Add button -->
-													
+													<div class="ws-buttons">
+														<!-- Add headers Modal -->
+														<div class="slds-form-element slds-text-align--left ws-add-headers">
+															<button class="slds-button slds-button--small slds-button--brand" data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop">Add Headers</button>
+														</div>
+														<!-- Add button -->
+														<div class="slds-form-element slds-text-align--right ws-add-button">
+															<button class="slds-button slds-button--small slds-button--brand">Add</button>
+														</div>
+													</div>
 												</div>
 											</div>
 										</section>
@@ -267,171 +275,46 @@
 		<div id="queryfrommap"></div>
 	</div>
 
-	<!-- Add field Modal -->
-	<div class="slds">
-		<div class="slds-modal" aria-hidden="false" role="dialog" id="fields">
+	<!-- Add Configuration Headers Modal -->
+	<div class="ws-configuration-headers">
+		<div class="slds-modal" aria-hidden="false" role="dialog" id="ws-configuration-headers-modal">
 			<div class="slds-modal__container">
 				<div class="slds-modal__header">
-					<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop" >
+					<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="ws-configuration-headers-modal" data-modal-close-backdrop-id="ws-configuration-headers-backdrop" >
 						<svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
 							<use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
 						</svg>
 						<span class="slds-assistive-text">{$MOD.close}</span>
 					</button>
-					<h2 class="slds-text-heading--medium">{$MOD.SectionOriginFileds}</h2>
+					<h2 class="slds-text-heading--medium"> Add headers </h2>
 				</div>
-				<div class="slds-modal__content slds-p-around--medium" >
-					{* <h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3> *}
+				<div class="slds-modal__content slds-p-around--medium ws-modal-container">
+					<!-- Key Name -->
 					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="Firstfield2">Choose the field</label>
+						<label class="slds-form-element__label" for="ws-key-name">Key Name</label>
 						<div class="slds-form-element__control">
-							<div class="slds-select_container">
-								<select  id="Firstfield2" name="mod" class="slds-select">
-										{$FirstModuleFields}
-								</select>
-							</div>
+							<input id="ws-key-name" name="mod" class="slds-input"/>
 						</div>
 					</div>
-					<div class="radio-buttons-content">
-						<div class="slds-form-element">
-							<div class="slds-form-element__control">
-								<div id="SecondDiv">
-									<!--SLDS Checkbox Toggle Element Start-->
-									
-									<!-- Readonly -->
-									<div class="slds-form-element">
-										<label class="slds-checkbox--toggle slds-grid toggle-readonly">
-											<input id="Readonlycheck" onchange="fieldDependencyCheck(this);" data-all-id="ShowHidecheck,mandatorychk" name="checkbox" type="checkbox" aria-describedby="toggle-desc" />
-											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-												<span class="slds-checkbox--faux"></span>
-												<span class="slds-checkbox--on" >{$MOD.Readonly}-{$MOD.YES}</span>
-												<span class="slds-checkbox--off">{$MOD.Readonly}-{$MOD.NO}</span>
-												<!-- <span class="slds-checkbox--of">editable-false</span> -->
-											</span>
-										</label>
-									</div>
-									<!-- Hidden -->
-									<div class="slds-form-element">
-										<label class="slds-checkbox--toggle slds-grid toggle-hidden">
-											<input  onchange="fieldDependencyCheck(this)" data-all-id="mandatorychk" id="ShowHidecheck" name="checkbox"  type="checkbox" aria-describedby="toggle-desc" />
-											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-												<span class="slds-checkbox--faux"></span>
-												<span class="slds-checkbox--on" >{$MOD.Hidden}</span>
-												<span class="slds-checkbox--off">{$MOD.Show}</span>
-											</span>
-										</label>
-									</div>
-
-									<!-- Mandatory -->
-									<div class="slds-form-element">
-										<label class="slds-checkbox--toggle slds-grid toggle-mandatory">
-											<input id="mandatorychk" name="checkbox" checked="checked" type="checkbox" aria-describedby="toggle-desc" />
-											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
-												<span class="slds-checkbox--faux"></span>
-												<span class="slds-checkbox--on"  >{$MOD.Mandatory}-{$MOD.YES}</span>
-												<span class="slds-checkbox--off">{$MOD.Mandatory}-{$MOD.NO}</span>
-												<!-- <span class="slds-checkbox--of">editable-false</span> -->
-											</span>
-										</label>
-									</div>
-
-									{*
-										<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-											<!--  <button data-add-button-popup="true" data-add-relation-id="FirstModule,FirstfieldID,Firstfield,secmodule,SecondfieldID,sortt6ablechk,editablechk,mandatorychk,hiddenchk" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-												<img src="themes/images/btnL3Add.gif" style="width: 100%;">
-											</button> -->
-											<button  onclick="GenearteMasterDetail()" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add " style="width:2.1rem;">
-												<img src="themes/images/btnL3Add.gif" style="width: 100%; height: 29">
-											</button>
-										</div>
-									*}
-								</div>
-							</div>
+					<!-- Key Value -->
+					<div class="slds-form-element">
+						<label class="slds-form-element__label" for="ws-key-value">Key Value</label>
+						<div class="slds-form-element__control">
+							<input id="ws-key-value" name="mod" class="slds-input"/>
 						</div>
 					</div>
 				</div>
 				<div class="slds-modal__footer">
-					{* <label id="ErrorLabelModal"></label> *}
-					<button class="slds-button slds-button--small slds-button--brand" onclick="AddResponsabileFieldsFD(this);" data-add-button-popup="false" data-add-type="Field" data-add-button-validate="Firstfield2"  data-add-relation-id="FirstModule,Firstfield2,ShowHidecheck,Readonlycheck,mandatorychk" data-show-id="Firstfield2" data-div-show="LoadShowPopup">
+					<button class="slds-button slds-button--small slds-button--brand" onclick="" data-add-button-popup="false" data-add-type="Field" data-add-button-validate="Firstfield2"  data-add-relation-id="FirstModule,Firstfield2" data-show-id="Firstfield2" data-div-show="LoadShowPopup">
 						{$MOD.Add}
 					</button>
-					<!-- data-send-savehistory="{$savehistory}" -->
-					<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-id="fields" data-modal-close-backdrop-id="fieldsbackdrop"  >{$MOD.cancel}</button>
+					<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-id="ws-configuration-headers-modal" data-modal-close-backdrop-id="ws-configuration-headers-backdrop" >{$MOD.cancel}</button>
 				</div>
 			</div>
 		</div>
-
-		<div class="slds-backdrop" id="fieldsbackdrop"></div>
-
-		<!-- Button To Open Modal -->
-		{*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
+		<div class="slds-backdrop" id="ws-configuration-headers-backdrop"></div>
 	</div>
 
-	<!-- Picklist Modal -->
-	<div class="slds">
-		<div class="slds-modal" aria-hidden="false" role="dialog" id="Picklist">
-			<div class="slds-modal__container">
-				<!-- Modal Header -->
-					<div class="slds-modal__header">
-						<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist">
-							<svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-								<use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-							</svg>
-							<span class="slds-assistive-text">{$MOD.close}</span>
-						</button>
-						<h2 class="slds-text-heading--medium">{$MOD.AddPickList}  (optional)</h2>
-					</div>
-				<!-- End Modal Header -->
-
-				<!-- Modal Body -->
-					<div class="slds-modal__content slds-p-around--medium picklist-modal-content">
-						{* <h3 class="slds-section-title--divider">{$MOD.SectionOriginFileds}</h3> *}
-						<div class="picklist-modal-fields-content">
-							<div class="slds-form-element">
-								<label class="slds-form-element__label" for="PickListFields">Choose the field</label>
-								<div class="slds-form-element__control">
-									<div class="slds-select_container">
-										<select  id="PickListFields" onchange="checkIfAdded(this);" name="mod" class="slds-select">
-												{$Picklistdropdown}
-										</select>
-									</div>
-								</div>
-							</div>
-							<div id="ShowmoreInput">
-								<div class="slds-combobox_container slds-has-object-switcher">
-									<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"  aria-expanded="false" aria-haspopup="listbox" role="combobox">
-										<div class="slds-combobox__form-element">
-											<input type="text" id="DefaultValueFirstModuleField_1" placeholder="{$MOD.AddAValues}" id="defaultvalue" class="slds-input slds-combobox__input">
-										</div>
-									</div>
-									<div class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">
-										<button class="slds-button slds-button_icon" onclick="Addmorevalues(this)" aria-haspopup="true" title="Add more Values">
-											<img src="themes/images/btnL3Add.gif" width="16">
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div id="showpopupmodal"></div>
-					</div>
-				<!-- End Modal Body -->
-
-				<!-- Modal Footer -->
-					<div class="slds-modal__footer">
-						{* <label id="ErrorLabelModal"></label> *}
-						<button id="AddToArray" data-add-button-popup="false" data-add-type="Picklist" onclick="AddResponsabileFieldsFD(this);removedataafterclick()" data-add-button-validate="PickListFields"  data-add-relation-id="FirstModule,PickListFields,DefaultValueFirstModuleField_1" data-show-id="PickListFields" data-div-show="LoadShowPopup" onclick="removedataafterclick();"  class="slds-button slds-button--small slds-button--brand">
-							{$MOD.Add}
-						</button>  <!-- data-send-savehistory="{$savehistory}" -->
-						<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-backdrop-id="Picklistbackdrop" data-modal-close-id="Picklist" >{$MOD.cancel}</button>
-					</div>
-				<!-- End Modal Footer -->
-			</div>
-		</div>
-		<div class="slds-backdrop" id="Picklistbackdrop"></div>
-
-		<!-- Button To Open Modal -->
-		{*<button class="slds-button slds-button--brand" id="toggleBtn">Open Modal</button>*}
-	</div>
 	<div>
 		<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
 		<input type="hidden" name="queryid" value="{$queryid}" id="queryid">

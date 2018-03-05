@@ -254,10 +254,6 @@
 		margin-bottom: 20px!important;
 	}
 /* End Create Join Condition */
-	/*.condition-expression-container .tab input[type=checkbox] + label::after {
-		content: ">";
-		font-size: 20px;
-	}*/
 
 /* Condition Expression */
 	.condition-expression-container .tab-content {
@@ -467,7 +463,6 @@
 		width: 22px;
 	}
 	/* End Target Module */
-
 /* End Master Detail */
 
 /* List Columns */
@@ -1364,12 +1359,6 @@
 	}
 /* End Duplicate Records */
 
-/* WS Map */
-
-/* End WS Map */
-
-
-
 /* New Map Modal */
 	.new-map-modal h2,
 	.insert-map-name-modal h2 {
@@ -1391,8 +1380,6 @@
 		margin: 0;
 	}
 /* End New Map Modal */
-
-
 
 
 
