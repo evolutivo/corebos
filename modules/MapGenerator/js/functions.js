@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-06 10:56:53
+ * @Last Modified time: 2018-03-06 15:59:38
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4940,11 +4940,9 @@ function showhideblocks(elem)
 {
   var element=elem.id;
   $("section").removeClass("ws-active");
-  $( elem+"span" ).each(function( index ) {
-    $("#ws-hide").css("display","block");
-    $("#ws-show").css("display","none");
-  });
-  
+
+  $(".fa-arrow-right").css("display","block");
+  $(".fa-arrow-down").css("display","none");
   $(".ws-accordion-item-content").css("display","none");
   
   if($(elem).length)
@@ -4957,6 +4955,19 @@ function showhideblocks(elem)
   
 }
 
+function showhidefields(event) {
+  var elem = event;
+  var IdChange = elem.dataset.toolsId.split(",");
+  if($("#"+IdChange[0]).css('display') == 'none')
+  {
+    $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
+  }else if($("#"+IdChange[1]).css('display') == 'none')
+  {
+    $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");   
+  }
+//     $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
+}
+
 function isBlank(str) {
   return (!str || /^\s*$/.test(str));
 } 
@@ -4965,9 +4976,11 @@ function isBlank(str) {
 function addPopupHtmlWS(Idd,tpa,divid)
 {
     
-    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupCE('+ Idd + ',\'' + divid + '\');">&times;</span>';
+    
     if (tpa.temparray['JsonType']==='Configuration')
-    {   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+    {   
+        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+        INSertAlerstJOIN += '<span class="closebtns" style="" onclick="closePopupWS('+ Idd + ',\'' + divid + '\');">&times;</span>';
         INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
         INSertAlerstJOIN += '<p>URL ==> '+tpa.temparray['fixed-text-addon-pre']+' '+tpa.temparray['url-inputText']+' </p>  ';
         INSertAlerstJOIN += '<p>Method ==> '+(isBlank(tpa.temparray['urlMethodText'])===false?tpa.temparray['urlMethodText']:"Empty")+' </p>  ';
@@ -4979,43 +4992,30 @@ function addPopupHtmlWS(Idd,tpa,divid)
         INSertAlerstJOIN += '<p>Password ==> '+(isBlank(tpa.temparray['ws-passwordText'])===false?tpa.temparray['ws-passwordText']:"Empty")+' </p>  ';
         INSertAlerstJOIN += '<p>Input Type ==> '+(isBlank(tpa.temparray['ws-input-typeText'])===false?tpa.temparray['ws-input-typeText']:"Empty")+' </p>  ';
         INSertAlerstJOIN += '<p>Output Type ==> '+(isBlank(tpa.temparray['ws-output-typeText'])===false?tpa.temparray['ws-output-typeText']:"Empty")+' </p>  ';
-        
+        INSertAlerstJOIN += '<p> ------- Headers ---------- </p>  ';
+        INSertAlerstJOIN += '<div id="Header"> </div>  ';
         INSertAlerstJOIN += '</div';
 
         return INSertAlerstJOIN;
-    } else if( tpa.temparray['JsonType']==='Function' || tpa.temparray['JsonType']==='Parameter' )
+    } else if( tpa.temparray['JsonType']==='Header' || tpa.temparray['JsonType']==='Parameter' )
     {
-      if ($("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).length == 0) {
-        var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
-        INSertAlerstJOIN +='<div id="'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+'">';
-        INSertAlerstJOIN += '<strong>'+(Idd+1)+'# Function Name ==> '+tpa.temparray['FunctionName']+'</strong>';
-        INSertAlerstJOIN += '<p> Module ==> '+tpa.temparray['Firstmodule2']+' </p>';
-        if(tpa.temparray['JsonType']==='Function')
+       var count = $('#'+tpa.temparray['JsonType'].replace(/\s+/g, '')+' div').length;
+        if(tpa.temparray['JsonType']==='Header')
         {
-          INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
+          var InsertModule='<div class="deleteModule" onclick="DeleteHeadersWS('+ Idd + ',\'' + divid + '\');">';
+              InsertModule += '<strong>'+(count+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+              InsertModule += '<p >Key Name  ==> '+tpa.temparray['ws-key-nameText']+ '</p>';
+              InsertModule += '<p >Key Value  ==> '+tpa.temparray['ws-key-valueText']+ '</p>';
+              InsertModule += '</div>';
         }
-        else
-        {
-          INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
-        }
-        // INSertAlerstJOIN +='<div>';
-        // INSertAlerstJOIN += '</div';
-        return INSertAlerstJOIN;
-      } else {
-        var count = $('#'+tpa.temparray['FunctionName'].replace(/\s+/g, '')+' p').length;
-        if(tpa.temparray['JsonType']==='Function')
-        {
-          var InsertModule= '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Field  ==> '+tpa.temparray['DefaultText']+ '</p>';
-        }
-        else
-        {
-          var InsertModule = '<p class="deleteModule" onclick="DeleteFieldCE('+ Idd + ',\'' + divid + '\');" > Parameter  ==> '+tpa.temparray['DefaultText']+ '</p>';
-        }        
-        $("#" +tpa.temparray['FunctionName'].replace(/\s+/g, '')).append(InsertModule);
+        $("#" +tpa.temparray['JsonType'].replace(/\s+/g, '')).append(InsertModule);
       }
-    }
 }
 
+/**
+ * add Configuration to popup
+ * @param {*} event 
+ */
 function AddPopupForConfiguration(event)
 {
   var temparray = {};
@@ -5060,8 +5060,121 @@ function AddPopupForConfiguration(event)
       $('#ws-addheaders').removeAttr( "disabled" );
     }else
     {
+      $('#ws-addheaders').attr( "disabled" );
+    }
+}
+
+/**
+ * function to remove the configuration
+ * 
+ * @param {*} divId  the id of div 
+ */
+function closePopupWS(Idd,divId)
+{
+
+  if(App.popupJson.length>0)
+  {
+    App.popupJson.length=0;
+    $('#'+divId+' div').remove();
+  }else
+  {
+    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
+  }
+
+  if(App.popupJson.length>0)
+  {
+    $('#ws-addheaders').removeAttr( "disabled" );
+  }else
+  {
+    $('#ws-addheaders').attr( "disabled","true");
+  }
+
+
+}
+
+/**
+ * function to add the heaers
+ * @param {*} event 
+ */
+function AddPopupForHeaders(event)
+{
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
+           $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+    if(App.popupJson.length>0)
+    {
+      $('#ws-addheaders').removeAttr( "disabled" );
+    }else
+    {
       // $('#ws-addheaders').attr( "disabled" );
     }
 }
 
+/**
+ * function to remove the headres in popup
+ * @param {*} remuveid  id of headers
+ * @param {*} namediv  id of div to update the popup
+ */
+function DeleteHeadersWS(remuveid,namediv)
+{
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
+
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var divinsert= addPopupHtmlWS(i,App.popupJson[i],namediv);
+               $('#'+namediv).append(divinsert);
+          }   
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+}
 

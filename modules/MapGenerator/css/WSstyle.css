@@ -211,5 +211,10 @@
 	.ws-output-attribute {
 		margin-bottom: .5rem;
 	}
+	.ws-url-module{
+		padding: 0 .5rem;
+		width: 100%;
+		margin-bottom: 10px;
+	}
 /* End Input & Output & error Panel */
 

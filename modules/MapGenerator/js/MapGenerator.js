@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-06 10:52:03
+ * @Last Modified time: 2018-03-06 14:31:01
  */
 /*
  * @Author: Edmond Kacaj 
@@ -640,10 +640,16 @@
 				{
 					$("#" + firstfieldid).val(str3);
 				}
-				$("#" + relationid).empty();
-				// $("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
-				$("#" + relationid).append(str1);
-				VauefromPost = null;
+
+				field=relationid.split(',');
+				for (var i = field.length - 1; i >= 0; i--) {
+					$("#" + field[i]).empty();
+					// $("#" + relationid).append('<option value="" selected="selected">Select a value</option>');
+					$("#" + field[i]).append(str1);
+					VauefromPost = null;
+				}
+				
+				
 
 				if (datareset && datareset==="true")
 				{
