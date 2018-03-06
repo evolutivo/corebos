@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-05 18:38:27
+ * @Last Modified time: 2018-03-06 10:56:53
  */
 /*
  * @Author: Edmond Kacaj 
@@ -5044,15 +5044,7 @@ function AddPopupForConfiguration(event)
 
     if(replace==="true"){App.popupJson.length=0;}
     $('#'+divid+' div').remove();
-
-    for(var i=0;i<=allidarray.length-1;i++)
-    {
-      temparray[allidarray[i]] = AppUtils.IsSelectORDropDown(allidarray[i]);
-      temparray[allidarray[i]+'Text'] = AppUtils.IsSelectORDropDownGetText(allidarray[i]);
-    }
-    temparray['JsonType'] = Typeofpopup;
-    App.popupJson.push({temparray});
-
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
     if (App.popupJson.length>0)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {

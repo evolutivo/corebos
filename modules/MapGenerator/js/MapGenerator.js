@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-05 17:54:24
+ * @Last Modified time: 2018-03-06 10:52:03
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1555,7 +1555,12 @@
 			var temparray={};
 			var check =false;
 			for (var i =0; i <= params.length - 1; i++) {
-				if (App.utils.IsSelectORDropDown(params[i]).length>0)
+				if ($('#'+params[i]).prop('required')===true && App.utils.IsSelectORDropDown(params[i]).length===0)
+				{
+					//alert(mv_arr.MappingFiledValid);
+					check=false;
+					break;
+				}else
 				{
 					temparray['JsonType']=jsonType;
 					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
@@ -1581,11 +1586,6 @@
 					}
 					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);
 					check=true;
-				}else
-				{
-					//alert(mv_arr.MappingFiledValid);
-					check=false;
-					break;
 
 				}
 				

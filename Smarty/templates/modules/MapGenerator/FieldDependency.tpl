@@ -127,7 +127,7 @@
 														<div class="slds-combobox_container slds-has-object-switcher" >
 															<div id="SecondInput" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
 																<div class="slds-combobox__form-element">
-																	<input type="text" id="DefaultValueResponsibel" placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
+																	<input type="text" id="DefaultValueResponsibel" required placeholder="{$MOD.AddAValues}" class="slds-input slds-combobox__input">
 																</div>
 															</div>
 															<div id="divbutton" class="slds-listbox_object-switcher slds-dropdown-trigger slds-dropdown-trigger_click">

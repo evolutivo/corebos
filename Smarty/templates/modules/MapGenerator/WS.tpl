@@ -76,7 +76,7 @@
 																<label class="slds-form-element__label" for="url-input"><font size="3" color="red">*</font> {$MOD.wsURL}</label>
 																<div class="slds-form-element__control slds-input-has-icon_left">
 																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">{$MOD.wshttps}</span>
-																	<input id="url-input" class="slds-input" placeholder="Enter {$MOD.wsURL}" type="text" aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
+																	<input id="url-input" class="slds-input" placeholder="Enter {$MOD.wsURL}" type="text" required aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
 																</div>
 															</div>
 														</div>
@@ -86,7 +86,7 @@
 																<label class="slds-form-element__label" for="urlMethod"><font color="red" size="3" >*</font> {$MOD.wsMethod}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="urlMethod"  name="mod" class="slds-select">
+																		<select id="urlMethod" required  name="mod" class="slds-select">
 																				<option value="CONNECT">CONNECT</option>
 																				<option value="DELETE">DELETE</option>
 																				<option selected value="GET">GET</option>
@@ -152,7 +152,7 @@
 																<label class="slds-form-element__label" for="ws-input-type"><font size="3" color="red">*</font> {$MOD.wsInputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="ws-input-type"  name="mod" class="slds-select">
+																		<select id="ws-input-type" required  name="mod" class="slds-select">
 																				{$listdtat}
 																		</select>
 																	</div>
@@ -164,7 +164,7 @@
 																<label class="slds-form-element__label" for="ws-output-type"><font size="3"  color="red">*</font> {$MOD.wsOutputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="ws-output-type"  name="mod" class="slds-select">
+																		<select id="ws-output-type" required  name="mod" class="slds-select">
 																				{$listdtat}
 																		</select>
 																	</div>
