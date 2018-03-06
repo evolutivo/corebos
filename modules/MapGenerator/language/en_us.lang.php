@@ -206,7 +206,16 @@ $mod_strings = array(
 	'wsrequiredFields'=>'(*) all fields with this symbol are mandatory',
 	'wshttps'=>'https://',
 	'wsModule'=>'Module',
-	'ws'=>' ',
-	'ws'=>' ',
+	'wsName'=>'Name',
+	'wsValue'=>'Value',
+	'wsAttribute'=>'Attribute',
+	'wsOrigin'=>'Origin',
+	'wsDefault'=>'Default',
+	'wsFormat'=>'Format',
+
+
+
+
+	
 );
 ?>

@@ -76,7 +76,7 @@
 																<label class="slds-form-element__label" for="urlMethod"><font color="red" size="3" >*</font>{$MOD.wsModule}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="FirstModule" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="ModField1,ModField2" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
+																		<select id="FirstModule" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="InputFieldsName,InputFieldsValue" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
 																		</select>
 																	</div>
 																</div>
@@ -222,65 +222,96 @@
 												<div class="ws-input-container">
 													<div class="ws-input-name-container">
 														<div class="ws-input-name">
-															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-name">Name</label>
-																<div class="slds-form-element__control">
-																	<input id="ws-input-name" class="slds-input" type="text" />
+															<div class="ws-input-value-attribute-container">
+																<div class="slds-form-element ws-input-value">
+																	<div class="slds-form-element__control">
+																		<label class="slds-form-element__label"><font size="3" color="red">*</font>{$MOD.wsName}</label>
+																		<div class="ws-input-value-switcher">
+																			<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-input-name-input" style="display: none;">
+																				<input class="slds-input" id="input-name-input" required placeholder="{$MOD.wsName}" type="text" />
+																			</div>
+																			<div id="ws-input-name-select" class="slds-form-element__control" style="display: block;">
+																				<div class="slds-select_container">
+																					<select required class="slds-select" id="InputFieldsName">
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="ws-toggle-field">
+																		<a data-showhide-load="false" onclick="showhidefields(this);" data-tools-id="ws-input-name-input,ws-input-name-select" data-buttonaddid="addpopupInput" data-idinput="input-name-input,InputFieldsName">
+																			<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+																		</a>
+																	</div>
+																</div>
+																<div class="slds-form-element ws-input-value">
+																	<div class="slds-form-element__control">
+																		<label class="slds-form-element__label"><font size="3" color="red">*</font>{$MOD.wsValue}</label>
+																		<div class="ws-input-value-switcher">
+																			<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-input-value-input" style="display: none;">
+																				<input class="slds-input" id="input-value-value" placeholder="{$MOD.wsValue}" required type="text" />
+																				{* <button id="ws-input-value-btn" data-load-show="false" onclick="showhidefields(this);" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																					<img src="themes/images/btnL3Add.gif" width="16">
+																				</button> *}
+																			</div>
+																			<div id="ws-input-value-select" class="slds-form-element__control" style="display: block;">
+																				<div class="slds-select_container">
+																					<select class="slds-select" id="InputFieldsValue" required >
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="ws-toggle-field">
+																		<a data-showhide-load="false" onclick="showhidefields(this);" data-tools-id="ws-input-value-input,ws-input-value-select" data-buttonaddid="addpopupInput" data-idinput="input-value-value,InputFieldsValue">
+																			<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+																		</a>
+																	</div>
 																</div>
 															</div>
 														</div>
 													</div>
 													<div class="ws-input-value-attribute-container">
-														<div class="slds-form-element ws-input-value">
-															<div class="slds-form-element__control">
-																<label class="slds-form-element__label">Value</label>
-																<div class="ws-input-value-switcher">
-																	<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-input-value-input" style="display: block;">
-																		<input class="slds-input" placeholder="Placeholder Text" type="text" />
-																		<button id="ws-input-value-btn" data-load-show="false" onclick="showhidefields(this);" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
-																			<img src="themes/images/btnL3Add.gif" width="16">
-																		</button>
-																	</div>
-																	<div id="ws-input-value-select" class="slds-form-element__control" style="display: none;">
-																		<div class="slds-select_container">
-																			<select class="slds-select" id="ModField1">
-																			</select>
-																		</div>
-																	</div>
+													<div class="ws-input-organization">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-organization"><font size="3" color="red">*</font>{$MOD.wsOrigin}</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-Origin" placeholder="{$MOD.wsOrigin}" class="slds-input" type="text" required />
 																</div>
-															</div>
-															<div class="ws-toggle-field">
-																<a data-showhide-load="true" data-tools-id="ws-input-value-input,ws-input-value-select">
-																	<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
-																</a>
 															</div>
 														</div>
 														<div class="ws-input-attribute">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-attribute">Attribute</label>
+																<label class="slds-form-element__label" for="ws-input-attribute">{$MOD.wsAttribute}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-input-attribute" class="slds-input" type="text" />
+																	<input id="ws-input-attribute" placeholder="{$MOD.wsAttribute}" class="slds-input" type="text" />
 																</div>
 															</div>
 														</div>
 													</div>
 													<div class="ws-input-organization-default-container">
-														<div class="ws-input-organization">
-															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-organization">Origin</label>
-																<div class="slds-form-element__control">
-																	<input id="ws-input-organization" class="slds-input" type="text" />
-																</div>
-															</div>
-														</div>
 														<div class="ws-input-default">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-default">Default</label>
+																<label class="slds-form-element__label" for="ws-input-default">{$MOD.wsDefault}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-input-default" class="slds-input" type="text" />
+																	<input id="ws-input-default" placeholder="{$MOD.wsDefault}" class="slds-input" type="text" />
+																</div>
+															</div>
+														</div>													
+														<div class="ws-input-default">
+															<div class="slds-form-element slds-text-align--left">
+																<label class="slds-form-element__label" for="ws-input-format">{$MOD.wsFormat}</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-input-format" placeholder="{$MOD.wsFormat}" class="slds-input" type="text" />
 																</div>
 															</div>
 														</div>
+													</div>
+													<!-- WS help text container -->
+													<div class="ws-configuration-help">
+														<label class="slds-form-element__label slds-text-color--error">
+															{$MOD.wsrequiredFields}
+														</label>
 													</div>
 													<!-- WS Add headers & Add button container -->
 													<div class="ws-config-buttons">
@@ -290,7 +321,7 @@
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand"onclick="AddPopupForConfiguration(this);" data-add-button-popup="false" data-add-type="Configuration" data-add-button-validate="url-input,urlMethod,ws-input-type,ws-output-type"  data-add-relation-id="FirstModule,fixed-text-addon-pre,url-input,urlMethod,ws-response-time,ws-user,ws-password,ws-proxy-host,ws-proxy-port,ws-start-tag,ws-input-type,ws-output-type"  data-div-show="LoadShowPopup" data-add-replace="true" >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForFieldsWS(this);" data-add-button-popup="false" data-add-type="Input" data-add-button-validate="InputFieldsName,InputFieldsValue" data-show-id="FirstModule"  data-add-relation-id="FirstModule,InputFieldsName,InputFieldsValue,ws-input-Origin,ws-input-attribute,ws-input-default,ws-input-format"  data-div-show="LoadShowPopup" id="addpopupInput" disabled >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>

@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-06 15:59:38
+ * @Last Modified time: 2018-03-06 18:15:35
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4958,12 +4958,22 @@ function showhideblocks(elem)
 function showhidefields(event) {
   var elem = event;
   var IdChange = elem.dataset.toolsId.split(",");
+  var buttonaddid = elem.dataset.buttonaddid;
+  var inputisert = elem.dataset.idinput.split(',');
   if($("#"+IdChange[0]).css('display') == 'none')
   {
     $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
+    var datarpopup=$('#'+buttonaddid).attr('data-add-relation-id');
+    var datavalidate=$('#'+buttonaddid).attr('data-add-button-validate');
+    $('#'+buttonaddid).attr('data-add-button-validate',datavalidate.replace(inputisert[1],inputisert[0]));
+    $('#'+buttonaddid).attr('data-add-relation-id',datarpopup.replace(inputisert[1],inputisert[0]));
   }else if($("#"+IdChange[1]).css('display') == 'none')
   {
-    $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");   
+    $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow"); 
+    var datarpopup=$('#'+buttonaddid).attr('data-add-relation-id');
+    var datavalidate=$('#'+buttonaddid).attr('data-add-button-validate');
+    $('#'+buttonaddid).attr('data-add-button-validate',datavalidate.replace(inputisert[0],inputisert[1]));
+    $('#'+buttonaddid).attr('data-add-relation-id',datarpopup.replace(inputisert[0],inputisert[1])); 
   }
 //     $("#"+IdChange[0] +",#"+IdChange[1]).slideToggle("slow");
 }
@@ -5018,7 +5028,7 @@ function addPopupHtmlWS(Idd,tpa,divid)
  */
 function AddPopupForConfiguration(event)
 {
-  var temparray = {};
+    var temparray = {};
 
     var AppUtils=App.utils;
 
@@ -5058,9 +5068,11 @@ function AddPopupForConfiguration(event)
     if(App.popupJson.length>0)
     {
       $('#ws-addheaders').removeAttr( "disabled" );
+      $('#addpopupInput').removeAttr( "disabled" );
     }else
     {
-      $('#ws-addheaders').attr( "disabled" );
+      $('#ws-addheaders').attr( "disabled",'disabled');
+      $('#addpopupInput').attr( "disabled",'disabled');
     }
 }
 
@@ -5084,9 +5096,11 @@ function closePopupWS(Idd,divId)
   if(App.popupJson.length>0)
   {
     $('#ws-addheaders').removeAttr( "disabled" );
+    $('#addpopupInput').removeAttr( "disabled" );
   }else
   {
-    $('#ws-addheaders').attr( "disabled","true");
+    $('#ws-addheaders').attr( "disabled",'disabled');
+    $('#addpopupInput').attr( "disabled",'disabled');
   }
 
 
@@ -5178,3 +5192,76 @@ function DeleteHeadersWS(remuveid,namediv)
         }
 }
 
+/**
+ * function to add input fields 
+ */
+function AddPopupForFieldsWS(event)
+{
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          var divinsert= GenerateInputFieldsHtlmWS(i,App.popupJson[i],divid);
+          $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+    if(App.popupJson.length>0)
+    {
+      $('#ws-addheaders').removeAttr( "disabled" );
+    }else
+    {
+      $('#ws-addheaders').attr( "disabled" );
+    }
+}
+
+/**
+ * generate the html popup for input 
+ * @param {*} Idd 
+ * @param {*} tpa 
+ * @param {*} divid 
+ */
+function GenerateInputFieldsHtlmWS(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupInputFieldsWS('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+   
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong><p> Module ==>'+tpa.temparray['FirstModuleText'] + '</p>';
+    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['InputFieldsNameText'])===false?tpa.temparray['InputFieldsNameText']:tpa.temparray['input-name-inputText']) + '</p>';
+    INSertAlerstJOIN += '<p>Value  ==> '+(isBlank(tpa.temparray['InputFieldsValueText'])===false?tpa.temparray['InputFieldsValueText']:tpa.temparray['input-value-valueText']) + '</p>';
+    INSertAlerstJOIN += '<p>Origin  ==> '+(isBlank(tpa.temparray['ws-input-OriginText'])===false?tpa.temparray['ws-input-OriginText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Attribute  ==> '+(isBlank(tpa.temparray['ws-input-attributeText'])===false?tpa.temparray['ws-input-attributeText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Default  ==> '+(isBlank(tpa.temparray['ws-input-defaultText'])===false?tpa.temparray['ws-input-defaultText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Format  ==> '+(isBlank(tpa.temparray['ws-input-formatText'])===false?tpa.temparray['ws-input-formatText']:"Empty") + '</p>';
+  
+
+  INSertAlerstJOIN += '</div';
+
+  return INSertAlerstJOIN;
+}
