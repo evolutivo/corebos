@@ -4,13 +4,13 @@
  * @Author: edmondi kacaj
  * @Date:   2017-12-19 14:34:17
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-14 12:26:44
+ * @Last Modified time: 2018-03-07 15:14:28
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
 require_once ('include/utils/utils.php');
-require_once('All_functions.php');
-require_once('Staticc.php');
+require_once ('All_functions.php');
+require_once ('Staticc.php');
 
 
 global $root_directory, $log; 

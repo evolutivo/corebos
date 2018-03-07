@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-07 15:02:42
+ * @Last Modified time: 2018-03-07 18:02:54
  */
 /*
  * @Author: Edmond Kacaj 
@@ -5016,7 +5016,7 @@ function showhideblocks(elem)
           {
             if(App.popupJson[i].temparray['JsonType']==="Value Map")
             {
-              var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
+              var divinsert= GenerateValueMapWS(i,App.popupJson[i],divid);
               $('#'+divid).append(divinsert);
             }
           }   
@@ -5516,7 +5516,7 @@ function closePopupOutputFieldsWS(remuveid,namediv)
 //////////////// Error Handler //////////////////////////
 
 /**
- * function to add output fields 
+ * function to add Error Handles
  */
 function AddPopupForErrorHandlerWS(event)
 {
@@ -5542,6 +5542,15 @@ function AddPopupForErrorHandlerWS(event)
 
     if(replace==="true"){App.popupJson.length=0;}
     $('#'+divid+' div').remove();
+
+    for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+    {
+      if (App.popupJson[ii].temparray['JsonType']==="Error Handler")
+      {
+          App.popupJson.splice(ii,1);
+      }
+    }
+
     App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
     if (App.popupJson.length>0)
     { 
@@ -5567,7 +5576,7 @@ function AddPopupForErrorHandlerWS(event)
 }
 
 /**
- * generate the html popup for output 
+ * generate the html popup for Error handler
  * @param {*} Idd 
  * @param {*} tpa 
  * @param {*} divid 
@@ -5588,7 +5597,7 @@ function GenerateErrorHandlerHtlmWS(Idd,tpa,divid)
 }
 
 /**
- * function to remove the output fields 
+ * function to remove the Error handler 
  */
 function ClosePopupErrorHandlerWS(remuveid,namediv)
 {
@@ -5636,7 +5645,7 @@ function ClosePopupErrorHandlerWS(remuveid,namediv)
 //////////////// Value Map //////////////////////////
 
 /**
- * function to add output fields 
+ * function to add Value Maps
  */
 function AddPopupValueMapWS(event)
 {
@@ -5669,7 +5678,7 @@ function AddPopupValueMapWS(event)
          
          if(App.popupJson[i].temparray['JsonType']==="Value Map")
          {
-            var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
+            var divinsert= GenerateValueMapWS(i,App.popupJson[i],divid);
             $('#'+divid).append(divinsert);
          }
       }
@@ -5687,12 +5696,12 @@ function AddPopupValueMapWS(event)
 }
 
 /**
- * generate the html popup for output 
+ * generate the html popup for Value MAp
  * @param {*} Idd 
  * @param {*} tpa 
  * @param {*} divid 
  */
-function GenerateErrorHandlerHtlmWS(Idd,tpa,divid)
+function GenerateValueMapWS(Idd,tpa,divid)
 {
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
     + '">';
@@ -5708,7 +5717,7 @@ function GenerateErrorHandlerHtlmWS(Idd,tpa,divid)
 }
 
 /**
- * function to remove the output fields 
+ * function to remove the Value MAp 
  */
 function ClosePopupValueMapWS(remuveid,namediv)
 {
@@ -5734,7 +5743,7 @@ function ClosePopupValueMapWS(remuveid,namediv)
       for (var i = 0; i <= App.popupJson.length-1; i++) {
           if(App.popupJson[i].temparray['JsonType']==="Value Map")
           {
-            var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],namediv);
+            var divinsert= GenerateValueMapWS(i,App.popupJson[i],namediv);
             $('#'+namediv).append(divinsert);
           }
       }   
@@ -5749,4 +5758,87 @@ function ClosePopupValueMapWS(remuveid,namediv)
     // alert(mv_arr.ReturnFromPost);
     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
   }
+}
+
+
+
+//////////// WS  Local History  ////////////////
+
+
+function ClickToshowSelectedWS(Idload,divHistory)
+{
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        if ($('#ws-section-configuration').find('.ws-accordion-item-content').css('display') ==='block') {
+            if(App.popupJson[i].temparray['JsonType']==="Configuration" || App.popupJson[i].temparray['JsonType']==="Header")
+            {
+              var divinsert= addPopupHtmlWS(i,App.popupJson[i],divHistory);
+              $('#'+divHistory).append(divinsert);
+            }  
+        }else if ($('#ws-section-input').find('.ws-accordion-item-content').css('display') ==='block' ) {
+            if(App.popupJson[i].temparray['JsonType']==="Input")
+            {
+              var divinsert= GenerateInputFieldsHtlmWS(i,App.popupJson[i],divHistory);
+            $('#'+divHistory).append(divinsert);
+            }  
+        }else if ($('#ws-section-output').find('.ws-accordion-item-content').css('display') ==='block' ) {
+          if(App.popupJson[i].temparray['JsonType']==="Output")
+            {
+              var divinsert= GenerateOutputFieldsHtlmWS(i,App.popupJson[i],divHistory);
+              $('#'+divHistory).append(divinsert);
+            }
+        }else if ($('#ws-section-valuemap').find('.ws-accordion-item-content').css('display') ==='block' ) {
+          if(App.popupJson[i].temparray['JsonType']==="Value Map")
+          {
+            var divinsert= GenerateValueMapWS(i,App.popupJson[i],divHistory);
+            $('#'+divHistory).append(divinsert);
+          }
+        }else if ($('#ws-section-error').find('.ws-accordion-item-content').css('display') ==='block' ) {
+          if(App.popupJson[i].temparray['JsonType']==="Error Handler")
+            {
+              var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divHistory);
+              $('#'+divHistory).append(divinsert);
+            }
+        }
+        
+    } 
+
+  }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+}
+
+function LocalHistoryWS(IdLoad,Modulee,divanameLoad,dividrelation='')
+{
+    var htmldat='<div class="Message Message"  >';
+    htmldat+='<div class="Message-icon">';
+    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedWS(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+    htmldat+='</div>';
+    htmldat+='<div class="Message-body">';
+    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+    htmldat+='<p>Module ==> '+Modulee+'</p>';
+    htmldat+='</div>';
+    htmldat+='</div>';
+    return htmldat;
+}
+
+function ShowLocalHistoryWS(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) { 
+          var FirstModule=App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'];
+          $('#'+keephitoryidtoshow).append(LocalHistoryWS(i,FirstModule,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
 }

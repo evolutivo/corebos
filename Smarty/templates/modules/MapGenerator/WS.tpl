@@ -42,7 +42,7 @@
 											{else} {* saveFieldDependency *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
-											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveFieldDependency" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryFD" >{$MOD.CreateMap}</button> 
+											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
 										</div>
 									</div>
 								</div>
@@ -321,7 +321,7 @@
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForFieldsWS(this);" data-add-button-popup="false" data-add-type="Input" data-add-button-validate="InputFieldsName,InputFieldsValue" data-show-id="FirstModule"  data-add-relation-id="FirstModule,InputFieldsName,InputFieldsValue,ws-input-Origin,ws-input-attribute,ws-input-default,ws-input-format"  data-div-show="LoadShowPopup" id="addpopupInput" disabled >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForFieldsWS(this);RestoreDataEXFIM(this);" data-add-button-popup="false" data-add-type="Input" data-add-button-validate="InputFieldsName,InputFieldsValue" data-show-id="FirstModule"  data-add-relation-id="FirstModule,InputFieldsName,InputFieldsValue,ws-input-Origin,ws-input-attribute,ws-input-default,ws-input-format"  data-div-show="LoadShowPopup" id="addpopupInput" disabled >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>
@@ -423,14 +423,14 @@
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForOutputFieldsWS(this);" data-add-button-popup="false" data-add-type="Output" data-add-button-validate="OutputFieldsName,OutputFieldsValue" data-show-id="FirstModule"  data-add-relation-id="FirstModule,OutputFieldsName,ws-label,ws-output-attribute,OutputFieldsValue"  data-div-show="LoadShowPopup" id="addpopupOutput" disabled >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForOutputFieldsWS(this);RestoreDataEXFIM(this);" data-add-button-popup="false" data-add-type="Output" data-add-button-validate="OutputFieldsName,OutputFieldsValue" data-show-id="FirstModule"  data-add-relation-id="FirstModule,OutputFieldsName,ws-label,ws-output-attribute,OutputFieldsValue"  data-div-show="LoadShowPopup" id="addpopupOutput" disabled >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>
 											</div>
 										</section>
 										<!-- WS Value Map Panel -->
-										<section class="ws-accordion-item" id="ws-section-error">
+										<section class="ws-accordion-item" id="ws-section-valuemap">
 											<div class="ws-accordion-header">
 												<a onclick="showhideblocks(this);" id="aValueMap" data-div-show="LoadShowPopup" >
 													<span class="ws-accordion-toggle" id="ws-error">
@@ -482,7 +482,7 @@
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupValueMapWS(this);" data-add-button-popup="false" data-add-type="Value Map" data-add-button-validate="ws-value-map-name" data-show-id="ws-value-map-name"  data-add-relation-id="ws-value-map-name,ws-value-map-source-input,ws-value-map-destinamtion"  data-div-show="LoadShowPopup" id="idValueMap" disabled >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupValueMapWS(this);RestoreDataEXFIM(this);" data-add-button-popup="false" data-add-type="Value Map" data-add-button-validate="ws-value-map-name" data-show-id="ws-value-map-name"  data-add-relation-id="ws-value-map-name,ws-value-map-source-input,ws-value-map-destinamtion"  data-div-show="LoadShowPopup" id="idValueMap" disabled >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>
