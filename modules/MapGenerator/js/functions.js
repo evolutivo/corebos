@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-06 18:15:35
+ * @Last Modified time: 2018-03-07 12:16:41
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4939,6 +4939,7 @@ function ShowLocalHistoryCE(keephitoryidtoshow,keephitoryidtoshowidrelation)
 function showhideblocks(elem)
 {
   var element=elem.id;
+  var divid=elem.dataset.divShow;
   $("section").removeClass("ws-active");
 
   $(".fa-arrow-right").css("display","block");
@@ -4951,9 +4952,64 @@ function showhideblocks(elem)
     $(elem).find("#ws-hide").css("display","none");
     $(elem).find("#ws-show").css("display","block");
     $(elem).parent().parent().find(".ws-accordion-item-content").css("display","block");
+
+    if(element==="aConfiguration")
+    {
+        if(App.popupJson.length>0)
+        {
+          $('#'+divid+' div').remove();
+          for (var i = 0; i <= App.popupJson.length-1; i++) {
+              if(App.popupJson[i].temparray['JsonType']==="Configuration")
+              {
+                var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
+                $('#'+divid).append(divinsert);
+              }         
+          }
+        }
+    }else if(element==="aInput")
+    {
+        if(App.popupJson.length>0)
+        {
+          $('#'+divid+' div').remove();
+          for (var i = 0; i <= App.popupJson.length-1; i++) {
+              if(App.popupJson[i].temparray['JsonType']==="Input")
+              {
+                var divinsert= GenerateInputFieldsHtlmWS(i,App.popupJson[i],divid);
+               $('#'+divid).append(divinsert);
+              }         
+          }
+        }
+    }else if(element==="aOutput")
+    {
+      if (App.popupJson.length>0)
+      { 
+          $('#'+divid+' div').remove();
+          for (var i = 0; i <= App.popupJson.length-1; i++)
+          {
+            if(App.popupJson[i].temparray['JsonType']==="Output")
+            {
+              var divinsert= GenerateOutputFieldsHtlmWS(i,App.popupJson[i],divid);
+              $('#'+divid).append(divinsert);
+            }
+          }   
+      }
+    }else if(element==="aErrorHandler")
+    {
+      if (App.popupJson.length>0)
+      { 
+          $('#'+divid+' div').remove();
+          for (var i = 0; i <= App.popupJson.length-1; i++)
+          {
+            if(App.popupJson[i].temparray['JsonType']==="Error Handler")
+            {
+              var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
+              $('#'+divid).append(divinsert);
+            }
+          }   
+      }
+    }
   }
-  
-}
+} 
 
 function showhidefields(event) {
   var elem = event;
@@ -5058,8 +5114,11 @@ function AddPopupForConfiguration(event)
     if (App.popupJson.length>0)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {
-          var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
-           $('#'+divid).append(divinsert);
+          if(App.popupJson[i].temparray['JsonType']==="Configuration")
+          {
+            var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
+            $('#'+divid).append(divinsert);
+          }         
       }
     }else{
       // alert(mv_arr.MappingFiledValid);
@@ -5069,10 +5128,14 @@ function AddPopupForConfiguration(event)
     {
       $('#ws-addheaders').removeAttr( "disabled" );
       $('#addpopupInput').removeAttr( "disabled" );
+      $('#addpopupOutput').removeAttr( "disabled" );
+      $('#addpopupError').removeAttr( "disabled" );
     }else
     {
       $('#ws-addheaders').attr( "disabled",'disabled');
       $('#addpopupInput').attr( "disabled",'disabled');
+      $('#addpopupOutput').attr( "disabled",'disabled');
+      $('#addpopupError').attr( "disabled",'disabled');
     }
 }
 
@@ -5097,10 +5160,14 @@ function closePopupWS(Idd,divId)
   {
     $('#ws-addheaders').removeAttr( "disabled" );
     $('#addpopupInput').removeAttr( "disabled" );
+    $('#addpopupOutput').removeAttr( "disabled" );
+    $('#addpopupError').removeAttr( "disabled" );
   }else
   {
     $('#ws-addheaders').attr( "disabled",'disabled');
     $('#addpopupInput').attr( "disabled",'disabled');
+    $('#addpopupOutput').attr( "disabled",'disabled');
+    $('#addpopupError').attr( "disabled",'disabled');
   }
 
 
@@ -5192,6 +5259,8 @@ function DeleteHeadersWS(remuveid,namediv)
         }
 }
 
+/////////// Input Fields /////////////
+
 /**
  * function to add input fields 
  */
@@ -5223,8 +5292,12 @@ function AddPopupForFieldsWS(event)
     if (App.popupJson.length>0)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {
-          var divinsert= GenerateInputFieldsHtlmWS(i,App.popupJson[i],divid);
-          $('#'+divid).append(divinsert);
+         
+         if(App.popupJson[i].temparray['JsonType']==="Input")
+         {
+            var divinsert= GenerateInputFieldsHtlmWS(i,App.popupJson[i],divid);
+            $('#'+divid).append(divinsert);
+         }
       }
     }else{
       // alert(mv_arr.MappingFiledValid);
@@ -5264,4 +5337,278 @@ function GenerateInputFieldsHtlmWS(Idd,tpa,divid)
   INSertAlerstJOIN += '</div';
 
   return INSertAlerstJOIN;
+}
+
+function closePopupInputFieldsWS(remuveid,namediv)
+{
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++) {
+    if (ii == remuveid) {
+               //JSONForCOndition.remove(remuveid);
+               App.popupJson.splice(remuveid,1);
+               check = true
+        //console.log(remuveid);
+             // console.log(ReturnAllDataHistory());
+           }
+         }
+         if (check) {
+          var remuvediv="#alerts_"+remuveid;
+
+          $('#'+namediv+' div').remove();
+          if (App.popupJson.length>0)
+          { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              if(App.popupJson[i].temparray['JsonType']==="Input")
+              {
+                 var divinsert= GenerateInputFieldsHtlmWS(i,App.popupJson[i],namediv);
+                 $('#'+namediv).append(divinsert);
+              }
+          }   
+          }else{
+            // alert(mv_arr.MappingFiledValid);
+           // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+          }
+      }
+      else {
+          // alert(mv_arr.ReturnFromPost);
+          App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+        }
+}
+
+//////////////// Output Fields //////////////////////////
+
+/**
+ * function to add output fields 
+ */
+function AddPopupForOutputFieldsWS(event)
+{
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+         
+         if(App.popupJson[i].temparray['JsonType']==="Output")
+         {
+            var divinsert= GenerateOutputFieldsHtlmWS(i,App.popupJson[i],divid);
+            $('#'+divid).append(divinsert);
+         }
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+    if(App.popupJson.length>0)
+    {
+      $('#ws-addheaders').removeAttr( "disabled" );
+    }else
+    {
+      $('#ws-addheaders').attr( "disabled" );
+    }
+}
+
+/**
+ * generate the html popup for output 
+ * @param {*} Idd 
+ * @param {*} tpa 
+ * @param {*} divid 
+ */
+function GenerateOutputFieldsHtlmWS(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupOutputFieldsWS('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+   
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong><p> Module ==>'+tpa.temparray['FirstModuleText'] + '</p>';
+    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['OutputFieldsNameText'])===false?tpa.temparray['OutputFieldsNameText']:tpa.temparray['output-name-inputText']) + '</p>';
+    INSertAlerstJOIN += '<p>Label  ==> '+(isBlank(tpa.temparray['ws-labelText'])===false?tpa.temparray['ws-labelText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Attribute  ==> '+(isBlank(tpa.temparray['ws-output-attributeText'])===false?tpa.temparray['ws-output-attributeText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Value  ==> '+(isBlank(tpa.temparray['ws-output-valueText'])===false?tpa.temparray['ws-output-valueText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '</div';
+    return INSertAlerstJOIN;
+}
+
+/**
+ * function to remove the output fields 
+ */
+function closePopupOutputFieldsWS(remuveid,namediv)
+{
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+  {
+    if (ii == remuveid)
+    {
+        //JSONForCOndition.remove(remuveid);
+        App.popupJson.splice(remuveid,1);
+        check = true
+        //console.log(remuveid);
+        // console.log(ReturnAllDataHistory());
+    }
+  }
+  if (check)
+  {
+    var remuvediv="#alerts_"+remuveid;
+
+    $('#'+namediv+' div').remove();
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          if(App.popupJson[i].temparray['JsonType']==="Output")
+          {
+            var divinsert= GenerateOutputFieldsHtlmWS(i,App.popupJson[i],namediv);
+            $('#'+namediv).append(divinsert);
+          }
+      }   
+    }else
+    {
+      // alert(mv_arr.MappingFiledValid);
+      // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+  }
+  else
+  {
+    // alert(mv_arr.ReturnFromPost);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+  }
+}
+
+
+//////////////// Error Handler //////////////////////////
+
+/**
+ * function to add output fields 
+ */
+function AddPopupForErrorHandlerWS(event)
+{
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+         
+         if(App.popupJson[i].temparray['JsonType']==="Error Handler")
+         {
+            var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
+            $('#'+divid).append(divinsert);
+         }
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+    if(App.popupJson.length>0)
+    {
+      $('#ws-addheaders').removeAttr( "disabled" );
+    }else
+    {
+      $('#ws-addheaders').attr( "disabled" );
+    }
+}
+
+/**
+ * generate the html popup for output 
+ * @param {*} Idd 
+ * @param {*} tpa 
+ * @param {*} divid 
+ */
+function GenerateErrorHandlerHtlmWS(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupErrorHandlerWS('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+   
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+    INSertAlerstJOIN += '<p>Error Name  ==> '+(isBlank(tpa.temparray['ws-error-nameText'])===false?tpa.temparray['ws-error-nameText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Error Value  ==> '+(isBlank(tpa.temparray['ws-error-valueText'])===false?tpa.temparray['ws-error-valueText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Error Message  ==> '+(isBlank(tpa.temparray['ws-error-messageText'])===false?tpa.temparray['ws-error-messageText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '</div';
+    return INSertAlerstJOIN;
+}
+
+/**
+ * function to remove the output fields 
+ */
+function ClosePopupErrorHandlerWS(remuveid,namediv)
+{
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+  {
+    if (ii == remuveid)
+    {
+        //JSONForCOndition.remove(remuveid);
+        App.popupJson.splice(remuveid,1);
+        check = true
+        //console.log(remuveid);
+        // console.log(ReturnAllDataHistory());
+    }
+  }
+  if (check)
+  {
+    var remuvediv="#alerts_"+remuveid;
+
+    $('#'+namediv+' div').remove();
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          if(App.popupJson[i].temparray['JsonType']==="Error Handler")
+          {
+            var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],namediv);
+            $('#'+namediv).append(divinsert);
+          }
+      }   
+    }else
+    {
+      // alert(mv_arr.MappingFiledValid);
+      // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+  }
+  else
+  {
+    // alert(mv_arr.ReturnFromPost);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+  }
 }

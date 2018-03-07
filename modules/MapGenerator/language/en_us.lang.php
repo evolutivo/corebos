@@ -212,8 +212,10 @@ $mod_strings = array(
 	'wsOrigin'=>'Origin',
 	'wsDefault'=>'Default',
 	'wsFormat'=>'Format',
-
-
+	'wsLabel'=>'Label',
+	'wsErrorName'=>'Error Name',
+	'wsErrorMessage'=>'Error Message',
+	'wsErrorValue'=>'Error Value',
 
 
 	
