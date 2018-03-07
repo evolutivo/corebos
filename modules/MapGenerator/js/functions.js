@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-07 12:16:41
+ * @Last Modified time: 2018-03-07 15:02:42
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4959,7 +4959,7 @@ function showhideblocks(elem)
         {
           $('#'+divid+' div').remove();
           for (var i = 0; i <= App.popupJson.length-1; i++) {
-              if(App.popupJson[i].temparray['JsonType']==="Configuration")
+              if(App.popupJson[i].temparray['JsonType']==="Configuration" || App.popupJson[i].temparray['JsonType']==="Header")
               {
                 var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
                 $('#'+divid).append(divinsert);
@@ -5001,6 +5001,20 @@ function showhideblocks(elem)
           for (var i = 0; i <= App.popupJson.length-1; i++)
           {
             if(App.popupJson[i].temparray['JsonType']==="Error Handler")
+            {
+              var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
+              $('#'+divid).append(divinsert);
+            }
+          }   
+      }
+    }else if(element==="aValueMap")
+    {
+      if (App.popupJson.length>0)
+      { 
+          $('#'+divid+' div').remove();
+          for (var i = 0; i <= App.popupJson.length-1; i++)
+          {
+            if(App.popupJson[i].temparray['JsonType']==="Value Map")
             {
               var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
               $('#'+divid).append(divinsert);
@@ -5114,7 +5128,7 @@ function AddPopupForConfiguration(event)
     if (App.popupJson.length>0)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {
-          if(App.popupJson[i].temparray['JsonType']==="Configuration")
+          if(App.popupJson[i].temparray['JsonType']==="Configuration" || App.popupJson[i].temparray['JsonType']==="Header")
           {
             var divinsert= addPopupHtmlWS(i,App.popupJson[i],divid);
             $('#'+divid).append(divinsert);
@@ -5130,12 +5144,14 @@ function AddPopupForConfiguration(event)
       $('#addpopupInput').removeAttr( "disabled" );
       $('#addpopupOutput').removeAttr( "disabled" );
       $('#addpopupError').removeAttr( "disabled" );
+      $('#idValueMap').removeAttr( "disabled" );
     }else
     {
       $('#ws-addheaders').attr( "disabled",'disabled');
       $('#addpopupInput').attr( "disabled",'disabled');
       $('#addpopupOutput').attr( "disabled",'disabled');
       $('#addpopupError').attr( "disabled",'disabled');
+      $('#idValueMap').attr( "disabled",'disabled');
     }
 }
 
@@ -5162,12 +5178,14 @@ function closePopupWS(Idd,divId)
     $('#addpopupInput').removeAttr( "disabled" );
     $('#addpopupOutput').removeAttr( "disabled" );
     $('#addpopupError').removeAttr( "disabled" );
+    $('#idValueMap').removeAttr( "disabled" );
   }else
   {
     $('#ws-addheaders').attr( "disabled",'disabled');
     $('#addpopupInput').attr( "disabled",'disabled');
     $('#addpopupOutput').attr( "disabled",'disabled');
     $('#addpopupError').attr( "disabled",'disabled');
+    $('#idValueMap').attr( "disabled",'disabled');
   }
 
 
@@ -5595,6 +5613,126 @@ function ClosePopupErrorHandlerWS(remuveid,namediv)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {
           if(App.popupJson[i].temparray['JsonType']==="Error Handler")
+          {
+            var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],namediv);
+            $('#'+namediv).append(divinsert);
+          }
+      }   
+    }else
+    {
+      // alert(mv_arr.MappingFiledValid);
+      // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+  }
+  else
+  {
+    // alert(mv_arr.ReturnFromPost);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+  }
+}
+
+
+
+//////////////// Value Map //////////////////////////
+
+/**
+ * function to add output fields 
+ */
+function AddPopupValueMapWS(event)
+{
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    if(replace==="true"){App.popupJson.length=0;}
+    $('#'+divid+' div').remove();
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+         
+         if(App.popupJson[i].temparray['JsonType']==="Value Map")
+         {
+            var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],divid);
+            $('#'+divid).append(divinsert);
+         }
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+    if(App.popupJson.length>0)
+    {
+      $('#ws-addheaders').removeAttr( "disabled" );
+    }else
+    {
+      $('#ws-addheaders').attr( "disabled" );
+    }
+}
+
+/**
+ * generate the html popup for output 
+ * @param {*} Idd 
+ * @param {*} tpa 
+ * @param {*} divid 
+ */
+function GenerateErrorHandlerHtlmWS(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupValueMapWS('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+   
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+    INSertAlerstJOIN += '<p>Field Name  ==> '+(isBlank(tpa.temparray['ws-value-map-nameText'])===false?tpa.temparray['ws-value-map-nameText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Field Source  ==> '+(isBlank(tpa.temparray['ws-value-map-source-inputText'])===false?tpa.temparray['ws-value-map-source-inputText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Field Destination  ==> '+(isBlank(tpa.temparray['ws-value-map-destinamtionText'])===false?tpa.temparray['ws-value-map-destinamtionText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '</div';
+    return INSertAlerstJOIN;
+}
+
+/**
+ * function to remove the output fields 
+ */
+function ClosePopupValueMapWS(remuveid,namediv)
+{
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+  {
+    if (ii == remuveid)
+    {
+        //JSONForCOndition.remove(remuveid);
+        App.popupJson.splice(remuveid,1);
+        check = true
+        //console.log(remuveid);
+        // console.log(ReturnAllDataHistory());
+    }
+  }
+  if (check)
+  {
+    var remuvediv="#alerts_"+remuveid;
+
+    $('#'+namediv+' div').remove();
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+          if(App.popupJson[i].temparray['JsonType']==="Value Map")
           {
             var divinsert= GenerateErrorHandlerHtlmWS(i,App.popupJson[i],namediv);
             $('#'+namediv).append(divinsert);

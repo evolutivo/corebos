@@ -203,7 +203,7 @@ $mod_strings = array(
 	'wsAddHeaders'=>'Add Headers',
 	'wsKeyName'=>'Key Name',
 	'wsKeyValue'=>'Key Value',
-	'wsrequiredFields'=>'(*) all fields with this symbol are mandatory',
+	'wsrequiredFields'=>'(*) Mandatory Fields',
 	'wshttps'=>'https://',
 	'wsModule'=>'Module',
 	'wsName'=>'Name',
@@ -217,6 +217,10 @@ $mod_strings = array(
 	'wsErrorMessage'=>'Error Message',
 	'wsErrorValue'=>'Error Value',
 
+	'wsValuemap'=>'Value Map',
+	'wsValuemapName'=>'Field Name',
+	'wsValuemapSource'=>'Field Source',
+	'wsValuemapDestination'=>'Field Destination',
 
 	
 );

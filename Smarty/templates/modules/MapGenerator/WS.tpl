@@ -76,7 +76,7 @@
 																<label class="slds-form-element__label" for="urlMethod"><font color="red" size="3" >*</font>{$MOD.wsModule}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
-																		<select id="FirstModule" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="InputFieldsName,InputFieldsValue,OutputFieldsName" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
+																		<select id="FirstModule" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="InputFieldsName,InputFieldsValue,OutputFieldsName,OutputFieldsValue" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
 																		</select>
 																	</div>
 																</div>
@@ -341,13 +341,13 @@
 											<div class="ws-accordion-item-content" style="display: none;">
 												<div class="ws-input-container">
 													<div class="ws-input-name-container">
-														<div class="ws-input-value" style="width: 100%;" >
+														<div class="ws-input-name">
 															<div class="ws-input-value-attribute-container">
-																<div class="slds-form-element ws-input-value" style="width: 100%;">
+																<div class="slds-form-element ws-input-value">
 																	<div class="slds-form-element__control">
-																		<label class="slds-form-element__label"><font size="3" color="red">* </font>{$MOD.wsName}</label>
+																		<label class="slds-form-element__label"><font size="3" color="red">*</font>{$MOD.wsName}</label>
 																		<div class="ws-input-value-switcher">
-																			<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-output-name-output" style="display: none;">
+																			<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-output-name-input" style="display: none;">
 																				<input class="slds-input" id="output-name-input" required placeholder="{$MOD.wsName}" type="text" />
 																			</div>
 																			<div id="ws-output-name-select" class="slds-form-element__control" style="display: block;">
@@ -359,7 +359,31 @@
 																		</div>
 																	</div>
 																	<div class="ws-toggle-field">
-																		<a data-showhide-load="false" onclick="showhidefields(this);" data-tools-id="ws-output-name-output,ws-output-name-select" data-buttonaddid="addpopupOutput" data-idinput="output-name-input,OutputFieldsName">
+																		<a data-showhide-load="false" onclick="showhidefields(this);" data-tools-id="ws-output-name-input,ws-output-name-select" data-buttonaddid="addpopupOutput" data-idinput="output-name-input,OutputFieldsName">
+																			<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+																		</a>
+																	</div>
+																</div>
+																<div class="slds-form-element ws-input-value">
+																	<div class="slds-form-element__control">
+																		<label class="slds-form-element__label"><font size="3" color="red">*</font>{$MOD.wsValue}</label>
+																		<div class="ws-input-value-switcher">
+																			<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right" id="ws-output-value-input" style="display: none;">
+																				<input class="slds-input" id="output-value-value" placeholder="{$MOD.wsValue}" required type="text" />
+																				{* <button id="ws-input-value-btn" data-load-show="false" onclick="showhidefields(this);" data-load-show-relation="FirstModule,Firstfield,secmodule,DefaultValue" data-div-show="LoadShowPopup" class="slds-button slds-button_icon" aria-haspopup="true" title="Click to add">
+																					<img src="themes/images/btnL3Add.gif" width="16">
+																				</button> *}
+																			</div>
+																			<div id="ws-output-value-select" class="slds-form-element__control" style="display: block;">
+																				<div class="slds-select_container">
+																					<select class="slds-select" id="OutputFieldsValue" required >
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="ws-toggle-field">
+																		<a data-showhide-load="false" onclick="showhidefields(this);" data-tools-id="ws-output-value-input,ws-output-value-select" data-buttonaddid="addpopupOutput" data-idinput="output-value-value,OutputFieldsValue">
 																			<i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
 																		</a>
 																	</div>
@@ -384,16 +408,65 @@
 																</div>
 															</div>
 														</div>
+													</div>													
+													<!-- WS help text container -->
+													<div class="ws-configuration-help">
+														<label class="slds-form-element__label slds-text-color--error">
+															{$MOD.wsrequiredFields}
+														</label>
 													</div>
-													<div class="ws-input-organization-default-container">
-														<div class="ws-input-default" style="width:100%;">
-															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-default"><font size="3" color="red">*</font>{$MOD.wsValue}</label>
+													<!-- WS Add headers & Add button container -->
+													<div class="ws-config-buttons">
+														<!-- Add headers Modal -->
+														<div class="slds-form-element slds-text-align--left ws-add-headers">
+															{* <button class="slds-button slds-button--small slds-button--brand" id='ws-addheaders' data-modal-saveas-open="true" data-modal-id="ws-configuration-headers-modal" data-modal-backdrop-id="ws-configuration-headers-backdrop" disabled>{$MOD.wsAddHeaders}</button> *}
+														</div>
+														<!-- Add button -->
+														<div class="slds-form-element slds-text-align--right ws-add-button">
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForOutputFieldsWS(this);" data-add-button-popup="false" data-add-type="Output" data-add-button-validate="OutputFieldsName,OutputFieldsValue" data-show-id="FirstModule"  data-add-relation-id="FirstModule,OutputFieldsName,ws-label,ws-output-attribute,OutputFieldsValue"  data-div-show="LoadShowPopup" id="addpopupOutput" disabled >{$MOD.wsAdd}</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</section>
+										<!-- WS Value Map Panel -->
+										<section class="ws-accordion-item" id="ws-section-error">
+											<div class="ws-accordion-header">
+												<a onclick="showhideblocks(this);" id="aValueMap" data-div-show="LoadShowPopup" >
+													<span class="ws-accordion-toggle" id="ws-error">
+														<i class="fa fa-arrow-right" style="display: block;" ></i>
+														<i class="fa fa-arrow-down" style="display: none;"></i>
+													</span>
+													<h4 class="ws-accordion-title">{$MOD.wsValuemap}</h4>
+												</a>
+											</div>
+											<div class="ws-accordion-item-content" style="display: none;">
+												<div class="ws-error-handler-container">
+													<div class="ws-error-name-value">
+														<div class="ws-error-name">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-error-name"> <font size="3" color="red">*</font> {$MOD.wsValuemapName}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-output-value" placeholder="{$MOD.wsValue}" required class="slds-input" type="text" />
+																	<input id="ws-value-map-name" class="slds-input" required placeholder="{$MOD.wsValuemapName}" type="text" />
 																</div>
 															</div>
-														</div>													
+														</div>
+														<div class="ws-error-value">
+															<div class="slds-form-element">
+																<label class="slds-form-element__label" for="ws-error-value"> <font size="3" color="red">*</font> {$MOD.wsValuemapSource}</label>
+																<div class="slds-form-element__control">
+																	<input id="ws-value-map-source-input" class="slds-input" required placeholder="{$MOD.wsValuemapSource}" type="text" />
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="ws-error-message">
+														<div class="slds-form-element">
+															<label class="slds-form-element__label" for="ws-error-message"> <font size="3" color="red">*</font>{$MOD.wsValuemapDestination}</label>
+															<div class="slds-form-element__control">
+																<input id="ws-value-map-destinamtion" class="slds-input" required placeholder="{$MOD.wsValuemapDestination}" type="text" />
+															</div>
+														</div>
 													</div>
 													<!-- WS help text container -->
 													<div class="ws-configuration-help">
@@ -409,12 +482,13 @@
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForOutputFieldsWS(this);" data-add-button-popup="false" data-add-type="Output" data-add-button-validate="OutputFieldsName" data-show-id="FirstModule"  data-add-relation-id="FirstModule,OutputFieldsName,ws-label,ws-output-attribute,ws-output-value"  data-div-show="LoadShowPopup" id="addpopupOutput" disabled >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupValueMapWS(this);" data-add-button-popup="false" data-add-type="Value Map" data-add-button-validate="ws-value-map-name" data-show-id="ws-value-map-name"  data-add-relation-id="ws-value-map-name,ws-value-map-source-input,ws-value-map-destinamtion"  data-div-show="LoadShowPopup" id="idValueMap" disabled >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>
 											</div>
 										</section>
+
 										<!-- WS Error Handler Panel -->
 										<section class="ws-accordion-item" id="ws-section-error">
 											<div class="ws-accordion-header">
