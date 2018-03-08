@@ -4,7 +4,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-07 15:13:39 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-07 17:21:45
+ * @Last Modified time: 2018-03-08 17:56:19
  */
 //saveWebServiceMap.php
 
@@ -43,8 +43,8 @@ if (!empty($Data)) {
 	
     $jsondecodedata=json_decode($Data);	
     // print_r($jsondecodedata);
-    // print_r(add_content($jsondecodedata));
-    // exit();
+    //  print_r(add_content($jsondecodedata));
+    //  exit();
     // $myDetails=array();
 	if(strlen($MapID[1]==0)){
 	   $focust = new cbMap();
@@ -228,27 +228,49 @@ function add_content($DataDecode)
             $fieldtag=$xml->createElement("field");
 
             $fieldname = $xml->createElement("fieldname");
-            if(!empty($value->temparray->{'InputFieldsName'}))
-            {
-                $fieldnameText = $xml->createTextNode(explode(":",$value->temparray->{'InputFieldsName'})[2]);
-            }else
-            {
-                $fieldnameText = $xml->createTextNode($value->temparray->{'input-name-input'});
-            }
+            $fieldnameText = $xml->createTextNode($value->temparray->{'ws-input-name'});
             $fieldname->appendChild($fieldnameText);
             $fieldtag->appendChild($fieldname);
 
-            $fieldvalue = $xml->createElement("fieldvalue");
-            if(!empty($value->temparray->{'InputFieldsValue'}))
+            if(strcmp($value->temparray->FirstModule,$value->temparray->{'ws-select-multipleoptionGroup'})==0)
             {
-                $fieldvalueText = $xml->createTextNode(explode(":",$value->temparray->{'InputFieldsValue'})[2]);
+                $concatstring="";
+                if(!empty($value->temparray->{'ws-input-static'})){$concatstring.=$value->temparray->{'ws-input-static'}.","; }
+                foreach ($value->temparray->Anotherdata as $values) {
+                    $concatstring.=explode(":",$values->DataValues)[2].",";
+                }
+                $fieldvalue = $xml->createElement("fieldvalue");
+                $fieldvalueText = $xml->createTextNode(substr($concatstring, 0, -1));
+                $fieldvalue->appendChild($fieldvalueText);
+                $fieldtag->appendChild($fieldvalue);
             }else
             {
-                $fieldvalueText = $xml->createTextNode($value->temparray->{'input-value-value'});
-            }
-            $fieldvalue->appendChild($fieldvalueText);
-            $fieldtag->appendChild($fieldvalue);
+                $concatstringrel="";
+                if(!empty($value->temparray->{'ws-input-static'})){$concatstringrel.=$value->temparray->{'ws-input-static'}.","; }
+                foreach ($value->temparray->Anotherdata as $valuea) {
+                    $concatstringrel.=explode(":",$valuea->DataValues)[2].",";
+                }
+                $Relfield = $xml->createElement("Relfield");
+                $RelfieldName = $xml->createElement("RelfieldName");
+                $RelfieldNameText = $xml->createTextNode(substr($concatstringrel, 0, -1));
+                $RelfieldName->appendChild($RelfieldNameText);
+                $Relfield->appendChild($RelfieldName);
+                $RelModule = $xml->createElement("RelModule");
+                $RelModuleText = $xml->createTextNode($value->temparray->{'ws-select-multipleoptionGroup'});
+                $RelModule->appendChild($RelModuleText);
+                $Relfield->appendChild($RelModule);
+                $linkfield = $xml->createElement("linkfield");
+                $linkfieldText = $xml->createTextNode(getModuleID($value->temparray->{'ws-select-multipleoptionGroup'}));
+                $linkfield->appendChild($linkfieldText);
+                $Relfield->appendChild($linkfield);
+                $fieldtag->appendChild($Relfield);
 
+                $fieldvalue = $xml->createElement("fieldvalue");
+                $fieldvalueText = $xml->createTextNode(substr($concatstringrel, 0, -1));
+                $fieldvalue->appendChild($fieldvalueText);
+                $fieldtag->appendChild($fieldvalue);
+            }
+            
             $attribute = $xml->createElement("attribute");
             $attributeText = $xml->createTextNode($value->temparray->{'ws-input-attribute'});
             $attribute->appendChild($attributeText);
@@ -294,26 +316,48 @@ function add_content($DataDecode)
 
 
             $fieldname = $xml->createElement("fieldname");
-            if(!empty($value->temparray->{'OutputFieldsName'}))
-            {
-                $fieldnameText = $xml->createTextNode(explode(":",$value->temparray->{'OutputFieldsName'})[2]);
-            }else
-            {
-                $fieldnameText = $xml->createTextNode($value->temparray->{'output-name-input'});
-            }
+            $fieldnameText = $xml->createTextNode($value->temparray->{'ws-output-name'});
             $fieldname->appendChild($fieldnameText);
             $fieldtag->appendChild($fieldname);
 
-            $fieldvalue = $xml->createElement("fieldvalue");
-            if(!empty($value->temparray->{'OutputFieldsValue'}))
+            if(strcmp($value->temparray->FirstModule,$value->temparray->{'ws-output-select-multipleoptionGroup'})==0)
             {
-                $fieldvalueText = $xml->createTextNode(explode(":",$value->temparray->{'OutputFieldsValue'})[2]);
+                $concatstring="";
+                if(!empty($value->temparray->{'ws-output-static'})){$concatstring.=$value->temparray->{'ws-output-static'}.","; }
+                foreach ($value->temparray->Anotherdata as $values) {
+                    $concatstring.=explode(":",$values->DataValues)[2].",";
+                }
+                $fieldvalue = $xml->createElement("fieldvalue");
+                $fieldvalueText = $xml->createTextNode(substr($concatstring, 0, -1));
+                $fieldvalue->appendChild($fieldvalueText);
+                $fieldtag->appendChild($fieldvalue);
             }else
             {
-                $fieldvalueText = $xml->createTextNode($value->temparray->{'output-value-value'});
-            }
-            $fieldvalue->appendChild($fieldvalueText);
-            $fieldtag->appendChild($fieldvalue);           
+                $concatstringrel="";
+                if(!empty($value->temparray->{'ws-output-static'})){$concatstringrel.=$value->temparray->{'ws-output-static'}.","; }
+                foreach ($value->temparray->Anotherdata as $valuea) {
+                    $concatstringrel.=explode(":",$valuea->DataValues)[2].",";
+                }
+                $Relfield = $xml->createElement("Relfield");
+                $RelfieldName = $xml->createElement("RelfieldName");
+                $RelfieldNameText = $xml->createTextNode(substr($concatstringrel, 0, -1));
+                $RelfieldName->appendChild($RelfieldNameText);
+                $Relfield->appendChild($RelfieldName);
+                $RelModule = $xml->createElement("RelModule");
+                $RelModuleText = $xml->createTextNode($value->temparray->{'ws-output-select-multipleoptionGroup'});
+                $RelModule->appendChild($RelModuleText);
+                $Relfield->appendChild($RelModule);
+                $linkfield = $xml->createElement("linkfield");
+                $linkfieldText = $xml->createTextNode(getModuleID($value->temparray->{'ws-output-select-multipleoptionGroup'}));
+                $linkfield->appendChild($linkfieldText);
+                $Relfield->appendChild($linkfield);
+                $fieldtag->appendChild($Relfield);
+
+                $fieldvalue = $xml->createElement("fieldvalue");
+                $fieldvalueText = $xml->createTextNode(substr($concatstringrel, 0, -1));
+                $fieldvalue->appendChild($fieldvalueText);
+                $fieldtag->appendChild($fieldvalue);
+            }        
 
             $attribute = $xml->createElement("attribute");
             $attributeText = $xml->createTextNode($value->temparray->{'ws-output-attribute'});
@@ -360,7 +404,7 @@ function add_content($DataDecode)
      }
      $valuemaptag->appendChild($fieldstag);
     
-     /// Value Map tag 
+     /// Error Handler tag 
 
      $errorhandlertag=$xml->createElement("errorhandler");
      foreach ($DataDecode as $value) {
@@ -374,10 +418,10 @@ function add_content($DataDecode)
              $fieldname->appendChild($fieldnameText);
              $fieldtag->appendChild($fieldname);
  
-             $value = $xml->createElement("value");
+             $valueg = $xml->createElement("value");
              $valueText = $xml->createTextNode($value->temparray->{'ws-error-value'});
-             $value->appendChild($valueText);
-             $fieldtag->appendChild($value);           
+             $valueg->appendChild($valueText);
+             $fieldtag->appendChild($valueg);           
  
              $errormessage = $xml->createElement("errormessage");
              $errormessageText = $xml->createTextNode($value->temparray->{'ws-error-message'});
@@ -385,14 +429,9 @@ function add_content($DataDecode)
              $fieldtag->appendChild($errormessage);
              
              $errorhandlertag->appendChild($fieldtag);
-
              $Errorhandler=true;
-             break;
          }  
-               
      }
-     $valuemaptag->appendChild($fieldstag);
-    
     $root->appendChild($wsconfigtag);
     if($Input==true){$root->appendChild($inputtag); }
     if($Output==true){$root->appendChild($Outputtag);}

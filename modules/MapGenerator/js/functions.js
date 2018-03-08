@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-07 18:02:54
+ * @Last Modified time: 2018-03-08 16:41:54
  */
 /*
  * @Author: Edmond Kacaj 
@@ -5305,8 +5305,19 @@ function AddPopupForFieldsWS(event)
     }else{validatearray.length=0;}
 
     if(replace==="true"){App.popupJson.length=0;}
+    allfieldsval=[];
+    if( $("#ws-select-multiple option:selected").length){
+     $("#ws-select-multiple option:selected").each(function() {
+      allfieldsval.push({'DataValues':$(this).val(),'DataText':$(this).text()});
+    });
+    }else
+    {
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+    return false;
+    }
+
     $('#'+divid+' div').remove();
-    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    App.utils.Add_to_universal_popup_personalize(allidarray,Typeofpopup,showtext, modulShow,validatearray,allfieldsval);
     if (App.popupJson.length>0)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {
@@ -5343,17 +5354,20 @@ function GenerateInputFieldsHtlmWS(Idd,tpa,divid)
     INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupInputFieldsWS('
     + Idd + ',\'' + divid + '\');">&times;</span>';
    
-    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong><p> Module ==>'+tpa.temparray['FirstModuleText'] + '</p>';
-    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['InputFieldsNameText'])===false?tpa.temparray['InputFieldsNameText']:tpa.temparray['input-name-inputText']) + '</p>';
-    INSertAlerstJOIN += '<p>Value  ==> '+(isBlank(tpa.temparray['InputFieldsValueText'])===false?tpa.temparray['InputFieldsValueText']:tpa.temparray['input-value-valueText']) + '</p>';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong><p> Module ==>'+tpa.temparray['ws-select-multipleoptionGroup'] + '</p>';
+    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['ws-input-name'])===false?tpa.temparray['ws-input-name']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Origin  ==> '+(isBlank(tpa.temparray['ws-input-OriginText'])===false?tpa.temparray['ws-input-OriginText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Attribute  ==> '+(isBlank(tpa.temparray['ws-input-attributeText'])===false?tpa.temparray['ws-input-attributeText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Default  ==> '+(isBlank(tpa.temparray['ws-input-defaultText'])===false?tpa.temparray['ws-input-defaultText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Format  ==> '+(isBlank(tpa.temparray['ws-input-formatText'])===false?tpa.temparray['ws-input-formatText']:"Empty") + '</p>';
-  
-
+    INSertAlerstJOIN += '<p>Static value  ==> '+(isBlank(tpa.temparray['ws-input-static'])===false?tpa.temparray['ws-input-static']:"Empty") + '</p>';
+    if (tpa.temparray['Anotherdata'].length>0) {
+      for (let index = 0; index < tpa.temparray['Anotherdata'].length; index++) {
+        INSertAlerstJOIN += '<p>Selected fields ['+(index+1)+'] ==> '+tpa.temparray['Anotherdata'][index]['DataText']+ '</p>';
+        
+      }
+    }
   INSertAlerstJOIN += '</div';
-
   return INSertAlerstJOIN;
 }
 
@@ -5421,8 +5435,22 @@ function AddPopupForOutputFieldsWS(event)
     }else{validatearray.length=0;}
 
     if(replace==="true"){App.popupJson.length=0;}
+    
+    
+    allfieldsval=[];
+    if( $("#ws-output-select-multiple option:selected").length){
+     $("#ws-output-select-multiple option:selected").each(function() {
+      allfieldsval.push({'DataValues':$(this).val(),'DataText':$(this).text()});
+    });
+    }else
+    {
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MissingFields);
+    return false;
+    }
+
     $('#'+divid+' div').remove();
-    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    App.utils.Add_to_universal_popup_personalize(allidarray,Typeofpopup,showtext, modulShow,validatearray,allfieldsval);
+
     if (App.popupJson.length>0)
     { 
       for (var i = 0; i <= App.popupJson.length-1; i++) {
@@ -5459,11 +5487,17 @@ function GenerateOutputFieldsHtlmWS(Idd,tpa,divid)
     INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupOutputFieldsWS('
     + Idd + ',\'' + divid + '\');">&times;</span>';
    
-    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong><p> Module ==>'+tpa.temparray['FirstModuleText'] + '</p>';
-    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['OutputFieldsNameText'])===false?tpa.temparray['OutputFieldsNameText']:tpa.temparray['output-name-inputText']) + '</p>';
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong><p> Module ==>'+tpa.temparray['ws-output-select-multipleoptionGroup'] + '</p>';
+    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['ws-output-name'])===false?tpa.temparray['ws-output-name']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Label  ==> '+(isBlank(tpa.temparray['ws-labelText'])===false?tpa.temparray['ws-labelText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Attribute  ==> '+(isBlank(tpa.temparray['ws-output-attributeText'])===false?tpa.temparray['ws-output-attributeText']:"Empty") + '</p>';
-    INSertAlerstJOIN += '<p>Value  ==> '+(isBlank(tpa.temparray['ws-output-valueText'])===false?tpa.temparray['ws-output-valueText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Static value  ==> '+(isBlank(tpa.temparray['ws-output-static'])===false?tpa.temparray['ws-output-static']:"Empty") + '</p>';
+    if (tpa.temparray['Anotherdata'].length>0) {
+      for (let index = 0; index < tpa.temparray['Anotherdata'].length; index++) {
+        INSertAlerstJOIN += '<p>Selected fields ['+(index+1)+'] ==> '+tpa.temparray['Anotherdata'][index]['DataText']+ '</p>';
+        
+      }
+    }
     INSertAlerstJOIN += '</div';
     return INSertAlerstJOIN;
 }

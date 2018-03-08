@@ -226,3 +226,13 @@
 	}
 /* End Input & Output & error Panel */
 
+.ws-select-multiple
+{
+	width: 50%;
+    height: 150px;
+}
+
+.ws-input-values-inputi
+{
+	width: 50%;float: right;
+}
