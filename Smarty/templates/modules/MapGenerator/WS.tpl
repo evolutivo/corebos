@@ -13,6 +13,47 @@
     {/if}
 
 
+{if $PopupJS neq ''}
+	<script type="text/javascript">
+			{foreach from=$PopupJS item=allitems key=key name=name}
+					 {foreach name=outer item=popi from=$allitems}
+						var temparray = {};
+						{foreach key=key item=item from=$popi}
+								{if $key eq 'Anotherdata'}
+									rows=new Array();
+									allfieldsval=[];
+									allfieldstetx=[];
+										{foreach from=$item item=itemi key=keyes}
+											checkifexist={};
+											fieldsval=[];
+											fieldstetx=[];
+											{foreach from=$itemi item=items key=key name=name}
+												checkifexist['DataValues']=`{$itemi.DataValues}`;
+												checkifexist['DataText']=`{$itemi.DataText}`;
+											{/foreach}
+											{literal}
+												allfieldsval.push(checkifexist);
+											{/literal}
+									{/foreach}
+									{literal}
+										temparray["Anotherdata"]=allfieldsval;
+									{/literal}
+								{else}
+								 temparray['{$key}']='{$item}';
+								{/if}
+						{/foreach}
+						App.popupJson.push({'{'}temparray{'}'});
+						// console.log(temparray);
+					{/foreach}
+					 HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+					App.popupJson.length=0;
+			{/foreach}
+			ShowLocalHistoryWS('LoadHistoryPopup','LoadShowPopup');
+			ClickToshowSelectedWS(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+			App.countsaveMap=2;
+			App.utils.UpdateMapNAme();
+	</script>
+{/if}
 
     <div id="ModalDiv">
         {if $Modali neq ''}
@@ -77,6 +118,7 @@
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="FirstModule" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="ws-select-multiple,ws-output-select-multiple" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
+																			{$FirstModuleSelected}
 																		</select>
 																	</div>
 																</div>
@@ -235,6 +277,7 @@
 																<label class="slds-form-element__label" for="ws-input-default"><font size="3" color="red">*</font>{$MOD.wsMultipleSelect}</label>
 																<div class="slds-form-element__control">
 																	<select id="ws-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" style="width: 100%;height: 150px;" name="selectableFields[]"> 
+																		{$FirstModuleFields}
 																	</select>
 																</div>
 															</div>
@@ -332,6 +375,7 @@
 																<label class="slds-form-element__label" for="ws-input-default"><font size="3" color="red">*</font>{$MOD.wsMultipleSelect}</label>
 																<div class="slds-form-element__control">
 																	<select id="ws-output-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" style="width: 100%;height: 150px;" name="selectableFields[]"> 
+																		{$FirstModuleFields}
 																	</select>
 																</div>
 															</div>
@@ -497,7 +541,7 @@
 														</div>
 														<!-- Add button -->
 														<div class="slds-form-element slds-text-align--right ws-add-button">
-															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForErrorHandlerWS(this);" data-add-button-popup="false" data-add-type="Error Handler" data-add-button-validate="ws-error-name" data-show-id="FirstModule"  data-add-relation-id="ws-error-name,ws-error-value,ws-error-message"  data-div-show="LoadShowPopup" id="addpopupError" disabled >{$MOD.wsAdd}</button>
+															<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForErrorHandlerWS(this);RestoreDataEXFIM(this);" data-add-button-popup="false" data-add-type="Error Handler" data-add-button-validate="ws-error-name" data-show-id="FirstModule"  data-add-relation-id="ws-error-name,ws-error-value,ws-error-message"  data-div-show="LoadShowPopup" id="addpopupError" disabled >{$MOD.wsAdd}</button>
 														</div>
 													</div>
 												</div>

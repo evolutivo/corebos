@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-08 16:41:54
+ * @Last Modified time: 2018-03-09 15:16:30
  */
 /*
  * @Author: Edmond Kacaj 
@@ -3970,7 +3970,9 @@ function RestoreDataEXFIM(sel) {
         arrofId.forEach(element => {
           if (document.getElementById(element).tagName==='INPUT') {
             $('#'+element).val("");
-          } else {
+          }else if (document.getElementById(element).tagName==='SELECT') {
+            // $('#'+element).removeAttr('selected');
+          }else {
             
           }
       });
@@ -5138,21 +5140,7 @@ function AddPopupForConfiguration(event)
       // alert(mv_arr.MappingFiledValid);
       App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
     } 
-    if(App.popupJson.length>0)
-    {
-      $('#ws-addheaders').removeAttr( "disabled" );
-      $('#addpopupInput').removeAttr( "disabled" );
-      $('#addpopupOutput').removeAttr( "disabled" );
-      $('#addpopupError').removeAttr( "disabled" );
-      $('#idValueMap').removeAttr( "disabled" );
-    }else
-    {
-      $('#ws-addheaders').attr( "disabled",'disabled');
-      $('#addpopupInput').attr( "disabled",'disabled');
-      $('#addpopupOutput').attr( "disabled",'disabled');
-      $('#addpopupError').attr( "disabled",'disabled');
-      $('#idValueMap').attr( "disabled",'disabled');
-    }
+    updatebutton();
 }
 
 /**
@@ -5171,24 +5159,7 @@ function closePopupWS(Idd,divId)
   {
     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnErrorFromMap);
   }
-
-  if(App.popupJson.length>0)
-  {
-    $('#ws-addheaders').removeAttr( "disabled" );
-    $('#addpopupInput').removeAttr( "disabled" );
-    $('#addpopupOutput').removeAttr( "disabled" );
-    $('#addpopupError').removeAttr( "disabled" );
-    $('#idValueMap').removeAttr( "disabled" );
-  }else
-  {
-    $('#ws-addheaders').attr( "disabled",'disabled');
-    $('#addpopupInput').attr( "disabled",'disabled');
-    $('#addpopupOutput').attr( "disabled",'disabled');
-    $('#addpopupError').attr( "disabled",'disabled');
-    $('#idValueMap').attr( "disabled",'disabled');
-  }
-
-
+  updatebutton();
 }
 
 /**
@@ -5275,6 +5246,27 @@ function DeleteHeadersWS(remuveid,namediv)
           // alert(mv_arr.ReturnFromPost);
           App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
         }
+}
+
+
+
+function updatebutton()
+{
+  if(App.popupJson.length>0)
+  {
+    $('#ws-addheaders').removeAttr( "disabled" );
+    $('#addpopupInput').removeAttr( "disabled" );
+    $('#addpopupOutput').removeAttr( "disabled" );
+    $('#addpopupError').removeAttr( "disabled" );
+    $('#idValueMap').removeAttr( "disabled" );
+  }else
+  {
+    $('#ws-addheaders').attr( "disabled",'disabled');
+    $('#addpopupInput').attr( "disabled",'disabled');
+    $('#addpopupOutput').attr( "disabled",'disabled');
+    $('#addpopupError').attr( "disabled",'disabled');
+    $('#idValueMap').attr( "disabled",'disabled');
+  }
 }
 
 /////////// Input Fields /////////////
@@ -5808,6 +5800,7 @@ function ClickToshowSelectedWS(Idload,divHistory)
     }
     if (App.popupJson.length>0)
     { 
+      updatebutton();
       $('#' + divHistory + ' div').remove();
       for (var i = 0; i <= App.popupJson.length-1; i++) {
         if ($('#ws-section-configuration').find('.ws-accordion-item-content').css('display') ==='block') {
