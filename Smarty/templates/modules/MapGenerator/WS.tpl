@@ -630,14 +630,14 @@
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="ws-key-name">{$MOD.wsKeyName}</label>
 						<div class="slds-form-element__control">
-							<input id="ws-key-name" name="mod" class="slds-input" required placeholder="insert the {$MOD.wsKeyName}"/>
+							<input id="ws-key-name" name="mod" class="slds-input" required placeholder="insert {$MOD.wsKeyName}"/>
 						</div>
 					</div>
 					<!-- Key Value -->
 					<div class="slds-form-element">
 						<label class="slds-form-element__label" for="ws-key-value">{$MOD.wsKeyValue}</label>
 						<div class="slds-form-element__control">
-							<input id="ws-key-value" name="mod" required class="slds-input" placeholder="insert the {$MOD.wsKeyValue}"/>
+							<input id="ws-key-value" name="mod" required class="slds-input" placeholder="insert {$MOD.wsKeyValue}"/>
 						</div>
 					</div>
 				</div>

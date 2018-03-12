@@ -222,7 +222,7 @@ $mod_strings = array(
 	'wsValuemapSource'=>'Field Source',
 	'wsValuemapDestination'=>'Field Destination',
 
-	'wsMultipleSelect'=>'Use CTRL to select multiple',
+	'wsMultipleSelect'=>'Hold CTRL to select multiple fields',
 	'wsOpyionalValue'=>'Write a static Value (Opsional)',
 
 	
