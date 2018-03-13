@@ -1253,7 +1253,7 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 	elseif ($uitype == '1025') {
 		$parent_id = $temp_val;
 		if (!empty($parent_id)) {
-			$values=explode(' |##| ',$parent_id);
+			$values=explode(',',$parent_id);
 			$numvals = count($values);
 			for ($fvalues=0; $fvalues < $numvals; $fvalues++) {
 				$srchmod =  getSalesEntityType($values[$fvalues]);

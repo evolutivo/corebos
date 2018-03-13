@@ -1239,7 +1239,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
                     {$fldlabel}                                  
                     </td>
                     <td width="30%" align=left class="dvtCellInfo"  >
-                    <div ng-controller="mainCtrl_{$fldname}"> 
+                    <div ng-controller="mainCtrl_{$fldname}">
                         <input name="{$fldname}" id="{$fldname}" value="{$fldvalue}" type="hidden"  >  
                         <tags-input ng-model="{$fldname}" 
                                     display-property="crmname" 
@@ -1265,7 +1265,7 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
                                 });
                             };
                             $http.get('index.php?module=Utilities&action=UtilitiesAjax&file=ExecuteFunctions&functiontocall=getEvoActualAutocomplete&field={/literal}{$fldname}{literal}&sel_values='+encodeURIComponent("{/literal}{$fldvalue}{literal}")).
-                                    success(function(data, status) {
+                                    success(function(data, status) {console.log('cccccc');console.log(data);
                                         $scope.{/literal}{$fldname}{literal}=data;
                             });                            
                             $scope.functionClick= function(tag) {

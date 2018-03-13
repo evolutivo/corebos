@@ -693,7 +693,10 @@ class CRMEntity {
 							$uservalues = getAssignedPicklistValues($fieldname, $roleid, $adb);
 						}
 						$vek=array_unique(array_merge(array_diff($currentvalues, $uservalues), $selectedvalues));
-						$fldvalue = implode(' |##| ', $vek);
+						if(implode(' |##| ', $vek) == 'Array')
+                                                $fldvalue = '';
+                                                else
+                                                $fldvalue = implode(' |##| ', $vek);
 					}
 				} elseif ($uitype == 5 || $uitype == 6 || $uitype == 23) {
 					//Added to avoid function call getDBInsertDateValue in ajax save
