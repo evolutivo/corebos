@@ -203,10 +203,28 @@ $mod_strings = array(
 	'wsAddHeaders'=>'Add Headers',
 	'wsKeyName'=>'Key Name',
 	'wsKeyValue'=>'Key Value',
-	'wsrequiredFields'=>'(*) all fields with this symbol are mandatory',
+	'wsrequiredFields'=>'(*) Mandatory Fields',
 	'wshttps'=>'https://',
 	'wsModule'=>'Module',
-	'ws'=>' ',
-	'ws'=>' ',
+	'wsName'=>'Name',
+	'wsValue'=>'Value',
+	'wsAttribute'=>'Attribute',
+	'wsOrigin'=>'Origin',
+	'wsDefault'=>'Default',
+	'wsFormat'=>'Format',
+	'wsLabel'=>'Label',
+	'wsErrorName'=>'Error Name',
+	'wsErrorMessage'=>'Error Message',
+	'wsErrorValue'=>'Error Value',
+
+	'wsValuemap'=>'Value Map',
+	'wsValuemapName'=>'Field Name',
+	'wsValuemapSource'=>'Field Source',
+	'wsValuemapDestination'=>'Field Destination',
+
+	'wsMultipleSelect'=>'Hold CTRL to select multiple fields',
+	'wsOpyionalValue'=>'Write a static Value (Opsional)',
+
+	
 );
 ?>

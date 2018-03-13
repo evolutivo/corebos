@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-28 16:51:20
+ * @Last Modified time: 2018-03-09 15:10:40
  */
 
 
@@ -442,6 +442,27 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="WS") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			WSMap($QueryHistory,$MapID);	
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+		
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		LogFile($ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -457,6 +478,261 @@ if ($MypType=="Mapping") {
 /**
  * All Function Needet 
  */
+
+
+function WSMap($QueryHistory,$MapID)
+{
+	include_once('modfields.php');
+	include_once('All_functions.php');
+	global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+	$theme_path = "themes/" . $theme . "/";
+	$image_path = $theme_path . "images/";
+	try {
+		
+		if (!empty($QueryHistory)) {
+			//TODO: if have query history
+			
+			$FirstModuleSelected=Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+			$showfields='<option value="" >(Select a module)</option>';
+			$module=get_The_history($QueryHistory,"firstmodule");
+			if (!empty(MappingRelationFields($module))) {
+				foreach (MappingRelationFields($module) as $value) {
+					if ($value!==$module) {
+						$showfields.='<option value="'.$value.'">'.$value.'</option>'; 
+					}        
+				}
+				
+			} else {
+			  echo "<option value=''>None</option>";
+			}
+			$SecondModulerelation=$showfields;
+
+			$FirstModuleFields=getModFields(get_The_history($QueryHistory,"firstmodule"));
+			
+
+			$MapName=get_form_Map($MapID,"mapname");
+
+			$HistoryMap=$QueryHistory.",".$MapID;
+			//all history 
+			$Allhistory=get_All_History($QueryHistory);
+
+			$Alldatas=array();
+
+           	foreach ($Allhistory as $value) {
+           		
+					$MyArray=array();
+					$xml=new SimpleXMLElement($value['query']); 
+					$nrindex=0;
+					$araymy=[
+						'DefaultText'=>(string)explode("/",$xml->wsconfig->wsurl)[2],
+						'FirstModule' =>(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[0],
+						'FirstModuleText' =>(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[1],
+						'FirstModuleoptionGroup'=>"udentifined",
+						'JsonType' =>"Configuration",
+						'fixed-text-addon-pre' =>(string)explode("/",$xml->wsconfig->wsurl)[0]."//",
+						'fixed-text-addon-preText'=>(string)explode("/",$xml->wsconfig->wsurl)[0]."//",
+						'url-input'=>(string)explode("/",$xml->wsconfig->wsurl)[2],
+						'url-inputText'=>(string)explode("/",$xml->wsconfig->wsurl)[2],
+						'urlMethod'=>(string)$xml->wsconfig->wshttpmethod,
+						'urlMethodText'=>(string)$xml->wsconfig->wshttpmethod,
+						'ws-input-type'=>(string)$xml->wsconfig->inputtype,
+						'ws-input-typeText'=>(string)$xml->wsconfig->inputtype,
+						'ws-output-type'=>(string)$xml->wsconfig->outputtype,
+						'ws-output-typeText'=>(string)$xml->wsconfig->outputtype,
+						'ws-password'=>(!empty((string)$xml->wsconfig->wspass)?(string)$xml->wsconfig->wspass:"Empty"),
+						'ws-passwordText'=>(!empty((string)$xml->wsconfig->wspass)?(string)$xml->wsconfig->wspass:"Empty"),
+						'ws-proxy-host'=>(!empty((string)$xml->wsconfig->wsproxyhost)?(string)$xml->wsconfig->wsproxyhost:"Empty"),
+						'ws-proxy-hostText'=>(!empty((string)$xml->wsconfig->wsproxyhost)?(string)$xml->wsconfig->wsproxyhost:"Empty"),
+						'ws-proxy-port'=>(!empty((string)$xml->wsconfig->wsproxyport)?(string)$xml->wsconfig->wsproxyport:"Empty"),
+						'ws-proxy-portText'=>(!empty((string)$xml->wsconfig->wsproxyport)?(string)$xml->wsconfig->wsproxyport:"Empty"),
+						'ws-response-time'=>(!empty((string)$xml->wsconfig->wsresponsetime)?(string)$xml->wsconfig->wsresponsetime:"Empty"),
+						'ws-response-timeText'=>(!empty((string)$xml->wsconfig->wsresponsetime)?(string)$xml->wsconfig->wsresponsetime:"Empty"),
+						'ws-start-tag'=>(!empty((string)$xml->wsconfig->wsstarttag)?(string)$xml->wsconfig->wsstarttag:"Empty"),
+						'ws-start-tagText'=>(!empty((string)$xml->wsconfig->wsstarttag)?(string)$xml->wsconfig->wsstarttag:"Empty"),
+						'ws-user'=>(!empty((string)$xml->wsconfig->wsuser)?(string)$xml->wsconfig->wsuser:"Empty"),
+						'ws-userText'=>(!empty((string)$xml->wsconfig->wsuser)?(string)$xml->wsconfig->wsuser:"Empty"),
+						];
+						array_push($MyArray,$araymy);
+
+					if (isset($xml->wsconfig->wsheader)) {
+						foreach ($xml->wsconfig->wsheader->header as  $valueheader) {
+							$header=[
+								'JsonType'=>"Header",
+								'DefaultText'=>"",
+								'Moduli'=>"",
+								'ws-key-name'=>(String)$valueheader->keyname,
+								'ws-key-nameText'=>(String)$valueheader->keyname,
+								'ws-key-value'=>(String)$valueheader->keyvalue,
+								'ws-key-valueText'=>(String)$valueheader->keyvalue,
+							];
+							array_push($MyArray,$header);
+						}
+					}
+					if (isset($xml->input->fields))
+					{
+						foreach ($xml->input->fields->field as  $valueinput)
+						{
+							$Inputfields=[
+								'JsonType'=>"Input",
+								'DefaultText'=>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[1])?(string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[1]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[1] ),
+								'FirstModule' =>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[0])?(string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[0]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[0] ),
+								'ws-select-multipleoptionGroup' =>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[0])?(string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[0]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[0] ),
+								'FirstModuleText' =>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[1])?(string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[1]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[1] ),
+								'Moduli'=>"",
+								'ws-input-Origin'=>(String)$valueinput->origin,
+								'ws-input-OriginText'=>(String)$valueinput->origin,
+								'ws-input-attribute'=>(!empty((String)$valueinput->attribute)?(String)$valueinput->attribute:"Empty"),
+								'ws-input-attributeText'=>(!empty((String)$valueinput->attribute)?(String)$valueinput->attribute:"Empty"),
+								'ws-input-default'=>(!empty((String)$valueinput->default)?(String)$valueinput->default:"Empty"),
+								'ws-input-defaultText'=>(!empty((String)$valueinput->default)?(String)$valueinput->default:"Empty"),
+								'ws-input-format'=>(!empty((String)$valueinput->format)?(String)$valueinput->format:"Empty"),
+								'ws-input-formatText'=>(!empty((String)$valueinput->format)?(String)$valueinput->format:"Empty"),
+								'ws-input-name'=>(!empty((String)$valueinput->fieldname)?(String)$valueinput->fieldname:"Empty"),
+								'ws-input-nameText'=>(!empty((String)$valueinput->fieldname)?(String)$valueinput->fieldname:"Empty"),
+								'ws-input-static'=>(empty(explode(",",CheckAllFirstForAllModules(explode(',',$valueinput->fieldvalue)[0]))[0])?explode(',',$valueinput->fieldvalue)[0]:"Empty"),
+								'ws-input-staticText'=>(empty(explode(",",CheckAllFirstForAllModules(explode(',',$valueinput->fieldvalue)[0]))[0])?explode(',',$valueinput->fieldvalue)[0]:"Empty"),
+								'Anotherdata'=>array(),
+							];
+
+							foreach (explode(',',$valueinput->fieldvalue) as $valuefields)
+							{
+								if(!empty(explode(",",CheckAllFirstForAllModules(explode(',',$valuefields)[0]))[0]))
+								{
+									$anotherdata=[
+										"DataText"=>explode(",",CheckAllFirstForAllModules(explode(',',$valuefields)[0]))[1],
+										"DataValues"=>explode(",",CheckAllFirstForAllModules(explode(',',$valuefields)[0]))[0],
+									];
+									$Inputfields['Anotherdata'][]=$anotherdata;
+								}
+							}
+
+							array_push($MyArray,$Inputfields);
+						}	
+					}
+
+					if (isset($xml->Output->fields))
+					{
+						foreach ($xml->Output->fields->field as  $valueOutput)
+						{
+							$Outputfields=[
+								'JsonType'=>"Output",
+								'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[1],
+								'FirstModule' =>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueOutput->Relfield->RelModule))[0])?(string)explode("#", Get_First_Moduls_TextVal($valueOutput->Relfield->RelModule))[0]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[0] ),
+								'ws-output-select-multipleoptionGroup' =>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[0])?(string)explode("#", Get_First_Moduls_TextVal($valueinput->Relfield->RelModule))[0]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[0] ),
+								'FirstModuleText' =>(!empty((string)explode("#", Get_First_Moduls_TextVal($valueOutput->Relfield->RelModule))[1])?(string)explode("#", Get_First_Moduls_TextVal($valueOutput->Relfield->RelModule))[1]:(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[1] ),
+								'Moduli'=>"",
+								'ws-label'=>(!empty((String)$valueOutput->fieldlabel)?(String)$valueOutput->fieldlabel:"Empty"),
+								'ws-labelText'=>(!empty((String)$valueOutput->fieldlabel)?(String)$valueOutput->fieldlabel:"Empty"),
+								'ws-output-attribute'=>(!empty((String)$valueOutput->attribute)?(String)$valueOutput->attribute:"Empty"),
+								'ws-output-attributeText'=>(!empty((String)$valueOutput->attribute)?(String)$valueOutput->attribute:"Empty"),
+								'ws-output-name'=>(!empty((String)$valueOutput->fieldname)?(String)$valueOutput->fieldname:"Empty"),
+								'ws-output-nameText'=>(!empty((String)$valueOutput->fieldname)?(String)$valueOutput->fieldname:"Empty"),
+								'ws-input-static'=>(empty(explode(",",CheckAllFirstForAllModules(explode(',',$valueOutput->fieldvalue)[0]))[0])?explode(',',$valueOutput->fieldvalue)[0]:"Empty"),
+								'ws-input-staticText'=>(empty(explode(",",CheckAllFirstForAllModules(explode(',',$valueOutput->fieldvalue)[0]))[0])?explode(',',$valueOutput->fieldvalue)[0]:"Empty"),
+								'Anotherdata'=>array(),
+							];
+
+							foreach (explode(',',$valueOutput->fieldvalue) as $valuefields)
+							{
+								if(!empty(explode(",",CheckAllFirstForAllModules(explode(',',$valuefields)[0]))[0]))
+								{
+									$anotherdata=[
+										"DataText"=>explode(",",CheckAllFirstForAllModules(explode(',',$valuefields)[0]))[1],
+										"DataValues"=>explode(",",CheckAllFirstForAllModules(explode(',',$valuefields)[0]))[0],
+									];
+									$Outputfields['Anotherdata'][]=$anotherdata;
+								}
+							}
+
+							array_push($MyArray,$Outputfields);
+						}	
+					}
+
+					if (isset($xml->valuemap->fields))
+					{
+						foreach ($xml->valuemap->fields->field as  $valueValueMap)
+						{
+							$Outputfields=[
+								'JsonType'=>"Value Map",
+								'DefaultText'=>(string)$valueValueMap->fieldname,
+								'Moduli'=>"",
+								'ws-value-map-destinamtion'=>(string)$valueValueMap->fielddest,
+								'ws-value-map-destinamtionText'=>(string)$valueValueMap->fielddest,
+								'ws-value-map-name'=>(string)$valueValueMap->fieldname,
+								'ws-value-map-nameText'=>(string)$valueValueMap->fieldname,
+								'ws-value-map-source-input'=>(string)$valueValueMap->fieldsrc,
+								'ws-value-map-source-inputText'=>(string)$valueValueMap->fieldsrc,
+							];
+							array_push($MyArray,$Outputfields);
+						}	
+					}
+
+					if (isset($xml->errorhandler->field))
+					{
+						$ErrorHandlerfields=[
+								'JsonType'=>"Error Handler",
+								'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($value['FirstModule']))[1],
+								'Moduli'=>"",
+								'ws-error-message'=>(string)$xml->errorhandler->field->errormessage,
+								'ws-error-messageText'=>(string)$xml->errorhandler->field->errormessage,
+								'ws-error-name'=>(string)$xml->errorhandler->field->fieldname,
+								'ws-error-nameText'=>(string)$xml->errorhandler->field->fieldname,
+								'ws-error-value'=>(string)$xml->errorhandler->field->value,
+								'ws-error-valueText'=>(string)$xml->errorhandler->field->value,
+						];
+							array_push($MyArray,$ErrorHandlerfields);
+							
+					}
+
+					array_push($Alldatas,$MyArray);	
+				}
+
+
+
+			// value for Save As 
+			$data="MapGenerator,saveWebServiceMap";
+			$dataid="ListData,MapName";
+			$savehistory="true";
+			$saveasfunction="ShowLocalHistoryWS";
+			
+			$smarty = new vtigerCRM_Smarty();
+			$smarty->assign("MOD", $mod_strings);
+			$smarty->assign("APP", $app_strings);
+			
+			$smarty->assign("MapName", $MapName);
+
+			$smarty->assign("HistoryMap",$HistoryMap);
+
+			$NameOFMap=$MapName;
+			$smarty->assign("NameOFMap",$NameOFMap);
+
+			$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+			//put the smarty modal
+			$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+			$smarty->assign("FirstModuleFields",$FirstModuleFields);
+			$smarty->assign("PopupJS",$Alldatas);
+			$output = $smarty->fetch('modules/MapGenerator/WS.tpl');
+			echo $output;
+
+
+
+		}elseif (!empty($MapID)) {
+			//TODO: if exist MAp id but not exist the Query History (put the function here if you want to insert data without history this is for all maps )
+		}else
+		{
+			throw new Exception("Missing the MApID also The QueryHIstory", 1);
+			
+		}
+
+	} catch (Exception $ex) {
+		$log->debug(TypeOFErrors::ErrorLG." Something was wrong check the Exception ".$ex);
+		echo $ex;
+	}
+}
+
+
+
+
 
 
 

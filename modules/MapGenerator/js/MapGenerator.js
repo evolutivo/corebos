@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-06 14:31:01
+ * @Last Modified time: 2018-03-08 15:46:26
  */
 /*
  * @Author: Edmond Kacaj 
@@ -1596,6 +1596,68 @@
 				}
 				
 			}
+			if (check)
+			{
+				var checkvalue={temparray};
+				if (App.utils.checkinArray(App.popupJson,checkvalue,validatearray)===false)
+				{
+					App.popupJson.push({temparray});
+				}else
+				{
+					App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
+				}
+				
+			}else
+			{
+				App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
+			}
+			
+		},
+
+			/**
+		 * function to add in array your Object
+		 * @param {Array} params   All of html element id to get the values 
+		 * @param {[type]} jsonType JsonType is a flag if you want to a flag example PopUp,Related etc
+		 */
+		Add_to_universal_popup_personalize:function(params,jsonType,selectvalues,modulShow,validatearray=[],yourarray=[]){
+			var temparray={};
+			var check =false;
+			for (var i =0; i <= params.length - 1; i++) {
+				if ($('#'+params[i]).prop('required')===true && App.utils.IsSelectORDropDown(params[i]).length===0)
+				{
+					//alert(mv_arr.MappingFiledValid);
+					check=false;
+					break;
+				}else
+				{
+					temparray['JsonType']=jsonType;
+					temparray[params[i]]=App.utils.IsSelectORDropDown(params[i]);
+					temparray[params[i]+'Text']=App.utils.IsSelectORDropDownGetText(params[i]);
+					if (selectvalues && selectvalues!=="")
+					{
+						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(selectvalues);
+					}else
+					{
+						temparray['DefaultText']=App.utils.IsSelectORDropDownGetText(params[2]);
+					}
+					if (modulShow && modulShow!=="")
+					{
+						var modultoshow=App.utils.GetSelectParent(modulShow);
+						if (modultoshow &&modultoshow!=='')
+						{
+							temparray["Moduli"]=modultoshow;
+						}else{
+							temparray["Moduli"]=App.utils.IsSelectORDropDownGetText(modulShow);
+						}
+					}else{
+						temparray["Moduli"]="";
+					}
+					temparray[params[i]+'optionGroup']=App.utils.GetSelectParent(params[i]);
+					check=true;
+
+				}
+			}
+			if(yourarray.length>0){temparray["Anotherdata"]=yourarray;}
 			if (check)
 			{
 				var checkvalue={temparray};

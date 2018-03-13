@@ -216,5 +216,23 @@
 		width: 100%;
 		margin-bottom: 10px;
 	}
+	.ws-name-switch {
+		padding-right: .5rem;
+		width: 90%;
+	}
+	.ws-name-switch {
+		padding-right: .5rem;
+		width: 90%;
+	}
 /* End Input & Output & error Panel */
 
+.ws-select-multiple
+{
+	width: 50%;
+    height: 150px;
+}
+
+.ws-input-values-inputi
+{
+	width: 50%;float: right;
+}
