@@ -73,7 +73,7 @@
 									<h1 id="mapNameLabel" class="slds-page-header__title slds-m-right--small slds-truncate">
 										{if $NameOFMap neq ''} {$NameOFMap} {/if}
 									</h1>
-									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.FieldDependency}</p>
+									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.WSValidation}</p>
 								</header>
 								<div class="slds-no-flex">
 									<div class="actionsContainer mapButton">
