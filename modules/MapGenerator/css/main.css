@@ -1381,6 +1381,47 @@
 	}
 /* End New Map Modal */
 
+/* Ws-Validation */
+	.ws-val-container {
+		padding: 0 .5rem;
+		margin-top: .5rem;
+	}
+	.ws-val-container input {
+		width: 100%!important;
+	}
+	.ws-val-modules,
+	.ws-val-name-input,
+	.ws-val-validation-origin {
+		display: flex;
+	}
+	.ws-val-modules > div,
+	.ws-val-name-input > div,
+	.ws-val-validation-origin > div {
+		width: 50%;
+	}
+	.ws-val-target,
+	.ws-val-validation-origin > div:last-child,
+	.ws-val-name-input > div:last-child {
+		padding-left: .5rem;
+	}
+	.ws-val-origin,
+	.ws-val-validation-origin > div:first-child,
+	.ws-val-name-input > div:first-child {
+		padding-right: .5rem;
+	}
+	.ws-val-fields-header {
+		border-bottom: 1px solid #d4d4d4;
+	}
+	.ws-val-fields,
+	.ws-val-validation-origin,
+	.ws-val-button {
+		margin-top: 1rem;
+	}
+
+/* End Ws-Validation */
+
+
+
 
 
 
