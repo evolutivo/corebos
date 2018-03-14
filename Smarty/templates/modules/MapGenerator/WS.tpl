@@ -296,7 +296,10 @@
 															<div class="slds-form-element slds-text-align--left">
 																<label class="slds-form-element__label" for="ws-input-organization"><font size="3" color="red">*</font>{$MOD.wsOrigin}</label>
 																<div class="slds-form-element__control">
-																	<input id="ws-input-Origin" placeholder="{$MOD.wsOrigin}" class="slds-input" type="text" required />
+																	<select id="ws-input-Origin" class="slds-select" required name="ws-input-Origin"> 
+																		<option selected value="crm">crm</option>
+																		<option value="map">map</option>
+																	</select>
 																</div>
 															</div>
 														</div>
