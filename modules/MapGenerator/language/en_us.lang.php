@@ -228,6 +228,14 @@ $mod_strings = array(
 
 
 	'WSValidation'=>'WS Validation',
+	'WSValidationOriginModule'=>'Origin Module',
+	'WSValidationTargetModule'=>'Target Module',
+	'WSValidationName'=>'Name',
+	'WSValidationValue'=>'Value',
+	'WSValidationValidation'=>'Validation',
+	'WSValidationOrigin'=>'Origin',
+	'WSValidationFields'=>'Fields',
+	'WSValidationRequired'=>'(*) Mandatory Fields',
 
 	
 );
