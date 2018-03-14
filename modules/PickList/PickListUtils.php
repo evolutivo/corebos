@@ -335,7 +335,7 @@ function getPicklistValuesSpecialUitypes($uitype, $fieldname, $value, $action = 
 			);
 		}
 	} elseif ($uitype == '1025') {
-		$values = explode(' |##| ', $value);
+		$values = explode(',', $value);
 		if (!empty($value) && !empty($values[0])) {
 			$srchmod=  getSalesEntityType($values[0]);
 			for ($i=0; $i < count($values); $i++) {
