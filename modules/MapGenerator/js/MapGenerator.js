@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-08 15:46:26
+ * @Last Modified time: 2018-03-14 16:29:43
  */
 /*
  * @Author: Edmond Kacaj 
@@ -296,6 +296,16 @@
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
 			}else if (select == "WS") {
+				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
+				var urlsend = [ urlpost[0], "firstModule" ];
+				 App.ModulLabel='Module';
+				  App.FieldLabel='Field';
+				  App.DefaultValue='';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
+			}else if (select == "WS Validation") {
 				// idfieldfill,urlsend,dat
 				App.utils.UpdateMapNAme();
 				var urlsend = [ urlpost[0], "firstModule" ];

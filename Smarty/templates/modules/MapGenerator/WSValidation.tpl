@@ -1,0 +1,1 @@
+{* WSValidation.tpl *}

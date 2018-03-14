@@ -225,6 +225,10 @@ $mod_strings = array(
 	'wsMultipleSelect'=>'Hold CTRL to select multiple fields',
 	'wsOpyionalValue'=>'Write a static Value (Opsional)',
 
+
+
+	'WSValidation'=>'WS Validation',
+
 	
 );
 ?>
