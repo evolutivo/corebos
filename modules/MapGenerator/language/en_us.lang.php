@@ -236,7 +236,7 @@ $mod_strings = array(
 	'WSValidationOrigin'=>'Origin',
 	'WSValidationFields'=>'Fields',
 	'WSValidationRequired'=>'(*) Mandatory Fields',
-
+	'wsvalidationAdd'=>'Add',
 	
 );
 ?>

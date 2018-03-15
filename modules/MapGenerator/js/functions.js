@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-09 15:16:30
+ * @Last Modified time: 2018-03-15 12:29:20
  */
 /*
  * @Author: Edmond Kacaj 
@@ -5865,6 +5865,167 @@ function ShowLocalHistoryWS(keephitoryidtoshow,keephitoryidtoshowidrelation)
         for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) { 
           var FirstModule=App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'];
           $('#'+keephitoryidtoshow).append(LocalHistoryWS(i,FirstModule,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+
+
+/////////////////////////  Ws Validation Map ///////////////////////////////////////////////
+
+/**
+ * function to add Fields For Validation
+ */
+function AddPopupForFieldsWSValidation(event)
+{
+    var elem=event;
+    var allid=elem.dataset.addRelationId;
+    var showtext=elem.dataset.showId;
+    var Typeofpopup=elem.dataset.addType;
+    var replace=elem.dataset.addReplace;
+    var modulShow=elem.dataset.showModulId;
+    var divid=elem.dataset.divShow;
+    var validate=elem.dataset.addButtonValidate;
+    var validatearray=[];
+
+    var allidarray = allid.split(",");
+
+    if (validate)
+    {
+      if (validate.length>0)
+      {
+        validatearray=validate.split(',');
+      }else{validatearray.length=0;}
+    }else{validatearray.length=0;}
+
+    $('#'+divid+' div').remove();
+    App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateWSValidation(i,App.popupJson[i],divid);
+        $('#'+divid).append(divinsert);
+      }
+    }else{
+      // alert(mv_arr.MappingFiledValid);
+      App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    } 
+}
+
+/**
+ * generate the html popup for Validation WS
+ * @param {*} Idd 
+ * @param {*} tpa 
+ * @param {*} divid 
+ */
+function GenerateWSValidation(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupWSValidationFields('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+   
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+    INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModuleText'])===false?tpa.temparray['FirstModuleText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Target Module  ==> '+(isBlank(tpa.temparray['TargetModule'])===false?tpa.temparray['TargetModuleText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['ws-val-nameText'])===false?tpa.temparray['ws-val-nameText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Value  ==> '+(isBlank(tpa.temparray['ws-val-valueText'])===false?tpa.temparray['ws-val-valueText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Validation  ==> '+(isBlank(tpa.temparray['ws-val-validationText'])===false?tpa.temparray['ws-val-validationText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Origin  ==> '+(isBlank(tpa.temparray['ws-val-origin-selectText'])===false?tpa.temparray['ws-val-origin-selectText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '</div';
+    return INSertAlerstJOIN;
+}
+
+/**
+ * function to remove the Fieldds WSValidation
+ */
+function ClosePopupWSValidationFields(remuveid,namediv)
+{
+  var check = false;
+  for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+  {
+    if (ii == remuveid)
+    {
+        //JSONForCOndition.remove(remuveid);
+        App.popupJson.splice(remuveid,1);
+        check = true
+        //console.log(remuveid);
+        // console.log(ReturnAllDataHistory());
+    }
+  }
+  if (check)
+  {
+    var remuvediv="#alerts_"+remuveid;
+
+    $('#'+namediv+' div').remove();
+    if (App.popupJson.length>0)
+    { 
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+         var divinsert= GenerateWSValidation(i,App.popupJson[i],namediv);
+         $('#'+namediv).append(divinsert);
+      }   
+    }else
+    {
+      // alert(mv_arr.MappingFiledValid);
+      // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+    }
+  }
+  else
+  {
+    // alert(mv_arr.ReturnFromPost);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+  }
+}
+
+
+function ClickToshowSelectedWSValidation(Idload,divHistory)
+{
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateWSValidation(i,App.popupJson[i],divHistory);
+        $('#'+divHistory).append(divinsert);
+    } 
+
+    }else{
+        // alert(mv_arr.MappingFiledValid);
+        App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+      }
+}
+
+function LocalHistoryWSValidation(IdLoad,OriginModule,TargetModule,divanameLoad,dividrelation='')
+{
+    var htmldat='<div class="Message Message"  >';
+    htmldat+='<div class="Message-icon">';
+    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelectedWSValidation(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+    htmldat+='</div>';
+    htmldat+='<div class="Message-body">';
+    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+    htmldat+='<p>Origin Module ==> '+OriginModule+'</p>';
+    if(isBlank(TargetModule)===false)
+      htmldat+='<p>Target Module ==> '+TargetModule+'</p>';
+
+    htmldat+='</div>';
+    htmldat+='</div>';
+    return htmldat;
+}
+
+function ShowLocalHistoryWSValidation(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) { 
+          var OriginModule=App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'];
+          var TargetModule=(isBlank(App.SaveHistoryPop[i].PopupJSON[0].temparray['TargetModule'])===false?App.SaveHistoryPop[i].PopupJSON[0].temparray['TargetModuleText']:"");
+          $('#'+keephitoryidtoshow).append(LocalHistoryWSValidation(i,OriginModule,TargetModule,keephitoryidtoshow,keephitoryidtoshowidrelation));
 
       }
     }

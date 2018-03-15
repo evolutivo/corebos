@@ -83,7 +83,7 @@
 											{else} {* saveFieldDependency *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
-											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
+											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceValidation" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWSValidation" >{$MOD.CreateMap}</button> 
 										</div>
 									</div>
 								</div>
@@ -116,7 +116,7 @@
 													<label class="slds-form-element__label" for="TargetModule">{$MOD.WSValidationTargetModule}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
-															<select id="TargetModule"  class="slds-select">
+															<select id="TargetModule"  class="slds-select" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  >
 																{$FirstModuleSelected}
 															</select>
 														</div>
@@ -136,7 +136,7 @@
 												<div class="slds-form-element slds-text-align--left">
 													<label class="slds-form-element__label" for="ws-val-value">{$MOD.WSValidationValue}</label>
 													<div class="slds-form-element__control">
-														<input id="ws-val-value" class="slds-input" placeholder="Enter {$MOD.WSValidationValue}" type="text" required aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
+														<input id="ws-val-value" class="slds-input" placeholder="Enter {$MOD.WSValidationValue}" type="text"  aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
 													</div>
 												</div>
 											</div>
@@ -145,7 +145,7 @@
 												<div class="slds-form-element slds-text-align--left">
 													<label class="slds-form-element__label" for="ws-val-validation">{$MOD.WSValidationValidation}</label>
 													<div class="slds-form-element__control">
-														<input id="ws-val-validation" class="slds-input" placeholder="Enter {$MOD.WSValidationValidation}" type="text" required aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
+														<input id="ws-val-validation" class="slds-input" placeholder="Enter {$MOD.WSValidationValidation}" type="text"  aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
 													</div>
 												</div>
 												<!-- WS Validation Origin Select -->
@@ -169,7 +169,7 @@
                                             </label>
                                         </div>
 										<div class="ws-val-button">
-											<button class="slds-button slds-button--small slds-button--brand" > Add </button>
+											<button class="slds-button slds-button--small slds-button--brand"  onclick="AddPopupForFieldsWSValidation(this);RestoreDataEXFIM(this);" data-add-button-popup="false" data-add-type="Field" data-add-button-validate="" data-show-id="FirstModule"  data-add-relation-id="FirstModule,ws-val-origin-select,ws-val-validation,ws-val-value,ws-val-name,TargetModule,FirstModule"  data-div-show="LoadShowPopup" id="addpopupInput"  >{$MOD.wsvalidationAdd}</button>
 										</div>
 									</div>
 
