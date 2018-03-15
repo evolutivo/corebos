@@ -130,7 +130,7 @@
 														<!-- URL input-->
 														<div class="ws-url-input">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="url-input"><font size="3" color="red">*</font> {$MOD.wsURL}</label>
+																<label class="slds-form-element__label" for="url-input"><strong class="slds-text-color_error">*</strong> {$MOD.wsURL}</label>
 																<div class="slds-form-element__control slds-input-has-icon_left">
 																	<span class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default" id="fixed-text-addon-pre">{$MOD.wshttps}</span>
 																	<input id="url-input" class="slds-input" placeholder="Enter {$MOD.wsURL}" type="text" required aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
@@ -206,7 +206,7 @@
 													<div class="ws-input-output">
 														<div class="ws-input-type">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-type"><font size="3" color="red">*</font> {$MOD.wsInputType}</label>
+																<label class="slds-form-element__label" for="ws-input-type"><strong class="slds-text-color_error">*</strong> {$MOD.wsInputType}</label>
 																<div class="slds-form-element__control">
 																	<div class="slds-select_container">
 																		<select id="ws-input-type" required  name="mod" class="slds-select">
@@ -264,7 +264,7 @@
 												<div class="ws-input-container">
 													<div class="ws-input-organization" style="width: 100%;">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-organization"><font size="3" color="red">*</font>{$MOD.wsName}</label>
+																<label class="slds-form-element__label" for="ws-input-organization"><strong class="slds-text-color_error">*</strong>{$MOD.wsName}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-input-name" placeholder="{$MOD.wsName}" class="slds-input" type="text" required />
 																</div>
@@ -274,7 +274,7 @@
 													<div class="ws-input-organization-default-container">
 														<div class="ws-input-default">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-default"><font size="3" color="red">*</font>{$MOD.wsMultipleSelect}</label>
+																<label class="slds-form-element__label" for="ws-input-default"><strong class="slds-text-color_error">*</strong>{$MOD.wsMultipleSelect}</label>
 																<div class="slds-form-element__control">
 																	<select id="ws-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" style="width: 100%;height: 150px;" name="selectableFields[]"> 
 																		{$FirstModuleFields}
@@ -294,7 +294,7 @@
 													<div class="ws-input-value-attribute-container">
 													<div class="ws-input-organization">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-organization"><font size="3" color="red">*</font>{$MOD.wsOrigin}</label>
+																<label class="slds-form-element__label" for="ws-input-organization"><strong class="slds-text-color_error">*</strong>{$MOD.wsOrigin}</label>
 																<div class="slds-form-element__control">
 																	<select id="ws-input-Origin" class="slds-select" required name="ws-input-Origin"> 
 																		<option selected value="crm">crm</option>
@@ -365,7 +365,7 @@
 												<div class="ws-input-container">
 														<div class="ws-input-organization" style="width: 100%;">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-organization"><font size="3" color="red">*</font>{$MOD.wsName}</label>
+																<label class="slds-form-element__label" for="ws-input-organization"><strong class="slds-text-color_error">*</strong>{$MOD.wsName}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-output-name" placeholder="{$MOD.wsName}" class="slds-input" type="text" required />
 																</div>
@@ -375,7 +375,7 @@
 													<div class="ws-input-organization-default-container">
 														<div class="ws-input-default">
 															<div class="slds-form-element slds-text-align--left">
-																<label class="slds-form-element__label" for="ws-input-default"><font size="3" color="red">*</font>{$MOD.wsMultipleSelect}</label>
+																<label class="slds-form-element__label" for="ws-input-default"><strong class="slds-text-color_error">*</strong>{$MOD.wsMultipleSelect}</label>
 																<div class="slds-form-element__control">
 																	<select id="ws-output-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" style="width: 100%;height: 150px;" name="selectableFields[]"> 
 																		{$FirstModuleFields}
@@ -446,7 +446,7 @@
 													<div class="ws-error-name-value">
 														<div class="ws-error-name">
 															<div class="slds-form-element">
-																<label class="slds-form-element__label" for="ws-error-name"> <font size="3" color="red">*</font> {$MOD.wsValuemapName}</label>
+																<label class="slds-form-element__label" for="ws-error-name"> <strong class="slds-text-color_error">*</strong> {$MOD.wsValuemapName}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-value-map-name" class="slds-input" required placeholder="{$MOD.wsValuemapName}" type="text" />
 																</div>
@@ -454,7 +454,7 @@
 														</div>
 														<div class="ws-error-value">
 															<div class="slds-form-element">
-																<label class="slds-form-element__label" for="ws-error-value"> <font size="3" color="red">*</font> {$MOD.wsValuemapSource}</label>
+																<label class="slds-form-element__label" for="ws-error-value"> <strong class="slds-text-color_error">*</strong> {$MOD.wsValuemapSource}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-value-map-source-input" class="slds-input" required placeholder="{$MOD.wsValuemapSource}" type="text" />
 																</div>
@@ -463,7 +463,7 @@
 													</div>
 													<div class="ws-error-message">
 														<div class="slds-form-element">
-															<label class="slds-form-element__label" for="ws-error-message"> <font size="3" color="red">*</font>{$MOD.wsValuemapDestination}</label>
+															<label class="slds-form-element__label" for="ws-error-message"> <strong class="slds-text-color_error">*</strong>{$MOD.wsValuemapDestination}</label>
 															<div class="slds-form-element__control">
 																<input id="ws-value-map-destinamtion" class="slds-input" required placeholder="{$MOD.wsValuemapDestination}" type="text" />
 															</div>
@@ -506,7 +506,7 @@
 													<div class="ws-error-name-value">
 														<div class="ws-error-name">
 															<div class="slds-form-element">
-																<label class="slds-form-element__label" for="ws-error-name"> <font size="3" color="red">*</font> {$MOD.wsErrorName}</label>
+																<label class="slds-form-element__label" for="ws-error-name"> <strong class="slds-text-color_error">*</strong> {$MOD.wsErrorName}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-error-name" class="slds-input" required placeholder="{$MOD.wsName}" type="text" />
 																</div>
@@ -514,7 +514,7 @@
 														</div>
 														<div class="ws-error-value">
 															<div class="slds-form-element">
-																<label class="slds-form-element__label" for="ws-error-value"> <font size="3" color="red">*</font> {$MOD.wsErrorValue}</label>
+																<label class="slds-form-element__label" for="ws-error-value"> <strong class="slds-text-color_error">*</strong> {$MOD.wsErrorValue}</label>
 																<div class="slds-form-element__control">
 																	<input id="ws-error-value" class="slds-input" required placeholder="{$MOD.wsErrorValue}" type="text" />
 																</div>
