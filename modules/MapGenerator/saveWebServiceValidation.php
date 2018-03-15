@@ -5,7 +5,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-15 11:37:58 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-15 12:28:39
+ * @Last Modified time: 2018-03-15 14:52:44
  */
 
 include_once ("modules/cbMap/cbMap.php");
@@ -130,8 +130,6 @@ function add_content($DataDecode)
      $originmodule->appendChild($originmodulename);
      $root->appendChild($originmodule);  
 
-    if(!empty($DataDecode[0]->temparray->TargetModule))
-    {
         $target = $xml->createElement("targetmodule");
         $targetid = $xml->createElement("targetid");
         $targetidText = $xml->createTextNode(getModuleID(explode('#',$DataDecode[0]->temparray->TargetModule)[0]));
@@ -142,7 +140,7 @@ function add_content($DataDecode)
         $target->appendChild($targetid);
         $target->appendChild($targetname);
         $root->appendChild($target);  
-    }
+    
 
      //put the fields
      $fields=$xml->createElement("fields");

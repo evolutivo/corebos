@@ -103,7 +103,7 @@
 													<label class="slds-form-element__label" for="FirstModule"><font size="3" color="red">*</font>{$MOD.WSValidationOriginModule}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
-															<select id="FirstModule" required data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="RelatedModuleDuplicate" data-second-module-id="TargetModule" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
+															<select id="FirstModule" required data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="firstModule" data-second-module-id="TargetModule" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
 																{$FirstModuleSelected}
 															</select>
 														</div>
