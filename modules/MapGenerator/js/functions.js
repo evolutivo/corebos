@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-15 14:49:49
+ * @Last Modified time: 2018-03-15 15:26:54
  */
 /*
  * @Author: Edmond Kacaj 
@@ -5927,8 +5927,8 @@ function GenerateWSValidation(Idd,tpa,divid)
     + Idd + ',\'' + divid + '\');">&times;</span>';
    
     INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
-    INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModuleText'])===false?tpa.temparray['FirstModuleText']:"Empry") + '</p>';
-    INSertAlerstJOIN += '<p>Target Module  ==> '+(isBlank(tpa.temparray['TargetModule'])===false?tpa.temparray['TargetModuleText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModuleText'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Target Module  ==> '+(isBlank(tpa.temparray['TargetModule'])===false?tpa.temparray['TargetModuleText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Name  ==> '+(isBlank(tpa.temparray['ws-val-nameText'])===false?tpa.temparray['ws-val-nameText']:"Empry") + '</p>';
     INSertAlerstJOIN += '<p>Value  ==> '+(isBlank(tpa.temparray['ws-val-valueText'])===false?tpa.temparray['ws-val-valueText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Validation  ==> '+(isBlank(tpa.temparray['ws-val-validationText'])===false?tpa.temparray['ws-val-validationText']:"Empty") + '</p>';

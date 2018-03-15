@@ -19,28 +19,7 @@
 					 {foreach name=outer item=popi from=$allitems}
 						var temparray = {};
 						{foreach key=key item=item from=$popi}
-								{if $key eq 'Anotherdata'}
-									rows=new Array();
-									allfieldsval=[];
-									allfieldstetx=[];
-										{foreach from=$item item=itemi key=keyes}
-											checkifexist={};
-											fieldsval=[];
-											fieldstetx=[];
-											{foreach from=$itemi item=items key=key name=name}
-												checkifexist['DataValues']=`{$itemi.DataValues}`;
-												checkifexist['DataText']=`{$itemi.DataText}`;
-											{/foreach}
-											{literal}
-												allfieldsval.push(checkifexist);
-											{/literal}
-									{/foreach}
-									{literal}
-										temparray["Anotherdata"]=allfieldsval;
-									{/literal}
-								{else}
-								 temparray['{$key}']='{$item}';
-								{/if}
+								temparray['{$key}']='{$item}';
 						{/foreach}
 						App.popupJson.push({'{'}temparray{'}'});
 						// console.log(temparray);
@@ -48,8 +27,8 @@
 					 HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 					App.popupJson.length=0;
 			{/foreach}
-			ShowLocalHistoryWS('LoadHistoryPopup','LoadShowPopup');
-			ClickToshowSelectedWS(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+			ShowLocalHistoryWSValidation('LoadHistoryPopup','LoadShowPopup');
+			ClickToshowSelectedWSValidation(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 			App.countsaveMap=2;
 			App.utils.UpdateMapNAme();
 	</script>
@@ -117,7 +96,7 @@
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
 															<select id="TargetModule"  class="slds-select" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup"  >
-																{$FirstModuleSelected}
+																{$SecondModule}
 															</select>
 														</div>
 													</div>
