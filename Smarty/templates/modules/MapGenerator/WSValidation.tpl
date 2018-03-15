@@ -100,7 +100,7 @@
 											<!-- Origin Module-->
 											<div class="ws-val-origin">
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="FirstModule"><font size="3" color="red">*</font>{$MOD.WSValidationOriginModule}</label>
+													<label class="slds-form-element__label" for="FirstModule"><strong class="slds-text-color--error">* </strong>{$MOD.WSValidationOriginModule}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
 															<select id="FirstModule" required data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup" data-second-module-file="firstModule" data-second-module-id="TargetModule" data-module="MapGenerator"  id="FirstModule" name="mod" class="slds-select">
@@ -128,7 +128,7 @@
 											<h5 class="ws-val-fields-header slds-text-align--center">{$MOD.WSValidationFields}</h5>
 											<div class="ws-val-name-input">
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="ws-val-name"><font size="3" color="red">*</font>{$MOD.WSValidationName}</label>
+													<label class="slds-form-element__label" for="ws-val-name"><strong class="slds-text-color--error">* </strong>{$MOD.WSValidationName}</label>
 													<div class="slds-form-element__control">
 														<input id="ws-val-name" class="slds-input" placeholder="Enter {$MOD.WSValidationName}" type="text" required aria-describedby="fixed-text-addon-pre fixed-text-addon-post" />
 													</div>
@@ -150,7 +150,7 @@
 												</div>
 												<!-- WS Validation Origin Select -->
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="ws-val-origin-select"><font size="3" color="red">*</font>{$MOD.WSValidationOrigin}</label>
+													<label class="slds-form-element__label" for="ws-val-origin-select"><strong class="slds-text-color--error">* </strong>{$MOD.WSValidationOrigin}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
 															<select id="ws-val-origin-select" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="ws-select-multiple,ws-output-select-multiple" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
