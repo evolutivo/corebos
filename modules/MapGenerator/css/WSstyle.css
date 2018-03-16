@@ -66,8 +66,8 @@
 
 /* WS Configuration Panel */
 	.ws-configuration-container {
-			margin-top: .5rem;
-			cursor: default;
+		margin-top: .5rem;
+		cursor: default;
 	}
 	.ws-configuration-container input {
 		width: 100%;
@@ -76,6 +76,10 @@
 	.ws-url-container,
 	.ws-input-output {
 		display: flex;
+	}
+	.ws-module-container {
+		padding: 0 .5rem;
+		margin-bottom: 1rem;
 	}
 	.ws-input-output {
 		margin-bottom: 1rem;
@@ -154,53 +158,71 @@
 /* Input & Output & error Panel */
 	.ws-input-container,
 	.ws-output-container,
+	.ws-value-container,
 	.ws-error-handler-container {
 		margin: 1rem 0;
 		padding: 0 .5rem;
 	}
-	.ws-input-value-attribute-container,
-	.ws-input-organization-default-container,
-	.ws-output-label-name,
-	.ws-output-attribute-value,
-	.ws-error-name-value {
+	.ws-input-multiple-value-container,
+	.ws-input-origin-attribute-container,
+	.ws-input-default-format-container,
+	.ws-input-help_text-add_button,
+	.ws-output-name-container,
+	.ws-output-multiple-value-container,
+	.ws-output-label-attribute-container,
+	.ws-output-help_text-add_button,
+	.ws-value-field_name-field_source-container,
+	.ws-value-help_text-add_button-container,
+	.ws-error-help_text-add_button-container,
+	.ws-error-name-value-container {
 		display: flex;
-		margin: 1rem 0;
+		margin: .5rem 0;
 	}
 	.ws-input-value-attribute-container {
 		min-height: 55px;
 	}
-	.ws-input-value,
 	.ws-input-organization,
+	.ws-input-multiple,
+	.ws-input-default,
+	.ws-input-help,
+	.ws-output-multiple,
 	.ws-output-label,
-	.ws-output-attribute,
-	.ws-error-name {
+	.ws-output-help,
+	.ws-value-field_name,
+	.ws-value-help,
+	.ws-error-name,
+	.ws-error-help {
 		padding-right: .5rem;
 		width: 50%;
 	}
 	.ws-input-attribute,
-	.ws-input-default,
-	.ws-output-name,
+	.ws-input-static-value,
+	.ws-input-format,
+	.ws-input-buttons,
 	.ws-output-value,
-	.ws-error-value {
+	.ws-output-attribute,
+	.ws-value-field_source,
+	.ws-output-buttons,
+	.ws-value-field_source,
+	.ws-value-buttons,
+	.ws-error-value,
+	.ws-error-buttons {
 		width: 50%;
 		padding-left: .5rem;
+	}
+	.ws-input-help label,
+	.ws-output-help label,
+	.ws-value-help label,
+	.ws-error-help label {
+		padding-top: .5rem;
 	}
 	.ws-input-value {
 		display: flex;
 	}
+	.ws-input-name,
+	.ws-output-name,
 	.ws-input-value-switcher input {
 		width: 100%;
-	}
-	.ws-input-value > div:first-child {
-		width: 92%;
-	}
-	.ws-toggle-field {
-		width: 8%;
-		text-align: right;
-		margin-top: 1.5rem;
-	}
-	.ws-toggle-field a {
-		cursor: pointer;
 	}
 	#ws-input-value-btn {
 		position: absolute;
@@ -224,12 +246,15 @@
 		padding-right: .5rem;
 		width: 90%;
 	}
+	.ws-error-message textarea {
+		min-height: 30px;
+	}
 /* End Input & Output & error Panel */
 
 .ws-select-multiple
 {
 	width: 50%;
-    height: 150px;
+	height: 150px;
 }
 
 .ws-input-values-inputi
