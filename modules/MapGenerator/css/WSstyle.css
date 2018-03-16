@@ -224,6 +224,9 @@
 	.ws-input-value-switcher input {
 		width: 100%;
 	}
+	.ws-select-multiple {
+		min-height: 150px!important;
+	}
 	#ws-input-value-btn {
 		position: absolute;
 		right: 5px;
@@ -251,13 +254,49 @@
 	}
 /* End Input & Output & error Panel */
 
-.ws-select-multiple
-{
-	width: 50%;
-	height: 150px;
-}
+/* WS-Validation */
+	.ws-val-container {
+		padding: 0 .5rem;
+		margin-top: .5rem;
+	}
+	.ws-val-container input {
+		width: 100%!important;
+	}
+	.ws-val-modules-container,
+	.ws-val-name-input-container,
+	.ws-val-validation-origin-container,
+	.ws-val-help_text-add_button-container {
+		display: flex;
+	}
+	
+	.ws-val-help_text-add_button-container > div,
+	.ws-val-modules-container > div,
+	.ws-val-name-input-container > div,
+	.ws-val-validation-origin-container > div {
+		width: 50%;
+	}
+	.ws-val-target_module,
+	.ws-val-validation-origin-container > div:last-child,
+	.ws-val-name-input-container > div:last-child {
+		padding-left: .5rem;
+	}
+	.ws-val-origin_module,
+	.ws-val-validation-origin-container > div:first-child,
+	.ws-val-name-input-container > div:first-child {
+		padding-right: .5rem;
+	}
+	.ws-val-fields-header {
+		border-bottom: 1px solid #d4d4d4;
+	}
+	.ws-val-validation-origin-container,
+	.ws-val-button {
+		margin-top: 1rem;
+	}
+	.ws-val-fields-container {
+		margin-top: 1.5rem;
+	}
+	.ws-val-help label {
+		padding-top: 1rem;
+	}
 
-.ws-input-values-inputi
-{
-	width: 50%;float: right;
-}
+/* End Ws-Validation */

@@ -286,7 +286,7 @@
 																	<strong class="slds-text-color--error">*</strong>{$MOD.wsMultipleSelect}
 																</label>
 																<div class="slds-form-element__control">
-																	<select id="ws-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" style="width: 100%;height: 150px;" name="selectableFields[]"> 
+																	<select id="ws-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" name="selectableFields[]"> 
 																		{$FirstModuleFields}
 																	</select>
 																</div>
@@ -398,7 +398,7 @@
 																	<strong class="slds-text-color--error">*</strong>{$MOD.wsMultipleSelect}
 																</label>
 																<div class="slds-form-element__control">
-																	<select id="ws-output-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" style="width: 100%;height: 150px;" name="selectableFields[]"> 
+																	<select id="ws-output-select-multiple" class="slds-select ws-select-multiple" multiple="multiple" name="selectableFields[]"> 
 																		{$FirstModuleFields}
 																	</select>
 																</div>
