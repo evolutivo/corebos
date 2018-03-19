@@ -1381,6 +1381,66 @@
 	}
 /* End New Map Modal */
 
+/* Related Panes */
+	.related-panes-container {
+		margin: .5rem 0 1rem 0;
+		padding: 0 .5rem;
+	}
+	.rp-panes-container,
+	.rp-blocks-container {
+		margin-top: 1rem;
+	}
+	.rp-origin-module {
+		margin-bottom: .5rem;
+	}
+	.rp-panes-title h5,
+	.rp-blocks-title h5 {
+		border-bottom: 1px solid #d4d4d4;
+	}
+	.rp-panes-body,
+	.rp-blocks-body_1,
+	.rp-blocks-body_2 {
+		display: flex;
+	}
+	.rp-panes-body input,
+	.rp-blocks-body_1 input,
+	.rp-blocks-body_2 input {
+		width: 100%;
+	}
+	.rp-panes-body > div {
+		width: 37%;
+	}
+	.rp-blocks-body_2 {
+		margin: .5rem 0;
+	}
+	.rp-blocks-body_1 > div,
+	.rp-blocks-body_2 > div {
+		width: 50%;
+	}
+	.rp-blocks-body_1 > div:last-child,
+	.rp-blocks-body_2 > div:last-child {
+		padding-left: .5rem;
+	}
+	.rp-blocks-body_1 > div:first-child,
+	.rp-blocks-body_2 > div:first-child,
+	.rp-panes-body > div {
+		padding-right: .5rem;
+	}
+	.rp-panes-body > div:last-child {
+		width: 26%;
+		padding: 0;
+	}
+	.rp-panes-body > div:last-child > div {
+		margin-top: 2rem;
+	}
+	.rp-buttons-container > button:first-child {
+		float: left;
+	}
+
+
+
+
+/* End Related Panes */
 
 
 /*	#LDSstyle {
