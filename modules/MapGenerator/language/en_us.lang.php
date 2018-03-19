@@ -237,6 +237,23 @@ $mod_strings = array(
 	'WSValidationFields'=>'Fields',
 	'WSValidationRequired'=>'(*) Mandatory Fields',
 	'wsvalidationAdd'=>'Add',
+
+
+	'RpRelatedPanes'=>'Related Panes',
+	'RpOriginModule'=>'Origin Module',
+	'RpPanes'=>'Panes',
+	'RpLabel'=>'Label',
+	'RpSequence'=>'Sequence',
+	'RpMoreInformation'=>'More in formation',
+	'RpBlockLabel'=>'Block Label',
+	'RpBlockSequence'=>'Block Sequence',
+	'RpBlockType'=>'Block Type',
+	'RpBlockLoadForm'=>'Load From',
+	'RprequiredFileds'=>'(*) Mandatory Fields',
+	'RpAddBlock'=>'Add Block',
+	'RpAddPanes'=>'Add Panes',
+	
+
 	
 );
 ?>

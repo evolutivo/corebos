@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-15 15:26:54
+ * @Last Modified time: 2018-03-19 17:43:42
  */
 /*
  * @Author: Edmond Kacaj 
@@ -6029,4 +6029,131 @@ function ShowLocalHistoryWSValidation(keephitoryidtoshow,keephitoryidtoshowidrel
 
       }
     }
+}
+
+
+
+////////////////// Related Panes //////////////////////////////////////
+
+
+function moreinformationchecked(event)
+{
+  var elem=event;
+  var allids=elem.dataset.allId;
+
+ if (elem.checked)
+  {
+    if (allids)
+    {
+      allids=allids.split(',');
+      for (var i = allids.length - 1; i >= 0; i--) {
+        if (allids[i]==='rp-label') {
+          $("#labelinputdiv").css('display',  "none");  
+        }else
+        {
+          $("#"+allids[i]).removeAttr('required');
+        }
+      }
+      $(".slds-text-color--error").css("visibility", "hidden");
+    }
+
+  }else
+  {
+    if (allids)
+    {
+      allids=allids.split(',');
+      for (var i = allids.length - 1; i >= 0; i--) {         
+        if (allids[i]==='rp-label') {
+          $("#labelinputdiv").css('display',  "block");  
+        }else
+        {
+          $("#"+allids[i]).removeAttr('required');
+        }
+      }
+      $(".slds-text-color--error").css("visibility", "visible");
+    }
+  }
+}
+
+
+function RestoreDataRelatedFields(sel,panes=false) {
+  if (sel) {
+      var idrelation = sel.dataset.addRelationId;
+      var arrofId=idrelation.split(",");
+      setTimeout(function() {
+        arrofId.forEach(element => {
+          if (document.getElementById(element).tagName==='INPUT') {
+            if ((element==='rp-label' || element==='rp-sequence' )&& panes===false) {
+              var value=2+2;
+            }else
+            {
+              $('#'+element).val("");
+            }
+          }
+      });
+    }, 100);
+  }
+}
+
+
+function AddPopupRelatedFieldBlock(event)
+{
+  var elem=event;
+  var allid=elem.dataset.addRelationId;
+  var showtext=elem.dataset.showId;
+  var Typeofpopup=elem.dataset.addType;
+  var replace=elem.dataset.addReplace;
+  var modulShow=elem.dataset.showModulId;
+  var divid=elem.dataset.divShow;
+  var validate=elem.dataset.addButtonValidate;
+  var validatearray=[];
+
+  var allidarray = allid.split(",");
+
+  if (validate)
+  {
+    if (validate.length>0)
+    {
+      validatearray=validate.split(',');
+    }else{validatearray.length=0;}
+  }else{validatearray.length=0;}
+
+  $('#'+divid+' div').remove();
+  App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+  if (App.popupJson.length>0)
+  { 
+    for (var i = 0; i <= App.popupJson.length-1; i++) {
+      var divinsert= GenerateRelatedFieldsBlock(i,App.popupJson[i],divid);
+      $('#'+divid).append(divinsert);
+    }
+  }else{
+    // alert(mv_arr.MappingFiledValid);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+  } 
+}
+
+
+/**
+ * generate the html popup for Related Fields (Block)
+ * @param {*} Idd 
+ * @param {*} tpa 
+ * @param {*} divid 
+ */
+function GenerateRelatedFieldsBlock(Idd,tpa,divid)
+{
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+    + '">';
+    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupWSValidationFields('
+    + Idd + ',\'' + divid + '\');">&times;</span>';
+   
+    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+    INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModule'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Panes Label  ==> '+(isBlank(tpa.temparray['rp-labelText'])===false?tpa.temparray['rp-labelText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Load From  ==> '+(isBlank(tpa.temparray['rp-block-loadfromText'])===false?tpa.temparray['rp-block-loadfromText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '</div';
+    return INSertAlerstJOIN;
 }

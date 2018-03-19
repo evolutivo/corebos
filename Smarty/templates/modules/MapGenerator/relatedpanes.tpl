@@ -1,4 +1,3 @@
-{*ListColumns.tpl*}
 <div>
 
     {* <style scope>
@@ -73,14 +72,14 @@
 									<h1 id="mapNameLabel" class="slds-page-header__title slds-m-right--small slds-truncate">
 										{if $NameOFMap neq ''} {$NameOFMap} {/if}
 									</h1>
-									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.FieldDependency}</p>
+									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.RpRelatedPanes}</p>
 								</header>
 								<div class="slds-no-flex">
 									<div class="actionsContainer mapButton">
 										<div class="slds-section-title--divider">
-											{if $HistoryMap neq ''} {* saveFieldDependency *}
+											{if $HistoryMap neq ''} {* RpRelatedPanes *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
-											{else} {* saveFieldDependency *}
+											{else} {* RpRelatedPanes *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
 											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
@@ -99,10 +98,10 @@
 										<!-- Related Panes Origin Module -->
 										<div class="rp-origin-module">
 											<div class="slds-form-element slds-text-align--left">
-												<label class="slds-form-element__label" for="select-01">Select Label</label>
+												<label class="slds-form-element__label" for="select-01">{$MOD.RpOriginModule}</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select class="slds-select" id="select-01">
+														<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup">
 														<select>
 													</div>
 												</div>
@@ -111,28 +110,28 @@
 										<!-- Panes -->
 										<div class="rp-panes-container">
 											<div class="rp-panes-title slds-text-align--center">
-												<h5>Panes</h5>
+												<h5>{$MOD.RpPanes}</h5>
 											</div>
 											<div class="rp-panes-body">
-												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="rp-label"> Label</label>
+												<div class="slds-form-element slds-text-align--left" id="labelinputdiv">
+													<label class="slds-form-element__label" for="rp-label"><strong class="slds-text-color--error">*</strong> {$MOD.RpLabel}</label>
 													<div class="slds-form-element__control">
-														<input id="rp-label" class="slds-input" placeholder="Enter " type="text" />
+														<input id="rp-label" class="slds-input" required placeholder="Enter {$MOD.RpLabel} " type="text" />
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="rp-sequence"> Sequence</label>
+													<label class="slds-form-element__label" for="rp-sequence"><strong class="slds-text-color--error">*</strong> {$MOD.RpSequence}</label>
 													<div class="slds-form-element__control">
-														<input id="rp-sequence" class="slds-input" placeholder="Enter " type="text" />
+														<input id="rp-sequence" class="slds-input" required  type="number" value="0" />
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left">
 													<div class="slds-form-element__control">
 														<span class="slds-checkbox">
-															<input name="options" id="checkbox-2" value="on" type="checkbox" />
-															<label class="slds-checkbox__label" for="checkbox-2">
+															<input name="options" id="MoreInformationChb" onchange="moreinformationchecked(this)" data-all-id="rp-label,rp-sequence,rp-block-sequence,blockType,rp-block-loadfrom" value="on" type="checkbox" />
+															<label class="slds-checkbox__label" for="MoreInformationChb">
 																<span class="slds-checkbox--faux"></span>
-																<span class="slds-form-element__label">More Information</span>
+																<span class="slds-form-element__label">{$MOD.RpMoreInformation}</span>
 															</label>
 														</span>
 													</div>
@@ -146,41 +145,53 @@
 											</div>
 											<div class="rp-blocks-body_1">
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="rp-label"> Label</label>
+													<label class="slds-form-element__label" for="rp-label"> {$MOD.RpBlockLabel}</label>
 													<div class="slds-form-element__control">
-														<input id="rp-label" class="slds-input" placeholder="Enter " type="text" />
+														<input id="rp-block-label" class="slds-input" placeholder="Enter {$MOD.RpLabel}" type="text" />
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="rp-sequence"> Sequence</label>
+													<label class="slds-form-element__label" for="rp-sequence"> <strong class="slds-text-color--error">*</strong> {$MOD.RpBlockSequence}</label>
 													<div class="slds-form-element__control">
-														<input id="rp-sequence" class="slds-input" placeholder="Enter " type="text" />
+														<input id="rp-block-sequence" required class="slds-input" type="number" value="0" />
 													</div>
 												</div>
 											</div>
 											<div class="rp-blocks-body_2">
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="FirstModule">Type</label>
+													<label class="slds-form-element__label" for="FirstModule"> <strong class="slds-text-color--error">*</strong> {$MOD.RpBlockType}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
-															<select id="FirstModule" required data-second-select-load="true" data-second-firstmodule-id="FirstModule" data-module="MapGenerator" data-second-select-relation-id="ws-select-multiple,ws-output-select-multiple" data-second-select-file="mappingFieldRelation"  name="mod" class="slds-select">
-																
+															<select id="blockType" required   name="mod" class="slds-select">
+																<option selected value="RelatedList">RelatedList</option>
+																<option value="RelatedList">RelatedList</option>
+																<option value="Widget">Widget</option>
+																<option value="CodeWithoutHeader">CodeWithoutHeader</option>
+																<option value="CodeWithHeader">CodeWithHeader</option>
 															</select>
 														</div>
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="rp-sequence"> Load Form</label>
+													<label class="slds-form-element__label" for="rp-block-loadfrom"><strong class="slds-text-color--error">*</strong>  {$MOD.RpBlockLoadForm}</label>
 													<div class="slds-form-element__control">
-														<input id="rp-sequence" class="slds-input" placeholder="Enter " type="text" />
+														<input id="rp-block-loadfrom" class="slds-input" required placeholder="Enter {$MOD.RpBlockLoadForm} " type="text" />
 													</div>
 												</div>
 											</div>
 										</div>
+										<!-- WS validation Help Text Container -->
+											<div class="ws-val-help slds-text-align--left">
+												<label class="slds-form-element__label slds-text-color--error">
+													{$MOD.RprequiredFileds}
+												</label>
+											</div>
 										<!-- Buttons -->
-										<div class="rp-buttons-container">
-											<button class="slds-button slds-button--small slds-button--brand">Add Block</button>
-											<button class="slds-button slds-button--small slds-button--brand">Add Panes</button>
+										<div class="rp-button-group">
+											<button class="slds-button slds-button--small slds-button--brand"  onclick="AddPopupRelatedFieldBlock(this);RestoreDataRelatedFields(this);" data-add-button-popup="false" data-add-type="Block" data-add-button-validate="rp-block-label" data-show-id="FirstModule"  data-add-relation-id="FirstModule,rp-label,rp-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup"  >{$MOD.RpAddBlock}</button>
+										</div>
+										<div class="rp-button-group">
+											<button class="slds-button slds-button--small slds-button--brand" onclick="RestoreDataRelatedFields(this,true);" data-add-type="Pane" data-add-relation-id="FirstModule,rp-label,rp-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup" >{$MOD.RpAddPanes}</button>
 										</div>
 									</div>
 								</td>

@@ -1427,7 +1427,7 @@
 		padding-right: .5rem;
 	}
 	.rp-panes-body > div:last-child {
-		width: 26%;
+		/* width: 26%; */
 		padding: 0;
 	}
 	.rp-panes-body > div:last-child > div {
@@ -1436,7 +1436,11 @@
 	.rp-buttons-container > button:first-child {
 		float: left;
 	}
-
+	.rp-button-group
+	{
+		width: 100%;
+    	margin-bottom: 10px;
+	}
 
 
 
