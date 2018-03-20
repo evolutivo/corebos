@@ -82,7 +82,7 @@
 											{else} {* RpRelatedPanes *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
-											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
+											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveRelatedPanes" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
 										</div>
 									</div>
 								</div>
@@ -147,7 +147,7 @@
 												<div class="slds-form-element slds-text-align--left">
 													<label class="slds-form-element__label" for="rp-label"> {$MOD.RpBlockLabel}</label>
 													<div class="slds-form-element__control">
-														<input id="rp-block-label" class="slds-input" placeholder="Enter {$MOD.RpLabel}" type="text" />
+														<input id="rp-block-label" class="slds-input" placeholder="Enter {$MOD.RpBlockLabel}" type="text" />
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left">
@@ -163,8 +163,8 @@
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
 															<select id="blockType" required   name="mod" class="slds-select">
+																<option selected value="">Select Type</option>
 																<option selected value="RelatedList">RelatedList</option>
-																<option value="RelatedList">RelatedList</option>
 																<option value="Widget">Widget</option>
 																<option value="CodeWithoutHeader">CodeWithoutHeader</option>
 																<option value="CodeWithHeader">CodeWithHeader</option>
