@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-20 15:16:13
+ * @Last Modified time: 2018-03-20 15:32:39
  */
 /*
  * @Author: Edmond Kacaj 
@@ -6229,13 +6229,12 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
     var count = $('#'+tpa.temparray['rp-label'].replace(/\s+/g, '')+' div').length;
     $( "#IdSpanRemoveWhenBlock" ).remove();
     var INSertAlerst ='<div class="deleteModule" onclick="DeleteBlockId('+ Idd + ',\'' + divid + '\');">';
-        if (tpa.temparray['MoreInformationChb']==='0' && isBlank(tpa.temparray['rp-block-label'])===false) {
-          INSertAlerst += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
-        }else
-        {
+        // if (tpa.temparray['MoreInformationChb']==='0' && isBlank(tpa.temparray['rp-block-label'])===false) {
+          // INSertAlerst += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
+        // }else
+        // {
           INSertAlerst += '<strong>'+(count+1)+'#  '+(isBlank(tpa.temparray['rp-block-label'])===false?tpa.temparray['rp-block-labelText']:"Block")+' </strong>';
-        }
-        
+        // }
         // INSertAlerst += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
         INSertAlerst += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
         INSertAlerst += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
