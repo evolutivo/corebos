@@ -98,10 +98,10 @@
 										<!-- Related Panes Origin Module -->
 										<div class="rp-origin-module">
 											<div class="slds-form-element slds-text-align--left">
-												<label class="slds-form-element__label" for="select-01">{$MOD.RpOriginModule}</label>
+												<label class="slds-form-element__label" for="select-01"><strong class="slds-text-color--error">*</strong>{$MOD.RpOriginModule}</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select class="slds-select" id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup">
+														<select class="slds-select" required id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup">
 														<select>
 													</div>
 												</div>
@@ -188,10 +188,10 @@
 											</div>
 										<!-- Buttons -->
 										<div class="rp-button-group">
-											<button class="slds-button slds-button--small slds-button--brand"  onclick="AddPopupRelatedFieldBlock(this);RestoreDataRelatedFields(this);" data-add-button-popup="false" data-add-type="Block" data-add-button-validate="rp-block-label" data-show-id="FirstModule"  data-add-relation-id="FirstModule,rp-label,rp-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup"  >{$MOD.RpAddBlock}</button>
+											<button class="slds-button slds-button--small slds-button--brand"  onclick="AddPopupRelatedFieldBlock(this);RestoreDataRelatedFields(this);" data-add-button-popup="false" data-add-type="Block" data-add-button-validate="rp-block-label" data-show-id="FirstModule"  data-add-relation-id="FirstModule,rp-label,rp-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup"  id="addBlockButton"  >{$MOD.RpAddBlock}</button>
 										</div>
 										<div class="rp-button-group">
-											<button class="slds-button slds-button--small slds-button--brand" onclick="RestoreDataRelatedFields(this,true);" data-add-type="Pane" data-add-relation-id="FirstModule,rp-label,rp-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup" >{$MOD.RpAddPanes}</button>
+											<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupRelatedFieldsPanes(this);RestoreDataRelatedFields(this,true);" data-add-type="Pane" data-add-relation-id="FirstModule,rp-label,rp-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup" >{$MOD.RpAddPanes}</button>
 										</div>
 									</div>
 								</td>

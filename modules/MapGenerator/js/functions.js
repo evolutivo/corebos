@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-19 17:43:42
+ * @Last Modified time: 2018-03-20 15:16:13
  */
 /*
  * @Author: Edmond Kacaj 
@@ -6048,12 +6048,16 @@ function moreinformationchecked(event)
       allids=allids.split(',');
       for (var i = allids.length - 1; i >= 0; i--) {
         if (allids[i]==='rp-label') {
-          $("#labelinputdiv").css('display',  "none");  
+          // $("#labelinputdiv").css('display',  "none");  
+          $('#'+allids[i]).attr('readonly', true);
+          $('#'+allids[i]).val('More information');
         }else
         {
           $("#"+allids[i]).removeAttr('required');
         }
       }
+      // $('#AddPanesButton').attr('data-add-button-validate','');
+      // $('#AddPanesButton').attr('data-add-relation-id','FirstModule,rp-sequence,rp-label,MoreInformationChb');
       $(".slds-text-color--error").css("visibility", "hidden");
     }
 
@@ -6064,12 +6068,15 @@ function moreinformationchecked(event)
       allids=allids.split(',');
       for (var i = allids.length - 1; i >= 0; i--) {         
         if (allids[i]==='rp-label') {
-          $("#labelinputdiv").css('display',  "block");  
+          $('#'+allids[i]).attr('readonly', false);
+          $('#'+allids[i]).val(''); 
         }else
         {
           $("#"+allids[i]).removeAttr('required');
         }
       }
+      // $('#AddPanesButton').attr('data-add-button-validate','');
+      // $('#AddPanesButton').attr('data-add-relation-id','');
       $(".slds-text-color--error").css("visibility", "visible");
     }
   }
@@ -6082,12 +6089,22 @@ function RestoreDataRelatedFields(sel,panes=false) {
       var arrofId=idrelation.split(",");
       setTimeout(function() {
         arrofId.forEach(element => {
-          if (document.getElementById(element).tagName==='INPUT') {
+          if (document.getElementById(element).tagName==='INPUT' && document.getElementById(element).type !== 'number') {
             if ((element==='rp-label' || element==='rp-sequence' )&& panes===false) {
               var value=2+2;
             }else
             {
-              $('#'+element).val("");
+              if (!$('#'+element).is('[readonly]')) {
+                $('#'+element).val("");
+              }
+            }
+          }else if(document.getElementById(element).tagName==='INPUT' && document.getElementById(element).type === 'number')
+          {
+            if ((element==='rp-label' || element==='rp-sequence' )&& panes===false) {
+              var value=2+2;
+            }else
+            {
+              $('#'+element).val(0);
             }
           }
       });
@@ -6143,12 +6160,12 @@ function GenerateRelatedFieldsBlock(Idd,tpa,divid)
 {
     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
     + '">';
-    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupWSValidationFields('
+    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupBlockId('
     + Idd + ',\'' + divid + '\');">&times;</span>';
    
     INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
     INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModule'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
-    INSertAlerstJOIN += '<p>Panes Label  ==> '+(isBlank(tpa.temparray['rp-labelText'])===false?tpa.temparray['rp-labelText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Panes Label  ==> '+(isBlank(tpa.temparray['rp-labelText'])===false?tpa.temparray['rp-labelText']:"More Information") + '</p>';
     INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"Empry") + '</p>';
     INSertAlerstJOIN += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
@@ -6157,3 +6174,154 @@ function GenerateRelatedFieldsBlock(Idd,tpa,divid)
     INSertAlerstJOIN += '</div';
     return INSertAlerstJOIN;
 }
+
+
+
+/**
+ * add panes after block 
+ */
+function AddPopupRelatedFieldsPanes(event) {
+  var elem=event;
+  var divid=elem.dataset.divShow;
+  if (App.popupJson.length>0)
+  { 
+    $('#'+divid+' div').remove();
+    for (var i = 0; i <= App.popupJson.length-1; i++) {
+      var divinsert= GenerateHtmlPanes(i,App.popupJson[i],divid);
+      $('#'+divid).append(divinsert);
+    }
+  }else{
+    // alert(mv_arr.MappingFiledValid);
+    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+  } 
+}
+
+/**
+ * Htlm generate for Panes
+*/
+function GenerateHtmlPanes(Idd,tpa,divid) {
+  if ($("#" +tpa.temparray['rp-label'].replace(/\s+/g, '')).length == 0) {
+    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+      if (tpa.temparray['MoreInformationChb']==='1' && isBlank(tpa.temparray['rp-block-label'])===true) {
+        INSertAlerstJOIN += '<span id="IdSpanRemoveWhenBlock" class="closebtns" onclick="DeleteBlockId('+ Idd + ',\'' + divid + '\');">&times;</span>';
+      }else
+      {
+        //TODO: here you can put another thing if you want to add more 
+      }
+    INSertAlerstJOIN += '<div id="'+tpa.temparray['rp-label'].replace(/\s+/g, '')+'">';
+      INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['rp-label']+' </strong>';
+        INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModule'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
+        INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"Empry") + '</p>';
+        INSertAlerstJOIN += '<p></p>';
+      if (tpa.temparray['MoreInformationChb']==='0' && isBlank(tpa.temparray['rp-block-label'])===false) {
+        INSertAlerstJOIN +='<div class="deleteModule" onclick="DeleteBlockId('+ Idd + ',\'' + divid + '\');">';
+        INSertAlerstJOIN += '<strong>'+1+'#  '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Block")+' </strong>';
+        // INSertAlerstJOIN += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
+        INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
+        INSertAlerstJOIN += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
+        INSertAlerstJOIN += '<p>Load From  ==> '+(isBlank(tpa.temparray['rp-block-loadfromText'])===false?tpa.temparray['rp-block-loadfromText']:"Empty") + '</p>';
+        INSertAlerstJOIN += '</div>';
+      }
+        INSertAlerstJOIN += '</div>';
+    INSertAlerstJOIN += '</div>';
+    return INSertAlerstJOIN;
+  }else {
+    var count = $('#'+tpa.temparray['rp-label'].replace(/\s+/g, '')+' div').length;
+    $( "#IdSpanRemoveWhenBlock" ).remove();
+    var INSertAlerst ='<div class="deleteModule" onclick="DeleteBlockId('+ Idd + ',\'' + divid + '\');">';
+        if (tpa.temparray['MoreInformationChb']==='0' && isBlank(tpa.temparray['rp-block-label'])===false) {
+          INSertAlerst += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
+        }else
+        {
+          INSertAlerst += '<strong>'+(count+1)+'#  '+(isBlank(tpa.temparray['rp-block-label'])===false?tpa.temparray['rp-block-labelText']:"Block")+' </strong>';
+        }
+        
+        // INSertAlerst += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
+        INSertAlerst += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
+        INSertAlerst += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
+        INSertAlerst += '<p>Load From  ==> '+(isBlank(tpa.temparray['rp-block-loadfromText'])===false?tpa.temparray['rp-block-loadfromText']:"Empty") + '</p>';
+        INSertAlerst += '</div>';
+      $("#" +tpa.temparray['rp-label'].replace(/\s+/g, '')).append(INSertAlerst);
+      
+  }
+}
+
+ function DeleteBlockId(remuveid,namediv)
+ {
+   var check = false;
+   for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+   {
+     if (ii == remuveid)
+     {
+         //JSONForCOndition.remove(remuveid);
+         App.popupJson.splice(remuveid,1);
+         check = true
+         //console.log(remuveid);
+         // console.log(ReturnAllDataHistory());
+     }
+   }
+   if (check)
+   {
+     var remuvediv="#alerts_"+remuveid;
+     $('#'+namediv+' div').remove();
+     if (App.popupJson.length>0)
+     { 
+      $('#'+namediv+' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateHtmlPanes(i,App.popupJson[i],namediv);
+        $('#'+namediv).append(divinsert);
+      }  
+     }else
+     {
+       // alert(mv_arr.MappingFiledValid);
+       // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+     }
+   }
+   else
+   {
+     // alert(mv_arr.ReturnFromPost);
+     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+   }
+ }
+
+
+
+
+ function ClosePopupBlockId(remuveid,namediv)
+ {
+   var check = false;
+   for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+   {
+     if (ii == remuveid)
+     {
+         //JSONForCOndition.remove(remuveid);
+         App.popupJson.splice(remuveid,1);
+         check = true
+         //console.log(remuveid);
+         // console.log(ReturnAllDataHistory());
+     }
+   }
+   if (check)
+   {
+     var remuvediv="#alerts_"+remuveid;
+ 
+     $('#'+namediv+' div').remove();
+     if (App.popupJson.length>0)
+     { 
+      $('#'+namediv+' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateRelatedFieldsBlock(i,App.popupJson[i],namediv);
+        $('#'+namediv).append(divinsert);
+      }  
+     }else
+     {
+       // alert(mv_arr.MappingFiledValid);
+       // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+     }
+   }
+   else
+   {
+     // alert(mv_arr.ReturnFromPost);
+     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+   }
+ }
