@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-20 15:32:39
+ * @Last Modified time: 2018-03-21 11:50:51
  */
 /*
  * @Author: Edmond Kacaj 
@@ -6324,3 +6324,54 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
      App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
    }
  }
+
+ /* LocalHistory Related Pane */
+
+ function LocalHistoryRelatedPane(IdLoad,OriginModule,divanameLoad,dividrelation='')
+{
+    var htmldat='<div class="Message Message"  >';
+    htmldat+='<div class="Message-icon">';
+    htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelecteRelationPane(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+    htmldat+='</div>';
+    htmldat+='<div class="Message-body">';
+    htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+    htmldat+='<p>Origin Module ==> '+OriginModule+'</p>';
+    htmldat+='</div>';
+    htmldat+='</div>';
+    return htmldat;
+}
+
+
+function ShowLocalHistoryRelatedPanes(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) { 
+          var OriginModule=App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'];
+          $('#'+keephitoryidtoshow).append(LocalHistoryRelatedPane(i,OriginModule,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
+    }
+}
+
+function ClickToshowSelecteRelationPane(Idload,divHistory)
+{
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+    App.popupJson.length=0;
+    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+      App.popupJson.push(historydata.PopupJSON[i]);
+    }
+    if (App.popupJson.length>0)
+    { 
+      $('#' + divHistory + ' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateHtmlPanes(i,App.popupJson[i],divHistory);
+        $('#'+divHistory).append(divinsert);
+    } 
+
+    }else{
+        // alert(mv_arr.MappingFiledValid);
+        App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+      }
+}

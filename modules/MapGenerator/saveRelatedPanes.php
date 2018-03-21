@@ -5,7 +5,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-20 15:48:50 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-20 18:32:06
+ * @Last Modified time: 2018-03-21 11:44:55
  */
 
 include_once ("modules/cbMap/cbMap.php");
@@ -43,64 +43,64 @@ if (!empty($Data)) {
     $jsondecodedata=json_decode($Data);	
     $myDetails=array();
     // print_r($jsondecodedata);
-    echo(add_content($jsondecodedata));
-    exit();
-	// if(strlen($MapID[1]==0)){
+    // echo(add_content($jsondecodedata));
+    // exit();
+	if(strlen($MapID[1]==0)){
 
-	//    $focust = new cbMap();
-    //  $focust->column_fields['assigned_user_id'] = 1;
-    //  // $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
-    //  $focust->column_fields['mapname']=$mapname;
-    //  $focust->column_fields['content']=add_content($jsondecodedata);
-    //  $focust->column_fields['maptype'] =$MapType;
-    //  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
-    //  $focust->column_fields['description']= add_content($jsondecodedata);
-    //  $focust->column_fields['mvqueryid']=$idquery2;
-    //  $log->debug(" we inicialize value for insert in database ");
-    //  if (!$focust->saveentity("cbMap"))//
-    //   {
+	   $focust = new cbMap();
+     $focust->column_fields['assigned_user_id'] = 1;
+     // $focust->column_fields['mapname'] = $jsondecodedata[0]->temparray->FirstModule."_ListColumns";
+     $focust->column_fields['mapname']=$mapname;
+     $focust->column_fields['content']=add_content($jsondecodedata);
+     $focust->column_fields['maptype'] =$MapType;
+     $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->column_fields['mvqueryid']=$idquery2;
+     $log->debug(" we inicialize value for insert in database ");
+     if (!$focust->saveentity("cbMap"))//
+      {
       		
-    //       if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
-    //              echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$focust->id;
-    //          } 
-    //          else{
-    //             echo "0,0";
-    //              $log->debug("Error!! MIssing the history Table");
-    //          }  
+          if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
+                 echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$focust->id;
+             } 
+             else{
+                echo "0,0";
+                 $log->debug("Error!! MIssing the history Table");
+             }  
                     
-    //   } else 
-    //   {
-    //   	 // echo "Edmondi save in map,hghghghghgh";
-    //     //   exit();
-    //      //echo focus->id;
-    //      echo "Error!! something went wrong";
-    //      $log->debug("Error!! something went wrong");
-    //   }
+      } else 
+      {
+      	 // echo "Edmondi save in map,hghghghghgh";
+        //   exit();
+         //echo focus->id;
+         echo "Error!! something went wrong";
+         $log->debug("Error!! something went wrong");
+      }
 
-    // }else{
+    }else{
 
-    //  include_once ("modules/cbMap/cbMap.php");
-    //  $focust = new cbMap();
-    //  $focust->id = $MapID[1];
-    //  $focust->retrieve_entity_info($MapID[1],"cbMap");
-    //  $focust->column_fields['assigned_user_id'] = 1;
-    //  // $focust->column_fields['mapname'] = $MapName;
-    //  $focust->column_fields['content']=add_content($jsondecodedata);
-    //  $focust->column_fields['maptype'] =$MapType;
-    //  $focust->column_fields['mvqueryid']=$idquery2;
-    //  $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
-    //  $focust->column_fields['description']= add_content($jsondecodedata);
-    //  $focust->mode = "edit";
-    //  $focust->save("cbMap");
+     include_once ("modules/cbMap/cbMap.php");
+     $focust = new cbMap();
+     $focust->id = $MapID[1];
+     $focust->retrieve_entity_info($MapID[1],"cbMap");
+     $focust->column_fields['assigned_user_id'] = 1;
+     // $focust->column_fields['mapname'] = $MapName;
+     $focust->column_fields['content']=add_content($jsondecodedata);
+     $focust->column_fields['maptype'] =$MapType;
+     $focust->column_fields['mvqueryid']=$idquery2;
+     $focust->column_fields['targetname'] =$jsondecodedata[0]->temparray->FirstModule;
+     $focust->column_fields['description']= add_content($jsondecodedata);
+     $focust->mode = "edit";
+     $focust->save("cbMap");
 
-    //       if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
-    //              echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$MapID[1];
-    //          } 
-    //          else{
-    //             echo "0,0";
-    //              $log->debug("Error!! MIssing the history Table");
-    //          }
-    // }
+          if (Check_table_if_exist(TypeOFErrors::Tabele_name)>0) {
+                 echo save_history(add_aray_for_history($jsondecodedata),$idquery2,add_content($jsondecodedata)).",".$MapID[1];
+             } 
+             else{
+                echo "0,0";
+                 $log->debug("Error!! MIssing the history Table");
+             }
+    }
 
 }
 
@@ -206,8 +206,14 @@ function add_content($DataDecode)
                    $pane->appendChild($blocks);
                    $panes->appendChild($pane);
                 }
-         }else
-         {
+        }
+        $panes->appendChild($pane);
+        $tempvalue=$value->temparray->{'rp-label'};
+    }
+
+    foreach ($DataDecode as $value) {
+        if($value->temparray->{'rp-label'}==="More information")
+        {
             $paneMoreInformation;
             $blocksMoreInformation;
 
@@ -262,9 +268,7 @@ function add_content($DataDecode)
              }
              else
              {
-                // if(!empty($value->temparray->{'rp-block-label'}) && !empty($value->temparray->{'rp-block-loadfrom'}))
-                // {
-                  $block = $xml->createElement("block");
+                $block = $xml->createElement("block");
       
                   $blabel = $xml->createElement("label");
                   $blabeltext = $xml->createTextNode($value->temparray->{'rp-block-label'});
@@ -289,16 +293,11 @@ function add_content($DataDecode)
                   $blocksMoreInformation->appendChild($block);
                   $paneMoreInformation->appendChild($blocksMoreInformation);
                   $panes->appendChild($paneMoreInformation);
-                // }  
              }
              
          }
-
-         $panes->appendChild($pane);
-         $tempvalue=$value->temparray->{'rp-label'};
-     }
-     
-     $root->appendChild($panes);        
+    }
+     $root->appendChild($panes);    
      $xml->formatOutput = true;
      return $xml->saveXML();
 }
@@ -317,10 +316,10 @@ function add_aray_for_history($decodedata)
         'Labels'=>$Labels,
         'FirstModuleval'=>preg_replace('/\s+/', '',$decodedata[0]->temparray->FirstModule),
         'FirstModuletxt'=>preg_replace('/\s+/', '',$decodedata[0]->temparray->FirstModuleText),
-        'SecondModuleval'=>explode('#',$DataDecode[0]->temparray->TargetModule)[0],
-        'SecondModuletxt'=>$DataDecode[0]->temparray->TargetModuleText,
+        'SecondModuleval'=>"",
+        'SecondModuletxt'=>"",
         'firstmodulelabel'=>getModuleID(preg_replace('/\s+/', '',$decodedata[0]->temparray->FirstModule)),
-        'secondmodulelabel'=>getModuleID(preg_replace('/\s+/', '',explode('#',$DataDecode[0]->temparray->TargetModule)[0])),
+        'secondmodulelabel'=>"",
      );
 }
 

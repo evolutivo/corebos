@@ -73,14 +73,14 @@
 									<h1 id="mapNameLabel" class="slds-page-header__title slds-m-right--small slds-truncate">
 										{if $NameOFMap neq ''} {$NameOFMap} {/if}
 									</h1>
-									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.FieldDependency}</p>
+									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.TypeMapWS}</p>
 								</header>
 								<div class="slds-no-flex">
 									<div class="actionsContainer mapButton">
 										<div class="slds-section-title--divider">
-											{if $HistoryMap neq ''} {* saveFieldDependency *}
+											{if $HistoryMap neq ''} {* TypeMapWS *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
-											{else} {* saveFieldDependency *}
+											{else} {* TypeMapWS *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
 											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
