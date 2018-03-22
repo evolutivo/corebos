@@ -1174,6 +1174,48 @@
 	.menu-structure-module-add > div:last-child img {
 		width: 20px;
 	}
+	.ms-conditions-container fieldset {
+		padding: .5rem;
+		position: relative;
+		border: 2px solid #d8dde6;
+	}
+	.ms-conditions-container legend {
+		width: 40%;
+		margin-bottom: 0;
+		border-bottom: 0;
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.ms-conditions-container legend label > span {
+		margin: 0;
+	}
+	.ms-conditions {
+		display: flex;
+	}
+	.ms-conditions > div {
+		width: 45%;
+	}
+	.ms-conditions > span {
+		margin-top: 1.7rem;
+		width: 5%;
+	}
+	.ms-conditions > button {
+		width: 5%;
+		margin-top: 1.5rem;
+	}
+	.ms-conditions > button img {
+		width: 20px!important;
+	}
+
+	.ms-equals img {
+		width: 20px;
+		-webkit-transform: rotate(90deg);
+		   -moz-transform: rotate(90deg);
+		    -ms-transform: rotate(90deg);
+		     -o-transform: rotate(90deg);
+		        transform: rotate(90deg);
+	}
+
 /* End Menu Structure */
 
 /* Rendiconda Config */
@@ -1386,10 +1428,6 @@
 		margin: .5rem 0 1rem 0;
 		padding: 0 .5rem;
 	}
-	.rp-panes-container,
-	.rp-blocks-container {
-		margin-top: 1rem;
-	}
 	.rp-origin-module {
 		margin-bottom: .5rem;
 	}
@@ -1444,12 +1482,15 @@
 	.rp-button-group-panes {
 		width: 50%;
 	}
-	fieldset {
+	.rp-panes-container,
+	.rp-blocks-container {
+		margin-top: 1rem;
 		position: relative;
 		padding: .5rem;
 		border: 2px solid #d8dde6;
 	}
-	legend {
+	.rp-blocks-title,
+	.rp-panes-title {
 		margin-bottom: 0;
 		border-bottom: 0;
 		font-size: 16px;
@@ -1459,7 +1500,10 @@
 	.rp-val-help label {
 		margin-top: .5rem;
 	}
-
+	#rp-panes-sequence,
+	#rp-block-sequence {
+		padding-right: 0;
+	}
 
 
 /* End Related Panes */
