@@ -14,43 +14,22 @@
 
 {if $PopupJS neq ''}
 	<script type="text/javascript">
-			{foreach from=$PopupJS item=allitems key=key name=name}
-					 {foreach name=outer item=popi from=$allitems}
-						var temparray = {};
-						{foreach key=key item=item from=$popi}
-								{if $key eq 'Anotherdata'}
-									rows=new Array();
-									allfieldsval=[];
-									allfieldstetx=[];
-										{foreach from=$item item=itemi key=keyes}
-											checkifexist={};
-											fieldsval=[];
-											fieldstetx=[];
-											{foreach from=$itemi item=items key=key name=name}
-												checkifexist['DataValues']=`{$itemi.DataValues}`;
-												checkifexist['DataText']=`{$itemi.DataText}`;
-											{/foreach}
-											{literal}
-												allfieldsval.push(checkifexist);
-											{/literal}
-									{/foreach}
-									{literal}
-										temparray["Anotherdata"]=allfieldsval;
-									{/literal}
-								{else}
-								 temparray['{$key}']='{$item}';
-								{/if}
-						{/foreach}
-						App.popupJson.push({'{'}temparray{'}'});
-						// console.log(temparray);
-					{/foreach}
-					 HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-					App.popupJson.length=0;
-			{/foreach}
-			ShowLocalHistoryWS('LoadHistoryPopup','LoadShowPopup');
-			ClickToshowSelectedWS(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
-			App.countsaveMap=2;
-			App.utils.UpdateMapNAme();
+		{foreach from=$PopupJS item=allitems key=key name=name}
+            {foreach name=outer item=popi from=$allitems}  
+                var temparray = {};
+                {foreach key=key item=item from=$popi}
+                    temparray['{$key}']='{$item}';
+                {/foreach}
+                App.popupJson.push({'{'}temparray{'}'});
+                // console.log(temparray);
+            {/foreach}
+            HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+            App.popupJson.length=0;
+        {/foreach}
+		ShowLocalHistoryRelatedPanes('LoadHistoryPopup','LoadShowPopup');
+		ClickToshowSelecteRelationPane(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+		App.countsaveMap=2;
+		App.utils.UpdateMapNAme();
 	</script>
 {/if}
 
@@ -102,6 +81,7 @@
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
 														<select class="slds-select" required id="FirstModule" data-select-load="true" data-reset-all="true" data-reset-id-popup="LoadShowPopup">
+														{$FirstModuleSelected}
 														<select>
 													</div>
 												</div>

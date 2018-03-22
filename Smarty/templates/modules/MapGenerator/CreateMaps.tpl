@@ -24,7 +24,7 @@
 							<td class="dvtCellInfo" align="left" width="70%">
 								<div class="slds-select_container">
 									<select data-load-Map="true" data-type-select="TypeObject" class="slds-select">
-										<option value="">{$MOD.ChooseTypeOfMap}</option>
+										<option selected value="">{$MOD.ChooseTypeOfMap}</option>
 										<option value="MaterializedView">{$MOD.MaterializedView}</option>
 										<option value="Script">{$MOD.Script}</option>
 										<option value="Map">{$MOD.Map}</option>

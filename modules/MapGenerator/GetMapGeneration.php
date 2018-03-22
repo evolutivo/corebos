@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-15 17:15:32
+ * @Last Modified time: 2018-03-22 12:18:28
  */
 
 
@@ -484,6 +484,27 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="RelatedPanes") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			 RelatedPanes($QueryHistory,$MapID);
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+		
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		LogFile($ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -502,6 +523,149 @@ if ($MypType=="Mapping") {
 
 #Region All Function Needet to genaret Map
 
+
+	function RelatedPanes($QueryHistory,$MapID)
+	{
+		include_once('modfields.php');
+		global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+		$theme_path = "themes/" . $theme . "/";
+		$image_path = $theme_path . "images/";
+		
+
+		try{
+			if (!empty($QueryHistory))
+			{
+				$FirstModuleSelected="<option value=''>Select module</option>".Get_First_Moduls(get_The_history($QueryHistory,"firstmodule"));
+				
+				$Allhistory=get_All_History($QueryHistory);
+				$Alldatas=array();
+
+				foreach ($Allhistory as $value)
+				{
+					$xml=new SimpleXMLElement($value['query']);
+					$MyArray=array();
+					foreach ($xml->panes->pane as $valuepanes)
+					{
+						$LabelPanes=(string)$valuepanes->label;
+						$SequencePanes=(string)$valuepanes->sequence;
+						if ($LabelPanes!=="More information") {
+							foreach ($valuepanes->blocks->block as $valueblock) {
+								$temparray=[
+									'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+									'FirstModule'=>(string)$xml->originmodule->originname,
+									'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+									'JsonType'=>"JsonType",
+									'Moduli'=>"",
+									'MoreInformationChb'=>($LabelPanes!=="More information"?"0":"1"),
+									'MoreInformationChbText'=>($LabelPanes!=="More information"?"0":"1"),
+									'blockType'=>(!empty((string)$valueblock->type)?(string)$valueblock->type:""),
+									'blockTypeText'=>(!empty((string)$valueblock->type)?(string)$valueblock->type:""),
+									'rp-block-label'=>(!empty((string)$valueblock->label)?(string)$valueblock->label:""),
+									'rp-block-labelText'=>(!empty((string)$valueblock->label)?(string)$valueblock->label:""),
+									'rp-block-loadfrom'=>(!empty((string)$valueblock->loadfrom)?(string)$valueblock->loadfrom:""),
+									'rp-block-loadfromText'=>(!empty((string)$valueblock->loadfrom)?(string)$valueblock->loadfrom:""),
+									'rp-block-sequence'=>(string)$valueblock->sequence,
+									'rp-block-sequenceText'=>(string)$valueblock->sequence,
+									'rp-label'=>(!empty((string)$LabelPanes)?(string)$LabelPanes:""),
+									'rp-labelText'=>(!empty((string)$LabelPanes)?(string)$LabelPanes:""),
+									'rp-sequence'=>(string)$SequencePanes,
+									'rp-sequenceText'=>(string)$SequencePanes,
+								];
+								array_push($MyArray,$temparray);	
+							}
+						}else
+						{
+							$temparray1=[
+								'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+								'FirstModule'=>(string)$xml->originmodule->originname,
+								'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+								'JsonType'=>"JsonType",
+								'Moduli'=>"",
+								'MoreInformationChb'=>($LabelPanes!=="More information"?"0":"1"),
+								'MoreInformationChbText'=>($LabelPanes!=="More information"?"0":"1"),
+								'blockType'=>(""),
+								'blockTypeText'=>(""),
+								'rp-block-label'=>(""),
+								'rp-block-labelText'=>(""),
+								'rp-block-loadfrom'=>(""),
+								'rp-block-loadfromText'=>(""),
+								'rp-block-sequence'=>(""),
+								'rp-block-sequenceText'=>(""),
+								'rp-label'=>(!empty((string)$LabelPanes)?(string)$LabelPanes:""),
+								'rp-labelText'=>(!empty((string)$LabelPanes)?(string)$LabelPanes:""),
+								'rp-sequence'=>(string)$SequencePanes,
+								'rp-sequenceText'=>(string)$SequencePanes,
+							];
+							array_push($MyArray,$temparray1);
+
+							if(isset($valuepanes->blocks))
+							{
+								foreach ($valuepanes->blocks->block as $valueblock) {
+									$temparray2=[
+										'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+										'FirstModule'=>(string)$xml->originmodule->originname,
+										'FirstModuleText'=>(string)explode("#", Get_First_Moduls_TextVal($xml->originmodule->originname))[1],
+										'JsonType'=>"JsonType",
+										'Moduli'=>"",
+										'MoreInformationChb'=>($LabelPanes!=="More information"?"0":"1"),
+										'MoreInformationChbText'=>($LabelPanes!=="More information"?"0":"1"),
+										'blockType'=>(!empty((string)$valueblock->type)?(string)$valueblock->type:""),
+										'blockTypeText'=>(!empty((string)$valueblock->type)?(string)$valueblock->type:""),
+										'rp-block-label'=>(!empty((string)$valueblock->label)?(string)$valueblock->label:""),
+										'rp-block-labelText'=>(!empty((string)$valueblock->label)?(string)$valueblock->label:""),
+										'rp-block-loadfrom'=>(!empty((string)$valueblock->loadfrom)?(string)$valueblock->loadfrom:""),
+										'rp-block-loadfromText'=>(!empty((string)$valueblock->loadfrom)?(string)$valueblock->loadfrom:""),
+										'rp-block-sequence'=>(string)$valueblock->sequence,
+										'rp-block-sequenceText'=>(string)$valueblock->sequence,
+										'rp-label'=>(!empty((string)$LabelPanes)?(string)$LabelPanes:""),
+										'rp-labelText'=>(!empty((string)$LabelPanes)?(string)$LabelPanes:""),
+										'rp-sequence'=>(string)$SequencePanes,
+										'rp-sequenceText'=>(string)$SequencePanes,
+									];
+									array_push($MyArray,$temparray2);	
+								}
+							}
+						}
+					}
+					array_push($Alldatas,$MyArray);
+			    }
+
+
+				//this is for save as 
+					$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+					$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+				//this is for save as map
+					$data="MapGenerator,saveRelatedPanes";
+					$dataid="ListData,MapName";
+					$savehistory="true";
+					$saveasfunction="ShowLocalHistoryRelatedPanes";
+				//  //assign tpl
+				$smarty = new vtigerCRM_Smarty();
+				$smarty->assign("MOD", $mod_strings);
+				$smarty->assign("APP", $app_strings);
+				
+				$smarty->assign("MapName", $MapName);
+				$NameOFMap=$MapName;
+				$smarty->assign("NameOFMap",$NameOFMap);
+				$smarty->assign("HistoryMap",$HistoryMap);
+				$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+				//put the smarty modal
+				$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+				$smarty->assign("PopupJS",$Alldatas);
+				$output = $smarty->fetch('modules/MapGenerator/relatedpanes.tpl');
+				echo $output;
+				// print_r($Alldatas);
+				exit();
+
+			}else{
+				//TODO:: this is if not find the idquery to load map by Id of map 
+			}
+		}catch(Exception $ex){
+			echo showError("Something was wrong",$ex->getMessage());
+			LogFile($ex);
+		}
+	}
 
 
 
