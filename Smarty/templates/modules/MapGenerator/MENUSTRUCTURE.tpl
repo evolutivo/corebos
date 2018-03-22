@@ -76,12 +76,12 @@
 								<div id="selJoin" class="menu-structure-container">
 									<!-- Menu Structure Conditions Container -->
 									<div class="ms-conditions-container">
-										<fieldset>
+										<fieldset id="idFields">
 											<legend>
 												<div class="slds-form-element slds-text-align--center">
 													<div class="slds-form-element__control">
 														<span class="slds-checkbox">
-															<input name="options" id="add-conditions" value="on" type="checkbox" />
+															<input name="options" id="add-conditions" value="on" onchange="ConditionChecked(this);" type="checkbox" />
 															<label class="slds-checkbox__label" for="add-conditions">
 																<span class="slds-form-element__label">Do you want to add conditions ?</span>
 																<span class="slds-checkbox--faux"></span>
@@ -90,12 +90,13 @@
 													</div>
 												</div>
 											</legend>
-											<div class="ms-conditions">
+											<div class="ms-conditions" id="IdconditionDiv" style="opacity:0;">
 												<div class="slds-form-element slds-text-align--left">
 													<label class="slds-form-element__label" for="FirstModule"> <strong class="slds-text-color--error">*</strong> Choose the field</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
-															<select id="" name="" class="slds-select">
+															<select id="ConditionAllFields" required name="" class="slds-select">
+																{$AllFieldsCondition}
 															</select>
 														</div>
 													</div>
@@ -106,10 +107,10 @@
 												<div class="slds-form-element slds-text-align--left">
 													<label class="slds-form-element__label" for="ms-field_value"><strong class="slds-text-color--error">*</strong> Field Value</label>
 													<div class="slds-form-element__control">
-														<input id="ms-field_value" class="slds-input" placeholder="Enter asfda " type="text" />
+														<input id="ms-field_value" required class="slds-input" placeholder="Enter asfda " type="text" />
 													</div>
 												</div>
-												<button data-add-button-popup="false" onclick="" data-add-type="Module" data-add-relation-id="" data-show-id="" data-div-show="" data-show-modul-id="" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
+												<button data-add-button-popup="false" onclick="AddPopupMenustrusture(this)"  data-add-type="Conditions" data-add-relation-id="ms-field_value,ConditionAllFields" data-show-id="LabelName" data-div-show="LoadShowPopup" data-show-modul-id="FirstModule" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
 													<img src="themes/images/btnL3Add.gif">
 												</button>
 											</div>

@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-22 12:18:28
+ * @Last Modified time: 2018-03-22 16:38:07
  */
 
 
@@ -3859,7 +3859,7 @@ if ($MypType=="Mapping") {
 	{
 		global $log, $mod_strings,$adb;
 		$j = 0;
-	$query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 
+	  $query1 = "SELECT  module, columnname, fieldlabel from  vtiger_fieldmodulerel 
 				join  vtiger_field on  vtiger_field.fieldid= vtiger_fieldmodulerel.fieldid
 				where relmodule='$m' and module<>'Faq' and module<>'Emails' and module<>'Events' and module<>'Webmails' and module<>'SMSNotifier'
 				and module<>'PBXManager' and module<>'Modcomments' and module<>'Calendar' 

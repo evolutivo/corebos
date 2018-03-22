@@ -1177,14 +1177,16 @@
 	.ms-conditions-container fieldset {
 		padding: .5rem;
 		position: relative;
-		border: 2px solid #d8dde6;
+		/* border: 2px solid #d8dde6; */
+		height: 0px;
 	}
 	.ms-conditions-container legend {
-		width: 40%;
+		width: 45%;
 		margin-bottom: 0;
 		border-bottom: 0;
 		font-size: 16px;
 		font-weight: bold;
+		text-align: left;
 	}
 	.ms-conditions-container legend label > span {
 		margin: 0;

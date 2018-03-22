@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-19 17:37:32
+ * @Last Modified time: 2018-03-22 16:58:29
  */
 /*
  * @Author: Edmond Kacaj 
@@ -239,6 +239,10 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+				var urlsend1 = [ urlpost[0], "AllFields_File" ];
+				var dat1 = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("ConditionAllFields",
+						urlsend1, dat1);
 			}else if (select == "RecordAccessControl") {
 				// idfieldfill,urlsend,dat
 				App.utils.UpdateMapNAme();

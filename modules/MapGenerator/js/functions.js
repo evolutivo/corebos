@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-21 11:50:51
+ * @Last Modified time: 2018-03-22 17:52:33
  */
 /*
  * @Author: Edmond Kacaj 
@@ -4214,23 +4214,63 @@ function LoaclHistoryGSA(keephitoryidtoshow,keephitoryidtoshowidrelation)
 ////////////////// MENUSTRUCTURE /////////////////////////////////////////
 
 
+function ConditionChecked(event) {
+  var elem=event;
+  if (elem.checked)
+  {
+    $("#IdconditionDiv").animate({'opacity':1},1000);
+    $( "#idFields" ).css({border: '0 solid #d8dde6'}).animate({
+                    'borderWidth': "2px",
+                    'height': "100px",
+                  }, 1000 );
+    
+  }else
+  {
+    $("#IdconditionDiv").animate({'opacity':0},1000);
+    $( "#idFields" ).css({border: '2 solid #d8dde6'}).animate({
+                    'borderWidth': "0px",
+                    'height': "0px",
+                  }, 900 );      
+    
+  }
+}
+
+
+
 function PopupMenustructure(Idd,Popuparray=[],divid)
 {
-  
+  if (Popuparray.temparray['JsonType']==="Module") {
     if ($("#" +Popuparray.temparray['LabelName'].replace(/\s+/g, '')).length == 0) {
-       var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
-        // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
-        INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+'">';
-        INSertAlerstJOIN += '<strong>'+(index++)+'# Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
-        INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
-        // INSertAlerstJOIN +='<div>';
-        // INSertAlerstJOIN += '</div';
-        return INSertAlerstJOIN;
+      var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+      // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
+      INSertAlerstJOIN +='<div id="'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+'">';
+      INSertAlerstJOIN += '<strong>'+(index++)+'# Label ==> '+Popuparray.temparray['LabelName']+'</strong>';
+      INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+1+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
+      // INSertAlerstJOIN +='<div>';
+      // INSertAlerstJOIN += '</div';
+      return INSertAlerstJOIN;
     } else {
       var count = $('#'+Popuparray.temparray['LabelName'].replace(/\s+/g, '')+' p').length;
       var InsertModule= '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" > Module '+(count+1)+' ==> '+Popuparray.temparray['FirstModuleText']+ '</p>';
       $("#" + Popuparray.temparray['LabelName']).append(InsertModule);
     }
+  }else if(Popuparray.temparray['JsonType']==="Conditions")
+  {
+    if ($("#" +Popuparray.temparray['JsonType'].replace(/\s+/g, '')).length == 0) {
+      var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+      // INSertAlerstJOIN += '<span class="closebtns" onclick="DeleteBlockMenustructure(\''+ Popuparray.temparray['LabelName'] + '\',\'' + divid + '\');">&times;</span>';
+      INSertAlerstJOIN +='<div id="'+Popuparray.temparray['JsonType'].replace(/\s+/g, '')+'">';
+      INSertAlerstJOIN += '<strong>'+(index++)+'# '+Popuparray.temparray['JsonType']+'</strong>';
+      INSertAlerstJOIN += '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" >'+Popuparray.temparray['ConditionAllFieldsText']+' ==> '+Popuparray.temparray['ms-field_valueText']+ '</p>';
+      // INSertAlerstJOIN +='<div>';
+      // INSertAlerstJOIN += '</div';
+      return INSertAlerstJOIN;
+    } else {
+      var count = $('#'+Popuparray.temparray['JsonType'].replace(/\s+/g, '')+' p').length;
+      var InsertModule= '<p class="deleteModule" onclick="DeleteModuleMenustructure('+ Idd + ',\'' + divid + '\');" >'+Popuparray.temparray['ConditionAllFieldsText']+' ==> '+Popuparray.temparray['ms-field_valueText']+ '</p>';
+      $("#" + Popuparray.temparray['JsonType']).append(InsertModule);
+    }
+  }
      
 }
 
@@ -4357,17 +4397,17 @@ function historyHtmlMenuStructure(IdLoad,divanameLoad,dividrelation='')
 }
     
     
-    function ShowLocalHistoryMenustructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
-    {
-        if (App.SaveHistoryPop.length>0)
-        { 
-           $('#'+keephitoryidtoshow+' div').remove();
-           for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-            $('#'+keephitoryidtoshow).append(historyHtmlMenuStructure(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
-    
-          }
-        }
+function ShowLocalHistoryMenustructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+    if (App.SaveHistoryPop.length>0)
+    { 
+        $('#'+keephitoryidtoshow+' div').remove();
+        for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+        $('#'+keephitoryidtoshow).append(historyHtmlMenuStructure(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+      }
     }
+}
     
 
 function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
