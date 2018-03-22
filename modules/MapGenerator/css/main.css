@@ -1393,14 +1393,15 @@
 	.rp-origin-module {
 		margin-bottom: .5rem;
 	}
-	.rp-panes-title h5,
-	.rp-blocks-title h5 {
-		border-bottom: 1px solid #d4d4d4;
-	}
 	.rp-panes-body,
 	.rp-blocks-body_1,
-	.rp-blocks-body_2 {
+	.rp-blocks-body_2,
+	.rp-validation-buttons {
 		display: flex;
+	}
+	.rp-validation-buttons {
+		margin-top: .5rem;
+		padding: 0 .5rem;
 	}
 	.rp-panes-body input,
 	.rp-blocks-body_1 input,
@@ -1427,7 +1428,7 @@
 		padding-right: .5rem;
 	}
 	.rp-panes-body > div:last-child {
-		/* width: 26%; */
+		 width: 26%; 
 		padding: 0;
 	}
 	.rp-panes-body > div:last-child > div {
@@ -1436,10 +1437,27 @@
 	.rp-buttons-container > button:first-child {
 		float: left;
 	}
-	.rp-button-group
-	{
+	.rp-button-group-blocks {
 		width: 100%;
-    	margin-bottom: 10px;
+	}
+	.rp-val-help,
+	.rp-button-group-panes {
+		width: 50%;
+	}
+	fieldset {
+		position: relative;
+		padding: .5rem;
+		border: 2px solid #d8dde6;
+	}
+	legend {
+		margin-bottom: 0;
+		border-bottom: 0;
+		font-size: 16px;
+		font-weight: bold;
+		width: 10%;
+	}
+	.rp-val-help label {
+		margin-top: .5rem;
 	}
 
 
