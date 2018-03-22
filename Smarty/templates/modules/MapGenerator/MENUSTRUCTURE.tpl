@@ -74,6 +74,47 @@
 							<td class="dvtCellLabel" valign="top">
 								<!-- THE MODULE Zone -->
 								<div id="selJoin" class="menu-structure-container">
+									<!-- Menu Structure Conditions Container -->
+									<div class="ms-conditions-container">
+										<fieldset>
+											<legend>
+												<div class="slds-form-element slds-text-align--center">
+													<div class="slds-form-element__control">
+														<span class="slds-checkbox">
+															<input name="options" id="add-conditions" value="on" type="checkbox" />
+															<label class="slds-checkbox__label" for="add-conditions">
+																<span class="slds-form-element__label">Do you want to add conditions ?</span>
+																<span class="slds-checkbox--faux"></span>
+															</label>
+														</span>
+													</div>
+												</div>
+											</legend>
+											<div class="ms-conditions">
+												<div class="slds-form-element slds-text-align--left">
+													<label class="slds-form-element__label" for="FirstModule"> <strong class="slds-text-color--error">*</strong> Choose the field</label>
+													<div class="slds-form-element__control">
+														<div class="slds-select_container">
+															<select id="" name="" class="slds-select">
+															</select>
+														</div>
+													</div>
+												</div>
+												<span class="ms-equals slds-text-align--center">
+													<img src="themes/images/equals.png">
+												</span>
+												<div class="slds-form-element slds-text-align--left">
+													<label class="slds-form-element__label" for="ms-field_value"><strong class="slds-text-color--error">*</strong> Field Value</label>
+													<div class="slds-form-element__control">
+														<input id="ms-field_value" class="slds-input" placeholder="Enter asfda " type="text" />
+													</div>
+												</div>
+												<button data-add-button-popup="false" onclick="" data-add-type="Module" data-add-relation-id="" data-show-id="" data-div-show="" data-show-modul-id="" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
+													<img src="themes/images/btnL3Add.gif">
+												</button>
+											</div>
+										</fieldset>
+									</div>
 									<div id="sel1">
 										<!--  Label Name -->
 										<div class="slds-form-element slds-text-align--left">
