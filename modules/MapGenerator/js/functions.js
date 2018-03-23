@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-22 17:52:33
+ * @Last Modified time: 2018-03-23 10:33:42
  */
 /*
  * @Author: Edmond Kacaj 
@@ -6249,7 +6249,7 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
         //TODO: here you can put another thing if you want to add more 
       }
     INSertAlerstJOIN += '<div id="'+tpa.temparray['rp-label'].replace(/\s+/g, '')+'">';
-      INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['rp-label']+' </strong>';
+      INSertAlerstJOIN += '<strong>'+(index++)+'#  '+tpa.temparray['rp-label']+' </strong>';
         INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModule'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
         INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"Empry") + '</p>';
         INSertAlerstJOIN += '<p></p>';
