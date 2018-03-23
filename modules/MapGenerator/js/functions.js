@@ -4218,19 +4218,13 @@ function ConditionChecked(event) {
   var elem=event;
   if (elem.checked)
   {
-    $("#IdconditionDiv").animate({'opacity':1},1000);
-    $( "#idFields" ).css({border: '0 solid #d8dde6'}).animate({
-                    'borderWidth': "2px",
-                    'height': "100px",
-                  }, 1000 );
+    $("#IdconditionDiv").animate({'opacity':1},700);
+    $( "#idFields" ).animate({'height': "60px",}, 700 );
     
   }else
   {
-    $("#IdconditionDiv").animate({'opacity':0},1000);
-    $( "#idFields" ).css({border: '2 solid #d8dde6'}).animate({
-                    'borderWidth': "0px",
-                    'height': "0px",
-                  }, 900 );      
+    $("#IdconditionDiv").animate({'opacity':0},500);
+    $( "#idFields" ).animate({'height': "0",}, 500 );
     
   }
 }

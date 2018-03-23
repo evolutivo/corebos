@@ -76,21 +76,19 @@
 								<div id="selJoin" class="menu-structure-container">
 									<!-- Menu Structure Conditions Container -->
 									<div class="ms-conditions-container">
-										<fieldset id="idFields">
-											<legend>
-												<div class="slds-form-element slds-text-align--center">
-													<div class="slds-form-element__control">
-														<span class="slds-checkbox">
-															<input name="options" id="add-conditions" value="on" onchange="ConditionChecked(this);" type="checkbox" />
-															<label class="slds-checkbox__label" for="add-conditions">
-																<span class="slds-form-element__label">Do you want to add conditions ?</span>
-																<span class="slds-checkbox--faux"></span>
-															</label>
-														</span>
-													</div>
-												</div>
-											</legend>
-											<div class="ms-conditions" id="IdconditionDiv" style="opacity:0;">
+										<div class="slds-form-element slds-text-align--left" id="ms-condition-header">
+											<div class="slds-form-element__control">
+												<span class="slds-checkbox">
+													<input name="options" id="add-conditions" value="on" onchange="ConditionChecked(this);" type="checkbox" />
+													<label class="slds-checkbox__label" for="add-conditions">
+														<span class="slds-form-element__label">Do you want to add conditions ?</span>
+														<span class="slds-checkbox--faux"></span>
+													</label>
+												</span>
+											</div>
+										</div>
+										<div id="idFields">
+											<div class="ms-conditions" id="IdconditionDiv">
 												<div class="slds-form-element slds-text-align--left">
 													<label class="slds-form-element__label" for="FirstModule"> <strong class="slds-text-color--error">*</strong> Choose the field</label>
 													<div class="slds-form-element__control">
@@ -114,7 +112,7 @@
 													<img src="themes/images/btnL3Add.gif">
 												</button>
 											</div>
-										</fieldset>
+										</div>
 									</div>
 									<div id="sel1">
 										<!--  Label Name -->
