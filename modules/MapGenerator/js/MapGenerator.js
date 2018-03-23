@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-23 11:36:05
+ * @Last Modified time: 2018-03-23 15:22:46
  */
 /*
  * @Author: Edmond Kacaj 
@@ -337,7 +337,7 @@
 				  App.FieldLabel='Field';
 				  App.DefaultValue='';
 				var dat = "FirstModul"
-				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+				App.GetModuleForMapGenerator.GetFirstModule("fs-modules",
 						urlsend, dat);
 			}
 		},

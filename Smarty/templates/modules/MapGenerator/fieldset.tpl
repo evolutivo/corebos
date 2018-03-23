@@ -102,7 +102,7 @@
 												<label class="slds-form-element__label" for="fs-modules"><strong class="slds-text-color--error">*</strong> Module</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
-														<select id="fs-modules" required  name="mod" class="slds-select">
+														<select id="fs-modules" data-select-load="true" data-select-relation-field-id="fs-fields" data-module="MapGenerator" required  name="mod" class="slds-select">
 														</select>
 													</div>
 												</div>
@@ -111,23 +111,24 @@
 												<div class="slds-form-element slds-text-align--left ws-response-time">
 													<label class="slds-form-element__label" for="fs-fields"><strong class="slds-text-color--error">*</strong> Fields</label>
 													<div class="slds-form-element__control">
-														<input id="fs-fields" class="slds-input" placeholder="asdfa" type="text" />
+														<select id="fs-fields"  required  name="mod" class="slds-select">
+														</select>
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left ws-response-time">
 													<label class="slds-form-element__label" for="fs-information">Information</label>
 													<div class="slds-form-element__control">
-														<input id="fs-information" class="slds-input" placeholder="asfa" type="text" />
+														<input id="fs-information" required class="slds-input" placeholder="insert " type="text" />
 													</div>
 												</div>
 												<div class="fs-add_button">
-													<button data-add-button-popup="false" onclick="" data-add-type="" data-add-relation-id="" data-show-id="" data-div-show="" data-show-modul-id="" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
+													<button onclick="AddPopupFieldSet(this);RestoreDataEXFIM(this);" data-add-type="Fields" data-add-button-validate="fs-fields" data-show-id="fs-modules" data-div-show="LoadShowPopup"   data-add-relation-id="fs-modules,fs-fields,fs-information" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
 														<img src="themes/images/btnL3Add.gif">
 													</button>
 												</div>
 											</div>
 											<div class="fs-button-container">
-												<button data-add-button-popup="" onclick="" data-add-type="" data-add-relation-id="" data-show-id="" data-div-show="" data-show-modul-id="" class="slds-button slds-button--small slds-button--brand" aria-haspopup="true" title="Click to add">
+												<button  onclick="AddPopupFieldSetModule(this);" data-div-show="LoadShowPopup"   class="slds-button slds-button--small slds-button--brand" aria-haspopup="true" title="Click to add">
 													Add  Module
 												</button>
 											</div>

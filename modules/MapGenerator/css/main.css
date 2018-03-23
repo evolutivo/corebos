@@ -1531,11 +1531,8 @@
 		width: 10%;
 		text-align: center;
 	}
-	.fs-add_button img {
-		width: 20px;
-		margin-top: 1.5rem;
-	}
-
+	.fs-add_button button { margin-top: 1.5rem; }
+	.fs-add_button img { width: 20px; }
 
 /* End Field Set */
 
