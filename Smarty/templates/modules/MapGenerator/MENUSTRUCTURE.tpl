@@ -24,6 +24,10 @@
 		 ClickToshowSelectedFiledsMenustructure(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 		 App.countsaveMap=2;
 		 App.utils.UpdateMapNAme();
+		 var urlsend1 = [ "MapGenerator", "AllFields_File" ];
+		var dat1 = "FirstModul"
+		App.GetModuleForMapGenerator.GetFirstModule("ConditionAllFields",
+				urlsend1, dat1);
 		</script>
 {/if}
 
@@ -76,7 +80,7 @@
 												<span class="slds-checkbox">
 													<input name="options" id="add-conditions" value="on" onchange="ConditionChecked(this);" type="checkbox" />
 													<label class="slds-checkbox__label" for="add-conditions">
-														<span class="slds-form-element__label">Do you want to add conditions ?</span>
+														<span class="slds-form-element__label">{$MOD.MenustructureDoyouWanttoaddcondition}</span>
 														<span class="slds-checkbox--faux"></span>
 													</label>
 												</span>
@@ -85,7 +89,7 @@
 										<div id="idFields">
 											<div class="ms-conditions" id="IdconditionDiv">
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="FirstModule"> <strong class="slds-text-color--error">*</strong> Choose the field</label>
+													<label class="slds-form-element__label" for="FirstModule"> <strong class="slds-text-color--error">*</strong>{$MOD.MenustructureChooseFields}</label>
 													<div class="slds-form-element__control">
 														<div class="slds-select_container">
 															<select id="ConditionAllFields" required name="" class="slds-select">
@@ -98,9 +102,9 @@
 													<img src="themes/images/equals.png">
 												</span>
 												<div class="slds-form-element slds-text-align--left">
-													<label class="slds-form-element__label" for="ms-field_value"><strong class="slds-text-color--error">*</strong> Field Value</label>
+													<label class="slds-form-element__label" for="ms-field_value"><strong class="slds-text-color--error">*</strong>{$MOD.MenustructureVieldValue}</label>
 													<div class="slds-form-element__control">
-														<input id="ms-field_value" required class="slds-input" placeholder="Enter asfda " type="text" />
+														<input id="ms-field_value" required class="slds-input" placeholder="Enter {$MOD.MenustructureVieldValue} " type="text" />
 													</div>
 												</div>
 												<button data-add-button-popup="false" onclick="AddPopupMenustrusture(this);RestoreDataEXFIM(this);"  data-add-type="Conditions" data-add-relation-id="ms-field_value,ConditionAllFields" data-show-id="LabelName" data-div-show="LoadShowPopup" data-show-modul-id="" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">

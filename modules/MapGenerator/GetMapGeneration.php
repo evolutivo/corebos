@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-23 14:25:46
+ * @Last Modified time: 2018-03-23 17:27:50
  */
 
 
@@ -297,50 +297,6 @@ if ($MypType=="Mapping") {
 		if (!empty($QueryHistory) || !empty($MapID)) {
 			
 			 MENUSTRUCTURE($QueryHistory,$MapID);
-			// $Allhistory=get_All_History($QueryHistory);
-			// $Alldatas=array();
-
-			// foreach ($Allhistory as $value) {
-			// 	$xml=new SimpleXMLElement($value['query']);
-			// 	$MyArray=array();
-
-			// 	foreach ($xml->menus as $menus) {
-			// 		foreach ($menus->children() as $child) {
-			// 			if ($child->getName()!="parenttab" && $child->getName()!="profile") {
-			// 				$temparrayCondition=[
-			// 					"ConditionAllFields"=>explode(",",CheckAllFirstForAllModules((string)$child->getName()))[0],
-			// 					"ConditionAllFieldsText"=>explode(",",CheckAllFirstForAllModules((string)$child->getName()))[1],
-			// 					'ConditionAllFieldsoptionGroup'=> "",
-			// 					'DefaultText'=>"" ,
-			// 					'JsonType'=>"Conditions",
-			// 					'ms-field_value'=>(string)$child,
-			// 					'ms-field_valueText'=>(string)$child,
-			// 					'Moduli'=>"",
-			// 				];
-			// 				array_push($MyArray,$temparrayCondition);
-			// 			}
-			// 		}
-			// 		foreach ($menus->parenttab as  $valuexml) {
-			// 			foreach ($valuexml->name as  $valuename) {
-			// 				$temparrayModul=[
-			// 					'DefaultText'=>(string)$valuexml->label ,
-			// 					'FirstModule'=> (string)$valuename,
-			// 					'FirstModuleText'=> explode("#", Get_First_Moduls_TextVal((string)$valuename))[1],
-			// 					'FirstModuleoptionGroup'=>"udentifined" ,
-			// 					'JsonType'=>"Module",
-			// 					'LabelName'=>(string)$valuexml->label,
-			// 					'LabelNameoptionGroup'=>"",
-			// 					'Moduli'=>explode("#", Get_First_Moduls_TextVal((string)$valuename))[1],
-			// 				];
-			// 				array_push($MyArray,$temparrayModul);
-			// 			}
-			// 		}
-			// 		array_push($Alldatas,$MyArray);
-			// 	}
-			// }
-			// print_r($Alldatas);
-			// exit();
-
 		} else {
 			throw new Exception(" Missing the MapID also the Id of History", 1);
 		}		
@@ -1662,7 +1618,6 @@ if ($MypType=="Mapping") {
 		global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
 		$theme_path = "themes/" . $theme . "/";
 		$image_path = $theme_path . "images/";
-		
 		if (!empty($QueryHistory))
 		{
 			$FirstModuleSelected=GetTheresultByFile("firstModule.php");
