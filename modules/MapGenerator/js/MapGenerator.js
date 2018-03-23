@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-22 16:58:29
+ * @Last Modified time: 2018-03-23 11:36:05
  */
 /*
  * @Author: Edmond Kacaj 
@@ -2251,7 +2251,18 @@
 			return returnvalues;
 		},
 
-
+		CheckIfExistAvalueInArray:function(array=[],keycheck="",valuecheck="")
+		{
+			returnvalues=false;
+			if (array.length>0) {
+				for (let index = 0; index < array.length; index++) {
+					if(array[index].temparray[keycheck]===valuecheck){
+						returnvalues=true;
+					}
+				}
+			}
+			return returnvalues;
+		},
 
 		/**
 		 * function to show the notification 
