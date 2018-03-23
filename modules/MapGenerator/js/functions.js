@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-23 10:33:42
+ * @Last Modified time: 2018-03-23 11:49:29
  */
 /*
  * @Author: Edmond Kacaj 
@@ -6096,7 +6096,7 @@ function moreinformationchecked(event)
           $("#"+allids[i]).removeAttr('required');
         }
       }
-      // $('#AddPanesButton').attr('data-add-button-validate','');
+      $('#AddButtonPanes').attr('data-add-panes','true');
       // $('#AddPanesButton').attr('data-add-relation-id','FirstModule,rp-sequence,rp-label,MoreInformationChb');
       $(".slds-text-color--error").css("visibility", "hidden");
     }
@@ -6115,7 +6115,7 @@ function moreinformationchecked(event)
           $("#"+allids[i]).removeAttr('required');
         }
       }
-      // $('#AddPanesButton').attr('data-add-button-validate','');
+      $('#AddButtonPanes').attr('data-add-panes','false');
       // $('#AddPanesButton').attr('data-add-relation-id','');
       $(".slds-text-color--error").css("visibility", "visible");
     }
@@ -6206,9 +6206,9 @@ function GenerateRelatedFieldsBlock(Idd,tpa,divid)
     INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
     INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModule'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Panes Label  ==> '+(isBlank(tpa.temparray['rp-labelText'])===false?tpa.temparray['rp-labelText']:"More Information") + '</p>';
-    INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"Empry") + '</p>';
+    INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"0") + '</p>';
     INSertAlerstJOIN += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
-    INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
+    INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"0") + '</p>';
     INSertAlerstJOIN += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
     INSertAlerstJOIN += '<p>Load From  ==> '+(isBlank(tpa.temparray['rp-block-loadfromText'])===false?tpa.temparray['rp-block-loadfromText']:"Empty") + '</p>';
     INSertAlerstJOIN += '</div';
@@ -6223,13 +6223,22 @@ function GenerateRelatedFieldsBlock(Idd,tpa,divid)
 function AddPopupRelatedFieldsPanes(event) {
   var elem=event;
   var divid=elem.dataset.divShow;
+  var addRelationId=elem.dataset.addRelationId;
+  var addMoreinformationpanes=elem.dataset.addPanes;
+  var validatearray=[];
   if (App.popupJson.length>0)
   { 
+
+    if (addMoreinformationpanes==="true" && !App.utils.CheckIfExistAvalueInArray(App.popupJson,"rp-label","More information")) {
+      App.utils.Add_to_universal_popup(addRelationId.split(","),"Block","", "",validatearray.length=0);
+    }
+
     $('#'+divid+' div').remove();
     for (var i = 0; i <= App.popupJson.length-1; i++) {
       var divinsert= GenerateHtmlPanes(i,App.popupJson[i],divid);
       $('#'+divid).append(divinsert);
     }
+    index=1;
   }else{
     // alert(mv_arr.MappingFiledValid);
     App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
@@ -6251,13 +6260,13 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
     INSertAlerstJOIN += '<div id="'+tpa.temparray['rp-label'].replace(/\s+/g, '')+'">';
       INSertAlerstJOIN += '<strong>'+(index++)+'#  '+tpa.temparray['rp-label']+' </strong>';
         INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['FirstModule'])===false?tpa.temparray['FirstModuleText']:"Empty") + '</p>';
-        INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"Empry") + '</p>';
+        INSertAlerstJOIN += '<p>Panes Sequence  ==> '+(isBlank(tpa.temparray['rp-sequenceText'])===false?tpa.temparray['rp-sequenceText']:"0") + '</p>';
         INSertAlerstJOIN += '<p></p>';
       if (tpa.temparray['MoreInformationChb']==='0' && isBlank(tpa.temparray['rp-block-label'])===false) {
         INSertAlerstJOIN +='<div class="deleteModule" onclick="DeleteBlockId('+ Idd + ',\'' + divid + '\');">';
         INSertAlerstJOIN += '<strong>'+1+'#  '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Block")+' </strong>';
         // INSertAlerstJOIN += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
-        INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
+        INSertAlerstJOIN += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"0") + '</p>';
         INSertAlerstJOIN += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
         INSertAlerstJOIN += '<p>Load From  ==> '+(isBlank(tpa.temparray['rp-block-loadfromText'])===false?tpa.temparray['rp-block-loadfromText']:"Empty") + '</p>';
         INSertAlerstJOIN += '</div>';
@@ -6276,7 +6285,7 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
           INSertAlerst += '<strong>'+(count+1)+'#  '+(isBlank(tpa.temparray['rp-block-label'])===false?tpa.temparray['rp-block-labelText']:"Block")+' </strong>';
         // }
         // INSertAlerst += '<p>Block Label  ==> '+(isBlank(tpa.temparray['rp-block-labelText'])===false?tpa.temparray['rp-block-labelText']:"Empty") + '</p>';
-        INSertAlerst += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"Empty") + '</p>';
+        INSertAlerst += '<p>Block Sequence  ==> '+(isBlank(tpa.temparray['rp-block-sequenceText'])===false?tpa.temparray['rp-block-sequenceText']:"0") + '</p>';
         INSertAlerst += '<p>Block Type  ==> '+(isBlank(tpa.temparray['blockTypeText'])===false?tpa.temparray['blockTypeText']:"Empty") + '</p>';
         INSertAlerst += '<p>Load From  ==> '+(isBlank(tpa.temparray['rp-block-loadfromText'])===false?tpa.temparray['rp-block-loadfromText']:"Empty") + '</p>';
         INSertAlerst += '</div>';

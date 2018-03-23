@@ -171,8 +171,7 @@
 													</div>
 													<!-- Buttons -->
 													<div class="rp-button-group-panes">
-														<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupRelatedFieldsPanes(this);RestoreDataRelatedFields(this,true);" data-add-type="Pane" data-add-relation-id="FirstModule,rp-label,rp-panes-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom"  data-div-show="LoadShowPopup" >{$MOD.RpAddPanes}</button>
-													</div>
+														<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupRelatedFieldsPanes(this);RestoreDataRelatedFields(this,true);" data-add-type="Pane" data-add-relation-id="FirstModule,rp-label,rp-panes-sequence,MoreInformationChb,rp-block-label,rp-block-sequence,blockType,rp-block-loadfrom" data-add-panes="false" id="AddButtonPanes" data-div-show="LoadShowPopup" >{$MOD.RpAddPanes}</button>													</div>
 												</div>
 											</div>
 										</fieldset>
