@@ -1162,10 +1162,10 @@
 		width: 100%;
 	}
 	.menu-structure-module-add > div:first-child {
-		width: 90%;
+		width: 95%;
 	}
 	.menu-structure-module-add > div:last-child {
-		width: 10%;
+		width: 5%;
 		text-align: right;
 	}
 	.menu-structure-module-add > div:last-child button {
@@ -1174,25 +1174,19 @@
 	.menu-structure-module-add > div:last-child img {
 		width: 20px;
 	}
-	.ms-conditions-container fieldset {
-		padding: .5rem;
-		position: relative;
-		/* border: 2px solid #d8dde6; */
-		height: 0px;
+	.ms-conditions-container {
+		margin-top: 1rem;
 	}
-	.ms-conditions-container legend {
-		width: 45%;
-		margin-bottom: 0;
-		border-bottom: 0;
-		font-size: 16px;
-		font-weight: bold;
-		text-align: left;
+	#ms-condition-header {
+		padding: 0 .5rem;
 	}
-	.ms-conditions-container legend label > span {
-		margin: 0;
+	#idFields {
+		height: 0;
 	}
 	.ms-conditions {
 		display: flex;
+		opacity: 0;
+		padding: 0 .5rem;
 	}
 	.ms-conditions > div {
 		width: 45%;
@@ -1505,9 +1499,45 @@
 	#rp-block-sequence {
 		padding-right: 0;
 	}
-
-
 /* End Related Panes */
+
+/* Field Set */
+	.fieldset-container {
+		position: relative;
+		padding: .5rem;
+		border: 2px solid #d8dde6;
+	}
+	.fieldset-container input {
+		width: 100%;
+	}
+
+	.fieldset-container legend {
+		margin-bottom: 0;
+		border-bottom: 0;
+		font-size: 16px;
+		font-weight: bold;
+		text-align: center;
+		width: 12%;
+	}
+	.fs-fields-information {
+		display: flex;
+		margin: 1rem 0;
+	}
+	.fs-fields-information > div {
+		width: 45%;
+		padding-right: .5rem;
+	}
+	.fs-fields-information > div:last-child {
+		width: 10%;
+		text-align: center;
+	}
+	.fs-add_button img {
+		width: 20px;
+		margin-top: 1.5rem;
+	}
+
+
+/* End Field Set */
 
 
 /*	#LDSstyle {

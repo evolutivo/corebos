@@ -254,6 +254,7 @@ $mod_strings = array(
 	'RpAddPanes'=>'Add Panes',
 	
 
+	'FieldSet'=>'Field Set',
 	
 );
 ?>
