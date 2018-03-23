@@ -329,6 +329,16 @@
 				var dat = "FirstModul"
 				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
 						urlsend, dat);
+			}else if (select == "FieldSet") {
+				// idfieldfill,urlsend,dat
+				App.utils.UpdateMapNAme();
+				var urlsend = [ urlpost[0], "firstModule" ];
+				 App.ModulLabel='Module';
+				  App.FieldLabel='Field';
+				  App.DefaultValue='';
+				var dat = "FirstModul"
+				App.GetModuleForMapGenerator.GetFirstModule("FirstModule",
+						urlsend, dat);
 			}
 		},
 

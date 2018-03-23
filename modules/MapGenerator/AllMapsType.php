@@ -30,4 +30,5 @@
 	'ExtendedFieldInformationMapping'=>'ExtendedFieldInformationMapping',
 	'WS Validation'=>'WSValidation',
 	'RelatedPanes'=>'RpRelatedPanes',
+	'FieldSet'=>'FieldSet',
 	);
