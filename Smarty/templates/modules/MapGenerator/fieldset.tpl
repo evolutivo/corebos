@@ -15,43 +15,21 @@
 
 {if $PopupJS neq ''}
 	<script type="text/javascript">
-			{foreach from=$PopupJS item=allitems key=key name=name}
-					 {foreach name=outer item=popi from=$allitems}
-						var temparray = {};
-						{foreach key=key item=item from=$popi}
-								{if $key eq 'Anotherdata'}
-									rows=new Array();
-									allfieldsval=[];
-									allfieldstetx=[];
-										{foreach from=$item item=itemi key=keyes}
-											checkifexist={};
-											fieldsval=[];
-											fieldstetx=[];
-											{foreach from=$itemi item=items key=key name=name}
-												checkifexist['DataValues']=`{$itemi.DataValues}`;
-												checkifexist['DataText']=`{$itemi.DataText}`;
-											{/foreach}
-											{literal}
-												allfieldsval.push(checkifexist);
-											{/literal}
-									{/foreach}
-									{literal}
-										temparray["Anotherdata"]=allfieldsval;
-									{/literal}
-								{else}
-								 temparray['{$key}']='{$item}';
-								{/if}
-						{/foreach}
-						App.popupJson.push({'{'}temparray{'}'});
-						// console.log(temparray);
-					{/foreach}
-					 HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
-					App.popupJson.length=0;
-			{/foreach}
-			ShowLocalHistoryWS('LoadHistoryPopup','LoadShowPopup');
-			ClickToshowSelectedWS(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
-			App.countsaveMap=2;
-			App.utils.UpdateMapNAme();
+		{foreach from=$PopupJS item=allitems key=key name=name}
+			{foreach name=outer item=popi from=$allitems}
+				var temparray = {};
+				{foreach key=key item=item from=$popi}
+					temparray['{$key}']='{$item}';
+				{/foreach}
+				App.popupJson.push({'{'}temparray{'}'});
+		    {/foreach}
+			HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+		   App.popupJson.length=0;
+		{/foreach}
+		ShowLocalHistoryWS('LoadHistoryPopup','LoadShowPopup');
+		ClickToshowSelectedWS(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+		App.countsaveMap=2;
+		App.utils.UpdateMapNAme();
 	</script>
 {/if}
 
@@ -73,14 +51,14 @@
 									<h1 id="mapNameLabel" class="slds-page-header__title slds-m-right--small slds-truncate">
 										{if $NameOFMap neq ''} {$NameOFMap} {/if}
 									</h1>
-									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.TypeMapWS}</p>
+									<p class="slds-text-heading--label slds-line-height--reset">{$MOD.FieldSet}</p>
 								</header>
 								<div class="slds-no-flex">
 									<div class="actionsContainer mapButton">
 										<div class="slds-section-title--divider">
-											{if $HistoryMap neq ''} {* TypeMapWS *}
+											{if $HistoryMap neq ''} {* FieldSet *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton">{$MOD.SaveAsMap}</button>
-											{else} {* TypeMapWS *}
+											{else} {* FieldSet *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
 											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
@@ -96,10 +74,10 @@
 								<td class="dvtCellLabel" valign="top">
 									<!-- THE MODULE Zone -->
 									<fieldset class="fieldset-container">
-										<legend align="center"> Field Set </legend>
+										<legend align="center">{$MOD.fsModule}</legend>
 										<div class="fs-container">
 											<div class="slds-form-element slds-text-align--left">
-												<label class="slds-form-element__label" for="fs-modules"><strong class="slds-text-color--error">*</strong> Module</label>
+												<label class="slds-form-element__label" for="fs-modules"><strong class="slds-text-color--error">*</strong>{$MOD.fsModulePickList}</label>
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
 														<select id="fs-modules" data-select-load="true" data-select-relation-field-id="fs-fields" data-module="MapGenerator" required  name="mod" class="slds-select">
@@ -109,28 +87,26 @@
 											</div>
 											<div class="fs-fields-information">
 												<div class="slds-form-element slds-text-align--left ws-response-time">
-													<label class="slds-form-element__label" for="fs-fields"><strong class="slds-text-color--error">*</strong> Fields</label>
+													<label class="slds-form-element__label" for="fs-fields"><strong class="slds-text-color--error">*</strong>{$MOD.fsFields}</label>
 													<div class="slds-form-element__control">
 														<select id="fs-fields"  required  name="mod" class="slds-select">
 														</select>
 													</div>
 												</div>
 												<div class="slds-form-element slds-text-align--left ws-response-time">
-													<label class="slds-form-element__label" for="fs-information">Information</label>
+													<label class="slds-form-element__label" for="fs-information">{$MOD.fsInformation}</label>
 													<div class="slds-form-element__control">
-														<input id="fs-information" required class="slds-input" placeholder="insert " type="text" />
+														<input id="fs-information" required class="slds-input" placeholder="{$MOD.fsInformationinput}" type="text" />
 													</div>
 												</div>
 												<div class="fs-add_button">
-													<button onclick="AddPopupFieldSet(this);RestoreDataEXFIM(this);" data-add-type="Fields" data-add-button-validate="fs-fields" data-show-id="fs-modules" data-div-show="LoadShowPopup"   data-add-relation-id="fs-modules,fs-fields,fs-information" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
+													<button onclick="AddPopupFieldSet(this);RestoreDataEXFIM(this);" data-add-type="Fields" data-add-button-validate="fs-fields" data-show-id="fs-modules" data-div-show="LoadShowPopup"   data-add-relation-id="fs-modules,fs-fields,fs-information" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="{$MOD.fsbuttonaddfield}">
 														<img src="themes/images/btnL3Add.gif">
 													</button>
 												</div>
 											</div>
 											<div class="fs-button-container">
-												<button  onclick="AddPopupFieldSetModule(this);" data-div-show="LoadShowPopup"   class="slds-button slds-button--small slds-button--brand" aria-haspopup="true" title="Click to add">
-													Add  Module
-												</button>
+												<button  onclick="AddPopupFieldSetModule(this);" data-div-show="LoadShowPopup"   class="slds-button slds-button--small slds-button--brand" aria-haspopup="true" title="{$MOD.fsbuttonmoduleInfo}">{$MOD.fsbuttonmodule}</button>
 											</div>
 										</div>
 									</fieldset>
@@ -197,47 +173,6 @@
 	<div>
 		<div id="queryfrommap"></div>
 	</div>
-
-	<!-- Add Configuration Headers Modal -->
-	<div class="ws-configuration-headers">
-		<div class="slds-modal" aria-hidden="false" role="dialog" id="ws-configuration-headers-modal">
-			<div class="slds-modal__container">
-				<div class="slds-modal__header">
-					<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="ws-configuration-headers-modal" data-modal-close-backdrop-id="ws-configuration-headers-backdrop" >
-						<svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-							<use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-						</svg>
-						<span class="slds-assistive-text">{$MOD.close}</span>
-					</button>
-					<h2 class="slds-text-heading--medium">{$MOD.wsAddHeaders}</h2>
-				</div>
-				<div class="slds-modal__content slds-p-around--medium ws-modal-container">
-					<!-- Key Name -->
-					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="ws-key-name">{$MOD.wsKeyName}</label>
-						<div class="slds-form-element__control">
-							<input id="ws-key-name" name="mod" class="slds-input" required placeholder="insert {$MOD.wsKeyName}"/>
-						</div>
-					</div>
-					<!-- Key Value -->
-					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="ws-key-value">{$MOD.wsKeyValue}</label>
-						<div class="slds-form-element__control">
-							<input id="ws-key-value" name="mod" required class="slds-input" placeholder="insert {$MOD.wsKeyValue}"/>
-						</div>
-					</div>
-				</div>
-				<div class="slds-modal__footer">
-					<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForHeaders(this);RestoreDataEXFIM(this)" data-add-button-popup="false" data-add-type="Header" data-add-button-validate="ws-key-name"  data-add-relation-id="ws-key-name,ws-key-value" data-show-id="" data-div-show="LoadShowPopup">
-						{$MOD.Add}
-					</button>
-					<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-id="ws-configuration-headers-modal" data-modal-close-backdrop-id="ws-configuration-headers-backdrop" >{$MOD.cancel}</button>
-				</div>
-			</div>
-		</div>
-		<div class="slds-backdrop" id="ws-configuration-headers-backdrop"></div>
-	</div>
-
 	<div>
 		<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
 		<input type="hidden" name="queryid" value="{$queryid}" id="queryid">

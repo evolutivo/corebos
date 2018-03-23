@@ -258,6 +258,14 @@ $mod_strings = array(
 	
 
 	'FieldSet'=>'Field Set',
+	'fsModule'=>'Module',
+	'fsModulePickList'=>'Module',
+	'fsFields'=>'Fields',
+	'fsInformation'=>'Information',
+	'fsInformationinput'=>'Insert a information',
+	'fsbuttonaddfield'=>'Click to add fields',
+	'fsbuttonmodule'=>'Add Module',
+	'fsbuttonmoduleInfo'=>'Click to add Module',
 	
 );
 ?>

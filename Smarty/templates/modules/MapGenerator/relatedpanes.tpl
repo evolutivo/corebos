@@ -239,47 +239,6 @@
 	<div>
 		<div id="queryfrommap"></div>
 	</div>
-
-	<!-- Add Configuration Headers Modal -->
-	<div class="ws-configuration-headers">
-		<div class="slds-modal" aria-hidden="false" role="dialog" id="ws-configuration-headers-modal">
-			<div class="slds-modal__container">
-				<div class="slds-modal__header">
-					<button class="slds-button slds-button--icon-inverse slds-modal__close" data-modal-saveas-close="true" data-modal-close-id="ws-configuration-headers-modal" data-modal-close-backdrop-id="ws-configuration-headers-backdrop" >
-						<svg aria-hidden="true" class="slds-button__icon slds-button__icon--large">
-							<use xlink:href="include/LD/assets/icons/action-sprite/svg/symbols.svg#close"></use>
-						</svg>
-						<span class="slds-assistive-text">{$MOD.close}</span>
-					</button>
-					<h2 class="slds-text-heading--medium">{$MOD.wsAddHeaders}</h2>
-				</div>
-				<div class="slds-modal__content slds-p-around--medium ws-modal-container">
-					<!-- Key Name -->
-					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="ws-key-name">{$MOD.wsKeyName}</label>
-						<div class="slds-form-element__control">
-							<input id="ws-key-name" name="mod" class="slds-input" required placeholder="insert {$MOD.wsKeyName}"/>
-						</div>
-					</div>
-					<!-- Key Value -->
-					<div class="slds-form-element">
-						<label class="slds-form-element__label" for="ws-key-value">{$MOD.wsKeyValue}</label>
-						<div class="slds-form-element__control">
-							<input id="ws-key-value" name="mod" required class="slds-input" placeholder="insert {$MOD.wsKeyValue}"/>
-						</div>
-					</div>
-				</div>
-				<div class="slds-modal__footer">
-					<button class="slds-button slds-button--small slds-button--brand" onclick="AddPopupForHeaders(this);RestoreDataEXFIM(this)" data-add-button-popup="false" data-add-type="Header" data-add-button-validate="ws-key-name"  data-add-relation-id="ws-key-name,ws-key-value" data-show-id="" data-div-show="LoadShowPopup">
-						{$MOD.Add}
-					</button>
-					<button class="slds-button slds-button--small slds-button--destructive" data-modal-saveas-close="true" data-modal-close-id="ws-configuration-headers-modal" data-modal-close-backdrop-id="ws-configuration-headers-backdrop" >{$MOD.cancel}</button>
-				</div>
-			</div>
-		</div>
-		<div class="slds-backdrop" id="ws-configuration-headers-backdrop"></div>
-	</div>
-
 	<div>
 		<input type="hidden" name="MapID" value="{$MapID}" id="MapID">
 		<input type="hidden" name="queryid" value="{$queryid}" id="queryid">
