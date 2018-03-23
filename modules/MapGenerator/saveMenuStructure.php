@@ -3,8 +3,8 @@
 /**
  * @Author: edmondi kacaj
  * @Date:   2017-12-12 10:07:00
- * @Last Modified by:   edmondi kacaj
- * @Last Modified time: 2017-12-19 15:17:19
+ * @Last Modified by: programim95@gmail.com
+ * @Last Modified time: 2018-03-23 12:25:31
  */
 include_once ("modules/cbMap/cbMap.php");
 require_once ('data/CRMEntity.php');
@@ -110,7 +110,9 @@ function add_content($DataDecode)
 	$a=array();
 	
 	foreach ($DataDecode as $value) {
-		$a[]=$value->temparray->LabelName;
+        if ($value->temparray->JsonType === "Module") {
+          $a[]=$value->temparray->LabelName;
+        }
 	}
 	$a=array_unique($a);
 
@@ -120,12 +122,21 @@ function add_content($DataDecode)
      //put the menus     
      $menus=$xml->createElement("menus");
 
+
+    foreach ($DataDecode as $value) {
+        if ($value->temparray->JsonType === "Conditions") {
+            $abstracttag = $xml->createElement(trim(explode(":",$value->temparray->ConditionAllFields)[2]));
+            $abstracttagtext = $xml->createTextNode($value->temparray->{'ms-field_value'});
+            $abstracttag->appendChild($abstracttagtext);
+            $menus->appendChild($abstracttag);
+        }
+    }
+
      $profile = $xml->createElement("profile");
    	 $profiletext = $xml->createTextNode("1");
 	 $profile->appendChild($profiletext);
 	 $menus->appendChild($profile);
-
-
+     
 	foreach ($a as $values) {
 		$parenttab=$xml->createElement("parenttab");
 		$label = $xml->createElement("label");

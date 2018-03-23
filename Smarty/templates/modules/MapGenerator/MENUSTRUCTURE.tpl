@@ -8,21 +8,16 @@
 
 {if $PopupJS neq ''} 
 	<script type="text/javascript"> 
-			{foreach item=historys from=$PopupJS }
-				var temparray = {};
-				{foreach key=profile_name item=popjs  from=$historys }
-							 var temparray = {};
-							temparray['DefaultText'] ='{$popjs.DefaultText}' ;
-							temparray['FirstModule'] = '{$popjs.FirstModule}';
-							temparray['FirstModuleText'] = '{$popjs.FirstModuleText}';
-							temparray['FirstModuleoptionGroup'] = '{$popjs.FirstModuleoptionGroup}';
-							temparray['JsonType'] ='{$popjs.JsonType}';
-							temparray['LabelName'] = '{$popjs.LabelName}';
-							temparray['LabelNameoptionGroup'] = '{$popjs.LabelNameoptionGroup}';
-							temparray['Moduli'] = '{$popjs.Moduli}';
-							App.popupJson.push({'{'}temparray{'}'});
-				{/foreach}
-				HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
+			{foreach from=$PopupJS item=allitems key=key name=name}
+					 {foreach name=outer item=popi from=$allitems}
+						var temparray = {};
+						{foreach key=key item=item from=$popi}
+								temparray['{$key}']='{$item}';
+						{/foreach}
+						App.popupJson.push({'{'}temparray{'}'});
+						// console.log(temparray);
+					{/foreach}
+					 HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 					App.popupJson.length=0;
 			{/foreach}
 		 ShowLocalHistoryMenustructure('LoadHistoryPopup','LoadShowPopup');
@@ -110,7 +105,7 @@
 														<input id="ms-field_value" required class="slds-input" placeholder="Enter asfda " type="text" />
 													</div>
 												</div>
-												<button data-add-button-popup="false" onclick="AddPopupMenustrusture(this)"  data-add-type="Conditions" data-add-relation-id="ms-field_value,ConditionAllFields" data-show-id="LabelName" data-div-show="LoadShowPopup" data-show-modul-id="FirstModule" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
+												<button data-add-button-popup="false" onclick="AddPopupMenustrusture(this);RestoreDataEXFIM(this);"  data-add-type="Conditions" data-add-relation-id="ms-field_value,ConditionAllFields" data-show-id="LabelName" data-div-show="LoadShowPopup" data-show-modul-id="" class="slds-button slds-button_icon slds-text-align--center" aria-haspopup="true" title="Click to add">
 													<img src="themes/images/btnL3Add.gif">
 												</button>
 											</div>
