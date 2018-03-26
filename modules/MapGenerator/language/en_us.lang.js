@@ -45,4 +45,5 @@ var mv_arr = {
 'chooseanotherfieldsforthisrow':'Choose a field (or hold CTRL to select multiple fields) for a row',
 'MissingFields':'Missing fields for the row ',
 'AddRowsinMemoery':'You can add at least one row.Click Add block to add a new block!',
+'OnlyCharactersandNumbers':'The map name must have only leters , numbers !',
 }

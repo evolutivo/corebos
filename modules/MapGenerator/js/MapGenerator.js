@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-23 15:22:46
+ * @Last Modified time: 2018-03-26 11:31:09
  */
 /*
  * @Author: Edmond Kacaj 
@@ -36,7 +36,9 @@
 		disambleInspectelement:false,
 		countsaveMap:0,
 		ShowModulInHistory:true,
+		charReg : /^\s*[a-zA-Z0-9',\s]+\s*$/,
 
+		
 		registerInit : function(initializer) {
 			App.initMethods.push(initializer);
 		},
@@ -713,7 +715,7 @@
 	 checkInput:function(event)
 	 {
 			if (event) {event.preventDefault();}
-
+			
 			var elem=$(this);
 			var filecheck=elem.attr('data-controll-file');
 			var valuetxt=elem.val();
@@ -731,36 +733,46 @@
 					//elem.focus();
 				}else
 				{
-					var dat=`${idtxt}=${valuetxt}`;
-					App.utils.PostDataGeneric(event,filecheck.split(','),dat);
-					if (VauefromPost)
-					{
-						if (VauefromPost==="0")
-						{
-							$('#'+idhshow).fadeOut('slow')
-							// $('#'+idhshow).html(mv_arr.MapNameNotExist);
-							// if(idrelation)
-							// {
-							 	$('#'+idrelation).removeAttr('disabled');
-							// }
-							//elem.focus();
-							// App.utils.ShowNotification("snackbar",5000,mv_arr.MapNameNotExist);
-						}else
-						{
-							$('#'+idhshow).fadeIn('fast');//.delay(2000).fadeOut('slow');
-							$('#'+idhshow).html(mv_arr.MapNameExist);
+					
+					if (!App.charReg.test(valuetxt)) {
+						   $('#'+idhshow).fadeIn('fast');//.delay(2000).fadeOut('slow');
+							$('#'+idhshow).html(mv_arr.OnlyCharactersandNumbers);
 							if(idrelation)
 							{
 								$('#'+idrelation).attr('disabled', 'true');
 							}
 							elem.focus();
-							// App.utils.ShowNotification("snackbar",2000,mv_arr.MapNameExist);
-						}
-
-					}else
-					{
+							elem.val('');
+					} else {
 						
-					}
+						var dat=`${idtxt}=${valuetxt}`;
+						App.utils.PostDataGeneric(event,filecheck.split(','),dat);
+						if (VauefromPost)
+						{
+							if (VauefromPost==="0")
+							{
+								$('#'+idhshow).fadeOut('slow')
+								// $('#'+idhshow).html(mv_arr.MapNameNotExist);
+								// if(idrelation)
+								// {
+									$('#'+idrelation).removeAttr('disabled');
+								// }
+								//elem.focus();
+								// App.utils.ShowNotification("snackbar",5000,mv_arr.MapNameNotExist);
+							}else
+							{
+								$('#'+idhshow).fadeIn('fast');//.delay(2000).fadeOut('slow');
+								$('#'+idhshow).html(mv_arr.MapNameExist);
+								if(idrelation)
+								{
+									$('#'+idrelation).attr('disabled', 'true');
+								}
+								elem.focus();
+								// App.utils.ShowNotification("snackbar",2000,mv_arr.MapNameExist);
+							}
+
+						}else{}
+				    }
 				}
 
 
