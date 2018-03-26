@@ -2,21 +2,8 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-02-16 10:24:21 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-26 11:31:09
+ * @Last Modified time: 2018-03-26 15:26:18
  */
-/*
- * @Author: Edmond Kacaj 
- * @Date: 2018-02-16 10:24:20 
- * @Last Modified by:   programim95@gmail.com 
- * @Last Modified time: 2018-02-16 10:24:20 
- */
-/*
-* @Author: edmondi kacaj
-* @Date:   2017-11-06 10:16:56
- * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-02-16 10:01:49
-*/
-
 
 (function(global, $) {
 	global.historySave=[];

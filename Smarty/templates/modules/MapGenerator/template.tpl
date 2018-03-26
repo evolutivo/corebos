@@ -66,7 +66,7 @@
 		</tr>
 	</table>
 </div>
-{literal}
+{* {literal} *}
 <style type="text/css">
 	label{
 	  background-color: transparent;
@@ -86,8 +86,8 @@
 
 
 	App.baseUrl = '{$URLAPP}'+'/';
-	App.disambleInspectelement=false;
+	App.disambleInspectelement=Boolean(Number("{$MapGenerator_Remove_inspectElement}"));
 
 </script>
 
-{/literal}
+{* {/literal} *}

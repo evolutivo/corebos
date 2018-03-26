@@ -4,7 +4,7 @@
  * @Author: edmondi kacaj
  * @Date:   2017-11-06 10:16:56
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-23 17:27:50
+ * @Last Modified time: 2018-03-26 15:19:56
  */
 
 
@@ -503,6 +503,58 @@ if ($MypType=="Mapping") {
 		echo showError("Something was wrong",$ex->getMessage());
 	}
 	
+}else if ($MypType==="Field Set") {
+	
+	try
+	{
+		if (!empty($QueryHistory) || !empty($MapID)) {
+			
+			FieldSet($QueryHistory,$MapID);
+
+			// $Allhistory=get_All_History($QueryHistory);
+			// 	$Alldatas=array();
+
+			// 	foreach ($Allhistory as $value)
+			// 	{
+			// 		$xml=new SimpleXMLElement($value['query']);
+			// 		$MyArray=array();
+			// 		foreach ($xml->module as $module)
+			// 		{
+			// 			$modulename=(string)$module->name;
+			// 			foreach ($module->fields->field as $valuefield) {
+			// 					$temparray=[
+			// 						'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($modulename))[1],
+			// 						'fs-modules'=>(string)$$modulename,
+			// 						'fs-modulesText'=>(string)explode("#", Get_First_Moduls_TextVal($modulename))[1],
+			// 						'JsonType'=>"Fields",
+			// 						'Moduli'=>"",
+			// 						'fs-fields'=>explode(",",CheckAllFirstForAllModules((string)$valuefield->name))[0],
+			// 						'fs-fieldsText'=>explode(",",CheckAllFirstForAllModules((string)$valuefield->name))[1],
+			// 						'fs-fieldsoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($modulename))[1],
+			// 						'fs-information'=>(!empty((string)$valuefield->info)?(string)$valuefield->info:""),
+			// 						'fs-informationText'=>(!empty((string)$valuefield->info)?(string)$valuefield->info:""),
+			// 					];
+			// 					array_push($MyArray,$temparray);	
+			// 				}
+			// 			}
+			// 		array_push($Alldatas,$MyArray);
+			// 	}
+			// print_r($Alldatas);
+			// exit();
+			
+		} else {
+			throw new Exception(" Missing the MapID also the Id of History", 1);
+		}		
+		
+		
+	}catch(Exception $ex)
+	{
+		$log->debug(TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex);
+		LogFile($ex);
+		// echo TypeOFErrors::ErrorLG."Something was wrong check the Exception ".$ex;
+		echo showError("Something was wrong",$ex->getMessage());
+	}
+	
 }else
 {
 	// echo "Not Exist This Type of Map? \n Please check the type of mapping and try again.... ";
@@ -520,6 +572,84 @@ if ($MypType=="Mapping") {
  */
 
 #Region All Function Needet to genaret Map
+
+	function FieldSet($QueryHistory,$MapID)
+	{
+		include_once('modfields.php');
+		global $app_strings, $mod_strings, $current_language, $currentModule, $theme, $root_directory, $current_user,$log;
+		$theme_path = "themes/" . $theme . "/";
+		$image_path = $theme_path . "images/";
+		
+
+		try{
+			if (!empty($QueryHistory))
+			{
+				$FirstModuleSelected="<option value=''>Select module</option>".Get_First_Moduls();
+				$Allhistory=get_All_History($QueryHistory);
+				$Alldatas=array();
+
+				foreach ($Allhistory as $value)
+				{
+					$xml=new SimpleXMLElement($value['query']);
+					$MyArray=array();
+					foreach ($xml->module as $module)
+					{
+						$modulename=(string)$module->name;
+						foreach ($module->fields->field as $valuefield) {
+								$temparray=[
+									'DefaultText'=>(string)explode("#", Get_First_Moduls_TextVal($modulename))[1],
+									'fs-modules'=>(string)$modulename,
+									'fs-modulesText'=>(string)explode("#", Get_First_Moduls_TextVal($modulename))[1],
+									'JsonType'=>"Fields",
+									'Moduli'=>"",
+									'fs-fields'=>explode(",",CheckAllFirstForAllModules((string)$valuefield->name))[0],
+									'fs-fieldsText'=>explode(",",CheckAllFirstForAllModules((string)$valuefield->name))[1],
+									'fs-fieldsoptionGroup'=>(string)explode("#", Get_First_Moduls_TextVal($modulename))[1],
+									'fs-information'=>(!empty((string)$valuefield->info)?(string)$valuefield->info:""),
+									'fs-informationText'=>(!empty((string)$valuefield->info)?(string)$valuefield->info:""),
+								];
+								array_push($MyArray,$temparray);	
+							}
+						}
+					array_push($Alldatas,$MyArray);
+				}
+
+
+				//this is for save as 
+					$MapName=get_form_MapQueryID($QueryHistory,"mapname");
+					$HistoryMap=$QueryHistory.",".get_form_MapQueryID($QueryHistory,"cbmapid");
+				//this is for save as map
+					$data="MapGenerator,saveFieldSetMap";
+					$dataid="ListData,MapName";
+					$savehistory="true";
+					$saveasfunction="ShowLocalHistoryFieldSet";
+				//  //assign tpl
+				$smarty = new vtigerCRM_Smarty();
+				$smarty->assign("MOD", $mod_strings);
+				$smarty->assign("APP", $app_strings);
+				
+				$smarty->assign("MapName", $MapName);
+				$NameOFMap=$MapName;
+				$smarty->assign("NameOFMap",$NameOFMap);
+				$smarty->assign("HistoryMap",$HistoryMap);
+				$smarty->assign("FirstModuleSelected",$FirstModuleSelected);
+				//put the smarty modal
+				$smarty->assign("Modali",put_the_modal_SaveAs($data,$dataid,$savehistory,$mod_strings,$app_strings,$saveasfunction));
+
+				$smarty->assign("PopupJS",$Alldatas);
+				$output = $smarty->fetch('modules/MapGenerator/fieldset.tpl');
+				echo $output;
+				// print_r($Alldatas);
+				exit();
+
+			}else{
+				//TODO:: this is if not find the idquery to load map by Id of map 
+			}
+		}catch(Exception $ex){
+			echo showError("Something was wrong",$ex->getMessage());
+			LogFile($ex);
+		}
+	}
 
 
 	function RelatedPanes($QueryHistory,$MapID)

@@ -26,8 +26,8 @@
 			HistoryPopup.addtoarray(App.popupJson,"PopupJSON");
 		   App.popupJson.length=0;
 		{/foreach}
-		ShowLocalHistoryWS('LoadHistoryPopup','LoadShowPopup');
-		ClickToshowSelectedWS(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
+		ShowLocalHistoryFieldSet('LoadHistoryPopup','LoadShowPopup');
+		ClickToshowSelecteFieldSet(parseInt(App.SaveHistoryPop.length-1),'LoadShowPopup');
 		App.countsaveMap=2;
 		App.utils.UpdateMapNAme();
 	</script>
@@ -61,7 +61,7 @@
 											{else} {* FieldSet *}
 											<button class="slds-button slds-button--small slds-button--neutral" data-modal-saveas-open="true" id="SaveAsButton" disabled>{$MOD.SaveAsMap}</button>
 											{/if} &nbsp;
-											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveWebServiceMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryWS" >{$MOD.CreateMap}</button> 
+											<button class="slds-button slds-button--small slds-button--brand"  data-loading="true" data-loading-divid="LoadingDivId"  data-send-data-id="ListData,MapName" data-send="true" data-send-url="MapGenerator,saveFieldSetMap" data-send-saveas="true" data-send-saveas-id-butoni="SaveAsButton" data-send-savehistory="true" data-save-history="true" data-save-history-show-id="LoadHistoryPopup" data-save-history-show-id-relation="LoadShowPopup" data-send-savehistory-functionname="ShowLocalHistoryFieldSet" >{$MOD.CreateMap}</button> 
 										</div>
 									</div>
 								</div>
@@ -81,6 +81,7 @@
 												<div class="slds-form-element__control">
 													<div class="slds-select_container">
 														<select id="fs-modules" data-select-load="true" data-select-relation-field-id="fs-fields" data-module="MapGenerator" required  name="mod" class="slds-select">
+															{$FirstModuleSelected}
 														</select>
 													</div>
 												</div>
@@ -90,6 +91,7 @@
 													<label class="slds-form-element__label" for="fs-fields"><strong class="slds-text-color--error">*</strong>{$MOD.fsFields}</label>
 													<div class="slds-form-element__control">
 														<select id="fs-fields"  required  name="mod" class="slds-select">
+														<option value=''>Select field</option>
 														</select>
 													</div>
 												</div>
@@ -106,7 +108,7 @@
 												</div>
 											</div>
 											<div class="fs-button-container">
-												<button  onclick="AddPopupFieldSetModule(this);" data-div-show="LoadShowPopup"   class="slds-button slds-button--small slds-button--brand" aria-haspopup="true" title="{$MOD.fsbuttonmoduleInfo}">{$MOD.fsbuttonmodule}</button>
+												<button  onclick="AddPopupFieldSetModule(this);RemoveSelectFields(this);" data-div-show="LoadShowPopup"   class="slds-button slds-button--small slds-button--brand" data-add-relation-id="fs-modules,fs-fields,fs-information" aria-haspopup="true" title="{$MOD.fsbuttonmoduleInfo}">{$MOD.fsbuttonmodule}</button>
 											</div>
 										</div>
 									</fieldset>

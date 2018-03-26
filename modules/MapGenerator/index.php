@@ -13,7 +13,7 @@
 * permissions and limitations under the License. You may obtain a copy of the License
 * at <http://corebos.org/documentation/doku.php?id=en:devel:vpl11>
 *************************************************************************************************/
-global $app_strings,$site_URL, $mod_strings, $current_language, $currentModule, $theme,$adb,$root_directory,$current_user;
+global $app_strings,$site_URL, $mod_strings, $current_language, $currentModule, $theme,$adb,$root_directory,$current_user,$MapGenerator_Remove_inspectElement;
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
 require_once ('include/utils/utils.php');
@@ -29,6 +29,7 @@ $smarty->assign("MOD", $mod_strings);
 $smarty->assign("APP", $app_strings);
 $smarty->assign("URLAPP", $site_URL);
 $smarty->assign("currlang",$current_language);
+$smarty->assign("MapGenerator_Remove_inspectElement",$MapGenerator_Remove_inspectElement);
 $smarty->assign("Allmaps",SelectallMaps());
 $smarty->display('modules/MapGenerator/template.tpl');
 

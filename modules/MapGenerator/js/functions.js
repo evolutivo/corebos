@@ -2,7 +2,7 @@
  * @Author: Edmond Kacaj 
  * @Date: 2018-03-05 14:39:22 
  * @Last Modified by: programim95@gmail.com
- * @Last Modified time: 2018-03-23 16:47:13
+ * @Last Modified time: 2018-03-26 14:59:30
  */
 /*
  * @Author: Edmond Kacaj 
@@ -2757,26 +2757,6 @@ if (App.popupJson.length>0)
       }
     }
 
-///////  Menu Structure Functions ////////////////
-
-/**
- * this show the history every time you click same map
- *
- * @class      ShowLocalHistoryMenuStructure (name)
- * @param      {<type>}  keephitoryidtoshow            The keephitoryidtoshow
- * @param      {<type>}  keephitoryidtoshowidrelation  The keephitoryidtoshowidrelation
- */
- function ShowLocalHistoryMenuStructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
- {
-  if (App.SaveHistoryPop.length>0)
-  { 
-   $('#'+keephitoryidtoshow+' div').remove();
-   for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
-    $('#'+keephitoryidtoshow).append(modalhistoryshow(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
-
-  }
-}
-}
 
 
 
@@ -2813,10 +2793,6 @@ function ShowHistoryDataIOMap(id,divshow)
     }
    } 
 }
-
-
-
-
 
 
 /**
@@ -3034,44 +3010,13 @@ function ShowHistoryDataLocal(Idload,divHistory)
 /**
  *When user create a block, this function crear the blockName field, and unselect the selected fields.
  * { function_description }
- */
+*/
  function resetFieldCreateViewPortal() {
   $("#BlockName").val('');
   $("#FieldsForRow").find('option:selected').removeAttr("selected");
 }
 
 
-///  For Record Access Control
-
-
-function Removechecked(event) {
-  
-  var elem=event;
-  var allids=elem.dataset.allId;
-
- if (!elem.checked)
-  {
-    if (allids)
-    {
-      allids=allids.split(',');
-      for (var i = allids.length - 1; i >= 0; i--) {
-        $("#"+allids[i]).removeAttr('checked');
-        $("#"+allids[i]).attr("disabled", true);
-      }
-    }
-
-  }else
-  {
-    if (allids)
-    {
-      allids=allids.split(',');
-      for (var i = allids.length - 1; i >= 0; i--) {         
-        $("#"+allids[i]).removeAttr('disabled');
-        $("#"+allids[i]).prop("checked", "checked");
-      }
-    }
-  }
-}
 
 
 /**
@@ -3112,32 +3057,6 @@ function RemovecheckedMasterDetail(event)
 
 
 
-
-
-
-function resetFieldGlobalSearchAuto() {
-
-    clear_selections = function(){
-        setTimeout(function(){
-            if($('#LoadShowPopup').find(".alerts").length==0){
-                clear_selections();
-            }else{
-                // $("#Firstfield").find('option:selected').removeAttr("selected");
-                // $("#Firstfield2").find('option:selected').removeAttr("selected");
-                $("#FirstModule").val("");
-                $("#Firstfield").find('option').remove();
-                $("#Firstfield2").find('option').remove();
-                $("#Firstfield").find('optgroup').remove();
-                $("#Firstfield2").find('optgroup').remove();
-               
-            }
-        },50);
-    }
-    clear_selections();
-    
-}
-
-
 /////////////TEMPLATE.TPL 
 /**
  * { function_description }
@@ -3159,8 +3078,42 @@ function selectTab(isactive=true) {
    
 }
 
-////////////// Record Access Controll ////////////////////////////
+//#region Record access Control
 
+
+  ////////////// Record Access Controll ////////////////////////////
+
+///  For Record Access Control
+
+
+function Removechecked(event) {
+  
+  var elem=event;
+  var allids=elem.dataset.allId;
+
+ if (!elem.checked)
+  {
+    if (allids)
+    {
+      allids=allids.split(',');
+      for (var i = allids.length - 1; i >= 0; i--) {
+        $("#"+allids[i]).removeAttr('checked');
+        $("#"+allids[i]).attr("disabled", true);
+      }
+    }
+
+  }else
+  {
+    if (allids)
+    {
+      allids=allids.split(',');
+      for (var i = allids.length - 1; i >= 0; i--) {         
+        $("#"+allids[i]).removeAttr('disabled');
+        $("#"+allids[i]).prop("checked", "checked");
+      }
+    }
+  }
+}
 
 function RecordsAccesControlHtmlPopup(Idd,Module,RModule,view,add,edit,delette,select,divid)
 {
@@ -3327,7 +3280,9 @@ function closeAlertsRecordAccesControol(remuveid,namediv) {
 
 
 }
+//#endregion
 
+//#region Field Dependency
 
 /////////// Field Dependency ///////////////
 
@@ -3432,8 +3387,12 @@ function allcheckbosChecked(argument) {
    $('input:checkbox').prop('checked','checked');
    $('input:checkbox').removeAttr('disabled');
 }
+//#endregion
 
-///////////// RendicontaConfig  //////////////////////
+//#region Rendi conta config 
+
+
+  ///////////// RendicontaConfig  //////////////////////
 
 
 /**
@@ -3447,157 +3406,157 @@ function allcheckbosChecked(argument) {
  * @return     {string}           { description_of_the_return_value }
  */
 function addToPopupRendicontaConfig(Idd,FirstModule,statusfield,processtemp,causalefield,divid,typepopup)
- {
-   var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-   + '">';
-   INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupDataRendicontaConfig('
-   + Idd + ',\'' + divid + '\');">&times;</span>';
-   if (FirstModule && FirstModule!=='')
-   {
-      INSertAlerstJOIN += '<p><strong>'+(Idd+1)+'# '+typepopup+'</strong></p>';
-      INSertAlerstJOIN += '<p>Module    ==>  '+FirstModule+'</p>';
-      INSertAlerstJOIN += '<p>Status Field  ==>  '+statusfield+'</p>';
-      INSertAlerstJOIN += '<p>Process Template  ==>  '+processtemp+'</p>';
-      if (causalefield && causalefield!=="none")
-      {
-        INSertAlerstJOIN += '<p>Causal Field  ==>  '+causalefield+'</p>';
-      }
-    
-  } else
+{
+  var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+  + '">';
+  INSertAlerstJOIN += '<span class="closebtns" onclick="closePopupDataRendicontaConfig('
+  + Idd + ',\'' + divid + '\');">&times;</span>';
+  if (FirstModule && FirstModule!=='')
   {
-    INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
-  }
+     INSertAlerstJOIN += '<p><strong>'+(Idd+1)+'# '+typepopup+'</strong></p>';
+     INSertAlerstJOIN += '<p>Module    ==>  '+FirstModule+'</p>';
+     INSertAlerstJOIN += '<p>Status Field  ==>  '+statusfield+'</p>';
+     INSertAlerstJOIN += '<p>Process Template  ==>  '+processtemp+'</p>';
+     if (causalefield && causalefield!=="none")
+     {
+       INSertAlerstJOIN += '<p>Causal Field  ==>  '+causalefield+'</p>';
+     }
+   
+ } else
+ {
+   INSertAlerstJOIN += '<strong># '+typepopup+' !  '+(Idd+1)+'</strong><br/> '+fields;
+ }
 
-  INSertAlerstJOIN += '</div';
+ INSertAlerstJOIN += '</div';
 
-  return INSertAlerstJOIN;
+ return INSertAlerstJOIN;
 }
 
 
 /**
- * Closes a popup data rendiconta configuration.
- *
- * @param      {(number|string)}  remuveid  The remuveid
- * @param      {string}           namediv   The namediv
- */
+* Closes a popup data rendiconta configuration.
+*
+* @param      {(number|string)}  remuveid  The remuveid
+* @param      {string}           namediv   The namediv
+*/
 function closePopupDataRendicontaConfig(remuveid,namediv) {
-      var check = false;
-      for (var ii = 0; ii <= App.popupJson.length-1; ii++)
-      {
-        if (ii == remuveid)
-        {
-           //JSONForCOndition.remove(remuveid);
-           App.popupJson.splice(remuveid,1);
-           check = true
-        
-        
-        }
-      }
-      if (check) {
-          var remuvediv="#alerts_"+remuveid;
-          $( remuvediv).remove( );
-          $('#' + namediv + ' div').remove();
-          if (App.popupJson.length>0)
-          { 
-             for (var i = 0; i <= App.popupJson.length-1; i++) {
-               var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
-               var causalefield=App.popupJson[i].temparray[`causalefield`];
-               if (causalefield && causalefield!=="none")
-               {
-                 causalefield=App.popupJson[i].temparray[`causalefieldText`];
-               }else{causalefield="";}
-               var processtempText=App.popupJson[i].temparray['processtempText'];
-               var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
-               var JsonType=App.popupJson[i].temparray['JsonType'];
-               var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,namediv,typeofpopup);
-               $('#'+divid).append(divinsert);
-             }
-
-          }else{
-          // alert(mv_arr.MappingFiledValid);
-          // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-        }
-      }
-      else {
-        // alert(mv_arr.ReturnFromPost);
-        App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
-      }
-}
-
-
-
-/**
- * add popup when click add
- *
- * @class      AdDPOpupRendicontaConfig (name)
- * @param      {<type>}  sel     The selected
- */
-function AdDPOpupRendicontaConfig(sel) {
-    if (sel)
-    {
-      var idrelation=sel.dataset.addRelationId;
-      var typeofpopup=sel.dataset.addType;
-      var divid=sel.dataset.divShow; 
-       var temparray={};
-       var checkif=false;
-      if (idrelation)
-      {
-           $('#'+divid+' div').remove();
-           var optionalvalues=$("#"+idrelation.split(',')[3]+" option:selected").val();
-           if (!optionalvalues)
-           {
-             $("#"+idrelation.split(',')[3]+" option:selected").val("none");
-           }
-           var arrayfields=idrelation.split(',');
-           for (var i = arrayfields.length - 1; i >= 0; i--) {
-               if (App.utils.IsSelectORDropDown(arrayfields[i]).length>0)
-               {
-                  temparray[arrayfields[i]]=App.utils.IsSelectORDropDown(arrayfields[i]);
-                  temparray[arrayfields[i]+'Text']=App.utils.IsSelectORDropDownGetText(arrayfields[i]);
-                  checkif=true;
-               }else{
-                 checkif=false;
-                 break;
-               }
-           }
-            if (checkif===true)
-            {
-              temparray['JsonType']=typeofpopup;
-              var checkvalue={temparray};
-              if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+     var check = false;
+     for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+     {
+       if (ii == remuveid)
+       {
+          //JSONForCOndition.remove(remuveid);
+          App.popupJson.splice(remuveid,1);
+          check = true
+       
+       
+       }
+     }
+     if (check) {
+         var remuvediv="#alerts_"+remuveid;
+         $( remuvediv).remove( );
+         $('#' + namediv + ' div').remove();
+         if (App.popupJson.length>0)
+         { 
+            for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+              var causalefield=App.popupJson[i].temparray[`causalefield`];
+              if (causalefield && causalefield!=="none")
               {
-                App.popupJson.push({temparray});
-              }else
-              {
-                App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
-              }
-            }else
-            {
-              App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
+                causalefield=App.popupJson[i].temparray[`causalefieldText`];
+              }else{causalefield="";}
+              var processtempText=App.popupJson[i].temparray['processtempText'];
+              var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
+              var JsonType=App.popupJson[i].temparray['JsonType'];
+              var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,namediv,typeofpopup);
+              $('#'+divid).append(divinsert);
             }
 
-           if (App.popupJson.length>0)
-           { 
-            for (var i = 0; i <= App.popupJson.length-1; i++) {
-               var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
-               var causalefield=App.popupJson[i].temparray[`causalefield`];
-               if (causalefield && causalefield!=="none")
-               {
-                 causalefield=App.popupJson[i].temparray[`causalefieldText`];
-               }else{causalefield="";}
-               var processtempText=App.popupJson[i].temparray['processtempText'];
-               var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
-               var JsonType=App.popupJson[i].temparray['JsonType'];
-               var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,divid,JsonType);
-               $('#'+divid).append(divinsert);
-             } 
+         }else{
+         // alert(mv_arr.MappingFiledValid);
+         // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+       }
+     }
+     else {
+       // alert(mv_arr.ReturnFromPost);
+       App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+     }
+}
 
-          }else{
-                    // alert(mv_arr.MappingFiledValid);
-            App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+
+
+/**
+* add popup when click add
+*
+* @class      AdDPOpupRendicontaConfig (name)
+* @param      {<type>}  sel     The selected
+*/
+function AdDPOpupRendicontaConfig(sel) {
+   if (sel)
+   {
+     var idrelation=sel.dataset.addRelationId;
+     var typeofpopup=sel.dataset.addType;
+     var divid=sel.dataset.divShow; 
+      var temparray={};
+      var checkif=false;
+     if (idrelation)
+     {
+          $('#'+divid+' div').remove();
+          var optionalvalues=$("#"+idrelation.split(',')[3]+" option:selected").val();
+          if (!optionalvalues)
+          {
+            $("#"+idrelation.split(',')[3]+" option:selected").val("none");
           }
-    }
-  }
+          var arrayfields=idrelation.split(',');
+          for (var i = arrayfields.length - 1; i >= 0; i--) {
+              if (App.utils.IsSelectORDropDown(arrayfields[i]).length>0)
+              {
+                 temparray[arrayfields[i]]=App.utils.IsSelectORDropDown(arrayfields[i]);
+                 temparray[arrayfields[i]+'Text']=App.utils.IsSelectORDropDownGetText(arrayfields[i]);
+                 checkif=true;
+              }else{
+                checkif=false;
+                break;
+              }
+          }
+           if (checkif===true)
+           {
+             temparray['JsonType']=typeofpopup;
+             var checkvalue={temparray};
+             if (App.utils.checkinArray(App.popupJson,checkvalue)===false)
+             {
+               App.popupJson.push({temparray});
+             }else
+             {
+               App.utils.ShowNotification("snackbar",2000,mv_arr.NotAllowedDopcicate);
+             }
+           }else
+           {
+             App.utils.ShowNotification("snackbar",2000,mv_arr.addJoinValidation);
+           }
+
+          if (App.popupJson.length>0)
+          { 
+           for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+              var causalefield=App.popupJson[i].temparray[`causalefield`];
+              if (causalefield && causalefield!=="none")
+              {
+                causalefield=App.popupJson[i].temparray[`causalefieldText`];
+              }else{causalefield="";}
+              var processtempText=App.popupJson[i].temparray['processtempText'];
+              var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
+              var JsonType=App.popupJson[i].temparray['JsonType'];
+              var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,divid,JsonType);
+              $('#'+divid).append(divinsert);
+            } 
+
+         }else{
+                   // alert(mv_arr.MappingFiledValid);
+           App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+         }
+   }
+ }
 }
 
 
@@ -3605,68 +3564,72 @@ function AdDPOpupRendicontaConfig(sel) {
 
 function LocalHistoryRendicontaConfig(IdLoad,Module,divanameLoad,dividrelation='')
 {
-   var htmldat='<div class="Message Message"  >';
-   htmldat+='<div class="Message-icon">';
-   htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowRendicontConfig(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
-   htmldat+='</div>';
-   htmldat+='<div class="Message-body">';
-   htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
-   htmldat+='<p>Module ==> '+Module+'</p>';
-   htmldat+='</div>';
-   htmldat+='</div>';
-   return htmldat;
+  var htmldat='<div class="Message Message"  >';
+  htmldat+='<div class="Message-icon">';
+  htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ShowRendicontConfig(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+  htmldat+='</div>';
+  htmldat+='<div class="Message-body">';
+  htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+  htmldat+='<p>Module ==> '+Module+'</p>';
+  htmldat+='</div>';
+  htmldat+='</div>';
+  return htmldat;
 }
 
 
 function ShowLocalHistoryRendiConfig(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
-    if (App.SaveHistoryPop.length>0)
-    { 
-       $('#'+keephitoryidtoshow+' div').remove();
-       for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
-        $('#'+keephitoryidtoshow).append(LocalHistoryRendicontaConfig(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'],keephitoryidtoshow,keephitoryidtoshowidrelation));
+   if (App.SaveHistoryPop.length>0)
+   { 
+      $('#'+keephitoryidtoshow+' div').remove();
+      for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {
+       $('#'+keephitoryidtoshow).append(LocalHistoryRendicontaConfig(i,App.SaveHistoryPop[i].PopupJSON[0].temparray['FirstModuleText'],keephitoryidtoshow,keephitoryidtoshowidrelation));
 
-      }
-    }
+     }
+   }
 }
 
 
 function ShowRendicontConfig(Idload,divHistory)
 {
-    var historydata=App.SaveHistoryPop[parseInt(Idload)];
-    App.popupJson.length=0;
-    App.ModulLabel='Module';
-    App.FieldLabel='Related';
-    for (var i=0;i<=historydata.PopupJSON.length-1;i++){
-      App.popupJson.push(historydata.PopupJSON[i]);
-    }
-    if (App.popupJson.length>0)
-    { 
-      $('#' + divHistory + ' div').remove();
-      for (var i = 0; i <= App.popupJson.length-1; i++) {
-               var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
-               var causalefield=App.popupJson[i].temparray[`causalefield`];
-               if (causalefield && causalefield!=="none")
-               {
-                 causalefield=App.popupJson[i].temparray[`causalefieldText`];
-               }else{causalefield="";}
-               var processtempText=App.popupJson[i].temparray['processtempText'];
-               var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
-               var JsonType=App.popupJson[i].temparray['JsonType'];
-               var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,divHistory,JsonType);
-               $('#'+divHistory).append(divinsert);
-      } 
-    }
+   var historydata=App.SaveHistoryPop[parseInt(Idload)];
+   App.popupJson.length=0;
+   App.ModulLabel='Module';
+   App.FieldLabel='Related';
+   for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+     App.popupJson.push(historydata.PopupJSON[i]);
+   }
+   if (App.popupJson.length>0)
+   { 
+     $('#' + divHistory + ' div').remove();
+     for (var i = 0; i <= App.popupJson.length-1; i++) {
+              var FirstModule=App.popupJson[i].temparray[`FirstModuleText`];
+              var causalefield=App.popupJson[i].temparray[`causalefield`];
+              if (causalefield && causalefield!=="none")
+              {
+                causalefield=App.popupJson[i].temparray[`causalefieldText`];
+              }else{causalefield="";}
+              var processtempText=App.popupJson[i].temparray['processtempText'];
+              var statusfieldText=App.popupJson[i].temparray['statusfieldText'];
+              var JsonType=App.popupJson[i].temparray['JsonType'];
+              var divinsert= addToPopupRendicontaConfig(i,FirstModule,statusfieldText,processtempText,causalefield,divHistory,JsonType);
+              $('#'+divHistory).append(divinsert);
+     } 
+   }
 }
 
 function Empydata(event)
 {
-  setTimeout(function(){
-    $('#DefaultValueFirstModuleField_1').val(""); 
-  },100);
+ setTimeout(function(){
+   $('#DefaultValueFirstModuleField_1').val(""); 
+ },100);
 }
+//#endregion
 
-///////// Import bussines Mapping //////////////
+//#region Import bussines Mapping 
+
+
+  ///////// Import bussines Mapping //////////////
 
 /**
  * Generate html alertes only for Import bussines
@@ -3852,11 +3815,15 @@ function clearInput(idtoremove){
     $('#'+idtoremove).val(""); 
   },100);
 }
+//#endregion
 
 
 
 
-/////////////Record Set Mapping
+//#region Record Set Mapping
+
+
+  /////////////Record Set Mapping
 /**
  * Function to show or hide 
  *
@@ -3957,9 +3924,12 @@ function ClickToshowSelectedFiledsRecordSetMapping(Idload,divHistory)
       } 
     }
 }
+//#endregion
 
 
-///////////  Extendet Field Information Mapping ////////////////////////
+//#region Extendet Field Information
+
+  ///////////  Extendet Field Information Mapping ////////////////////////
 
 
 function RestoreDataEXFIM(sel) {
@@ -4174,10 +4144,37 @@ function addExtendetFieldMap(event){
             App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
           }
       }
+//#endregion
       
 
 
-///////////////// Globa search Autocompleate //////////////////////////////////////////
+//#region Global search autocompeate
+
+
+
+function resetFieldGlobalSearchAuto() {
+
+  clear_selections = function(){
+      setTimeout(function(){
+          if($('#LoadShowPopup').find(".alerts").length==0){
+              clear_selections();
+          }else{
+              // $("#Firstfield").find('option:selected').removeAttr("selected");
+              // $("#Firstfield2").find('option:selected').removeAttr("selected");
+              $("#FirstModule").val("");
+              $("#Firstfield").find('option').remove();
+              $("#Firstfield2").find('option').remove();
+              $("#Firstfield").find('optgroup').remove();
+              $("#Firstfield2").find('optgroup').remove();
+             
+          }
+      },50);
+  }
+  clear_selections();
+  
+}
+
+  ///////////////// Globa search Autocompleate //////////////////////////////////////////
 
 
 function LocalHistoryHtmlGSA(IdLoad,divanameLoad,dividrelation='',callfunction='')
@@ -4208,11 +4205,31 @@ function LoaclHistoryGSA(keephitoryidtoshow,keephitoryidtoshowidrelation)
     }
 }
 
+//#endregion
 
 
+//#region  MENUSTRUCTURE 
 
 ////////////////// MENUSTRUCTURE /////////////////////////////////////////
 
+/**
+ * this show the history every time you click same map
+ *
+ * @class      ShowLocalHistoryMenuStructure (name)
+ * @param      {<type>}  keephitoryidtoshow            The keephitoryidtoshow
+ * @param      {<type>}  keephitoryidtoshowidrelation  The keephitoryidtoshowidrelation
+*/
+function ShowLocalHistoryMenuStructure(keephitoryidtoshow,keephitoryidtoshowidrelation)
+{
+ if (App.SaveHistoryPop.length>0)
+ { 
+    $('#'+keephitoryidtoshow+' div').remove();
+    for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) {           
+      $('#'+keephitoryidtoshow).append(modalhistoryshow(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+
+    }
+  }
+}
 
 function ConditionChecked(event) {
   var elem=event;
@@ -4427,12 +4444,13 @@ function ClickToshowSelectedFiledsMenustructure(Idload,divHistory)
       App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
     }
 }
+//#endregion
 
 
+//#region  Duplicate Records 
 
-///////////////////// Duplicate Records  ////////////////////////////////////////////////////////////////
-
-function DuplicateRecordsLocalHistroty(IdLoad,Module,divanameLoad,dividrelation='')
+  ///////////////////// Duplicate Records  ////////////////////////////////////////////////////////////////
+  function DuplicateRecordsLocalHistroty(IdLoad,Module,divanameLoad,dividrelation='')
 {
    var htmldat='<div class="Message Message"  >';
    htmldat+='<div class="Message-icon">';
@@ -4481,8 +4499,11 @@ function ClickToshowSelectedFiledsDuplicateRecords(Idload,divHistory)
       } 
     }
 }
+//#endregion
 
-////////  FieldDependency 
+//#region FieldDependency
+
+  ////////  FieldDependency 
 
 function AddResponsabileFieldsFD(event)
 {
@@ -4735,10 +4756,12 @@ function ShowLocalHistoryListColumns(keephitoryidtoshow,keephitoryidtoshowidrela
       }
     }
 }
+//#endregion
 
 
+//#region Condition Expresson
 
-/////////////////////  ConditionExpresion ///////////////////////////////
+  /////////////////////  ConditionExpresion ///////////////////////////////
 
 
 function addToPopupExtendetCE(Idd,tpa,divid)
@@ -4962,10 +4985,12 @@ function ShowLocalHistoryCE(keephitoryidtoshow,keephitoryidtoshowidrelation)
       }
     }
 }
+//#endregion
 
 
 
-
+//#region Web service map (WS)
+  
 ////////////////////////// Web service Map  ///////////////////////////////////////////////
 
 /**
@@ -5824,7 +5849,6 @@ function ClosePopupValueMapWS(remuveid,namediv)
 
 //////////// WS  Local History  ////////////////
 
-
 function ClickToshowSelectedWS(Idload,divHistory)
 {
    var historydata=App.SaveHistoryPop[parseInt(Idload)];
@@ -5903,11 +5927,12 @@ function ShowLocalHistoryWS(keephitoryidtoshow,keephitoryidtoshowidrelation)
       }
     }
 }
+//#endregion
 
 
+//#region  WS Validation
 
 /////////////////////////  Ws Validation Map ///////////////////////////////////////////////
-
 /**
  * function to add Fields For Validation
  */
@@ -5970,7 +5995,6 @@ function GenerateWSValidation(Idd,tpa,divid)
     INSertAlerstJOIN += '</div';
     return INSertAlerstJOIN;
 }
-
 /**
  * function to remove the Fieldds WSValidation
  */
@@ -6011,8 +6035,6 @@ function ClosePopupWSValidationFields(remuveid,namediv)
     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
   }
 }
-
-
 function ClickToshowSelectedWSValidation(Idload,divHistory)
 {
    var historydata=App.SaveHistoryPop[parseInt(Idload)];
@@ -6033,7 +6055,6 @@ function ClickToshowSelectedWSValidation(Idload,divHistory)
         App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
       }
 }
-
 function LocalHistoryWSValidation(IdLoad,OriginModule,TargetModule,divanameLoad,dividrelation='')
 {
     var htmldat='<div class="Message Message"  >';
@@ -6050,7 +6071,6 @@ function LocalHistoryWSValidation(IdLoad,OriginModule,TargetModule,divanameLoad,
     htmldat+='</div>';
     return htmldat;
 }
-
 function ShowLocalHistoryWSValidation(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
     if (App.SaveHistoryPop.length>0)
@@ -6064,12 +6084,12 @@ function ShowLocalHistoryWSValidation(keephitoryidtoshow,keephitoryidtoshowidrel
       }
     }
 }
+//#endregion
 
 
+//#region Related Panes
 
 ////////////////// Related Panes //////////////////////////////////////
-
-
 function moreinformationchecked(event)
 {
   var elem=event;
@@ -6115,8 +6135,6 @@ function moreinformationchecked(event)
     }
   }
 }
-
-
 function RestoreDataRelatedFields(sel,panes=false) {
   if (sel) {
       var idrelation = sel.dataset.addRelationId;
@@ -6145,8 +6163,6 @@ function RestoreDataRelatedFields(sel,panes=false) {
     }, 100);
   }
 }
-
-
 function AddPopupRelatedFieldBlock(event)
 {
   var elem=event;
@@ -6182,8 +6198,6 @@ function AddPopupRelatedFieldBlock(event)
     App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
   } 
 }
-
-
 /**
  * generate the html popup for Related Fields (Block)
  * @param {*} Idd 
@@ -6208,9 +6222,6 @@ function GenerateRelatedFieldsBlock(Idd,tpa,divid)
     INSertAlerstJOIN += '</div';
     return INSertAlerstJOIN;
 }
-
-
-
 /**
  * add panes after block 
  */
@@ -6238,7 +6249,6 @@ function AddPopupRelatedFieldsPanes(event) {
     App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
   } 
 }
-
 /**
  * Htlm generate for Panes
 */
@@ -6287,7 +6297,6 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
       
   }
 }
-
  function DeleteBlockId(remuveid,namediv)
  {
    var check = false;
@@ -6325,10 +6334,6 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
      App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
    }
  }
-
-
-
-
  function ClosePopupBlockId(remuveid,namediv)
  {
    var check = false;
@@ -6367,10 +6372,8 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
      App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
    }
  }
-
  /* LocalHistory Related Pane */
-
- function LocalHistoryRelatedPane(IdLoad,OriginModule,divanameLoad,dividrelation='')
+function LocalHistoryRelatedPane(IdLoad,OriginModule,divanameLoad,dividrelation='')
 {
     var htmldat='<div class="Message Message"  >';
     htmldat+='<div class="Message-icon">';
@@ -6383,8 +6386,6 @@ function GenerateHtmlPanes(Idd,tpa,divid) {
     htmldat+='</div>';
     return htmldat;
 }
-
-
 function ShowLocalHistoryRelatedPanes(keephitoryidtoshow,keephitoryidtoshowidrelation)
 {
     if (App.SaveHistoryPop.length>0)
@@ -6397,7 +6398,6 @@ function ShowLocalHistoryRelatedPanes(keephitoryidtoshow,keephitoryidtoshowidrel
       }
     }
 }
-
 function ClickToshowSelecteRelationPane(Idload,divHistory)
 {
    var historydata=App.SaveHistoryPop[parseInt(Idload)];
@@ -6419,198 +6419,272 @@ function ClickToshowSelecteRelationPane(Idload,divHistory)
       }
 }
 
+//#endregion
 
 
-
-//////////////////// Field set ////////////////////////////////////
-
-/**
- * function to add the object
- * @param {*} event 
- */
-function AddPopupFieldSet(event)
-{
-  var elem=event;
-  var allid=elem.dataset.addRelationId;
-  var showtext=elem.dataset.showId;
-  var Typeofpopup=elem.dataset.addType;
-  var replace=elem.dataset.addReplace;
-  var modulShow=elem.dataset.showModulId;
-  var divid=elem.dataset.divShow;
-  var validate=elem.dataset.addButtonValidate;
-  var validatearray=[];
-
-  var allidarray = allid.split(",");
-
-  if (validate)
-  {
-    if (validate.length>0)
-    {
-      validatearray=validate.split(',');
-    }else{validatearray.length=0;}
-  }else{validatearray.length=0;}
-
-  $('#'+divid+' div').remove();
-  App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
-  if (App.popupJson.length>0)
-  { 
-    for (var i = 0; i <= App.popupJson.length-1; i++) {
-      var divinsert= GenerateHTMLFieldSet(i,App.popupJson[i],divid);
-      $('#'+divid).append(divinsert);
-    }
-  }else{
-    // alert(mv_arr.MappingFiledValid);
-    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-  } 
-}
-
-
-/**
- * generate the html popup for FieldSet
- * @param {*} Idd 
- * @param {*} tpa 
- * @param {*} divid 
- */
-function GenerateHTMLFieldSet(Idd,tpa,divid)
-{
-    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
-    + '">';
-    INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupFieldsetFields('
-    + Idd + ',\'' + divid + '\');">&times;</span>';
-   
-    INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
-    INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['fs-modules'])===false?tpa.temparray['fs-modulesText']:"Empty") + '</p>';
-    INSertAlerstJOIN += '<p>Field ==> '+(isBlank(tpa.temparray['fs-fields'])===false?tpa.temparray['fs-fieldsText']:"Empty") + '</p>';
-    INSertAlerstJOIN += '<p>Information  ==> '+(isBlank(tpa.temparray['fs-information'])===false?tpa.temparray['fs-information']:"0") + '</p>';
-    INSertAlerstJOIN += '</div';
-    return INSertAlerstJOIN;
-}
-
-
-function ClosePopupFieldsetFields(remuveid,namediv)
-{
-  var check = false;
-  for (var ii = 0; ii <= App.popupJson.length-1; ii++)
-  {
-    if (ii == remuveid)
-    {
-        //JSONForCOndition.remove(remuveid);
-        App.popupJson.splice(remuveid,1);
-        check = true
-        //console.log(remuveid);
-        // console.log(ReturnAllDataHistory());
-    }
-  }
-  if (check)
-  {
-    var remuvediv="#alerts_"+remuveid;
-    $('#'+namediv+' div').remove();
-    if (App.popupJson.length>0)
-    { 
-     $('#'+namediv+' div').remove();
-     for (var i = 0; i <= App.popupJson.length-1; i++) {
-       var divinsert= GenerateHTMLFieldSet(i,App.popupJson[i],namediv);
-       $('#'+namediv).append(divinsert);
-     }  
-    }else
-    {
-      // alert(mv_arr.MappingFiledValid);
-      // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-    }
-  }
-  else
-  {
-    // alert(mv_arr.ReturnFromPost);
-    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
-  }
-}
-
-
-
-/**
- * add panes after block 
- */
-function AddPopupFieldSetModule(event) {
-  var elem=event;
-  var divid=elem.dataset.divShow;
+//#region  Field Set
   
-  if (App.popupJson.length>0)
-  { 
-
-    $('#'+divid+' div').remove();
-    for (var i = 0; i <= App.popupJson.length-1; i++) {
-      var divinsert= GenerateHtmlModuleFieldSet(i,App.popupJson[i],divid);
-      $('#'+divid).append(divinsert);
-    }
-    index=1;
-  }else{
-    App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-  } 
-}
+ //////////////////// Field set ////////////////////////////////////
 
 
-/**
- * Htlm generate for FieldsSet
-*/
-function GenerateHtmlModuleFieldSet(Idd,tpa,divid) {
-  if ($("#" +tpa.temparray['fs-modules'].replace(/\s+/g, '')).length == 0) {
-    var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
-    INSertAlerstJOIN += '<div id="'+tpa.temparray['fs-modules'].replace(/\s+/g, '')+'">';
-      INSertAlerstJOIN += '<strong>'+(index++)+'#  '+tpa.temparray['fs-modulesText']+' </strong>';
-        INSertAlerstJOIN += '<p> Module  ==> '+(isBlank(tpa.temparray['fs-modules'])===false?tpa.temparray['fs-modulesText']:"Empty") + '</p>';
-        INSertAlerstJOIN += '<p></p>';
-        INSertAlerstJOIN +='<div class="deleteModule" onclick="DeleteFieldsModuls('+ Idd + ',\'' + divid + '\');">';
-        INSertAlerstJOIN += '<p>Field  ==> '+(isBlank(tpa.temparray['fs-fields'])===false?tpa.temparray['fs-fieldsText']:"0") + '</p>';
-        INSertAlerstJOIN += '<p>Information  ==> '+(isBlank(tpa.temparray['fs-information'])===false?tpa.temparray['fs-informationText']:"Empty") + '</p>';
-        INSertAlerstJOIN += '</div>';
-        INSertAlerstJOIN += '</div>';
-    INSertAlerstJOIN += '</div>';
-    return INSertAlerstJOIN;
-  }else {
-    var count = $('#'+tpa.temparray['fs-modules'].replace(/\s+/g, '')+' div').length;
-    var INSertAlerst ='<div class="deleteModule" onclick="DeleteFieldsModuls('+ Idd + ',\'' + divid + '\');">';
-        INSertAlerst += '<p>Field  ==> '+(isBlank(tpa.temparray['fs-fields'])===false?tpa.temparray['fs-fieldsText']:"0") + '</p>';
-        INSertAlerst += '<p>Information  ==> '+(isBlank(tpa.temparray['fs-information'])===false?tpa.temparray['fs-informationText']:"Empty") + '</p>';
-        INSertAlerst += '</div>';
-      $("#" +tpa.temparray['fs-modules'].replace(/\s+/g, '')).append(INSertAlerst);
-      
-  }
-}
-
-function DeleteFieldsModuls(remuveid,namediv)
-{
-  var check = false;
-  for (var ii = 0; ii <= App.popupJson.length-1; ii++)
-  {
-    if (ii == remuveid)
-    {
-        //JSONForCOndition.remove(remuveid);
-        App.popupJson.splice(remuveid,1);
-        check = true
-        //console.log(remuveid);
-        // console.log(ReturnAllDataHistory());
-    }
-  }
-  if (check)
-  {
-    var remuvediv="#alerts_"+remuveid;
-    $('#'+namediv+' div').remove();
-    if (App.popupJson.length>0)
-    { 
-     $('#'+namediv+' div').remove();
+ function RemoveSelectFields(sel) {
+  if (sel) {
+       var idrelation = sel.dataset.addRelationId;
+       var arrofId=idrelation.split(",");
+       setTimeout(function() {
+         arrofId.forEach(element => {
+           if (document.getElementById(element).tagName==='INPUT') {
+             $('#'+element).val("");
+           }else if (document.getElementById(element).tagName==='SELECT') {
+             document.getElementById(element).selectedIndex = 0;
+           }else {
+             
+           }
+       });
+     }, 100);
+   }
+ }
+ 
+ 
+ /**
+  * function to add the object
+  * @param {*} event 
+  */
+ function AddPopupFieldSet(event)
+ {
+   var elem=event;
+   var allid=elem.dataset.addRelationId;
+   var showtext=elem.dataset.showId;
+   var Typeofpopup=elem.dataset.addType;
+   var replace=elem.dataset.addReplace;
+   var modulShow=elem.dataset.showModulId;
+   var divid=elem.dataset.divShow;
+   var validate=elem.dataset.addButtonValidate;
+   var validatearray=[];
+ 
+   var allidarray = allid.split(",");
+ 
+   if (validate)
+   {
+     if (validate.length>0)
+     {
+       validatearray=validate.split(',');
+     }else{validatearray.length=0;}
+   }else{validatearray.length=0;}
+ 
+   $('#'+divid+' div').remove();
+   App.utils.Add_to_universal_popup(allidarray,Typeofpopup,showtext, modulShow,validatearray);
+   if (App.popupJson.length>0)
+   { 
      for (var i = 0; i <= App.popupJson.length-1; i++) {
-       var divinsert= GenerateHtmlModuleFieldSet(i,App.popupJson[i],namediv);
-       $('#'+namediv).append(divinsert);
-     }  
-    }else
-    {
-      // alert(mv_arr.MappingFiledValid);
-      // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
-    }
-  }
-  else
-  {
-    // alert(mv_arr.ReturnFromPost);
-    App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
-  }
-}
+       var divinsert= GenerateHTMLFieldSet(i,App.popupJson[i],divid);
+       $('#'+divid).append(divinsert);
+     }
+   }else{
+     // alert(mv_arr.MappingFiledValid);
+     App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+   } 
+ }
+ 
+ 
+ /**
+  * generate the html popup for FieldSet
+  * @param {*} Idd 
+  * @param {*} tpa 
+  * @param {*} divid 
+  */
+ function GenerateHTMLFieldSet(Idd,tpa,divid)
+ {
+     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd
+     + '">';
+     INSertAlerstJOIN += '<span class="closebtns" onclick="ClosePopupFieldsetFields('
+     + Idd + ',\'' + divid + '\');">&times;</span>';
+    
+     INSertAlerstJOIN += '<strong>'+(Idd+1)+'#  '+tpa.temparray['JsonType']+' </strong>';
+     INSertAlerstJOIN += '<p>Origin Module  ==> '+(isBlank(tpa.temparray['fs-modules'])===false?tpa.temparray['fs-modulesText']:"Empty") + '</p>';
+     INSertAlerstJOIN += '<p>Field ==> '+(isBlank(tpa.temparray['fs-fields'])===false?tpa.temparray['fs-fieldsText']:"Empty") + '</p>';
+     INSertAlerstJOIN += '<p>Information  ==> '+(isBlank(tpa.temparray['fs-information'])===false?tpa.temparray['fs-information']:"0") + '</p>';
+     INSertAlerstJOIN += '</div';
+     return INSertAlerstJOIN;
+ }
+ 
+ 
+ function ClosePopupFieldsetFields(remuveid,namediv)
+ {
+   var check = false;
+   for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+   {
+     if (ii == remuveid)
+     {
+         //JSONForCOndition.remove(remuveid);
+         App.popupJson.splice(remuveid,1);
+         check = true
+         //console.log(remuveid);
+         // console.log(ReturnAllDataHistory());
+     }
+   }
+   if (check)
+   {
+     var remuvediv="#alerts_"+remuveid;
+     $('#'+namediv+' div').remove();
+     if (App.popupJson.length>0)
+     { 
+      $('#'+namediv+' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateHTMLFieldSet(i,App.popupJson[i],namediv);
+        $('#'+namediv).append(divinsert);
+      }  
+     }else
+     {
+       // alert(mv_arr.MappingFiledValid);
+       // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+     }
+   }
+   else
+   {
+     // alert(mv_arr.ReturnFromPost);
+     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+   }
+ }
+ 
+ 
+ 
+ /**
+  * add modules after Fields
+  */
+ function AddPopupFieldSetModule(event) {
+   var elem=event;
+   var divid=elem.dataset.divShow;
+   
+   if (App.popupJson.length>0)
+   { 
+ 
+     $('#'+divid+' div').remove();
+     for (var i = 0; i <= App.popupJson.length-1; i++) {
+       var divinsert= GenerateHtmlModuleFieldSet(i,App.popupJson[i],divid);
+       $('#'+divid).append(divinsert);
+     }
+     index=1;
+   }else{
+     App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+   } 
+ }
+ 
+ 
+ /**
+  * Htlm generate for FieldsSet
+ */
+ function GenerateHtmlModuleFieldSet(Idd,tpa,divid) {
+   if ($("#" +tpa.temparray['fs-modules'].replace(/\s+/g, '')).length == 0) {
+     var INSertAlerstJOIN = '<div class="alerts" id="alerts_' + Idd+ '">';
+     INSertAlerstJOIN += '<div id="'+tpa.temparray['fs-modules'].replace(/\s+/g, '')+'">';
+       INSertAlerstJOIN += '<strong>'+(index++)+'#  '+tpa.temparray['fs-modulesText']+' </strong>';
+         INSertAlerstJOIN += '<p> Module  ==> '+(isBlank(tpa.temparray['fs-modules'])===false?tpa.temparray['fs-modulesText']:"Empty") + '</p>';
+         INSertAlerstJOIN += '<p></p>';
+         INSertAlerstJOIN +='<div class="deleteModule" onclick="DeleteFieldsModuls('+ Idd + ',\'' + divid + '\');">';
+         INSertAlerstJOIN += '<p>Field  ==> '+(isBlank(tpa.temparray['fs-fields'])===false?tpa.temparray['fs-fieldsText']:"0") + '</p>';
+         INSertAlerstJOIN += '<p>Information  ==> '+(isBlank(tpa.temparray['fs-information'])===false?tpa.temparray['fs-informationText']:"Empty") + '</p>';
+         INSertAlerstJOIN += '</div>';
+         INSertAlerstJOIN += '</div>';
+     INSertAlerstJOIN += '</div>';
+     return INSertAlerstJOIN;
+   }else {
+     var count = $('#'+tpa.temparray['fs-modules'].replace(/\s+/g, '')+' div').length;
+     var INSertAlerst ='<div class="deleteModule" onclick="DeleteFieldsModuls('+ Idd + ',\'' + divid + '\');">';
+         INSertAlerst += '<p>Field  ==> '+(isBlank(tpa.temparray['fs-fields'])===false?tpa.temparray['fs-fieldsText']:"0") + '</p>';
+         INSertAlerst += '<p>Information  ==> '+(isBlank(tpa.temparray['fs-information'])===false?tpa.temparray['fs-informationText']:"Empty") + '</p>';
+         INSertAlerst += '</div>';
+       $("#" +tpa.temparray['fs-modules'].replace(/\s+/g, '')).append(INSertAlerst);
+       
+   }
+ }
+ 
+ function DeleteFieldsModuls(remuveid,namediv)
+ {
+   var check = false;
+   for (var ii = 0; ii <= App.popupJson.length-1; ii++)
+   {
+     if (ii == remuveid)
+     {
+         //JSONForCOndition.remove(remuveid);
+         App.popupJson.splice(remuveid,1);
+         check = true
+         //console.log(remuveid);
+         // console.log(ReturnAllDataHistory());
+     }
+   }
+   if (check)
+   {
+     var remuvediv="#alerts_"+remuveid;
+     $('#'+namediv+' div').remove();
+     if (App.popupJson.length>0)
+     { 
+      $('#'+namediv+' div').remove();
+      for (var i = 0; i <= App.popupJson.length-1; i++) {
+        var divinsert= GenerateHtmlModuleFieldSet(i,App.popupJson[i],namediv);
+        $('#'+namediv).append(divinsert);
+      }  
+     }else
+     {
+       // alert(mv_arr.MappingFiledValid);
+       // App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+     }
+   }
+   else
+   {
+     // alert(mv_arr.ReturnFromPost);
+     App.utils.ShowNotification("snackbar",4000,mv_arr.ReturnFromPost);
+   }
+ }
+ 
+ 
+ ///// Local HIstory Field Set
+ 
+ function LocalHistoryFieldSet(IdLoad,divanameLoad,dividrelation='')
+ {
+     var htmldat='<div class="Message Message"  >';
+     htmldat+='<div class="Message-icon">';
+     htmldat+=`<button style="border: none;padding: 10px;background: transparent;" onclick="ClickToshowSelecteFieldSet(${IdLoad},'${dividrelation}')"><i id="Spanid_'+IdLoad+'" class="fa fa-eye"></i></button>`;
+     htmldat+='</div>';
+     htmldat+='<div class="Message-body">';
+     htmldat+='<p>@HISTORY : '+(IdLoad+1)+'</p>';
+     htmldat+='</div>';
+     htmldat+='</div>';
+     return htmldat;
+ }
+ 
+ 
+ function ShowLocalHistoryFieldSet(keephitoryidtoshow,keephitoryidtoshowidrelation)
+ {
+     if (App.SaveHistoryPop.length>0)
+     { 
+         $('#'+keephitoryidtoshow+' div').remove();
+         for (var i = 0; i <=App.SaveHistoryPop.length - 1; i++) { 
+           $('#'+keephitoryidtoshow).append(LocalHistoryFieldSet(i,keephitoryidtoshow,keephitoryidtoshowidrelation));
+ 
+       }
+     }
+ }
+ 
+ function ClickToshowSelecteFieldSet(Idload,divHistory)
+ {
+    var historydata=App.SaveHistoryPop[parseInt(Idload)];
+     App.popupJson.length=0;
+     for (var i=0;i<=historydata.PopupJSON.length-1;i++){
+       App.popupJson.push(historydata.PopupJSON[i]);
+     }
+     if (App.popupJson.length>0)
+     { 
+       index=1;
+       $('#' + divHistory + ' div').remove();
+       for (var i = 0; i <= App.popupJson.length-1; i++) {
+         var divinsert= GenerateHtmlModuleFieldSet(i,App.popupJson[i],divHistory);
+         $('#'+divHistory).append(divinsert);
+     } 
+ 
+     }else{
+         // alert(mv_arr.MappingFiledValid);
+         App.utils.ShowNotification("snackbar",4000,mv_arr.MappingFiledValid);
+       }
+ }
+//#endregion

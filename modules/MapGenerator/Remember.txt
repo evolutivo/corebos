@@ -194,3 +194,10 @@ VALUES ('text', 'text')
 <option value="PATCH">PATCH</option>
 <option value="POST">POST</option>
 <option value="PUT">PUT</option>
+
+
+
+---------------------   Put this line if you want to remove the inspect element and f12 (if you want to not allowed to see the sourse ) in config.inc.php
+
+// Make true if you want to remove the inspect element from MapGenerator module
+$MapGenerator_Remove_inspectElement = false;
