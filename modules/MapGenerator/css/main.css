@@ -1473,6 +1473,20 @@
 	.rp-button-group-blocks {
 		width: 100%;
 	}
+	.rp-button-group-blocks button,
+	.rp-button-group-panes button {
+		background-color: #54698D;
+		border-color: #54698D;
+	}
+	.rp-button-group-blocks button:hover,
+	.rp-button-group-blocks button:active,
+	.rp-button-group-blocks button:focus,
+	.rp-button-group-panes button:hover,
+	.rp-button-group-panes button:active,
+	.rp-button-group-panes button:focus {
+		background-color: #657A9F;
+		border-color: #657A9F;
+	}
 	.rp-val-help,
 	.rp-button-group-panes {
 		width: 50%;
@@ -1531,7 +1545,19 @@
 		width: 10%;
 		text-align: center;
 	}
-	.fs-add_button button { margin-top: 1.5rem; }
+	.fs-add_button {
+		margin-top: 1.5rem;
+	}
+	.fs-button-container button {
+		background-color: #54698D;
+		border-color: #54698D;
+	}
+	.fs-button-container button:hover,
+	.fs-button-container button:active,
+	.fs-button-container button:focus {
+		background-color: #657A9F;
+		border-color: #657A9F;
+	}
 	.fs-add_button img { width: 20px; }
 
 /* End Field Set */
