@@ -101,8 +101,8 @@ if($mvtype == "report"){
     //check if index exist
         if(count($response->denorm->mappings->$index)!=0)
         {
-          $fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'));
-          $writeFields1 = '$fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" =>"[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\',\'date_optional_time\']"));';
+          $fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']'));
+          $writeFields1 = '$fields1=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" =>"[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\',\'date_optional_time\', \'epoch_millis\']"));';
 
           //DELETE INDEX
 
@@ -133,8 +133,8 @@ if($mvtype == "report"){
         }
         else
         {
-        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']')));
-        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']")));';
+        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']')));
+        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']")));';
         $endpointUrl = "http://$ip:9200/$index";
          $channel = curl_init();
         //curl_setopt($channel1, CURLOPT_HTTPHEADER, $headers);
@@ -387,11 +387,11 @@ function getRoles($id) {
         if(count($response->$index->mappings->norm)!=0)
         {
           if($actionTodo == "createindex"){
-          $fields1=array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']'));
-          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'));
+          $fields1=array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']'));
+          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']'));
           }
           else
-          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']'));
+          $fields2=array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']'));
           if($actionTodo == "createindex"){
           $endpointUrl = "http://$ip:9200/$index/norm/_mapping?ignore_conflicts=true";
           $channel = curl_init();
@@ -420,8 +420,8 @@ function getRoles($id) {
        else
         {
           if($actionTodo == "createindex"){
-        $fields1=array("mappings"=>array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']'),"denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));
-        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\']")));';
+        $fields1=array("mappings"=>array("norm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']'),"denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\', \'dd-MM-yyyy\', \'date_optional_time\']')));
+        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\', \'yyyy-MM-dd\',\'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']")));';
         $endpointUrl = "http://$ip:9200/$index";
         $channel = curl_init();
         $typreofindex = "norm,denorm";
@@ -435,8 +435,8 @@ function getRoles($id) {
         $response = json_decode(curl_exec($channel));
         }
         else{
-        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']')));
-        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\']")));';
+        $fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => '[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']')));
+        $writeFields1 = '$fields1=array("mappings"=>array("denorm"=>array("properties"=>$reportIndexFields, "dynamic_date_formats" => "[\'yyyy-MM-dd HH:mm:ss\',\'yyyy-MM-dd\', \'dd-MM-yyyy\', \'date_optional_time\', \'epoch_millis\']")));';
         $typreofindex = "denorm";
         $endpointUrl = "http://$ip:9200/$index";
         error_log("New index endpoint url  for index structure = ".$endpointUrl." \n",3,$indexlLog);
