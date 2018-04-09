@@ -45,6 +45,7 @@ $mod_strings = array(
 	'Record Access Control' => 'Controllo Accesso Record',
 	'Record Set Mapping' => 'Record Set Mapping',
 	'Module Set Mapping' => 'Module Set Mapping',
+	'Field Set Mapping' => 'Field Set Mapping',
 	'ListColumns' => 'Lista colonne',
 	'DuplicateRelations' => 'Relazioni Duplicate',
 	'MasterDetailLayout' => 'Layout Master Dettaglio',

@@ -25,7 +25,6 @@
 	'values' => 'list of possible values',
 	'definition' => 'explanation and purpose',
 ),
-
  *************************************************************************************************/
 $GlobalVariableDefinitonsHeader = array(
 	'valuetype' => 'Type de Valeur',
@@ -216,6 +215,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Webservice',
 	'values' => '0 | 1',
 	'definition' => 'Active ou désactive complètement l\'accés au Portail Client. Activé par défaut (1).',
+),
+'SOAP_Outlook_Enabled' => array(
+	'status' => 'Implémenté',
+	'valuetype' => 'Booléen',
+	'category' => 'Webservice',
+	'values' => '0 | 1',
+	'definition' => 'Active ou désactive complètement l\'accés au Outlook. Activé par défaut (1).',
 ),
 'Application_Default_Action' => array(
 	'status' => 'Implémenté',
@@ -622,6 +628,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Fonctionnalité Mobile',
 	'values' => 'Calendar | HelpDesk | Contacts ...',
 	'definition' => 'Permet d\'établir le module à afficher par défaut lors de l\'accés au module Mobile (version mobile de l\'application).',
+),
+'Mobile_UI_Enabled' => array(
+	'status' => 'Implémenté',
+	'valuetype' => 'Chaîne',
+	'category' => 'Fonctionnalité Mobile',
+	'values' => '0 | 1',
+	'definition' => 'Active ou désactive complètement l\'accés au interfaz Mobile. Activé par défaut (1).',
 ),
 'Application_Storage_Directory' => array(
 	'status' => 'Implémenté',
@@ -1113,9 +1126,15 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'In modules with private sharing privileges, permit assigning the record to any active user in the application with the same role as the current user.',
 ),
+'MailManager_Show_SentTo_Links' => array(
+	'status' => 'Implemented',
+	'valuetype' => 'Boolean',
+	'category' => 'Application',
+	'values' => '0 | 1',
+	'definition' => 'MailManager shows, by default, on the left panel a set of links to filter emails related to Accounts, Contacts and some other modules. Setting this variable to 0 will hide those quick actions.',
+),
 );
 
 foreach (glob('modules/GlobalVariable/language/en_us.gvdefs.*.php', GLOB_BRACE) as $tcode) {
-	include($tcode);
+	include $tcode;
 }
-

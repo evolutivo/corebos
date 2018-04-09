@@ -150,10 +150,10 @@ function displayCoords(currObj,obj,mode,curr_row)
 				<input type="hidden" id="hdnProductId1" name="hdnProductId1" value="{if isset($PRODUCT_ID)}{$PRODUCT_ID}{/if}" />
 				{if $PRODUCT_OR_SERVICE eq 'Services'}
 					<input type="hidden" id="lineItemType1" name="lineItemType1" value="Services" />
-					&nbsp;<img id="searchIcon1" title="Services" src="{'services.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="servicePickList(this,'{$MODULE}',1)" />
+					&nbsp;<img id="searchIcon1" title="{'Services'|@getTranslatedString:'Services'}" src="{'services.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="servicePickList(this,'{$MODULE}',1)" />
 				{else}
 					<input type="hidden" id="lineItemType1" name="lineItemType1" value="Products" />
-					&nbsp;<img id="searchIcon1" title="Products" src="{'products.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="productPickList(this,'{$MODULE}',1)" />
+					&nbsp;<img id="searchIcon1" title="{'Products'|@getTranslatedString:'Products'}" src="{'products.gif'|@vtiger_imageurl:$THEME}" style="cursor: pointer;" align="absmiddle" onclick="productPickList(this,'{$MODULE}',1)" />
 				{/if}
 			</td>
 		</tr>
@@ -351,7 +351,7 @@ function displayCoords(currObj,obj,mode,curr_row)
 		<input id="shipping_handling_charge" name="shipping_handling_charge" type="text" class="small" style="width:40px" align="right" value="0.00" onBlur="calcSHTax();">
 	</td>
    </tr>
-
+{if !empty($SH_TAXES)}
    <tr valign="top">
 	<td class="crmTableRow small" style="border-right:1px #dadada;">&nbsp;</td>
 	<td class="crmTableRow small" align="right">
@@ -387,6 +387,7 @@ function displayCoords(currObj,obj,mode,curr_row)
 	</td>
 	<td id="shipping_handling_tax" class="crmTableRow small" align="right">0.00</td>
    </tr>
+{/if}
    <tr valign="top">
 	<td class="crmTableRow small" style="border-right:1px #dadada;">&nbsp;</td>
 	<td class="crmTableRow small" align="right">

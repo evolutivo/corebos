@@ -8,8 +8,11 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
 ********************************************************************************/
--->*} {if isset($smarty.request.ajax) && $smarty.request.ajax neq ''} 
-&#&#&#{if isset($ERROR)}{$ERROR}{/if}&#&#&# 
+-->*}
+{if !empty($smarty.request.ajax)}
+&#&#&#{if isset($ERROR)}{$ERROR}{/if}&#&#&#
+{else}
+{include file='applicationmessage.tpl'}
 {/if}
 <script type="text/javascript" src="include/js/ListView.js"></script>
 <script type="text/javascript" src="include/js/colResizable-1.6.min.js"></script>

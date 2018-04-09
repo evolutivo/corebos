@@ -25,7 +25,6 @@
 	'values' => 'list of possible values',
 	'definition' => 'explanation and purpose',
 ),
-
  *************************************************************************************************/
 $GlobalVariableDefinitonsHeader = array(
 	'valuetype' => 'Tipo de Valor',
@@ -216,6 +215,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Webservice',
 	'values' => '0 | 1',
 	'definition' => 'Habilita o Deshabilita el acceso al servicio de SOAP del portal del cliente.',
+),
+'SOAP_Outlook_Enabled' => array(
+	'status' => 'Implementada',
+	'valuetype' => 'Booleano',
+	'category' => 'Webservice',
+	'values' => '0 | 1',
+	'definition' => 'Habilita o Deshabilita el acceso al servicio de SOAP de Outlook.',
 ),
 'Application_Default_Action' => array(
 	'status' => 'Implementada',
@@ -622,6 +628,13 @@ $GlobalVariableDefinitons = array(
 	'category' => 'Funccionalidad module Mobile',
 	'values' => 'Calendar | HelpDesk | Contacts ...',
 	'definition' => 'Establecer el módulo por defecto a mostrar al entrar al módulo de Mobile.',
+),
+'Mobile_UI_Enabled' => array(
+	'status' => 'Implementada',
+	'valuetype' => 'Texto',
+	'category' => 'Funccionalidad module Mobile',
+	'values' => '0 | 1',
+	'definition' => 'Habilita o Deshabilita el acceso al interfaz Móvil.',
 ),
 'Application_Storage_Directory' => array(
 	'status' => 'Implementada',
@@ -1113,9 +1126,15 @@ $GlobalVariableDefinitons = array(
 	'values' => '0 | 1',
 	'definition' => 'En módulos con privilegios de compartición privados, permite asignar el registro a cualquier usuario activo de la aplicación con el mismo rol que el usuario actual.',
 ),
+'MailManager_Show_SentTo_Links' => array(
+	'status' => 'Implementada',
+	'valuetype' => 'Boolean',
+	'category' => 'Aplicación',
+	'values' => '0 | 1',
+	'definition' => 'MailManager muestra, de manera predeterminada, en el panel izquierdo un conjunto de enlaces para filtrar los correos electrónicos relacionados con Cuentas, Contactos y algunos otros módulos. Establecer esta variable a 0 ocultará esas acciones rápidas.',
+),
 );
 
 foreach (glob('modules/GlobalVariable/language/es_es.gvdefs.*.php', GLOB_BRACE) as $tcode) {
-	include($tcode);
+	include $tcode;
 }
-

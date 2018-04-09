@@ -216,8 +216,6 @@ function setMailerProperties($mail,$subject,$contents,$from_email,$from_name,$to
 
 	$mail->FromName = decode_html($from_name);
 
-	$mail->Sender= getReturnPath($mail->Host, $from_email);
-
 	if($to_email != '')
 	{
 		if(is_array($to_email)) {
@@ -613,8 +611,7 @@ function parseEmailErrorString($mail_error_str) {
 }
 
 function isUserInitiated() {
-	return (isset($_REQUEST['module']) && isset($_REQUEST['action']) &&
-			($_REQUEST['module'] == 'Emails' || $_REQUEST['module'] == 'Webmails') &&
+	return (isset($_REQUEST['module']) && isset($_REQUEST['action']) && $_REQUEST['module'] == 'Emails' &&
 			($_REQUEST['action'] == 'mailsend' || $_REQUEST['action'] == 'webmailsend' || $_REQUEST['action'] == 'Save'));
 }
 

@@ -16,7 +16,7 @@ require_once 'include/QueryGenerator/QueryGenerator.php';
 require_once 'include/ListView/ListViewController.php';
 
 /**
- * Check if user id belongs to a system admin.
+ * Check if user object belongs to a system admin.
  */
 function is_admin($user) {
 	global $log;
@@ -52,6 +52,24 @@ function is_superadmin($userid) {
             }
     }
 }
+
+/**
+ * Check if user id belongs to a system admin.
+ */
+function is_adminID($userID) {
+	global $log;
+	if (empty($userID) || !is_numeric($userID)) {
+		return false;
+	}
+	$log->debug('Entering is_adminID(' . $userID . ') method ...');
+	$is_admin = false;
+	if (file_exists('user_privileges/user_privileges_' . $userID . '.php')) {
+		require 'user_privileges/user_privileges_' . $userID . '.php';
+	}
+	$log->debug('Exiting is_adminID method ...');
+	return ($is_admin == true);
+}
+
 /**
  * path is inside the application tree
  */
@@ -68,8 +86,6 @@ function isInsideApplication($path2check) {
  * of a select statement in a form.
  * param $option_list - the array of strings to that contains the option list
  * param $selected - the string which contains the default value
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
  */
 function get_select_options(&$option_list, $selected, $advsearch = 'false') {
 	global $log;
@@ -82,8 +98,6 @@ function get_select_options(&$option_list, $selected, $advsearch = 'false') {
  * of a select statement in a form.   This method expects the option list to have keys and values.  The keys are the ids.  The values is an array of the datas
  * param $option_list - the array of strings to that contains the option list
  * param $selected - the string which contains the default value
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
  */
 function get_select_options_with_id(&$option_list, $selected_key, $advsearch = 'false') {
 	global $log;
@@ -114,8 +128,6 @@ function get_select_options_array(&$option_list, $selected_key, $advsearch = 'fa
  * param $label_list - the array of strings to that contains the option list
  * param $key_list - the array of strings to that contains the values list
  * param $selected - the string which contains the default value
- * Portions created by SugarCRM are Copyright (C) SugarCRM, Inc.
- * All Rights Reserved.
  */
 function get_options_array_seperate_key(&$label_list, &$key_list, $selected_key, $advsearch = 'false') {
 	global $log,  $app_strings;
@@ -372,7 +384,7 @@ function getTabid($module) {
 	$tabid = VTCacheUtils::lookupTabid($module);
 	if ($tabid === false) {
 		if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0)) {
-			include('tabdata.php');
+			include 'tabdata.php';
 			if (!empty($tab_info_array[$module])) {
 				$tabid = $tab_info_array[$module];
 			}
@@ -510,7 +522,7 @@ function getTabOwnedBy($module) {
 	$tabid = getTabid($module);
 
 	if (file_exists('tabdata.php') && (filesize('tabdata.php') != 0)) {
-		include('tabdata.php');
+		include 'tabdata.php';
 		$tab_ownedby = $tab_ownedby_array[$tabid];
 	} else {
 		$log->info("module is " . $module);
@@ -1270,7 +1282,7 @@ function getBlocks($module, $disp_view, $mode, $col_fields = '', $info_type = ''
 	$log->debug("Entering getBlocks(" . $module . "," . $disp_view . "," . $mode . "," . print_r($col_fields, true) . "," . $info_type . ") method ...");
 	$tabid = getTabid($module);
 	$block_detail = array();
-	$getBlockinfo = '';
+	$getBlockInfo = array();
 	$query = "select blockid,blocklabel,display_status,isrelatedlist from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 	$result = $adb->pquery($query, array($tabid));
 	$noofrows = $adb->num_rows($result);
@@ -1297,7 +1309,7 @@ function getBlocks($module, $disp_view, $mode, $col_fields = '', $info_type = ''
 	}
 
 	// Retrieve the profile list from database
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
+	require 'user_privileges/user_privileges_' . $current_user->id . '.php';
 
 	$selectSql = 'vtiger_field.tablename,'
 		. 'vtiger_field.columnname,'
@@ -1863,7 +1875,7 @@ function create_tab_data_file() {
 				echo "Cannot open file ($filename)";
 				exit;
 			}
-			require_once('modules/Users/CreateUserPrivilegeFile.php');
+			require_once 'modules/Users/CreateUserPrivilegeFile.php';
 			$newbuf = '';
 			$newbuf .="<?php\n\n";
 			$newbuf .="\n";
@@ -1945,7 +1957,7 @@ function QuickCreate($module) {
 	$tabid = getTabid($module);
 
 	//Adding Security Check
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
+	require 'user_privileges/user_privileges_' . $current_user->id . '.php';
 	if ($is_admin == true || $profileGlobalPermission[1] == 0 || $profileGlobalPermission[2] == 0) {
 		$quickcreate_query = "select *
 			from vtiger_field
@@ -2014,8 +2026,8 @@ function QuickCreate($module) {
 function getUserslist($setdefval = true, $selecteduser = '') {
 	global $log, $current_user, $module, $adb, $assigned_user_id;
 	$log->debug("Entering getUserslist() method ...");
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+	require 'user_privileges/user_privileges_' . $current_user->id . '.php';
+	require 'user_privileges/sharing_privileges_' . $current_user->id . '.php';
 	$tabid = getTabid($module);
 	if ($is_admin==false && $profileGlobalPermission[2]==1 && (is_null($tabid) || $defaultOrgSharingPermission[$tabid]==3 || $defaultOrgSharingPermission[$tabid]==0)) {
 		$user_array = get_user_array(false, "Active", $current_user->id, 'private');
@@ -2042,8 +2054,8 @@ function getUserslist($setdefval = true, $selecteduser = '') {
 function getGroupslist() {
 	global $log, $adb, $module, $current_user;
 	$log->debug("Entering getGroupslist() method ...");
-	require('user_privileges/user_privileges_' . $current_user->id . '.php');
-	require('user_privileges/sharing_privileges_' . $current_user->id . '.php');
+	require 'user_privileges/user_privileges_' . $current_user->id . '.php';
+	require 'user_privileges/sharing_privileges_' . $current_user->id . '.php';
 
 	//Commented to avoid security check for groups
 	$tabid = getTabid($module);
@@ -2980,7 +2992,7 @@ function getEmailTemplateVariables($modules_list = null) {
 		}
 
 		$allOptions[] = $allFields;
-		$allFields = "";
+		$allFields = array();
 	}
 	$option = array(getTranslatedString('Current Date'), '$custom-currentdate$');
 	$allFields[] = $option;
@@ -3189,23 +3201,30 @@ function isModuleSettingPermitted($module) {
  * @param string $module - the module name
  * @return string $fieldsname - the entity field name for the module
  */
-function getEntityField($module) {
+function getEntityField($module, $fqn = false) {
 	global $adb;
 	$data = array();
 	if (!empty($module)) {
-		$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
+		$query = 'select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?';
 		$result = $adb->pquery($query, array($module));
 		$fieldsname = $adb->query_result($result, 0, 'fieldname');
 		$tablename = $adb->query_result($result, 0, 'tablename');
 		$entityidfield = $adb->query_result($result, 0, 'entityidfield');
 		if (!(strpos($fieldsname, ',') === false)) {
 			$fieldlists = explode(',', $fieldsname);
-			$fieldsname = "concat(";
-			$fieldsname = $fieldsname . implode(",' ',", $fieldlists);
-			$fieldsname = $fieldsname . ")";
+			if ($fqn) {
+				array_walk($fieldlists, function (&$elem, $key) use ($tablename) {
+					$elem = $tablename.'.'.$elem;
+				});
+			}
+			$fieldsname = 'concat(' . implode(",' ',", $fieldlists) . ')';
+		} elseif ($fqn) {
+			$fieldsname = $tablename.'.'.$fieldsname;
 		}
+	} else {
+		$tablename  = $fieldsname = $entityidfield = '';
 	}
-	$data = array("tablename" => $tablename, "fieldname" => $fieldsname,"entityid"=>$entityidfield);
+	$data = array('tablename' => $tablename, 'fieldname' => $fieldsname, 'entityid' => $entityidfield);
 	return $data;
 }
 
@@ -3375,49 +3394,13 @@ function getModuleSequenceNumber($module, $recordId) {
 	return $moduleSeqNo;
 }
 
+/* tries to return info@your_domain email for return path
+ * but it doesn't get it right because the only way to get a TLD is comparing against a list of existing ones
+ * not used anywhere anymore due to RFC5321 section 4.4
+ * @deprecated
+ */
 function getReturnPath($host, $from_email) {
-	$returnname = 'info';
-	$returnpath = $from_email;
-	// Remove the trailing protocol information
-	if (preg_match("/[^:]+:\/\/(.*)/", $host, $m)) {
-		$host = $m[1];
-	}
-	// Remove the port address if any
-	if (preg_match("/([^:]+):.*/", $host, $m)) {
-		$host = $m[1];
-	}
-	// Remove any extra-spaces
-	$host = trim($host);
-
-	// Review if the host is not local
-	if ('localhost' != strtolower($host)) {
-		if (strpos($from_email, '@')) {
-			list($from_name, $from_domain) = explode('@', $from_email);
-		} else {
-			$from_name = $from_domain = '';
-		}
-
-		//strip [,] from domain name in case ip address is used as domain: xyz@[192.45.32.67]
-		preg_replace("/[\[\]]/", $from_domain, $from_domain);
-
-		// If from-email domain is not matching (or sub-domain) of host
-		// reset the return-path
-		if ($from_domain == '' || strpos($host, $from_domain) == false) {
-			if (preg_match('/^((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))$/', $host)) {
-				$returnpath = $returnname . '@[' . $host.']';
-			} else {
-				if (strpos($host, '.')) {
-					$cmps = explode('.', $host);
-					while (count($cmps)>2) {
-						array_shift($cmps);
-					}
-					$host = implode('.', $cmps);
-				}
-				$returnpath = $returnname . '@' . $host;
-			}
-		}
-	}
-	return $returnpath;
+	return '';
 }
 
 

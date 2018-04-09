@@ -12,3 +12,4 @@
 /config.performance.php
 /modules/Calendar4You/googlekeys
 /nbproject/private/
+/include/csrfmagic/csrf-secret.php

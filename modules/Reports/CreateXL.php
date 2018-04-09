@@ -10,8 +10,8 @@
 global $php_max_execution_time, $tmp_dir, $root_directory;
 set_time_limit($php_max_execution_time);
 
-require_once('modules/Reports/ReportRun.php');
-require_once('modules/Reports/Reports.php');
+require_once 'modules/Reports/ReportRun.php';
+require_once 'modules/Reports/Reports.php';
 
 $fname = tempnam($root_directory.$tmp_dir, 'merge2.xls');
 
@@ -50,7 +50,7 @@ if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'M
 }
 header('Content-Type: application/x-msexcel');
 header('Content-Length: '.@filesize($fname));
-header('Content-disposition: attachment; filename="Reports.xls"');
+header('Content-disposition: attachment; filename="'.$oReportRun->getReportName(true, true).'.xls"');
 $fh=fopen($fname, 'rb');
 fpassthru($fh);
 //unlink($fname);

@@ -17,9 +17,9 @@
  *  Version      : 1.0
  *  Author       : JPL TSolucio, S. L.
  *************************************************************************************************/
-require_once('Smarty_setup.php');
-require_once('modules/cbMap/cbMap.php');
-require_once('modules/cbMap/processmap/processMap.php');
+require_once 'Smarty_setup.php';
+require_once 'modules/cbMap/cbMap.php';
+require_once 'modules/cbMap/processmap/processMap.php';
 
 global $mod_strings, $app_strings, $currentModule, $current_user, $theme, $singlepane_view;
 
@@ -162,6 +162,10 @@ switch ($focus->column_fields['maptype']) {
 			),
 			74
 		);
+		break;
+	case 'Field Set Mapping':
+			$fsm = $focus->FieldSetMapping();
+			$mapinfo = $fsm->getFieldSet();
 		break;
 	default:
 		break;

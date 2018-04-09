@@ -8,9 +8,9 @@
  * All Rights Reserved.
  * ****************************************************************************** */
 global $app_strings, $mod_strings, $theme;
-$theme_path = "themes/" . $theme . "/";
-$image_path = $theme_path . "images/";
-require_once('include/utils/utils.php');
+$theme_path = 'themes/' . $theme . '/';
+$image_path = $theme_path . 'images/';
+require_once 'include/utils/utils.php';
 require_once 'include/Webservices/Utils.php';
 
 global $adv_filter_options;
@@ -19,6 +19,8 @@ $adv_filter_options = array("e" => "" . $mod_strings['equals'] . "",
 	"n" => "" . $mod_strings['not equal to'] . "",
 	"s" => "" . $mod_strings['starts with'] . "",
 	"ew" => "" . $mod_strings['ends with'] . "",
+	"dnsw" => "" . $mod_strings['does not start with'] . "",
+	"dnew" => "" . $mod_strings['does not end with'] . "",
 	"c" => "" . $mod_strings['contains'] . "",
 	"k" => "" . $mod_strings['does not contain'] . "",
 	"l" => "" . $mod_strings['less than'] . "",
@@ -52,14 +54,14 @@ class CustomView extends CRMEntity {
 	 * @param $module -- The module Name:: Type String(optional)
 	 * @returns  nothing
 	 */
-	public function __construct($module = "") {
-		global $current_user, $adb;
+	public function __construct($module = '') {
+		global $current_user;
 		$this->customviewmodule = $module;
-		$this->escapemodule[] = $module . "_";
-		$this->escapemodule[] = "_";
+		$this->escapemodule[] = $module . '_';
+		$this->escapemodule[] = '_';
 		$this->smownerid = $current_user->id;
 		$this->moduleMetaInfo = array();
-		if ($module != "" && $module != 'Calendar') {
+		if ($module != '' && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
 		}
 	}
@@ -70,7 +72,6 @@ class CustomView extends CRMEntity {
 	 * @return EntityMeta
 	 */
 	public function getMeta($module, $user) {
-		$db = PearDatabase::getInstance();
 		if (empty($this->moduleMetaInfo[$module])) {
 			$handler = vtws_getModuleHandlerFromName($module, $user);
 			$meta = $handler->getMeta();
@@ -142,10 +143,9 @@ class CustomView extends CRMEntity {
 	public function getViewIdByName($viewname, $module) {
 		global $adb;
 		if (isset($viewname)) {
-			$query = "select cvid from vtiger_customview where viewname=? and entitytype=?";
+			$query = 'select cvid from vtiger_customview where viewname=? and entitytype=?';
 			$cvresult = $adb->pquery($query, array($viewname, $module));
 			$viewid = $adb->query_result($cvresult, 0, 'cvid');
-			;
 			return $viewid;
 		} else {
 			return 0;
@@ -164,7 +164,7 @@ class CustomView extends CRMEntity {
 		global $adb, $current_user;
 		$tabid = getTabid($this->customviewmodule);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require 'user_privileges/user_privileges_' . $current_user->id . '.php';
 
 		$ssql = 'select vtiger_customview.*
 			from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype where vtiger_customview.cvid=?';
@@ -204,11 +204,10 @@ class CustomView extends CRMEntity {
 	 * @returns  $customviewCombo :: Type String
 	 */
 	public function getCustomViewCombo($viewid = '', $markselected = true) {
-		global $adb, $current_user;
-		global $app_strings;
+		global $adb, $current_user, $app_strings;
 		$tabid = getTabid($this->customviewmodule);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require 'user_privileges/user_privileges_' . $current_user->id . '.php';
 
 		$shtml_user = '';
 		$shtml_pending = '';
@@ -278,7 +277,7 @@ class CustomView extends CRMEntity {
 					}
 					$shtml_public .= $option;
 				} elseif ($cvrow['status'] == CV_STATUS_PENDING) {
-					if (in_array($cvrow['userid'], $cuserroles) or $is_admin) {
+					if (in_array($cvrow['userid'], $cuserroles) || $is_admin) {
 						if ($shtml_pending == '') {
 							$shtml_pending = "<option disabled>--- " . $app_strings['LBL_PENDING'] . " ---</option>";
 						}
@@ -308,10 +307,10 @@ class CustomView extends CRMEntity {
 	  $fieldlabeln =>'$fieldtablenamen:$fieldcolnamen:$fieldnamen:$module_$fieldlabel1n:$fieldtypeofdatan')
 	 */
 	public function getColumnsListbyBlock($module, $block, $markMandatory = true) {
-		global $adb, $mod_strings, $app_strings, $current_user;
+		global $adb, $current_user;
 		$block_ids = explode(",", $block);
 		$tabid = getTabid($module);
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require 'user_privileges/user_privileges_' . $current_user->id . '.php';
 		if (empty($this->meta) && $module != 'Calendar') {
 			$this->meta = $this->getMeta($module, $current_user);
 		}
@@ -428,7 +427,7 @@ class CustomView extends CRMEntity {
 	 */
 	public function getModuleColumnsList($module) {
 		global $current_user;
-		$module_info = $this->getCustomViewModuleInfo($module);
+		$this->getCustomViewModuleInfo($module);
 		foreach ($this->module_list[$module] as $key => $value) {
 			$columnlist = $this->getColumnsListbyBlock($module, $value, true);
 			if (isset($columnlist)) {
@@ -438,7 +437,7 @@ class CustomView extends CRMEntity {
 		$handler = vtws_getModuleHandlerFromName($module, $current_user);
 		$meta = $handler->getMeta();
 		$reffields = $meta->getReferenceFieldDetails();
-		foreach ($reffields as $fld => $mods) {
+		foreach ($reffields as $mods) {
 			foreach ($mods as $mod) {
 				if (!vtlib_isEntityModule($mod)) {
 					continue; // reference to a module without fields
@@ -446,7 +445,7 @@ class CustomView extends CRMEntity {
 				if (isset($ret_module_list[$mod])) {
 					continue;  // we already have this one
 				}
-				$module_info = $this->getCustomViewModuleInfo($mod);
+				$this->getCustomViewModuleInfo($mod);
 				foreach ($this->module_list[$mod] as $key => $value) {
 					$columnlist = $this->getColumnsListbyBlock($mod, $value, false);
 					if (isset($columnlist)) {
@@ -491,10 +490,10 @@ class CustomView extends CRMEntity {
 		global $adb, $current_user;
 		$tabid = getTabid($module);
 
-		require('user_privileges/user_privileges_' . $current_user->id . '.php');
+		require 'user_privileges/user_privileges_' . $current_user->id . '.php';
 
-		$module_info = $this->getCustomViewModuleInfo($module);
-		foreach ($this->module_list[$module] as $key => $blockid) {
+		$this->getCustomViewModuleInfo($module);
+		foreach ($this->module_list[$module] as $blockid) {
 			$blockids[] = $blockid;
 		}
 
@@ -697,7 +696,7 @@ class CustomView extends CRMEntity {
 			$pFqStartDateTime = new DateTimeField($pFq . ' ' . date('H:i:s'));
 			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y") - 1));
 			$pFqEndDateTime = new DateTimeField($pFq1 . ' ' . date('H:i:s'));
-		} elseif (date("m") > 3 and date("m") <= 6) {
+		} elseif (date("m") > 3 && date("m") <= 6) {
 			$pFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
 			$pFqStartDateTime = new DateTimeField($pFq . ' ' . date('H:i:s'));
 			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y")));
@@ -712,7 +711,7 @@ class CustomView extends CRMEntity {
 			$nFqStartDateTime = new DateTimeField($nFq . ' ' . date('H:i:s'));
 			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
 			$nFqEndDateTime = new DateTimeField($nFq1 . ' ' . date('H:i:s'));
-		} elseif (date("m") > 6 and date("m") <= 9) {
+		} elseif (date("m") > 6 && date("m") <= 9) {
 			$nFq = date("Y-m-d", mktime(0, 0, 0, "10", "01", date("Y")));
 			$nFqStartDateTime = new DateTimeField($nFq . ' ' . date('H:i:s'));
 			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y")));
@@ -727,7 +726,7 @@ class CustomView extends CRMEntity {
 			$cFqStartDateTime = new DateTimeField($cFq . ' ' . date('H:i:s'));
 			$cFq1 = date("Y-m-d", mktime(0, 0, 0, "09", "30", date("Y")));
 			$cFqEndDateTime = new DateTimeField($cFq1 . ' ' . date('H:i:s'));
-		} elseif (date("m") > 9 and date("m") <= 12) {
+		} elseif (date("m") > 9 && date("m") <= 12) {
 			$nFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y") + 1));
 			$nFqStartDateTime = new DateTimeField($nFq . ' ' . date('H:i:s'));
 			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "03", "31", date("Y") + 1));
@@ -913,7 +912,7 @@ class CustomView extends CRMEntity {
 	 * @returns  $advfilterlist Array
 	 */
 	public function getAdvFilterByCvid($cvid) {
-		global $adb, $log, $default_charset, $current_user,$currentModule,$mod_strings;
+		global $adb, $default_charset, $current_user;
 
 		$advft_criteria = array();
 
@@ -939,7 +938,6 @@ class CustomView extends CRMEntity {
 			}
 
 			while ($relcriteriarow = $adb->fetch_array($result)) {
-				$columnIndex = $relcriteriarow["columnindex"];
 				$criteria = array();
 				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 				$criteria['comparator'] = $relcriteriarow["comparator"];
@@ -1033,13 +1031,11 @@ class CustomView extends CRMEntity {
 	 * @returns  $getCvColumnList as a string
 	 * This function will return the columns for the given customfield in comma seperated values in the format
 	 *                     $tablename.$columnname,$tablename1.$columnname1, ------ $tablenamen.$columnnamen
-	 *
 	 */
 	public function getCvColumnListSQL($cvid) {
-		global $adb;
 		$columnslist = $this->getColumnsListByCvid($cvid);
 		if (isset($columnslist)) {
-			foreach ($columnslist as $columnname => $value) {
+			foreach ($columnslist as $value) {
 				$tablefield = "";
 				if ($value != "") {
 					$list = explode(":", $value);
@@ -1274,7 +1270,7 @@ class CustomView extends CRMEntity {
 	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype) {
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want),
 		//so that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
-		global $adb, $mod_strings, $currentModule, $current_user;
+		global $mod_strings, $currentModule, $current_user;
 		//Added for proper check of contact name in advance filter
 		if ($tablename == "vtiger_contactdetails" && $fieldname == "lastname") {
 			$fieldname = "contactid";
@@ -1346,10 +1342,8 @@ class CustomView extends CRMEntity {
 				$mod_keys = array_keys($mod_strings, $value);
 
 				// Iterate on the keys, to get the first key which doesn't start with LBL_      (assuming it is not used in PickList)
-				foreach ($mod_keys as $mod_idx => $mod_key) {
-					$stridx = strpos($mod_key, 'LBL_');
-					// Use strict type comparision, refer strpos for more details
-					if ($stridx !== 0) {
+				foreach ($mod_keys as $mod_key) {
+					if (strpos($mod_key, 'LBL_') !== 0) {
 						$value = $mod_key;
 						break;
 					}
@@ -1381,9 +1375,8 @@ class CustomView extends CRMEntity {
 	 * @returns  $value :: string
 	 */
 	public function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname) {
-		global $log;
+		global $log, $adb;
 		$log->info("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
-		global $adb;
 
 		$adv_chk_value = $value;
 		$value = '(';
@@ -1550,6 +1543,20 @@ class CustomView extends CRMEntity {
 				$rtvalue = " not like '" . formatForSqlLike($value) . "'";
 			}
 		}
+		if ($comparator == "dnsw") {
+			if (trim($value) == "" && ($datatype == "V" || $datatype == "E")) {
+				$rtvalue = " not like '" . formatForSqlLike($value, 3) . "'";
+			} else {
+				$rtvalue = " not like '" . formatForSqlLike($value, 2) . "'";
+			}
+		}
+		if ($comparator == "dnew") {
+			if (trim($value) == "" && ($datatype == "V" || $datatype == "E")) {
+				$rtvalue = " not like '" . formatForSqlLike($value, 3) . "'";
+			} else {
+				$rtvalue = " not like '" . formatForSqlLike($value, 1) . "'";
+			}
+		}
 		if ($comparator == "l") {
 			$rtvalue = " < " . $adb->quote($value);
 		}
@@ -1625,7 +1632,7 @@ class CustomView extends CRMEntity {
 			$nFq1 = date("Y-m-d", mktime(0, 0, 0, "08", "31", date("Y")));
 			$pFq = date("Y-m-d", mktime(0, 0, 0, "09", "01", date("Y") - 1));
 			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "12", "31", date("Y") - 1));
-		} elseif (date("m") > 4 and date("m") <= 8) {
+		} elseif (date("m") > 4 && date("m") <= 8) {
 			$pFq = date("Y-m-d", mktime(0, 0, 0, "01", "01", date("Y")));
 			$pFq1 = date("Y-m-d", mktime(0, 0, 0, "04", "30", date("Y")));
 			$cFq = date("Y-m-d", mktime(0, 0, 0, "05", "01", date("Y")));
@@ -1881,7 +1888,7 @@ class CustomView extends CRMEntity {
 
 	//Function to check if the current user is able to see the customView
 	public function isPermittedCustomView($record_id, $action, $module) {
-		global $log, $adb, $current_user;
+		global $log, $current_user;
 		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
 
 		$permission = "yes";
@@ -1962,7 +1969,7 @@ class CustomView extends CRMEntity {
 			$cuserroles = getSubordinateUsersList($current_user->column_fields['roleid']);
 			$status_userid_info = $this->getStatusAndUserid($viewid);
 		}
-		if (is_admin($current_user) or ($viewid>0 and in_array($status_userid_info['userid'], $cuserroles))) {
+		if (is_admin($current_user) || ($viewid>0 && in_array($status_userid_info['userid'], $cuserroles))) {
 			if ($status == CV_STATUS_PENDING) {
 				$changed_status = CV_STATUS_PUBLIC;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_APPROVE'];

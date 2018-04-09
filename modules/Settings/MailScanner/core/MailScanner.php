@@ -7,8 +7,8 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ********************************************************************************/
-require_once('modules/Settings/MailScanner/core/MailBox.php');
-require_once('modules/Settings/MailScanner/core/MailAttachmentMIME.php');
+require_once 'modules/Settings/MailScanner/core/MailBox.php';
+require_once 'modules/Settings/MailScanner/core/MailAttachmentMIME.php';
 
 /**
  * Mail Scanner provides the ability to scan through the given mailbox
@@ -532,7 +532,7 @@ class Vtiger_MailScanner {
 		}
 		if ($projectid) {
 			$this->log("Caching Project Id found for: $subjectOrId");
-			$this->_cachedProjectIds[$checkProjectId] = $ticketid;
+			$this->_cachedProjectIds[$checkProjectId] = $projectid;
 		} else {
 			$this->log("No matching Project found for: $subjectOrId");
 		}
@@ -543,7 +543,7 @@ class Vtiger_MailScanner {
 	 * Get Account record information based on email.
 	 */
 	public function GetAccountRecord($email) {
-		require_once('modules/Accounts/Accounts.php');
+		require_once 'modules/Accounts/Accounts.php';
 		$accountid = $this->LookupAccount($email);
 		$account_focus = false;
 		if ($accountid) {
@@ -565,7 +565,7 @@ class Vtiger_MailScanner {
 	 * Get Contact record information based on email.
 	 */
 	public function GetContactRecord($email) {
-		require_once('modules/Contacts/Contacts.php');
+		require_once 'modules/Contacts/Contacts.php';
 		$contactid = $this->LookupContact($email);
 		$contact_focus = false;
 		if ($contactid) {
@@ -601,7 +601,7 @@ class Vtiger_MailScanner {
 	 * Get Ticket record information based on subject or id.
 	 */
 	public function GetTicketRecord($subjectOrId, $fromemail = false) {
-		require_once('modules/HelpDesk/HelpDesk.php');
+		require_once 'modules/HelpDesk/HelpDesk.php';
 		$ticketid = $this->LookupTicket($subjectOrId);
 		$ticket_focus = false;
 		if ($ticketid) {
@@ -654,7 +654,7 @@ class Vtiger_MailScanner {
 				if ($fromemail && !$this->LookupContactOrAccount($fromemail, $project_focus->column_fields['linktoaccountscontacts']) &&
 					!$this->LookupUser($fromemail, $usrlist) &&
 					!$this->LookupEmployee($fromemail, $employeelist)) {
-					$ticket_focus = false;
+					$project_focus = false;
 				}
 				if ($project_focus) {
 					$this->log("Reusing Cached Project [" . $project_focus->column_fields['project_name'] ."]");
