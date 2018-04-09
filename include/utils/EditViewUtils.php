@@ -7,9 +7,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php');
-require_once('include/utils/CommonUtils.php');
+require_once 'include/database/PearDatabase.php';
+require_once 'include/ComboUtil.php';
+require_once 'include/utils/CommonUtils.php';
 require_once 'modules/PickList/DependentPickListUtils.php';
 
 /** This function returns the field details for a given fieldname.
@@ -22,64 +22,69 @@ require_once 'modules/PickList/DependentPickListUtils.php';
   * Param $module_name - module name
   * Return type is an array
   */
-function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields,$generatedtype,$module_name,$mode='', $typeofdata=null, $cbMapFI=array())
-{
+function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields, $generatedtype, $module_name, $mode = '', $typeofdata = null, $cbMapFI = array()) {
 	global $log,$app_strings, $adb,$default_charset, $theme, $mod_strings, $current_user;
-	$log->debug("Entering getOutputHtml(".$uitype.",". $fieldname.",". $fieldlabel.",". $maxlength.",". print_r($col_fields,true).",".$generatedtype.",".$module_name.") method ...");
+	$log->debug('getOutputHtml('.$uitype.",". $fieldname.",". $fieldlabel.",". $maxlength.",". print_r($col_fields,true).",".$generatedtype.",".$module_name.')');
 
-	require('user_privileges/sharing_privileges_'.$current_user->id.'.php');
-	require('user_privileges/user_privileges_'.$current_user->id.'.php');
+	require 'user_privileges/sharing_privileges_'.$current_user->id.'.php';
+	require 'user_privileges/user_privileges_'.$current_user->id.'.php';
 
-	$theme_path="themes/".$theme."/";
-	$image_path=$theme_path."images/";
-	$fieldvalue = Array();
-	$final_arr = Array();
+	$theme_path='themes/'.$theme.'/';
+	$image_path=$theme_path.'images/';
+	$fieldvalue = array();
+	$final_arr = array();
 	$value = $col_fields[$fieldname];
 	$ui_type[]= $uitype;
 	$editview_fldname[] = $fieldname;
 
 	// vtlib customization: Related type field
-	if($uitype == '10') {
-		$fldmod_result = $adb->pquery('SELECT relmodule, status
-				FROM vtiger_fieldmodulerel
-				INNER JOIN vtiger_tab ON vtiger_fieldmodulerel.relmodule=vtiger_tab.name and vtiger_tab.presence=0
-				WHERE fieldid=
-				(SELECT fieldid FROM vtiger_field, vtiger_tab WHERE vtiger_field.tabid=vtiger_tab.tabid AND fieldname=? AND name=? and vtiger_field.presence in (0,2) and vtiger_tab.presence=0) order by sequence',
-			Array($fieldname, $module_name));
-
-		$entityTypes = Array();
+	if ($uitype == '10') {
+		$fldmod_result = $adb->pquery(
+			'SELECT relmodule, status
+			FROM vtiger_fieldmodulerel
+			INNER JOIN vtiger_tab ON vtiger_fieldmodulerel.relmodule=vtiger_tab.name and vtiger_tab.presence=0
+			WHERE fieldid=
+				(SELECT fieldid FROM vtiger_field, vtiger_tab
+				WHERE vtiger_field.tabid=vtiger_tab.tabid AND fieldname=? AND name=? and vtiger_field.presence in (0,2) and vtiger_tab.presence=0)
+			order by sequence',
+			array($fieldname, $module_name)
+		);
+		$entityTypes = array();
 		$parent_id = $value;
-		for($index = 0; $index < $adb->num_rows($fldmod_result); ++$index) {
+		for ($index = 0; $index < $adb->num_rows($fldmod_result); ++$index) {
 			$entityTypes[] = $adb->query_result($fldmod_result, $index, 'relmodule');
 		}
 
-		if(!empty($value)) {
+		if (!empty($value)) {
 			if ($adb->num_rows($fldmod_result)==1) {
 				$valueType = $adb->query_result($fldmod_result, 0, 0);
 			} else {
 				$valueType = getSalesEntityType($value);
 			}
 			$displayValueArray = getEntityName($valueType, $value);
-			if(!empty($displayValueArray)){
-				foreach($displayValueArray as $key=>$value){
+			if (!empty($displayValueArray)) {
+				foreach ($displayValueArray as $value){
 					$displayValue = $value;
 				}
+			} else {
+				$displayValue='';
+				$valueType='';
+				$value='';
+				$parent_id = '';
 			}
 		} else {
 			$displayValue='';
 			$valueType='';
 			$value='';
+			$parent_id = '';
 		}
 
-		$editview_label[] = Array('options'=>$entityTypes, 'selected'=>$valueType, 'displaylabel'=>getTranslatedString($fieldlabel, $module_name));
-		$fieldvalue[] = Array('displayvalue'=>$displayValue,'entityid'=>$parent_id);
-
-	} // END
-	else if($uitype == 5 || $uitype == 6 || $uitype ==23)
-	{
+		$editview_label[] = array('options'=>$entityTypes, 'selected'=>$valueType, 'displaylabel'=>getTranslatedString($fieldlabel, $module_name));
+		$fieldvalue[] = array('displayvalue'=>$displayValue,'entityid'=>$parent_id);
+	} else if ($uitype == 5 || $uitype == 6 || $uitype ==23) {
 		$log->info("uitype is ".$uitype);
 		$curr_time = '';
-		if($value == '') {
+		if ($value == '') {
 			if ($fieldname != 'birthday' && $generatedtype != 2 && getTabid($module_name) != 14)
 				$disp_value = getNewDisplayDate();
 
@@ -105,13 +110,12 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 
 		if (empty($disp_value)) $disp_value = '';
 		$fieldvalue[] = array($disp_value => $curr_time);
-		if($uitype == 5 || $uitype == 23) {
+		if ($uitype == 5 || $uitype == 23) {
 			$fieldvalue[] = array($date_format=>$current_user->date_format);
 		} else {
 			$fieldvalue[] = array($date_format=>$current_user->date_format.' '.$app_strings['YEAR_MONTH_DATE']);
 		}
-	}
-	elseif($uitype == 50) {
+	} elseif ($uitype == 50) {
 		$user_format = ($current_user->hour_format=='24' ? '24' : '12');
 		if (empty($value)) {
 			if ($generatedtype != 2) {
@@ -217,10 +221,10 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		$fieldvalue[] = $options;
 
         }
-	elseif($uitype == 1613 || $uitype == 1614 || $uitype == 1615) {
+	elseif($uitype == 1613 || $uitype == 1614 || $uitype == 1615 || $uitype == 1616) {
 		require_once 'modules/PickList/PickListUtils.php';
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
-		$fieldvalue [] = getPicklistValuesSpecialUitypes($uitype,$fieldname,$value);
+		$fieldvalue[] = getPicklistValuesSpecialUitypes($uitype, $fieldname, $value);
 	}
 	elseif($uitype == 15 || $uitype == 33){
 		require_once 'modules/PickList/PickListUtils.php';
@@ -567,54 +571,51 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		$fieldvalue[] = $contact_name;
 		$fieldvalue[] = $value;
 	}
-
-	elseif($uitype == 61)
-	{
-		if($value != '')
-		{
+	elseif ($uitype == 61) {
+		if ($value != '') {
 			$assigned_user_id = $value;
-		}
-		else
-		{
+		} else {
 			$assigned_user_id = $current_user->id;
 		}
-		if($module_name == 'Emails' && !empty($col_fields['record_id']))
-		{
-			$attach_result = $adb->pquery("select * from vtiger_seattachmentsrel where crmid = ?", array($col_fields['record_id']));
+		if ($module_name == 'Emails' && !empty($col_fields['record_id'])) {
+			$attach_result = $adb->pquery('select * from vtiger_seattachmentsrel where crmid = ?', array($col_fields['record_id']));
 			//to fix the issue in mail attachment on forwarding mails
-			if(isset($_REQUEST['forward']) && $_REQUEST['forward'] != '')
+			if (isset($_REQUEST['forward']) && $_REQUEST['forward'] != '') {
 				global $att_id_list;
-			for($ii=0;$ii < $adb->num_rows($attach_result);$ii++)
-			{
-				$attachmentid = $adb->query_result($attach_result,$ii,'attachmentsid');
-				if($attachmentid != '')
-				{
-					$attachquery = "select * from vtiger_attachments where attachmentsid=?";
-					$attachmentsname = $adb->query_result($adb->pquery($attachquery, array($attachmentid)),0,'name');
-					if($attachmentsname != '')
+			}
+			$attachquery = 'select * from vtiger_attachments where attachmentsid=?';
+			for ($ii=0; $ii < $adb->num_rows($attach_result); $ii++) {
+				$attachmentid = $adb->query_result($attach_result, $ii, 'attachmentsid');
+				if ($attachmentid != '') {
+					$rsatt = $adb->pquery($attachquery, array($attachmentid));
+					$attachmentsname = $adb->query_result($rsatt, 0, 'name');
+					if ($attachmentsname != '') {
 						$fieldvalue[$attachmentid] = '[ '.$attachmentsname.' ]';
-					if(isset($_REQUEST['forward']) && $_REQUEST['forward'] != '')
+					}
+					if (isset($_REQUEST['forward']) && $_REQUEST['forward'] != '') {
 						$att_id_list .= $attachmentid.';';
+					}
 				}
 			}
-		}else
-		{
-			if(!empty($col_fields['record_id']))
-			{
-				$attachmentid=$adb->query_result($adb->pquery("select * from vtiger_seattachmentsrel where crmid = ?", array($col_fields['record_id'])),0,'attachmentsid');
-				if($col_fields[$fieldname] == '' && $attachmentid != '')
-				{
-					$attachquery = "select name from vtiger_attachments where attachmentsid=?";
-					$value = $adb->query_result($adb->pquery($attachquery, array($attachmentid)),0,'name');
+		} else {
+			if (!empty($col_fields['record_id'])) {
+				$rsatt = $adb->pquery('select * from vtiger_seattachmentsrel where crmid = ?', array($col_fields['record_id']));
+				$attachmentid=$adb->query_result($rsatt, 0, 'attachmentsid');
+				if ($col_fields[$fieldname] == '' && $attachmentid != '') {
+					$attachquery = 'select name from vtiger_attachments where attachmentsid=?';
+					$rsattn = $adb->pquery($attachquery, array($attachmentid));
+					$value = $adb->query_result($rsattn, 0, 'name');
 				}
 			}
-			if($value!='')
+			if ($value!='') {
 				$filename=' [ '.$value. ' ]';
-
-			if(!empty($filename))
+			}
+			if (!empty($filename)) {
 				$fieldvalue[] = $filename;
-			if($value != '')
+			}
+			if ($value != '') {
 				$fieldvalue[] = $value;
+			}
 		}
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 	}
@@ -1367,10 +1368,13 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 * Param $soid - sales order id
 * Return type is an object array
 */
-function getConvertSoToInvoice($focus,$so_focus,$soid) {
+function getConvertSoToInvoice($focus, $so_focus, $soid) {
 	global $log,$current_user;
-	$log->debug("Entering getConvertSoToInvoice(".get_class($focus).",".get_class($so_focus).",".$soid.") method ...");
-	$fields = array('bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state','ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state');
+	$log->debug('Entering getConvertSoToInvoice('.get_class($focus).','.get_class($so_focus).','.$soid.') method ...');
+	$fields = array(
+		'bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state',
+		'ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state'
+	);
 	foreach ($fields as $fieldname) {
 		if (getFieldVisibilityPermission('SalesOrder', $current_user->id, $fieldname) == '0') {
 			$so_focus->column_fields[$fieldname] = $so_focus->column_fields[$fieldname];
@@ -1379,36 +1383,36 @@ function getConvertSoToInvoice($focus,$so_focus,$soid) {
 		}
 	}
 	$focus->column_fields['salesorder_id'] = $soid;
-	$focus->column_fields['subject'] = $so_focus->column_fields['subject'];
-	$focus->column_fields['customerno'] = $so_focus->column_fields['customerno'];
-	$focus->column_fields['duedate'] = $so_focus->column_fields['duedate'];
-	$focus->column_fields['contact_id'] = $so_focus->column_fields['contact_id'];//to include contact name in Invoice
-	$focus->column_fields['account_id'] = $so_focus->column_fields['account_id'];
-	$focus->column_fields['exciseduty'] = $so_focus->column_fields['exciseduty'];
-	$focus->column_fields['salescommission'] = $so_focus->column_fields['salescommission'];
-	$focus->column_fields['purchaseorder'] = $so_focus->column_fields['vtiger_purchaseorder'];
-	$focus->column_fields['bill_street'] = $so_focus->column_fields['bill_street'];
-	$focus->column_fields['ship_street'] = $so_focus->column_fields['ship_street'];
-	$focus->column_fields['bill_city'] = $so_focus->column_fields['bill_city'];
-	$focus->column_fields['ship_city'] = $so_focus->column_fields['ship_city'];
-	$focus->column_fields['bill_state'] = $so_focus->column_fields['bill_state'];
-	$focus->column_fields['ship_state'] = $so_focus->column_fields['ship_state'];
-	$focus->column_fields['bill_code'] = $so_focus->column_fields['bill_code'];
-	$focus->column_fields['ship_code'] = $so_focus->column_fields['ship_code'];
-	$focus->column_fields['bill_country'] = $so_focus->column_fields['bill_country'];
-	$focus->column_fields['ship_country'] = $so_focus->column_fields['ship_country'];
-	$focus->column_fields['bill_pobox'] = $so_focus->column_fields['bill_pobox'];
-	$focus->column_fields['ship_pobox'] = $so_focus->column_fields['ship_pobox'];
-	$focus->column_fields['description'] = $so_focus->column_fields['description'];
-	$focus->column_fields['terms_conditions'] = $so_focus->column_fields['terms_conditions'];
-	$focus->column_fields['currency_id'] = $so_focus->column_fields['currency_id'];
-	$focus->column_fields['conversion_rate'] = $so_focus->column_fields['conversion_rate'];
+	$focus->column_fields['subject'] = isset($so_focus->column_fields['subject']) ? $so_focus->column_fields['subject'] : '';
+	$focus->column_fields['customerno'] = isset($so_focus->column_fields['customerno']) ? $so_focus->column_fields['customerno'] : '';
+	$focus->column_fields['duedate'] = isset($so_focus->column_fields['duedate']) ? $so_focus->column_fields['duedate'] : '';
+	$focus->column_fields['contact_id'] = isset($so_focus->column_fields['contact_id']) ? $so_focus->column_fields['contact_id'] : '';
+	$focus->column_fields['account_id'] = isset($so_focus->column_fields['account_id']) ? $so_focus->column_fields['account_id'] : '';
+	$focus->column_fields['exciseduty'] = isset($so_focus->column_fields['exciseduty']) ? $so_focus->column_fields['exciseduty'] : '';
+	$focus->column_fields['salescommission'] = isset($so_focus->column_fields['salescommission']) ? $so_focus->column_fields['salescommission'] : '';
+	$focus->column_fields['purchaseorder'] = isset($so_focus->column_fields['vtiger_purchaseorder']) ? $so_focus->column_fields['vtiger_purchaseorder'] : '';
+	$focus->column_fields['bill_street'] = isset($so_focus->column_fields['bill_street']) ? $so_focus->column_fields['bill_street'] : '';
+	$focus->column_fields['ship_street'] = isset($so_focus->column_fields['ship_street']) ? $so_focus->column_fields['ship_street'] : '';
+	$focus->column_fields['bill_city'] = isset($so_focus->column_fields['bill_city']) ? $so_focus->column_fields['bill_city'] : '';
+	$focus->column_fields['ship_city'] = isset($so_focus->column_fields['ship_city']) ? $so_focus->column_fields['ship_city'] : '';
+	$focus->column_fields['bill_state'] = isset($so_focus->column_fields['bill_state']) ? $so_focus->column_fields['bill_state'] : '';
+	$focus->column_fields['ship_state'] = isset($so_focus->column_fields['ship_state']) ? $so_focus->column_fields['ship_state'] : '';
+	$focus->column_fields['bill_code'] = isset($so_focus->column_fields['bill_code']) ? $so_focus->column_fields['bill_code'] : '';
+	$focus->column_fields['ship_code'] = isset($so_focus->column_fields['ship_code']) ? $so_focus->column_fields['ship_code'] : '';
+	$focus->column_fields['bill_country'] = isset($so_focus->column_fields['bill_country']) ? $so_focus->column_fields['bill_country'] : '';
+	$focus->column_fields['ship_country'] = isset($so_focus->column_fields['ship_country']) ? $so_focus->column_fields['ship_country'] : '';
+	$focus->column_fields['bill_pobox'] = isset($so_focus->column_fields['bill_pobox']) ? $so_focus->column_fields['bill_pobox'] : '';
+	$focus->column_fields['ship_pobox'] = isset($so_focus->column_fields['ship_pobox']) ? $so_focus->column_fields['ship_pobox'] : '';
+	$focus->column_fields['description'] = isset($so_focus->column_fields['description']) ? $so_focus->column_fields['description'] : '';
+	$focus->column_fields['terms_conditions'] = isset($so_focus->column_fields['terms_conditions']) ? $so_focus->column_fields['terms_conditions'] : '';
+	$focus->column_fields['currency_id'] = isset($so_focus->column_fields['currency_id']) ? $so_focus->column_fields['currency_id'] : '';
+	$focus->column_fields['conversion_rate'] = isset($so_focus->column_fields['conversion_rate']) ? $so_focus->column_fields['conversion_rate'] : '';
 	$cbMapid = GlobalVariable::getVariable('BusinessMapping_SalesOrder2Invoice', cbMap::getMapIdByName('SalesOrder2Invoice'));
 	if ($cbMapid) {
 		$cbMap = cbMap::getMapByID($cbMapid);
-		$focus->column_fields = $cbMap->Mapping($so_focus->column_fields,$focus->column_fields);
+		$focus->column_fields = $cbMap->Mapping($so_focus->column_fields, $focus->column_fields);
 	}
-	$log->debug("Exiting getConvertSoToInvoice method ...");
+	$log->debug('Exiting getConvertSoToInvoice method ...');
 	return $focus;
 }
 
@@ -1418,43 +1422,45 @@ function getConvertSoToInvoice($focus,$so_focus,$soid) {
 * Param $quoteid - quote id
 * Return type is an object array
 */
-function getConvertQuoteToInvoice($focus,$quote_focus,$quoteid)
-{
+function getConvertQuoteToInvoice($focus, $quote_focus, $quoteid) {
 	global $log,$current_user;
-	$log->debug("Entering getConvertQuoteToInvoice(".get_class($focus).",".get_class($quote_focus).",".$quoteid.") method ...");
-	$fields = array('bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state','ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state');
+	$log->debug('Entering getConvertQuoteToInvoice('.get_class($focus).','.get_class($quote_focus).','.$quoteid.') method ...');
+	$fields = array(
+		'bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state',
+		'ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state'
+	);
 	foreach ($fields as $fieldname) {
-		if (getFieldVisibilityPermission('Quotes', $current_user->id,$fieldname) == '0'){
+		if (getFieldVisibilityPermission('Quotes', $current_user->id, $fieldname) == '0') {
 			$quote_focus->column_fields[$fieldname] = $quote_focus->column_fields[$fieldname];
-		}
-		else
+		} else {
 			$quote_focus->column_fields[$fieldname] = '';
+		}
 	}
-	$focus->column_fields['subject'] = $quote_focus->column_fields['subject'];
-	$focus->column_fields['account_id'] = $quote_focus->column_fields['account_id'];
-	$focus->column_fields['contact_id'] = $quote_focus->column_fields['contact_id'];
-	$focus->column_fields['bill_street'] = $quote_focus->column_fields['bill_street'];
-	$focus->column_fields['ship_street'] = $quote_focus->column_fields['ship_street'];
-	$focus->column_fields['bill_city'] = $quote_focus->column_fields['bill_city'];
-	$focus->column_fields['ship_city'] = $quote_focus->column_fields['ship_city'];
-	$focus->column_fields['bill_state'] = $quote_focus->column_fields['bill_state'];
-	$focus->column_fields['ship_state'] = $quote_focus->column_fields['ship_state'];
-	$focus->column_fields['bill_code'] = $quote_focus->column_fields['bill_code'];
-	$focus->column_fields['ship_code'] = $quote_focus->column_fields['ship_code'];
-	$focus->column_fields['bill_country'] = $quote_focus->column_fields['bill_country'];
-	$focus->column_fields['ship_country'] = $quote_focus->column_fields['ship_country'];
-	$focus->column_fields['bill_pobox'] = $quote_focus->column_fields['bill_pobox'];
-	$focus->column_fields['ship_pobox'] = $quote_focus->column_fields['ship_pobox'];
-	$focus->column_fields['description'] = $quote_focus->column_fields['description'];
-	$focus->column_fields['terms_conditions'] = $quote_focus->column_fields['terms_conditions'];
-	$focus->column_fields['currency_id'] = $quote_focus->column_fields['currency_id'];
-	$focus->column_fields['conversion_rate'] = $quote_focus->column_fields['conversion_rate'];
+	$focus->column_fields['subject'] = isset($quote_focus->column_fields['subject']) ? $quote_focus->column_fields['subject'] : '';
+	$focus->column_fields['account_id'] = isset($quote_focus->column_fields['account_id']) ? $quote_focus->column_fields['account_id'] : '';
+	$focus->column_fields['contact_id'] = isset($quote_focus->column_fields['contact_id']) ? $quote_focus->column_fields['contact_id'] : '';
+	$focus->column_fields['bill_street'] = isset($quote_focus->column_fields['bill_street']) ? $quote_focus->column_fields['bill_street'] : '';
+	$focus->column_fields['ship_street'] = isset($quote_focus->column_fields['ship_street']) ? $quote_focus->column_fields['ship_street'] : '';
+	$focus->column_fields['bill_city'] = isset($quote_focus->column_fields['bill_city']) ? $quote_focus->column_fields['bill_city'] : '';
+	$focus->column_fields['ship_city'] = isset($quote_focus->column_fields['ship_city']) ? $quote_focus->column_fields['ship_city'] : '';
+	$focus->column_fields['bill_state'] = isset($quote_focus->column_fields['bill_state']) ? $quote_focus->column_fields['bill_state'] : '';
+	$focus->column_fields['ship_state'] = isset($quote_focus->column_fields['ship_state']) ? $quote_focus->column_fields['ship_state'] : '';
+	$focus->column_fields['bill_code'] = isset($quote_focus->column_fields['bill_code']) ? $quote_focus->column_fields['bill_code'] : '';
+	$focus->column_fields['ship_code'] = isset($quote_focus->column_fields['ship_code']) ? $quote_focus->column_fields['ship_code'] : '';
+	$focus->column_fields['bill_country'] = isset($quote_focus->column_fields['bill_country']) ? $quote_focus->column_fields['bill_country'] : '';
+	$focus->column_fields['ship_country'] = isset($quote_focus->column_fields['ship_country']) ? $quote_focus->column_fields['ship_country'] : '';
+	$focus->column_fields['bill_pobox'] = isset($quote_focus->column_fields['bill_pobox']) ? $quote_focus->column_fields['bill_pobox'] : '';
+	$focus->column_fields['ship_pobox'] = isset($quote_focus->column_fields['ship_pobox']) ? $quote_focus->column_fields['ship_pobox'] : '';
+	$focus->column_fields['description'] = isset($quote_focus->column_fields['description']) ? $quote_focus->column_fields['description'] : '';
+	$focus->column_fields['terms_conditions'] = isset($quote_focus->column_fields['terms_conditions']) ? $quote_focus->column_fields['terms_conditions'] : '';
+	$focus->column_fields['currency_id'] = isset($quote_focus->column_fields['currency_id']) ? $quote_focus->column_fields['currency_id'] : '';
+	$focus->column_fields['conversion_rate'] = isset($quote_focus->column_fields['conversion_rate']) ? $quote_focus->column_fields['conversion_rate'] : '';
 	$cbMapid = GlobalVariable::getVariable('BusinessMapping_Quotes2Invoice', cbMap::getMapIdByName('Quotes2Invoice'));
 	if ($cbMapid) {
 		$cbMap = cbMap::getMapByID($cbMapid);
-		$focus->column_fields = $cbMap->Mapping($quote_focus->column_fields,$focus->column_fields);
+		$focus->column_fields = $cbMap->Mapping($quote_focus->column_fields, $focus->column_fields);
 	}
-	$log->debug("Exiting getConvertQuoteToInvoice method ...");
+	$log->debug('Exiting getConvertQuoteToInvoice method ...');
 	return $focus;
 }
 
@@ -1464,46 +1470,48 @@ function getConvertQuoteToInvoice($focus,$quote_focus,$quoteid)
 * Param $quoteid - quote id
 * Return type is an object array
 */
-function getConvertQuoteToSoObject($focus,$quote_focus,$quoteid)
-{
+function getConvertQuoteToSoObject($focus, $quote_focus, $quoteid) {
 	global $log,$current_user;
-	$log->debug("Entering getConvertQuoteToSoObject(".get_class($focus).",".get_class($quote_focus).",".$quoteid.") method ...");
-	$fields = array('bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state','ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state');
+	$log->debug('Entering getConvertQuoteToSoObject('.get_class($focus).','.get_class($quote_focus).','.$quoteid.') method ...');
+	$fields = array(
+		'bill_street','bill_city','bill_code','bill_pobox','bill_country','bill_state',
+		'ship_street','ship_city','ship_code','ship_pobox','ship_country','ship_state'
+	);
 	foreach ($fields as $fieldname) {
-		if (getFieldVisibilityPermission('Quotes', $current_user->id,$fieldname) == '0'){
+		if (getFieldVisibilityPermission('Quotes', $current_user->id, $fieldname) == '0') {
 			$quote_focus->column_fields[$fieldname] = $quote_focus->column_fields[$fieldname];
-		}
-		else
+		} else {
 			$quote_focus->column_fields[$fieldname] = '';
+		}
 	}
 	$focus->column_fields['quote_id'] = $quoteid;
-	$focus->column_fields['subject'] = $quote_focus->column_fields['subject'];
-	$focus->column_fields['contact_id'] = $quote_focus->column_fields['contact_id'];
-	$focus->column_fields['potential_id'] = $quote_focus->column_fields['potential_id'];
-	$focus->column_fields['account_id'] = $quote_focus->column_fields['account_id'];
-	$focus->column_fields['carrier'] = $quote_focus->column_fields['carrier'];
-	$focus->column_fields['bill_street'] = $quote_focus->column_fields['bill_street'];
-	$focus->column_fields['ship_street'] = $quote_focus->column_fields['ship_street'];
-	$focus->column_fields['bill_city'] = $quote_focus->column_fields['bill_city'];
-	$focus->column_fields['ship_city'] = $quote_focus->column_fields['ship_city'];
-	$focus->column_fields['bill_state'] = $quote_focus->column_fields['bill_state'];
-	$focus->column_fields['ship_state'] = $quote_focus->column_fields['ship_state'];
-	$focus->column_fields['bill_code'] = $quote_focus->column_fields['bill_code'];
-	$focus->column_fields['ship_code'] = $quote_focus->column_fields['ship_code'];
-	$focus->column_fields['bill_country'] = $quote_focus->column_fields['bill_country'];
-	$focus->column_fields['ship_country'] = $quote_focus->column_fields['ship_country'];
-	$focus->column_fields['bill_pobox'] = $quote_focus->column_fields['bill_pobox'];
-	$focus->column_fields['ship_pobox'] = $quote_focus->column_fields['ship_pobox'];
-	$focus->column_fields['description'] = $quote_focus->column_fields['description'];
-	$focus->column_fields['terms_conditions'] = $quote_focus->column_fields['terms_conditions'];
-	$focus->column_fields['currency_id'] = $quote_focus->column_fields['currency_id'];
-	$focus->column_fields['conversion_rate'] = $quote_focus->column_fields['conversion_rate'];
+	$focus->column_fields['subject'] = isset($quote_focus->column_fields['subject']) ? $quote_focus->column_fields['subject'] : '';
+	$focus->column_fields['contact_id'] = isset($quote_focus->column_fields['contact_id']) ? $quote_focus->column_fields['contact_id'] : '';
+	$focus->column_fields['potential_id'] = isset($quote_focus->column_fields['potential_id']) ? $quote_focus->column_fields['potential_id'] : '';
+	$focus->column_fields['account_id'] = isset($quote_focus->column_fields['account_id']) ? $quote_focus->column_fields['account_id'] : '';
+	$focus->column_fields['carrier'] = isset($quote_focus->column_fields['carrier']) ? $quote_focus->column_fields['carrier'] : '';
+	$focus->column_fields['bill_street'] = isset($quote_focus->column_fields['bill_street']) ? $quote_focus->column_fields['bill_street'] : '';
+	$focus->column_fields['ship_street'] = isset($quote_focus->column_fields['ship_street']) ? $quote_focus->column_fields['ship_street'] : '';
+	$focus->column_fields['bill_city'] = isset($quote_focus->column_fields['bill_city']) ? $quote_focus->column_fields['bill_city'] : '';
+	$focus->column_fields['ship_city'] = isset($quote_focus->column_fields['ship_city']) ? $quote_focus->column_fields['ship_city'] : '';
+	$focus->column_fields['bill_state'] = isset($quote_focus->column_fields['bill_state']) ? $quote_focus->column_fields['bill_state'] : '';
+	$focus->column_fields['ship_state'] = isset($quote_focus->column_fields['ship_state']) ? $quote_focus->column_fields['ship_state'] : '';
+	$focus->column_fields['bill_code'] = isset($quote_focus->column_fields['bill_code']) ? $quote_focus->column_fields['bill_code'] : '';
+	$focus->column_fields['ship_code'] = isset($quote_focus->column_fields['ship_code']) ? $quote_focus->column_fields['ship_code'] : '';
+	$focus->column_fields['bill_country'] = isset($quote_focus->column_fields['bill_country']) ? $quote_focus->column_fields['bill_country'] : '';
+	$focus->column_fields['ship_country'] = isset($quote_focus->column_fields['ship_country']) ? $quote_focus->column_fields['ship_country'] : '';
+	$focus->column_fields['bill_pobox'] = isset($quote_focus->column_fields['bill_pobox']) ? $quote_focus->column_fields['bill_pobox'] : '';
+	$focus->column_fields['ship_pobox'] = isset($quote_focus->column_fields['ship_pobox']) ? $quote_focus->column_fields['ship_pobox'] : '';
+	$focus->column_fields['description'] = isset($quote_focus->column_fields['description']) ? $quote_focus->column_fields['description'] : '';
+	$focus->column_fields['terms_conditions'] = isset($quote_focus->column_fields['terms_conditions']) ? $quote_focus->column_fields['terms_conditions'] : '';
+	$focus->column_fields['currency_id'] = isset($quote_focus->column_fields['currency_id']) ? $quote_focus->column_fields['currency_id'] : '';
+	$focus->column_fields['conversion_rate'] = isset($quote_focus->column_fields['conversion_rate']) ? $quote_focus->column_fields['conversion_rate'] : '';
 	$cbMapid = GlobalVariable::getVariable('BusinessMapping_Quotes2SalesOrder', cbMap::getMapIdByName('Quotes2SalesOrder'));
 	if ($cbMapid) {
 		$cbMap = cbMap::getMapByID($cbMapid);
-		$focus->column_fields = $cbMap->Mapping($quote_focus->column_fields,$focus->column_fields);
+		$focus->column_fields = $cbMap->Mapping($quote_focus->column_fields, $focus->column_fields);
 	}
-	$log->debug("Exiting getConvertQuoteToSoObject method ...");
+	$log->debug('Exiting getConvertQuoteToSoObject method ...');
 	return $focus;
 }
 

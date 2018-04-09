@@ -9,13 +9,13 @@
  ************************************************************************************/
 global $app_strings, $mod_strings, $current_language, $currentModule, $theme;
 $list_max_entries_per_page = GlobalVariable::getVariable('Application_ListView_PageSize', 20, $currentModule);
-require_once('Smarty_setup.php');
-require_once('include/ListView/ListView.php');
-require_once('modules/CustomView/CustomView.php');
-require_once('include/DatabaseUtil.php');
+require_once 'Smarty_setup.php';
+require_once 'include/ListView/ListView.php';
+require_once 'modules/CustomView/CustomView.php';
+require_once 'include/DatabaseUtil.php';
 
 checkFileAccessForInclusion("modules/$currentModule/$currentModule.php");
-require_once("modules/$currentModule/$currentModule.php");
+require_once "modules/$currentModule/$currentModule.php";
 
 $category = getParentTab();
 $url_string = '';
@@ -56,7 +56,16 @@ $smarty->assign('IMAGE_PATH', "themes/$theme/images/");
 
 $smarty->assign('CHANGE_OWNER', getUserslist());
 $smarty->assign('CHANGE_GROUP_OWNER', getGroupslist());
-
+if (empty($ERROR_MESSAGE) && !empty($_REQUEST['error_msg'])) {
+	if (isset($_REQUEST['error_msgclass'])) {
+		$ERROR_MESSAGE_CLASS = vtlib_purify($_REQUEST['error_msgclass']);
+	}
+	$ERROR_MESSAGE = vtlib_purify($_REQUEST['error_msg']);
+}
+if (!empty($ERROR_MESSAGE)) {
+	$smarty->assign('ERROR_MESSAGE_CLASS', isset($ERROR_MESSAGE_CLASS) ? $ERROR_MESSAGE_CLASS : 'cb-alert-info');
+	$smarty->assign('ERROR_MESSAGE', getTranslatedString($ERROR_MESSAGE, $currentModule));
+}
 // Custom View
 $customView = new CustomView($currentModule);
 $viewid = $customView->getViewId($currentModule);
@@ -98,17 +107,36 @@ try {
 $smarty->assign('SQLERROR', $sql_error);
 if ($sql_error) {
 	$smarty->assign('ERROR', getTranslatedString('ERROR_GETTING_FILTER'));
-	$smarty->assign("CUSTOMVIEW_OPTION", $customview_html);
+	$smarty->assign('ERROR_MESSAGE_CLASS', 'cb-alert-error');
+	$smarty->assign('ERROR_MESSAGE', getTranslatedString('ERROR_GETTING_FILTER', $currentModule));
+	$smarty->assign('CUSTOMVIEW_OPTION', $customview_html);
+	$smarty->assign('SEARCHLISTHEADER', array());
+	$alphabetical = AlphabeticalSearch($currentModule, 'index', $focus->def_basicsearch_col, 'true', 'basic', '', '', '', '', $viewid);
+	$smarty->assign('ALPHABETICAL', $alphabetical);
+	$smarty->assign('FIELDNAMES', array());
+	$smarty->assign('CRITERIA', array());
+	$smarty->assign('SEARCH_URL', '');
+	$smarty->assign('export_where', '');
+	$smarty->assign('SELECTEDIDS', '');
+	$smarty->assign('ALLSELECTEDIDS', '');
+	$smarty->assign('CURRENT_PAGE_BOXES', '');
+	$smarty->assign('NAVIGATION', '');
+	$smarty->assign('recordListRange', '');
+	$smarty->assign('CUSTOM_LINKS', '');
+	$smarty->assign('LISTHEADER', '');
+	$smarty->assign('LISTENTITY', '');
 } else {
 // Enabling Module Search
 	$url_string = '';
-	if (isset($_REQUEST['query']) and $_REQUEST['query'] == 'true') {
+	if (isset($_REQUEST['query']) && $_REQUEST['query'] == 'true') {
 		$queryGenerator->addUserSearchConditions($_REQUEST);
 		$ustring = getSearchURL($_REQUEST);
 		$url_string .= "&query=true$ustring";
 	}
 	$smarty->assign('SEARCH_URL', $url_string);
-
+	if (!empty($order_by)) {
+		$queryGenerator->addWhereField($order_by);
+	}
 	$queryGenerator = cbEventHandler::do_filter('corebos.filter.listview.querygenerator.before', $queryGenerator);
 	$list_query = $queryGenerator->getQuery();
 	$queryGenerator = cbEventHandler::do_filter('corebos.filter.listview.querygenerator.after', $queryGenerator);
@@ -158,13 +186,7 @@ if ($sql_error) {
 
 	// Sorting
 	if (!empty($order_by)) {
-		if ($order_by == 'smownerid') {
-			$list_query .= ' ORDER BY vtiger_users.user_name '.$sorder;
-		} else {
-			$tablename = getTableNameForField($currentModule, $order_by);
-			$tablename = ($tablename != '')? ($tablename . '.') : '';
-			$list_query .= ' ORDER BY ' . $tablename . $order_by . ' ' . $sorder;
-		}
+		$list_query .= ' ORDER BY '.$queryGenerator->getOrderByColumn($order_by).' '.$sorder;
 	}
 	if (GlobalVariable::getVariable('Debug_ListView_Query', '0')=='1') {
 		echo '<br>'.$list_query.'<br>';
@@ -221,10 +243,8 @@ if ($sql_error) {
 	// Module Search
 		$alphabetical = AlphabeticalSearch($currentModule, 'index', $focus->def_basicsearch_col, 'true', 'basic', '', '', '', '', $viewid);
 		$fieldnames = $controller->getAdvancedSearchOptionString();
-		$criteria = getcriteria_options();
 		$smarty->assign('ALPHABETICAL', $alphabetical);
 		$smarty->assign('FIELDNAMES', $fieldnames);
-		$smarty->assign('CRITERIA', $criteria);
 
 		$smarty->assign('AVALABLE_FIELDS', getMergeFields($currentModule, 'available_fields'));
 		$smarty->assign('FIELDS_TO_MERGE', getMergeFields($currentModule, 'fileds_to_merge'));
@@ -236,7 +256,7 @@ if ($sql_error) {
 		ListViewSession::setSessionQuery($currentModule, $list_query, $viewid);
 
 	// Gather the custom link information to display
-		include_once('vtlib/Vtiger/Link.php');
+		include_once 'vtlib/Vtiger/Link.php';
 		$customlink_params = array('MODULE'=>$currentModule, 'ACTION'=>vtlib_purify($_REQUEST['action']), 'CATEGORY'=> $category);
 		$smarty->assign('CUSTOM_LINKS', Vtiger_Link::getAllByType(getTabid($currentModule), array('LISTVIEWBASIC','LISTVIEW'), $customlink_params));
 	// END

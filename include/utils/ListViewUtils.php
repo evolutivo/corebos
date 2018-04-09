@@ -7,10 +7,10 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-require_once('include/database/PearDatabase.php');
-require_once('include/ComboUtil.php');
-require_once('include/utils/CommonUtils.php');
-require_once('include/utils/UserInfoUtil.php');
+require_once 'include/database/PearDatabase.php';
+require_once 'include/ComboUtil.php';
+require_once 'include/utils/CommonUtils.php';
+require_once 'include/utils/UserInfoUtil.php';
 require_once 'include/CustomFieldUtil.php';
 
 /** This function is used to get the list view header values in a list view
@@ -28,7 +28,6 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 	$log->debug("Entering getListViewHeader(" . $module . "," . $sort_qry . "," . $sorder . "," . $order_by . "," . $relatedlist . "," . (is_object($oCv) ? get_class($oCv) : $oCv) . ") method ...");
 
 	$arrow = '';
-	$qry = getURLstring($focus);
 	$theme_path = "themes/" . $theme . "/";
 	$image_path = $theme_path . "images/";
 	$list_header = Array();
@@ -97,12 +96,20 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 					ON vtiger_profile2field.fieldid = vtiger_field.fieldid
 				INNER JOIN vtiger_def_org_field
 					ON vtiger_def_org_field.fieldid = vtiger_field.fieldid";
-			if ($module == "Calendar") {
-				$query .=" WHERE vtiger_field.tabid in (9,16) and vtiger_field.presence in (0,2)";
-			} else {
-				$query .=" WHERE vtiger_field.tabid = ? and vtiger_field.presence in (0,2)";
-				$params[] = $tabid;
+
+			$tabids = array($tabid);
+			if (isset($focus->related_tables)) {
+				foreach ($focus->related_tables as $reltable => $reltableinfo) {
+					if (isset($reltableinfo[3]) and is_string($reltableinfo[3])) {
+						$tid = getTabid($reltableinfo[3]);
+						if (is_numeric($tid) and $tid>0) {
+							$tabids[] = $tid;
+						}
+					}
+				}
 			}
+			$query .=" WHERE vtiger_field.tabid in (" . generateQuestionMarks($tabids) . ") and vtiger_field.presence in (0,2)";
+			$params[] = $tabids;
 
 			$query.=" AND vtiger_profile2field.visible = 0
 				AND vtiger_def_org_field.visible = 0
@@ -166,8 +173,7 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 						if ($relatedlist != '' && $relatedlist != 'global') {
 							$relationURL = '';
 							if (!empty($_REQUEST['relation_id'])) {
-								$relationURL = '&relation_id=' . vtlib_purify(
-												$_REQUEST['relation_id']);
+								$relationURL = '&relation_id=' . vtlib_purify($_REQUEST['relation_id']);
 							}
 							$actionsURL = '';
 							if (!empty($_REQUEST['actions'])) {
@@ -179,19 +185,23 @@ function getListViewHeader($focus, $module, $sort_qry = '', $sorder = '', $order
 							} else {
 								$moduleLabel = $moduleHeader = vtlib_purify($_REQUEST['header']);
 							}
-							$moduleLabel = str_replace(' ', ':', $moduleLabel);
+							$moduleLabel = str_replace(' ', '', $moduleLabel);
 							$name = "<a href='javascript:void(0);' onClick='loadRelatedListBlock" .
 									"(\"module=$relatedmodule&action=" . $relatedmodule . "Ajax&" .
 									"file=DetailViewAjax&ajxaction=LOADRELATEDLIST&header=" . $moduleHeader .
 									"&order_by=$col&record=$relatedlist&sorder=$temp_sorder$relationURL" .
 									"$actionsURL\",\"tbl_" . $relatedmodule . "_$moduleLabel\"," .
 									"\"$relatedmodule" . "_$moduleLabel\");' class='listFormHeaderLinks'>" . $lbl_name . "" . $arrow . "</a>";
-						} elseif ($module == 'Users' && $name == 'User Name')
-							$name = "<a href='javascript:;' onClick='getListViewEntries_js(\"" . $module . "\",\"parenttab=" . $tabname . "&order_by=" . $col . "&start=1&sorder=" . $temp_sorder . "" . $sort_qry . "\");' class='listFormHeaderLinks'>" . getTranslatedString('LBL_LIST_USER_NAME_ROLE', $module) . "" . $arrow . "</a>";
-						elseif ($relatedlist == "global")
+						} elseif ($module == 'Users' && $name == 'User Name') {
+							$name  = "<a href='javascript:;' onClick='getListViewEntries_js(\"" . $module . "\",\"parenttab=" . $tabname . "&order_by=" . $col;
+							$name .= "&start=1&sorder=" . $temp_sorder . $sort_qry . "\");' class='listFormHeaderLinks'>";
+							$name .= getTranslatedString('LBL_LIST_USER_NAME_ROLE', $module) . $arrow . '</a>';
+						} elseif ($relatedlist == 'global') {
 							$name = $lbl_name;
-						else
-							$name = "<a href='javascript:;' onClick='getListViewEntries_js(\"" . $module . "\",\"parenttab=" . $tabname . "&order_by=" . $col . "&start=1&sorder=" . $temp_sorder . "" . $sort_qry . "\");' class='listFormHeaderLinks'>" . $lbl_name . "" . $arrow . "</a>";
+						} else {
+							$name  = "<a href='javascript:;' onClick='getListViewEntries_js(\"" . $module . "\",\"parenttab=" . $tabname . "&order_by=" . $col;
+							$name .= "&start=1&sorder=" . $temp_sorder . $sort_qry . "\");' class='listFormHeaderLinks'>" . $lbl_name . $arrow . '</a>';
+						}
 						$arrow = '';
 					} else {
 						$name = getTranslatedString($name, $module);
@@ -278,13 +288,25 @@ function getSearchListViewHeader($focus, $module, $sort_qry = '', $sorder = '', 
 				INNER JOIN vtiger_profile2field
 					ON vtiger_profile2field.fieldid = vtiger_field.fieldid
 				INNER JOIN vtiger_def_org_field
-					ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-				WHERE vtiger_field.tabid = ?
-				AND vtiger_profile2field.visible=0
+					ON vtiger_def_org_field.fieldid = vtiger_field.fieldid";
+			$tabids = array($tabid);
+			if (isset($focus->related_tables)) {
+				foreach ($focus->related_tables as $reltable => $reltableinfo) {
+					if (isset($reltableinfo[3]) and is_string($reltableinfo[3])) {
+						$tid = getTabid($reltableinfo[3]);
+						if (is_numeric($tid) and $tid>0) {
+							$tabids[] = $tid;
+						}
+					}
+				}
+			}
+			$query .=" WHERE vtiger_field.tabid in (" . generateQuestionMarks($tabids) . ") ";
+			$params[] = $tabids;
+			$query .=" AND vtiger_profile2field.visible=0
 				AND vtiger_def_org_field.visible=0
 				AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ")
 				AND vtiger_field.fieldname IN (" . generateQuestionMarks($field_list) . ") and vtiger_field.presence in (0,2)";
-			$params = array($tabid, $profileList, $field_list);
+			$params = array($params, $profileList, $field_list);
 		}
 
 		$result = $adb->pquery($query, $params);
@@ -504,15 +526,21 @@ function getListViewEntries($focus, $module, $list_result, $navigation_array, $r
 				INNER JOIN vtiger_def_org_field
 					ON vtiger_def_org_field.fieldid = vtiger_field.fieldid";
 
-			if ($module == "Calendar")
-				$query .=" WHERE vtiger_field.tabid in (9,16) and vtiger_field.presence in (0,2)";
-			else {
-				$query .=" WHERE vtiger_field.tabid = ? and vtiger_field.presence in (0,2)";
-				$params[] = $tabid;
+			$tabids = array($tabid);
+			if (isset($focus->related_tables)) {
+				foreach ($focus->related_tables as $reltable => $reltableinfo) {
+					if (isset($reltableinfo[3]) and is_string($reltableinfo[3])) {
+						$tid = getTabid($reltableinfo[3]);
+						if (is_numeric($tid) and $tid>0) {
+							$tabids[] = $tid;
+						}
+					}
+				}
 			}
+			$query .=" WHERE vtiger_field.tabid in (" . generateQuestionMarks($tabids) . ") and vtiger_field.presence in (0,2)";
+			$params[] = $tabids;
 
 			$query .=" AND vtiger_profile2field.visible = 0
-					AND vtiger_profile2field.visible = 0
 					AND vtiger_def_org_field.visible = 0
 					AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ")
 					AND vtiger_field.fieldname IN (" . generateQuestionMarks($field_list) . ")";
@@ -997,13 +1025,26 @@ function getSearchListViewEntries($focus, $module, $list_result, $navigation_arr
 				INNER JOIN vtiger_profile2field
 					ON vtiger_profile2field.fieldid = vtiger_field.fieldid
 				INNER JOIN vtiger_def_org_field
-					ON vtiger_def_org_field.fieldid = vtiger_field.fieldid
-				WHERE vtiger_field.tabid = ?
-				AND vtiger_profile2field.visible = 0
+					ON vtiger_def_org_field.fieldid = vtiger_field.fieldid";
+			$tabids = array($tabid);
+			if (isset($focus->related_tables)) {
+				foreach ($focus->related_tables as $reltable => $reltableinfo) {
+					if (isset($reltableinfo[3]) and is_string($reltableinfo[3])) {
+						$tid = getTabid($reltableinfo[3]);
+						if (is_numeric($tid) and $tid>0) {
+							$tabids[] = $tid;
+						}
+					}
+				}
+			}
+			$query .=" WHERE vtiger_field.tabid in (" . generateQuestionMarks($tabids) . ") ";
+			$params[] = $tabids;
+
+			$query .=" AND vtiger_profile2field.visible = 0
 				AND vtiger_def_org_field.visible = 0
 				AND vtiger_profile2field.profileid IN (" . generateQuestionMarks($profileList) . ")
 				AND vtiger_field.fieldname IN (" . generateQuestionMarks($field_list) . ") and vtiger_field.presence in (0,2)";
-			$params = array($tabid, $profileList, $field_list);
+			$params = array($params, $profileList, $field_list);
 		}
 
 		$result = $adb->pquery($query, $params);
@@ -1345,6 +1386,14 @@ function getValue($field_result, $list_result, $fieldname, $focus, $module, $ent
 	} elseif ($uitype == 15 || ($uitype == 55 && $fieldname == "salutationtype") || $uitype == 16 || $uitype == 1613 || $uitype == 1614 || $uitype == 1615) {
 		$value = getTranslatedString($temp_val, $module);
 		$value = textlength_check($value);
+	} elseif ($uitype == 1616) {
+		$cvrs = $adb->pquery('select viewname,entitytype from vtiger_customview where cvid=?', array($temp_val));
+		if ($cvrs && $adb->num_rows($cvrs)>0) {
+			$cv = $adb->fetch_array($cvrs);
+			$value = $cv['viewname'].' ('.getTranslatedString($cv['entitytype'], $cv['entitytype']).')';
+		} else {
+			$value = $temp_val;
+		}
 	} elseif ($uitype == 71 || $uitype == 72) {
 		if ($temp_val != '') {
 			// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
@@ -3453,7 +3502,6 @@ function getRelCheckquery($currentmodule, $returnmodule, $recordid) {
  * Param $related - related module
  * Return type void.
  */
-
 function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = '') {
 	$start = '';
 	if ($noofrows >= 1) {
@@ -3502,18 +3550,22 @@ function setSessionVar($lv_array, $noofrows, $max_ent, $module = '', $related = 
  */
 function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $related_module, $recordid) {
 	global $log, $app_strings, $adb, $theme;
+	$relation_id = vtlib_purify($_REQUEST['relation_id']);
 	$log->debug("Entering getRelatedTableHeaderNavigation(" . $url_qry . "," . $module . "," . $related_module . "," . $recordid . ") method ...");
 	$tabid = getTabid($module);
-	if($related_module == 'Parent Product'){
-		$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
-			label=?', array($tabid, $related_module));
-	}else{
-		$relatedTabId = getTabid($related_module);
-		$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND
-			related_tabid=?', array($tabid, $relatedTabId));
+	$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE relation_id=?', array($relation_id));
+	//Old code to prevent any error if $_REQUEST['relation_id'] is empty;
+	if (empty($relatedListResult)){
+		if($related_module == 'Parent Product' || $related_module == 'Product Bundles'){
+			$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND label=?', array($tabid, $related_module));
+		}else{
+			$relatedTabId = getTabid($related_module);
+			$relatedListResult = $adb->pquery('SELECT * FROM vtiger_relatedlists WHERE tabid=? AND related_tabid=?', array($tabid, $relatedTabId));
+		}
 	}
-	if (empty($relatedListResult))
+	if (empty($relatedListResult)) {
 		return;
+	}
 	$relatedListRow = $adb->fetch_row($relatedListResult);
 	$header = $relatedListRow['label'];
 	$actions = $relatedListRow['actions'];
@@ -3522,8 +3574,8 @@ function getRelatedTableHeaderNavigation($navigation_array, $url_qry, $module, $
 	$urldata = "module=$module&action={$module}Ajax&file=DetailViewAjax&record={$recordid}&" .
 			"ajxaction=LOADRELATEDLIST&header={$header}&relation_id={$relatedListRow['relation_id']}" .
 			"&actions={$actions}&{$url_qry}";
-
-	$formattedHeader = str_replace(' ', ':', $related_module);
+	// $formattedHeader = str_replace(' ', '', $related_module);
+	$formattedHeader = str_replace(' ', '', $header);
 	$target = 'tbl_' . $module . '_' . $formattedHeader;
 	$imagesuffix = $module . '_' . $formattedHeader;
 
@@ -3648,12 +3700,12 @@ function getListViewDeleteLink($module, $entity_id, $relatedlist, $returnset, $l
 
 	// vtlib customization: override default delete link for custom modules
 	$requestModule = $current_module;
-	$requestAction = vtlib_purify($_REQUEST['action']);
+	$requestAction = isset($_REQUEST['action']) ? vtlib_purify($_REQUEST['action']) : '';
 	$isCustomModule = vtlib_isCustomModule($requestModule);
 	if ($requestAction == $requestModule . "Ajax") {
 		$requestAction = vtlib_purify($_REQUEST['file']);
 	}
-	if ($isCustomModule && !in_array($requestAction, Array('index', 'ListView'))) {
+	if ($isCustomModule && !in_array($requestAction, array('index', 'ListView'))) {
 		$requestRecord = vtlib_purify($_REQUEST['record']);
 		$del_link = "index.php?module=$requestModule&action=updateRelations&parentid=$requestRecord";
 		$del_link .= "&destination_module=$module&idlist=$entity_id&mode=delete";

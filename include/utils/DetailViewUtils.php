@@ -71,6 +71,7 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 				$moduleSpecificMessage = $mod_strings[$moduleSpecificMessage];
 			}
 			$label_fld = array($fieldlabel, '');
+			$parent_id = '';
 		}
 	} elseif ($uitype == 99) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
@@ -179,6 +180,15 @@ function getDetailViewOutputHtml($uitype, $fieldname, $fieldlabel, $col_fields, 
 		$label_fld[] = getTranslatedString($col_fields[$fieldname], $module);
 		//get All the modules the current user is permitted to Access.
 		$label_fld ["options"] = getPicklistValuesSpecialUitypes($uitype, $fieldname, $col_fields[$fieldname], 'DetailView');
+	} elseif ($uitype == 1616) {
+		$label_fld[] = getTranslatedString($fieldlabel, $module);
+		$cvrs = $adb->pquery('select viewname, entitytype from vtiger_customview where cvid=?', array($col_fields[$fieldname]));
+		if ($cvrs && $adb->num_rows($cvrs)>0) {
+			$cv = $adb->fetch_array($cvrs);
+			$label_fld[] = $cv['viewname'].' ('.getTranslatedString($cv['entitytype'], $cv['entitytype']).')';
+		} else {
+			$label_fld[] = getTranslatedString($col_fields[$fieldname], $module);
+		}
 	} elseif ($uitype == 15) {
 		$label_fld[] = getTranslatedString($fieldlabel, $module);
 		$col_fields[$fieldname] = trim(html_entity_decode($col_fields[$fieldname], ENT_QUOTES, $default_charset));
@@ -1555,7 +1565,9 @@ function getDetailAssociatedProducts($module, $focus) {
 	//First we should get all available taxes and then retrieve the corresponding tax values
 	//if taxtype is group then the tax should be same for all products in vtiger_inventoryproductrel table
 	$shtax_info_message = $app_strings['LBL_SHIPPING_AND_HANDLING_CHARGE'] . " = ". CurrencyField::convertToUserFormat($shAmount, null, true) ."\\n";
+	$shtaxexist = false;
 	foreach (getAllTaxes('available', 'sh', 'edit', $focus->id) as $taxItem) {
+		$shtaxexist = true;
 		$shtax_name = $taxItem['taxname'];
 		$shtax_label = $taxItem['taxlabel'];
 		$shtax_percent = getInventorySHTaxPercent($focus->id, $shtax_name);
@@ -1565,10 +1577,13 @@ function getDetailAssociatedProducts($module, $focus) {
 	}
 	$shtax_info_message .= "\\n " . $app_strings['LBL_TOTAL_TAX_AMOUNT'] . " = ". CurrencyField::convertToUserFormat($shtaxtotal, null, true);
 
-	$output .= '<tr id="detailview_inventory_shiptaxrow">';
-	$output .= '<td align="right" class="crmTableRow small">(+)&nbsp;<b><a href="javascript:;" onclick="alert(\'' . $shtax_info_message . '\')">' . $app_strings['LBL_TAX_FOR_SHIPPING_AND_HANDLING'] . '</a></b></td>';
-	$output .= '<td align="right" class="crmTableRow small">' . CurrencyField::convertToUserFormat($shtaxtotal, null, true) . '</td>';
-	$output .= '</tr>';
+	if ($shtaxexist) {
+		$output .= '<tr id="detailview_inventory_shiptaxrow">';
+		$output .= '<td align="right" class="crmTableRow small">(+)&nbsp;<b><a href="javascript:;" onclick="alert(\'' . $shtax_info_message . '\')">';
+		$output .= $app_strings['LBL_TAX_FOR_SHIPPING_AND_HANDLING'] . '</a></b></td>';
+		$output .= '<td align="right" class="crmTableRow small">' . CurrencyField::convertToUserFormat($shtaxtotal, null, true) . '</td>';
+		$output .= '</tr>';
+	}
 
 	$adjustment = ($focus->column_fields['txtAdjustment'] != '') ? $focus->column_fields['txtAdjustment'] : '0.00';
 	$output .= '<tr id="detailview_inventory_adjustrow">';

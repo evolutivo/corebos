@@ -2038,7 +2038,7 @@ public static function getMapByID($cbmapid) {
 		global $adb;
 		$query = 'SELECT crmid,setype FROM vtiger_crmentity where crmid=? AND deleted=0';
 		$result = $adb->pquery($query, array($cbmapid));
-		if ($result and $adb->num_rows($result)>0 and $adb->query_result($result, 0, 'setype') == 'cbMap') {
+		if ($result && $adb->num_rows($result)>0 && $adb->query_result($result, 0, 'setype') == 'cbMap') {
 			$cbmap = new cbMap();
 			$cbmap->retrieve_entity_info($cbmapid, 'cbMap');
 			return $cbmap;
@@ -2059,7 +2059,7 @@ public static function getMapByID($cbmapid) {
 			$prm[] = $type;
 		}
 		$mrs = $adb->pquery($sql, $prm);
-		if ($mrs and $adb->num_rows($mrs)>0) {
+		if ($mrs && $adb->num_rows($mrs)>0) {
 			$cbmapid = $adb->query_result($mrs, 0, 0);
 			$cbmap = new cbMap();
 			$cbmap->retrieve_entity_info($cbmapid, 'cbMap');
@@ -2070,11 +2070,14 @@ public static function getMapByID($cbmapid) {
 	}
 	public static function getMapIdByName($name) {
 		global $adb;
-		$mrs = $adb->pquery('select cbmapid
+		$mrs = $adb->pquery(
+			'select cbmapid
 			from vtiger_cbmap
 			inner join vtiger_crmentity on crmid=cbmapid
-			where deleted=0 and mapname=?', array($name));
-		if ($mrs and $adb->num_rows($mrs)>0) {
+			where deleted=0 and mapname=?',
+			array($name)
+		);
+		if ($mrs && $adb->num_rows($mrs)>0) {
 			return $adb->query_result($mrs, 0, 0);
 		} else {
 			return 0;

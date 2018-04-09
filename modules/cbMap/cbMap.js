@@ -32,6 +32,9 @@ jQuery.ajax
      jQuery( "#dialog" ).dialog( "open" );
     }
    });
+function showMapWindow(mapid) {
+	var url = 'index.php?module=cbMap&action=cbMapAjax&file=generateMap&mapid='+mapid;
+	window.open(url, 'Create Mapping', 'width=940,height=800,resizable=1,scrollbars=1');
 }
 
 function getModuleFields(moduleId,ref){

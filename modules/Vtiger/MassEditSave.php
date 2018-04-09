@@ -17,7 +17,6 @@ $viewid = isset($_REQUEST['viewname']) ? vtlib_purify($_REQUEST['viewname']) : '
 $return_module = urlencode(vtlib_purify($_REQUEST['massedit_module']));
 $return_action = 'index';
 
-//Added to fix 4600
 $url = getBasic_Advance_SearchURL();
 
 if (isset($_REQUEST['start']) && $_REQUEST['start']!='') {
@@ -28,7 +27,7 @@ if (isset($idlist)) {
 	$recordids = explode(';', $idlist);
 	for ($index = 0; $index < count($recordids); ++$index) {
 		$recordid = $recordids[$index];
-		if ($recordid == '' or in_array(getSalesEntityType($recordid), $nonSupportedMassEdit)) {
+		if ($recordid == '' || in_array(getSalesEntityType($recordid), $nonSupportedMassEdit)) {
 			continue;
 		}
 		if (isPermitted($currentModule, 'EditView', $recordid) == 'yes') {
@@ -58,7 +57,10 @@ if (isset($idlist)) {
 					$focus->column_fields[$fieldname] = decode_html($focus->column_fields[$fieldname]);
 				}
 			}
-			$focus->save($currentModule);
+			list($saveerror,$errormessage,$error_action,$returnvalues) = $focus->preSaveCheck($_REQUEST);
+			if (!$saveerror) { // if there is an error we ignore this record
+				$focus->save($currentModule);
+			}
 		}
 	}
 }

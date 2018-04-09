@@ -9,7 +9,7 @@
  ************************************************************************************/
 require_once 'modules/com_vtiger_workflow/VTEntityCache.inc';
 require_once 'modules/com_vtiger_workflow/VTWorkflowUtils.php';
-require_once('modules/com_vtiger_workflow/VTTaskQueue.inc');
+require_once 'modules/com_vtiger_workflow/VTTaskQueue.inc';
 
 class VTUpdateFieldsTask extends VTTask {
 
@@ -21,7 +21,7 @@ class VTUpdateFieldsTask extends VTTask {
 	}
 
 	public function doTask(&$entity) {
-		global $adb, $current_user, $default_charset, $log, $logbg,$from_wf;
+		global $adb, $current_user, $logbg,$from_wf;
 		$from_wf = true;
 		$logbg->info('Entering workflow task VTUpdateFieldsTask');
 		$util = new VTWorkflowUtils();
@@ -59,7 +59,6 @@ class VTUpdateFieldsTask extends VTTask {
 			$handlerMetarel[]=array();
 			foreach ($fieldValueMapping as $fieldInfo) {
 				$fieldName = $fieldInfo['fieldname'];
-				$fieldType = '';
 				$fieldmodule='';
 				$fldrelname='';
 				$fieldValueType = $fieldInfo['valuetype'];
@@ -87,10 +86,10 @@ class VTUpdateFieldsTask extends VTTask {
 						$taskQueue->queueTask($this->id, $entityId, $delay);
 						return;
 					}
-						 $moduleHandlerrel = vtws_getModuleHandlerFromName($fieldmodule, $current_user);
-						 $handlerMetarel["$fieldmodule"] = $moduleHandlerrel->getMeta();
-						 $moduleFieldsrel = $handlerMetarel["$fieldmodule"]->getModuleFields();
-						 $fieldValue=$util->fieldvaluebytype($moduleFieldsrel, $fieldValueType, $fieldValue, $fldrelname, $focus, $entity, $handlerMetarel["$fieldmodule"]);
+					$moduleHandlerrel = vtws_getModuleHandlerFromName($fieldmodule, $current_user);
+					$handlerMetarel["$fieldmodule"] = $moduleHandlerrel->getMeta();
+					$moduleFieldsrel = $handlerMetarel["$fieldmodule"]->getModuleFields();
+					$fieldValue=$util->fieldvaluebytype($moduleFieldsrel, $fieldValueType, $fieldValue, $fldrelname, $focus, $entity, $handlerMetarel[$fieldmodule]);
 				} else {
 					$fieldValue=$util->fieldvaluebytype($moduleFields, $fieldValueType, $fieldValue, $fieldName, $focus, $entity, $handlerMeta);
 				}

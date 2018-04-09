@@ -1,4 +1,3 @@
-<?php
 /*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -7,18 +6,9 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-require_once('include/utils/utils.php');
-require_once('include/events/include.inc');
-require_once('modules/com_vtiger_workflow/include.inc');
 
-/**
- * This is a utility function to load a dumped templates files
- * @param $filename The name of the file to load.
- */
-function loadTemplates($filename) {
-	global $adb;
-	$str = file_get_contents('fetchtemplates.out');
-	$tm = new VTWorkflowTemplateManager($adb);
-	$tm->loadTemplates($str);
-}
-?>
+var webforms_alert_arr = {
+	'LBL_MADATORY_FIELDS' : 'Please enter value for mandatory fields',
+	'LBL_DELETE_MSG' : 'Are you sure, you want to delete the webform?',
+	'LBL_DUPLICATE_NAME' : 'Webform already exists'
+};

@@ -7,7 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ********************************************************************************/
-require_once('data/Tracker.php');
+require_once 'data/Tracker.php';
 
 global $mod_strings, $app_strings, $current_user, $theme, $log, $default_charset;
 $focus = 0;
@@ -19,7 +19,7 @@ global $oCustomView;
 $error_msg = '';
 $theme_path="themes/".$theme."/";
 $image_path=$theme_path."images/";
-require_once('modules/CustomView/CustomView.php');
+require_once 'modules/CustomView/CustomView.php';
 
 $cv_module = vtlib_purify($_REQUEST['module']);
 $recordid = isset($_REQUEST['record']) ? vtlib_purify($_REQUEST['record']) : '';
@@ -157,8 +157,8 @@ function generateSelectColumnsHTML($columnsList, $module) {
 	return $shtml;
 }
 
-function getByModule_ColumnsList($mod, $columnslist, $selected = "") {
-	global $oCustomView, $current_language, $theme;
+function getByModule_ColumnsList($mod, $columnslist, $selected = '') {
+	global $oCustomView;
 	$advfilter = array();
 	$check_dup = array();
 	foreach ($oCustomView->module_list as $module => $blks) {
@@ -192,8 +192,8 @@ function getByModule_ColumnsList($mod, $columnslist, $selected = "") {
 * $filter = Array( 0 => array('value'=>$tablename:$colname:$fieldname:$fieldlabel,'text'=>$mod_strings[$field label],'selected'=>$selected),
 *	1 => array('value'=>$$tablename1:$colname1:$fieldname1:$fieldlabel1,'text'=>$mod_strings[$field label1],'selected'=>$selected),
 */
-function getStdFilterHTML($module, $selected = "") {
-	global $current_language, $app_strings, $current_user, $oCustomView;
+function getStdFilterHTML($module, $selected = '') {
+	global $app_strings, $current_user, $oCustomView;
 	$stdfilter = array();
 	$result = $oCustomView->getStdCriteriaByModule($module);
 
