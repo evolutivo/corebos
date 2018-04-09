@@ -86,6 +86,7 @@ if ((is_admin($current_user) || $_REQUEST['record'] == $current_user->id || User
 } elseif ((is_admin($current_user) && !in_array($focus->user_name, $cbodBlockedUsers)) || $_REQUEST['record'] == $current_user->id || UserSettingsPermissions()) {
 	$buttons = "<input title='".$app_strings['LBL_EDIT_BUTTON_TITLE']."' accessKey='".$app_strings['LBL_EDIT_BUTTON_KEY']."' class='slds-button slds-button--neutral not-selected slds-not-selected uiButton' onclick=\"this.form.return_module.value='Users'; this.form.return_action.value='DetailView'; this.form.return_id.value='$focus->id'; this.form.action.value='EditView';\" type='submit' name='Edit' value='  ".$app_strings['LBL_EDIT_BUTTON_LABEL']."  '>";
 	$smarty->assign('EDIT_BUTTON',$buttons);
+
 	$authType = GlobalVariable::getVariable('User_AuthenticationType', 'SQL');
 	if (is_admin($current_user)) {
 		$authType = 'SQL'; // admin users always login locally
@@ -107,6 +108,12 @@ if ((is_admin($current_user) || $_REQUEST['record'] == $current_user->id || User
 	$smarty->assign('CHANGE_PW_BUTTON', $buttons);
 }
 
+if (is_admin($current_user) && !in_array($focus->user_name, $cbodBlockedUsers)) {
+	$buttons = "<input title='".$app_strings['LBL_DUPLICATE_BUTTON_TITLE']."' accessKey='".$app_strings['LBL_DUPLICATE_BUTTON_KEY']."' class='crmButton small create'"
+		." onclick=\"this.form.return_module.value='Users'; this.form.return_action.value='DetailView'; this.form.isDuplicate.value=true; this.form.return_id.value='"
+		.vtlib_purify($_REQUEST['record'])."';this.form.action.value='EditView'\" type='submit' name='Duplicate' value='".$app_strings['LBL_DUPLICATE_BUTTON_LABEL']."'>";
+	$smarty->assign('DUPLICATE_BUTTON', $buttons);
+}
 if ((is_admin($current_user) && !in_array($focus->user_name, $cbodBlockedUsers)) || UserSettingsPermissions()) {
 	$buttons = "<input title='".$app_strings['LBL_DUPLICATE_BUTTON_TITLE']."' accessKey='".$app_strings['LBL_DUPLICATE_BUTTON_KEY']."' class='slds-button slds-button--neutral not-selected slds-not-selected uiButton' onclick=\"this.form.return_module.value='Users'; this.form.return_action.value='DetailView'; this.form.isDuplicate.value=true; this.form.return_id.value='".vtlib_purify($_REQUEST['record'])."';this.form.action.value='EditView'\" type='submit' name='Duplicate' value=' ".$app_strings['LBL_DUPLICATE_BUTTON_LABEL']."'   >";
 	$smarty->assign('DUPLICATE_BUTTON',$buttons);
@@ -118,50 +125,52 @@ if ((is_admin($current_user) && !in_array($focus->user_name, $cbodBlockedUsers))
 	}
 }
 
-if(is_admin($current_user) || UserSettingsPermissions())
-	$smarty->assign("IS_ADMIN", true);
-else
-	$smarty->assign("IS_ADMIN", false);
+if(is_admin($current_user) || UserSettingsPermissions()){
+$smarty->assign("IS_ADMIN", true);
+}
+else{
+$smarty->assign("IS_ADMIN", false);
+}
 
 $lead_tables = array('vtiger_users','vtiger_user2role');
 $tabid = getTabid('Users');
 $validationData = getDBValidationData($lead_tables, $tabid);
 $data = split_validationdataArray($validationData);
 
-if($current_user->id == $_REQUEST['record'] || UserSettingsPermissions() || is_admin($current_user) == true)
-{
-$smarty->assign("VALIDATION_DATA_FIELDNAME",$data['fieldname']);
-$smarty->assign("VALIDATION_DATA_FIELDDATATYPE",$data['datatype']);
-$smarty->assign("VALIDATION_DATA_FIELDLABEL",$data['fieldlabel']);
-$smarty->assign("MODULE", 'Users');
-$smarty->assign('cbodUserBlocked', in_array($focus->user_name, $cbodBlockedUsers));
-$smarty->assign("CURRENT_USERID", $current_user->id);
-$HomeValues = $focus->getHomeStuffOrder($focus->id);
-$smarty->assign("TAGCLOUDVIEW",$HomeValues['Tag Cloud']);
-$smarty->assign('SHOWTAGAS',getTranslatedString($HomeValues['showtagas'],'Users'));
-unset($HomeValues['Tag Cloud'],$HomeValues['showtagas']);
-$smarty->assign("HOMEORDER",$HomeValues);
-$smarty->assign("BLOCKS", getBlocks($currentModule,"detail_view",'',$focus->column_fields));
-$smarty->assign("USERNAME", getFullNameFromArray('Users', $focus->column_fields));
-$smarty->assign("HOUR_FORMAT",$focus->hour_format);
-$smarty->assign("START_HOUR",$focus->start_hour);
-coreBOS_Session::set('Users_FORM_TOKEN', rand(5, 2000) * rand(2, 7));
-$smarty->assign('FORM_TOKEN', $_SESSION['Users_FORM_TOKEN']);
-$smarty->assign("USE_ASTERISK", get_use_asterisk($current_user->id));
+if($current_user->id == $_REQUEST['record'] || UserSettingsPermissions() || is_admin($current_user) == true) {
+	$smarty->assign('VALIDATION_DATA_FIELDNAME', $data['fieldname']);
+	$smarty->assign('VALIDATION_DATA_FIELDDATATYPE', $data['datatype']);
+	$smarty->assign('VALIDATION_DATA_FIELDLABEL', $data['fieldlabel']);
+	$smarty->assign('MODULE', 'Users');
+	$smarty->assign('cbodUserBlocked', in_array($focus->user_name, $cbodBlockedUsers));
+	$smarty->assign('CURRENT_USERID', $current_user->id);
+	$HomeValues = $focus->getHomeStuffOrder($focus->id);
+	$smarty->assign('TAGCLOUDVIEW', $HomeValues['Tag Cloud']);
+	$smarty->assign('SHOWTAGAS', getTranslatedString($HomeValues['showtagas'], 'Users'));
+	unset($HomeValues['Tag Cloud'], $HomeValues['showtagas']);
+	$smarty->assign('HOMEORDER', $HomeValues);
+	$smarty->assign('BLOCKS', getBlocks($currentModule, 'detail_view', '', $focus->column_fields));
+	$smarty->assign('USERNAME', getFullNameFromArray('Users', $focus->column_fields));
+	$smarty->assign('HOUR_FORMAT', $focus->hour_format);
+	$smarty->assign('START_HOUR', $focus->start_hour);
+	coreBOS_Session::set('Users_FORM_TOKEN', rand(5, 2000) * rand(2, 7));
+	$smarty->assign('FORM_TOKEN', $_SESSION['Users_FORM_TOKEN']);
+	$smarty->assign('USE_ASTERISK', get_use_asterisk($current_user->id));
 
-if ($current_user->mustChangePassword()) {
-	$smarty->assign('ERROR_MESSAGE',getTranslatedString('ERR_MUST_CHANGE_PASSWORD','Users'));
-	$smarty->assign('mustChangePassword',1);
-} else {
-	$smarty->assign('mustChangePassword',0);
-}
-if (isset($_REQUEST['error_string'])) {
-	$smarty->assign('ERROR_MESSAGE',vtlib_purify($_REQUEST['error_string']));
-}
+	if ($current_user->mustChangePassword()) {
+		$smarty->assign('ERROR_MESSAGE', getTranslatedString('ERR_MUST_CHANGE_PASSWORD', 'Users'));
+		$smarty->assign('mustChangePassword', 1);
+	} else {
+		$smarty->assign('mustChangePassword', 0);
+	}
+	if (isset($_REQUEST['error_string'])) {
+		$smarty->assign('ERROR_MESSAGE', vtlib_purify($_REQUEST['error_string']));
+	}
 
 	$smarty->assign('view', null);
 	$smarty->display('UserDetailView.tpl');
 } else {
 	$smarty->display('modules/Vtiger/OperationNotPermitted.tpl');
 }
+
 ?>
