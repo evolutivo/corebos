@@ -282,8 +282,8 @@ if($mvtype == "report"){
         else if(substr($col[1],0,1)=='D')
         {
             $coltype='date';
-            if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss';
-            else $format='yyyy-MM-dd';
+            if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss||epoch_millis';
+            else $format='yyyy-MM-dd||epoch_millis';
             $reportIndexFields[$selectedMapColumns[$k1]]=array("type"=>$coltype,"format"=>"$format");
             $data .="\r\n".'$reportIndexFields["'.$selectedMapColumns[$k1].'"]=array("type"=>"'.$coltype.'","format"=>"'.$format.'");';
             }
