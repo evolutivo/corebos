@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+// application.php
+
+require __DIR__.'/vendor/autoload.php';
+use Symfony\Component\Console\Application;
+
+require __DIR__ . '/build/console/createUpdater.php';
+require __DIR__ . '/build/console/logUpdater.php';
+
+$application = new Application("CoreBOS","1.0");
+
+$application->add(new CreateUpdaterCommand());
+$application->add(new LogUpdaterCommand());
+
+$application->run();
