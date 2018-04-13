@@ -11,7 +11,7 @@ class CreateUpdaterCommand extends Command
 
 	protected $templates_path = __DIR__ . "/templates/";
 
-	protected $changesets_path = __DIR__ . "/../../";
+	protected $root_path = __DIR__ . "/../../";
 
 	protected $changesets_file = "";
 
@@ -67,7 +67,7 @@ class CreateUpdaterCommand extends Command
 	private function updateManifest(InputInterface $input, OutputInterface $output) {
 
 		$un_path = "modules/cbupdater/cbupdater.xml";
-		$xml_path = __DIR__ . "/../../" . $un_path;
+		$xml_path = $this->root_path . $un_path;
 		$cbupdater_xml = file_get_contents( $xml_path );
 
 		$catch = "</updatesChangeLog>";
@@ -99,9 +99,10 @@ class CreateUpdaterCommand extends Command
 			$inject_code = str_replace(["<?php\n","\n\n","\n"],["","\n","\n\t\t\t"], file_get_contents($file) );
 			if($inject_code != '')
 				$replace['// apply magic'] = $inject_code;
+			unlink($file);
 		}
 
-		$new_file_path = $this->changesets_path . $this->changesets_file;
+		$new_file_path = $this->root_path . $this->changesets_file;
 
 		$new_content = str_replace(array_keys($replace), array_values($replace), $class_content );
 		file_put_contents($new_file_path, $new_content);
