@@ -4,6 +4,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class CreateUpdaterCommand extends Command
 {
@@ -37,19 +38,23 @@ class CreateUpdaterCommand extends Command
 
 			// configure an argument
 			->addArgument('description', InputArgument::REQUIRED, 'Description of the update')
+
+			->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'add filepath to cbupdater', null)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
 		$name = $input->getArgument("name");
+		$file_tb_injected =  $input->getOption("file");
+
 		$this->changesets_file  =  "build/changeSets/" . date("Y") . "/" . $name . ".php";
 
 		$output->writeln("<info>Changeset created successfully</info>");
 		$output->writeln("<comment>Files to check :</comment>");
 
 		$this->updateManifest($input, $output);
-		$this->createClass($input, $output);
+		$this->createClass($input, $output, $file_tb_injected);
 
 	}
 
@@ -82,13 +87,20 @@ class CreateUpdaterCommand extends Command
 
 	}
 
-	private function createCLass(InputInterface $input, OutputInterface $output) {
+	private function createCLass(InputInterface $input, OutputInterface $output, $file) {
 
 		$class_path = $this->templates_path . "cbUpdater.php";
 		$class_content = file_get_contents( $class_path );
 		$name = $input->getArgument("name");
 
 		$replace['DummyClass'] = ucfirst($name);
+
+		if($file != null) {
+			$inject_code = str_replace(["<?php\n","\n\n","\n"],["","\n","\n\t\t\t"], file_get_contents($file) );
+			if($inject_code != '')
+				$replace['// apply magic'] = $inject_code;
+		}
+
 		$new_file_path = $this->changesets_path . $this->changesets_file;
 
 		$new_content = str_replace(array_keys($replace), array_values($replace), $class_content );
