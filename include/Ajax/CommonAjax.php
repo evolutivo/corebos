@@ -8,6 +8,22 @@
  * All Rights Reserved.
  ********************************************************************************/
 
+if(isset($_REQUEST['actionname']) && !empty($_REQUEST['actionname']) ) {
+
+	$moduleFilepath = 'modules/' . $_REQUEST['module'] . '/actions/' . $_REQUEST['actionname'] . ".php";
+
+	if(!file_exists($moduleFilepath)) die("File not found");
+
+	checkFileAccessForInclusion($moduleFilepath);
+
+	require_once $moduleFilepath;
+	$action_class = $_REQUEST['actionname'] . "_Action";
+
+	$action = new $action_class($_REQUEST);
+	return;
+
+}
+
 $moduleFilepath = 'modules/'.$_REQUEST['module'].'/'.$_REQUEST['file'].'.php';
 
 if (file_exists($moduleFilepath) == false) {
