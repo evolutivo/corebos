@@ -4,6 +4,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class CreateWFEntitymethodCommand extends Command
 {
@@ -34,6 +35,9 @@ class CreateWFEntitymethodCommand extends Command
                         // configure an argument
 			->addArgument('function_name', InputArgument::REQUIRED, 'name of the function')
                         
+                        // configure an argument
+			->addArgument('author', InputArgument::REQUIRED, 'cbupdater author')
+                        
 		;
 	}
 
@@ -42,7 +46,8 @@ class CreateWFEntitymethodCommand extends Command
 		$name = $input->getArgument("name");
 		$module_name = $input->getArgument("module");
                 $function_name = $input->getArgument("function_name");
-
+                $author = $input->getArgument("author");
+                
                 //create custom function
 		$class_path = $this->templates_path . "WFCustomFunction.php";
 		$class_content = file_get_contents( $class_path );
@@ -68,7 +73,21 @@ class CreateWFEntitymethodCommand extends Command
                 $this->replace['PATH'] = "modules/{$module_name}/workflows/{$function_name}.php";
                 
 		$new_contentem = str_replace(array_keys($this->replace), array_values($this->replace), $class_contentem );
-		var_dump("$new_contentem");
+		
+                $temppathrel = "Smarty/templates_c/$function_name.em.php";
+                $temppath = $this->root_path .$temppathrel;
+                file_put_contents($temppath, $new_contentem);
+                
+                $command = $this->getApplication()->find('updater:create');
+                $arguments = array(
+                    'name' => $function_name,
+                    'author'=>$author,
+                    'description' => $name,
+                    '--file'  => $temppathrel
+                );
+                $updaterInput = new ArrayInput($arguments);
+                $returnCode = $command->run($updaterInput, $output);
+                
                 $output->writeln("<info>Created Sucessfuly</info>");
 
 	}
