@@ -7,10 +7,12 @@ use Symfony\Component\Console\Application;
 
 require __DIR__ . '/build/console/createUpdater.php';
 require __DIR__ . '/build/console/logUpdater.php';
+require __DIR__ . '/build/console/createAction.php';
 
 $application = new Application("CoreBOS","1.0");
 
 $application->add(new CreateUpdaterCommand());
 $application->add(new LogUpdaterCommand());
+$application->add(new CreateActionCommand());
 
 $application->run();
