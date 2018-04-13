@@ -34,8 +34,6 @@ class CreateWFEntitymethodCommand extends Command
                         // configure an argument
 			->addArgument('function_name', InputArgument::REQUIRED, 'name of the function')
                         
-                        // configure an argument
-			->addArgument('function_path', InputArgument::REQUIRED, 'path of the file')
 		;
 	}
 
@@ -43,14 +41,13 @@ class CreateWFEntitymethodCommand extends Command
 
 		$name = $input->getArgument("name");
 		$module_name = $input->getArgument("module");
-                $function_path = $input->getArgument("function_path");
                 $function_name = $input->getArgument("function_name");
 
                 //create custom function
 		$class_path = $this->templates_path . "WFCustomFunction.php";
 		$class_content = file_get_contents( $class_path );
 
-		$wf_path = $this->root_path .$function_path;
+		$wf_path = $this->root_path ."modules/{$module_name}/workflows/";
                 $wf_pathcomplete = $wf_path.$function_name.'.php';
 
                 $this->replace['dummyfunction'] = $function_name;
@@ -68,10 +65,10 @@ class CreateWFEntitymethodCommand extends Command
                 $this->replace['MODULE'] = $module_name;
                 $this->replace['DESC'] = $name;
                 $this->replace['FUNCTION_NAME'] = $function_name;
-                $this->replace['PATH'] = $function_path;
+                $this->replace['PATH'] = "modules/{$module_name}/workflows/{$function_name}.php";
                 
 		$new_contentem = str_replace(array_keys($this->replace), array_values($this->replace), $class_contentem );
-		
+		var_dump("$new_contentem");
                 $output->writeln("<info>Created Sucessfuly</info>");
 
 	}
