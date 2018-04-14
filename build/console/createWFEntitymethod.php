@@ -5,6 +5,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+
 
 class CreateWFEntitymethodCommand extends Command
 {
@@ -67,10 +69,23 @@ class CreateWFEntitymethodCommand extends Command
                 $class_pathem = $this->templates_path . "WFEntityMethod.php";
 		$class_contentem = file_get_contents( $class_pathem );
 
-                $this->replace['MODULE'] = $module_name;
-                $this->replace['DESC'] = $name;
+ 
                 $this->replace['FUNCTION_NAME'] = $function_name;
                 $this->replace['PATH'] = "modules/{$module_name}/workflows/{$function_name}.php";
+                
+                $helper = $this->getHelper('question');
+                $question = new ConfirmationQuestion('Do you want to create the workflow?', false);
+
+                if ($helper->ask($input, $output, $question)) {
+                $wfcreate = $this->templates_path . "WFCreate.php";
+		$wfcreate_content = file_get_contents( $wfcreate ); 
+                
+                $this->replace['//CREATE WF'] = $wfcreate_content;
+                }
+                     
+                $this->replace['MODULE'] = $module_name;
+                $this->replace['DESC'] = $name;
+                $this->replace['NAME'] = $function_name;
                 
 		$new_contentem = str_replace(array_keys($this->replace), array_values($this->replace), $class_contentem );
 		
@@ -87,7 +102,7 @@ class CreateWFEntitymethodCommand extends Command
                 );
                 $updaterInput = new ArrayInput($arguments);
                 $returnCode = $command->run($updaterInput, $output);
-                
+               
                 $output->writeln("<info>Created Sucessfuly</info>");
 
 	}
