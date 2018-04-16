@@ -140,12 +140,12 @@ class createVtlibFieldCommand extends Command
                 if($uitype == 15){
                 $question5 = new Question("Add the picklist options of the field, comma separated ");
                 $poptions = "'".str_replace(",","','",$helper->ask($input, $output, $question5)). "'";  
-                $this->replace['//other options'] = '$fieldInstance->setPicklistValues(Array('.$poptions.'));';
+                $this->replace['//other options'] = '$field->setPicklistValues(Array('.$poptions.'));';
                 }
                 if($uitype == 10){
                 $question6 = new Question("Add the related modules of the uitype 10, comma separated ");
                 $relmodules = "'".str_replace(",","','",$helper->ask($input, $output, $question6)). "'";
-                $this->replace['//other options'] = '$fieldInstance->setRelatedModules(Array('.$relmodules.'));';
+                $this->replace['//other options'] = '$field->setRelatedModules(Array('.$relmodules.'));';
                 }
                 }
                 else {
