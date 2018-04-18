@@ -98,7 +98,7 @@ class CreateUpdaterCommand extends Command
 		$class_content = file_get_contents( $class_path );
 		$name = $input->getArgument("name");
 
-		$replace['DummyClass'] = ucfirst($name);
+		$this->replace['DummyClass'] = ucfirst($name);
 
 		if($apply_changes_file != null)
 			$this->replaceFromFile("// apply magic",$apply_changes_file);
@@ -108,7 +108,7 @@ class CreateUpdaterCommand extends Command
 
 		$new_file_path = $this->root_path . $this->changesets_file;
 
-		$new_content = str_replace(array_keys($replace), array_values($replace), $class_content );
+		$new_content = str_replace(array_keys($this->replace), array_values($this->replace), $class_content );
 		file_put_contents($new_file_path, $new_content);
 
 		$output->writeln("<info>" . $this->changesets_file . "</info>");
@@ -118,7 +118,7 @@ class CreateUpdaterCommand extends Command
 	private function replaceFromFile($str, $file) {
 		$inject_code = str_replace(["<?php\n","\n\n","\n"],["","\n","\n\t\t\t"], file_get_contents($file) );
 		if($inject_code != '')
-			$replace[$str] = $inject_code;
+			$this->replace[$str] = $inject_code;
 		unlink($file);
 	}
 
