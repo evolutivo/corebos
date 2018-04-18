@@ -39,14 +39,15 @@ class CreateUpdaterCommand extends Command
 			// configure an argument
 			->addArgument('description', InputArgument::REQUIRED, 'Description of the update')
 
-			->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'add filepath to cbupdater', null)
+			->addOption('file', 'f', InputOption::VALUE_OPTIONAL, 'apply code from file to cbupdater class', null)
+
+			->addOption('undofile', 'u', InputOption::VALUE_OPTIONAL, 'undo changes from file to cbupdater class', null)
 		;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
 		$name = $input->getArgument("name");
-		$file_tb_injected =  $input->getOption("file");
 
 		$this->changesets_file  =  "build/changeSets/" . date("Y") . "/" . $name . ".php";
 
@@ -54,7 +55,7 @@ class CreateUpdaterCommand extends Command
 		$output->writeln("<comment>Files to check :</comment>");
 
 		$this->updateManifest($input, $output);
-		$this->createClass($input, $output, $file_tb_injected);
+		$this->createClass($input, $output);
 
 	}
 
@@ -69,6 +70,7 @@ class CreateUpdaterCommand extends Command
 		$un_path = "modules/cbupdater/cbupdater.xml";
 		$xml_path = $this->root_path . $un_path;
 		$cbupdater_xml = file_get_contents( $xml_path );
+		$is_system_update = is_null( $input->getOption("undofile") );
 
 		$catch = "</updatesChangeLog>";
 		$replace = "<changeSet>" . "\n" .
@@ -76,7 +78,7 @@ class CreateUpdaterCommand extends Command
 		"	<description>" . $input->getArgument('description')."</description>" . "\n" .
 		"	<filename>" . $this->changesets_file . "</filename>" . "\n" .
 		"	<classname>" . ucfirst($input->getArgument("name")) . "</classname>" . "\n" .
-		"	<systemupdate>true</systemupdate>" . "\n" .
+		"	<systemupdate>". $is_system_update ."</systemupdate>" . "\n" .
 		"</changeSet>" . "\n" .
 		"</updatesChangeLog>";
 
@@ -87,7 +89,10 @@ class CreateUpdaterCommand extends Command
 
 	}
 
-	private function createCLass(InputInterface $input, OutputInterface $output, $file) {
+	private function createCLass(InputInterface $input, OutputInterface $output) {
+
+		$apply_changes_file = $input->getOption("file");
+		$undo_changes_file 	= $input->getOption("undofile");
 
 		$class_path = $this->templates_path . "cbUpdater.php";
 		$class_content = file_get_contents( $class_path );
@@ -95,12 +100,11 @@ class CreateUpdaterCommand extends Command
 
 		$replace['DummyClass'] = ucfirst($name);
 
-		if($file != null) {
-			$inject_code = str_replace(["<?php\n","\n\n","\n"],["","\n","\n\t\t\t"], file_get_contents($file) );
-			if($inject_code != '')
-				$replace['// apply magic'] = $inject_code;
-			unlink($file);
-		}
+		if($apply_changes_file != null)
+			$this->replaceFromFile("// apply magic",$apply_changes_file);
+
+		if($undo_changes_file != null)
+			$this->replaceFromFile("// undo magic",$undo_changes_file);
 
 		$new_file_path = $this->root_path . $this->changesets_file;
 
@@ -109,6 +113,13 @@ class CreateUpdaterCommand extends Command
 
 		$output->writeln("<info>" . $this->changesets_file . "</info>");
 
+	}
+
+	private function replaceFromFile($str, $file) {
+		$inject_code = str_replace(["<?php\n","\n\n","\n"],["","\n","\n\t\t\t"], file_get_contents($file) );
+		if($inject_code != '')
+			$replace[$str] = $inject_code;
+		unlink($file);
 	}
 
 }
