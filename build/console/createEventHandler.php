@@ -67,7 +67,6 @@ class createEventHandlerCommand extends Command
                 $this->replace['NAME'] = $event;
                 $this->replace['//add condition'] = 'if ($eventName == \''.$event.'\') {
                 $moduleName = $entityData->getModuleName();
-                }
                 }';
 		$new_content = str_replace(array_keys($this->replace), array_values($this->replace), $class_content );
 
