@@ -9,6 +9,8 @@ require __DIR__ . '/build/console/logUpdater.php';
 require __DIR__ . '/build/console/createAction.php';
 require __DIR__ . '/build/console/createWFEntitymethod.php';
 require __DIR__ . '/build/console/createVtlibField.php';
+require __DIR__ . '/build/console/createLink.php';
+
 include_once('include/database/PearDatabase.php');
 include_once('include/utils/utils.php');
 
@@ -19,5 +21,6 @@ $application->add(new LogUpdaterCommand());
 $application->add(new CreateActionCommand());
 $application->add(new createWFEntitymethodCommand());
 $application->add(new createVtlibFieldCommand());
+$application->add(new CreateLinkCommand());
 
 $application->run();
