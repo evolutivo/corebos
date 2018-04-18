@@ -10,6 +10,7 @@ require __DIR__ . '/build/console/createAction.php';
 require __DIR__ . '/build/console/createWFEntitymethod.php';
 require __DIR__ . '/build/console/createVtlibField.php';
 require __DIR__ . '/build/console/createLink.php';
+require __DIR__ . '/build/console/createRelatedList.php';
 
 include_once('include/database/PearDatabase.php');
 include_once('include/utils/utils.php');
@@ -20,7 +21,11 @@ $application->add(new CreateUpdaterCommand());
 $application->add(new LogUpdaterCommand());
 $application->add(new CreateActionCommand());
 $application->add(new createWFEntitymethodCommand());
+<<<<<<< HEAD
 $application->add(new createVtlibFieldCommand());
 $application->add(new CreateLinkCommand());
+=======
+$application->add(new createRelatedListCommand());
+>>>>>>> 756faceeb5168e34a9835255a79bfb37da842130
 
 $application->run();
