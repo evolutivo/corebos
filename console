@@ -21,11 +21,8 @@ $application->add(new CreateUpdaterCommand());
 $application->add(new LogUpdaterCommand());
 $application->add(new CreateActionCommand());
 $application->add(new createWFEntitymethodCommand());
-<<<<<<< HEAD
 $application->add(new createVtlibFieldCommand());
 $application->add(new CreateLinkCommand());
-=======
 $application->add(new createRelatedListCommand());
->>>>>>> 756faceeb5168e34a9835255a79bfb37da842130
 
 $application->run();
