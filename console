@@ -12,6 +12,8 @@ require __DIR__ . '/build/console/createVtlibField.php';
 require __DIR__ . '/build/console/createLink.php';
 require __DIR__ . '/build/console/createRelatedList.php';
 require __DIR__ . '/build/console/createEventHandler.php';
+require __DIR__ . '/build/console/validatecode.php';
+require __DIR__ . '/build/console/fixvalidatecode.php';
 
 include_once('include/database/PearDatabase.php');
 include_once('include/utils/utils.php');
@@ -26,5 +28,7 @@ $application->add(new createVtlibFieldCommand());
 $application->add(new CreateLinkCommand());
 $application->add(new createRelatedListCommand());
 $application->add(new createEventHandlerCommand());
+$application->add(new validatecodeCommand());
+$application->add(new fixvalidatecodeCommand());
 
 $application->run();
