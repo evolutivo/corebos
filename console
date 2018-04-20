@@ -4,31 +4,24 @@
 require __DIR__.'/vendor/autoload.php';
 use Symfony\Component\Console\Application;
 
-require __DIR__ . '/build/console/createUpdater.php';
-require __DIR__ . '/build/console/logUpdater.php';
-require __DIR__ . '/build/console/createAction.php';
-require __DIR__ . '/build/console/createWFEntitymethod.php';
-require __DIR__ . '/build/console/createVtlibField.php';
-require __DIR__ . '/build/console/createLink.php';
-require __DIR__ . '/build/console/createRelatedList.php';
-require __DIR__ . '/build/console/createEventHandler.php';
-require __DIR__ . '/build/console/validatecode.php';
-require __DIR__ . '/build/console/fixvalidatecode.php';
+$files = glob( __DIR__ . '/build/console/*.php');
+foreach ($files as $file) {
+	require_once $file;
+}
+
+$classes = get_declared_classes();
+$offset = array_search("Symfony\Component\Console\Command\Command", $classes);
+$length = count($classes);
 
 include_once('include/database/PearDatabase.php');
 include_once('include/utils/utils.php');
 
 $application = new Application("CoreBOS","1.0");
 
-$application->add(new CreateUpdaterCommand());
-$application->add(new LogUpdaterCommand());
-$application->add(new CreateActionCommand());
-$application->add(new createWFEntitymethodCommand());
-$application->add(new createVtlibFieldCommand());
-$application->add(new CreateLinkCommand());
-$application->add(new createRelatedListCommand());
-$application->add(new createEventHandlerCommand());
-$application->add(new validatecodeCommand());
-$application->add(new fixvalidatecodeCommand());
+for ($i = $offset + 1 ; $i < $length; $i++) {
+
+	$application->add( new $classes[$i]() );
+
+}
 
 $application->run();
