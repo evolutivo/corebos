@@ -48,7 +48,7 @@ class composerperspectiveeditCommand extends Command {
                 foreach ($files as $file){
                     $repo.= '{"type": "vcs","url": "'.$file.'"},';
                     $rel = explode("/",$file);
-                    $rl.= $rel[3].'/'.$rel[4].': "dev-master",';
+                    $rl.= $rel[3].'/"'.$rel[4].'": "dev-master",';
                 }
                 $reporel2 = $reporel.implode(",");
 
