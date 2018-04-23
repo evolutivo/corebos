@@ -30,27 +30,25 @@ class composerperspectiveeditCommand extends Command {
 
 			// configure an argument
 			->addArgument('files', InputArgument::REQUIRED, 'list of repos')
-                        
-                        // configure an argument
+
+						// configure an argument
 			->addArgument('name', InputArgument::REQUIRED, 'name of composer')
 			;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-                
-                $files = explode(",",$input->getArgument("files"));
-                $name = $input->getArgument("name");
 
-                $cmp_path = $this->root_path ."perspectives/composer$name.json";
+		$files = explode(",", $input->getArgument("files"));
+		$name = $input->getArgument("name");
 
-                $filecontent = file_get_contents( $cmp_path );
+		$cmp_path = $this->root_path ."perspectives/composer$name.json";
+		$filecontent = file_get_contents($cmp_path);
 
-                foreach ($files as $file){
-                    $repo.= '{"type": "vcs","url": "'.$file.'"},';
-                    $rel = explode("/",$file);
-                    $rl.= $rel[3].'/"'.$rel[4].'": "dev-master",';
-                }
-                $reporel2 = $reporel.implode(",");
+		foreach ($files as $file) {
+			$repo.= '{"type": "vcs","url": "'.$file.'"},';
+			$rel = explode("/", $file);
+			$rl.= '"'.$rel[3].'/'.$rel[4].'": "dev-master",';
+		}
 
 		$catch = "{
             \"packagist\": false
@@ -58,17 +56,15 @@ class composerperspectiveeditCommand extends Command {
 		$replace = "$repo {
             \"packagist\": false
   }";
-                
-                $catch2 = ' "require": {';
-                $replace2 = ' "require": { '.$rl.'';
-		$new_comp = str_replace($catch,$replace, $filecontent);
-		file_put_contents($cmp_path, $new_comp);
-               
-                $filecontent2 = file_get_contents( $cmp_path );
-                $new_comp2 = str_replace($catch2,$replace2, $filecontent2);
-		file_put_contents($cmp_path, $new_comp2);
-                $output->writeln("<info>Created Sucessfuly</info>");
 
-		
+		$catch2 = ' "require": {';
+		$replace2 = ' "require": { '.$rl.'';
+		$new_comp = str_replace($catch, $replace, $filecontent);
+		file_put_contents($cmp_path, $new_comp);
+
+		$filecontent2 = file_get_contents($cmp_path);
+		$new_comp2 = str_replace($catch2, $replace2, $filecontent2);
+		file_put_contents($cmp_path, $new_comp2);
+		$output->writeln("<info>Created Sucessfuly</info>");
 	}
 }

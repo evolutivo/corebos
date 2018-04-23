@@ -36,13 +36,13 @@ class installcomposerCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
 		$name = $input->getArgument("name");
-                $composer = $this->root_path .'perspectives/composer'.$name.'.json';
-                $maincomp = $this->root_path .'composer.json';
+		$composer = $this->root_path .'perspectives/composer'.$name.'.json';
+		$maincomp = $this->root_path .'composer.json';
 		if (file_exists($composer)) {
-                                unlink($this->root_path .'vendor');
-                                unlink($this->root_path .'composer.lock');
-                                copy("$composer $maincomp");
-                		$val = shell_exec("composer install");
+				unlink($this->root_path .'vendor');
+				unlink($this->root_path .'composer.lock');
+				copy("$composer $maincomp");
+				$val = shell_exec("composer install");
 				echo $val;
 		} else {
 			$output->writeln("<info>File does not exist</info>");

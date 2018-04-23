@@ -30,34 +30,32 @@ class composerperspectiveCommand extends Command {
 
 			// configure an argument
 			->addArgument('files', InputArgument::REQUIRED, 'list of repos')
-                        
-                        // configure an argument
+
+						// configure an argument
 			->addArgument('name', InputArgument::REQUIRED, 'name of composer')
 			;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-                
-                $files = explode(",",$input->getArgument("files"));
-                $name = $input->getArgument("name");
+
+		$files = explode(",", $input->getArgument("files"));
+		$name = $input->getArgument("name");
 		$class_path = $this->templates_path . "composerfile.php";
 		$class_content = file_get_contents($class_path);
 
 		$cmp_path = $this->root_path ."perspectives/composer$name.json";
-                foreach ($files as $file){
-                    $repo.= '{"type": "vcs","url": "'.$file.'"},';
-                    $rel = explode("/",$file);
-                    $rl = $rel[3].'/'.$rel[4];
-                    $reporel = '"'.$rl.'": "dev-master"';
-                }
-                $reporel2 = $reporel.implode(",");
+		foreach ($files as $file) {
+			$repo.= '{"type": "vcs","url": "'.$file.'"},';
+			$rel = explode("/", $file);
+			$rl = $rel[3].'/'.$rel[4];
+			$reporel = '"'.$rl.'": "dev-master"';
+		}
+		$reporel2 = $reporel.implode(",");
 		$this->replace['REPO'] = $repo;
-                $this->replace['RELPATH'] = $reporel2;
+		$this->replace['RELPATH'] = $reporel2;
 		$new_content = str_replace(array_keys($this->replace), array_values($this->replace), $class_content);
 
 		file_put_contents($cmp_path, $new_content);
-                $output->writeln("<info>Created Sucessfuly</info>");
-
-		
+		$output->writeln("<info>Created Sucessfuly</info>");
 	}
 }
