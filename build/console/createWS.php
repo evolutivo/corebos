@@ -73,7 +73,15 @@ class createWSCommand extends Command {
                 if(count($parameters)>0){
                 $this->replace['PARAMS'] = implode(",",$parameters);
                 }
-
+                $question3 = new ChoiceQuestion(
+				"Type of method ",
+				array("POST","GET"),
+				0
+			);
+		$question3->setErrorMessage('Type of data %s is invalid.');
+		$methodtype = $helper->ask($input, $output, $question3);
+                $this->replace['METHODTYPE'] = $methodtype;
+                        
 		$new_content = str_replace(array_keys($this->replace), array_values($this->replace), $class_content);
 		file_put_contents($ch_pathcomplete, $new_content);
                 
