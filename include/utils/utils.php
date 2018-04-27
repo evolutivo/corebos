@@ -1138,6 +1138,7 @@ function getDefOrgFieldList($fld_module) {
 	$query = 'select vtiger_def_org_field.visible,vtiger_field.*,vtiger_fieldmodulerel.relmodule
 		from vtiger_def_org_field
 		inner join vtiger_field on vtiger_field.fieldid=vtiger_def_org_field.fieldid
+                left join vtiger_fieldmodulerel on vtiger_fieldmodulerel.fieldid=vtiger_field.fieldid
 		where vtiger_def_org_field.tabid=? and vtiger_field.presence in (0,2)';
 	$qparams = array($tabid);
 	$result = $adb->pquery($query, $qparams);
