@@ -276,26 +276,32 @@ if($mvtype == "report"){
         if(substr($col[1],0,1)=='N')
         {
             $coltype='double';
+            $coltype2 = $coltype;
             $reportIndexFields[$selectedMapColumns[$k1]]=array("type"=>$coltype);
             $data .="\r\n".'$reportIndexFields["'.$selectedMapColumns[$k1].'"]=array("type"=>"'.$coltype.'");';
         }
         else if(substr($col[1],0,1)=='D')
         {
             $coltype='date';
-            if(substr($col[1],0,2)=='DT') $format='yyyy-MM-dd HH:mm:ss||epoch_millis';
+            $coltype2 = $coltype;
+            if(substr($col[1],0,2)=='DT') {
+            $format='yyyy-MM-dd HH:mm:ss||epoch_millis'; 
+            $coltype2 = 'datetime';
+            }
             else $format='yyyy-MM-dd||epoch_millis';
             $reportIndexFields[$selectedMapColumns[$k1]]=array("type"=>$coltype,"format"=>"$format");
             $data .="\r\n".'$reportIndexFields["'.$selectedMapColumns[$k1].'"]=array("type"=>"'.$coltype.'","format"=>"'.$format.'");';
             }
         else {
             $coltype='string';
+            $coltype2 = $coltype;
             $reportIndexFields[$selectedMapColumns[$k1]]=array("type"=>$coltype,"index"=>"$analyzed");
             $data.="\r\n".'$reportIndexFields["'.$selectedMapColumns[$k1].'"]=array("type"=>"'.$coltype.'","index"=>"'.$analyzed.'");';
         }
             $sqlFields[$k1]=trim($fldArr[0]).'.'.$clname.' AS '.trim($fldArr[0]).'_'.$clname;
             $k1++;
      }
-        $fieldtypearr[] = $coltype;
+        $fieldtypearr[] = $coltype2;
         $allFields[] = preg_replace('/[#*. <,>]/','',$_REQUEST['modulfieldlabel'.$j]);
 
      }
@@ -518,7 +524,9 @@ function getRoles($id) {
            for($j=0;$j< count($selectedMapColumns);$j++)
            {
                $resultdata = $adb->query_result($fields1,$i,$j);
-               if($fieldtypearr[$j] == 'date' && $resultdata=='')
+               if($fieldtypearr[$j] == 'date' && ($resultdata=='' || $resultdata=='0000-00-00' || validateDate($resultdata)==false))
+                     $data[$selectedMapColumns[$j]] = null;
+               else if($fieldtypearr[$j] == 'datetime' && ($resultdata=='' || strstr($resultdata,'0000-00-00') || validateDate($resultdata,"Y-m-d H:i:s")==false))
                      $data[$selectedMapColumns[$j]] = null;
                else if($allFields[$j]!=$selectedMapColumns[$j]){
                    $res=array_intersect($allFields,$selectedMapColumns);
@@ -833,3 +841,8 @@ $focus1=new ReportRun('.$sql.');
     $data .="\n\r".'return $JSON;}';
     return $data;
   }
+  function validateDate($date, $format = 'Y-m-d')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
