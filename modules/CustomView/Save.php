@@ -119,6 +119,21 @@ if ($cvmodule != "") {
 					$deletedefaultresult = $adb->pquery($deletedefaultsql, array($current_user->id, $cv_tabid));
 				}
 			}
+			if(Vtiger_Utils::checkTable('vtiger_filtermanagement')){
+				if($is_admin == true) {
+    
+					$Query="Insert into vtiger_filtermanagement(viewid,editable,viewable,deletable,roleid,userid)
+						 values(?,?,?,?,?,?)";
+					$adb->pquery($Query,array($genCVid,1,1,1,$current_user->roleid,$current_user->id));
+					$adb->pquery($Query,array($genCVid,0,1,0,0,0));
+				}  
+				else{
+					
+				 	$Query="Insert into vtiger_filtermanagement(viewid,editable,viewable,deletable,roleid,userid)
+						 values(?,?,?,?,?,?)";
+				 	$adb->pquery($Query,array($genCVid,1,1,1,$current_user->roleid,$current_user->id));
+				}
+			}
 
 			$log->info('CustomView :: Save :: setdefault upated successfully');
 

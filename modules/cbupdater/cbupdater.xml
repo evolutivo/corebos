@@ -1793,4 +1793,11 @@
 	<classname>addNewReportTypeColumn</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>afrimhoxha</author>
+	<description>Add module FilterManagement</description>
+	<filename>build/changeSets/evolutivo/addFilterManagement.php</filename>
+	<classname>addFilterManagement</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

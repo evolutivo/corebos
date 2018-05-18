@@ -92,7 +92,25 @@ class CustomView extends CRMEntity {
 				$viewid = $_SESSION['lvs'][$module]["viewname"];
 			} elseif ($this->setdefaultviewid != "") {
 				$viewid = $this->setdefaultviewid;
-			} else {
+			} 
+
+			elseif(Vtiger_Utils::checkTable('vtiger_user_role_filters')){
+				$moduleid=getTabid($module);
+                $viewidq=$adb->pquery("Select * from vtiger_user_role_filters where userid=? and moduleid=?",array($current_user->id,$moduleid));
+                $nr=$adb->num_rows($viewidq);
+                if($nr!=0)
+                    $viewid=$adb->query_result($viewidq,0,'first_default_cvid');
+                else
+                { 
+                    $viewidq=$adb->pquery("Select * from vtiger_user_role_filters where  (roleid=? and userid=0)  and moduleid=?",array($current_user->roleid,$moduleid));
+                    if($adb->num_rows($viewidq)!=0)
+                      $viewid=$adb->query_result($viewidq,0,'first_default_cvid');
+                    else
+                      $viewid=$adb->query_result($adb->pquery("Select first_default_cvid from vtiger_user_role_filters where  (roleid=0 and userid=0) and moduleid=?",array($moduleid)),0);
+                }
+			}
+
+			else {
 				$defcv_result = $adb->pquery(
 					'select default_cvid from vtiger_user_module_preferences where userid = ? and tabid =?',
 					array($current_user->id, getTabid($module))
@@ -181,8 +199,14 @@ class CustomView extends CRMEntity {
 		}
 		$result = $adb->pquery($ssql, $sparams);
 
-		$usercv_result = $adb->pquery('select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?', array($current_user->id, $tabid));
-		$def_cvid = $adb->query_result($usercv_result, 0, 'default_cvid');
+		if(Vtiger_Utils::checkTable('vtiger_user_role_filters')){
+			$def_cvid=$adb->query_result($adb->pquery("Select first_default_cvid from vtiger_user_role_filters where (roleid=? and userid=?) or ".
+				"(roleid=? and userid=0) or (roleid=0 and userid=0) and moduleid=?",array($current_user->roleid,$current_user->id,$current_user->roleid,$tabid)),0);
+		}
+		else{
+			$usercv_result = $adb->pquery('select default_cvid from vtiger_user_module_preferences where userid = ? and tabid = ?', array($current_user->id, $tabid));
+			$def_cvid = $adb->query_result($usercv_result, 0, 'default_cvid');
+		}
 
 		while ($cvrow = $adb->fetch_array($result)) {
 			$customviewlist["viewname"] = $cvrow["viewname"];
@@ -219,26 +243,39 @@ class CustomView extends CRMEntity {
 			$selected = '';
 		}
 
-		$ssql = 'select vtiger_customview.*, vtiger_users.first_name, vtiger_users.last_name
-			from vtiger_customview
-			inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype
-			left join vtiger_users on vtiger_customview.userid = vtiger_users.id
-			where vtiger_tab.tabid=?';
 		$sparams = array($tabid);
 
-		if ($is_admin == false) {
-			$ssql .= ' and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or ';
-			$ssql .= " vtiger_customview.userid in(select vtiger_user2role.userid
-				from vtiger_user2role
-				inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
-				inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
-				where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
-			$sparams[] = $current_user->id;
+		if(Vtiger_Utils::checkTable('vtiger_filtermanagement')){
+			$ssql = "select distinct(vtiger_customview.cvid) as dis, vtiger_customview.*, vtiger_users.first_name, vtiger_users.last_name from vtiger_customview inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype
+	        left join vtiger_users on vtiger_customview.userid = vtiger_users.id
+	        left join vtiger_filtermanagement fm on fm.viewid=vtiger_customview.cvid";
+	        $ssql .= " where vtiger_tab.tabid=?";
+	        $ssql .= " and fm.viewable=1 and fm.roleid=? and (fm.userid=? or  fm.userid=0)";
+			array_push($sparams,$current_user->roleid);
+			array_push($sparams,$current_user->id);
+	        //array_push($sparams,array($current_user->roleid,$current_user->id));
+    	}
+    	else{
+			$ssql = 'select vtiger_customview.*, vtiger_users.first_name, vtiger_users.last_name
+				from vtiger_customview
+				inner join vtiger_tab on vtiger_tab.name = vtiger_customview.entitytype
+				left join vtiger_users on vtiger_customview.userid = vtiger_users.id
+				where vtiger_tab.tabid=?';
+
+			if ($is_admin == false) {
+				$ssql .= ' and (vtiger_customview.status=0 or vtiger_customview.userid = ? or vtiger_customview.status = 3 or ';
+				$ssql .= " vtiger_customview.userid in(select vtiger_user2role.userid
+					from vtiger_user2role
+					inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
+					inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
+					where vtiger_role.parentrole like '" . $current_user_parent_role_seq . "::%'))";
+				$sparams[] = $current_user->id;
+			}
 		}
 		$ssql .= ' ORDER BY viewname';
 		$cuserroles = getRoleAndSubordinateUserIds($current_user->column_fields['roleid']);
 		$result = $adb->pquery($ssql, $sparams);
-		while ($cvrow = $adb->fetch_array($result)) {
+		while ($result && $cvrow = $adb->fetch_array($result)) {
 			if ($cvrow['viewname'] == 'All') {
 				$cvrow['viewname'] = $app_strings['COMBO_ALL'];
 			} else { /** Should the filter shown?  */
@@ -1886,72 +1923,200 @@ class CustomView extends CRMEntity {
 		return array('status' => $this->_status, 'userid' => $this->_userid);
 	}
 
+    
+    // function to get the status of an action based on filter management
+    function getFilterManagementStatus($record_id,$actiontype){
+         global $log, $adb,$current_user;
+         $queryString="Select $actiontype from vtiger_filtermanagement where viewid=? and (userid=? or (roleid=? and userid=0) or
+         (roleid='0' and userid=0))";
+         $query=$adb->pquery($queryString,array($record_id,$current_user->id,$current_user->roleid));
+         $filterstatus=$adb->query_result($query,0);
+         $log->debug("We have: ".$adb->num_rows($query)."& ".$actiontype);
+         if($adb->num_rows($query)==0) return 1;
+         else return $filterstatus;
+     }
+
 	//Function to check if the current user is able to see the customView
 	public function isPermittedCustomView($record_id, $action, $module) {
-		global $log, $current_user;
+		global $log, $adb, $current_user;
 		$log->debug("Entering isPermittedCustomView($record_id,$action,$module) method....");
 
 		$permission = "yes";
 
 		if ($record_id != '') {
-			$status_userid_info = $this->getStatusAndUserid($record_id);
 
-			if ($status_userid_info) {
-				$status = $status_userid_info['status'];
-				$userid = $status_userid_info['userid'];
+            if(Vtiger_Utils::checkTable('vtiger_filtermanagement')){
 
-				if ($status == CV_STATUS_DEFAULT) {
-					$log->debug("Entering when status=0");
-					if ($action == 'ListView' || $action == $module . "Ajax" || $action == 'index' || $action == 'DetailView') {
-						$permission = "yes";
-					} else {
-						$permission = "no";
-					}
-				} elseif (is_admin($current_user)) {
-					$permission = 'yes';
-				} elseif ($action != 'ChangeStatus') {
-					if ($userid == $current_user->id) {
-						$log->debug("Entering when $userid=$current_user->id");
-						$permission = "yes";
-					} elseif ($status == CV_STATUS_PUBLIC) {
-						$log->debug("Entering when status=3");
-						if ($action == 'ListView' || $action == $module . "Ajax" || $action == 'index' || $action == 'DetailView') {
+				$query="select cvid from vtiger_customview where viewname='All' and entitytype=?";
+				$cvresult=$adb->pquery($query, array($module));
+				$viewidAll = $adb->query_result($cvresult,0,'cvid');
+				$status_userid_info = $this->getStatusAndUserid($record_id);
+				$filterstatuseditable=($viewidAll==$record_id)?0:$this->getFilterManagementStatus($record_id,'editable');
+				$filterstatusdeletable=($viewidAll==$record_id)?0:$this->getFilterManagementStatus($record_id,'deletable');
+				$filterstatusviewable=$this->getFilterManagementStatus($record_id,'viewable');
+
+				if ($status_userid_info) {
+					$status = $status_userid_info['status'];
+					$userid = $status_userid_info['userid'];
+
+					if ($status == CV_STATUS_DEFAULT) {
+						$log->debug("Entering when status=0");
+						if($action == 'ListView' || ($action == $module."Ajax" && $filterstatusviewable==1) || ($action == 'index' && $filterstatusviewable==1) || $action == 'DetailView' || ($action=='EditView' && $filterstatuseditable==1)|| ($action=='CustomView' && $filterstatuseditable==1)|| ($action=='Delete' && $filterstatusdeletable==1)) {
 							$permission = "yes";
-						} else {
-							$user_array = getRoleAndSubordinateUserIds($current_user->column_fields['roleid']);
-							if (in_array($userid, $user_array)) {
+						}
+						else {
+							$permission = "no";
+						}
+					}
+					elseif ($is_admin) {
+						if(($action=='EditView' && $filterstatuseditable==1) || ($action == $module."Ajax" && $filterstatusviewable==1) || ($action=='CustomView' && $filterstatuseditable==1) || ($action=='Delete' && $filterstatusdeletable==1)|| ($action == 'index' && $filterstatusviewable==1)||($action='ListView'&& $filterstatusviewable==1)){
+							$permission = "yes";
+						}
+						else {
+							$permission = "no";
+						}
+					} elseif ($action != 'ChangeStatus') {
+						if ($userid == $current_user->id) {
+							$log->debug("Entering when $userid=$current_user->id");
+							$permission = "yes";
+						} elseif ($status == CV_STATUS_PUBLIC) {
+							$log->debug("Entering when status=3");
+							if($action == 'ListView' || ($action == $module."Ajax" && $filterstatusviewable==1)|| ($action=='CustomView' && $filterstatuseditable==1) || ($action == 'index' && $filterstatusviewable==1) || $action == 'DetailView'|| ($action=='EditView' && $filterstatuseditable==1) ||($action=='Delete' && $filterstatusdeletable==1)|| ($action == 'index' && $filterstatusviewable==1)) {
 								$permission = "yes";
-							} else {
-								$permission = "no";
+							}
+							else {
+								$user_array = getRoleAndSubordinateUserIds($current_user->column_fields['roleid']);
+								if (in_array($userid, $user_array)) {
+									$permission = "yes";
+								} 
+								else{
+										if(($action=='EditView' && $filterstatuseditable==1) || ($action=='Delete' && $filterstatusdeletable==1)|| ($action=='CustomView' && $filterstatuseditable==1)|| ($action == 'index' && $filterstatusviewable==1) || ($action == $module."Ajax" && $filterstatusviewable==1)) {
+											$permission = "yes";
+										}
+										else {
+											$permission = "no";
+										}
+								}
 							}
 						}
-					} elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
-						$log->debug("Entering when status=1 or 2");
-						if ($userid == $current_user->id) {
-							$permission = "yes";
-						} else {
-							$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
-							$user_array = getRoleAndSubordinateUserIds($current_user->column_fields['roleid']);
-							if (count($user_array) > 0) {
-								if (in_array($current_user->id, $user_array)) {
-									$permission = 'yes';
+						elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
+							$log->debug("Entering when status=1 or 2");
+							if ($userid == $current_user->id)
+								$permission = "yes";
+												elseif(($action == $module."Ajax" && $filterstatusviewable==0) ||($action=='EditView' && $filterstatuseditable==0) || ($action=='Delete' && $filterstatusdeletable==0)|| ($action == 'index' && $filterstatusviewable==0))
+															$permission = "no";
+							else {
+								$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
+								$q=$adb->pquery("select *  from vtiger_filtermanagement where viewid=? and roleid='".$current_user_roles."'",array($record_id));
+
+															if($adb->query_result($q,0,'userid')==0)
+															$result=$adb->query("select vtiger_user2role.userid as id from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.roleid like '%".$current_user_roles."%'");
+															else
+															{$sql = "select vtiger_users.id from vtiger_filtermanagement inner join vtiger_users where vtiger_filtermanagement.viewid= ? and vtiger_filtermanagement.userid in (select vtiger_user2role.userid from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.roleid like '%" . $current_user_roles. "%')";
+								$result = $adb->pquery($sql, array($record_id));}
+															for($i=0;$i<$adb->num_rows($result);$i++)
+															{
+															$temp_result[]=$adb->query_result($result,$i,'id');
+															}
+								$user_array = $temp_result;
+															if (count($user_array) > 0) {
+									if (in_array($current_user->id, $user_array))
+										$permission = 'yes';
+									else
+										$permission = 'no';
 								} else {
 									$permission = 'no';
 								}
-							} else {
-								$permission = 'no';
 							}
 						}
-					} else {
-						$permission = "yes";
+						else
+						{
+							if(($action == $module."Ajax" && $filterstatusviewable==0) || ($action=='CustomView' && $filterstatuseditable==1) ||($action=='EditView' && $filterstatuseditable==0) || ($action=='Delete' && $filterstatusdeletable==0)|| ($action == 'index' && $filterstatusviewable==0)){
+								$permission = "no";
+							}
+							else {
+								$permission = "yes";
+							}
+						}
+					}
+					else {
+						$log->debug("Entering else condition............");
+						if(($action == $module."Ajax" && $filterstatusviewable==1) || ($action=='CustomView' && $filterstatuseditable==1) ||($action=='EditView' && $filterstatuseditable==1) || ($action=='Delete' && $filterstatusdeletable==1)|| ($action == 'index' && $filterstatusviewable==1)){ 
+							$permission = "yes";
+						}
+						else{
+							$permission = "no";
+						}
 					}
 				} else {
-					$log->debug("Entering else condition............");
-					$permission = "no";
+					$log->debug("Enters when count =0");
+					$permission = 'no';
 				}
-			} else {
-				$log->debug("Enters when count =0");
-				$permission = 'no';
+
+
+            }
+	        else
+	        {
+
+				$status_userid_info = $this->getStatusAndUserid($record_id);
+
+				if ($status_userid_info) {
+					$status = $status_userid_info['status'];
+					$userid = $status_userid_info['userid'];
+
+					if ($status == CV_STATUS_DEFAULT) {
+						$log->debug("Entering when status=0");
+						if ($action == 'ListView' || $action == $module . "Ajax" || $action == 'index' || $action == 'DetailView') {
+							$permission = "yes";
+						} else {
+							$permission = "no";
+						}
+					} elseif (is_admin($current_user)) {
+						$permission = 'yes';
+					} elseif ($action != 'ChangeStatus') {
+						if ($userid == $current_user->id) {
+							$log->debug("Entering when $userid=$current_user->id");
+							$permission = "yes";
+						} elseif ($status == CV_STATUS_PUBLIC) {
+							$log->debug("Entering when status=3");
+							if ($action == 'ListView' || $action == $module . "Ajax" || $action == 'index' || $action == 'DetailView') {
+								$permission = "yes";
+							} else {
+								$user_array = getRoleAndSubordinateUserIds($current_user->column_fields['roleid']);
+								if (in_array($userid, $user_array)) {
+									$permission = "yes";
+								} else {
+									$permission = "no";
+								}
+							}
+						} elseif ($status == CV_STATUS_PRIVATE || $status == CV_STATUS_PENDING) {
+							$log->debug("Entering when status=1 or 2");
+							if ($userid == $current_user->id) {
+								$permission = "yes";
+							} else {
+								$log->debug("Entering when status=1 or status=2 & action = ListView or $module.Ajax or index");
+								$user_array = getRoleAndSubordinateUserIds($current_user->column_fields['roleid']);
+								if (count($user_array) > 0) {
+									if (in_array($current_user->id, $user_array)) {
+										$permission = 'yes';
+									} else {
+										$permission = 'no';
+									}
+								} else {
+									$permission = 'no';
+								}
+							}
+						} else {
+							$permission = "yes";
+						}
+					} else {
+						$log->debug("Entering else condition............");
+						$permission = "no";
+					}
+				} else {
+					$log->debug("Enters when count =0");
+					$permission = 'no';
+				}
 			}
 		}
 		$log->debug("Permission @@@@@@@@@@@@@@@@@@@@@@@@@@@ : $permission");
