@@ -1198,7 +1198,6 @@
 <presence>0</presence>
 <actions>
 <action>ADD</action>
-<action>SELECT</action>
 </actions>
 <relatedmodule>Adocdetail</relatedmodule>
 </relatedlist>
