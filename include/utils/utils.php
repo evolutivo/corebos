@@ -4151,4 +4151,25 @@ function getMinimumCronFrequency() {
 	return GlobalVariable::getVariable('Application_Minimum_Cron_Frequency', 15);
 }
 
+function getUserId2_Ol($username)
+{
+	global $log;
+	$log->debug("Entering getUserId_Ol(".$username.") method ...");
+	$log->info("in getUserId_Ol ".$username);
+	global $adb;
+	$sql = "select id from vtiger_users where CONCAT(first_name,' ',last_name)=?";
+	$result = $adb->pquery($sql, array($username));
+	$num_rows = $adb->num_rows($result);
+	if($num_rows > 0)
+	{
+		$user_id = $adb->query_result($result,0,"id");
+		}
+	else
+	{
+		$user_id = 0;
+	}
+	$log->debug("Exiting getUserId_Ol method ...");
+	return $user_id;
+}
+
 ?>

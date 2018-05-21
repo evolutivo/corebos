@@ -9,19 +9,20 @@
  ************************************************************************************/
 
 $mod_strings = Array(
-'MODULE_NAME'=>'Blocchi Dinamici',
-'MODULE_LABEL'=>'Blocchi Dinamici',
-'DynamicBlocks'=>'Blocchi Dinamici',
-'CopyFilter'=>'PickList Dependencies',
- 'LBL_DEPENDENT'=>'Dipendente',
-'LBL_DEP'=>'Scegli una PickList Dependency',
- 'LBL_EDIT_BUTTON'=>'Modifica',
- 'LBL_PARENT'=>'Padre',
- 'LBL_VALUES'=>'Valori',
- 'LBL_DEL'=>'Elimina',
- 'LBL_SAVE'=>'Salva',
- 'LBL_CANCEL'=>'Cancella',
-  'NO_DEP'=>'Non vi è alcun legame tra queste picklists',
+'MODULE_NAME'=>'Filter Management',
+'MODULE_LABEL'=>'Filter Management',
+'FilterManagement'=>'Filter Management',
+'CopyFilter'=>'Filter Management',
+ 'LBL_DEPENDENT'=>'Dependent',
+'LBL_DEP'=>'Define a PickList Dependency',
+ 'LBL_EDIT_BUTTON'=>'Edit',
+ 'LBL_PARENT'=>'Parent',
+ 'LBL_VALUES'=>'Values',
+ 'LBL_DEL'=>'Delete',
+ 'LBL_SAVE'=>'Save',
+ 'LBL_CANCEL'=>'Cancel',
+ 'LBL_SELECT_USER'=>'Select User',
+ 'NO_DEP'=>'There is no dependency between these picklists',
 );
 
 ?>
