@@ -1793,4 +1793,11 @@
 	<classname>addNewReportTypeColumn</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add field to processflow</description>
+	<filename>build/changeSets/evolutivo/addfieldtoprocessflow.php</filename>
+	<classname>addfieldtoprocessflow</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
