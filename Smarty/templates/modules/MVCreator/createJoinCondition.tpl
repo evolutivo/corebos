@@ -51,8 +51,8 @@
     <center>
         <b>{$MOD.addjoin}</b>: <select name="usergroup" id="usergroup" style="width:30%"><option value="none">None</option><option value="user">User</option><option value="group">Group</option>
        </select><br><br><b>{$MOD.addCF}</b>: <select name="CFtables" id="cf" style="width:30%"><option value="none">None</option><option value="cf">CF</option></select>
-       <br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="OKK" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();">
-       <input class="crmbutton small cancel" type="button" name="cancelbutton" id="cancelbutton" value="Cancel" onclick="hidediv('userorgroup');">
+       <br><br><br><input class="crmbutton small edit" type="button" name="okbutton" id="okbutton" value="Ok" onclick="generateJoin();hidediv('userorgroup');openalertsJoin();">
+       <input class="crmbutton small cancel" type="button" name="cancelbutton" id="cancelbutton" value="{$MOD.cancel}" onclick="hidediv('userorgroup');">
     </center>
 </div>
    {*

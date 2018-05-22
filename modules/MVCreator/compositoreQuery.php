@@ -207,7 +207,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $selfld2=$selFieldload2[$i];
             else
             $selfld2=$selField2[$i];
-            $strQuery .= '<b> FROM </b>' . strtolower($selTab1[$i]) .' as '.strtolower($selTab1[$i]).'_0 join vtiger_crmentity CRM_'.strtolower($selTab1[$i]).'_0 on CRM_'.strtolower($selTab1[$i]).'_0.crmid='.strtolower($selTab1[$i]).'_0.'.$firsttblid.' <b>'.$qjoin.''.$qjoincf.' </b><b>INNER JOIN </b> '.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'_0.'. $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity CRM_'.strtolower($selTab2[$i]).'_'.$index.' on CRM_'.strtolower($selTab2[$i]).'_'.$index.'.crmid='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid.' <b>'.$q2join.''.$q2joincf.'</b>';
+            $strQuery .= '<b> FROM </b>' . strtolower($selTab1[$i]) .' as '.strtolower($selTab1[$i]).'_0 join vtiger_crmentity CRM_'.strtolower($selTab1[$i]).'_0 on CRM_'.strtolower($selTab1[$i]).'_0.crmid='.strtolower($selTab1[$i]).'_0.'.$firsttblid.' and CRM_'.strtolower($selTab1[$i]).'_0.deleted=0 <b>'.$qjoin.''.$qjoincf.' </b><b>INNER JOIN </b> '.$selTab2[$i].' <b> as </b> ' . strtolower($selTab2[$i]).'_'.$index. '<b> ON </b>' . strtolower($selTab1[$i]).'_0.'. $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity CRM_'.strtolower($selTab2[$i]).'_'.$index.' on CRM_'.strtolower($selTab2[$i]).'_'.$index.'.crmid='.strtolower($selTab2[$i]).'_'.$index.'.'.$secondtblid.' and CRM_'.strtolower($selTab2[$i]).'_'.$index.'.deleted=0 <b>'.$q2join.''.$q2joincf.'</b>';
          //  if(count($selTab1)==1)
            // $strQuery .= inerJoionwithCrmentity($Moduls,$stringaFields,$index,strtolower($selTab1[$i]));
 //             if (($selTab2[$i] == "vtiger_account" || $selTab1[$i] == "vtiger_account" ) && $acc == 0) {
@@ -262,7 +262,7 @@ function showJoinArray($selField1, $selField2, $nameView, $stringaFields, $selTa
             $selfld2=$selFieldload2[$i];
             else
             $selfld2=$selField2[$i];
-            $strQuery .= '<b> INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . $selTab2[$i].'_'.$index . '<b> ON </b>' . strtolower($selTab1[$i]).'_'.($index-1).'.' . $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity as CRM_'.$selTab2[$i].'_'.$index.' on CRM_'.$selTab2[$i].'_'.$index.'.crmid='.$selTab2[$i].'_'.$index.'.'.$secondtblid.'<b>'.$qjoin1.' '.$qjoin1cf.'</b>';
+            $strQuery .= '<b> INNER JOIN </b>'.$selTab2[$i].' <b> as </b> ' . $selTab2[$i].'_'.$index . '<b> ON </b>' . strtolower($selTab1[$i]).'_'.($index-1).'.' . $selfld1 . '<b> = </b>' . strtolower($selTab2[$i]).'_'.$index. '.'. $selfld2.' join vtiger_crmentity as CRM_'.$selTab2[$i].'_'.$index.' on CRM_'.$selTab2[$i].'_'.$index.'.crmid='.$selTab2[$i].'_'.$index.'.'.$secondtblid.' and CRM_'.$selTab2[$i].'_'.$index.'.deleted=0 <b>'.$qjoin1.' '.$qjoin1cf.'</b>';
             //$strQuery1 .= '<b> INNER JOIN </b>' . $selTab2[$i] . '<b> ON </b>' ;//. strtolower($selTab1[$i]) . '.' . $selField1[$i] . '<b> = </b>' . strtolower($selTab2[$i]) . '.' . $selField2[$i];
 //            if ($selTab2[$i] == "vtiger_account" && $acc == 0) {
 //                $strQuery .= '<b> INNER </b> join vtiger_accountbillads as vtiger_accountbillads_'.$index.' <b> ON </b> vtiger_account_'.$index.'.accountid=vtiger_accountbillads_'.$index.'.accountaddressid';
