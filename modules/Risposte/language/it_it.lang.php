@@ -9,24 +9,16 @@
  ************************************************************************************/
 
 $mod_strings = array(
-	'ServiceType' => 'Tipi di Servizi',
-        'SINGLE_ServiceType' => 'Tipo di Servizio',
-
-	// START LBL TRANSLATION
-	'LBL_SERVICETYPE_INFORMATION' => 'Informazioni Tipo di Servizio',
-        'cd_servicetype' => 'Codice',
-        'de_servicetype' => 'Descrizione',
-	// END LBL TRANSLATION
-
-	// START LBL TRANSLATION
+	'Risposte' => 'Risposte',
+        'SINGLE_Risposte' => 'Risposta',
+	'LBLRISPOSTE' => 'Informazioni Risposta',
 	'LBL_DESCRIPTION_INFORMATION' => 'Informazioni Descrizione',
-	// END LBL TRANSLATION
-
-	// START LBL TRANSLATION
 	'LBL_CUSTOM_INFORMATION' => 'Informazioni Personalizzate',
-	// END LBL TRANSLATION
-
-	// END LBL TRANSLATION
+        'Domanda' => 'Domanda',
+        'Risposta' => 'Risposta',
+        'Risposta No' => 'Numero risposta',
+        'Documento' => 'Documento',
+        'Validazione' => 'Validazione',
+        'Assigned to' => 'Assegnato a'	
 );
-
 ?>

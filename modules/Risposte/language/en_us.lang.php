@@ -9,21 +9,16 @@
  ************************************************************************************/
 
 $mod_strings = array(
-	'ServiceType' => 'ServiceType',
-
-	// START LBL TRANSLATION
-	'LBL_SERVICETYPE_INFORMATION' => 'SERVICETYPE',
-	// END LBL TRANSLATION
-
-	// START LBL TRANSLATION
-	'LBL_DESCRIPTION_INFORMATION' => 'DESCRIPTION',
-	// END LBL TRANSLATION
-
-	// START LBL TRANSLATION
-	'LBL_CUSTOM_INFORMATION' => 'CUSTOM',
-	// END LBL TRANSLATION
-
-	// END LBL TRANSLATION
-
+	'Risposte' => 'Answers',
+        'SINGLE_Risposte' => 'Answer',
+	'LBLRISPOSTE' => 'Answers Information',
+	'LBL_DESCRIPTION_INFORMATION' => 'Description Information',
+	'LBL_CUSTOM_INFORMATION' => 'Custom Information',
+        'Domanda' => 'Question',
+        'Risposta' => 'Answer',
+        'Risposta No' => 'Answer No',
+        'Documento' => 'Document',
+        'Validazione' => 'Validation',
+        'Assigned to' => 'Assigned to'	
 );
 ?>

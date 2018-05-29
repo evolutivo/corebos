@@ -43,7 +43,7 @@
 <fields>
 <field>
 <fieldname>rispostano</fieldname>
-<uitype>2</uitype>
+<uitype>4</uitype>
 <columnname>rispostano</columnname>
 <tablename>vtiger_risposte</tablename>
 <generatedtype>1</generatedtype>
@@ -337,10 +337,6 @@
 <field>
 <fieldname>domanda</fieldname>
 <columnindex>2</columnindex>
-</field>
-<field>
-<fieldname>inform</fieldname>
-<columnindex>3</columnindex>
 </field>
 </fields>
 </customview>
