@@ -438,8 +438,10 @@ class cbCalendar extends CRMEntity {
 
 	private function getRequestData($return_id) {
 		global $adb;
-		$cont_qry = "select contactid from vtiger_cntactivityrel where activityid=?";
-		$cont_res = $adb->pquery($cont_qry, array($return_id));
+		$cont_qry = 'select contactid from vtiger_cntactivityrel where activityid=?
+			UNION
+			select cto_id from vtiger_activity where activityid=?';
+		$cont_res = $adb->pquery($cont_qry, array($return_id, $return_id));
 		$noofrows = $adb->num_rows($cont_res);
 		$cont_id = array();
 		if ($noofrows > 0) {
@@ -983,7 +985,7 @@ class cbCalendar extends CRMEntity {
 	 * @param $activityid integer : activity id
 	 */
 	public static function changeStatus($status, $activityid) {
-		global $log, $$current_user;
+		global $log, $current_user;
 		$log->debug("Entering changeStatus($status, $activityid) method");
 		include_once 'include/Webservices/Revise.php';
 		$element = array(

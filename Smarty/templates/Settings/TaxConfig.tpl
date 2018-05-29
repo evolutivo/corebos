@@ -27,7 +27,6 @@
 							{assign var=shformname value='SHListTax'}
 						{/if}
 
-
 						<!-- This table is used to display the Tax Configuration values-->
 						<table class="slds-table slds-no-row-hover slds-table--cell-buffer slds-table-moz" style="background-color: #f7f9fb;">
 							<tr class="slds-text-title--caps">

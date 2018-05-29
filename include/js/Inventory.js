@@ -163,12 +163,12 @@ function deleteRow(module,i,image_path) {
 	oCurRow = eval(document.getElementById("row"+i));
 	sTemp = oCurRow.cells[0].innerHTML;
 	ibFound = sTemp.indexOf("down_layout.gif");
-
+	var prevLineItemId = document.getElementById('lineitem_id'+iPrevCount) == undefined ? '' : document.getElementById('lineitem_id'+iPrevCount).value;
 	if(i != 2 && ibFound == -1 && iPrevCount != 1) {
 		oPrevRow = eval(document.getElementById("row"+iPrevCount));
 			
 		iPrevCount = eval(iPrevCount);
-		oPrevRow.cells[0].innerHTML = '<img src="themes/softed/images/delete.gif" border="0" onclick="deleteRow(\''+module+'\','+iPrevCount+')" style="cursor:pointer;" title="'+alert_arr.LBL_DELETE_EMAIL+'"><input id="deleted'+iPrevCount+'" name="deleted'+iPrevCount+'" type="hidden" value="0">&nbsp;<a href="javascript:moveUpDown(\'UP\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveUp+'"><img src="themes/images/up_layout.gif" border="0"></a>';
+		oPrevRow.cells[0].innerHTML = '<img src="themes/softed/images/delete.gif" border="0" onclick="deleteRow(\''+module+'\','+iPrevCount+')" style="cursor:pointer;" title="'+alert_arr.LBL_DELETE_EMAIL+'"><input id="deleted'+iPrevCount+'" name="deleted'+iPrevCount+'" type="hidden" value="0"><input id="lineitem_id'+iPrevCount+'" name="lineitem_id'+iPrevCount+'" value="'+prevLineItemId+'" type="hidden">&nbsp;<a href="javascript:moveUpDown(\'UP\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveUp+'"><img src="themes/images/up_layout.gif" border="0"></a>';
 	} else if(iPrevCount == 1) 	{
 		iSwapIndex = i;
 		for(iCount=i;iCount<=iMax-2;iCount++) {
@@ -180,7 +180,7 @@ function deleteRow(module,i,image_path) {
 		if(iSwapIndex == i) {
 			oPrevRow = eval(document.getElementById("row"+iPrevCount));
 			iPrevCount = eval(iPrevCount);
-			oPrevRow.cells[0].innerHTML = '<input type="hidden" id="deleted1" name="deleted1" value="0">&nbsp;';
+			oPrevRow.cells[0].innerHTML = '<input type="hidden" id="deleted1" name="deleted1" value="0"><input id="lineitem_id'+iPrevCount+'" name="lineitem_id'+iPrevCount+'" value="'+prevLineItemId+'" type="hidden">&nbsp;';
 		}
 	}
 	// Product reordering addition ends
@@ -642,13 +642,15 @@ function fnAddProductRow(module,image_path){
 	colone.id = row.id+"_col1";
 	colone.innerHTML='<img src="themes/softed/images/delete.gif" border="0" onclick="deleteRow(\''+module+'\','+count+',\'themes/images/\')" style="cursor:pointer;" title="'+alert_arr.LBL_DELETE_EMAIL+'"><input id="deleted'+count+'" name="deleted'+count+'" type="hidden" value="0"><br/><br/>&nbsp;<a href="javascript:moveUpDown(\'UP\',\''+module+'\','+count+')" title="'+alert_arr.MoveUp+'"><img src="themes/images/up_layout.gif" border="0"></a>';
 	/* Product Re-Ordering Feature Code Addition Starts */
+	var prevLineItemId = document.getElementById('lineitem_id'+iPrevCount) == undefined ? '' : document.getElementById('lineitem_id'+iPrevCount).value;
+
 	if(iPrevCount != 1)
 	{
-		oPrevRow.cells[0].innerHTML = '<img src="themes/softed/images/delete.gif" border="0" onclick="deleteRow(\''+module+'\','+iPrevCount+')" style="cursor:pointer;" title="'+alert_arr.LBL_DELETE_EMAIL+'"><input id="deleted'+iPrevCount+'" name="deleted'+iPrevCount+'" type="hidden" value="0"><br/><br/>&nbsp;<a href="javascript:moveUpDown(\'UP\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveUp+'"><img src="themes/images/up_layout.gif" border="0"></a>&nbsp;&nbsp;<a href="javascript:moveUpDown(\'DOWN\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveDown+'"><img src="themes/images/down_layout.gif" border="0"></a>';
+		oPrevRow.cells[0].innerHTML = '<img src="themes/softed/images/delete.gif" border="0" onclick="deleteRow(\''+module+'\','+iPrevCount+')" style="cursor:pointer;" title="'+alert_arr.LBL_DELETE_EMAIL+'"><input id="deleted'+iPrevCount+'" name="deleted'+iPrevCount+'" type="hidden" value="0"><input id="lineitem_id'+iPrevCount+'" name="lineitem_id'+iPrevCount+'" value="'+prevLineItemId+'" type="hidden"><br/><br/>&nbsp;<a href="javascript:moveUpDown(\'UP\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveUp+'"><img src="themes/images/up_layout.gif" border="0"></a>&nbsp;&nbsp;<a href="javascript:moveUpDown(\'DOWN\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveDown+'"><img src="themes/images/down_layout.gif" border="0"></a><input id=';
 	}
 	else
 	{
-		oPrevRow.cells[0].innerHTML = '<input id="deleted'+iPrevCount+'" name="deleted'+iPrevCount+'" type="hidden" value="0"><br/><br/><a href="javascript:moveUpDown(\'DOWN\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveDown+'"><img src="themes/images/down_layout.gif" border="0"></a>';
+		oPrevRow.cells[0].innerHTML = '<input id="deleted'+iPrevCount+'" name="deleted'+iPrevCount+'" type="hidden" value="0"><input id="lineitem_id'+iPrevCount+'" name="lineitem_id'+iPrevCount+'" value="'+prevLineItemId+'" type="hidden"><br/><br/><a href="javascript:moveUpDown(\'DOWN\',\''+module+'\','+iPrevCount+')" title="'+alert_arr.MoveDown+'"><img src="themes/images/down_layout.gif" border="0"></a>';
 	}
 	/* Product Re-Ordering Feature Code Addition ends */
 
@@ -1059,7 +1061,7 @@ function resetSHandAdjValues() {
  */
 function moveUpDown(sType,oModule,iIndex)
 {
-	var aFieldIds = Array('hidtax_row_no','productName','subproduct_ids','hdnProductId','comment','qty','listPrice','discount_type','discount_percentage','discount_amount','tax1_percentage','hidden_tax1_percentage','popup_tax_row','tax2_percentage','hidden_tax2_percentage','lineItemType');
+	var aFieldIds = Array('hidtax_row_no','productName','subproduct_ids','hdnProductId','comment','qty','listPrice','discount_type','discount_percentage','discount_amount','tax1_percentage','hidden_tax1_percentage','popup_tax_row','tax2_percentage','hidden_tax2_percentage','lineItemType','lineitem_id');
 	var aFieldIds = aFieldIds.concat(moreInfoFields);
 	var aContentIds = Array('qtyInStock','netPrice','subprod_names');
 	var aOnClickHandlerIds = Array('searchIcon');

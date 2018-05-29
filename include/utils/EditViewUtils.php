@@ -56,6 +56,9 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		}
 
 		if (!empty($value)) {
+			if (strpos($value, 'x')) {
+				list($wsid, $value) = explode('x', $value);
+			}
 			if ($adb->num_rows($fldmod_result)==1) {
 				$valueType = $adb->query_result($fldmod_result, 0, 0);
 			} else {
@@ -1078,7 +1081,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$value = vtlib_purify($_REQUEST['vendor_id']);
 			$vendor_name = getVendorName($value);
 		} else {
-			$value = 0;
+			$value = '';
 			$vendor_name = '';
 		}
 		$pop_type = 'specific';
@@ -1622,11 +1625,18 @@ function getAssociatedProducts($module,$focus,$seid='')
 			WHERE vtiger_crmentity.deleted=0";
 			$params = array($seid, $seid, $seid, $seid);
 	}
-
-	$cbMap = cbMap::getMapByName($module.'InventoryDetails','MasterDetailLayout');
-	$MDMapFound = ($cbMap!=null);
-	if ($MDMapFound) {
-		$cbMapFields = $cbMap->MasterDetailLayout();
+	if ($module != $currentModule && in_array($currentModule, getInventoryModules())) {
+		$cbMap = cbMap::getMapByName($currentModule.'InventoryDetails','MasterDetailLayout');
+		$MDMapFound = ($cbMap!=null);
+		if ($MDMapFound) {
+			$cbMapFields = $cbMap->MasterDetailLayout();
+		}
+	} else {
+		$cbMap = cbMap::getMapByName($module.'InventoryDetails','MasterDetailLayout');
+		$MDMapFound = ($cbMap!=null);
+		if ($MDMapFound) {
+			$cbMapFields = $cbMap->MasterDetailLayout();
+		}
 	}
 
 	$result = $adb->pquery($query, $params);

@@ -6,19 +6,14 @@
    * The Initial Developer of the Original Code is vtiger.
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
-  *
  ********************************************************************************/
 -->*}
-
 <script type="text/javascript" src="include/js/smoothscroll.js"></script>
 <script>
 function ifselected()
 {ldelim}
-  
-      
-      var sel =document.massdelete.selected_id.length;
-      var returnval=false;
-      
+     var sel =document.massdelete.selected_id.length;
+     var returnval=false;
      for(i=0; i < sel; i++)
      {ldelim}
      
@@ -29,8 +24,6 @@ function ifselected()
         {rdelim}
         
       {rdelim}
-      
-      
           if(returnval==true)
            {ldelim}
                document.getElementById("myProfile").style.display="none";
@@ -41,7 +34,6 @@ function ifselected()
           {rdelim}
     	
 {rdelim}
-
 
 function massDelete()
 {ldelim}
@@ -55,8 +47,6 @@ function massDelete()
                 if (document.massdelete.selected_id.checked)
                {ldelim}
                         document.massdelete.idlist.value=document.massdelete.selected_id.value+';';
-                          
-                        
 			xx=1;
                 {rdelim}
                 else
@@ -95,7 +85,6 @@ function massDelete()
 		{ldelim}
 			return false;
 		{rdelim}
-
 {rdelim}
 </script>
 <br>
