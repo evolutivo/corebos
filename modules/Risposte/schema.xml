@@ -1,0 +1,32 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_risposte</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_risposte` (
+  `risposteid` int(11) NOT NULL AUTO_INCREMENT,
+  `rispostano` varchar(255) DEFAULT NULL,
+  `domanda` varchar(100) DEFAULT NULL,
+  `risposta` varchar(100) DEFAULT NULL,
+  `documento` varchar(100) DEFAULT NULL,
+  `inform` varchar(250) DEFAULT NULL,
+  `valid` varchar(250) DEFAULT '',
+  `iriscode` varchar(250) DEFAULT '',
+  `esitoparte` varchar(250) DEFAULT '',
+  `permessicat` varchar(250) DEFAULT '',
+  `project` int(10) DEFAULT NULL,
+  UNIQUE KEY `risposteid` (`risposteid`),
+  KEY `domanda` (`domanda`),
+  KEY `project` (`project`),
+  KEY `documento` (`documento`)
+) ENGINE=InnoDB AUTO_INCREMENT=37467828 DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_rispostecf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_rispostecf` (
+  `risposteid` int(11) NOT NULL,
+  KEY `risposteid` (`risposteid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1]]></sql>
+		</table>
+	</tables>
+</schema>

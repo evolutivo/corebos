@@ -1800,4 +1800,25 @@
 	<classname>addfieldtoprocessflow</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add module preguntas</description>
+	<filename>build/changeSets/evolutivo/addpreguntas.php</filename>
+	<classname>addpreguntas</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add module cuestionario</description>
+	<filename>build/changeSets/evolutivo/addcuestionario.php</filename>
+	<classname>addcuestionario</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
+<changeSet>
+	<author>loridacito</author>
+	<description>Add module risposte</description>
+	<filename>build/changeSets/evolutivo/addrisposte.php</filename>
+	<classname>addrisposte</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>

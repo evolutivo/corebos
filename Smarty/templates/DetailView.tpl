@@ -834,6 +834,13 @@
 														{/if}
 													</td>
 												</tr>
+                                                                                                {if $MODULE eq 'Cuestionario' && $header eq $MOD.LBL_DESCRIPTION_INFORMATION}
+                                                                                                    <tr>
+                                                                                                    <td>
+                                                                                                            {include file="modules/Cuestionario/PreguntaDetailsView.tpl"}
+                                                                                                    </td>
+                                                                                                    </tr>
+                                                                                                {/if}
 											</table>
 										</div>
 									</td>

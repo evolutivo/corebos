@@ -1,0 +1,54 @@
+EJECUTAR CUESTIONARIO
+======================
+
+Tenemos una estructura de Cuestionario con muchas preguntas
+Un cuestonario tiene un nombre, una nota, una descripción y poco más
+Una pregunta tiene 
+  - una pregunta
+  - una categoria y subcategoria
+  - una respuesta afirmativa (repuesta por defecto)
+  - una respuesta negativa (repuesta por defecto)
+  - una puntuación afirmativa y otra negativa
+
+La tabla vtiger_cuestionario tiene los cuestionarios y la tabla vtiger_preguntas las preguntas.
+La tabla vtiger_cuestiones tiene la relación entre cuestionarios y preguntas ya que una misma pregunta puede aparecer en más de un cuestionario.
+
+Cuando se ejecuta un cuestionario guardaremos las respuestas y el estado de cada pregunta (respondida o no) en la tabla pregunta_revision. Esta tabla contiene:
+  - la pregunta, puntuación afirmativa y negativa, categoria y subcategoria para mantener un histórico
+  - respuesta introducida (texto completo)
+  - respuestaid (Si|No|NoA|Text)
+  - respondido (true o false)
+
+La idea es crear una página web capaz de ejecutar el cuestionario y recoger las respuestas del entrevistador.
+
+Las preguntas se tienen que agrupar por categoria y subcategoria sin perder orden. O sea, se obtienen todas las preguntas ordenadas por categoria, subcategoria y cuestionesid. Se presenta en este orden en pantalla.
+
+Debemos ser capaces de plegar y desplegar el cuestionario. O sea, debe ser una estructura de árbol o similar que nos permita "esconder" todas las preguntas de una categoria/subcategoria. Deberían haber opciones de desplegar todo y recoger todo.
+
+Estoy pensando en algo como dojo tree widget (http://dojocampus.org/explorer/#Dijit_Tree_With%20Popup%20Menu) pero cualquier cosa similar es igualmente válida.
+
+Al llegar a un pregunta hemos de poder asociar un texto a cada pregunta.
+Se verán 4 respuestas (todas tienen 4 respuestas)
+  -si
+  -no
+  -no aplicable
+  -personalizado
+
+Al hacer clic sobre sí o no se copia la respuesta por defecto de la pregunta a la caja de texto asociado para ser editado
+No aplicable y Persionalizado dejan el texto como está.
+Sería interesante que la caja de texto estuviera escondido por defecto y se mostrara el texto al hacer hover sobre la pregunta y fuera necesario hacer un clic sobre la pregunta (o similar) para acceder al texto (la gran mayoría de las respuestas serán si o no)
+
+Según la opción sobre la que se hace clic hay que actualizar el campo respuestaid con los valores: Sí|No|NoA|Text
+
+Quisiera tener una confirmación visual del estado de la pregunta, respondida o no. Por ejemplo, una imagen asociada a cada pregunta del tipo check/pending.
+
+
+
+
+
+__________ Información de ESET NOD32 Antivirus, versión de la base de firmas de virus 4472 (20091001) __________
+
+ESET NOD32 Antivirus ha comprobado este mensaje.
+
+http://www.eset.com
+

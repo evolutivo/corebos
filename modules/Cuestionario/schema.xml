@@ -1,0 +1,42 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_cuestionario</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_cuestionario` (
+  `cuestionarioid` int(11) NOT NULL DEFAULT '0',
+  `name` varchar(100) DEFAULT NULL,
+  `estadocuestionario` varchar(100) DEFAULT NULL,
+  `note` float DEFAULT NULL,
+  `description` varchar(256) DEFAULT NULL,
+  `document_id` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`cuestionarioid`),
+  KEY `name_idx` (`name`),
+  KEY `estadocuestionario_idx` (`estadocuestionario`),
+  KEY `document_id_idx` (`document_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_cuestionariocf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_cuestionariocf` (
+  `cuestionarioid` int(11) NOT NULL,
+  PRIMARY KEY (`cuestionarioid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_cuestiones</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_cuestiones` (
+  `cuestionesid` int(19) NOT NULL AUTO_INCREMENT,
+  `cuestionarioid` int(19) NOT NULL,
+  `pregunta` text,
+  `categoria` varchar(250) NOT NULL,
+  `subcategoria` varchar(250) NOT NULL,
+  `yes_points` float NOT NULL,
+  `no_points` float NOT NULL,
+  `preguntasid` int(11) NOT NULL,
+  PRIMARY KEY (`cuestionesid`),
+  KEY `cuestionarioid` (`cuestionarioid`)
+) ENGINE=InnoDB AUTO_INCREMENT=2597 DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>

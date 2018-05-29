@@ -1,0 +1,464 @@
+<?xml version='1.0'?>
+<module>
+<name>Preguntas</name>
+<label>Preguntas</label>
+<parent>Tools</parent>
+<dependencies>
+<vtiger_version>5.4.0</vtiger_version>
+<vtiger_max_version>5.*</vtiger_max_version>
+</dependencies>
+<license>
+<inline><![CDATA[/*************************************************************************************************
+ * Copyright 2016 AT CONSULTING -- This file is a part of TSOLUCIO coreBOS customizations.
+ * You can copy, adapt and distribute the work under the "Attribution-NonCommercial-ShareAlike"
+ * Vizsage Public License (the "License"). You may not use this file except in compliance with the
+ * License. Roughly speaking, non-commercial users may share and modify this code, but must give credit
+ * and share improvements. However, for proper details please read the full License, available at
+ * http://vizsage.com/license/Vizsage-License-BY-NC-SA.html and the handy reference for understanding
+ * the full license at http://vizsage.com/license/Vizsage-Deed-BY-NC-SA.html. Unless required by
+ * applicable law or agreed to in writing, any software distributed under the License is distributed
+ * on an  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and limitations under the
+ * License terms of Creative Commons Attribution-NonCommercial-ShareAlike 3.0 (the License).
+ *************************************************************************************************
+ *  Module       : Preguntas
+ *  Version      : 5.4.0
+ *  Author       : AT CONSULTING
+ *************************************************************************************************/
+]]></inline>
+</license>
+<tables>
+<table>
+<name>vtiger_preguntas</name>
+<sql><![CDATA[CREATE TABLE `vtiger_preguntas` (
+  `preguntasid` int(11) NOT NULL,
+  `preguntas_no` varchar(56) default NULL,
+  `question` text,
+  `categoriapregunta` varchar(200) DEFAULT NULL,
+  `subcategoriapregunta` varchar(200) DEFAULT NULL,
+  `estadopregunta` varchar(100) DEFAULT NULL,
+  `yes` text,
+  `no` text,
+  `yes_points` float DEFAULT NULL,
+  `no_points` float DEFAULT NULL,
+  `description` text,
+  `nivel_pregunta` varchar(50) DEFAULT NULL,
+  `filedoc` varchar(250) DEFAULT NULL,
+  `tipodomanda` varchar(250) NOT NULL,
+  `workflowtype` varchar(255) DEFAULT '',
+  `link_bussness_rule` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`preguntasid`),
+  KEY `estadopregunta_idx` (`estadopregunta`),
+  KEY `nivel_pregunta_idx` (`nivel_pregunta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+</table>
+<table>
+<name>vtiger_preguntascf</name>
+<sql><![CDATA[CREATE TABLE `vtiger_preguntascf` (
+  `preguntasid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1]]></sql>
+</table>
+</tables>
+<blocks>
+<block>
+<label>LBL_PREGUNTAS_INFORMATION</label>
+<fields>
+<field>
+<fieldname>preguntas_no</fieldname>
+<uitype>4</uitype>
+<columnname>preguntas_no</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>preguntas_no</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<selected>0</selected>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>0</quickcreate>
+<quickcreatesequence>0</quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<entityidentifier>
+<entityidfield>preguntasid</entityidfield>
+<entityidcolumn>preguntasid</entityidcolumn>
+</entityidentifier>
+</field>
+<field>
+<fieldname>yes</fieldname>
+<uitype>19</uitype>
+<columnname>yes</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Yes</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>5</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>no</fieldname>
+<uitype>19</uitype>
+<columnname>no</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>No</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>3</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>yes_points</fieldname>
+<uitype>7</uitype>
+<columnname>yes_points</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Yes Points</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>4</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>NN~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>no_points</fieldname>
+<uitype>7</uitype>
+<columnname>no_points</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>No points</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>2</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>NN~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>estadopregunta</fieldname>
+<uitype>15</uitype>
+<columnname>estadopregunta</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Estado</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>8</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>NN~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<picklistvalues>
+<picklistvalue>--Nessuno--</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>question</fieldname>
+<uitype>20</uitype>
+<columnname>question</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Question</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<entityidentifier>
+<entityidfield>preguntasid</entityidfield>
+<entityidcolumn>preguntasid</entityidcolumn>
+</entityidentifier>
+</field>
+<field>
+<fieldname>filedoc</fieldname>
+<uitype>10</uitype>
+<columnname>filedoc</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Documento</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>13</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<relatedmodules>
+<relatedmodule>Documents</relatedmodule>
+</relatedmodules>
+</field>
+<field>
+<fieldname>createdtime</fieldname>
+<uitype>70</uitype>
+<columnname>createdtime</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Created Time</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>DT~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>modifiedtime</fieldname>
+<uitype>70</uitype>
+<columnname>modifiedtime</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Modified Time</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>DT~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>assigned_user_id</fieldname>
+<uitype>53</uitype>
+<columnname>smownerid</columnname>
+<tablename>vtiger_crmentity</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Assigned to</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~M</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+<field>
+<fieldname>nivel_pregunta</fieldname>
+<uitype>15</uitype>
+<columnname>nivel_pregunta</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Nivel</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>12</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<picklistvalues>
+<picklistvalue>--Nessuno--</picklistvalue>
+</picklistvalues>
+</field>
+<field>
+<fieldname>link_bussness_rule</fieldname>
+<uitype>10</uitype>
+<columnname>link_bussness_rule</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Link to Bussines Rule</fieldlabel>
+<readonly>1</readonly>
+<presence>2</presence>
+<defaultvalue></defaultvalue>
+<sequence>14</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<relatedmodules>
+<relatedmodule>BusinessRules</relatedmodule>
+</relatedmodules>
+</field>
+</fields>
+</block>
+<block>
+<label>LBL_CUSTOM_INFORMATION</label>
+<fields>
+<field>
+<fieldname>workflowtype</fieldname>
+<uitype>15</uitype>
+<columnname>workflowtype</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Workflow type</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+<picklistvalues>
+<picklistvalue>--Nessuno--</picklistvalue>
+<picklistvalue>Find previous praticaid</picklistvalue>
+<picklistvalue>Check praticaid</picklistvalue>
+</picklistvalues>
+</field>
+</fields>
+</block>
+<block>
+<label>LBL_DESCRIPTION_INFORMATION</label>
+<fields>
+<field>
+<fieldname>description</fieldname>
+<uitype>19</uitype>
+<columnname>description</columnname>
+<tablename>vtiger_preguntas</tablename>
+<generatedtype>1</generatedtype>
+<fieldlabel>Description</fieldlabel>
+<readonly>1</readonly>
+<presence>0</presence>
+<defaultvalue></defaultvalue>
+<sequence>1</sequence>
+<maximumlength>100</maximumlength>
+<typeofdata>V~O</typeofdata>
+<quickcreate>1</quickcreate>
+<quickcreatesequence></quickcreatesequence>
+<displaytype>1</displaytype>
+<info_type>BAS</info_type>
+<helpinfo><![CDATA[]]></helpinfo>
+<masseditable>1</masseditable>
+</field>
+</fields>
+</block>
+</blocks>
+<customviews>
+<customview>
+<viewname>ALL</viewname>
+<setdefault>true</setdefault>
+<setmetrics>false</setmetrics>
+<fields>
+<field>
+<fieldname>question</fieldname>
+<columnindex>0</columnindex>
+</field>
+<field>
+<fieldname>filedoc</fieldname>
+<columnindex>1</columnindex>
+</field>
+<field>
+<fieldname>nivel_pregunta</fieldname>
+<columnindex>2</columnindex>
+</field>
+<field>
+<fieldname>estadopregunta</fieldname>
+<columnindex>3</columnindex>
+</field>
+<field>
+<fieldname>yes_points</fieldname>
+<columnindex>4</columnindex>
+</field>
+<field>
+<fieldname>no_points</fieldname>
+<columnindex>5</columnindex>
+</field>
+<field>
+<fieldname>workflowtype</fieldname>
+<columnindex>6</columnindex>
+</field>
+</fields>
+</customview>
+</customviews>
+<sharingaccess>
+<default>private</default>
+</sharingaccess>
+<actions>
+<action>
+<name><![CDATA[Merge]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[Import]]></name>
+<status>enabled</status>
+</action>
+<action>
+<name><![CDATA[Export]]></name>
+<status>enabled</status>
+</action>
+</actions>
+<relatedlists>
+</relatedlists>
+<customlinks>
+</customlinks>
+<crons>
+</crons>
+</module>

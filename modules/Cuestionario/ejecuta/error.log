@@ -1,0 +1,1281 @@
+[20-Nov-2009 10:56:55] Excepcion no capturada en Sistema: \nPDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 10:56:55] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+PDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:03:46] Excepcion no capturada en Sistema: \nPDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:03:46] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+PDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:09:52] Excepcion no capturada en Sistema: \nPDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:09:52] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+PDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:10:18] Excepcion no capturada en Sistema: \nPDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:10:18] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+PDOException Object
+(
+    [message:protected] => SQLSTATE[42S22]: Column not found: 1054 Unknown column 'c.preguntasid' in 'on clause'
+    [string:private] => 
+    [code:protected] => 42S22
+    [file:protected] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+    [line:protected] => 70
+    [trace:private] => Array
+        (
+            [0] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/db/CuestionarioDAO.class.php
+                    [line] => 70
+                    [function] => execute
+                    [class] => PDOStatement
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [0] => 15721
+                                )
+
+                        )
+
+                )
+
+            [1] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 50
+                    [function] => getPreguntasCuestionario
+                    [class] => CuestionarioDAO
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+            [2] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 24
+                    [function] => getPreguntasCuestionario
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                        )
+
+                )
+
+            [3] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Cuestionario.class.php
+                    [line] => 41
+                    [function] => __construct
+                    [class] => Cuestionario
+                    [type] => ->
+                    [args] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [cuestionarioid] => 15721
+                                    [0] => 15721
+                                    [name] => Cuestionario prova
+                                    [1] => Cuestionario prova
+                                    [estadocuestionario] => Vigente
+                                    [2] => Vigente
+                                    [note] => 5
+                                    [3] => 5
+                                    [description] => 
+                                    [4] => 
+                                    [document_id] => 13625
+                                    [5] => 13625
+                                )
+
+                        )
+
+                )
+
+            [4] => Array
+                (
+                    [file] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+                    [line] => 48
+                    [function] => getCuestionario
+                    [class] => Cuestionario
+                    [type] => ::
+                    [args] => Array
+                        (
+                            [0] => 15721
+                        )
+
+                )
+
+        )
+
+    [errorInfo] => Array
+        (
+            [0] => 42S22
+            [1] => 1054
+            [2] => Unknown column 'c.preguntasid' in 'on clause'
+        )
+
+)
+
+[20-Nov-2009 11:25:24] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[20-Nov-2009 11:55:33] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[23-Nov-2009 12:37:52] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[23-Nov-2009 12:38:03] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[24-Nov-2009 11:51:43] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[24-Nov-2009 11:52:50] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[24-Nov-2009 11:57:43] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(modules/Revision/Revision.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+    [Nro. L�nea] => 37
+)
+
+[24-Nov-2009 11:57:43] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+require_once(modules/Revision/Revision.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(modules/Revision/Revision.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+    [Nro. L�nea] => 37
+)
+
+[24-Nov-2009 11:59:08] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(/modules/Revision/Revision.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+    [Nro. L�nea] => 37
+)
+
+[24-Nov-2009 11:59:08] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+require_once(/modules/Revision/Revision.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(/modules/Revision/Revision.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php
+    [Nro. L�nea] => 37
+)
+
+[24-Nov-2009 11:59:35] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(data/CRMEntity.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Revision/Revision.php
+    [Nro. L�nea] => 10
+)
+
+[24-Nov-2009 11:59:35] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+require_once(data/CRMEntity.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(data/CRMEntity.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Revision/Revision.php
+    [Nro. L�nea] => 10
+)
+
+[24-Nov-2009 12:24:41] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(data/CRMEntity.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Revision/Revision.php
+    [Nro. L�nea] => 10
+)
+
+[24-Nov-2009 12:24:41] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+require_once(data/CRMEntity.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => require_once(data/CRMEntity.php) [<a href='function.require-once'>function.require-once</a>]: failed to open stream: No such file or directory
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Revision/Revision.php
+    [Nro. L�nea] => 10
+)
+
+[24-Nov-2009 12:33:25] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/index.php: 
+La revisión requerida no existe
+
+[24-Nov-2009 15:08:07] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => Invalid argument supplied for foreach()
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Pregunta.class.php
+    [Nro. L�nea] => 19
+)
+
+[24-Nov-2009 15:08:07] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/ajax/formularioajax.php: 
+APP_MENSAJE_ERROR
+
+Invalid argument supplied for foreach()
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => Invalid argument supplied for foreach()
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Pregunta.class.php
+    [Nro. L�nea] => 19
+)
+
+[24-Nov-2009 15:08:18] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => Invalid argument supplied for foreach()
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Pregunta.class.php
+    [Nro. L�nea] => 19
+)
+
+[24-Nov-2009 15:08:18] Error en /var/www/vtiger/prodat/modules/Cuestionario/ejecuta/ajax/formularioajax.php: 
+APP_MENSAJE_ERROR
+
+Invalid argument supplied for foreach()
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => Invalid argument supplied for foreach()
+    [Archivo Disparador] => /home/www/vtiger/prodat/modules/Cuestionario/ejecuta/classes/Pregunta.class.php
+    [Nro. L�nea] => 19
+)
+
+[16-Jul-2012 20:37:44] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[16-Jul-2012 20:37:44] Error en /var/www/migrate540/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[16-Jul-2012 20:38:58] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[16-Jul-2012 20:38:58] Error en /var/www/migrate540/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[19-Jul-2012 17:58:53] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[19-Jul-2012 17:58:53] Error en /var/www/migrate540/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[19-Jul-2012 18:02:19] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[19-Jul-2012 18:02:19] Error en /var/www/migrate540/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/migrate540/config.inc.php
+    [Nro. L�nea] => 209
+)
+
+[19-Jul-2012 18:05:09] Error en /var/www/migrate540/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario requerido no existe
+
+[20-Jul-2012 10:01:39] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/gendoc/config.inc.php
+    [Nro. L�nea] => 207
+)
+
+[20-Jul-2012 10:01:39] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/gendoc/config.inc.php
+    [Nro. L�nea] => 207
+)
+
+[20-Jul-2012 10:02:20] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[20-Jul-2012 10:15:22] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[20-Jul-2012 10:24:40] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[20-Jul-2012 10:24:59] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[10-Aug-2012 12:12:19] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[10-Aug-2012 12:12:40] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[10-Aug-2012 12:12:55] Error en /var/www/gendoc/modules/Cuestionario/ejecuta/index.php: 
+El cuestionario no se encuentra vigente para responder
+
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:32] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:47] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:47] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:49] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:49] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:50] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:14:50] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:15:01] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:15:01] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[10-Aug-2012 12:20:41] PHP Notice:  Use of undefined constant APP_MENSAJE_ERROR - assumed 'APP_MENSAJE_ERROR' in /var/www/gendoc/modules/Cuestionario/ejecuta/global.inc.php on line 30
+[02-May-2013 22:57:02] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/html/teknema/config.inc.php
+    [Nro. L�nea] => 215
+)
+
+[02-May-2013 22:57:02] Error en /var/www/html/teknema/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/html/teknema/config.inc.php
+    [Nro. L�nea] => 215
+)
+
+[22-May-2013 14:11:23] Error en Sistema: \nArray
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/html/teknema/config.inc.php
+    [Nro. L�nea] => 215
+)
+
+[22-May-2013 14:11:23] Error en /var/www/html/teknema/modules/Cuestionario/ejecuta/index.php: 
+APP_MENSAJE_ERROR
+
+include(config-dev.inc.php): failed to open stream: No such file or directory
+Array
+(
+    [Tipo de Error] => 2
+    [Mensaje del Error] => include(config-dev.inc.php): failed to open stream: No such file or directory
+    [Archivo Disparador] => /var/www/html/teknema/config.inc.php
+    [Nro. L�nea] => 215
+)
+

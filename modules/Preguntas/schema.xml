@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<schema>
+	<tables>
+		<table>
+			<name>vtiger_preguntas</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_preguntas` (
+  `preguntasid` int(11) NOT NULL DEFAULT '0',
+  `question` text,
+  `categoriapregunta` varchar(200) DEFAULT NULL,
+  `subcategoriapregunta` varchar(200) DEFAULT NULL,
+  `estadopregunta` varchar(100) DEFAULT NULL,
+  `yes` text,
+  `no` text,
+  `yes_points` float DEFAULT NULL,
+  `no_points` float DEFAULT NULL,
+  `description` text,
+  `nivel_pregunta` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`preguntasid`),
+  KEY `estadopregunta_idx` (`estadopregunta`),
+  KEY `nivel_pregunta_idx` (`nivel_pregunta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+		<table>
+			<name>vtiger_preguntascf</name>
+			<sql><![CDATA[CREATE TABLE `vtiger_preguntascf` (
+  `preguntasid` int(11) NOT NULL,
+  PRIMARY KEY (`preguntasid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+		</table>
+	</tables>
+</schema>
