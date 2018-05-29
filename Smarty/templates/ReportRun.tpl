@@ -111,7 +111,6 @@
 						</td>
 					</tr>
 				</table>
-
 				<table class="small reportGenHdr mailClient report-table-icons" align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 						<td align="right" valign="bottom" style="padding:5px">

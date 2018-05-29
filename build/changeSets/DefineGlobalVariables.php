@@ -181,6 +181,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Report_MaxRelated_Modules',
 
 				'Inventory_ListPrice_ReadOnly',
+				'Inventory_Show_ShippingHandlingCharges',
 				'GContacts_Max_Results',
                                 'crm_protocol',
 

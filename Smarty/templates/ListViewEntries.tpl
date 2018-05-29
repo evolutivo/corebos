@@ -241,7 +241,6 @@
 					</table>
 	 			</div>
 				<!-- =====================END LIGHITNG DESGIN LIST VIEW =========== -->
-
 				<!-- bottom button list -->
 				<table border=0 cellspacing=0 cellpadding=2 width=100%>
 					<tr>

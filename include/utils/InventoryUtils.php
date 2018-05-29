@@ -241,6 +241,9 @@ function getAllTaxes($available = 'all', $sh = '', $mode = '', $id = '') {
 			$taxtypes[$i]['taxlabel'] = html_entity_decode($adb->query_result($res, $i, 'taxlabel'), ENT_QUOTES, $default_charset);
 			$taxtypes[$i]['percentage'] = $adb->query_result($res, $i, 'percentage');
 			$taxtypes[$i]['deleted'] = $adb->query_result($res, $i, 'deleted');
+			if ($sh == '') {
+				$taxtypes[$i]['retention'] = $adb->query_result($res, $i, 'retention');
+			}
 		}
 	} // corebos tax calculation
 	$log->debug("Exit from the function getAllTaxes($available,$sh,$mode,$id)");
@@ -941,7 +944,7 @@ function getPricesForProducts($currencyid, $product_ids, $module = 'Products', $
 					$product_base_conv_rate = getBaseConversionRateForProduct($product_id, 'edit', $module);
 					$conversion_rate = $product_conv_rate * $product_base_conv_rate;
 
-					$actual_price = $unit_price * $conversion_rate;
+					$actual_price = (float)$unit_price * (float)$conversion_rate;
 				}
 				$price_list[$product_id] = $actual_price;
 			} else {

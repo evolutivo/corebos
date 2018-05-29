@@ -383,6 +383,10 @@ class ListViewController {
 					}
 				} elseif ($field->getFieldDataType() == 'currency') {
 					if ($value != '') {
+						if (!isset($totals[$fieldName])) {
+							$totals[$fieldName]=0;
+						}
+						$totals[$fieldName] = $totals[$fieldName] + $value;
 						if ($field->getUIType() == 72) {
 							if ($fieldName == 'unit_price') {
 								$currencyId = getProductBaseCurrency($recordId, $module);
@@ -392,10 +396,6 @@ class ListViewController {
 								$currencyInfo = getInventoryCurrencyInfo($module, $recordId);
 								$currencySymbol = $currencyInfo['currency_symbol'];
 							}
-							if (!isset($totals[$fieldName])) {
-								$totals[$fieldName]=0;
-							}
-							$totals[$fieldName] = $totals[$fieldName] + $value;
 							$currencyValue = CurrencyField::convertToUserFormat($value, null, true);
 							$value = CurrencyField::appendCurrencySymbol($currencyValue, $currencySymbol);
 						} else {
@@ -635,16 +635,15 @@ class ListViewController {
 			}
 
 			//Added for Actions ie., edit and delete links in listview
-			$actionLinkInfo = "";
+			$actionLinkInfo = '';
 			if (isPermitted($module, 'EditView', $recordId) == 'yes') {
 				$racbr = $wfs->getRACRuleForRecord($currentModule, $recordId);
 				if (!$racbr || $racbr->hasListViewPermissionTo('edit')) {
 					$edit_link = $this->getListViewEditLink($module, $recordId);
 					if (isset($navigationInfo['start']) && $navigationInfo['start'] > 1 && $module != 'Emails') {
-						$actionLinkInfo .= "<a href=\"$edit_link&start=".
-						$navigationInfo['start']."\">".getTranslatedString("LNK_EDIT", $module)."</a> ";
+						$actionLinkInfo .= "<a href=\"$edit_link&start=".$navigationInfo['start']."\">".getTranslatedString('LNK_EDIT', $module).'</a> ';
 					} else {
-						$actionLinkInfo .= "<a href=\"$edit_link\">".getTranslatedString("LNK_EDIT", $module)."</a> ";
+						$actionLinkInfo .= "<a href=\"$edit_link\">".getTranslatedString('LNK_EDIT', $module).'</a> ';
 					}
 				}
 			}
@@ -653,12 +652,11 @@ class ListViewController {
 				$racbr = $wfs->getRACRuleForRecord($currentModule, $recordId);
 				if (!$racbr || $racbr->hasListViewPermissionTo('delete')) {
 					$del_link = $this->getListViewDeleteLink($module, $recordId);
-					if ($actionLinkInfo != "" && $del_link != "") {
+					if ($actionLinkInfo != '' && $del_link != '') {
 						$actionLinkInfo .= ' | ';
 					}
-					if ($del_link != "") {
-						$actionLinkInfo .=	"<a href='javascript:confirmdelete(\"".
-						addslashes(urlencode($del_link))."\")'>".getTranslatedString('LNK_DELETE', $module).'</a>';
+					if ($del_link != '') {
+						$actionLinkInfo.="<a href='javascript:confirmdelete(\"".addslashes(urlencode($del_link))."\")'>".getTranslatedString('LNK_DELETE', $module).'</a>';
 					}
 				}
 			}
