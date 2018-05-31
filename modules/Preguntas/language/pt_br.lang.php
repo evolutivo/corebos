@@ -28,6 +28,7 @@ $mod_strings = Array(
         'Nivel' => 'Level',
         'Documento' => 'Document',
         'Workflow type' => 'Workflow type',
-        'Link to Bussines Rule' => 'Link to Bussines Rule'
+        'Link to Bussines Rule' => 'Link to Bussines Rule',
+        'Tipo' => 'Type of Question'
 );
 ?>

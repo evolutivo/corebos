@@ -22,7 +22,14 @@ $mod_strings = Array(
         'No' => 'No',
 	'Category'=>'Category',
 	'Subcategory'=>'Subcategory',
-        'Description' => 'Description'
+        'Description' => 'Description',
+        'preguntas_no' => 'Question No',
+        'Estado' => 'Status',
+        'Nivel' => 'Level',
+        'Documento' => 'Document',
+        'Workflow type' => 'Workflow type',
+        'Link to Bussines Rule' => 'Link to Bussines Rule',
+        'Tipo' => 'Type of Question'
 );
 
 ?>
