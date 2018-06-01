@@ -2046,7 +2046,20 @@ public static function getMapByID($cbmapid) {
 			return null;
 		}
 	}
+function getMapPointingFieldUpdate(){
+           $map=htmlspecialchars_decode($this->column_fields['content']);
+           $x = new crXml();
+           $x->loadXML($map);
+           return (string)$x->map->pointingfield[0]->originname;
+}
 
+function readPointingField(){
+           $map=htmlspecialchars_decode($this->column_fields['content']);
+           $x = new crXml();
+           $x->loadXML($map);
+           $originmodule=(string)$x->map->targetmodule[0]->pointingfield;
+           return $originmodule;
+}
 	public static function getMapByName($name, $type = '') {
 		global $adb;
 		$sql = 'select cbmapid

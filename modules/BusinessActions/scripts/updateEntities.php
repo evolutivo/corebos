@@ -1,9 +1,6 @@
 <?php
-
-ini_set('display_errors', 'On');
-ini_set('error_reporting', 'On');
 include_once('data/CRMEntity.php');
-include_once('modules/Map/Map.php');
+include_once('modules/cbMap/cbMap.php');
 require_once('include/utils/utils.php');
 require_once('include/database/PearDatabase.php');
 
@@ -14,29 +11,22 @@ require_once ("modules/com_vtiger_workflow/VTEntityMethodManager.inc");
 require_once("include/utils/CommonUtils.php");
 require_once("include/events/SqlResultIterator.inc");
 require_once("modules/com_vtiger_workflow/VTWorkflowUtils.php");
-
-$log = & LoggerManager::getLogger("index");
-$current_user = new Users();
-$result = $current_user->retrieveCurrentUserInfoFromFile(1);
+function updateEntities($request) {
 global $adb, $log, $current_user;
-$request = array();
 
-$recordid = $argv[1];
-$mapid = $argv[2];
+$recordid = $request['recordid'];
+$mapid = $request['mapid'];
 $recid = explode(',', $recordid);
+
 for ($j = 0; $j < count($recid); $j++) {
     $recordid = $recid[$j];
-    $focus1 = CRMEntity::getInstance("Map");
-    $focus1->retrieve_entity_info($mapid, "Map");
-
+    $focus1 = CRMEntity::getInstance("cbMap");
+    $focus1->retrieve_entity_info($mapid, "cbMap");
     $origin_module = $focus1->getMapOriginModule();
-
     $target_module = $focus1->getMapTargetModule();
-
     $target_fields = $focus1->readMappingType();
     $log->debug($target_fields);
     $pointing_field = $focus1->getMapPointingFieldUpdate();
-    $log->debug('alba1 '.$pointing_field);
     include_once ("modules/$target_module/$target_module.php");
     include_once ("modules/$origin_module/$origin_module.php");
    
@@ -92,7 +82,6 @@ for ($j = 0; $j < count($recid); $j++) {
     $focus->mode = 'edit';
     $focus->id = $pointing_val[$nr_record];
 //    $focus->save($target_module); 
-       
     array_push($vals,$pointing_val[$nr_record]);
     $keys=implode(',',$cols);
     $query=$adb->pquery("Update $target_table"
@@ -110,4 +99,5 @@ for ($j = 0; $j < count($recid); $j++) {
         
    }
 }
-echo json_encode($response, true);
+return json_encode($response, true);
+}
