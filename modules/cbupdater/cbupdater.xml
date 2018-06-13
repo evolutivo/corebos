@@ -1821,4 +1821,11 @@
 	<classname>addrisposte</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
+<changeSet>
+	<author>afrimhoxha</author>
+	<description>Add BA type Download</description>
+	<filename>build/changeSets/evolutivo/addDownloadTypeBA.php</filename>
+	<classname>addDownloadTypeBA</classname>
+	<systemupdate>true</systemupdate>
+</changeSet>
 </updatesChangeLog>
