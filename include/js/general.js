@@ -4744,7 +4744,13 @@ function runJSONAction(actionid, parameters, outputType) {
 
                     } else if (outputType == 'Link') {
                         window.location.href = result;
-                    }
+					}
+					
+					else if(outputType=='Download'){
+						parameters = 'cbmodule='+gVTModule+' '+parameters;
+						gotourl("index.php?module=Actions&action=ActionsAjax&file=executeJSONAction&actionid=" + actionid + "&parameters=" + parameters);
+					}
+
                     else if(outputType=='AlertReload'){
                     var result2="modules/Spreadsheets/newsp.php?id="+result;
                     var win=window.open(result2, '_blank');

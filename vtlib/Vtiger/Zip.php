@@ -70,6 +70,7 @@ class Vtiger_Zip {
 		//header("Content-Transfer-Encoding: binary");
 		$disk_file_size = filesize($zipfileName);
 		header("Content-Length: ".$disk_file_size);
+		ob_end_clean();
 		readfile($zipfileName);
 	}
 
