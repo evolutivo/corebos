@@ -274,7 +274,7 @@
 </field>
 <field>
 <fieldname>evo_actions</fieldname>
-<uitype>1024</uitype>
+<uitype>1025</uitype>
 <columnname>evo_actions</columnname>
 <tablename>vtiger_sequencers</tablename>
 <generatedtype>1</generatedtype>

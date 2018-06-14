@@ -30,6 +30,12 @@ class addsequencer extends cbupdaterWorker {
 					$this->installManifestModule($module);
 				}
 			}
+                        global $adb;
+                        $querytab = $adb->query("select tabid from vtiger_tab where name='BusinessActions'");
+                        $tabid = $adb->query_result($querytab,0,0);
+                        $queryfield = $adb->query("select fieldid from vtiger_field where fieldname='evo_actions'");
+                        $fieldid = $adb->query_result($queryfield,0,0);
+                        $adb->query("insert into vtiger_ng_fields (field_id,moduleid,br_id,fld_shown,fld_search,fld_source,fld_destination) values ($fieldid,$tabid,'','reference','reference','','')");
 			$this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
 		}
