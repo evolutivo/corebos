@@ -137,11 +137,13 @@ $root->appendChild($origin);
 $root->appendChild($fields);
 $xml->formatOutput = true;
 
-$addsqltag="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-$addsqltag.="<map>\n<maptype>SQL</maptype>\n";
-$addsqltag.="<sql>\n";
-$addsqltag.=$QueryGenerate;
-$addsqltag.="<sql>\n</map>";
+/*$addsqltag="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+//$addsqltag.="<map>\n<maptype>SQL</maptype>\n";
+//$addsqltag.="<sql>\n";
+ * 
+ */
+$addsqltag=$QueryGenerate;
+//$addsqltag.="<sql>\n</map>";
 
 
 $SaveasMapTextImput=$_POST['SaveasMapTextImput'];
@@ -156,13 +158,12 @@ if (empty($_POST["MapId"])){
     $focust->column_fields['description'] = $xml->saveXML();
     $focust->column_fields['selected_fields'] =str_replace("  ","",$onlyselect[0])."\"";
     $focust->column_fields['maptype'] = "SQL";
-    $log->debug(" we inicialize value for insert in database ");
     if (!$focust->saveentity("cbMap")) {
          echo $focust->id;
-        $log->debug("succes!! the map is created ");
+        $log->debug("Success! The map is created ");
     } else {
         //echo focus->id;
-        $log->debug("Error!! something went wrong");
+        $log->debug("Error! Something went wrong");
     }
 }
 else{
