@@ -1040,6 +1040,14 @@ select:-moz-focusring {
     width: 15px;
     vertical-align: middle;
 }
+#resizableTable th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#cbmenu {
+    margin-bottom: 0;
+}
 
 #no_entries_found {
     z-index: 77;
