@@ -157,6 +157,10 @@ switch ($functiontocall) {
 			$op = 'startswith';
 		}
 		$ret = newEvoAutocomplete($new_value, $op, $searchinmodule, $limit, $current_user,$field);
+	case 'getProductServiceAutocomplete':
+		include_once 'include/Webservices/CustomerPortalWS.php';
+		$limit =  isset($_REQUEST['limit']) ? $_REQUEST['limit'] : 5;
+		$ret = getProductServiceAutocomplete($_REQUEST['term'], array(), $limit);
 		break;
 	case 'getFieldValuesFromRecord':
 		$ret = array();
