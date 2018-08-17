@@ -114,7 +114,14 @@
 				<img src="{'btnL3Add.gif'|@vtiger_imageurl:$THEME}" tabindex="{$vt_tab}"
 alt="{'LBL_SELECT'|@getTranslatedString}" title="{'LBL_SELECT'|@getTranslatedString}" onclick='return {$vtui10func}("{$fromlink}","{$fldname}","{$MODULE}","{if isset($ID)}{$ID}{/if}");' align="absmiddle" style='width:18px;cursor:pointer'>&nbsp;
 				<input type="image" src="{'clear_field.gif'|@vtiger_imageurl:$THEME}"
-alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedString}" onClick="this.form.{$fldname}.value=''; this.form.{$fldname}_display.value=''; return false;" align="absmiddle" style='width:18px;cursor:pointer'>&nbsp;
+
+alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedString}" onClick="this.form.{$fldname}.value=''; this.form.{$fldname}_display.value=''; return false;" align="absmiddle" style='cursor:hand;cursor:pointer'>&nbsp;
+				{if ( isset($maindata['extendedfieldinfo']) && isset($maindata['extendedfieldinfo']['searchfields']) )}
+					<div id="listbox-unique-id" role="listbox" class="">
+						<ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid relation-autocomplete__target" style="opacity: 0; width: 100%; list-style-type: none; width: 90%; left: 0; transform: translateX(0); max-width: none;" role="presentation"></ul>
+					</div>
+				{/if}
+				</div>
 			</td>
 
 		{elseif $uitype eq 2}
@@ -736,7 +743,27 @@ alt="{'LBL_CLEAR'|@getTranslatedString}" title="{'LBL_CLEAR'|@getTranslatedStrin
 			</select><br/>
 			{if $MASS_EDIT eq '1'}<br />{/if}
 			{/if}
-			<input type="text" name="{$fldname}" tabindex="{$vt_tab}" class="slds-input"  style="width:58%;" value= "{$secondvalue}" >
+
+			{if (isset($maindata['extendedfieldinfo']) && isset($maindata['extendedfieldinfo']['searchfields']))}
+				{assign var="autocomp" value=$maindata['extendedfieldinfo'] }
+				<div style="position: relative;">
+				<input
+					type="text"
+					name="{$fldname}"
+					id="{$fldname}"
+					tabindex="{$vt_tab}"
+					value="{$secondvalue}"
+					tabindex="{$vt_tab}"
+					autocomplete="off"
+					class="autocomplete-input detailedViewTextBox"
+					data-autocomp='{$maindata["extendedfieldinfo"]|@json_encode}' />
+					<div id="listbox-unique-id" role="listbox" class="">
+						<ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid relation-autocomplete__target" style="opacity: 0; width: 100%; list-style-type: none; width: 90%; left: 0; transform: translateX(0); max-width: none;" role="presentation"></ul>
+					</div>
+				</div>
+			{else}
+				<input type="text" name="{$fldname}" id="{$fldname}" tabindex="{$vt_tab}" class=detailedViewTextBox onFocus="this.className='detailedViewTextBoxOn'" onBlur="this.className='detailedViewTextBox'" style="width:58%;" value= "{$secondvalue}" >
+			{/if}
 			</td>
 
 		{elseif $uitype eq 22}

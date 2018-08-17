@@ -182,14 +182,6 @@
 
 					</form>
 
-					</td></tr></table><!-- close tables from setMenu -->
-					</td></tr></table><!-- close tables from setMenu -->
-
-				</div>
-			</td>
-		</tr>
-	</tbody>
-</table>
 {literal}
 <script>
 function verify_data(form,company_name)

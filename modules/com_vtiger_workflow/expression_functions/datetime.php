@@ -55,6 +55,29 @@ function __vt_time_diffdays($arr) {
 	return $days_diff;
 }
 
+function __cb_time_diffyears($arr) {
+	$time_operand1 = $time_operand2 = 0;
+	if (count($arr) > 1) {
+		$time_operand1 = $time1 = $arr[0];
+		$time_operand2 = $time2 = $arr[1];
+	} else {
+		$time_operand1 = date('Y-m-d H:i:s'); // Current time
+		$time_operand2 = $arr[0];
+	}
+
+	if (empty($time_operand1) || empty($time_operand2)) {
+		return 0;
+	}
+
+	$time_operand1 = getValidDBInsertDateTimeValue($time_operand1);
+	$time_operand2 = getValidDBInsertDateTimeValue($time_operand2);
+
+	$date1 = new DateTime($time_operand1);
+	$date2 = new DateTime($time_operand2);
+	$interval = $date2->diff($date1);
+	return $interval->y;
+}
+
 function __cb_getWeekdayDifference($arr) {
 	if (count($arr) > 1) {
 		$time_operand1 = $arr[0];
@@ -89,8 +112,6 @@ function __vt_add_days($arr) {
 		$noOfDays = $arr[1];
 	} else {
 		$noOfDays = $arr[0];
-	}
-	if (empty($baseDate)) {
 		$baseDate = date('Y-m-d'); // Current date
 	}
 	preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
@@ -105,13 +126,39 @@ function __vt_sub_days($arr) {
 		$noOfDays = $arr[1];
 	} else {
 		$noOfDays = $arr[0];
-	}
-	if (empty($baseDate)) {
 		$baseDate = date('Y-m-d'); // Current date
 	}
 	preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
 	$baseDate = strtotime($match[0]);
 	$date = strftime('%Y-%m-%d', $baseDate - ($noOfDays * 24 * 60 * 60));
+	return $date;
+}
+
+function __vt_add_months($arr) {
+	if (count($arr) > 1) {
+		$baseDate = $arr[0];
+		$noOfMonths = $arr[1];
+	} else {
+		$noOfMonths = $arr[0];
+		$baseDate = date('Y-m-d'); // Current date
+	}
+	preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
+	$baseDate = strtotime("+$noOfMonths months", strtotime($match[0]));
+	$date = strftime('%Y-%m-%d', $baseDate);
+	return $date;
+}
+
+function __vt_sub_months($arr) {
+	if (count($arr) > 1) {
+		$baseDate = $arr[0];
+		$noOfMonths = $arr[1];
+	} else {
+		$noOfMonths = $arr[0];
+		$baseDate = date('Y-m-d'); // Current date
+	}
+	preg_match('/\d\d\d\d-\d\d-\d\d/', $baseDate, $match);
+	$baseDate = strtotime("-$noOfMonths months", strtotime($match[0]));
+	$date = strftime('%Y-%m-%d', $baseDate);
 	return $date;
 }
 

@@ -41,7 +41,7 @@ class VTSimpleTemplate {
 				} elseif ($uitype == '71' || $uitype == '72' || $uitype == '7' || $uitype == '9') {
 					$currencyField = new CurrencyField($data[$fieldname]);
 					$result = $currencyField->getDisplayValue(null, true);
-				} elseif ($uitype == '14' || ($uitype == '2' && ($fieldname == 'time_start' || $fieldname == 'time_end'))) { // time
+				} elseif ($uitype == '2' && ($fieldname == 'time_start' || $fieldname == 'time_end')) { // time
 					$date = new DateTimeField($data[$fieldname]);
 					$result = $date->getDisplayTime($current_user);
 				} else {
@@ -67,10 +67,18 @@ class VTSimpleTemplate {
 							$result = $this->getGroupFieldList($referenceId, $fieldname);
 						} elseif ($entity->getModuleName()===$referenceModule) {
 							$data = $entity->getData();
+							if (isset($data['id']) && !isset($data['record_id']) && strpos($data['id'], 'x')) {
+								list($wsid, $data['record_id']) = explode('x', $data['id']);
+								$data['record_module'] = $referenceModule;
+							}
 							if ($this->useValue($data, $fieldname)) {
-								$module_focus = Vtiger_Module::getInstance($referenceModule);
-								$field_focus = Vtiger_Field::getInstance($fieldname, $module_focus);
-								$uitype = $field_focus->uitype;
+								if ($fieldname == 'record_id' || $fieldname == 'record_module') {
+									$uitype = 0;
+								} else {
+									$module_focus = Vtiger_Module::getInstance($referenceModule);
+									$field_focus = Vtiger_Field::getInstance($fieldname, $module_focus);
+									$uitype = $field_focus->uitype;
+								}
 								if ($uitype == '15' || $uitype == '33' || ($uitype == '55' && $fieldname == 'salutationtype')) {
 									$result = getTranslatedString($data[$fieldname], $referenceModule);
 								} elseif ($uitype == '5' || $uitype == '6' || $uitype == '23') {  // date

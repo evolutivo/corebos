@@ -184,6 +184,7 @@ jQuery(document).ready(function(){
 		defaultView: '{/literal}{$DEFAULTVIEW}{literal}',
 		allDayText: {/literal}'{$MOD.LBL_ALL_DAY}'{literal},
 
+		weekNumbers: {/literal}{$Calendar_Show_WeekNumber}{literal},
 		weekends: {/literal}{$CALENDAR_SETTINGS.show_weekends}{literal},
 		minTime:	"{/literal}{$CALENDAR_SETTINGS.start_hour}{literal}",
 		maxTime:	"{/literal}{$CALENDAR_SETTINGS.end_hour}{literal}",
@@ -442,7 +443,6 @@ function changeCalendarEvents(el){
 function hideITSEventInfo(){
 	jQuery('#event_info').css('display', 'none');
 	jQuery('#event_info_content').html('');
-
 }
 {/literal}
 
@@ -606,7 +606,7 @@ function ShowHidefn(divid, imgidDown, imgidUp)
 </form>
 <script>
 function changeCalendarUserView(type) {ldelim}
-	if(type == "all") {ldelim}
+	if (type == 'all') {ldelim}
 		{foreach name=act_types2 item=typedata key=typeid from=$ACTIVITYTYPES}
 			jQuery('#event_type_{$typeid}').css('color', '#000000');
 			jQuery('#event_type_{$typeid}').css('background-color', '#ffffff');

@@ -116,6 +116,12 @@ class cbMap extends CRMEntity {
 		if ($this->HasDirectImageField) {
 			$this->insertIntoAttachment($this->id, $module);
 		}
+		if (!empty($this->column_fields['content'])) {
+			$xml = simplexml_load_string($this->column_fields['content']);
+			$json = json_encode($xml);
+			global $adb;
+			$adb->pquery('update vtiger_cbmap set contentjson=? where cbmapid=?', array($json, $this->id));
+		}
 	}
 
 	/**
@@ -888,7 +894,7 @@ class cbMap extends CRMEntity {
            return $target_fields;
        }
        
-       function getMapMenuStructure(){
+    public function getMapMenuStructure(){
             $default_language = 'it_it';
             global $current_language,$adb; 
             $current_language = $default_language; 
@@ -927,9 +933,9 @@ class cbMap extends CRMEntity {
               }
             $res=array('modules'=>$columns,'profile'=>$profile);
             return $res;
-        }
+    }
         
-        function getMapPortalDvBlocks(){
+    public function getMapPortalDvBlocks(){
             $map=htmlspecialchars_decode($this->column_fields['content']);
             $x = new crXml();
             $x->loadXML($map);
@@ -961,14 +967,15 @@ class cbMap extends CRMEntity {
           return $target_fields;
         }
                    
-       function getMapSQL(){
+    public function getMapSQL(){
            $map= htmlspecialchars_decode($this->column_fields['content']);
            $x = new crXml();
            $x->loadXML($map);
            $sqlString=(string)$x->map->sql[0];
            return $sqlString;
-        }
-    function getMapSQLCondition() {
+    }
+        
+    public function getMapSQLCondition() {
         $result = array();
         $map = htmlspecialchars_decode($this->column_fields['content'], ENT_QUOTES);
         $x = new crXml();
@@ -980,7 +987,8 @@ class cbMap extends CRMEntity {
         }
         return $result;
     }
-    function initListOfModules(){
+    
+    public function initListOfModules(){
             global $adb;
             $restricted_modules = array('Emails','Events','Webmails');
             $restricted_blocks = array('LBL_IMAGE_INFORMATION','LBL_COMMENTS','LBL_COMMENT_INFORMATION');
@@ -1086,17 +1094,16 @@ class cbMap extends CRMEntity {
                     VTCacheUtils::updateMap_ListofModuleInfos($this->module_list, $this->related_modules,$this->rel_fields);
                 }
             }
-        }
+    }
 
-     function getFieldName($fieldid){
+    public function getFieldName($fieldid){
         global $adb;
         $result = $adb->pquery("Select fieldname from vtiger_field where fieldid = ?",array($fieldid));
         $fieldname = $adb->query_result($result,0,'fieldname');
         return $fieldname;
     }
 
-    function getPriModuleFieldsList($module,$modtype,$mode='')
-    {
+    public function getPriModuleFieldsList($module,$modtype,$mode=''){
         global $log;
         $log->debug("Entering getPriModuleFieldsList method moduleID=".$module);
             $cachedInfo = VTCacheUtils::lookupMap_ListofModuleInfos();
@@ -1140,10 +1147,9 @@ class cbMap extends CRMEntity {
     $this->pri_module_columnslist = $ret_module_list;
     $log->debug("Exiting getPriModuleFieldsList method");
     return true;
-}
+    }
 
-function getPrimaryFieldHTML($module,$modtype)
-{
+    public function getPrimaryFieldHTML($module,$modtype){
     global $app_list_strings;
     global $app_strings;
     global $current_language;
@@ -1198,13 +1204,13 @@ function getPrimaryFieldHTML($module,$modtype)
                             }
                     }
             }
-    }
-  }
- }
+                }
+            }
+        }
     return $shtml;
-}
-function getFieldListbyBlock($module,$block,$type)
-{
+    }
+
+    public function getFieldListbyBlock($module,$block,$type){
         global $adb;
         global $log;
         global $current_user;
@@ -1286,94 +1292,97 @@ function getFieldListbyBlock($module,$block,$type)
         }
         $log->info("Map :: FieldColumns->Successfully returned FieldlistbyBlock".$module.$block);
         return $module_columnlist;
-}
-function getBlockInfo($modId)
-{
-    global $adb , $log;
-    $moduleName = getTabModuleName($modId);
-    $blockinfo=array();
-    $blocks_query=$adb->pquery("select blockid,tabid,blocklabel from vtiger_blocks where tabid=? order by sequence ASC",array($modId));
-    for($i=0;$i<$adb->num_rows($blocks_query);$i++)
-    {
-        $blockinfo[]=array(
-            'blockid' => $adb->query_result($blocks_query,$i,'blockid'),
-            'tabid' => $adb->query_result($blocks_query,$i,'tabid'),
-            'blocklabel'=>$adb->query_result($blocks_query,$i,'blocklabel'),
+    }
+    
+    public function getBlockInfo($modId){
+        global $adb , $log;
+        $moduleName = getTabModuleName($modId);
+        $blockinfo=array();
+        $blocks_query=$adb->pquery("select blockid,tabid,blocklabel from vtiger_blocks where tabid=? order by sequence ASC",array($modId));
+        for($i=0;$i<$adb->num_rows($blocks_query);$i++)
+        {
+            $blockinfo[]=array(
+                'blockid' => $adb->query_result($blocks_query,$i,'blockid'),
+                'tabid' => $adb->query_result($blocks_query,$i,'tabid'),
+                'blocklabel'=>$adb->query_result($blocks_query,$i,'blocklabel'),
+                );
+        }
+        if($moduleName=='Project')
+        {
+            $size=sizeof($blockinfo);
+            $blockinfo[$size]=array(
+                'blockid' => '1000',
+                'tabid' => $modId,
+                'blocklabel'=>'Execute',
             );
+        }
+        return $blockinfo;
     }
-    if($moduleName=='Project')
-    {
-        $size=sizeof($blockinfo);
-        $blockinfo[$size]=array(
-            'blockid' => '1000',
-            'tabid' => $modId,
-            'blocklabel'=>'Execute',
-        );
+    
+    public function getBlockHTML($blocks,$module){
+        global $app_list_strings,$log;
+        global $app_strings;
+        global $current_language;
+        $id_added=false;
+        $mod_strings = return_module_language($current_language,$module);
+        $block_listed = array();
+        $modName = getTabModuleName($module,$this->dbname);$shtml='';
+        for($i=0;$i<sizeof($blocks);$i++)
+        {
+           foreach($blocks[$i] as $key=>$value)
+               {  if($key=='blocklabel')
+                     if($value=='Execute')
+                     $shtml .= "<option value=\"".$blocks[$i]['blockid']."\" class=\"select\" style=\"border:none\">".getTranslatedString($value, $modName)."</option>";
+                       else
+                     $shtml .= "<option value=\"".$blocks[$i]['blockid']."\" class=\"select\" style=\"border:none\">".getTranslatedString($value, $modName)."</option>";
+                }
+        }
+      return $shtml;
     }
-    return $blockinfo;
-}
-function getBlockHTML($blocks,$module)
-{
-    global $app_list_strings,$log;
-    global $app_strings;
-    global $current_language;
-    $id_added=false;
-    $mod_strings = return_module_language($current_language,$module);
-    $block_listed = array();
-    $modName = getTabModuleName($module,$this->dbname);$shtml='';
-    for($i=0;$i<sizeof($blocks);$i++)
-    {
-       foreach($blocks[$i] as $key=>$value)
-           {  if($key=='blocklabel')
-                 if($value=='Execute')
-                 $shtml .= "<option value=\"".$blocks[$i]['blockid']."\" class=\"select\" style=\"border:none\">".getTranslatedString($value, $modName)."</option>";
-                   else
-                 $shtml .= "<option value=\"".$blocks[$i]['blockid']."\" class=\"select\" style=\"border:none\">".getTranslatedString($value, $modName)."</option>";
+    
+    public function isXML($xml){
+       libxml_use_internal_errors(true);
+       $doc = new DOMDocument('1.0', 'utf-8');
+       $doc->loadXML($xml);
+
+       $errors = libxml_get_errors();
+
+       if(empty($errors)){
+           return true;
+       }
+
+       $error = $errors[0];
+       if($error->level < 3){
+           return true;
+       }
+
+       $explodedxml = explode("r", $xml);
+       $badxml = $explodedxml[($error->line)-1];
+
+       $message = $error->message . ' at line ' . $error->line . '. Bad XML: ' . htmlentities($badxml);
+       return $message;
+    }
+    
+    public function ReadFromXmlContent($mapid) {
+        global $log,$adb;
+        $query=$adb->pquery("select content from vtiger_cbmap where cbmapid=?",array($mapid));
+        $xmlcontent=html_entity_decode($adb->query_result($query,0,'content'));
+        $map = CRMEntity::getInstance('cbMap');
+        $blockinfo=array();
+        if($map->isXML($xmlcontent)){
+            $xml=simplexml_load_string($xmlcontent);
+            foreach($xml->blocks->block as $block) {
+                  $blockinfo[]=array(
+                    'blockid' => $block->blockID,
+                    'blockname'=>$block->blockname,
+                    'blocklabel'=>$block->blocklabel,
+                    );
             }
+        }
+        return $blockinfo;
     }
-  return $shtml;
-}
-function isXML($xml){
-   libxml_use_internal_errors(true);
-   $doc = new DOMDocument('1.0', 'utf-8');
-   $doc->loadXML($xml);
-
-   $errors = libxml_get_errors();
-
-   if(empty($errors)){
-       return true;
-   }
-
-   $error = $errors[0];
-   if($error->level < 3){
-       return true;
-   }
-
-   $explodedxml = explode("r", $xml);
-   $badxml = $explodedxml[($error->line)-1];
-
-   $message = $error->message . ' at line ' . $error->line . '. Bad XML: ' . htmlentities($badxml);
-   return $message;
-}
-function ReadFromXmlContent($mapid) {
-global $log,$adb;
-$query=$adb->pquery("select content from vtiger_cbmap where cbmapid=?",array($mapid));
-$xmlcontent=html_entity_decode($adb->query_result($query,0,'content'));
-$map = CRMEntity::getInstance('cbMap');
-$blockinfo=array();
-if($map->isXML($xmlcontent)){
-    $xml=simplexml_load_string($xmlcontent);
-    foreach($xml->blocks->block as $block) {
-          $blockinfo[]=array(
-            'blockid' => $block->blockID,
-            'blockname'=>$block->blockname,
-            'blocklabel'=>$block->blocklabel,
-            );
-    }
-}
-return $blockinfo;
-}
-function readInputFields() {
+    
+    public function readInputFields() {
         $map = htmlspecialchars_decode($this->column_fields['content']);
         $x = new crXml();
         $x->loadXML($map);
@@ -1385,7 +1394,7 @@ function readInputFields() {
         return $input_fields;
     }
 
-    function readOutputFields() {
+    public function readOutputFields() {
         $map = htmlspecialchars_decode($this->column_fields['content']);
         $x = new crXml();
         $x->loadXML($map);
@@ -1396,7 +1405,8 @@ function readInputFields() {
         }
         return $output_fields;
     }
-    function getEntityFieldNamesByTablename($tablename) {
+    
+    public function getEntityFieldNamesByTablename($tablename) {
 	$adb = PearDatabase::getInstance();
 	$data = array();
 	if (!empty($tablename)) {
@@ -1412,8 +1422,9 @@ function readInputFields() {
 	}
 	$data = array("tablename" => $tableName, "modulename" => $moduleName, "fieldname" => $fieldsName, "entityidfield" => $entityIdField);
 	return $data;
-}
-    function create_query(){
+    }
+    
+    public function create_query(){
         global $log,$adb;
         $content=html_entity_decode($this->column_fields['content']);
         $isxml=$this->isXML($content);
@@ -1593,8 +1604,9 @@ function readInputFields() {
             return $sql;
         }else
             return false;
-     }
-     function generate_subquery($fieldname,$expectedvalue,$uniquesearch,$expected_table_name,$searched_field_table_name,$i,$j){
+    }
+     
+    public function generate_subquery($fieldname,$expectedvalue,$uniquesearch,$expected_table_name,$searched_field_table_name,$i,$j){
        global $adb,$currentModule,$log;
             
        $expected_module=$this->getEntityFieldNamesByTablename($expected_table_name);
@@ -1650,11 +1662,11 @@ function readInputFields() {
              
               }
              
-if(!empty($expectedvalue_array)){
-    $expectedvalue=$expectedvalue_array['sql'];
-    $first_unique_module=$expectedvalue_array['first_unique_module'];
-    $related_unique_module=$expectedvalue_array['related_unique_module'];
-}  
+            if(!empty($expectedvalue_array)){
+                $expectedvalue=$expectedvalue_array['sql'];
+                $first_unique_module=$expectedvalue_array['first_unique_module'];
+                $related_unique_module=$expectedvalue_array['related_unique_module'];
+            }  
                 if($_REQUEST['proj_id']!='')
                     $_REQUEST['record']=$_REQUEST['proj_id'];
                 
@@ -1694,9 +1706,9 @@ if(!empty($expectedvalue_array)){
                                       $expectedvalue.=" ) ";
      
       return $expectedvalue;
-     }
+    }
      
-     function generate_sub_subquery($expectedvalue_base,$uniquesearch,$searched_module,$expected_module,$i,$j){
+    public function generate_sub_subquery($expectedvalue_base,$uniquesearch,$searched_module,$expected_module,$i,$j){
          global $adb;
          if(stristr($uniquesearch,'=')!=''){
                       $uniquesearch_array=explode('=',$uniquesearch);
@@ -1786,8 +1798,9 @@ if(!empty($expectedvalue_array)){
                       );
 
                   return $result;
-     }
-     function search_update_fields(){
+    }
+    
+    public function search_update_fields(){
          global $adb,$log;
          
         $content=html_entity_decode($this->column_fields['content']);
@@ -1849,9 +1862,9 @@ if(!empty($expectedvalue_array)){
         }
         else
             return false;
-   }
+    }
    
-   function search_query($result){
+    public function search_query($result){
      global $log;
     require_once('include/utils/CommonUtils.php');
     
@@ -1898,9 +1911,9 @@ if(!empty($expectedvalue_array)){
                            'update'=>$result['Update']);
     }
    return $sql_array;
-   }
+    }
      
-    function read_map(){
+    public function read_map(){
         global $adb,$log;  
         $map_type=$this->column_fields['maptype'];
         if(strtolower($map_type)=='query'){
@@ -1946,7 +1959,8 @@ if(!empty($expectedvalue_array)){
 
          }
     }
-function getBlocksPortal1($module, $disp_view, $mode, $col_fields = '', $info_type = '',$profile) {
+    
+    public function getBlocksPortal1($module, $disp_view, $mode, $col_fields = '', $info_type = '',$profile) {
 	global $log;
 	$log->debug("Entering getBlocks(" . $module . "," . $disp_view . "," . $mode . "," . $col_fields . "," . $info_type . ") method ...");
 	global $adb, $current_user;
@@ -2027,14 +2041,23 @@ function getBlocksPortal1($module, $disp_view, $mode, $col_fields = '', $info_ty
 		}
 	}
 	return $getBlockInfo;
-}
-public function __call($name, $arguments) {
+    }
+    
+    public function retrieve_entity_info($cbmapid, $mname, $deleted = false) {
+		global $current_user;
+		$holduser = $current_user;
+		$current_user = Users::getActiveAdminUser();
+		parent::retrieve_entity_info($cbmapid, $mname, $deleted);
+		$current_user = $holduser;
+    }
+
+    public function __call($name, $arguments) {
 		require_once 'modules/cbMap/processmap/'.$name.'.php';
 		$processmap = new $name($this);
 		return $processmap->processMap($arguments);
-	}
+    }
 
-public static function getMapByID($cbmapid) {
+    public static function getMapByID($cbmapid) {
 		global $adb;
 		$query = 'SELECT crmid,setype FROM vtiger_crmentity where crmid=? AND deleted=0';
 		$result = $adb->pquery($query, array($cbmapid));
@@ -2046,21 +2069,22 @@ public static function getMapByID($cbmapid) {
 			return null;
 		}
 	}
-function getMapPointingFieldUpdate(){
+    public function getMapPointingFieldUpdate(){
            $map=htmlspecialchars_decode($this->column_fields['content']);
            $x = new crXml();
            $x->loadXML($map);
            return (string)$x->map->pointingfield[0]->originname;
-}
+    }
 
-function readPointingField(){
+    public function readPointingField(){
            $map=htmlspecialchars_decode($this->column_fields['content']);
            $x = new crXml();
            $x->loadXML($map);
            $originmodule=(string)$x->map->targetmodule[0]->pointingfield;
            return $originmodule;
-}
-	public static function getMapByName($name, $type = '') {
+    }
+
+    public static function getMapByName($name, $type = '') {
 		global $adb;
 		$sql = 'select cbmapid
 			from vtiger_cbmap
@@ -2080,8 +2104,9 @@ function readPointingField(){
 		} else {
 			return null;
 		}
-	}
-	public static function getMapIdByName($name) {
+    }
+    
+    public static function getMapIdByName($name) {
 		global $adb;
 		$mrs = $adb->pquery(
 			'select cbmapid
@@ -2095,9 +2120,9 @@ function readPointingField(){
 		} else {
 			return 0;
 		}
-	}
+    }
 
-	public function getMapArray() {
+    public function getMapArray() {
 		$ret = array();
 		$name = basename($this->column_fields['maptype']);
 		@require_once 'modules/cbMap/processmap/'.$name.'.php';
@@ -2108,6 +2133,14 @@ function readPointingField(){
 			}
 		}
 		return $ret;
+    }
+
+    public function getvtlib_open_popup_window_function($fieldname, $basemodule) {
+		if ($fieldname=='brmap' && $basemodule=='BusinessActions') {
+			return 'openBRMapInBA';
+		} else {
+			return 'vtlib_open_popup_window';
+		}
 	}
-}
+    }
 ?>

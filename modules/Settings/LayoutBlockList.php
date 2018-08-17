@@ -717,7 +717,7 @@ function updateFieldProperties() {
 		$fieldtype[1] = 'O';
 	}
 	$datatype = implode('~', $fieldtype);
-	$maxseq = '';
+	$maxseq = 0;
 	if ($oldquickcreate != 3) {
 		if (($quickcreate_checked == 'true' || $quickcreate_checked == '' )) {
 			$qcdata = 2;
@@ -1098,8 +1098,7 @@ if ($fldColName == ''){
 					}
 					die();
 				}
-				$max_fieldsequence = "select max(sequence) as maxsequence from vtiger_field where block = ? ";
-				$res = $adb->pquery($max_fieldsequence, array($blockid));
+				$res = $adb->pquery('select coalesce(max(sequence), 0) as maxsequence from vtiger_field where block = ?', array($blockid));
 				$max_seq = $adb->query_result($res, 0, 'maxsequence');
 				if ($fldmodule == 'Quotes' || $fldmodule == 'PurchaseOrder' || $fldmodule == 'SalesOrder' || $fldmodule == 'Invoice') {
 					$quickcreate = 3;

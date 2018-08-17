@@ -2,7 +2,7 @@
 /***********************************************************
 *  Module       : General
 *  Language     : French
-*  Version      : 5.4.0 
+*  Version      : 5.4.0
 *  License      : GPL
 *  Author       : ABOnline solutions http://www.vtiger-crm.fr
 ***********************************************************/
@@ -39,6 +39,7 @@ $app_strings = array(
 	'LBL_CONVERTSO_BUTTON_TITLE' => 'Nouveau bon de commande',
 	'LBL_CONVERTINVOICE_BUTTON_TITLE' => 'Facturer',
 	'LBL_EDIT_BUTTON' => 'Editer',
+	'LBL_COPY_BUTTON'=>'Copier',
 	'LBL_DUPLICATE_BUTTON_TITLE' => 'Copier [Alt+U]',
 	'LBL_DUPLICATE_BUTTON' => 'Copier',
 	'LBL_TABCUSTOMISE_BUTTON_TITLE' => 'Personnaliser [Alt+C]',
@@ -659,7 +660,6 @@ $app_strings = array(
 	'less_than' => 'inférieur à',
 	'greater_or_equal' => 'supérieur ou égal',
 	'less_or_equal' => 'inférieur ou égal',
-	
 
 	'LABEL_SET_DISCOUNT_FOR_COLON' => 'Fixer une remise pour :',
 	'LABEL_SET_TAX_FOR' => 'Fixer la taxe pour',
@@ -913,7 +913,7 @@ $app_strings = array(
 	'LBL_ALL_DATA' => 'Exporter toutes les données',
 	'LBL_DATA_IN_CURRENT_PAGE' => 'Exporter les données de la page courante',
 	'LBL_ONLY_SELECTED_RECORDS' => 'Exporter les entrées sélectionnées',
-	'LBL_YES' => 'Oui',	
+	'LBL_YES' => 'Oui',
 	'Planned' => 'Planifiée',
 	'Held' => 'A eu lieu',
 	'Not Held' => 'N\'a pas eu lieu',
@@ -1091,8 +1091,6 @@ $app_strings = array(
 	'LBL_CALLER_INFORMATION'=>'Information correspondant',
 	'LBL_CALLER_NUMBER'=>'Numéro :',
 	'LBL_CALLER_NAME'=>'Nom :',
-
-
 	'LBL_DUPLICATE' => 'Dupliquer',
 	'LBL_CLICK' => 'Clic',
 	'LBL_TO_CONFIGURE' => 'pour configurer le',
@@ -1108,6 +1106,7 @@ $app_strings = array(
 	'LBL_DUP_PERMISSION' => 'Vous n\'êtes pas autorisé à supprimer ',
 	'recordid' => 'recordid',
 	'Entity Type' => 'Type d\'entité',
+	'RecordDuplicated'=>'Record has been duplicated. This is the new record.',
 	'LBL_GMAIL' => 'Gmail',
 	'LBL_BOOKMARKLET' => 'Favoris',
 	'PRIVATE_FILTER' => 'Privé',
@@ -1130,12 +1129,11 @@ $app_strings = array(
 
 	'Todos' => 'faire A',
 
-
 	'LBL_POSTPONE'=>'Reporté',
 
 	// Unified Search extended support
 	'LBL_SELECT_MODULES_FOR_SEARCH' => 'Sélectionnez les modules dans lesquels la recherche sera effectuée',
-	'LBL_SELECT_ALL' => 'Tous', 
+	'LBL_SELECT_ALL' => 'Tous',
 	'LBL_UNSELECT_ALL' => 'Aucun',
 	'LBL_FIELD_FOR_COMPARISION' => 'Champs à comparer',
 	'LBL_DONE' => ' OK ',
@@ -1146,7 +1144,7 @@ $app_strings = array(
 	// For note link on the detailview
 	'LBL_ADD_NOTE'=>'Ajouter une note',
 
-	// For Layout Editor 
+	// For Layout Editor
 	'LBL_UNHIDE_FIELDS'=>'Champs cachés',
 
 	// For Mass Edit
@@ -1163,8 +1161,6 @@ $app_strings = array(
 	'LBL_REFRESH' => 'Rafraîchir',
 	'LBL_Reminder' => 'Rappel',
 	'LBL_RESET_PASSWORD' => 'Regénérer le mot de passe',
-
-
 
 	'LBL_CRITERIA_AND'=>'et',
 	'LBL_CRITERIA_OR'=>'ou',
@@ -1220,6 +1216,13 @@ $app_strings = array(
 	'View History' => 'Voir Historique',
 	'SYNCH_NOW' => 'Sync Now',
         'LNK_PREVIEW'=>'Preview',
+	'Updated' => 'Updated',
+	'id' => 'id',
+	'data' => 'data',
+	'record' => 'Record',
+	'saved' => 'saved',
+	'notsaved' => 'notsaved',
+	'processcomplete' => 'Process Complete',
 );
 
 // Translation for currency names

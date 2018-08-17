@@ -35,5 +35,6 @@
 			</div>
 		{/if}
 	</li>
+
 {/if}
 {/foreach}

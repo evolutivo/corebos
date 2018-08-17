@@ -85,6 +85,9 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Application_FirstTimeLogin_Template',
 				'Application_Permit_Assign_Up',
 				'Application_Permit_Assign_SameRole',
+				'Application_Permit_Assign_AllGroups',
+
+				'RelatedList_Activity_DefaultStatusFilter',
 
 				'Calendar_Modules_Panel_Visible',
 				'Calendar_Default_Reminder_Minutes',
@@ -95,6 +98,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Calendar_Push_End_On_Start_Change',
 				'Calendar_PopupReminder_DaysPast',
 				'Calendar_Show_Only_My_Events',
+				'Calendar_Show_WeekNumber',
 
 				'CronTasks_cronWatcher_mailto',
 				'CronTasks_cronWatcher_TimeThreshold',
@@ -179,6 +183,8 @@ class DefineGlobalVariables extends cbupdaterWorker {
 				'Report_ListView_PageSize',
 				'Report_MaxRows_OnScreen',
 				'Report_MaxRelated_Modules',
+				'Report_HeaderOnXLS',
+				'Report_HeaderOnPDF',
 
 				'Inventory_ListPrice_ReadOnly',
 				'Inventory_Show_ShippingHandlingCharges',
