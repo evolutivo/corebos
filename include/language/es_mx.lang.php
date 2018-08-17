@@ -1275,6 +1275,7 @@ $app_strings = array (
 	'saved' => 'guardado',
 	'notsaved' => 'no guardado',
 	'processcomplete' => 'Proceso Terminado',
+	'typetosearch_prodser' => 'Busca productos o servicios',
 );
 
 // Translation for currency names
