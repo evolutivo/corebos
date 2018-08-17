@@ -40,6 +40,7 @@ $app_strings = array(
 'LBL_CONVERTSO_BUTTON_TITLE' => 'Create Sales Order',
 'LBL_CONVERTINVOICE_BUTTON_TITLE' => 'Create Invoice',
 'LBL_EDIT_BUTTON' => 'Edit',
+'LBL_COPY_BUTTON'=>'Copy',
 'LBL_DUPLICATE_BUTTON_TITLE' => 'Duplicate [Alt+U]',
 'LBL_DUPLICATE_BUTTON' => 'Duplicate',
 'LBL_TABCUSTOMISE_BUTTON_TITLE' => 'Customise [Alt+C]',
@@ -1178,6 +1179,7 @@ $app_strings = array(
 'LBL_DUP_PERMISSION' => 'You are not permitted to delete ',
 'recordid' => 'Record',
 'Entity Type' => 'Entity Type',
+'RecordDuplicated'=>'Record has been duplicated. This is the new record.',
 
 // gmailbookmarklet customization
 'LBL_GMAIL'=>'Gmail',
@@ -1295,6 +1297,13 @@ $app_strings = array(
 'View History' => 'View History',
 'SYNCH_NOW' => 'Sync Now',
 'LNK_PREVIEW'=>'Preview',
+'Updated' => 'Updated',
+'id' => 'id',
+'data' => 'data',
+'record' => 'Record',
+'saved' => 'saved',
+'notsaved' => 'notsaved',
+'processcomplete' => 'Process Complete',
 );
 
 // Translation for currency names

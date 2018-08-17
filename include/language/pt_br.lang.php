@@ -44,6 +44,7 @@ $app_strings = array (
 'LBL_CONVERTSO_BUTTON_TITLE' => 'Criar pedido venda',
 'LBL_CONVERTINVOICE_BUTTON_TITLE' => 'Criar fatura',
 'LBL_EDIT_BUTTON' => 'Editar',
+'LBL_COPY_BUTTON'=>'Copiar',
 'LBL_DUPLICATE_BUTTON_TITLE' => 'Duplicar [Alt+U]',
 'LBL_DUPLICATE_BUTTON' => 'Duplicar',
 'LBL_TABCUSTOMISE_BUTTON_TITLE' => 'Customizar [Alt+C]',
@@ -563,7 +564,7 @@ $app_strings = array (
 'This Month' => 'Este mês',
 'This Year' => 'Este ano',
 'LBL_PLEASE_CLICK' => 'Clique por favor',
-'LBL_HERE' => 'Certifique-se de estar logado no CRM e Clique aqui',
+'LBL_HERE' => 'Clique aqui',
 'LBL_RECORDS' => 'Registros',
 'LBL_SCROLL' => '[Topo]',
 'LBL_EXPAND_COLLAPSE' => 'Expandir/Recolher',
@@ -1157,6 +1158,7 @@ $app_strings = array (
 'LBL_DUP_PERMISSION' => 'Você não tem permissão para apagar',
 'recordid' => 'Registro',
 'Entity Type' => 'Tipo entidade',
+'RecordDuplicated'=>'Record has been duplicated. This is the new record.',
 
 // gmailbookmarklet customization
 'LBL_GMAIL'=>'Gmail',
@@ -1285,7 +1287,14 @@ $app_strings = array (
 'Subscribe' => 'Subscrever',
 'View History' => 'Ver histórico',
 'SYNCH_NOW' => 'Sincronizar agora',
-'LNK_PREVIEW'=>'Preview'
+'LNK_PREVIEW'=>'Preview',
+'Updated' => 'Updated',
+'id' => 'id',
+'data' => 'data',
+'record' => 'Record',
+'saved' => 'saved',
+'notsaved' => 'notsaved',
+'processcomplete' => 'Process Complete',
 );
 
 // Translation for currency names

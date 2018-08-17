@@ -8,6 +8,7 @@
 		<input class="slds-button slds-button_success slds-button--small" type="button" value="{$button_label}" onclick="return eMail('{$MODULE}',this);"/>
 	{elseif $button_check eq 's_cmail'}
 		<input class="slds-button slds-button_success slds-button--small" type="submit" value="{$button_label}" onclick="return massMail('{$MODULE}')"/>
+
 	{elseif $button_check eq 'mailer_exp'}
 		<input class="slds-button slds-button_success slds-button--small" type="submit" value="{$button_label}" onclick="return mailer_export()"/>
 	{* Mass Edit handles Change Owner for other module except Calendar *}

@@ -41,6 +41,7 @@ $app_strings = array(
 	'LBL_CONVERTSO_BUTTON_TITLE' => 'Új Rendelés',
 	'LBL_CONVERTINVOICE_BUTTON_TITLE' => 'Új Díjbekérő',
 	'LBL_EDIT_BUTTON' => 'Szerkesztés',
+	'LBL_COPY_BUTTON'=>'Másolás',
 	'LBL_DUPLICATE_BUTTON_TITLE' => 'Másolás [Alt+U]',
 	'LBL_DUPLICATE_BUTTON' => 'Másolás',
 	'LBL_TABCUSTOMISE_BUTTON_TITLE' => 'Testreszab [Alt+C]',
@@ -1093,6 +1094,7 @@ $app_strings = array(
 	'LBL_DUP_PERMISSION' => 'Nincs jogosultságod törölni ',
 	'recordid' => 'Rekord',
 	'Entity Type' => 'Entitás típus',
+	'RecordDuplicated'=>'Record has been duplicated. This is the new record.',
 	'LBL_GMAIL' => 'Gmail',
 	'LBL_BOOKMARKLET' => 'Könyvjelző',
 	'PRIVATE_FILTER' => 'Privát',
@@ -1211,6 +1213,13 @@ $app_strings = array(
 	'View History' => 'View History',
 	'SYNCH_NOW' => 'Sync Now',
         'LNK_PREVIEW'=>'Preview',
+	'Updated' => 'Updated',
+	'id' => 'id',
+	'data' => 'data',
+	'record' => 'Record',
+	'saved' => 'saved',
+	'notsaved' => 'notsaved',
+	'processcomplete' => 'Process Complete',
 );
 
 // Translation for currency names

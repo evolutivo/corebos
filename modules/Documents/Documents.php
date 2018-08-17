@@ -71,7 +71,19 @@ class Documents extends CRMEntity {
 
 	// Placeholder for sort fields - All the fields will be initialized for Sorting through initSortFields
 	public $sortby_fields = array();
-	//Added these variables which are used as default order by and sortorder in ListView
+
+	// For Alphabetical search
+	public $def_basicsearch_col = 'notes_title';
+
+	// Column value to use on detail view record text display
+	public $def_detailview_recname = 'notes_title';
+
+	// Required Information for enabling Import feature
+	public $required_fields = array('notes_title'=>1);
+
+	// Callback function list during Importing
+	public $special_functions = array('set_import_assigned_user');
+
 	public $default_order_by = 'title';
 	public $default_sort_order = 'ASC';
 	public $mandatory_fields = array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount');
@@ -486,7 +498,6 @@ class Documents extends CRMEntity {
 		$params = array($id, $return_module, $return_id, $id, $return_module, $return_id);
 		$this->db->pquery($sql, $params);
 	}
-
 
 	// Function to get fieldname for uitype 27 assuming that documents have only one file type field
 	public function getFileTypeFieldName() {

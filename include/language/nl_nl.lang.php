@@ -44,6 +44,7 @@ $app_strings = array(
 	'LBL_CONVERTSO_BUTTON_TITLE' => 'Maak een verkooporder',
 	'LBL_CONVERTINVOICE_BUTTON_TITLE' => 'Maak een factuur',
 	'LBL_EDIT_BUTTON' => 'Bewerk',
+	'LBL_COPY_BUTTON'=>'Kopieren',
 	'LBL_DUPLICATE_BUTTON_TITLE' => 'Dupliceer [Alt+U]',
 	'LBL_DUPLICATE_BUTTON' => 'Dupliceer',
 	'LBL_TABCUSTOMISE_BUTTON_TITLE' => 'Wijzig [Alt+C]',
@@ -800,6 +801,7 @@ $app_strings = array(
 	'DUPLICATE_MAPPING_POTENTIAL' => 'Dubbele mapping voor Verkoopkansen!!',
 	'ERROR_WHILE_EDITING' => 'Foutmelding tijdens bewerken',
 	'PLEASE_ENTER_TAG' => 'Gaarne een tag ingeven',
+	'PLEASE_SELECT_LINE_ITEM' => 'Please select a line item',
 	'PLEASE_SELECT_PRODUCT' => 'a.u.b. een Product weergeven',
 	'DUPLICATE_ENTRIES_FOUND' => ' Dubbele gegevens gevonden voor waarde \\\'',
 	'ROLE_SHOULDHAVE_INFO' => 'Een rol moet minstens een profiel hebben',
@@ -1103,6 +1105,7 @@ $app_strings = array(
 	'LBL_DUP_PERMISSION' => 'U heeft geen permissie om te wissen ',
 	'recordid' => 'Record',
 	'Entity Type' => 'Entiteit Type',
+	'RecordDuplicated'=>'Record has been duplicated. This is the new record.',
 	'LBL_GMAIL' => 'Gmail',
 	'LBL_BOOKMARKLET' => 'Bookmarklet',
 	'PRIVATE_FILTER' => 'Prive',
@@ -1178,8 +1181,14 @@ $app_strings = array(
 	'Subscribe' => 'Subscribe',
 	'View History' => 'View History',
 	'SYNCH_NOW' => 'Sync Now',
-        'LNK_PREVIEW'=>'Preview',
-    
+        'LNK_PREVIEW'=>'Preview',    
+	'Updated' => 'Updated',
+	'id' => 'id',
+	'data' => 'data',
+	'record' => 'Record',
+	'saved' => 'saved',
+	'notsaved' => 'notsaved',
+	'processcomplete' => 'Process Complete',
 );
 
 // Translation for currency names

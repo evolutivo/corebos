@@ -39,6 +39,7 @@ $app_strings = array (
   'LBL_CONVERTSO_BUTTON_TITLE' => 'Crea Ordine di Vendita',
   'LBL_CONVERTINVOICE_BUTTON_TITLE' => 'Crea Fattura',
   'LBL_EDIT_BUTTON' => 'Modifica',
+  'LBL_COPY_BUTTON'=>'Copie',
   'LBL_DUPLICATE_BUTTON_TITLE' => 'Duplica [Alt+U]',
   'LBL_DUPLICATE_BUTTON' => 'Duplica',
   'LBL_TABCUSTOMISE_BUTTON_TITLE' => 'Personalizza [Alt+C]',
@@ -1045,7 +1046,7 @@ $app_strings = array (
 'APP.LBL_NOW' => 'Ora',
 'LBL_NOW'=>'Ora',//BACKUP
 'LBL_MORE_CURRENCIES' => 'ulteriori valute',
-'LBL_BASE_CURRENCY' => 'Valuta Predefinita', 
+'LBL_BASE_CURRENCY' => 'Valuta Predefinita',
 'LBL_CURRENCY' => 'Valuta',
 'LBL_PRICE' => 'Prezzo',
 'LBL_CONVERSION_RATE' => 'Tasso di conversione',
@@ -1096,6 +1097,7 @@ $app_strings = array (
 'LBL_DUP_PERMISSION' => 'Non ti &egrave; permesso eliminare ',
 'recordid' => 'Record',
 'Entity Type' => 'Tipo Entit&agrave;',
+'RecordDuplicated'=>'Record has been duplicated. This is the new record.',
 'LBL_GMAIL' => 'Gmail',
 'LBL_BOOKMARKLET' => 'Bookmarklet',
 'PRIVATE_FILTER' => 'Privato',
@@ -1133,7 +1135,6 @@ $app_strings = array (
 'LBL_REFRESH' => 'Aggiorna',
 'LBL_Reminder' => 'Promemoria',
 'LBL_RESET_PASSWORD' => 'Reimposta Password',
-	
 'LBL_CRITERIA_AND'=>'e',
 'LBL_CRITERIA_OR'=>'o',
 'LBL_NEW_GROUP'=>'Nuovo Gruppo',
@@ -1188,6 +1189,13 @@ $app_strings = array (
 'View History' => 'Visualizza Storico',
 'SYNCH_NOW' => 'Sincronizza ora',
 'LNK_PREVIEW'=>'Preview',
+'Updated' => 'Aggiornati',
+'id' => 'id',
+'data' => 'data',
+'record' => 'Record',
+'saved' => 'salvato',
+'notsaved' => 'non salvato',
+'processcomplete' => 'Processo Completato',
 );
 
 // Translation for currency names
