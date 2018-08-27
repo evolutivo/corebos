@@ -235,6 +235,45 @@ class VTCacheUtils {
 	public static function lookupReport_ListofModuleInfos() {
 		return self::$_report_listofmodules_cache;
 	}
+        
+        public static $_where_conditions=false;       
+        public static function lookupWhereFields(){
+            return  self::$_where_conditions;
+        }
+        
+        public static function updateWhereFields($conditions){
+            if(self::$_where_conditions===false){
+                if(!empty($conditions))
+                    self::$_where_conditions=$conditions;
+            }
+        }
+        
+        public static $_manyRelatedFields=false;
+        public static function getRelatedFields(){
+            return  self::$_manyRelatedFields;
+        }
+        
+        public static function setRelatedFieldName($field){
+             if(!empty($field))
+                 if(empty(self::$_manyRelatedFields))
+                    self::$_manyRelatedFields[]=$field;
+                 else
+                   array_push( self::$_manyRelatedFields,$field);   
+    
+        }
+      /* static $_RefenceModules=false;
+        static function updateRefenceModules($modules){
+            self::$_RefenceModules=$modules;
+        }
+        static function getReferenceModules(){
+            return self::$_RefenceModules;
+        }*/
+        public static function removeElement($element){
+            unset(self::$_manyRelatedFields[array_search($element,self::$_manyRelatedFields)]);
+            if(empty(self::$_manyRelatedFields))
+                self::$_manyRelatedFields='Done';
+        }
+
 	public static function updateReport_ListofModuleInfos($module_list, $related_modules) {
 		if (self::$_report_listofmodules_cache === false) {
 			self::$_report_listofmodules_cache = array(
