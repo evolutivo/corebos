@@ -96,7 +96,7 @@ class CustomView extends CRMEntity {
 
 			elseif(Vtiger_Utils::checkTable('vtiger_user_role_filters')){
 				$moduleid=getTabid($module);
-                $viewidq=$adb->pquery("Select * from vtiger_user_role_filters where userid=? and moduleid=?",array($current_user->id,$moduleid));
+				$viewidq=$adb->pquery("Select * from vtiger_user_role_filters where userid=? and moduleid=?",array($current_user->id,$moduleid));
                 $nr=$adb->num_rows($viewidq);
                 if($nr!=0)
                     $viewid=$adb->query_result($viewidq,0,'first_default_cvid');
@@ -250,7 +250,7 @@ class CustomView extends CRMEntity {
 	        left join vtiger_users on vtiger_customview.userid = vtiger_users.id
 	        left join vtiger_filtermanagement fm on fm.viewid=vtiger_customview.cvid";
 	        $ssql .= " where vtiger_tab.tabid=?";
-	        $ssql .= " and fm.viewable=1 and fm.roleid=? and (fm.userid=? or  fm.userid=0)";
+	        $ssql .= " and fm.viewable=1 and (fm.roleid=? or fm.roleid=0) and (fm.userid=? or  fm.userid=0)";
 			array_push($sparams,$current_user->roleid);
 			array_push($sparams,$current_user->id);
 	        //array_push($sparams,array($current_user->roleid,$current_user->id));

@@ -30,6 +30,46 @@ class addFilterManagement extends cbupdaterWorker {
 					$this->installManifestModule($module);
 				}
 			}
+            global $adb;
+				
+			//populate fm with filters
+			$listQuery="Select name,tabid from vtiger_tab where isentitytype=1 and presence in (0,2) and name not in ('Calendar','Webmails','Emails','Events','ModComments')";
+			$query=$adb->pquery($listQuery,array());
+			$count=$adb->num_rows($query);
+			$modules = array();
+			for($i=0;$i<$count;$i++){
+				$modules[$adb->query_result($query,$i,'name')]=$adb->query_result($query,$i,'tabid');    
+			}
+
+			$content = array();
+			$listQuery="Select cv.viewname,cv.cvid,cv.entitytype,cv.userid, cv.setdefault 
+						from vtiger_customview cv 
+						where 1";
+			$query=$adb->pquery($listQuery,array());
+			$count=$adb->num_rows($query);
+			$content=array();
+			for($i=0;$i<$count;$i++){
+				$content[$i]['viewid']=$adb->query_result($query,$i,'cvid');
+				$content[$i]['entityId']=$modules[$adb->query_result($query,$i,'entitytype')];
+				$content[$i]['userid']=$adb->query_result($query,$i,'userid');
+				$content[$i]['setdefault']=$adb->query_result($query,$i,'setdefault');
+
+				$cvq=$adb->pquery("select * from vtiger_filtermanagement where viewid=? and roleid=0 and userid=?",array($content[$i]['viewid'],$content[$i]['userid']));
+				if($adb->num_rows($cvq)==0 && !empty($content[$i]['entityId']))
+				{
+					$Query=$adb->pquery("Insert into vtiger_filtermanagement(viewid,editable,viewable,deletable,roleid,userid)
+					values(?,?,?,?,?,?)",array($content[$i]['viewid'],'1','1','1',0,$content[$i]['userid']));
+					if($content[$i]['setdefault']=='1' || $content[$i]['setdefault']==1){
+						$querySelect=$adb->pquery("Select configurationid from vtiger_user_role_filters where roleid=? and userid=? and moduleid=?",array(0,$content[$i]['userid'],$content[$i]['entityId']));
+						if($adb->num_rows($querySelect)==0)
+						{
+							$Query="Insert into vtiger_user_role_filters(roleid,userid,moduleid,second_default_cvid,first_default_cvid,cancreate) values(?,?,?,?,?,?)";
+							$queryy=$adb->pquery($Query,array(0,$content[$i]['userid'],$content[$i]['entityId'],0,$content[$i]['viewid'],0));
+						}
+					}
+				}
+			}
+
 			$this->sendMsg('Changeset '.get_class($this).' applied!');
 			$this->markApplied();
 		}
@@ -40,7 +80,7 @@ class addFilterManagement extends cbupdaterWorker {
 		if ($this->hasError()) $this->sendError();
 		if ($this->isApplied()) {
 			vtlib_toggleModuleAccess('FilterManagement',false);
-			$this->sendMsg('NgBlock deactivated!');
+			$this->sendMsg('FilterManagement deactivated!');
 			$this->markUndone(false);
 			$this->sendMsg('Changeset '.get_class($this).' undone!');
 		} else {

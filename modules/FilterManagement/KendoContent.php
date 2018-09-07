@@ -37,9 +37,9 @@ $count=$adb->num_rows($query);
 $content=array();
 for($i=0;$i<$count;$i++){
    $content[$i]['confid']=$adb->query_result($query,$i,'confid');
-   $roleid=$adb->query_result($query,$i,'roleid');$log->debug("DIANA ".$roleid);
-   $content[$i]['roleid']=$roleid==='0'?'Tutti':getRoleName($roleid);
-   $content[$i]['userid']=$adb->query_result($query,$i,'userid')==0?'Tutti':getUserName($adb->query_result($query,$i,'userid'));
+   $roleid=$adb->query_result($query,$i,'roleid');
+   $content[$i]['roleid']=$roleid==='0'?'All':getRoleName($roleid);
+   $content[$i]['userid']=$adb->query_result($query,$i,'userid')==0?'All':getUserName($adb->query_result($query,$i,'userid'));
    $content[$i]['FilterName']=$adb->query_result($query,$i,'viewname');
    $content[$i]['EntityName']=$adb->query_result($query,$i,'entitytype');
    $content[$i]['EditFilter']=$adb->query_result($query,$i,'editable')==1?true:false;
@@ -68,8 +68,8 @@ $content=array();
 for($i=0;$i<$count;$i++){
    $content[$i]['configurationid']=$adb->query_result($query,$i,'configurationid');
    $roleid=$adb->query_result($query,$i,'roleid');
-   $content[$i]['roleid']=$roleid==='0'?'Tutti':getRoleName($roleid);
-   $content[$i]['userid']=$adb->query_result($query,$i,'userid')==0?'Tutti':getUserName($adb->query_result($query,$i,'userid'));
+   $content[$i]['roleid']=$roleid==='0'?'All':getRoleName($roleid);
+   $content[$i]['userid']=$adb->query_result($query,$i,'userid')==0?'All':getUserName($adb->query_result($query,$i,'userid'));
    $content[$i]['FilterName']=getCVname($adb->query_result($query,$i,'first_default_cvid'));
    $content[$i]['EntityName']=$adb->query_result($query,$i,'entitytype');
    $content[$i]['FilterNameSecond']=  getCVname($adb->query_result($query,$i,'second_default_cvid'));
@@ -91,8 +91,8 @@ $Query="Insert into vtiger_filtermanagement(viewid,editable,viewable,deletable,r
     $editable=$mv->EditFilter;
     $viewable=$mv->ViewFilter;
     $deletable=$mv->DeleteFilter;
-    $roleid=$mv->roleid!=='Tutti'?getRoleId($mv->roleid):0;
-    if($mv->userid!='Tutti') $userid= getUserId2_Ol($mv->userid);
+    $roleid=$mv->roleid!=='All'?getRoleId($mv->roleid):0;
+    if($mv->userid!='All') $userid= getUserId2_Ol($mv->userid);
     else $userid=0;
      
     $log->debug("loro ".$userid." ".$mv->userid);
@@ -143,8 +143,8 @@ elseif($kaction=='saveConfiguration'){
     $viewname=$mv->FilterName;    
     $moduleid=getTabid($mv->EntityName);    
     $confid= $mv->configurationid;
-    $roleid=$mv->roleid!=='Tutti'?getRoleId($mv->roleid):0;
-    if($mv->userid!='Tutti') $userid= getUserId2_Ol($mv->userid);
+    $roleid=$mv->roleid!=='All'?getRoleId($mv->roleid):0;
+    if($mv->userid!='All') $userid= getUserId2_Ol($mv->userid);
     else $userid=0;
     $cv=CustomView::getInstance('CustomView');
     $cvid=$cv->getViewIdByName($viewname,$mv->EntityName);
@@ -165,11 +165,10 @@ elseif($kaction=='saveConfiguration'){
     }
     else
     {
-    $Query="Insert into vtiger_user_role_filters(roleid,userid,moduleid,second_default_cvid,first_default_cvid)
-            values(?,?,?,?,?)";
-    $query=$adb->pquery($Query,array($roleid,$userid,$moduleid,$cvid2,$cvid));
+    $Query="Insert into vtiger_user_role_filters(roleid,userid,moduleid,second_default_cvid,first_default_cvid,cancreate) values(?,?,?,?,?,?)";
+    $query=$adb->pquery($Query,array($roleid,$userid,$moduleid,$cvid2,$cvid,0));
     }
-  json_encode($query);
+  echo json_encode(array());
 }
 elseif($kaction=='update'){
 $Query="Update vtiger_filtermanagement
@@ -186,8 +185,8 @@ $Query="Update vtiger_filtermanagement
     $viewable=$mv->ViewFilter;
     $deletable=$mv->DeleteFilter;
     $confid=$mv->confid;
-    $roleid=$mv->roleid!=='Tutti'?getRoleId($mv->roleid):0;
-    if($mv->userid!='Tutti') $userid= getUserId2_Ol($mv->userid);
+    $roleid=$mv->roleid!=='All'?getRoleId($mv->roleid):0;
+    if($mv->userid!='All') $userid= getUserId2_Ol($mv->userid);
     else $userid=0;  
     
     $cv=CustomView::getInstance('CustomView');
@@ -228,7 +227,7 @@ echo json_encode($content);
 elseif($kaction=='roles'){
        $roles = getAllRoleDetails();
     $i=1;
-    $content[0]['rolename']="Tutti";
+    $content[0]['rolename']="All";
     foreach($roles as $roleid=>$roleDetails){
         $content[$i]['roleid']=$roleid;
         $content[$i]['rolename']=$roleDetails[0];
@@ -247,7 +246,7 @@ elseif($kaction=='users'){
     $users = getRoleUsers($roleid);
        $i=1;
        $content=array();
-       $content[0]['username']='Tutti';
+       $content[0]['username']='All';
     foreach($users as $userid=>$username){
         
 //        $content[$i]['userid']=$userid;
