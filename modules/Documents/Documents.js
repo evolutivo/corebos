@@ -355,3 +355,8 @@ function set_return(doc_id, doc_name,doc_field) {
 		window.opener.document.getElementById(doc_field).value = doc_id;
 	}
 }
+
+// Send file as an attachment in an email
+function sendfile_email() {
+	OpenCompose(document.getElementById('dldfilename').value, 'Documents');
+}

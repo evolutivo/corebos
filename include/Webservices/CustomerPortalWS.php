@@ -204,10 +204,10 @@ function vtws_getUItype($module, $user) {
 	return $resp;
 }
 
-function vtws_getReferenceValue($strids) {
+function vtws_getReferenceValue($strids, $user) {
 	global $log,$adb;
 	$ids=unserialize($strids);
-	$log->debug('Entering vtws_getReferenceValue with id '.implode(',', $ids));
+	$log->debug('Entering vtws_getReferenceValue with id '.$strids);
 	foreach ($ids as $id) {
 		list($wsid,$realid)=explode('x', $id);
 		$rs = $adb->pquery('select name from vtiger_ws_entity where id=?', array($wsid));
@@ -230,7 +230,7 @@ function vtws_getReferenceValue($strids) {
 			$result[$id]=array('module'=>$modulename,'reference'=>$entityinfo[$realid]);
 		}
 	}
-	$log->debug('Exit vtws_getReferenceValue with'.serialize($result));
+	$log->debug('Exit vtws_getReferenceValue');
 	return serialize($result);
 }
 
@@ -921,12 +921,9 @@ function getProductServiceAutocomplete($term, $returnfields = array(), $limit = 
 		    vtiger_products.unit_price AS unit_price 
 		    FROM vtiger_products 
 		    INNER JOIN vtiger_crmentity ON vtiger_products.productid = vtiger_crmentity.crmid 
-		    WHERE vtiger_products.productname LIKE '%{$term}%' 
-		    OR vtiger_products.mfr_part_no LIKE '%{$term}%' 
-		    OR vtiger_products.vendor_part_no LIKE '%{$term}%' 
-		    AND vtiger_products.discontinued = 1 
-		    AND vtiger_crmentity.deleted = 0 
-		    UNION
+			WHERE (vtiger_products.productname LIKE '%{$term}%' OR vtiger_products.mfr_part_no LIKE '%{$term}%' OR vtiger_products.vendor_part_no LIKE '%{$term}%')
+				AND vtiger_products.discontinued = 1 AND vtiger_crmentity.deleted = 0
+		UNION
 		SELECT
 		    vtiger_service.servicename AS name, 
 		    vtiger_service.divisible AS divisible, 
@@ -941,9 +938,7 @@ function getProductServiceAutocomplete($term, $returnfields = array(), $limit = 
 		    vtiger_service.unit_price AS unit_price 
 		    FROM vtiger_service 
 		    INNER JOIN vtiger_crmentity ON vtiger_service.serviceid = vtiger_crmentity.crmid 
-		    WHERE vtiger_service.servicename LIKE '%{$term}%' 
-		    AND vtiger_service.discontinued = 1 
-		    AND vtiger_crmentity.deleted = 0
+			WHERE vtiger_service.servicename LIKE '%{$term}%' AND vtiger_service.discontinued = 1 AND vtiger_crmentity.deleted = 0
 		LIMIT $limit");
 	$ret = array();
 
@@ -971,6 +966,15 @@ function getProductServiceAutocomplete($term, $returnfields = array(), $limit = 
 				'mfr_no' => getTranslatedString('Vendor PartNo', 'Products'),
 			),
 		);
+		$multic = $adb->pquery('select * from vtiger_productcurrencyrel where productid=?', array($prodser['id']));
+		$mc = array();
+		while ($mcinfo = $adb->fetch_array($multic)) {
+			$mc[$mcinfo['currencyid']] = array(
+				'converted_price' => number_format((float)$mcinfo['converted_price'], $cur_user_decimals, '.', ''),
+				'actual_price' => number_format((float)$mcinfo['actual_price'], $cur_user_decimals, '.', ''),
+			);
+		}
+		$ret_prodser['pricing']['multicurrency'] = $mc;
 		$ret[] = $ret_prodser;
 	}
 	return $ret;
