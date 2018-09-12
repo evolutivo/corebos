@@ -76,11 +76,10 @@ if($kaction=='retrieveProcessFlow'){
         $details=array();
         $cuestinario = $adb->query_result($pfquery, $j, 'cuestionarioid');
         if ($cuestinario != '' && $cuestinario!=0) {
-            $qcuestionario = $adb->pquery("Select * 
-                from vtiger_crmentityrel 
-                join vtiger_preguntas  on vtiger_preguntas.preguntasid=vtiger_crmentityrel.relcrmid
-                join vtiger_crmentity ce on vtiger_preguntas.preguntasid=ce.crmid
-                where ce.deleted=0 and vtiger_crmentityrel.crmid=?", array($cuestinario));
+            $qcuestionario = $adb->pquery("SELECT * FROM vtiger_cuestiones 
+					JOIN vtiger_preguntas  ON vtiger_preguntas.preguntasid=vtiger_cuestiones.preguntasid
+					JOIN vtiger_crmentity ce ON vtiger_preguntas.preguntasid=ce.crmid
+					WHERE ce.deleted=0 AND vtiger_cuestiones.cuestionarioid = ?", array($cuestinario));
             for ($k = 0; $k < $adb->num_rows($qcuestionario); $k++) {
                     $details[] = array(
                         'test' => '', 
