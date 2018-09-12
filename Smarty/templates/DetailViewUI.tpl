@@ -102,7 +102,7 @@
 	<div id="internal_mailer_{$keyfldname}" style="display: none;">{$keyfldid}####{$smarty.session.internal_mailer}</div>
 </td>
 
-{elseif (($keyid eq '15' && $keyfldname neq 'gvname') || $keyid eq '16' || $keyid eq '16' || $keyid eq '1613' || $keyid eq '1614') && !picklistHasDependency($keyfldname,$MODULE)}
+{elseif (($keyid eq '15' && $keyfldname neq 'gvname') || $keyid eq '16' || $keyid eq '16' || $keyid eq '1613') && !picklistHasDependency($keyfldname,$MODULE)}
 <!--ComboBox-->
 {foreach item=arr from=$keyoptions} {if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE && $arr[2] eq 'selected'} {assign var=keyval value=$APP.LBL_NOT_ACCESSIBLE} {assign var=fontval value='red'} {else} {assign var=fontval value=''} {/if} {/foreach}
 <td ng-show="show_logic('{$keyfldname}')" width=25% class="dvtCellInfo" align="left" id="mouseArea_{$label}">			 
@@ -137,7 +137,22 @@
 		<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="link slds-button slds-button--destructive slds-button--x-small">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
 	</div>
 </td>
-
+{elseif $keyid eq '1614'}
+{if picklistHasDependency($keyfldname,$MODULE)}
+		<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}"><span id="dtlview_{$keyfldname}">{$keyval|@getTranslatedString:$MODULE}</span>
+		{else}
+		<td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'><span id="dtlview_{$keyfldname}">{$keyval|@getTranslatedString:$MODULE}</span>
+			<div id="editarea_{$keyfldname}" style="display:none;">
+				<select id="txtbox_{$keyfldname}" name="{$keyfldname}" class="small" style="width:280px;">
+					{foreach item=arr from=$keyoptions}
+						<option value="{$arr[1]}" {$arr[2]}>{$arr[0]}</option>
+					{/foreach}
+				</select>
+				<br><a class="detailview_ajaxbutton ajax_save_detailview" onclick="dtlViewAjaxSave('{$keyfldname}','{$MODULE}',{$keyid},'{$keytblname}','{$keyfldname}','{$ID}');fnhide('crmspanid');event.stopPropagation();">{$APP.LBL_SAVE_LABEL}</a>
+					<a href="javascript:;" onclick="hndCancel('dtlview_{$keyfldname}','editarea_{$keyfldname}','{$keyfldname}');event.stopPropagation();" class="detailview_ajaxbutton ajax_cancelsave_detailview">{$APP.LBL_CANCEL_BUTTON_LABEL}</a>
+			</div>
+		{/if}
+		</td>
 {elseif $keyid eq '15'} {foreach item=arr from=$keyoptions} {if $arr[0] eq $APP.LBL_NOT_ACCESSIBLE && $arr[2] eq 'selected'} {assign var=keyval value=$APP.LBL_NOT_ACCESSIBLE} {assign var=fontval value='red'} {else} {assign var=fontval value=''} {/if} {/foreach}
 <td width=25% class="dvtCellInfo" align="left" id="mouseArea_{$keyfldname}" onmouseover="hndMouseOver({$keyid},'{$keyfldname}');" onmouseout="fnhide('crmspanid');" onclick='handleEdit(event);'><span id="dtlview_{$keyfldname}"><font color="{$fontval}">{if $APP.$keyval!=''}{$APP.$keyval}{elseif $MOD.$keyval!=''}{$MOD.$keyval}{else}{$keyval}{/if}</font></span>
 	<div id="editarea_{$keyfldname}" style="display:none;">
