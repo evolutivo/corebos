@@ -178,6 +178,7 @@ class DefineGlobalVariables extends cbupdaterWorker {
                                 'ContextIOUserId',                     
                             
 				'HomePage_Widget_Group_Size',
+				'Zero_Bounce_API_KEY',
 
 				'Report_Send_Scheduled_ifEmpty',
 				'Report_ListView_PageSize',

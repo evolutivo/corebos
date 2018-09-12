@@ -385,7 +385,12 @@
 {/literal}
 </script>
 
-<div id="status" style="position:absolute;display:none;left:850px;top:{if $ANNOUNCEMENT}130{else}95{/if}px;height:27px;white-space:nowrap;"><img src="{'status.gif'|@vtiger_imageurl:$THEME}"></div>
+<div id="status" style="position:absolute;display:none;left:850px;top:{if $ANNOUNCEMENT}130{else}95{/if}px;height:27px;white-space:nowrap;">
+	<div role="status" class="slds-spinner slds-spinner_small slds-spinner_brand">
+		<div class="slds-spinner__dot-a"></div>
+		<div class="slds-spinner__dot-b"></div>
+	</div>
+</div>
 
 <div id="tracker" style="display:none;position:absolute;z-index:100000001;" class="layerPopup">
 	<table class="slds-table slds-no-row-hover" width="200">

@@ -234,8 +234,7 @@ function deleteRow(module, i, image_path) {
 // Function to Calcuate the Inventory total including all products
 function calcTotal() {
 	var max_row_count = document.getElementById('proTab').rows.length;
-	max_row_count = eval(max_row_count)-2;//Because the table has two header rows. so we will reduce two from row length
-	var netprice = 0.00;
+	max_row_count = max_row_count-2;//Because the table has two header rows. so we will reduce two from row length
 	for (var i=1; i<=max_row_count; i++) {
 		rowId = i;
 		setDiscount(null, rowId);
@@ -246,7 +245,15 @@ function calcTotal() {
 // Function to Calculate the Total for a particular product in an Inventory
 function calcProductTotal(rowId) {
 	if (document.getElementById('deleted'+rowId) && document.getElementById('deleted'+rowId).value == 0) {
-		var total=eval(getObj('qty'+rowId).value*getObj('listPrice'+rowId).value);
+		var chknum = getObj('listPrice'+rowId).value;
+		if (chknum.indexOf(',')!=-1 || chknum.indexOf("'")!=-1) {
+			document.getElementById('listPrice'+rowId).value = standarizeFormatCurrencyValue(chknum);
+		}
+		var chknum = getObj('qty'+rowId).value;
+		if (chknum.indexOf(',')!=-1 || chknum.indexOf("'")!=-1) {
+			document.getElementById('qty'+rowId).value = standarizeFormatCurrencyValue(chknum);
+		}
+		var total=getObj('qty'+rowId).value * getObj('listPrice'+rowId).value;
 		getObj('productTotal'+rowId).innerHTML=roundValue(total.toString());
 
 		var totalAfterDiscount = eval(total-document.getElementById('discountTotal'+rowId).innerHTML);
@@ -260,7 +267,6 @@ function calcProductTotal(rowId) {
 		} else {
 			netprice = totalAfterDiscount;
 		}
-
 		getObj('netPrice'+rowId).innerHTML=roundValue(netprice.toString());
 	}
 }
@@ -273,7 +279,7 @@ function calcGrandTotal() {
 	var taxtype = document.getElementById('taxtype').value;
 
 	var max_row_count = document.getElementById('proTab').rows.length;
-	max_row_count = eval(max_row_count)-2;//Because the table has two header rows. so we will reduce two from row length
+	max_row_count = max_row_count-2;//Because the table has two header rows. so we will reduce two from row length
 
 	for (var i=1; i<=max_row_count; i++) {
 		if (document.getElementById('deleted'+i).value == 0) {
@@ -307,23 +313,27 @@ function calcGrandTotal() {
 
 	sh_amount = getObj('shipping_handling_charge').value;
 	if (document.getElementById('shipping_handling_tax')) {
-		sh_tax = eval(document.getElementById('shipping_handling_tax').innerHTML);
+		sh_tax = parseFloat(document.getElementById('shipping_handling_tax').innerHTML);
 	}
 
 	adjustment = getObj('adjustment').value;
 
 	//Add or substract the adjustment based on selection
-	adj_type = document.getElementById('adjustmentType').value;
+	var adj_type = document.getElementById('adjustmentType').value;
 
-	grandTotal = eval(netTotal)-eval(discountTotal_final)+eval(finalTax);
-	if (sh_amount != '') {
-		grandTotal = grandTotal + eval(sh_amount) + sh_tax;
+	grandTotal = parseFloat(netTotal) - parseFloat(discountTotal_final) + parseFloat(finalTax);
+	if (sh_amount != '' && sh_amount != 0) {
+		grandTotal = grandTotal + parseFloat(sh_amount) + sh_tax;
 	}
 	if (adjustment != '') {
+		if (adjustment.indexOf(',')!=-1 || adjustment.indexOf("'")!=-1) {
+			adjustment = standarizeFormatCurrencyValue(adjustment);
+			document.getElementById('adjustment').value = adjustment;
+		}
 		if (adj_type == '+') {
-			grandTotal = grandTotal + eval(adjustment);
+			grandTotal = grandTotal + parseFloat(adjustment);
 		} else {
-			grandTotal = grandTotal - eval(adjustment);
+			grandTotal = grandTotal - parseFloat(adjustment);
 		}
 	}
 
@@ -356,7 +366,7 @@ function validateInventoryLines(module) {
 	}
 
 	var max_row_count = document.getElementById('proTab').rows.length;
-	max_row_count = eval(max_row_count)-2;//As the table has two header rows, we will reduce two from table row length
+	max_row_count = max_row_count-2;//As the table has two header rows, we will reduce two from table row length
 
 	if (!FindDuplicate()) {
 		return false;
@@ -459,7 +469,7 @@ function validateInventoryLines(module) {
 
 function FindDuplicate() {
 	var max_row_count = document.getElementById('proTab').rows.length;
-	max_row_count = eval(max_row_count)-2;//As the table has two header rows, we will reduce two from row length
+	max_row_count = max_row_count-2;//As the table has two header rows, we will reduce two from row length
 	var duplicate = false, iposition = '', positions = '', duplicate_products = '';
 	var product_id = new Array(max_row_count-1);
 	var product_name = new Array(max_row_count-1);
@@ -544,7 +554,7 @@ function loadGlobalTaxes_Ajax() {
 // Function to retrieve and update all taxes > recalculates the whole record
 function updateAllTaxes() {
 	var max_row_count = document.getElementById('proTab').rows.length;
-	max_row_count = eval(max_row_count)-2;//Because the table has two header rows. so we will reduce two from row length
+	max_row_count = max_row_count-2;//Because the table has two header rows. so we will reduce two from row length
 	var netprice = 0.00;
 	for (var i=1; i<=max_row_count; i++) {
 		rowId = i;
@@ -681,7 +691,7 @@ function fnAddProductRow(module, image_path) {
 	coltwo.className = 'crmTableRow small';
 	coltwo.innerHTML= '<table border="0" cellpadding="1" cellspacing="0" width="100%"><tr><td class="small"><div class="slds-combobox_container slds-has-inline-listbox cbds-product-search" style="width:70%;display:inline-block">'+
 					'<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-combobox-lookup" aria-expanded="false" aria-haspopup="listbox" role="combobox">'+
-					'<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none"><input id="productName'+count+'" class="slds-input slds-combobox__input '+
+					'<div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none"><input id="productName'+count+'" name="productName'+count+'" class="slds-input slds-combobox__input '+
 					'cbds-inventoryline__input--name" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="'+inventoryi18n.typetosearch_prodser+'" value="" '+
 					'type="text" style="box-shadow: none;"></div></div></div>'+
 					'&nbsp;<img id="searchIcon'+count+'" title="'+alert_arr.Products+'" src="themes/images/products.gif" style="cursor: pointer;" onclick="productPickList(this,\''+module+'\','+count+')" align="absmiddle">'+
@@ -704,7 +714,7 @@ function fnAddProductRow(module, image_path) {
 	colfour.innerHTML=temp;
 	//List Price with Discount, Total after Discount and Tax labels
 	colfive.className = 'crmTableRow small';
-	colfive.innerHTML='<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="right"><input id="listPrice'+count+'" name="listPrice'+count+'" value="0.00" type="text" class="small" style="width:70px" onBlur="calcTotal();setDiscount(this,'+count+');callTaxCalc('+count+'); calcTotal();"'+(Inventory_ListPrice_ReadOnly==1 ? ' readonly ' : '')+'/>&nbsp;<img src="themes/images/pricebook.gif" onclick="priceBookPickList(this,'+count+')"></td></tr><tr><td align="right" style="padding:5px;" nowrap>		(-)&nbsp;<b><a href="javascript:doNothing();" onClick="displayCoords(this,\'discount_div'+count+'\',\'discount\','+count+')" >'+product_labelarr.DISCOUNT+'</a> : </b><div class=\"discountUI\" id=\"discount_div'+count+'"><input type="hidden" id="discount_type'+count+'" name="discount_type'+count+'" value=""><table width="100%" border="0" cellpadding="5" cellspacing="0" class="small"><tr><td id="discount_div_title'+count+'" nowrap align="left" ></td><td align="right"><img src="themes/images/close.gif" border="0" onClick="fnHidePopDiv(\'discount_div'+count+'\')" style="cursor:pointer;"></td></tr><tr><td align="left" class="lineOnTop"><input type="radio" name="discount'+count+'" checked onclick="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp; '+product_labelarr.ZERO_DISCOUNT+'</td><td class="lineOnTop">&nbsp;</td></tr><tr><td align="left"><input type="radio" name="discount'+count+'" onclick="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp; % '+product_labelarr.PERCENT_OF_PRICE+' </td><td align="right"><input type="text" class="small" size="2" id="discount_percentage'+count+'" name="discount_percentage'+count+'" value="0" style="visibility:hidden" onBlur="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp;%</td></tr><tr><td align="left" nowrap><input type="radio" name="discount'+count+'" onclick="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp; '+product_labelarr.DIRECT_PRICE_REDUCTION+'</td><td align="right"><input type="text" id="discount_amount'+count+'" name="discount_amount'+count+'" size="5" value="0" style="visibility:hidden" onBlur="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();"></td></tr></table></div></td></tr><tr> <td align="right" style="padding:5px;" nowrap><b>'+product_labelarr.TOTAL_AFTER_DISCOUNT+' :</b></td></tr><tr id="individual_tax_row'+count+'" class="TaxShow"><td align="right" style="padding:5px;" nowrap>(+)&nbsp;<b><a href="javascript:doNothing();" onClick="displayCoords(this,\'tax_div'+count+'\',\'tax\','+count+')" >'+product_labelarr.TAX+' </a> : </b><div class="discountUI" id="tax_div'+count+'"></div></td></tr></table>';
+	colfive.innerHTML='<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="right"><input id="listPrice'+count+'" name="listPrice'+count+'" value="0.00" type="text" class="small" style="width:70px" onBlur="calcTotal();setDiscount(this,'+count+');callTaxCalc('+count+'); calcTotal();"'+(Inventory_ListPrice_ReadOnly==1 ? ' readonly ' : '')+'/>&nbsp;<img src="themes/images/pricebook.gif" onclick="priceBookPickList(this,'+count+')"></td></tr><tr><td align="right" style="padding:5px;" nowrap>		(-)&nbsp;<b><a href="javascript:doNothing();" onClick="displayCoords(this,\'discount_div'+count+'\',\'discount\','+count+')" >'+product_labelarr.DISCOUNT+'</a> : </b><div class=\"discountUI\" id=\"discount_div'+count+'"><input type="hidden" id="discount_type'+count+'" name="discount_type'+count+'" value=""><table width="100%" border="0" cellpadding="5" cellspacing="0" class="small"><tr><td id="discount_div_title'+count+'" nowrap align="left" ></td><td align="right"><img src="themes/images/close.gif" border="0" onClick="fnhide(\'discount_div'+count+'\')" style="cursor:pointer;"></td></tr><tr><td align="left" class="lineOnTop"><input type="radio" name="discount'+count+'" checked onclick="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp; '+product_labelarr.ZERO_DISCOUNT+'</td><td class="lineOnTop">&nbsp;</td></tr><tr><td align="left"><input type="radio" name="discount'+count+'" onclick="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp; % '+product_labelarr.PERCENT_OF_PRICE+' </td><td align="right"><input type="text" class="small" size="2" id="discount_percentage'+count+'" name="discount_percentage'+count+'" value="0" style="visibility:hidden" onBlur="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp;%</td></tr><tr><td align="left" nowrap><input type="radio" name="discount'+count+'" onclick="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();">&nbsp; '+product_labelarr.DIRECT_PRICE_REDUCTION+'</td><td align="right"><input type="text" id="discount_amount'+count+'" name="discount_amount'+count+'" size="5" value="0" style="visibility:hidden" onBlur="setDiscount(this,'+count+'); callTaxCalc('+count+');calcTotal();"></td></tr></table></div></td></tr><tr> <td align="right" style="padding:5px;" nowrap><b>'+product_labelarr.TOTAL_AFTER_DISCOUNT+' :</b></td></tr><tr id="individual_tax_row'+count+'" class="TaxShow"><td align="right" style="padding:5px;" nowrap>(+)&nbsp;<b><a href="javascript:doNothing();" onClick="displayCoords(this,\'tax_div'+count+'\',\'tax\','+count+')" >'+product_labelarr.TAX+' </a> : </b><div class="discountUI" id="tax_div'+count+'"></div></td></tr></table>';
 
 	//Total and Discount, Total after Discount and Tax details
 	colsix.className = 'crmTableRow small';
@@ -824,6 +834,10 @@ function setDiscount(currObj, curr_row) {
 		//This is to calculate the final discount
 		if (curr_row == '_final') {
 			var discount_percentage_final_value = document.getElementById('discount_percentage'+curr_row).value;
+			if (discount_percentage_final_value.indexOf(',')!=-1 || discount_percentage_final_value.indexOf("'")!=-1) {
+				discount_percentage_final_value = standarizeFormatCurrencyValue(discount_percentage_final_value);
+				document.getElementById('discount_percentage'+curr_row).value = discount_percentage_final_value;
+			}
 			if (discount_percentage_final_value == '') {
 				discount_percentage_final_value = 0;
 			}
@@ -831,6 +845,10 @@ function setDiscount(currObj, curr_row) {
 		} else {
 			// This is to calculate the product discount
 			var discount_percentage_value = document.getElementById('discount_percentage'+curr_row).value;
+			if (discount_percentage_value.indexOf(',')!=-1 || discount_percentage_value.indexOf("'")!=-1) {
+				discount_percentage_value = standarizeFormatCurrencyValue(discount_percentage_value);
+				document.getElementById('discount_percentage'+curr_row).value = discount_percentage_value;
+			}
 			if (discount_percentage_value == '') {
 				discount_percentage_value = 0;
 			}
@@ -845,6 +863,10 @@ function setDiscount(currObj, curr_row) {
 		document.getElementById('discount_amount'+curr_row).style.visibility = 'visible';
 		//Rounded the decimal part of discount amount to two digits
 		var discount_amount_value = document.getElementById('discount_amount'+curr_row).value.toString();
+		if (discount_amount_value.indexOf(',')!=-1 || discount_amount_value.indexOf("'")!=-1) {
+			discount_amount_value = standarizeFormatCurrencyValue(discount_amount_value);
+			document.getElementById('discount_amount'+curr_row).value = discount_amount_value;
+		}
 		if (discount_amount_value == '') {
 			discount_amount_value = 0;
 		}
@@ -860,7 +882,7 @@ function setDiscount(currObj, curr_row) {
 function callTaxCalc(curr_row) {
 	//when we change discount or list price, we have to calculate the taxes again before calculate the total
 	if (getObj('tax_table'+curr_row)) {
-		tax_count = eval(document.getElementById('tax_table'+curr_row).rows.length-1);//subtract the title tr length
+		tax_count = document.getElementById('tax_table'+curr_row).rows.length-1;//subtract the title tr length
 		for (var i=0, j=i+1; i<tax_count; i++, j++) {
 			var tax_hidden_name = 'hidden_tax'+j+'_percentage'+curr_row;
 			var tax_name = document.getElementById(tax_hidden_name).value;
@@ -931,20 +953,24 @@ function calcSHTax() {
 	}
 	var sh_tax_count = document.getElementById('sh_tax_count').value;
 	var sh_charge = document.getElementById('shipping_handling_charge').value;
+	if (sh_charge.indexOf(',')!=-1 || sh_charge.indexOf("'")!=-1) {
+		sh_charge = standarizeFormatCurrencyValue(sh_charge);
+		document.getElementById('shipping_handling_charge').value = sh_charge;
+	}
+	if (sh_charge == '') {
+		sh_charge = 0;
+	}
 	var sh_tax_total = 0.00, tax_amount=0.00;
 
 	for (var i=1; i<=sh_tax_count; i++) {
-		if (sh_charge == '') {
-			sh_charge = '0';
-		}
 		var sh_tax_percentage = document.getElementById('sh_tax_percentage'+i).value;
 		if (sh_tax_percentage == '') {
-			sh_tax_percentage = '0';
+			sh_tax_percentage = 0;
 		}
-		tax_amount = eval(sh_charge)*eval(sh_tax_percentage)/eval(100);
+		tax_amount = parseFloat(sh_charge) * parseFloat(sh_tax_percentage) / 100;
 		//Rounded the decimal part of S&H Tax amount to two digits
 		document.getElementById('sh_tax_amount'+i).value = roundValue(tax_amount.toString());
-		sh_tax_total = eval(sh_tax_total) + eval(tax_amount);
+		sh_tax_total = sh_tax_total + tax_amount;
 	}
 
 	//Rounded the decimal part of Total S&H Tax amount to two digits
@@ -955,7 +981,7 @@ function calcSHTax() {
 
 function validateProductDiscounts() {
 	var max_row_count = document.getElementById('proTab').rows.length;
-	max_row_count = eval(max_row_count)-2;//As the table has two header rows, we will reduce two from table row length
+	max_row_count = max_row_count-2;//As the table has two header rows, we will reduce two from table row length
 
 	for (var i=1; i<=max_row_count; i++) {
 		//if the row is deleted then avoid validate that row values
@@ -1009,7 +1035,7 @@ function updatePrices() {
 		}
 
 		var max_row_count = productsListElem.rows.length;
-		max_row_count = eval(max_row_count)-2;//Because the table has two header rows. so we will reduce two from row length
+		max_row_count = max_row_count-2;//Because the table has two header rows. so we will reduce two from row length
 
 		var products_list = '';
 		for (var i=1; i<=max_row_count; i++) {
@@ -1023,20 +1049,21 @@ function updatePrices() {
 		if (prev_cur != null && inventory_currency != null) {
 			prev_cur.value = inventory_currency.value;
 		}
-
-		var currency_id = inventory_currency.value;
-		//Retrieve all the prices for all the products in currently selected currency
-		jQuery.ajax({
-			method: 'POST',
-			url: 'index.php?module=Products&action=ProductsAjax&file=InventoryPriceAjax&currencyid='+currency_id+'&productsList='+products_list
-		}).done(function (response) {
-			if (trim(response).indexOf('SUCCESS') == 0) {
-				var res = trim(response).split('$');
-				updatePriceValues(res[1]);
-			} else {
-				alert(alert_arr.OPERATION_DENIED);
-			}
-		});
+		if (products_list!='') {
+			var currency_id = inventory_currency.value;
+			//Retrieve all the prices for all the products in currently selected currency
+			jQuery.ajax({
+				method: 'POST',
+				url: 'index.php?module=Products&action=ProductsAjax&file=InventoryPriceAjax&currencyid='+currency_id+'&productsList='+products_list
+			}).done(function (response) {
+				if (trim(response).indexOf('SUCCESS') == 0) {
+					var res = trim(response).split('$');
+					updatePriceValues(res[1]);
+				} else {
+					alert(alert_arr.OPERATION_DENIED);
+				}
+			});
+		}
 	} else {
 		if (prev_cur != null && inventory_currency != null) {
 			inventory_currency.value = prev_cur.value;
@@ -1420,7 +1447,7 @@ function InventorySelectAll(mod, image_pth) {
 				}
 
 				// Build results
-				var results = this.buildResults(res);
+				this.buildResults(res);
 			}
 		},
 
@@ -1542,12 +1569,13 @@ function InventorySelectAll(mod, image_pth) {
 		},
 
 		clear: function () {
-			if (this.active)
+			if (this.active) {
 				this.removeResultBox();
 				this.destroyResultListeners();
 				this.currentResults = [];
 				this.active = false;
 				window.preventFormSubmitOnEnter = false;
+			}
 		},
 
 		delayedClear : function () {
@@ -1657,9 +1685,13 @@ function InventorySelectAll(mod, image_pth) {
 					usageunits = this.root.el.getElementsByClassName(this.root.lineClass + '--usageunit');
 
 				this.utils.getFirstClass(lineNode, 'cbds-product-line-image').src = result.obj.meta.image;
-
+				var currency = document.getElementById('inventory_currency').value;
+				if (result.obj.pricing.multicurrency[currency] != undefined) {
+					this.parent.setField('unit_price', result.obj.pricing.multicurrency[currency].actual_price);
+				} else {
+					this.parent.setField('unit_price', result.obj.pricing.unit_price);
+				}
 				this.parent.setField('cost_price', result.obj.pricing.unit_cost);
-				this.parent.setField('unit_price', result.obj.pricing.list_price);
 				this.parent.setField('qtyinstock', result.obj.logistics.qty_in_stock);
 				this.parent.setField('qtyindemand', result.obj.logistics.curr_ordered);
 
@@ -1830,7 +1862,12 @@ function handleProductAutocompleteSelect(obj) {
 
 	document.getElementById('productName'+no).value = obj.result.meta.name;
 	document.getElementById('comment'+no).innerHTML = obj.result.meta.comments;
-	document.getElementById('listPrice'+no).value = obj.result.pricing.unit_price;
+	var currency = document.getElementById('inventory_currency').value;
+	if (obj.result.pricing.multicurrency[currency] != undefined) {
+		document.getElementById('listPrice'+no).value = obj.result.pricing.multicurrency[currency].actual_price;
+	} else {
+		document.getElementById('listPrice'+no).value = obj.result.pricing.unit_price;
+	}
 	document.getElementById('hdnProductId'+no).value = obj.result.meta.id;
 	document.getElementById('lineItemType'+no).value = obj.result.meta.type;
 	document.getElementById('qty'+no).value = qty;
