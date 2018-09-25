@@ -21,6 +21,12 @@ class addBusinessActions extends cbupdaterWorker {
 		if ($this->isApplied()) {
 			$this->sendMsg('Changeset '.get_class($this).' already applied!');
 		} else {
+                    $module = Vtiger_Module::getInstance('BusinessActions');
+                        if ($module) {
+                            $module->delete();
+                        }
+                        $this->ExecuteQuery("DROP TABLE vtiger_businessactions");
+                        $this->ExecuteQuery("DROP TABLE vtiger_businessactionscf");
 			$toinstall = array('BusinessActions');
 			foreach ($toinstall as $module) {
 				if ($this->isModuleInstalled($module)) {
