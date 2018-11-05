@@ -961,23 +961,6 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 			$currencySymbol = $currencyField->getCurrencySymbol();
 		}
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name).': ('.$currencySymbol.')';
-	} elseif ($uitype == 75 || $uitype ==81) {
-		if ($value != '') {
-			$vendor_name = getVendorName($value);
-		} elseif (isset($_REQUEST['vendor_id']) && $_REQUEST['vendor_id'] != '') {
-			$value = vtlib_purify($_REQUEST['vendor_id']);
-			$vendor_name = getVendorName($value);
-		} else {
-			$value = '';
-			$vendor_name = '';
-		}
-		$pop_type = 'specific';
-		if ($uitype == 81) {
-			$pop_type = 'specific_vendor_address';
-		}
-		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
-		$fieldvalue[] = $vendor_name;
-		$fieldvalue[] = $value;
 	} elseif ($uitype == 76) {
 		if ($value != '') {
 			$potential_name = getPotentialName($value);
@@ -1067,7 +1050,7 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 		}
 		$fieldvalue [] = $options;
 		$fieldvalue [] = is_admin($current_user);
-	} elseif ($uitype == 116 || $uitype == 117) {
+	} elseif ($uitype == 117) {
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$pick_query="select * from vtiger_currency_info where currency_status = 'Active' and deleted=0";
 		$pickListResult = $adb->pquery($pick_query, array());
@@ -1121,32 +1104,30 @@ function getOutputHtml($uitype, $fieldname, $fieldlabel, $maxlength, $col_fields
 	} elseif ($uitype == 26) {
 		$editview_label[]=getTranslatedString($fieldlabel, $module_name);
 		$folderid=$col_fields['folderid'];
-		$foldername_query = 'select foldername from vtiger_attachmentsfolder where folderid = ?';
-		$res = $adb->pquery($foldername_query, array($folderid));
+		$res = $adb->pquery('select foldername from vtiger_attachmentsfolder where folderid=?', array($folderid));
 		$foldername = $adb->query_result($res, 0, 'foldername');
 		if ($foldername != '' && $folderid != '') {
 			$fldr_name[$folderid]=$foldername;
 		}
-		$sql="select foldername,folderid from vtiger_attachmentsfolder order by foldername";
-		$res=$adb->pquery($sql, array());
+		$res=$adb->pquery('select foldername,folderid from vtiger_attachmentsfolder order by foldername', array());
 		for ($i=0; $i<$adb->num_rows($res); $i++) {
-			$fid=$adb->query_result($res, $i, "folderid");
-			$fldr_name[$fid]=$adb->query_result($res, $i, "foldername");
+			$fid=$adb->query_result($res, $i, 'folderid');
+			$fldr_name[$fid]=$adb->query_result($res, $i, 'foldername');
 		}
 		$fieldvalue[] = $fldr_name;
 	} elseif ($uitype == 27) {
 		if ($value == 'E') {
-			$external_selected = "selected";
+			$external_selected = 'selected';
 			$internal_selected = '';
 			$filename = $col_fields['filename'];
 		} else {
 			$external_selected = '';
-			$internal_selected = "selected";
+			$internal_selected = 'selected';
 			$filename = $col_fields['filename'];
 		}
 		$editview_label[] = array(getTranslatedString('Internal'), getTranslatedString('External'));
 		$editview_label[] = array($internal_selected, $external_selected);
-		$editview_label[] = array("I","E");
+		$editview_label[] = array('I','E');
 		$editview_label[] = getTranslatedString($fieldlabel, $module_name);
 		$fieldvalue[] = $value;
 		$fieldvalue[] = $filename;

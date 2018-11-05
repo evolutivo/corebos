@@ -42,5 +42,6 @@ $mod_strings = array(
 	'Validations' => 'Validations',
 	'FieldDependencyPortal' => 'Field Dependency Portal',
 	'DuplicateRecords' => 'Duplicate Records',
+	'Detail View Layout Mapping' => 'Detail View Layout Mapping',
 );
 ?>

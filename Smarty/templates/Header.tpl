@@ -14,7 +14,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset={$LBL_CHARSET}">
 	<meta name="robots" content="noindex">
 	<title>{$USER} - {$MODULE_NAME|@getTranslatedString:$MODULE_NAME} - {$coreBOS_app_name}</title>
-	<link REL="SHORTCUT ICON" HREF="{$FAVICON}">
+	<link REL="SHORTCUT ICON" HREF="{$COMPANY_DETAILS.favicon}">
 	<style type="text/css">@import url("themes/{$THEME}/style.css");</style>
 	{if $Application_JSCalendar_Load neq 0}<link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">{/if}
 	<link rel="stylesheet" href="include/print.css" type="text/css" media="print" />
@@ -161,7 +161,7 @@
 {if empty($Module_Popup_Edit)}
 <TABLE border=0 cellspacing=0 cellpadding=0 width=100% class="small">
 	<tr>
-		<td valign=top align=left style="padding: .5rem;"><img src="test/logo/{$FRONTLOGO}" alt="{$COMPANY_DETAILS.name}" title="{$COMPANY_DETAILS.name}" border=0 style="width: 15em;height: 4.2em;"></td>
+		<td valign=top align=left><img src="{$COMPANY_DETAILS.applogo}" alt="{$COMPANY_DETAILS.companyname}" title="{$COMPANY_DETAILS.companyname}" border=0 style="width: 15em;height: 4.2em;"></td>
 		<td align="center" valign=bottom>
 			<div align ="center" style="width: 50%;margin: .5rem 0;" id="search" class="slds-combobox_container slds-has-object-switcher">
 				{if $QCreateAction.QuickCreate eq 'yes'}
