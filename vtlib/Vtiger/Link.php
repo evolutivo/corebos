@@ -169,40 +169,30 @@ class Vtiger_Link {
 	 * @param Integer Order or sequence of displaying the link
 	 */
 	public static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $onlyonmymodule = false) {
-		global $adb;
-		self::__initSchema();
-		$checkres = $adb->pquery(
-			'SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?',
-			array($tabid, $type, $url, $iconpath, $label)
-		);
-		if (!$adb->num_rows($checkres)) {
-			$uniqueid = self::__getUniqueId();
-			$sql = 'INSERT INTO vtiger_links (linkid,tabid,linktype,linklabel,linkurl,linkicon,sequence';
-			$params = array($uniqueid, $tabid, $type, $label, $url, $iconpath, (int)$sequence);
-			if (!empty($handlerInfo)) {
-				$sql .= (', handler_path, handler_class, handler');
-				$params[] = (isset($handlerInfo['path']) ? $handlerInfo['path'] : '');
-				$params[] = (isset($handlerInfo['class']) ? $handlerInfo['class'] : '');
-				$params[] = (isset($handlerInfo['method']) ? $handlerInfo['method'] : '');
+		if (self::isBusinessActionCompatible()) {
+			BusinessActions::addLink($tabid, $type, $label, $url, $iconpath, $sequence, $handlerInfo, $onlyonmymodule);
+		} else {
+			global $adb;
+			self::__initSchema();
+			$checkres = $adb->pquery(
+				'SELECT linkid FROM vtiger_links WHERE tabid=? AND linktype=? AND linkurl=? AND linkicon=? AND linklabel=?',
+				array($tabid, $type, $url, $iconpath, $label)
+			);
+			if (!$adb->num_rows($checkres)) {
+				$uniqueid = self::__getUniqueId();
+				$sql = 'INSERT INTO vtiger_links (linkid,tabid,linktype,linklabel,linkurl,linkicon,sequence';
+				$params = array($uniqueid, $tabid, $type, $label, $url, $iconpath, (int)$sequence);
+				if (!empty($handlerInfo)) {
+					$sql .= (', handler_path, handler_class, handler');
+					$params[] = (isset($handlerInfo['path']) ? $handlerInfo['path'] : '');
+					$params[] = (isset($handlerInfo['class']) ? $handlerInfo['class'] : '');
+					$params[] = (isset($handlerInfo['method']) ? $handlerInfo['method'] : '');
+				}
+				$params[] = $onlyonmymodule;
+				$sql .= (', onlyonmymodule) VALUES ('.generateQuestionMarks($params).')');
+				$adb->pquery($sql, $params);
+				self::log("Adding Link ($type - $label) ... DONE");
 			}
-			$params[] = $onlyonmymodule;
-			$sql .= (', onlyonmymodule) VALUES ('.generateQuestionMarks($params).')');
-			$adb->pquery($sql, $params);
-                        if(vtlib_isModuleActive('BusinessActions')){
-                            require_once('modules/BusinessActions/BusinessActions.php');
-                            $action=new BusinessActions();
-                            $action->column_fields['reference']=$label;
-                            $action->column_fields['linkurl']=html_entity_decode($url);
-                            $action->column_fields['linkicon']=$iconpath;
-                            $action->column_fields['sequence']=$sequence;
-                            $action->column_fields['assigned_user_id'] = 1;
-                            $action->column_fields['moduleactions'] = getTabModuleName($tabid);
-                            $action->column_fields['elementtype_action'] = $type;
-                            $action->column_fields['actions_status'] = 'Active';
-                            $action->mode = '';
-                            $action->save("BusinessActions"); 
-                        }
-			self::log("Adding Link ($type - $label) ... DONE");
 		}
 	}
 
@@ -584,6 +574,18 @@ class Vtiger_Link {
 				}
 			}
 		}
+	}
+        
+        public static function isBusinessActionCompatible() {
+
+		$db = PearDatabase::getInstance();
+		$compatibility_check = $db->pquery("SELECT cbupdaterid 
+												  FROM vtiger_cbupdater
+											     WHERE classname = ?
+											       AND pathfilename = ?
+							   					   AND execstate = ?", array('migrateLinksIntoBusinessActionEntities', 'build/changeSets/2018/migrateLinksIntoBusinessActionEntities.php', 'Executed'));
+
+		return ($db->num_rows($compatibility_check) > 0) ? true : false;
 	}
 }
 ?>

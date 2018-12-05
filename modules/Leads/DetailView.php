@@ -20,7 +20,7 @@ if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 	//Added to pass the parents list as hidden for Emails
 	$parent_email = getEmailParentsList('Leads', $_REQUEST['record'], $focus);
 	$smarty->assign('HIDDEN_PARENTS_LIST', $parent_email);
-	$vtwsObject = VtigerWebserviceObject::fromName($adb, $currentModule);
+        $vtwsObject = VtigerWebserviceObject::fromName($adb, $currentModule);
 	$vtwsCRMObjectMeta = new VtigerCRMObjectMeta($vtwsObject, $current_user);
 	$emailFields = $vtwsCRMObjectMeta->getEmailFields();
 	$smarty->assign('SENDMAILBUTTON', 'permitted');
@@ -40,6 +40,7 @@ if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 } else {
 	$smarty->assign('SENDMAILBUTTON', 'NOTpermitted');
 }
+
 
 if (isPermitted('Leads', 'Merge', '') == 'yes') {
 	global $current_user;
@@ -80,6 +81,12 @@ if (isPermitted($currentModule, 'EditView', $record) == 'yes') {
 	}
 } else {
 	$smarty->assign('CONVERTLEAD', 'no');
+}
+
+
+if (!leadCanBeConverted($record)) {
+	$smarty->assign('ERROR_MESSAGE', getTranslatedString('LeadAlreadyConverted', 'Leads'));
+	$smarty->assign('ERROR_MESSAGE_CLASS', 'cb-alert-warning');
 }
 
 $smarty->display('DetailView.tpl');
