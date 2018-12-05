@@ -16,25 +16,26 @@ var advft_group_index_count = 0;
 var column_index_array = [];
 var group_index_array = [];
 var advft_column_index_count =0;
-function showMapWindow(mapid){
-var url = "index.php?module=cbMap&action=cbMapAjax&file=getMap";
-var stringData = "mapid="+mapid;
-jQuery.ajax
-    ({
-    type: "POST",
-    url: url,
-    data: stringData,
-    cache: false,
-    async:false,
-    success: function(text)
-    {jQuery("#lstRecordLayout").append('<div id="dialog" title="Create Map"></div>');
-     jQuery( "#dialog" ).html(text);
-     jQuery( "#dialog" ).dialog( "open" );
-    }
-   });
+
+//function showMapWindow(mapid){
+//var url = "index.php?module=cbMap&action=cbMapAjax&file=getMap";
+//var stringData = "mapid="+mapid;
+//jQuery.ajax
+//    ({
+//    type: "POST",
+//    url: url,
+//    data: stringData,
+//    cache: false,
+//    async:false,
+//    success: function(text)
+//    {jQuery("#lstRecordLayout").append('<div id="dialog" title="Create Map"></div>');
+//     jQuery( "#dialog" ).html(text);
+//     jQuery( "#dialog" ).dialog( "open" );
+//    }
+//   });
 function showMapWindow(mapid) {
-	var url = 'index.php?module=cbMap&action=cbMapAjax&file=generateMap&mapid='+mapid;
-	window.open(url, 'Create Mapping', 'width=940,height=800,resizable=1,scrollbars=1');
+    var url = 'index.php?module=cbMap&action=cbMapAjax&file=generateMap&mapid='+mapid;
+    window.open(url, 'Create Mapping', 'width=940,height=800,resizable=1,scrollbars=1');
 }
 
 function getModuleFields(moduleId,ref){
@@ -114,9 +115,10 @@ function(relresult){
     jQuery('#'+ref+'keyconfig'+i).multiselect('refresh');
     });
 }
+
 function block_access(){
  var box = new ajaxLoader(jQuery( "#dialog" ));
-jQuery.ajax({
+ jQuery.ajax({
         type:"POST",
         url:"index.php?module=cbMap&action=cbMapAjax&file=BlockAccess",
         data:jQuery('#theForm').serialize(),
@@ -127,6 +129,7 @@ jQuery.ajax({
         }
     });
 }
+
 function show_multiselect(moduleId,ref){i=1;
   var  relresult=document.getElementById('targetblock').options;
  document.getElementById('targetblocks').innerHTML = "<select id='"+ref+"keyconfig"+i+"' name='"+ref+"keyconfig[]'"+ "multiple class='small multicombo'>"+
@@ -143,6 +146,7 @@ function show_multiselect(moduleId,ref){i=1;
     jQuery('#'+ref+'keyconfig'+i).html(relresult);
     jQuery('#'+ref+'keyconfig'+i).multiselect('refresh');
 }
+
 function find_order(){
 var orId=new Array();
 var origin = new Array();
@@ -265,7 +269,6 @@ function addConditionRow(groupIndex,mode) {
            selectedList: 1
           });
 }
-
 
 function addGroupConditionGlue(groupIndex) {
 
@@ -401,4 +404,61 @@ function removeElement(elementId) {
 			element.remove();
 		}
 	}
+}
+
+function validateMap(mapid) {
+    var url = "index.php?module=cbMap&action=cbMapAjax&file=validateMap";
+    var stringData = "mapid=" + mapid;
+    jQuery.ajax({
+        type: "POST",
+        url: url,
+        data: stringData,
+        cache: false,
+        async: false,
+        success: function(text) {
+            function hideresult() {
+            document.getElementById('vtbusy_validate_info').style.display = 'none';          
+            }    
+            if (text == 'VALIDATION_NOT_IMPLEMENTED_YET') {
+                //Map doesn't have a XSD yet
+                document.getElementById("map_valid").style.display = "none";
+                document.getElementById("map_error").style.display = "none";
+                var x = document.getElementById("map_not_implemented_yet");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    document.getElementById('vtbusy_validate_info').style.display = '';
+                    setTimeout(hideresult, 100);
+                } else {
+                    x.style.display = "none";
+                }
+            } else if (text) {
+                //Display the error(s)
+                document.getElementById("map_valid").style.display = "none";
+                document.getElementById("map_not_implemented_yet").style.display = "none";
+                text1 = text.replace(/<\/?[^>]+(>|$)/g, "");
+                cleanText = text1.replace("Error: The document has no document element. on line -1", " ");
+                var x = document.getElementById("map_error");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    document.getElementById('vtbusy_validate_info').style.display = '';
+                    setTimeout(hideresult, 100);
+                } else {
+                    x.style.display = "none";
+                }
+                document.getElementById("map_validation_message").innerHTML = cleanText;
+            } else {
+                //Map is valid
+                document.getElementById("map_error").style.display = "none";
+                document.getElementById("map_not_implemented_yet").style.display = "none";
+                var x = document.getElementById("map_valid");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                    document.getElementById('vtbusy_validate_info').style.display = '';
+                    setTimeout(hideresult, 100);
+                } else {
+                    x.style.display = "none";
+                }
+            }
+        }
+    });
 }

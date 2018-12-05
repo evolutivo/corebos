@@ -16,6 +16,7 @@ $smarty = new vtigerCRM_Smarty();
 if (useInternalMailer() == 1) {
 	$smarty->assign('INT_MAILER', 'true');
 }
+
 if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 	$vtwsObject = VtigerWebserviceObject::fromName($adb, $currentModule);
 	$vtwsCRMObjectMeta = new VtigerCRMObjectMeta($vtwsObject, $current_user);

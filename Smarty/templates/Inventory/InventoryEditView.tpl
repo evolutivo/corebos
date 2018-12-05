@@ -10,10 +10,11 @@
 -->*}
 <link rel="stylesheet" type="text/css" media="all" href="jscalendar/calendar-win2k-cold-1.css">
 <script type="text/javascript" src="modules/Services/Services.js"></script>
+{if $FIELD_DEPENDENCY_DATASOURCE neq ''}
 <script type="text/javascript" src="include/js/FieldDependencies.js"></script>
-{if $PICKIST_DEPENDENCY_DATASOURCE neq ''}
+<script type="text/javascript" src="include/js/FieldDepFunc.js"></script>
 <script type="text/javascript">
-	jQuery(document).ready(function() {ldelim} (new FieldDependencies({$PICKIST_DEPENDENCY_DATASOURCE})).init() {rdelim});
+	jQuery(document).ready(function() {ldelim} (new FieldDependencies({$FIELD_DEPENDENCY_DATASOURCE})).init() {rdelim});
 	var Inventory_ListPrice_ReadOnly = '{if isset($Inventory_ListPrice_ReadOnly)}{$Inventory_ListPrice_ReadOnly}{/if}';
 </script>
 {/if}

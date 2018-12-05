@@ -489,7 +489,7 @@ class Leads extends CRMEntity {
 		if (isPermitted('Leads', 'EditView', '') == 'yes') {
 			$list_buttons['mass_edit'] = $app_strings['LBL_MASS_EDIT'];
 		}
-		if (isPermitted('Emails', 'CreateView', '') == 'yes') {
+                if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 			$list_buttons['s_mail'] = $app_strings['LBL_SEND_MAIL_BUTTON'];
 		}
 		return $list_buttons;

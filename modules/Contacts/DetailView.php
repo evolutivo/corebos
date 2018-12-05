@@ -16,6 +16,7 @@ $smarty = new vtigerCRM_Smarty();
 if (useInternalMailer() == 1) {
 	$smarty->assign('INT_MAILER', 'true');
 }
+
 if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 	//Added to pass the parents list as hidden for Emails
 	$parent_email = getEmailParentsList('Contacts', $_REQUEST['record'], $focus);
@@ -41,6 +42,12 @@ if (isPermitted('Emails', 'CreateView', '') == 'yes') {
 	$smarty->assign('SENDMAILBUTTON', 'NOTpermitted');
 }
 
+if (isPermitted('Emails', 'CreateView', '') == 'yes') {
+	//Added to pass the parents list as hidden for Emails
+	$parent_email = getEmailParentsList('Contacts', $_REQUEST['record'], $focus);
+	$smarty->assign('HIDDEN_PARENTS_LIST', $parent_email);
+}
+
 if (isPermitted('Contacts', 'Merge', '') == 'yes') {
 	$wordTemplateResult = fetchWordTemplateList('Contacts');
 	$tempCount = $adb->num_rows($wordTemplateResult);
@@ -63,13 +70,6 @@ if (isPermitted('Contacts', 'Merge', '') == 'yes') {
 $smarty->assign('CONTACT_PERMISSION', CheckFieldPermission('contact_id', 'Calendar'));
 
 require_once 'modules/Vtiger/DetailView.php';
-
-$sql = $adb->pquery('select accountid from vtiger_contactdetails where contactid=?', array($focus->id));
-$accountid = $adb->query_result($sql, 0, 'accountid');
-if ($accountid == 0) {
-	$accountid='';
-}
-$smarty->assign('accountid', $accountid);
 
 $smarty->display('DetailView.tpl');
 ?>
