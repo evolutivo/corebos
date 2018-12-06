@@ -189,7 +189,7 @@ class migrateLinksIntoBusinessActionEntities extends cbupdaterWorker {
                                             } else {
                                                     $focusnew->column_fields['brmap'] = 0;
                                             }
-                                            $focusnew->save('BusinessActions');
+                                            //$focusnew->save('BusinessActions');
                                         }
 				}
 
