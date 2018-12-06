@@ -1863,11 +1863,4 @@
 	<classname>addFilterManagement</classname>
 	<systemupdate>true</systemupdate>
 </changeSet>
-<changeSet>
-	<author>loridacito</author>
-	<description>Business Actions add fields</description>
-	<filename>build/changeSets/2018/addfieldstobusinessactions.php</filename>
-	<classname>addfieldstobusinessactions</classname>
-	<systemupdate>true</systemupdate>
-</changeSet>
 </updatesChangeLog>
