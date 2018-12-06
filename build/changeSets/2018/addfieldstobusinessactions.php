@@ -71,6 +71,7 @@ class addfieldstobusinessactions extends cbupdaterWorker {
                         $field_acc->quickcreate = 1;
                         $field_acc->displaytype = 1;
                         $field_acc->masseditable = 1;
+                        $block->addField($field_acc);
                         
                         $field_acc=new Vtiger_Field();
                         $field_acc->name='active';
@@ -82,6 +83,7 @@ class addfieldstobusinessactions extends cbupdaterWorker {
                         $field_acc->quickcreate = 1;
                         $field_acc->displaytype = 1;
                         $field_acc->masseditable = 1;
+                        $block->addField($field_acc);
                         
                         $field_acc=new Vtiger_Field();
                         $field_acc->name='acrole';
@@ -93,6 +95,7 @@ class addfieldstobusinessactions extends cbupdaterWorker {
                         $field_acc->quickcreate = 1;
                         $field_acc->displaytype = 1;
                         $field_acc->masseditable = 1;
+                        $block->addField($field_acc);
                         
                         $field_acc=new Vtiger_Field();
                         $field_acc->name='mandatory';
@@ -104,6 +107,7 @@ class addfieldstobusinessactions extends cbupdaterWorker {
                         $field_acc->quickcreate = 1;
                         $field_acc->displaytype = 1;
                         $field_acc->masseditable = 1;
+                        $block->addField($field_acc);
                         
                         $field_acc=new Vtiger_Field();
                         $field_acc->name='onlyonmymodule';
@@ -115,6 +119,7 @@ class addfieldstobusinessactions extends cbupdaterWorker {
                         $field_acc->quickcreate = 1;
                         $field_acc->displaytype = 1;
                         $field_acc->masseditable = 1;
+                        $block->addField($field_acc);
                         
                         $field_acc=new Vtiger_Field();
                         $field_acc->name='brmap';
