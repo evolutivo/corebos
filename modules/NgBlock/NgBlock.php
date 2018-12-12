@@ -64,7 +64,7 @@ class NgBlock {
 		if (empty($moduleNames)) return;
 
 		include_once 'vtlib/Vtiger/Module.php';
-
+                include_once 'modules/BusinessActions/BusinessActions.php';
 		if (is_string($moduleNames)) $moduleNames = array($moduleNames);
 
 		$commentWidgetModules = array();
