@@ -500,7 +500,7 @@ class BusinessActions extends CRMEntity {
 	 */
 	//function get_dependents_list($id, $cur_tab_id, $rel_tab_id, $actions=false) { }
         
-        public static function executeAction($recordid,$outputType,$recarray=null,$confirmVal,$actionid,$palid){
+        public function executeAction($recordid,$outputType,$recarray=null,$confirmVal,$actionid,$palid){
             global $root_directory,$log;
             include_once('data/CRMEntity.php');
             $res_logic=$this->runBusinessLogic2($this->id);
@@ -550,7 +550,7 @@ class BusinessActions extends CRMEntity {
             return $result;
         }
         
-        public static function executeAction1($parameters){
+        public function executeAction1($parameters){
             global $root_directory,$log;
             include_once('data/CRMEntity.php');
             $res_logic=$this->runBusinessLogic2($this->id);
@@ -576,7 +576,7 @@ class BusinessActions extends CRMEntity {
             return $scriptName($parameters);
           }
         
-        public static function runBusinessLogic($record) {
+        public function runBusinessLogic($record) {
             global $current_user, $adb, $log;
             $params = array();
             $allelements = array("CURRENT_USER" => $current_user->id, "CURRENT_RECORD" => $record);
@@ -615,7 +615,7 @@ class BusinessActions extends CRMEntity {
                 return false;
         }
         
-        public static function runBusinessLogic2($therecid) {
+        public function runBusinessLogic2($therecid) {
         //new method for put_ methods of sap
             global $current_user, $record, $adb, $log;
             $businessrulesid = $this->column_fields['actobrnew'];
